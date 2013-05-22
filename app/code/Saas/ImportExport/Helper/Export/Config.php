@@ -14,11 +14,10 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
      */
     const DEFAULT_ITEMS_PER_PAGE = 100;
 
-    /**#@+
-     * Config keys
+    /**
+     * Config value for items per page
      */
     const XML_PATH_CONFIG_KEY_ENTITIES = 'global/importexport/export_entities/%s/per_page';
-    /**#@-*/
 
     /**
      * @var Mage_Core_Model_Config

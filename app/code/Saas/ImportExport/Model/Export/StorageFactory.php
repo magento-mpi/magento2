@@ -32,8 +32,12 @@ class Saas_ImportExport_Model_Export_StorageFactory
         $models = Mage_ImportExport_Model_Config::getModels(Mage_ImportExport_Model_Export::CONFIG_KEY_FORMATS);
 
         if (isset($models[$modelName]['model'])) {
-            return $this->_objectManager->create($models[$modelName]['model'],
+            $storage = $this->_objectManager->create($models[$modelName]['model'],
                 array('destination' => $destination));
+            if (!$storage instanceof Saas_ImportExport_Model_Export_Adapter_AdapterAbstract) {
+                throw new Exception('Invalid export storage adapter');
+            }
+            return $storage;
         }
         throw new Exception('Invalid export storage adapter');
     }

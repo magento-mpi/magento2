@@ -9,6 +9,11 @@
 class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
 {
     /**
+     * Extensions for export file
+     */
+    const EXTENSION_CSV = 'csv';
+
+    /**
      * Field delimiter
      *
      * @var string
@@ -50,7 +55,7 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
      */
     public function getFileExtension()
     {
-        return 'csv';
+        return self::EXTENSION_CSV;
     }
 
     /**

@@ -27,7 +27,7 @@ class Saas_ImportExport_Model_Export
     /**
      * @var Saas_ImportExport_Model_Export_StorageFactory
      */
-    protected $_storageAdapterFactory;
+    protected $_storageFactory;
 
     /**
      * @var Saas_ImportExport_Helper_Export_Config
@@ -71,7 +71,7 @@ class Saas_ImportExport_Model_Export
         Mage_Core_Model_Logger $logger
     ) {
         $this->_exportEntityFactory = $entityFactory;
-        $this->_storageAdapterFactory = $storageFactory;
+        $this->_storageFactory = $storageFactory;
         $this->_configHelper = $configHelper;
         $this->_stateHelper = $stateHelper;
         $this->_logger = $logger;
@@ -82,7 +82,7 @@ class Saas_ImportExport_Model_Export
      *
      * @return bool
      */
-    public function getIsFinished()
+    public function isFinished()
     {
         return $this->_finishedFlag;
     }
@@ -117,7 +117,7 @@ class Saas_ImportExport_Model_Export
     {
         try {
             $this->_options = $options;
-            $this->_storageAdapter = $this->_storageAdapterFactory->create(
+            $this->_storageAdapter = $this->_storageFactory->create(
                 $this->_getStorageFormat(),
                 $this->_configHelper->getStorageFilePath($this->_getEntityType())
             );
@@ -231,12 +231,12 @@ class Saas_ImportExport_Model_Export
     /**
      * Fail finish export
      *
-     * @param Exception $e
+     * @param Exception $exception
      */
-    protected function _finishExportFail(Exception $e)
+    protected function _finishExportFail(Exception $exception)
     {
         $this->_saveAsFinished();
-        $this->_logger->logException($e);
+        $this->_logger->logException($exception);
     }
 
     /**

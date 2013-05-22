@@ -9,6 +9,13 @@
  */
 class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
 {
+    /**#@+
+     * Mime type constants
+     */
+    const MIME_TYPE_DEFAULT = 'application/octet-stream';
+    const MIME_TYPE_CSV = 'text/csv';
+    /**#@-*/
+
     /**
      * @var Saas_ImportExport_Helper_Export_Config
      */
@@ -20,7 +27,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     protected $_stateFlag;
 
     /**
-     * @var null|bool|Varien_Object
+     * @var null|array
      */
     protected $_file = null;
 
@@ -35,31 +42,27 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      * @var array
      */
     protected $_mimeTypes = array(
-        'csv' => 'text/csv',
+        Saas_ImportExport_Model_Export_Adapter_Csv::EXTENSION_CSV => self::MIME_TYPE_CSV,
     );
-
-    /**
-     * Default file mime type
-     */
-    const MIME_TYPE_DEFAULT = 'application/octet-stream';
 
     /**
      * Constructor
      *
      * @param Mage_Core_Helper_Context $context
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
-     * @param Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory
+     * @param Saas_ImportExport_Model_Export_State_Flag $stateFlag
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Saas_ImportExport_Helper_Export_Config $configHelper,
-        Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory,
+        Saas_ImportExport_Model_Export_State_Flag $stateFlag,
         Magento_Filesystem $filesystem
     ) {
         $this->_configHelper = $configHelper;
-        $this->_stateFlag = $flagFactory->create();
+        $this->_stateFlag = $stateFlag;
         $this->_filesystem = $filesystem;
+        $this->_initFile();
         parent::__construct($context);
     }
 
@@ -70,7 +73,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      */
     public function getDownloadName()
     {
-        return $this->isExist() ? $this->_getFile()->getDownloadName() : '';
+        return $this->_getFileParam('download_name');
     }
 
     /**
@@ -80,7 +83,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      */
     public function getMimeType()
     {
-        $extension = $this->isExist() ? $this->_getFile()->getExtension() : '';
+        $extension = $this->_getFileParam('extension');
         return isset($this->_mimeTypes[$extension]) ? $this->_mimeTypes[$extension] : self::MIME_TYPE_DEFAULT;
     }
 
@@ -91,7 +94,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      */
     public function getPath()
     {
-        return $this->isExist() ? $this->_getFile()->getPath() : '';
+        return $this->_getFileParam('path');
     }
 
     /**
@@ -101,7 +104,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      */
     public function isExist()
     {
-        return (bool)$this->_getFile();
+        return (bool)$this->_file;
     }
 
     /**
@@ -119,29 +122,35 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve last export file information or false if not exists
+     * Retrieve export file parameter
+     *
+     * @param string $param
+     * @return string
+     */
+    protected function _getFileParam($param)
+    {
+        return $this->isExist() ? $this->_file[$param] : '';
+    }
+
+    /**
+     * Init last export file information
      *
      * @return bool|Varien_Object
      */
-    protected function _getFile()
+    protected function _initFile()
     {
-        if (is_null($this->_file)) {
-            $exportFile = $this->_stateFlag->getExportFilename();
-            if (!$exportFile || !$this->_filesystem->isFile($exportFile)) {
-                $this->_file = false;
-                return false;
-            }
+        $exportFile = $this->_stateFlag->getExportFilename();
+        if ($exportFile && $this->_filesystem->isFile($exportFile)) {
             // Magento_Filesystem currently don't have this functionality
             $fileInfo = pathinfo($exportFile);
             $extension = $fileInfo['extension'];
-            $this->_file = new Varien_Object(array(
+            $this->_file = array(
                 'path' => $exportFile,
                 'download_name' => $fileInfo['filename']
                     . date('_Ymd_His', $this->_filesystem->getMTime($exportFile))
                     . '.' . $extension,
                 'extension' => $extension
-            ));
+            );
         }
-        return $this->_file;
     }
 }

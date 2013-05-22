@@ -56,7 +56,7 @@ class Saas_Queue_Model_Observer_Export extends Saas_Queue_Model_ObserverAbstract
             $exportParams['page'] = 1;
         }
         $this->_exportModel->export($exportParams);
-        if (!$this->_exportModel->getIsFinished()) {
+        if (!$this->_exportModel->isFinished()) {
             $exportParams['page']++;
             $this->_eventManager->dispatch($observer->getEvent()->getName(), array('export_params' => $exportParams));
         }
