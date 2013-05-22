@@ -24,7 +24,7 @@ abstract class Mage_Sales_Model_CollectorPositionsTestAbstract extends PHPUnit_F
         $allCollectors = $this->_getConfigCollectors($configType);
         $collectorCodes = array_keys($allCollectors);
         $collectorPos = array_search($collectorCode, $collectorCodes);
-        $this->assertNotSame(false, $collectorPos, 'Reward total collector is not found');
+        $this->assertNotSame(false, $collectorPos, "'{$collectorCode}' total collector is not found");
 
         foreach ($before as $compareWithCode) {
             $compareWithPos = array_search($compareWithCode, $collectorCodes);
