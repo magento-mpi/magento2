@@ -4737,6 +4737,15 @@ tr.dynamic-grid input.input-text {
     table-layout: fixed;
 }
 
+.eq-ie8 #cross_sell_product_grid table.data,
+.eq-ie8 #up_sell_product_grid table.data,
+.eq-ie8 #related_product_grid table.data,
+.eq-ie8 #productGrid_table,
+.eq-ie8 .ui-dialog .data {
+    word-wrap: normal;
+    table-layout: auto;
+}
+
 #cross_sell_product_grid table.data th,
 #up_sell_product_grid table.data th,
 #related_product_grid table.data th,
@@ -5367,6 +5376,10 @@ table .col-draggable .draggable-handle {
 
 .widget-layout-updates .data-table {
     table-layout: fixed;
+}
+
+.eq-ie8 .widget-layout-updates .data-table {
+    table-layout: auto;
 }
 
 .widget-layout-updates .data-table,
