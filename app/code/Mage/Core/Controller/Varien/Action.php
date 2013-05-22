@@ -724,7 +724,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     public function setRedirectWithCookieCheck($path, array $arguments = array())
     {
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session');
+        $session = $this->_objectManager->get('Mage_Core_Model_Session');
         if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
             && $this->_sessionNamespace != Mage_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
         ) {
@@ -732,7 +732,9 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $session->getSessionIdQueryParam() => $session->getSessionId()
             ));
         }
-        $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
+        $this->getResponse()->setRedirect(
+            $this->_objectManager->create('Mage_Core_Model_Url')->getUrl($path, $arguments)
+        );
         return $this;
     }
 
@@ -815,7 +817,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {
-            $refererUrl = Mage::app()->getStore()->getBaseUrl();
+            $refererUrl = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore()->getBaseUrl();
         }
         return $refererUrl;
     }
@@ -832,8 +834,10 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             /**
              * Url must start from base secure or base unsecure url
              */
-            if ((strpos($url, Mage::app()->getStore()->getBaseUrl()) === 0)
-                || (strpos($url, Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)
+            /** @var $store Mage_Core_Model_StoreManagerInterface */
+            $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore();
+            if ((strpos($url, $store->getBaseUrl()) === 0)
+                || (strpos($url, $store->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)
             ) {
                 return true;
             }
