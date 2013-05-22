@@ -17,7 +17,8 @@ class Saas_Customer_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $abstractHelperMock = $this->getMockBuilder('Mage_Core_Helper_Abstract')->disableOriginalConstructor()->getMock();
+        $abstractHelperMock = $this->getMockBuilder('Mage_Core_Helper_Abstract')
+            ->disableOriginalConstructor()->getMock();
         $abstractHelperMock->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));

@@ -12,7 +12,7 @@
 ?>
 
 <script type="text/javascript">
-(function($) {
+jQuery(function ($) {
     var checkPageCompleted = function() {
         var content = $('#store-launcher-content'),
             completeSteps = content.eq(0).find('.tile-complete').length;
@@ -98,9 +98,7 @@
                 .fadeOut();
         });
 
-    $(document).ready(function() {
-        $('#action-launch-my-store').prop("disabled", !checkPageCompleted())
-    });
-})(jQuery);
+    $('#action-launch-my-store').prop("disabled", !checkPageCompleted())
+});
 </script>
 

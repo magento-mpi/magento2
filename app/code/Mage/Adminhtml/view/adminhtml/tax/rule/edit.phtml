@@ -67,7 +67,7 @@
             var listItem = $(this).closest('.mselect-list-item');
             var that = listItem.children('.mselect-edit');
             var index = listItem.index(),
-                select = that.closest('.mselect-list').prev(),
+                select = that.closest('.mselect-list').prevAll('.multiselect:first'),
                 id = select.find('option').eq(index).attr('value'),
                 item;
 
@@ -92,16 +92,17 @@
                     var select = $('#tax_rate');
                     select.append('<option value="" selected="selected">' + value + '</option>');
                     var mselectItemHtml = $(options.item.replace(/%value%|%label%/gi, value)
-                            .replace(/%mselectDisabledClass%|%iseditable%|%isremovable%/gi, '')
-                            .replace(/%mselectListItemClass%/gi, options.mselectListItemClass))
-                            .find('[type=checkbox]')
-                            .attr('checked', true)
-                            .addClass(options.mselectCheckedClass)
-                            .end();
-                    var itemsWrapper = select.nextUntil().find('.' + options.mselectItemsWrapperClass + '');
+                        .replace(/%mselectDisabledClass%|%iseditable%|%isremovable%/gi, '')
+                        .replace(/%mselectListItemClass%/gi, options.mselectListItemClass))
+                        .find('[type=checkbox]')
+                        .attr('checked', true)
+                        .addClass(options.mselectCheckedClass)
+                        .end();
+                    var itemsWrapper = select.nextAll('section.block:first')
+                        .find('.' + options.mselectItemsWrapperClass + '');
                     itemsWrapper.children('.' + options.mselectListItemClass + '').length
-                            ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
-                            : itemsWrapper.prepend(mselectItemHtml);
+                        ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
+                        : itemsWrapper.prepend(mselectItemHtml);
                 }
             };
             var taxRate = $('#tax_rate'),

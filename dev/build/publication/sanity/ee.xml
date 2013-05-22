@@ -37,6 +37,10 @@
         </item>
         <item>
             <word>saas</word>
+            <path>dev/tests/functional/framework/Mage/Selenium/AbstractHelper.php</path>
+        </item>
+        <item>
+            <word>saas</word>
             <path>dev/tests/functional/framework/Mage/Selenium/TestCase.php</path>
         </item>
         <item>

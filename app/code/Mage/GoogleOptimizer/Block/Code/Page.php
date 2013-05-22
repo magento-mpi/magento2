@@ -1,27 +1,45 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_GoogleOptimizer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Google Optimizer Page Block
  *
- * @category   Mage
- * @package    Mage_GoogleOptimizer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
  */
-class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Code
+class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_CodeAbstract
 {
-    protected function _initGoogleOptimizerModel()
+    /**
+     * @var Mage_Cms_Model_Page
+     */
+    protected $_page;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_GoogleOptimizer_Helper_Data $helper
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Cms_Model_Page $page
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_GoogleOptimizer_Helper_Data $helper,
+        Mage_Core_Model_Registry $registry,
+        Mage_Cms_Model_Page $page,
+        array $data = array()
+    ) {
+        // Mage_Cms_Model_Page is singleton
+        $this->_page = $page;
+        parent::__construct($context, $helper, $registry, $data);
+    }
+
+    /**
+     * Get google experiment code model
+     *
+     * @return Mage_GoogleOptimizer_Model_Code
+     */
+    protected function _getGoogleExperiment()
     {
-        $cmsPage = Mage::getSingleton('Mage_Cms_Model_Page');
-        $this->_setGoogleOptimizerModel($cmsPage->getGoogleOptimizerScripts());
-        return parent::_initGoogleOptimizerModel();
+        return $this->_page->getGoogleExperiment();
     }
 }
