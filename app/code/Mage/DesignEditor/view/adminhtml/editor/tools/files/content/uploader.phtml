@@ -133,7 +133,7 @@
                         id : data.fileId
                     });
                     fileRowTmpl.appendTo('#<?php echo $this->getHtmlId() ?>');
-                    fileRowTmpl.data('upload-status', 'pending');
+                    fileRowTmpl.find('[data-upload-id]').data('upload-status', 'pending');
 
                     $('[data-delete-file="' + data.fileId + '"]').on('click', function() {
                         $('[data-upload-id="' + data.fileId + '"]').remove();
