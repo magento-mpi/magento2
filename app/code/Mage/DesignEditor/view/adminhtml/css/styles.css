@@ -2238,26 +2238,11 @@
     text-align: right;
 }
 
-.uploader .file-row .file-info-size {
-}
-
-.uploader .file-row .file-info-error {
-}
-
 .uploader .file-row .file-icon {
     display: table-cell;
     width: 5%;
     padding: 5px;
     text-align: right;
-}
-
-.uploader .file-row .file-upload-cancel {
-}
-
-.uploader .file-row .file-upload-success {
-}
-
-.uploader .file-row .file-upload-failure {
 }
 
 .uploader-image {
