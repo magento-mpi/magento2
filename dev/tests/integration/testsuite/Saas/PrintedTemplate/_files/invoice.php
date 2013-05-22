@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-return; // MAGETWO-7075
+if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+    return; // MAGETWO-7075
+}
 
 $addressData = include(__DIR__ . '/order.php');
 

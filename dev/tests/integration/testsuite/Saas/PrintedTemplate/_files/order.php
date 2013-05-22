@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-return; // MAGETWO-7075
+if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+    return; // MAGETWO-7075
+}
 
 Mage::app()->getStore()->setConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, 2);
 
