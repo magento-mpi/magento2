@@ -28,7 +28,6 @@ class Mage_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_Fra
         $storeId = 0;
 
         $this->_codeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
         $event = $this->getMock('Varien_Event', array('getProduct'), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
