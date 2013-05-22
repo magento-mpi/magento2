@@ -23,7 +23,7 @@ product_page:
                 -
                     product_options:
                         pageelements:
-                            product_custom_option_head_order: #exists in ee UIMap.
+                            product_custom_option_head_order: ~ #exists in ee UIMap.
 
                 -
                     related:

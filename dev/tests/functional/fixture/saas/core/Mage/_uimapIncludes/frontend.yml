@@ -14,4 +14,12 @@ enterprice_frontend_header:
             fieldsets:
                 -
                     global_header:
-                        xpath: //header[@class='header']
+                        xpath: //header
+                        links:
+                            my_cart: //a[contains(@class,'action showcart')]
+                            checkout: ~
+                -
+                    mini_cart:
+                        xpath: //div[@class='block minicart']
+                        links:
+                            checkout: //button[@title='Checkout']
