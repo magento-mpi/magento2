@@ -17,7 +17,7 @@ $data = array(
     array('paypal_canceled_reversal', 'PayPal Canceled Reversal')
 );
 $connection = $installer->getConnection()->insertArray(
-    $installer->getTable('sales/order_status'),
+    $installer->getTable('sales_order_status'),
     array('status', 'label'),
     $data
 );
