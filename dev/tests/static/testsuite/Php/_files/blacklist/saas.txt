@@ -7,3 +7,4 @@ app/code/Saas/Launcher/view
 app/code/Saas/PrintedTemplate/view
 app/code/Saas/UnitPrice/view
 app/code/Saas/Sitemap/view
+app/code/Saas/ImportExport/view

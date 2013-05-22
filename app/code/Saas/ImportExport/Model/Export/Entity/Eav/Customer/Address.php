@@ -33,11 +33,7 @@ class Saas_ImportExport_Model_Export_Entity_Eav_Customer_Address
      */
     public function getHeaderColumns()
     {
-        return array_merge(
-            $this->_permanentAttributes,
-            $this->_getExportAttributeCodes(),
-            array_keys(self::$_defaultAddressAttributeMapping)
-        );
+        return $this->_getHeaderColumns();
     }
 
     /**
