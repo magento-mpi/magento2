@@ -20,7 +20,8 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_mockConfig;
 
-    public function setup() {
+    public function setup()
+    {
         $xml
             = <<<XML
 <?xml version="1.0"?>
@@ -43,7 +44,8 @@ XML;
         $this->_config = new Mage_Core_Model_Dataservice_Config($this->_mockConfig);
     }
 
-    public function testGetClassByAlias() {
+    public function testGetClassByAlias()
+    {
         $classInfo = $this->_config->getClassByAlias('selectedProductDetails');
         $this->assertEquals('Class_Name', $classInfo['class']);
         $this->assertEquals('retrieve_method', $classInfo['retrieveMethod']);
