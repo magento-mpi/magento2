@@ -1909,57 +1909,75 @@ input.mage-error ~ .addafter {
 
 .field-price .addon,
 .field-special_price .addon,
-.field-msrp .addon {
+.field-msrp .addon,
+.field-open_amount_min .addon,
+.field-open_amount_max .addon {
     direction: rtl;
 }
 
 .field-price .addon > *,
 .field-special_price .addon > *,
-.field-msrp .addon > * {
+.field-msrp .addon > *,
+.field-open_amount_min .addon > *,
+.field-open_amount_max .addon > * {
     direction: ltr;
 }
 
 .field-price .addon .addafter,
 .field-special_price .addon .addafter,
-.field-msrp .addon .addafter {
+.field-msrp .addon .addafter,
+.field-open_amount_min .addon .addafter,
+.field-open_amount_max .addon .addafter {
     border-width: 1px 0 1px 1px;
     border-radius: 4px 0 0 4px;
 }
 
 .field-price .addon input:first-child,
 .field-special_price .addon input:first-child,
-.field-msrp .addon input:first-child {
+.field-msrp .addon input:first-child,
+.field-open_amount_min .addon input:first-child,
+.field-open_amount_max .addon input:first-child {
     border-radius: 0 4px 4px 0;
 }
 
 .eq-ie8 .field-price .addon .addafter,
 .eq-ie8 .field-special_price .addon .addafter,
-.eq-ie8 .field-msrp .addon .addafter {
+.eq-ie8 .field-msrp .addon .addafter,
+.eq-ie8 .field-open_amount_min .addon .addafter,
+.eq-ie8 .field-open_amount_max .addon .addafter {
     border-width: 1px 1px 1px 0;
 }
 
 .field-price input,
 .field-special_price input,
-.field-msrp input {
+.field-msrp input,
+.field-open_amount_min input,
+.field-open_amount_max input {
     border-width: 1px 1px 1px 0;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
 }
 
 .field-price input:focus,
 .field-special_price input:focus,
-.field-msrp input:focus {
+.field-msrp input:focus,
+.field-open_amount_min input:focus,
+.field-open_amount_max input:focus {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
 .field-price input:focus ~ label.addafter,
 .field-special_price input:focus ~ label.addafter,
-.field-msrp input:focus ~ label.addafter {
+.field-msrp input:focus ~ label.addafter,
+.field-open_amount_min input:focus ~ label.addafter,
+.field-open_amount_max input:focus ~ label.addafter {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
 .field-price input ~ label.addafter strong,
 .field-special_price input ~ label.addafter strong,
-.field-msrp input ~ label.addafter strong {
+.field-msrp input ~ label.addafter strong,
+.field-open_amount_min input ~ label.addafter strong,
+.field-open_amount_max input ~ label.addafter strong {
     margin-left: 2px;
     margin-right: -2px;
 }
