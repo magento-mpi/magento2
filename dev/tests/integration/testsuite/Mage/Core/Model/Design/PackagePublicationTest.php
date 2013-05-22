@@ -288,12 +288,12 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * Publication of CSS files located in the module
      *
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @dataProvider publishCssFileFromModuleDataProvider
      */
     public function testPublishCssFileFromModule(
         $cssViewFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_model->getViewFileUrl($cssViewFile, $designParams);
 
         $expectedCssFile = $this->_model->getPublicDir() . '/' . $expectedCssFile;
@@ -350,12 +350,12 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 ),
                 'adminhtml/package/test/en_US/Mage_Paypal/styles.css',
                 array(
-                    'url(logo.gif)',
-                    'url(section.png)',
+                    'url(images/paypal-logo.png)',
+                    'url(images/pp-allinone.png)',
                 ),
                 array(
-                    'adminhtml/package/test/en_US/Mage_Paypal/logo.gif',
-                    'adminhtml/package/test/en_US/Mage_Paypal/section.png',
+                    'adminhtml/package/test/en_US/Mage_Paypal/images/paypal-logo.png',
+                    'adminhtml/package/test/en_US/Mage_Paypal/images/pp-allinone.png',
                 ),
             ),
         );

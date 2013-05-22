@@ -418,7 +418,7 @@
             var term = this._value();
             if (this._term !== term && !this.preventBlur) {
                 this._term = term;
-                if (term && term.length >= this.options.minLength) {
+                if ($.type(term) == 'string' && term.length >= this.options.minLength) {
                     if (this._trigger("search", e) === false) {
                         return;
                     }
@@ -443,6 +443,9 @@
             }, this);
             this.element.addClass(this.options.loadingClass);
             if (this.options.delay) {
+                if ($.type(this.options.data) != 'undefined') {
+                    response(this.filter(this.options.data, term));
+                }
                 clearTimeout(this._searchTimeout);
                 this._searchTimeout = this._delay(function() {
                     this._source(term, response);
@@ -540,7 +543,10 @@
                     type: 'POST',
                     dataType: 'json',
                     data: ajaxData,
-                    success: response
+                    success: $.proxy(function(items) {
+                        this.options.data = items;
+                        response.apply(response, arguments);
+                    }, this)
                 }, o.ajaxOptions || {}));
             } else if ($.type(o.source) === 'function') {
                 o.source.apply(o.source, arguments);
@@ -567,9 +573,15 @@
          */
         filter: function(items, term) {
             var matcher = new RegExp(term.replace(/[\-\/\\\^$*+?.()|\[\]{}]/g, '\\$&'), 'i');
-            return $.grep(items, function(value) {
-                return matcher.test(value.label || value.id || value);
+            var itemsArray = $.isArray(items) ? items : $.map(items, function(element) {
+                return element;
             });
+            return $.grep(
+                itemsArray,
+                function(value) {
+                    return matcher.test(value.label || value.id || value);
+                }
+            );
         }
     });
 

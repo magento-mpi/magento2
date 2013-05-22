@@ -41,20 +41,28 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     protected $_theme;
 
     /**
+     * @var Mage_Core_Model_Image_Factory
+     */
+    protected $_imageFactory;
+
+    /**
      * Initialize dependencies
      *
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Image_Factory $imageFactory
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Helper_Data $helper,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Image_Factory $imageFactory
     ) {
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;
         $this->_filesystem = $filesystem;
+        $this->_imageFactory = $imageFactory;
     }
 
     /**
@@ -197,8 +205,7 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     public function createPreviewImage($imagePath)
     {
-        $adapter = $this->_helper->getImageAdapterType();
-        $image = new Varien_Image($imagePath, $adapter);
+        $image = $this->_imageFactory->create($imagePath);
         $image->keepTransparency(true);
         $image->constrainOnly(true);
         $image->keepFrame(true);

@@ -231,7 +231,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
         if ($this->_isDefaultDomain($domain)) {
             return true;
         }
-        $enabledSsl = (bool) $this->_config->getNode(self::XML_CUSTOM_SSL);
+        $enabledSsl = (bool) (int) $this->_config->getNode(self::XML_CUSTOM_SSL);
 
         return $enabledSsl;
     }

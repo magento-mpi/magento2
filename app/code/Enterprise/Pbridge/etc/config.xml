@@ -224,7 +224,7 @@
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic</model>
-                <active>1</active>
+                <active>0</active>
             </psigate_basic>
         </payment>
     </default>

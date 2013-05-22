@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstract
 {
     /**
@@ -13,48 +12,40 @@ class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstra
      *
      * @var string
      */
-    private $_entryPoint;
+    protected $_entryFileName;
 
     /**
-     * @param string $baseDir
-     * @param array $params
+     * @var Mage_Index_Model_EntryPoint_Shell_ErrorHandler
      */
-    public function __construct($baseDir, array $params = array())
-    {
-        $this->_entryPoint = $params['entryPoint'];
-        unset($params['entryPoint']);
-
-        parent::__construct(new Mage_Core_Model_Config_Primary($baseDir, $params));
-    }
+    protected $_errorHandler;
 
     /**
-     * Init object manager, configuring it with additional parameters
+     * @param string $entryFileName filename of the entry point script
+     * @param Mage_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler
+     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_ObjectManager $objectManager
      */
-    protected function _initObjectManager()
-    {
-        parent::_initObjectManager();
-
-        $this->_objectManager->configure(array(
-            'Mage_Index_Model_Shell' => array(
-                'parameters' => array(
-                    'entryPoint' => $this->_entryPoint,
-                )
-            )
-        ));
+    public function __construct(
+        $entryFileName,
+        Mage_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler,
+        Mage_Core_Model_Config_Primary $config,
+        Magento_ObjectManager $objectManager = null
+    ) {
+        parent::__construct($config, $objectManager);
+        $this->_entryFileName = $entryFileName;
+        $this->_errorHandler = $errorHandler;
     }
 
     /**
      * Process request to application
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     protected function _processRequest()
     {
         /** @var $shell Mage_Index_Model_Shell */
-        $shell = $this->_objectManager->create('Mage_Index_Model_Shell');
+        $shell = $this->_objectManager->create('Mage_Index_Model_Shell', array('entryPoint' => $this->_entryFileName));
         $shell->run();
         if ($shell->hasErrors()) {
-            exit(1);
+            $this->_errorHandler->terminate(1);
         }
     }
 }
