@@ -90,15 +90,20 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openInvoice($searchData)
     {
+        //Search Invoice
         $searchData = $this->fixtureDataToArray($searchData);
-        $xpathTR = $this->search($searchData, 'sales_invoice_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Invoice is not found');
-        $cellId = $this->getColumnIdByName('Invoice #');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', '#' . $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $invoiceLocator = $this->search($searchData, 'sales_invoice_grid');
+        $this->assertNotNull($invoiceLocator, 'Invoice is not found with data: ' . print_r($searchData, true));
+        $invoiceRowElement = $this->getElement($invoiceLocator);
+        $invoiceUrl = $invoiceRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Invoice');
+        $cellElement = $this->getChildElement($invoiceRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($invoiceUrl));
+        //Open Invoice
+        $this->url($invoiceUrl);
+        $this->validatePage('view_invoice');
     }
 }

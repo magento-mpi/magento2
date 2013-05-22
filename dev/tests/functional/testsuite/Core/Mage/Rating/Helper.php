@@ -46,19 +46,23 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Opens rating
      *
-     * @param array $ratingSearch
+     * @param array $searchData
      */
-    public function openRating(array $ratingSearch)
+    public function openRating(array $searchData)
     {
-        $xpathTR = $this->search($ratingSearch, 'manage_ratings_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Rating is not found');
-        $cellId = $this->getColumnIdByName('Rating Name');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $ratingLocator = $this->search($searchData, 'manage_ratings_grid');
+        $this->assertNotNull($ratingLocator, 'Rating is not found with data: ' . print_r($searchData, true));
+        $ratingRowElement = $this->getElement($ratingLocator);
+        $ratingUrl = $ratingRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Rating');
+        $cellElement = $this->getChildElement($ratingRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($ratingUrl));
+        //Open rating
+        $this->url($ratingUrl);
+        $this->validatePage('edit_rating');
     }
 
     /**

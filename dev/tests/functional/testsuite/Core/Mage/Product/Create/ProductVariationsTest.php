@@ -16,10 +16,6 @@
  */
 class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog - Manage Products</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -68,22 +64,21 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $attributeThird = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
             array('visible_on_product_view_page_on_frontend' => 'Yes'));
         $attributeForth = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $xssAttribute = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
-            array(
-                'attribute_code' => 'xss_%randomize%',
-                'admin_title' => 'xss_%randomize%',
-                'option_1' => array('admin_option_name' => '<script>alert("xss option");</script>')
-            )
-        );
-        $specialCharacters = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
-            array(
-                'attribute_code' => 'special_characters_%randomize%',
-                'admin_title' => str_replace(array(',', '"', "'", '<'), '?', $this->generate('string', 30, ':punct:'))
-            )
-        );
+        $xssAttribute = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options', array(
+            'attribute_code' => 'xss_%randomize%',
+            'admin_title' => 'xss_%randomize%',
+            'option_1' => array('admin_option_name' => '<script>alert("xss option");</script>')
+        ));
+        $specialCharacters = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options', array(
+            'attribute_code' => 'special_characters_%randomize%',
+            'admin_title' => str_replace(array(',', '"', "'", '<'), '?', $this->generate('string', 30, ':punct:'))
+        ));
         $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => array($attributeThird['attribute_code'], $attributeForth['attribute_code'],
-                $xssAttribute['attribute_code'], $specialCharacters['attribute_code'])));
+            array('Product Details' => array(
+                $attributeThird['attribute_code'], $attributeForth['attribute_code'],
+                $xssAttribute['attribute_code'], $specialCharacters['attribute_code']
+            ))
+        );
         //Steps (attributes)
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attributeThird);
@@ -145,12 +140,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function createSimpleViaVariationGrid($attributeData)
     {
         //Data for creation
-        $associated = $this->loadDataSet('Product', 'generate_simple_associated', null,
-            array(
-                'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
-            )
-        );
+        $associated = $this->loadDataSet('Product', 'generate_simple_associated', null, array(
+            'general_attribute_1' => $attributeData['attribute1']['admin_title'],
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
+        ));
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array('configurable_1' => $associated),
             array(
@@ -162,16 +155,14 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $verifySimple = $configurable;
         unset($verifySimple['general_configurable_attributes']);
         unset($verifySimple['general_configurable_variations']);
-        $verifySimple = array_replace($verifySimple,
-            array(
-                'general_name'       => $associated['associated_name'],
-                'general_sku'        => $associated['associated_sku'],
-                'general_weight'     => $associated['associated_weight'],
-                'inventory_quantity' => $associated['associated_quantity'],
-                'autosettings_visibility' => 'Not Visible Individually',
-                'product_online_status' => 'Enabled'
-            )
-        );
+        $verifySimple = array_replace($verifySimple, array(
+            'general_name' => $associated['associated_name'],
+            'general_sku' => $associated['associated_sku'],
+            'general_weight' => $associated['associated_weight'],
+            'inventory_quantity' => $associated['associated_quantity'],
+            'autosettings_visibility' => 'Not Visible Individually',
+            'product_online_status' => 'Enabled'
+        ));
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $configurable['general_sku']));
         $searchSimple = $this->loadDataSet('Product', 'product_search',
@@ -203,12 +194,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function createVirtualViaVariationGrid($attributeData)
     {
         //Data for creation
-        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
-            array(
-                'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
-            )
-        );
+        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null, array(
+            'general_attribute_1' => $attributeData['attribute1']['admin_title'],
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
+        ));
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array('configurable_1' => $associated),
             array(
@@ -221,15 +210,13 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         unset($verifyVirtual['general_configurable_attributes']);
         unset($verifyVirtual['general_configurable_variations']);
         unset($verifyVirtual['general_weight']);
-        $verifyVirtual = array_replace($verifyVirtual,
-            array(
-                'general_name' => $associated['associated_name'],
-                'general_sku' => $associated['associated_sku'],
-                'inventory_quantity' => $associated['associated_quantity'],
-                'autosettings_visibility' => 'Not Visible Individually',
-                'product_online_status' => 'Enabled',
-            )
-        );
+        $verifyVirtual = array_replace($verifyVirtual, array(
+            'general_name' => $associated['associated_name'],
+            'general_sku' => $associated['associated_sku'],
+            'inventory_quantity' => $associated['associated_quantity'],
+            'autosettings_visibility' => 'Not Visible Individually',
+            'product_online_status' => 'Enabled',
+        ));
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $configurable['general_sku']));
         $searchVirtual = $this->loadDataSet('Product', 'product_search',
@@ -310,12 +297,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function withRequiredFieldsEmpty($emptyField, $attributeData)
     {
         //Data
-        $associated = $this->loadDataSet('Product', 'product_variation', array($emptyField => ''),
-            array(
-                'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
-            )
-        );
+        $associated = $this->loadDataSet('Product', 'product_variation', array($emptyField => ''), array(
+            'general_attribute_1' => $attributeData['attribute1']['admin_title'],
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
+        ));
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
             array('configurable_1' => $associated),
             array(
@@ -352,12 +337,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function verificationVariationFields($attributeData)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
-            )
-        );
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'general_attribute_1' => $attributeData['attribute1']['admin_title'],
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
+        ));
         unset($productData['general_configurable_variations']);
         $productData['general_weight'] = '12';
         $option = $attributeData['attribute1']['option_1']['admin_option_name'];
@@ -421,12 +404,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function selectNonExistedInListAttribute($type, $attributeData)
     {
-        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1'    => $attributeData['attribute1']['option_1']['admin_option_name']
-            )
-        );
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'general_attribute_1' => $attributeData['attribute1']['admin_title'],
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
+        ));
         //Data
         $absentAttribute = ($type == 'selected') ? $attributeData['attribute1']['admin_title']
             : $this->generate('string', 255, ':alnum:');
@@ -462,12 +443,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function selectAttributeWithSpecialData($attributeTitle, $attributeData)
     {
         //Data
-        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'general_attribute_1' => $attributeData[$attributeTitle]['admin_title'],
-                'var1_attr_value1'    => $attributeData[$attributeTitle]['option_1']['admin_option_name']
-            )
-        );
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'general_attribute_1' => $attributeData[$attributeTitle]['admin_title'],
+            'var1_attr_value1' => $attributeData[$attributeTitle]['option_1']['admin_option_name']
+        ));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
@@ -494,16 +473,14 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function excludeOptionFromMatrix($attributeData)
     {
         //Data for product creation
-        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                'var1_attr_value2' => $attributeData['attribute1']['option_2']['admin_option_name'],
-                'var1_attr_include2' => 'Yes',
-                'var1_attr_value3' => $attributeData['attribute1']['option_3']['admin_option_name'],
-                'var1_attr_include3' => 'No'
-            )
-        );
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'general_attribute_1' => $attributeData['attribute1']['admin_title'],
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
+            'var1_attr_value2' => $attributeData['attribute1']['option_2']['admin_option_name'],
+            'var1_attr_include2' => 'Yes',
+            'var1_attr_value3' => $attributeData['attribute1']['option_3']['admin_option_name'],
+            'var1_attr_include3' => 'No'
+        ));
         unset($configurable['general_configurable_variations']);
         //Data for verification
         $excludedOption = $attributeData['attribute1']['option_3']['admin_option_name'];
@@ -529,16 +506,15 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function includeNewOption($attributeData)
     {
         //Data for creation
-        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'allOptions' => 'Yes'
-            )
-        );
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'general_attribute_1' => $attributeData['attribute1']['admin_title'],
+            'allOptions' => 'Yes'
+        ));
         unset($configurable['general_configurable_variations']);
         //Data for verification
-        $newOption = array('option_4' => array('admin_option_name' => 'Option_Admin_'
-            . $this->generate('string', 5, ':alnum:')));
+        $newOption = array('option_4' => array(
+            'admin_option_name' => 'Option_Admin_' . $this->generate('string', 5, ':alnum:')
+        ));
         $newOptionTitle = $newOption['option_4']['admin_option_name'];
         //Preconditions. Create product
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -581,14 +557,12 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             )
         );
         $configurable['general_configurable_attributes']['general_attribute_2'] =
-            $this->loadDataSet('Product', 'general_configurable_attribute_with_price', null,
-                array(
-                    'general_attribute_2' => $attributeData['attribute2']['admin_title'],
-                    'var2_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name'],
-                    'var2_attr_value2' => $attributeData['attribute2']['option_2']['admin_option_name'],
-                    'var2_attr_value3' => $attributeData['attribute2']['option_3']['admin_option_name'],
-                )
-            );
+            $this->loadDataSet('Product', 'general_configurable_attribute_with_price', null, array(
+                'general_attribute_2' => $attributeData['attribute2']['admin_title'],
+                'var2_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name'],
+                'var2_attr_value2' => $attributeData['attribute2']['option_2']['admin_option_name'],
+                'var2_attr_value3' => $attributeData['attribute2']['option_3']['admin_option_name'],
+            ));
         unset($configurable['general_configurable_variations']);
         //Data for verification
         $ruleOptionFixed = $attributeData['attribute2']['option_1']['admin_option_name'];
@@ -727,12 +701,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function removeAttributeBlock($attributeData)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                'general_attribute_1' => $attributeData['attribute1']['admin_title']
-            )
-        );
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
+            'general_attribute_1' => $attributeData['attribute1']['admin_title']
+        ));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -760,13 +732,12 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function withFilledAttributeLabelField($value, $attributeData)
     {
+        $this->markTestIncomplete('BUG: Attribute name is not change on frontend');
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                'general_attribute_1' => $attributeData['attribute1']['admin_title']
-            )
-        );
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
+            'general_attribute_1' => $attributeData['attribute1']['admin_title']
+        ));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -804,12 +775,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         $this->markTestIncomplete('MAGETWO-8681');
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
-            array(
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                'general_attribute_1' => $attributeData['attribute1']['admin_title']
-            )
-        );
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
+            'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
+            'general_attribute_1' => $attributeData['attribute1']['admin_title']
+        ));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -866,14 +835,12 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $newOptionTitle);
         $this->clickButton('generate_product_variations', false);
         $this->pleaseWait();
-        $this->waitUntil(
-            function ($testCase) {
-                /** @var Mage_Selenium_TestCase $testCase */
-                if ($testCase->getControlCount('pageelement', 'variation_line') == 2) {
-                    return true;
-                }
-            }, $this->_browserTimeout
-        );
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            if ($testCase->getControlCount('pageelement', 'variation_line') == 2) {
+                return true;
+            }
+        });
         $this->addParameter('productSku', $associated['general_sku']);
         $this->addParameter('attributeSearch', "td='$assignOptionTitle'");
         $this->assertTrue($this->controlIsVisible('checkbox', 'assigned_product'),

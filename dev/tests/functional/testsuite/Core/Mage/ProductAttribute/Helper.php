@@ -44,7 +44,6 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openAttribute($searchData)
     {
-        $this->waitForControlVisible('fieldset', 'attributes_grid');
         $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
@@ -84,7 +83,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function createAttributeOnProductTab($attrData, $saveInAttributeSet = '')
     {
         //Steps Click 'Create New Attribute' button.
-        $saveButton = $saveInAttributeSet ? 'save_in_new_attribute_set' : 'save_attribute' ;
+        $saveButton = $saveInAttributeSet ? 'save_in_new_attribute_set' : 'save_attribute';
         $currentPage = $this->getCurrentPage();
         $this->clickButton('create_new_attribute', false);
         $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'add_new_attribute_iframe');
@@ -222,63 +221,49 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $attributeData
      * @param bool $isCheck
-     * @param bool $setDefaultValue
      *
      * @return array
      */
-    public function processAttributeValue(array $attributeData, $isCheck = false, $setDefaultValue = false)
+    public function processAttributeValue(array $attributeData, $isCheck = true)
     {
         $options = array();
-        $isSetDefault = false;
         $this->openTab('manage_labels_options');
-        $optionLines = $this->getControlElements('pageelement', 'option_line');
-        $optionCount = count($optionLines);
-        $identificator = 0;
-        foreach ($attributeData as $key => $value) {
-            if ($this->_hasOptions($key, $value, $optionCount)) {
-                $options[$identificator++] = $value;
-                $optionCount--;
-                unset($attributeData[$key]);
+        if ($isCheck) {
+            $optionCount = $this->getControlCount('pageelement', 'option_line');
+            $identifier = 0;
+            foreach ($attributeData as $key => $value) {
+                if ($this->_hasOptions($key, $value, $optionCount)) {
+                    $options[$identifier++] = $value;
+                    $optionCount--;
+                    unset($attributeData[$key]);
+                }
             }
-        }
-        $locator = "//input[@class='input-text required-option' and @disabled='disabled']";
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $optionLine
-         */
-        foreach ($optionLines as $key => $optionLine) {
-            $admin = $this->getChildElement($optionLine, $locator);
-            $currentValue = trim($admin->value());
-            $this->addParameter('rowNumber', $key + 1);
-            if ($isCheck) {
+            $locator = "//input[@class='input-text required-option' and @disabled='disabled']";
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $optionLine */
+            foreach ($this->getControlElements('pageelement', 'option_line') as $key => $optionLine) {
+                $admin = $this->getChildElement($optionLine, $locator);
+                $currentValue = trim($admin->value());
                 if (!isset($options[$key]) || !isset($options[$key]['admin_option_name'])) {
                     $this->addVerificationMessage('Admin Option Name for option with index ' . ($key + 1)
-                                                  . ' is not set. Exist more options than specified.');
+                        . ' is not set. Exist more options than specified.');
                     continue;
                 }
-                $expectedValue = $options[$key]['admin_option_name'];
-                if ($this->controlIsPresent('field', 'admin_option_name_disabled')) {
-                    if ($expectedValue != $currentValue) {
-                        $this->addVerificationMessage(
-                            "Admin value attribute label is wrong.\nExpected: " . $options[$key]['admin_option_name']
-                            . "\nActual: " . $currentValue);
-                    }
-                } else {
-                    $this->addVerificationMessage('Admin value attribute in ' . $key . ' row is not disabled');
+                if ($options[$key]['admin_option_name'] != $currentValue) {
+                    $this->addVerificationMessage('Admin value attribute label is wrong. Expected="'
+                        . $options[$key]['admin_option_name'] . '" Actual="' . $currentValue . '"');
                 }
             }
-            if ($setDefaultValue && isset($attributeData['default_value'])
-                && $attributeData['default_value'] == $currentValue
-            ) {
-                $this->addParameter('optionName', $currentValue);
-                $this->fillCheckbox('default_value_by_option_name', 'Yes');
-                $isSetDefault = true;
-                $setDefaultValue = false;
+            if (isset($attributeData['default_value'])) {
+                $this->addParameter('optionName', $attributeData['default_value']);
+                if (!$this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue')) {
+                    $this->addVerificationMessage($attributeData['default_value'] . ' is not set as default value');
+                }
             }
         }
-        if ($isSetDefault == false && $setDefaultValue) {
-            $this->addVerificationMessage('Default option can not be set as it does not exist');
+        if (isset($attributeData['set_default_value'])) {
+            $this->addParameter('optionName', $attributeData['set_default_value']);
+            $this->fillCheckbox('default_value_by_option_name', 'Yes');
         }
-        $this->assertEmptyVerificationErrors();
         return $attributeData;
     }
 
@@ -294,8 +279,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     protected function _hasOptions($key, $value, $option)
     {
         return preg_match('/^option_/', $key) && is_array($value)
-               && $this->controlIsPresent('fieldset', 'manage_options')
-               && $option > 0;
+            && $this->controlIsPresent('fieldset', 'manage_options')
+            && $option > 0;
     }
 
     /**
@@ -308,9 +293,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function verifySystemAttribute($attributeData)
     {
         $this->openTab('manage_labels_options');
-        $setDeFaultValue = isset($attributeData['default_value']);
-        $dataWithoutOptions = $this->processAttributeValue($attributeData, true, $setDeFaultValue);
-        $this->storeViewTitles($dataWithoutOptions, 'manage_titles', 'verify');
+        $withoutOptions = $this->processAttributeValue($attributeData);
+        $this->storeViewTitles($withoutOptions, 'manage_titles', 'verify');
         if ($this->buttonIsPresent('add_option')) {
             $this->addVerificationMessage('"Add Option" button is present');
         }

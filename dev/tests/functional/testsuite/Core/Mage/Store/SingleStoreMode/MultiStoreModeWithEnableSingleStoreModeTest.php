@@ -403,7 +403,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreModeTes
     public function verificationDashboardPage()
     {
         $this->navigate($this->pageAfterAdminLogin);
-        $isPresent = $this->controlIsPresent('dropdown', 'choose_store_view');
+        $isPresent = $this->controlIsPresent('link', 'choose_store_view');
         if ($this->pageAfterAdminLogin == 'store_launcher') {
             $this->assertFalse($isPresent, 'There is "Choose Store View" scope selector on the page');
         } else {
@@ -438,6 +438,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreModeTes
      */
     public function editCustomer($userData)
     {
+        $this->markTestIncomplete('BUG: Fatal error on customer wishlist tab');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));

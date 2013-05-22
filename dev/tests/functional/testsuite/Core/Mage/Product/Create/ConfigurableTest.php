@@ -571,7 +571,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         );
         $this->assertEquals(
             'Default',
-            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attrib. Set Name'),
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attribute Set'),
             'Product was saved with incorrect attribute set.'
         );
     }
@@ -609,12 +609,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         );
         $this->assertEquals(
             'Default',
-            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attrib. Set Name'),
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attribute Set'),
             'Product was saved with incorrect attribute set.'
         );
         $this->assertEquals(
             'Default',
-            $this->productHelper()->getProductDataFromGrid($searchVirtual, 'Attrib. Set Name'),
+            $this->productHelper()->getProductDataFromGrid($searchVirtual, 'Attribute Set'),
             'Product was saved with incorrect attribute set.'
         );
         $this->navigate('manage_attribute_sets');
@@ -658,12 +658,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         );
         $this->assertEquals(
             'Default',
-            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attrib. Set Name'),
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attribute Set'),
             'Product was saved with incorrect attribute set.'
         );
         $this->assertEquals(
             $attributeSetName,
-            $this->productHelper()->getProductDataFromGrid($searchVirtual, 'Attrib. Set Name'),
+            $this->productHelper()->getProductDataFromGrid($searchVirtual, 'Attribute Set'),
             'Product was saved with incorrect attribute set.'
         );
         $this->navigate('manage_attribute_sets');
@@ -708,7 +708,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         );
         $this->assertEquals(
             'Default',
-            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attrib. Set Name'),
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attribute Set'),
             'Product was saved with incorrect attribute set.'
         );
         $this->navigate('manage_attribute_sets');

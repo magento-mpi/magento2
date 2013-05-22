@@ -13,27 +13,51 @@ custom_design:
     attribute_code: custom_design
     admin_title: Custom Design
     option_1:
-        admin_option_name: -- Please Select --
+        admin_option_name: '-- Please Select --'
     option_2:
-        admin_option_name: Magento Blank
+        admin_option_name: Electron
     option_3:
-        admin_option_name: Magento Demo
+        admin_option_name: Hobby
     option_4:
-        admin_option_name: Magento Demo Blue
+        admin_option_name: Magento Blank
     option_5:
-        admin_option_name: Magento Fixed Design
+        admin_option_name: Magento Demo
     option_6:
-        admin_option_name: Magento Fluid Design (incompatible version)
+        admin_option_name: Magento Demo Blue
     option_7:
-        admin_option_name: Magento Iphone
+        admin_option_name: Magento Fixed Design
     option_8:
-        admin_option_name: Magento Iphone (HTML5)
+        admin_option_name: Magento Fluid Design (incompatible version)
     option_9:
-        admin_option_name: Magento Modern
+        admin_option_name: Magento Iphone
     option_10:
+        admin_option_name: Magento Iphone (HTML5)
+    option_11:
+        admin_option_name: Magento Modern
+    option_12:
+        admin_option_name: Modern 2
+    option_13:
+        admin_option_name: Piece of Cake
+    option_14:
         admin_option_name: Plushe
-    default_value: Magento Blank
-    default_control_value: Magento Blank
+    option_15:
+        admin_option_name: Plushe Beige
+    option_16:
+        admin_option_name: Plushe Blue
+    option_17:
+        admin_option_name: Plushe Dark
+    option_18:
+        admin_option_name: Recon
+    option_19:
+        admin_option_name: Skater
+    option_20:
+        admin_option_name: Umecha
+    option_21:
+        admin_option_name: Upstream
+    option_22:
+        admin_option_name: Zen
+    default_value: '-- Please Select --'
+    set_default_value: Magento Blank
 
 enable_googlecheckout:
     attribute_code: enable_googlecheckout
@@ -51,7 +75,8 @@ gift_message_available:
         admin_option_name: Yes
     option_2:
         admin_option_name: No
-    default_value: Yes
+    default_value: No
+    set_default_value: Yes
 
 is_recurring:
     attribute_code: is_recurring
@@ -71,7 +96,8 @@ msrp_enabled:
         admin_option_name: No
     option_3:
         admin_option_name: Use config
-    default_value: Yes
+    default_value: Use config
+    set_default_value: Yes
 
 msrp_display_actual_price_type:
     attribute_code: msrp_display_actual_price_type
@@ -84,7 +110,8 @@ msrp_display_actual_price_type:
         admin_option_name: On Gesture
     option_4:
         admin_option_name: Use config
-    default_value: Before Order Confirmation
+    default_value: Use config
+    set_default_value: Before Order Confirmation
 
 options_container:
     attribute_code: options_container
@@ -110,7 +137,8 @@ page_layout:
         admin_option_name: 2 columns with right bar
     option_6:
         admin_option_name: 3 columns
-    default_value: 2 columns with right bar
+    default_value: No layout updates
+    set_default_value: 2 columns with right bar
 
 price_view:
     attribute_code: price_view
@@ -119,7 +147,8 @@ price_view:
         admin_option_name: As Low as
     option_2:
         admin_option_name: Price Range
-    default_value: As Low as
+    default_value: Price Range
+    set_default_value: As Low as
 
 status:
     attribute_code: status
@@ -651,7 +680,8 @@ country_of_manufacture:
         admin_option_name: Zambia
     option_247:
         admin_option_name: Zimbabwe
-    default_value: Afghanistan
+    default_value: ''
+    set_default_value: Afghanistan
 
 quantity_and_stock_status:
     attribute_code: quantity_and_stock_status

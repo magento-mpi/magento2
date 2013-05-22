@@ -28,6 +28,11 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
 
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
+    }
+
+    protected function tearDownAfterTest()
+    {
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
@@ -43,17 +48,16 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return array(
             'sku' => $simple['general_name'],

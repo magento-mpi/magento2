@@ -59,7 +59,7 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
     {
         $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
-        $this->assertNotNull($xpathTR, 'Attribute is not found');
+        $this->assertNotNull($xpathTR, 'Attribute is not found with data: ' . print_r($searchData, true));
         $attributeRowElement = $this->getElement($xpathTR);
         $attributeUrl = $attributeRowElement->attribute('title');
         //Define and add parameters for new page

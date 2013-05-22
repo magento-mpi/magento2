@@ -66,25 +66,28 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open Gift Wrapping
      *
-     * @param array|string $wrappingSearch
+     * @param array|string $searchData
      */
-    public function openGiftWrapping($wrappingSearch)
+    public function openGiftWrapping($searchData)
     {
-        $wrappingSearch = $this->fixtureDataToArray($wrappingSearch);
-        if (array_key_exists('filter_websites', $wrappingSearch)
-            && !$this->controlIsPresent('dropdown', 'filter_websites')
-        ) {
-            unset($wrappingSearch['filter_websites']);
+        $searchData = $this->fixtureDataToArray($searchData);
+        if (isset($searchData['filter_websites']) && !$this->controlIsVisible('dropdown', 'filter_websites')) {
+            unset($searchData['filter_websites']);
         }
-        $xpathTR = $this->search($wrappingSearch, 'gift_wrapping_grid');
-        $this->assertNotNull($xpathTR, 'Gift Wrapping is not found');
-        $cellId = $this->getColumnIdByName('Gift Wrapping Design');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search Gift Wrapping
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $wrappingLocator = $this->search($searchData, 'gift_wrapping_grid');
+        $this->assertNotNull($wrappingLocator, 'Gift Wrapping is not found with data: ' . print_r($searchData, true));
+        $wrappingRowElement = $this->getElement($wrappingLocator);
+        $wrappingUrl = $wrappingRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Gift Wrap Design');
+        $cellElement = $this->getChildElement($wrappingRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($wrappingUrl));
+        //Open Gift Wrapping
+        $this->url($wrappingUrl);
+        $this->validatePage('edit_gift_wrapping');
     }
 
     /**
@@ -147,7 +150,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
         if (is_null($xpathTR)) {
             return;
         }
-        $columnId = $this->getColumnIdByName('Gift Wrapping Design');
+        $columnId = $this->getColumnIdByName('Gift Wrap Design');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $columnId);
         while ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {

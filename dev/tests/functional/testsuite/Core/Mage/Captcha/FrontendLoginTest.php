@@ -48,11 +48,12 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }

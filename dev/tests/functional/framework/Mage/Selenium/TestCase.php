@@ -1385,6 +1385,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->window(end($windowHandles));
             $this->closeWindow();
             $this->window('');
+            $this->validatePage();
         }
     }
 
@@ -2456,7 +2457,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getColumnIdByName($columnName, $tableXpath = '//table[@id]')
     {
-        return array_search($columnName, $this->getTableHeadRowNames($tableXpath)) + 1;
+        $columnId = array_search($columnName, $this->getTableHeadRowNames($tableXpath));
+        if ($columnId === false) {
+            $this->fail('There is no column with name "' . $columnName . '" in grid');
+        }
+        return $columnId + 1;
     }
 
     /*
@@ -3029,13 +3034,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->elementIsPresent($noRecordsLocator) || !$this->elementIsPresent($anyDataTrLocator)) {
             return null;
         }
+        $qtyElementsInTable = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'qtyElementsInTable');
+        $totalCount = $this->getTotalRecordsInTable('fieldset', $fieldsetName);
+        $pagerLocator = $fieldsetLocator . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
         // Fill in search form and click 'Search' button
         $this->fillFieldset($data, $fieldsetName);
         $searchElement = $this->getControlElement('button', 'search', $fieldsetUimap);
         $this->focusOnElement($searchElement);
         $searchElement->click();
         $this->pleaseWait();
-        $this->waitForElementVisible(array($noRecordsLocator, $trLocator));
+        $this->waitForElementVisible(array($noRecordsLocator, $trLocator, $pagerLocator));
 
         return $this->elementIsPresent($trLocator) ? $trLocator : null;
     }
@@ -3820,11 +3828,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function closeSystemMessagesDialog()
     {
-        if ($this->getArea() == 'admin' &&
-            $this->controlIsEditable(self::UIMAP_TYPE_FIELDSET, 'system_messages_list')
-        ) {
-            $this->clickControl('button', 'close_messages_list', false);
-            $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
+        try {
+            if ($this->getArea() == 'admin' &&
+                $this->controlIsEditable(self::UIMAP_TYPE_FIELDSET, 'system_messages_list')
+            ) {
+                $this->clickControl('button', 'close_messages_list', false);
+                $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
+            }
+        } catch (Exception $e) {
+            //@TODO remove try{} catch () {} after fix MAGETWO-8740
         }
     }
 

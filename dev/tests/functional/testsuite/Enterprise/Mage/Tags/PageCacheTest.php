@@ -35,22 +35,20 @@ class Enterprise_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
         $this->navigate('cache_storage_management');
         self::$_isFpcOnBeforeTests = $this->cacheStorageManagementHelper()->isFullPageCacheEnabled();
         self::$_isFpcOnCurrently = self::$_isFpcOnBeforeTests;
-        //Create customer
-        self::$_customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
+        self::$_customerData = $this->loadDataSet('Customers', 'customer_account_register', array(
             'first_name' => $this->generate('string', 5, ':lower:'),
             'last_name' => $this->generate('string', 5, ':lower:'),
         ));
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer(self::$_customerData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Create product
         self::$_productData = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_name' => $this->generate('string', 8, ':lower:')));
+        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct(self::$_productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer(self::$_customerData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
     }
 
     /**

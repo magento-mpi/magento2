@@ -159,7 +159,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         if ($prodTagAdmin) {
             // Add tag name to parameters
             $tagName = $this->getControlAttribute('field', 'tag_name', 'value');
-            $this->addParameter('elementTitle', 'Edit Tag '.'\''. $tagName .'\'');
+            $this->addParameter('elementTitle', 'Edit Tag ' . '\'' . $tagName . '\'');
             //Fill additional options
             $this->clickButton('save_and_continue_edit');
             $this->clickButton('reset');
@@ -188,25 +188,27 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
      * Opens a tag in backend
      *
      * @param string|array $searchData Data used in Search Grid for tags
+     * @param string $fieldsetName
      */
-    public function openTag($searchData)
+    public function openTag($searchData, $fieldsetName = 'tags_grid')
     {
         $searchData = $this->fixtureDataToArray($searchData);
-        // Check if store views are available
-        $key = 'filter_store_view';
-        if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {
-            unset($searchData[$key]);
+        if (isset($searchData['filter_store_view']) && !$this->controlIsVisible('dropdown', 'filter_store_view')) {
+            unset($searchData['filter_store_view']);
         }
-        // Search and open
-        $xpathTR = $this->search($searchData, 'tags_grid');
-        $this->assertNotNull($xpathTR, 'Tag is not found');
+        //Search Tag
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $tagLocator = $this->search($searchData, $fieldsetName);
+        $this->assertNotNull($tagLocator, 'Tag is not found with data: ' . print_r($searchData, true));
+        $tagRowElement = $this->getElement($tagLocator);
+        $tagUrl = $tagRowElement->attribute('title');
+        //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Tag');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $this->addParameter('elementTitle', 'Edit Tag '.'\'' . $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text').'\'');
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index', false);
-        $this->waitForPageToLoad();
+        $cellElement = $this->getChildElement($tagRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', "Edit Tag '" . trim($cellElement->text()) . "'");
+        $this->addParameter('id', $this->defineIdFromUrl($tagUrl));
+        //Open Tag
+        $this->url($tagUrl);
         $this->addParameter('storeId', $this->defineParameterFromUrl('store'));
         $this->validatePage();
     }
@@ -272,7 +274,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
     public function verifyTagProduct(array $tagSearchData, array $productSearchData)
     {
         $this->productHelper()->openProduct($productSearchData);
-        $this->openTab('product_tags');
+        $this->productHelper()->openProductTab('product_tags');
         $xpathTR = $this->search($tagSearchData, 'product_tags');
         return $xpathTR ? true : false;
     }
@@ -335,9 +337,13 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForAjax();
         if ($customers) {
             foreach ($customers as $customer) {
-                $this->assertNotNull($this->search(array('first_name' => $customer['first_name'],
-                                                         'last_name'  => $customer['last_name']),
-                    'customers_submitted_tags'), "Cannot find customer in Customers Submitted this Tag");
+                $this->assertNotNull($this->search(
+                    array(
+                        'first_name' => $customer['first_name'],
+                        'last_name' => $customer['last_name']
+                    ),
+                    'customers_submitted_tags'
+                ), "Cannot find customer in Customers Submitted this Tag");
             }
         }
         return true;
@@ -355,7 +361,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
     public function verifyCustomerTaggedProduct(array $tagSearchData, array $productSearchData)
     {
         $this->productHelper()->openProduct($productSearchData);
-        $this->openTab('customer_tags');
+        $this->productHelper()->openProductTab('customer_tags');
         $xpathTR = $this->search($tagSearchData, 'customer_tags');
         return $xpathTR ? true : false;
     }

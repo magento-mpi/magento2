@@ -42,22 +42,21 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
      *
      * @return array
      * @test
-     * @skipTearDown
      */
     public function preconditionsForTests()
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');

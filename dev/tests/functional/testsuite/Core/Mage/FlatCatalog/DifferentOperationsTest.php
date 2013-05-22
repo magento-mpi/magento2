@@ -89,7 +89,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
             'associated_2' => $virtual['general_sku'],
             'associated_3' => $download['general_sku']
         ));
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $configurableOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
         $simpleWithCO = $this->loadDataSet('Product', 'simple_product_visible', array(
@@ -133,11 +133,12 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($simpleWithCO);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->flushCache();
         $this->reindexInvalidedData();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
         return array(
             'productNames' => array(
@@ -149,7 +150,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'grouped' => $grouped['general_name']
             ),
             'configurableOption' => array(
-                'title' => $attrData['admin_title'],
+                'title' => $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $configurableOptionName
             ),
             'groupedOption' => array(

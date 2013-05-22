@@ -455,7 +455,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function defineAttributeSetUsedInProduct(array $productSearchData)
     {
-        return $this->getProductDataFromGrid($productSearchData, 'Attrib. Set Name');
+        return $this->getProductDataFromGrid($productSearchData, 'Attribute Set');
     }
 
     /**
@@ -481,7 +481,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         //Search product
         $searchData = $this->_prepareDataForSearch($searchData);
         $productLocator = $this->search($searchData, 'product_grid');
-        $this->assertNotNull($productLocator, 'Product is not found');
+        $this->assertNotNull($productLocator, 'Product is not found with data: ' . print_r($searchData, true));
         $productRowElement = $this->getElement($productLocator);
         $productUrl = $productRowElement->attribute('title');
         //Define and add parameters for new page
@@ -562,7 +562,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function saveProduct($additionalAction = 'close', $saveNewAttributeInSet = 'current')
     {
         if ($additionalAction == 'continueEdit') {
-            $this->moveto($this->getControlElement(self::FIELD_TYPE_LINK, 'customer_view'));
+            $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
             $this->saveAndContinueEdit('button', 'save_and_continue_edit');
             return;
         }
@@ -936,7 +936,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_grouped_data']);
         }
         $this->verifyForm($generalTab, 'general');
-        $this->assertEmptyVerificationErrors();
     }
 
     public function selectOnlineStatus($statusData, $action = 'fill')
@@ -2007,8 +2006,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $optionId = $this->getCustomOptionIdByName($customOption['custom_options_general_title']);
             $this->addParameter('optionId', $optionId);
             $orderedRows = array();
-            foreach ($customOption as $keyRow => $valueRow) {
-                if (preg_match('/^custom_option_row/', $keyRow) && is_array($valueRow)) {
+            foreach ($customOption as $valueRow) {
+                if (is_array($valueRow) && isset($valueRow['custom_options_sort_order'])) {
                     $orderedRows[$valueRow['custom_options_title']] = $valueRow['custom_options_sort_order'];
                 }
             }
@@ -2108,11 +2107,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function fillDownloadableInformationTab(array $downloadableData)
     {
         $this->openProductTab('downloadable_information');
-        if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_sample')) {
-            $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_sample', false);
+        $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'downloadable_sample')) {
+            $this->getControlElement(self::FIELD_TYPE_LINK, 'downloadable_sample')->click();
         }
-        if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_link')) {
-            $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_link', false);
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'downloadable_link')) {
+            $this->getControlElement(self::FIELD_TYPE_LINK, 'downloadable_link')->click();
         }
         foreach ($downloadableData as $key => $value) {
             if (preg_match('/^downloadable_sample_/', $key) && is_array($value)) {
@@ -2135,11 +2135,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function verifyDownloadableInformationTab(array $downloadableData)
     {
         $this->openProductTab('downloadable_information');
-        if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_sample')) {
-            $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_sample', false);
+        $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'downloadable_sample')) {
+            $this->getControlElement(self::FIELD_TYPE_LINK, 'downloadable_sample')->click();
         }
-        if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_link')) {
-            $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_link', false);
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'downloadable_link')) {
+            $this->getControlElement(self::FIELD_TYPE_LINK, 'downloadable_link')->click();
         }
         foreach ($downloadableData as $key => $value) {
             if (preg_match('/^downloadable_sample_/', $key) && is_array($value)) {
@@ -2203,8 +2204,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function deleteDownloadableInformation($type)
     {
         $this->openProductTab('downloadable_information');
-        if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_' . $type)) {
-            $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_' . $type, false);
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'downloadable_' . $type)) {
+            $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
+            $this->getControlElement(self::FIELD_TYPE_LINK, 'downloadable_' . $type)->click();
         }
         $rowQty = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'added_downloadable_' . $type);
         if ($rowQty > 0) {
@@ -2577,7 +2579,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'option_front' => $storeViewOptionsNames[2]
             ),
             'configurableOption' => array(
-                'title'                  => $attrData['admin_title'],
+                'title' => $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $storeViewOptionsNames[0]
             ),
             'attribute'          => array(

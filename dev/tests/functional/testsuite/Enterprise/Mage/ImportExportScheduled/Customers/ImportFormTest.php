@@ -123,7 +123,7 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ImportFormTest extends Mag
         //Step 4
         $this->fillDropdown('entity_type', 'Customer Addresses');
         //Step 5
-        $this->clickButton('save');
+        $this->saveForm('save');
         $importData['behavior'] = 'Delete Entities';
         $importData['entity_type'] = 'Customer Addresses';
         //Verifying

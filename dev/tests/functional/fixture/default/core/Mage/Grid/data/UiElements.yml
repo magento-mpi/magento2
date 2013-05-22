@@ -71,7 +71,7 @@ manage_roles:
         role_list: tablename
     headers:
         0: ID
-        1: Role Name
+        1: Role
 
 #dataset for ui elements in Transactional Emails grid
 system_email_template:
@@ -94,9 +94,9 @@ system_email_template:
         view_per_page: ~
     headers:
         0: ID
-        1: Template Name
-        2: Date Added
-        3: Date Updated
+        1: Template
+        2: Added
+        3: Updated
         4: Subject
         5: Template Type
         6: Action
@@ -149,7 +149,7 @@ xml_sitemap:
         1: Filename
         2: Path
         3: Link for Google
-        4: Last Time Generated
+        4: Last Generated
         5: Store View
         6: Action
 
@@ -169,7 +169,7 @@ user_role:
         role_name: ~
     headers:
         0: Assigned
-        1: Role Name
+        1: Role
 
 #dataset for ui elements in Url Rewrite Managment
 url_rewrite_management:
@@ -220,7 +220,7 @@ permissions_locked_users:
         2: Username
         3: Last login
         4: Failures
-        5: Locked until
+        5: Unlocked
 
 #dataset for ui elements in Manage Attribute Sets grid
 manage_attribute_sets:
@@ -236,7 +236,7 @@ manage_attribute_sets:
     dropdown:
         view_on_page: ~
     headers:
-        0: Set Name
+        0: Set
 
 #dataset for ui elements in Catalog Search Terms
 search_terms:
@@ -265,10 +265,10 @@ search_terms:
         1: Search Query
         2: Store
         3: Results
-        4: Number of Uses
-        5: Synonym For
-        6: Redirect
-        7: Display in Suggested Terms
+        4: Uses
+        5: Synonym
+        6: Redirect URL
+        7: Suggested Terms
         8: Action
 
 #dataset for ui elements in Newsletter Problem Reports grid
@@ -295,7 +295,7 @@ newsletter_problem_reports:
     headers:
         1: ID
         2: Subscriber
-        3: Queue Date Start
+        3: Queue Start Date
         4: Queue Subject
         5: Error Code
         6: Error Text
@@ -324,7 +324,7 @@ system_backup:
         0: ' '
         1: Time
         2: Name
-        3: Size, Bytes
+        3: Size(bytes)
         4: Type
         5: Download
         6: Action
@@ -386,8 +386,8 @@ report_review_customer:
     dropdown:
         export_to: ~
     headers:
-            0: Customer Name
-            1: Number Of Reviews
+            0: Customer
+            1: Reviews
             2: Action
 #dataset for ui elements in Manage Stores grid
 manage_stores:
@@ -410,9 +410,9 @@ manage_stores:
         grid_head: ~
         stores_table: ~
     headers:
-        0: Website Name
-        1: Store Name
-        2: Store View Name
+        0: Website
+        1: Store
+        2: Store View
 
 #dataset for ui elements for Report Product Review grid
 report_review_product:
@@ -424,10 +424,10 @@ report_review_product:
         export_to: ~
     headers:
             0: ID
-            1: Product Name
-            2: Number of Reviews
-            3: Avg. Rating
-            4: Avg. Approved Rating
+            1: Product
+            2: Reviews
+            3: Average
+            4: Average (Approved)
             5: Last Review
             6: Action
 #dataset for ui elements for Report Statistics grid
@@ -442,7 +442,7 @@ report_statistics:
             0: ' '
             1: Report
             2: Description
-            3: Updated At
+            3: Updated
 #dataset for ui elements for Newsletter Queue grid
 newsletter_queue:
     fieldset:
@@ -468,7 +468,7 @@ newsletter_queue:
     headers:
         0: ID
         1: Queue Start
-        2: Queue Finish
+        2: Queue End
         3: Subject
         4: Status
         5: Processed
@@ -532,9 +532,9 @@ report_tag_product:
         export_to: ~
     headers:
         0: ID
-        1: Product Name
-        2: Number of Unique Tags
-        3: Number of Total Tags
+        1: Product
+        2: Unique Tags
+        3: Total Tags
         4: Action
 
 #dataset for ui elements for Customer Tags grid
@@ -599,6 +599,6 @@ manage_ratings:
         is_active: ~
     headers:
         0: ID
-        1: Rating Name
+        1: Rating
         2: Sort Order
         3: Is Active

@@ -38,16 +38,21 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openCustomerGroup($searchData)
     {
+        //Search Customer Group
         $searchData = $this->fixtureDataToArray($searchData);
-        $xpathTR = $this->search($searchData, 'customer_group_grid');
-        $this->assertNotNull($xpathTR, 'Customer Group is not found');
-        $cellId = $this->getColumnIdByName('Group Name');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $groupLocator = $this->search($searchData, 'customer_group_grid');
+        $this->assertNotNull($groupLocator, 'Customer Group is not found with data: ' . print_r($searchData, true));
+        $groupRowElement = $this->getElement($groupLocator);
+        $groupUrl = $groupRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Group');
+        $cellElement = $this->getChildElement($groupRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($groupUrl));
+        //Open Customer Group
+        $this->url($groupUrl);
+        $this->validatePage('edit_customer_group');
     }
 
     /**

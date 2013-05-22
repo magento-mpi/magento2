@@ -64,7 +64,6 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
             array('product_attribute_multiselect'),
             array('product_attribute_dropdown'),
             array('product_attribute_price'),
-            array('product_attribute_mediaimage'),
             array('product_attribute_fpt')
         );
     }

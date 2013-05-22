@@ -237,20 +237,24 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open Rule
      *
-     * @param array $ruleSearch
+     * @param array $searchData
      */
-    public function openRule(array $ruleSearch)
+    public function openRule(array $searchData)
     {
-        $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
-        $this->assertNotNull($xpathTR,
-            'Rule with next search criteria:' . "\n" . implode(' and ', $ruleSearch) . "\n" . 'is not found');
-        $cellId = $this->getColumnIdByName('Rule Name');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search Rule
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $ruleLocator = $this->search($searchData, 'rule_search_grid');
+        $this->assertNotNull($ruleLocator, 'Rule is not found with data: ' . print_r($searchData, true));
+        $ruleRowElement = $this->getElement($ruleLocator);
+        $ruleUrl = $ruleRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Rule');
+        $cellElement = $this->getChildElement($ruleRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($ruleUrl));
+        //Open Rule
+        $this->url($ruleUrl);
+        $this->validatePage();
     }
 
     /**
@@ -270,7 +274,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     public function deleteAllRules()
     {
         $this->addParameter('tableXpath', $this->_getControlXpath('pageelement', 'rule_grid'));
-        $cellId = $this->getColumnIdByName('Rule Name');
+        $cellId = $this->getColumnIdByName('Rule');
         $xpath = $this->_getControlXpath('pageelement', 'price_rule');
         $this->addParameter('tableLineXpath', $this->_getControlXpath('pageelement', 'price_rule'));
         $this->addParameter('cellIndex', $cellId);
@@ -328,7 +332,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
         if (!$xpathTR) {
             return true;
         }
-        $cellId = $this->getColumnIdByName('Rule Name');
+        $cellId = $this->getColumnIdByName('Rule');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
         while ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {

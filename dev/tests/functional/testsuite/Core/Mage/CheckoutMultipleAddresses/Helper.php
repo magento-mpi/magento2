@@ -131,7 +131,6 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     public function assertMultipleCheckoutPageOpened($stepName)
     {
         $this->assertMessageNotPresent('validation');
-        $this->assertMessageNotPresent('error');
         $uimap = $this->getUimapPage('frontend', 'checkout_multishipping_addresses');
         $this->addParameter('elementXpath', $this->_getControlXpath('pageelement', $stepName, $uimap));
         if (!$this->controlIsPresent('pageelement', 'element_with_class_active')) {

@@ -27,6 +27,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
     {
         return parent::_preconditionsForAllTagsTests();
     }
+
     /**
      * Backend verification added tag from frontend on the Product Page
      *
@@ -60,16 +61,21 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Open tagged product
         foreach ($tags as $tag) {
             $this->navigate('manage_products');
-            $this->assertTrue($this->tagsHelper()->verifyTagProduct(
-                array(
-                    'tag_name' => $tag,
-                    'status' => $status,
-                    'tag_search_num_of_use_from' => '1',
-                    'tag_search_num_of_use_to' => '1'),
-                array('product_name' => $testData['simple'])),
-            'Product tags verification is failure');
+            $this->assertTrue(
+                $this->tagsHelper()->verifyTagProduct(
+                    array(
+                        'tag_name' => $tag,
+                        'status' => $status,
+                        'tag_search_num_of_use_from' => '1',
+                        'tag_search_num_of_use_to' => '1'
+                    ),
+                    array('product_name' => $testData['simple'])
+                ),
+                'Product tags verification is failure'
+            );
         }
     }
+
     /**
      * Backend verification added tag from backend on the Product Page
      * Start editing tag from Product Tags
@@ -85,13 +91,13 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function addFromBackendTags($tags, $status, $testData)
     {
-        $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
-            array(
-                'tag_name' => $tags,
-                'tag_status' => 'Pending',
-                'prod_tag_admin_name' => $testData['simple'],
-                'base_popularity' => '0',
-                'choose_store_view' => '%noValue%'));
+        $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product', array(
+            'tag_name' => $tags,
+            'tag_status' => 'Pending',
+            'prod_tag_admin_name' => $testData['simple'],
+            'base_popularity' => '0',
+            'choose_store_view' => '%noValue%'
+        ));
         //Setup
         $this->navigate('all_tags');
         $this->tagsHelper()->addTag($setData);
@@ -102,31 +108,34 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Open tagged product
         foreach ($tags as $tag) {
             $this->navigate('manage_products');
-            $this->assertTrue($this->tagsHelper()->verifyTagProduct(
-                array(
-                    'tag_name' => $tag,
-                    'status' => 'Disabled',
-                    'tag_search_num_of_use_from' => '0',
-                    'tag_search_num_of_use_to' => '0'),
-                array('product_name' => $testData['simple'])),
-            'Product tags verification is failure');
+            $this->assertTrue(
+                $this->tagsHelper()->verifyTagProduct(
+                    array(
+                        'tag_name' => $tag,
+                        'status' => 'Disabled',
+                        'tag_search_num_of_use_from' => '0',
+                        'tag_search_num_of_use_to' => '0'
+                    ),
+                    array('product_name' => $testData['simple'])),
+                'Product tags verification is failure'
+            );
             //Open tag
-            $this->tagsHelper()->openTag(
-                array(
-                    'tag_name' => $tag,
-                    'status' => 'Disabled')
-                );
+            $this->addParameter('product_id', $this->getParameter('id'));
+            $this->tagsHelper()->openTag(array('tag_name' => $tag, 'status' => 'Disabled'), 'product_tags');
             //Verify tag
             $this->assertTrue($this->verifyForm(
-                array(
-                    'tag_name' => $tags,
-                    'tag_status' => 'Disabled',
-                    'base_popularity' => '0')),
-                'Tag verification is failure ' . print_r($tags, true));
+                    array(
+                        'tag_name' => $tags,
+                        'tag_status' => 'Disabled',
+                        'base_popularity' => '0')
+                ),
+                'Tag verification is failure ' . print_r($tags, true)
+            );
             $this->saveForm('save_tag');
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
     }
+
     public function tagNameDataProvider()
     {
         return array(
@@ -134,6 +143,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
             array($this->generate('string', 4, ':alpha:'), 'Disabled'),
         );
     }
+
     /**
      * Backend verification added tag from backend on the Product Page
      * Start editing tag from Product Tags
@@ -159,34 +169,42 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Change statuses product tags
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags['tag_name'])), $tags['tag_status']);
         $this->navigate('manage_products');
-        $this->assertTrue($this->tagsHelper()->verifyTagProduct(
-            array(
-                'tag_name' => $tags['tag_name'],
-                'status' => $tags['tag_status'],
-                'tag_search_num_of_use_from' => $tags['base_popularity'],
-                'tag_search_num_of_use_to' => $tags['base_popularity']),
-            array('product_name' => $testData['simple'])),
-        'Product verification is failure');
+        $this->assertTrue(
+            $this->tagsHelper()->verifyTagProduct(
+                array(
+                    'tag_name' => $tags['tag_name'],
+                    'status' => $tags['tag_status'],
+                    'tag_search_num_of_use_from' => $tags['base_popularity'],
+                    'tag_search_num_of_use_to' => $tags['base_popularity']
+                ),
+                array('product_name' => $testData['simple'])
+            ),
+            'Product verification is failure'
+        );
         //Fill filter
-        $this->tagsHelper()->fillForm(
-            array(
-                'tag_search_name' => $tags['tag_name'],
-                'tag_search_status' => $tags['tag_status'],
-                'tag_search_num_of_use_from' => $tags['base_popularity'],
-                'tag_search_num_of_use_to' => $tags['base_popularity']));
+        $this->tagsHelper()->fillForm(array(
+            'tag_search_name' => $tags['tag_name'],
+            'tag_search_status' => $tags['tag_status'],
+            'tag_search_num_of_use_from' => $tags['base_popularity'],
+            'tag_search_num_of_use_to' => $tags['base_popularity']
+        ));
         $this->clickButton('search', false);
         $this->waitForAjax();
         //Check records count
-        $totalCount = intval($this->getControlAttribute('pageelement', 'qtyElementsInTable', 'text'));
+        $totalCount = $this->getTotalRecordsInTable('fieldset', 'product_tags');
         $this->assertEquals(1, $totalCount, 'Total records found is incorrect');
-        $this->assertNotNull($this->tagsHelper()->search(
-            array(
-                'tag_name'                   => $tags['tag_name'],
-                'status'                     => $tags['tag_status'],
-                'tag_search_num_of_use_from' => $tags['base_popularity'],
-                'tag_search_num_of_use_to'   => $tags['base_popularity']), 'tags_grid'),
-        'Tags search is failed: ' . print_r($tags['tag_name'], true));
+        $this->assertNotNull(
+            $this->tagsHelper()->search(
+                array(
+                    'tag_name' => $tags['tag_name'],
+                    'status' => $tags['tag_status'],
+                    'tag_search_num_of_use_from' => $tags['base_popularity'],
+                    'tag_search_num_of_use_to' => $tags['base_popularity']
+                ), 'product_tags'
+            ),
+            'Tags search is failed: ' . print_r($tags['tag_name'], true));
     }
+
     public function tagSearchNameDataProvider()
     {
         return array(
@@ -202,5 +220,4 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
                     'tag_status' => 'Disabled', 'base_popularity' => '1'))
         );
     }
-
 }

@@ -120,17 +120,14 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withEmptyRequiredFields($fieldName, $fieldType)
     {
+        $this->markTestIncomplete('BUG: Backend validation after js');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', array($fieldName => '%noValue%'));
         if ($fieldName == 'widget_type') {
             $this->overrideDataByCondition(
-                'widget_1',
-                array($fieldName => '-- Please Select --'),
-                $pageData,
-                'byFieldKey'
+                'widget_1', array($fieldName => '-- Please Select --'), $pageData, 'byFieldKey'
             );
         }
-
         //Steps
         $this->navigate('manage_cms_pages');
         $this->cmsPagesHelper()->createCmsPage($pageData);
@@ -185,6 +182,9 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withWrongUrlKey($urlValue, $messageType)
     {
+        if ($messageType == 'validation') {
+            $this->markTestIncomplete('BUG: Backend validation after js');
+        }
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', array('url_key' => $urlValue));
         //Steps

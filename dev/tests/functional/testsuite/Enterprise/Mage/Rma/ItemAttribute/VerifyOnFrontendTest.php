@@ -40,26 +40,27 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $user = array('email' => $userData['email'], 'password' => $userData['password']);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
             array('general_name' => $simple['general_name']));
         //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->customerHelper()->frontLoginCustomer($user);
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
         $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderId));
 
-        return array('user' => $user, 'order_id' => $orderId);
+        return array(
+            'user' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'order_id' => $orderId
+        );
     }
 
     /**

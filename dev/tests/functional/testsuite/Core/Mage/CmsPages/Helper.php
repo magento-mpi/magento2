@@ -123,7 +123,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $text)), '_');
         $this->clickButton('select_option', false);
         $this->waitForControlVisible('fieldset', $name);
-        $rowNames = array('Title', 'Product Name');
+        $rowNames = array('Title', 'Product');
         $title = 'Not Selected';
         if (array_key_exists('category_path', $optionData)) {
             $nodes = explode('/', $optionData['category_path']);
@@ -190,24 +190,27 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Opens CMSPage
      *
-     * @param array $searchPage
+     * @param array $searchData
      */
-    public function openCmsPage(array $searchPage)
+    public function openCmsPage(array $searchData)
     {
-        if (array_key_exists('filter_store_view', $searchPage)
-            && !$this->controlIsPresent('dropdown', 'filter_store_view')
-        ) {
-            unset($searchPage['filter_store_view']);
+        if (isset($searchData['filter_store_view']) && !$this->controlIsVisible('dropdown', 'filter_store_view')) {
+            unset($searchData['filter_store_view']);
         }
-        $xpathTR = $this->search($searchPage, 'cms_pages_grid');
-        $this->assertNotEquals(null, $xpathTR, 'CMS Page is not found');
+        //Search CmsPage
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $cmsPageLocator = $this->search($searchData, 'cms_pages_grid');
+        $this->assertNotNull($cmsPageLocator, 'CMS Page is not found with data: ' . print_r($searchData, true));
+        $cmsPageRowElement = $this->getElement($cmsPageLocator);
+        $cmsPageUrl = $cmsPageRowElement->attribute('title');
+        //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Title');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $cellElement = $this->getChildElement($cmsPageRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($cmsPageUrl));
+        //Open CmsPage
+        $this->url($cmsPageUrl);
+        $this->validatePage('edit_cms_page');
     }
 
     /**

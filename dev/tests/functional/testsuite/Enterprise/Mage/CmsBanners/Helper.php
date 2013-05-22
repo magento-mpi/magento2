@@ -81,14 +81,14 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openCmsBanner(array $searchData)
     {
-        //Search product
+        //Search banner
         $searchData = $this->_prepareDataForSearch($searchData);
         $bannerLocator = $this->search($searchData, 'cms_banners_grid');
-        $this->assertNotNull($bannerLocator, 'Cms Banner is not found');
+        $this->assertNotNull($bannerLocator, 'Cms Banner is not found with data: ' . print_r($searchData, true));
         $bannerRowElement = $this->getElement($bannerLocator);
         $bannerUrl = $bannerRowElement->attribute('title');
         //Define and add parameters for new page
-        $cellId = $this->getColumnIdByName('Banner Name');
+        $cellId = $this->getColumnIdByName('Banner');
         $cellElement = $this->getChildElement($bannerRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($bannerUrl));

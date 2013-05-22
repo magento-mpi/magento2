@@ -66,7 +66,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         $this->loginAdminUser();
         foreach ($tags as $tag) {
             $this->navigate('all_tags');
-            $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => 'Pending'));
+            $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'tags_status' => 'Pending'));
         }
         //Steps 5-6
         $this->navigate('all_tags');

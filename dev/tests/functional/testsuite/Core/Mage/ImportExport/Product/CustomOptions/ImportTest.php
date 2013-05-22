@@ -207,12 +207,12 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
      * @test
      * @TestlinkId TL-MAGE-5831
      */
-    public function importDifferentDropdownOptions(array $productData)
+    public function importDifferentDropdownOptions(array $simple)
     {
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Products');
         //set filter by sku
-        $this->importExportHelper()->setFilter(array('sku' => $productData['general_sku']));
+        $this->importExportHelper()->setFilter(array('sku' => $simple['general_sku']));
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
@@ -236,14 +236,18 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $this->navigate('manage_products');
         $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
-        $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_2'] =
-            $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1'];
-        unset($productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1']);
-        $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1']['custom_options_title'] =
+        $simple['custom_options_data']['custom_options_dropdown']['custom_option_row_2'] =
+            $simple['custom_options_data']['custom_options_dropdown']['custom_option_row_1'];
+        unset($simple['custom_options_data']['custom_options_dropdown']['custom_option_row_1']);
+        $simple['custom_options_data']['custom_options_dropdown']['custom_option_row_1']['custom_options_title'] =
             $csv[1]['_custom_option_row_title'];
-        $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_2']['custom_options_title'] =
+        $simple['custom_options_data']['custom_options_dropdown']['custom_option_row_2']['custom_options_title'] =
             $csv[0]['_custom_option_row_title'];
-        $this->productHelper()->verifyProductInfo($productData);
+        $simple['custom_options_data']['custom_options_dropdown']['custom_option_row_2']['custom_options_sort_order'] =
+            2;
+        $simple['custom_options_data']['custom_options_dropdown']['custom_option_row_1']['custom_options_sort_order'] =
+            1;
+        $this->productHelper()->verifyProductInfo($simple);
     }
 
     /**

@@ -47,6 +47,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportStatusFilterTest extends Mage_
         ));
         //verify form
         $this->verifyForm(array('status' => $status));
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -71,7 +72,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportStatusFilterTest extends Mage_
         ), 'Disabled');
         // Step 2
         $this->fillDropdown('status', 'Enabled');
-        $this->clickButton('save');
+        $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_export');
         // Verifying
         $this->_openAndVerifyScheduledImportExport(array(

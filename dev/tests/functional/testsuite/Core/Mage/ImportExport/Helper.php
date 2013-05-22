@@ -604,12 +604,12 @@ class Core_Mage_ImportExport_Helper extends Mage_Selenium_AbstractHelper
         $gridXpath = $this->_getControlXpath('fieldset', $fieldset);
         $conditions = array();
         if (array_key_exists('attribute_label', $fieldParams)) {
-            $conditions[] = "td[2][contains(text(),'{$fieldParams['attribute_label']}')]";
+            $conditions[] = "td[2][normalize-space(text())='{$fieldParams['attribute_label']}']";
         }
         if (array_key_exists('attribute_code', $fieldParams)) {
-            $conditions[] = "td[3][contains(text(),'{$fieldParams['attribute_code']}')]";
+            $conditions[] = "td[3][normalize-space(text())='{$fieldParams['attribute_code']}']";
         }
-        $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']/td/input[@name="skip_attr[]"]';
+        $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']//input[@name="skip_attr[]"]';
         $availableElement = $this->elementIsPresent($rowXPath);
         if ($availableElement && $availableElement->displayed()) {
             $currentStatus = $availableElement->selected();

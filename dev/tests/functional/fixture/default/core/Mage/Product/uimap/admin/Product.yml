@@ -692,7 +692,7 @@ new_product:
                                         opened_downloadable_link: //*[@id='dt-links'][normalize-space(@class)='open']
                             -
                                 downloadable_sample:
-                                    xpath: //*[@id='dd-samples']/div
+                                    xpath: //*[@id='dd-samples']
                                     buttons:
                                         downloadable_sample_add_new_row: //*[@id='dd-samples']/div//button[span='Add New Row']
                                         downloadable_sample_upload_files: //*[@id='dd-samples']/div//button[span='Upload Files']
@@ -710,7 +710,7 @@ new_product:
                                         downloadable_sample_row: //*[@id='sample_items_body']/tr
                             -
                                 downloadable_link:
-                                    xpath: //*[@id='dd-links']/div
+                                    xpath: //*[@id='dd-links']
                                     buttons:
                                         downloadable_link_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
                                         downloadable_link_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']

@@ -60,14 +60,19 @@ class Enterprise_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelpe
      */
     public function openSegment($searchData)
     {
-        $this->_prepareDataForSearch($searchData);
-        $xpathTR = $this->search($searchData, 'customer_segment_grid');
-        $this->assertNotNull($xpathTR, 'Segment is not found');
-        $cellId = $this->getColumnIdByName('Segment Name');
-        $this->addParameter('elementTitle', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
-        $this->waitForPageToLoad();
+        //Search Segment
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $segmentLocator = $this->search($searchData, 'customer_segment_grid');
+        $this->assertNotNull($segmentLocator, 'Segment is not found with data: ' . print_r($searchData, true));
+        $segmentRowElement = $this->getElement($segmentLocator);
+        $segmentUrl = $segmentRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Segment');
+        $cellElement = $this->getChildElement($segmentRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($segmentUrl));
+        //Open Segment
+        $this->url($segmentUrl);
         $this->validatePage();
     }
 

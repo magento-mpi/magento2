@@ -15,7 +15,9 @@ admin_header:
                 -
                     websites:
                         dropdowns:
-                             choose_store_view: //select[@id='store_switcher']
+                            choose_store_view: //select[@id='store_switcher']
+                        links:
+                            choose_store_view: //div[input/@id='store_switcher']/strong
                 -
                     incoming_message:
                         xpath: //div[@class='popup popup-critical']

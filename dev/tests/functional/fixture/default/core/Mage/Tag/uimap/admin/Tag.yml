@@ -133,6 +133,11 @@ edit_tag:
             save_and_continue_edit: //button[@data-ui-id='tag-edit-save-and-edit-button-button']
         messages: *tagsMesssages
 
+edit_tag_from_product:
+    mca: tag/edit/store/%storeId%/tag_id/%id%/product_id/%product_id%
+    title: %elementTitle% / Tags / User Content / Marketing / Magento Admin
+    uimap: *editTagUimap
+
 # Edit tag '%tagName%' page
 edit_tag_more_options:
     mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
