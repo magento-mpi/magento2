@@ -23,12 +23,6 @@ class Enterprise_GiftCardAccount_Model_CollectorPositionsTest extends Mage_Sales
                 array('customerbalance'),
                 array('weee', 'discount', 'tax', 'tax_subtotal', 'grand_total'),
             ),
-            'invoice collectors' => array(
-                'giftcardaccount',
-                'invoice',
-                array('customerbalance'),
-                array('discount', 'tax', 'grand_total', 'giftwrapping'),
-            ),
             'creditmemo collectors' => array(
                 'giftcardaccount',
                 'creditmemo',
