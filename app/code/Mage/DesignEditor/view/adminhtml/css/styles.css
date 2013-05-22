@@ -2280,7 +2280,7 @@
 
 .scroll-assets {
     overflow-y: auto;
-    max-height: 200px;
+    max-height: 300px;
 }
 
 #content_header_text {

@@ -124,6 +124,7 @@ Mediabrowser.prototype = {
                     jQuery('#contents').trigger('hideLoadingPopup');
                     if ($('contents') != undefined) {
                         $('contents').update(transport.responseText);
+                        jQuery('#modal_dialog_message').dialog("option", "position", "center");
                         $$('div.filecnt').each(function(s) {
                             // Bind to the Insert File button.
                             var dataInsertFile = "[data-insert-file='" + s.id + "']";
