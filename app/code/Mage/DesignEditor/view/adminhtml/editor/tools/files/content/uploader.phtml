@@ -45,7 +45,9 @@
             <input id="fileupload" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
                    data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple>
     </span>
-    <button class="no-display action-default primary" data-action="upload"><?php echo $this->__('Upload'); ?></button>
+    <button class="no-display action-default primary" data-action="upload">
+        <?php echo $this->__('Upload Files'); ?>
+    </button>
 </div>
 
 <script type="text/javascript">

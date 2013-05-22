@@ -2285,3 +2285,7 @@
 .uploaded {
     float: right;
 }
+
+.form-buttons {
+    margin-top: 10px;
+}
