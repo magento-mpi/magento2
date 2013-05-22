@@ -28,13 +28,9 @@ product_page:
                 -
                     related:
                         xpath: //div[@class='box-collateral box-related' or @class='block related']
-                        links:
-                            related_product: //a[normalize-space(text())='%productName%']
                 -
                     upsells:
                         xpath: //div[@class='block upsell']
-                        links:
-                            up_sells_product: //a[normalize-space(text())='%productName%']
                 -
                     product_custom_option_head:
                         xpath: //div[contains(label/span,'%title%')]
