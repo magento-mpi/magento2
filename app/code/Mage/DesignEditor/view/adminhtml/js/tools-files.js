@@ -288,19 +288,19 @@ Mediabrowser.prototype = {
             }, {
                 text: jQuery.mage.__('Yes'),
                 'class': 'primary',
-                click: function(event) {
-                    new Ajax.Request(event.view.MediabrowserInstance.deleteFolderUrl, {
+                click: function() {
+                    new Ajax.Request(MediabrowserInstance.deleteFolderUrl, {
                         onSuccess: function(transport) {
                             try {
-                                event.view.MediabrowserInstance.onAjaxSuccess(transport);
-                                var parent = event.view.MediabrowserInstance.currentNode.parentNode;
-                                parent.removeChild(event.view.MediabrowserInstance.currentNode);
-                                event.view.MediabrowserInstance.selectFolder(parent);
+                                MediabrowserInstance.onAjaxSuccess(transport);
+                                var parent = MediabrowserInstance.currentNode.parentNode;
+                                parent.removeChild(MediabrowserInstance.currentNode);
+                                MediabrowserInstance.selectFolder(parent);
                             }
                             catch (e) {
                                 alert(e.message);
                             }
-                        }.bind(event.view.MediabrowserInstance)
+                        }.bind(MediabrowserInstance)
                     });
                     jQuery('#' + dialogId).dialog('close');
                 }
@@ -333,18 +333,18 @@ Mediabrowser.prototype = {
             }, {
                 text: jQuery.mage.__('Yes'),
                 'class': 'primary',
-                click: function(event) {
-                    new Ajax.Request(event.view.MediabrowserInstance.deleteFilesUrl, {
+                click: function() {
+                    new Ajax.Request(MediabrowserInstance.deleteFilesUrl, {
                         parameters: {files: Object.toJSON(ids)},
                         onSuccess: function(transport) {
                             try {
                                 jQuery('#contents').trigger('hideLoadingPopup');
-                                event.view.MediabrowserInstance.onAjaxSuccess(transport);
-                                event.view.MediabrowserInstance.selectFolder(event.view.MediabrowserInstance.currentNode);
+                                MediabrowserInstance.onAjaxSuccess(transport);
+                                MediabrowserInstance.selectFolder(MediabrowserInstance.currentNode);
                             } catch(e) {
                                 alert(e.message);
                             }
-                        }.bind(event.view.MediabrowserInstance)
+                        }.bind(MediabrowserInstance)
                     });
                     jQuery('#' + dialogId).dialog('close');
                 }
