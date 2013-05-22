@@ -43,10 +43,10 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_DeleteTest extends PHPUnit_Fra
     public function testDeleteFromPageGoogleExperimentScriptSuccess()
     {
         $entityId = 3;
-        $store_id = 0;
+        $storeId = 0;
 
         $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
-            ->with($entityId, Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE, $store_id);
+            ->with($entityId, Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE, $storeId);
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(2));
         $this->_codeMock->expects($this->once())->method('delete');
 
