@@ -62,18 +62,23 @@
                     isOldMode: <?php print $_isOldDisplayMode; ?>,
                     messages: {
                         noticeDefault: '<?php echo $this->jsQuoteEscape($this->__("Click on image to zoom")) ?>',
-                        loadingMessage: '<?php echo $this->jsQuoteEscape($this->__("Loading...")) ?>' 
+                        loadingMessage: '<?php echo $this->jsQuoteEscape($this->__("Loading...")) ?>'
                     }
                 });
             <?php else: ?>
                 jQuery('.magento-zoom').magentoZoom({
-                    useLens: false,
-                    useGallery: true, 
-                    swapNotices: true, 
-                    isOldMode: <?php print $_isOldDisplayMode; ?>, 
-                    messages: { 
-                        noticeDefault: '<?php echo $this->jsQuoteEscape($this->__("Click on image to zoom")) ?>', 
-                        noticeLightBox: '<?php echo $this->jsQuoteEscape($this->__("Click on image to view it full sized")) ?>', loadingMessage: '<?php echo $this->jsQuoteEscape($this->__("Loading...")) ?>' 
+                    useLens: true,
+                    enlarged: {
+                        adjustment: 20,
+                        width: 500,
+                        height: <?php echo $_resizedHeight ?>
+                    },
+                    useGallery: true,
+                    swapNotices: true,
+                    isOldMode: <?php print $_isOldDisplayMode; ?>,
+                    messages: {
+                        noticeDefault: '<?php echo $this->jsQuoteEscape($this->__("Click on image to zoom")) ?>',
+                        noticeLightBox: '<?php echo $this->jsQuoteEscape($this->__("Click on image to view it full sized")) ?>', loadingMessage: '<?php echo $this->jsQuoteEscape($this->__("Loading...")) ?>'
                     }
                 });
             <?php endif; ?>

@@ -99,11 +99,6 @@
             $.each(this.options.settings, $.proxy(function(index, element) {
                 $(element).on('change', this, this._configure);
             }, this));
-            var superSelector = this.options.superSelector;
-            $('.link-wishlist').on('click', function () {
-                var url = $(this).attr('href');
-                $(this).attr('href', url + (url.indexOf('?') == -1 ? '?' : '&') + $(superSelector).serialize());
-            });
         },
 
         /**

@@ -12,7 +12,7 @@
 ?>
 
 <script type="text/javascript">
-(function($) {
+jQuery(function ($) {
     head.js(
         "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
         "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
@@ -30,5 +30,5 @@
         .on('blur.tileBlur', function() {
             $(this).closest('.tile-store-settings').removeClass('focus');
         });
-})(jQuery);
+});
 </script>

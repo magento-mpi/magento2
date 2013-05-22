@@ -51,8 +51,8 @@ class Saas_Launcher_Adminhtml_Storelauncher_Design_DrawerController
             $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader',
                 array('fileId' => 'logo_upload'));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
-            $uploader->addValidateCallback('store_logo_image',
-                $this->_helperFactory->get('Mage_Catalog_Helper_Image'), 'validateUploadFile');
+            $imageAdapter = $this->_objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create();
+            $uploader->addValidateCallback('store_logo_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
 
             /** @var $helper Saas_Launcher_Helper_Data */
@@ -93,8 +93,7 @@ class Saas_Launcher_Adminhtml_Storelauncher_Design_DrawerController
             /** @var $launcherHelper Saas_Launcher_Helper_Data */
             $launcherHelper = $this->_helperFactory->get('Saas_Launcher_Helper_Data');
 
-            $imageAdapterType = $this->_helperFactory->get('Mage_Core_Helper_Data')->getImageAdapterType();
-            $logoImage = new Varien_Image(null, $imageAdapterType);
+            $logoImage = $this->_objectManager->get('Mage_Core_Model_Image_Factory')->create();
             $logoImage->createPngFromString($logoCaption,
                 Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
             $logoImage->save($launcherHelper->getTmpLogoPath(), Saas_Launcher_Helper_Data::GENERATED_LOGO_NAME);
