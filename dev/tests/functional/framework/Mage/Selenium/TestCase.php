@@ -3910,6 +3910,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->frontend();
         }
         if ($this->controlIsPresent('link', 'log_out')) {
+            //For GO default theme(Plushe). Open links menu
+            if ($this->elementIsPresent("//li[@class='customer welcome']")) {
+                $this->getElement("//li[@class='customer welcome']")->click();
+                $this->waitForElementVisible("//li[@class='customer welcome active']");
+            }
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');
