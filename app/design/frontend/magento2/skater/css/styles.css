@@ -3226,6 +3226,8 @@ ul.messages ul {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  display: inline-block;
+  float: none;
 }
 .col3-layout .block.upsell .products.list.items > .item,
 .col3-layout .block.related .products.list.items > .item {
@@ -3236,6 +3238,8 @@ ul.messages ul {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  display: inline-block;
+  float: none;
 }
 .checkout.paypal {
   display: block;
@@ -8658,6 +8662,8 @@ body.type-bundle {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  display: inline-block;
+  float: none;
 }
 .col3-layout .block.widget.new.grid .products.list.items > .item {
   display: inline;
@@ -8667,6 +8673,8 @@ body.type-bundle {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  display: inline-block;
+  float: none;
 }
 .block.widget.names .content > .items > .item {
   background: #6ab92d;
