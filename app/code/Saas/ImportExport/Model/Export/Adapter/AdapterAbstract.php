@@ -71,7 +71,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
             $this->_filesystem->ensureDirectoryExists(dirname($destination));
         }
         if (!$this->_filesystem->isDirectory(dirname($destination))) {
-            throw new Magento_Filesystem_Exception($helper->__('Destination directory is not writable'));
+            throw new Magento_Filesystem_Exception($helper->__('Destination directory is not writable.'));
         }
         $this->_destination = $destination;
         $this->_init();
@@ -125,7 +125,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     {
         $destination = $this->_destination . '.' . $this->getFileExtension();
         if (!$this->_filesystem->rename($this->_destination, $destination)) {
-            throw new Magento_Filesystem_Exception($this->_helper->__('Temporary export file has not been renamed'));
+            throw new Magento_Filesystem_Exception($this->_helper->__('Temporary export file has not been renamed.'));
         }
         return $destination;
     }
@@ -145,7 +145,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
             $exportFiles = $this->_filesystem->searchKeys(dirname($this->_destination), '*');
             foreach ($exportFiles as $exportFile) {
                 if (!$this->_filesystem->delete($exportFile)) {
-                    $this->_logger->log(sprintf('Export cleanup dir error in %s. File %', __METHOD__, $exportFile));
+                    $this->_logger->log(sprintf('Export cleanup dir error in %s. File %.', __METHOD__, $exportFile));
                 }
             }
         } catch (Exception $e) {
