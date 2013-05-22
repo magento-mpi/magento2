@@ -657,7 +657,7 @@
                     </group>
                 </group>
             </group>
-            <group id="psigate_basic" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="psigate_basic" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PSi Gate</label>
                 <field id="active" translate="label" module="Enterprise_Pbridge" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -694,7 +694,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="sagepay_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="sagepay_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sage Pay Direct</label>
                 <field id="active" translate="label" module="Enterprise_Pbridge" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>

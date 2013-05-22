@@ -47,11 +47,21 @@
                 </field>
                 <field id="test" sortOrder="200" showInWebsite="0"/>
                 <field id="sort_order" sortOrder="201"/>
-                <field id="heading_3dsecure" showInDefault="0" showInWebsite="0"/>
-                <field id="order_status" showInDefault="0" showInWebsite="0"/>
-                <field id="debug" showInDefault="0" showInWebsite="0"/>
-                <field id="cgi_url" showInDefault="0" showInWebsite="0"/>
-                <field id="allow_partial_authorization" showInDefault="0" showInWebsite="0"/>
+                <field id="heading_3dsecure" showInDefault="0" showInWebsite="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </field>
+                <field id="order_status" showInDefault="0" showInWebsite="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </field>
+                <field id="debug" showInDefault="0" showInWebsite="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </field>
+                <field id="cgi_url" showInDefault="0" showInWebsite="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </field>
+                <field id="allow_partial_authorization" showInDefault="0" showInWebsite="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </field>
             </group>
 
             <group id="paypal_payments">
@@ -101,7 +111,9 @@
                 <group id="payments_pro_payflow_edition">
                     <group id="pp_pe_required_settings">
                         <group id="pp_pe_api_settings">
-                            <field id="using_pbridge" showInDefault="0" showInWebsite="0" />
+                            <field id="using_pbridge" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                     <group id="settings_pp_pe">
@@ -138,7 +150,9 @@
                     </group>
                     <group id="paypal_payflow_required">
                         <group id="paypal_payflow_api_settings">
-                            <field id="using_pbridge" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="using_pbridge" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
