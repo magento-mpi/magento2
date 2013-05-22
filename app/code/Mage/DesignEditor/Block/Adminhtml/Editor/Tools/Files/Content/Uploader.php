@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Theme
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
