@@ -360,7 +360,8 @@
             this._toggleStatus();
         },
 
-        destroy: function() {
+        destroy: function(e) {
+            e.preventDefault();
             this.element.remove();
         },
 
