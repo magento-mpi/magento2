@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,6 +28,7 @@ MediabrowserUtility = {
             modal:      true,
             resizable:  false,
             width:      width || 950,
+            height:     height || 456,
             zIndex:     this.getMaxZIndex(),
             close:      function(event, ui) {
                 jQuery(this).dialog('destroy');
@@ -88,20 +89,32 @@ Mediabrowser.prototype = {
 
     selectFolder: function (node, event) {
         this.currentNode = node;
-        this.hideFileButtons();
         this.activateBlock('contents');
 
-        if(node.id == 'root') {
-            this.hideElement('button_delete_folder');
-        } else {
-            this.showElement('button_delete_folder');
+        // Activate/deactivate trash can icon
+        var dataFolderDelete = jQuery('[data-folder="delete"]');
+        if (dataFolderDelete != undefined) {
+            var deleteFolderTitle = '';
+            if(node.id == 'root') {
+                dataFolderDelete.removeClass('activate');
+            }
+            else {
+                deleteFolderTitle = jQuery.mage.__('Delete') + ' ' + node.text + ' ' + jQuery.mage.__('Folder');
+                dataFolderDelete.addClass('activate')
+                    .on('click', function() {
+                        MediabrowserInstance.deleteFolder();
+                    });
+            }
+            dataFolderDelete.on('mouseover', function() {
+                jQuery(this).attr('title', deleteFolderTitle);
+            });
         }
 
         this.updateHeader(this.currentNode);
         if (this.showBreadcrumbs)
             this.drawBreadcrumbs(this.currentNode);
 
-        this.showElement('loading-mask');
+        jQuery('#contents').loadingPopup({ timeout: false });
         new Ajax.Request(this.contentsUrl, {
             parameters: {node: this.currentNode.id},
             evalJS: true,
@@ -109,12 +122,20 @@ Mediabrowser.prototype = {
                 try {
                     this.currentNode.select();
                     this.onAjaxSuccess(transport);
-                    this.hideElement('loading-mask');
+                    jQuery('#contents').trigger('hideLoadingPopup');
                     if ($('contents') != undefined) {
                         $('contents').update(transport.responseText);
                         $$('div.filecnt').each(function(s) {
-                            Event.observe(s.id, 'click', this.selectFile.bind(this));
-                            Event.observe(s.id, 'dblclick', this.insert.bind(this));
+                            // Bind to the Insert File button.
+                            var dataInsertFile = "[data-insert-file='" + s.id + "']";
+                            jQuery(dataInsertFile).on('click', function() {
+                                MediabrowserInstance.insert(s.id);
+                            });
+                            // Bind to the trash can.
+                            var dataDeleteFile = "[data-delete-file='" + s.id + "']";
+                            jQuery(dataDeleteFile).on('click', function() {
+                                MediabrowserInstance.deleteFiles(s.id);
+                            });
                         }.bind(this));
                     }
                 } catch(e) {
@@ -131,29 +152,6 @@ Mediabrowser.prototype = {
         }
     },
 
-    selectFile: function (event) {
-        var div = Event.findElement(event, 'DIV');
-        $$('div.filecnt.selected[id!="' + div.id + '"]').each(function(e) {
-            e.removeClassName('selected');
-        })
-        div.toggleClassName('selected');
-        if(div.hasClassName('selected')) {
-            this.showFileButtons();
-        } else {
-            this.hideFileButtons();
-        }
-    },
-
-    showFileButtons: function () {
-        this.showElement('button_delete_files');
-        this.showElement('button_insert_files');
-    },
-
-    hideFileButtons: function () {
-        this.hideElement('button_delete_files');
-        this.hideElement('button_insert_files');
-    },
-
     handleUploadComplete: function(files) {
         $$('div[class*="file-row complete"]').each(function(e) {
             $(e.id).remove();
@@ -161,18 +159,7 @@ Mediabrowser.prototype = {
         this.selectFolder(this.currentNode);
     },
 
-    insert: function(event) {
-        var div;
-        if (event != undefined) {
-            div = Event.findElement(event, 'DIV');
-        } else {
-            $$('div.selected').each(function (e) {
-                div = $(e.id);
-            });
-        }
-        if ($(div.id) == undefined) {
-            return false;
-        }
+    insert: function(id) {
         var targetEl = this.getTargetElement();
         if (! targetEl) {
             alert("Target element not found for content update");
@@ -180,16 +167,18 @@ Mediabrowser.prototype = {
             return;
         }
 
-        var params = {filename:div.id, node:this.currentNode.id, store:this.storeId};
+        var params = {filename:id, node:this.currentNode.id, store:this.storeId};
 
         if (targetEl.tagName.toLowerCase() == 'textarea') {
             params.as_is = 1;
         }
 
+        jQuery('#contents').loadingPopup({ timeout: false });
         new Ajax.Request(this.onInsertUrl, {
             parameters: params,
             onSuccess: function(transport) {
                 try {
+                    jQuery('#contents').trigger('hideLoadingPopup');
                     this.onAjaxSuccess(transport);
                     if (this.getMediaBrowserOpener()) {
                         self.blur();
@@ -212,7 +201,7 @@ Mediabrowser.prototype = {
 
     /**
      * Find document target element in next order:
-     *  in acive file browser opener:
+     *  in active file browser opener:
      *  - input field with ID: "src" in opener window
      *  - input field with ID: "href" in opener window
      *  in document:
@@ -240,14 +229,14 @@ Mediabrowser.prototype = {
      * return object | null
      */
     getMediaBrowserOpener: function() {
-         if (typeof(tinyMCE) != 'undefined'
-             && tinyMCE.get(this.targetElementId)
-             && typeof(tinyMceEditors) != 'undefined'
-             && ! tinyMceEditors.get(this.targetElementId).getMediaBrowserOpener().closed) {
-             return tinyMceEditors.get(this.targetElementId).getMediaBrowserOpener();
-         } else {
-             return null;
-         }
+        if (typeof(tinyMCE) != 'undefined'
+            && tinyMCE.get(this.targetElementId)
+            && typeof(tinyMceEditors) != 'undefined'
+            && ! tinyMceEditors.get(this.targetElementId).getMediaBrowserOpener().closed) {
+            return tinyMceEditors.get(this.targetElementId).getMediaBrowserOpener();
+        } else {
+            return null;
+        }
     },
 
     newFolder: function() {
@@ -281,45 +270,89 @@ Mediabrowser.prototype = {
     },
 
     deleteFolder: function() {
-        if (!confirm(this.deleteFolderConfirmationMessage)) {
-            return false;
-        }
-        new Ajax.Request(this.deleteFolderUrl, {
-            onSuccess: function(transport) {
-                try {
-                    this.onAjaxSuccess(transport);
-                    var parent = this.currentNode.parentNode;
-                    parent.removeChild(this.currentNode);
-                    this.selectFolder(parent);
+        var dialogId = 'dialog-message-confirm';
+        jQuery('body').append('<div class="ui-dialog-content ui-widget-content" id="' + dialogId + '"></div>');
+        jQuery('#' + dialogId).dialog({
+            autoOpen:    false,
+            title:       jQuery.mage.__('Delete Folder'),
+            modal:       true,
+            resizable:   false,
+            dialogClass: 'vde-dialog',
+            width:       500,
+            buttons: [{
+                text: jQuery.mage.__('Cancel'),
+                'class': 'action-close',
+                click: function() {
+                    jQuery('#contents').trigger('hideLoadingPopup');
+                    jQuery('#' + dialogId).dialog('close');
                 }
-                catch (e) {
-                    alert(e.message);
+            }, {
+                text: jQuery.mage.__('Yes'),
+                'class': 'primary',
+                click: function() {
+                    new Ajax.Request(MediabrowserInstance.deleteFolderUrl, {
+                        onSuccess: function(transport) {
+                            try {
+                                MediabrowserInstance.onAjaxSuccess(transport);
+                                var parent = MediabrowserInstance.currentNode.parentNode;
+                                parent.removeChild(MediabrowserInstance.currentNode);
+                                MediabrowserInstance.selectFolder(parent);
+                            }
+                            catch (e) {
+                                alert(e.message);
+                            }
+                        }.bind(MediabrowserInstance)
+                    });
+                    jQuery('#' + dialogId).dialog('close');
                 }
-            }.bind(this)
-        })
+            }]
+        });
+        jQuery('#' + dialogId).text(jQuery.mage.__('Are you sure you want to delete the folder named') + ' "' + this.currentNode.text + '"?');
+        jQuery('#' + dialogId).dialog('open');
     },
 
-    deleteFiles: function() {
-        if (!confirm(this.deleteFileConfirmationMessage)) {
-            return false;
-        }
+    deleteFiles: function(value) {
         var ids = [];
-        var i = 0;
-        $$('div.selected').each(function (e) {
-            ids[i] = e.id;
-            i++;
-        });
-        new Ajax.Request(this.deleteFilesUrl, {
-            parameters: {files: Object.toJSON(ids)},
-            onSuccess: function(transport) {
-                try {
-                    this.onAjaxSuccess(transport);
-                    this.selectFolder(this.currentNode);
-                } catch(e) {
-                    alert(e.message);
+        ids[0] = value;
+        jQuery('#contents').loadingPopup({ timeout: false });
+        var dialogId = 'dialog-message-confirm';
+        jQuery('body').append('<div class="ui-dialog-content ui-widget-content" id="' + dialogId + '"></div>');
+        jQuery('#' + dialogId).dialog({
+            autoOpen:    false,
+            title:       jQuery.mage.__('Delete File'),
+            modal:       true,
+            resizable:   false,
+            dialogClass: 'vde-dialog',
+            width:       500,
+            buttons: [{
+                text: jQuery.mage.__('Cancel'),
+                'class': 'action-close',
+                click: function() {
+                    jQuery('#contents').trigger('hideLoadingPopup');
+                    jQuery('#' + dialogId).dialog('close');
                 }
-            }.bind(this)
+            }, {
+                text: jQuery.mage.__('Yes'),
+                'class': 'primary',
+                click: function() {
+                    new Ajax.Request(MediabrowserInstance.deleteFilesUrl, {
+                        parameters: {files: Object.toJSON(ids)},
+                        onSuccess: function(transport) {
+                            try {
+                                jQuery('#contents').trigger('hideLoadingPopup');
+                                MediabrowserInstance.onAjaxSuccess(transport);
+                                MediabrowserInstance.selectFolder(MediabrowserInstance.currentNode);
+                            } catch(e) {
+                                alert(e.message);
+                            }
+                        }.bind(MediabrowserInstance)
+                    });
+                    jQuery('#' + dialogId).dialog('close');
+                }
+            }]
         });
+        jQuery('#' + dialogId).text(this.deleteFileConfirmationMessage);
+        jQuery('#' + dialogId).dialog('open');
     },
 
     drawBreadcrumbs: function(node) {
@@ -354,8 +387,9 @@ Mediabrowser.prototype = {
 
     updateHeader: function(node) {
         var header = (node.id == 'root' ? this.headerText : node.text);
-        if ($('content_header_text') != undefined) {
-            $('content_header_text').innerHTML = header;
+        var dataContentText = jQuery('[data-content-text="header"]');
+        if (dataContentText != undefined) {
+            dataContentText.html(header);
         }
     },
 

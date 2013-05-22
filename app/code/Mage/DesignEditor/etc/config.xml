@@ -17,6 +17,7 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_Page/>
+                <Mage_Theme/>
             </depends>
         </Mage_DesignEditor>
     </modules>
