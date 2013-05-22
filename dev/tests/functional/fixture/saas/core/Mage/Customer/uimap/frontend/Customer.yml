@@ -27,8 +27,6 @@ customer_login:
                 -
                     new_account:
                         xpath: //div[contains(@class,'block new customer')]
-                        buttons:
-                            create_account: //a[span='Create an Account' or span='Register']
                 -
                     log_in_customer:
                         xpath: //div[contains(@class,'block customer login')]
