@@ -26,14 +26,6 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
     }
 
     /**
-     * @return Mage_Core_Model_Dataservice_Factory
-     */
-    public function getFactory()
-    {
-        return $this->_factory;
-    }
-
-    /**
      * takes array of the following structure
      * and initializes all of the data sources
      *

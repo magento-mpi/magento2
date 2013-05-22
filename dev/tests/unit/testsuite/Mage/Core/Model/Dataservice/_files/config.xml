@@ -11,4 +11,8 @@
     <service_call name='alias' service='some_class_name' method='some_method_name'>
         <arg name="some_arg_name">foo</arg>
     </service_call>
+
+    <service_call name='missing_service'  method='some_method_name'>
+        <arg name="some_arg_name">foo</arg>
+    </service_call>
 </config>

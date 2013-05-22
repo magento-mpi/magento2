@@ -41,4 +41,36 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
 
         $this->assertEquals($leaf, $nodeFound);
     }
+
+    public function testSearchOfArray()
+    {
+        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
+            ->disableOriginalConstructor()->getMock();
+        $branch = array();
+        $leaf = 'a leaf node can be anything';
+        $branch['leaf'] = $leaf;
+        $this->_rootNode->expects($this->any())
+            ->method('getChild')
+            ->with('branch')
+            ->will($this->returnValue($branch));
+
+        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
+
+        $this->assertEquals($leaf, $nodeFound);
+    }
+
+    public function testSearchOfEmptyArray()
+    {
+        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
+            ->disableOriginalConstructor()->getMock();
+        $branch = array();
+        $this->_rootNode->expects($this->any())
+            ->method('getChild')
+            ->with('branch')
+            ->will($this->returnValue($branch));
+
+        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
+
+        $this->assertEquals(null, $nodeFound);
+    }
 }

@@ -132,7 +132,6 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
             );
         }
 
-        $nameParts = array();
         if (strpos($file, '/') !== false) {
             $nameParts = explode('/', $file);
         } else {

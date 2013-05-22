@@ -70,10 +70,23 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($result, $this->_factory->getArgumentValue($path));
     }
 
-    public function testInitDataservice()
+    public function testCreateDataservice()
     {
         $classInformation = array('class'          => self::TEST_CLASS_NAME,
                                   'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
+        $this->_configMock->expects($this->once())->method("getClassByAlias")->with(
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
+        )->will($this->returnValue($classInformation));
+        $this->_objectManagerMock->expects($this->once())->method("create")->with(
+            $this->equalTo(self::TEST_CLASS_NAME)
+        )->will($this->returnValue($this));
+        $this->assertSame($this->_dataserviceMock, $this->_factory->createDataservice(self::TEST_DATA_SERVICE_NAME));
+    }
+
+    public function testCreateDataserviceWithArguments()
+    {
+        $classInformation = array('class'          => self::TEST_CLASS_NAME,
+            'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array('something'));
         $this->_configMock->expects($this->once())->method("getClassByAlias")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($classInformation));

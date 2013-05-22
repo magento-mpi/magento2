@@ -66,6 +66,28 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Data reference configuration doesn't have a block to link to
+     */
+    public function testInitMissingNamespaces()
+    {
+        $namespaceConfig = array();
+        $this->_repositoryMock->expects($this->any())->method("get")->with(
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
+        )->will($this->returnValue(null));
+        $this->_factoryMock->expects($this->any())->method('createDataservice')->with(
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
+        )->will($this->returnValue($this->_dataserviceMock));
+        $this->_repositoryMock->expects($this->any())->method("add")->with(
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME),
+            $this->equalTo($this->_dataserviceMock)
+        );
+        $this->_graph->init(
+            array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
+        );
+    }
+
     public function testGet()
     {
         $this->_dataserviceMock = (object)array();
@@ -75,6 +97,18 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $this->_dataserviceMock,
             $this->_graph->get(self::TEST_DATA_SERVICE_NAME)
+        );
+    }
+
+    public function testGetChild()
+    {
+        $this->_dataserviceMock = (object)array();
+        $this->_repositoryMock->expects($this->once())->method("get")->with(
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
+        )->will($this->returnValue($this->_dataserviceMock));
+        $this->assertEquals(
+            $this->_dataserviceMock,
+            $this->_graph->getChild(self::TEST_DATA_SERVICE_NAME)
         );
     }
 

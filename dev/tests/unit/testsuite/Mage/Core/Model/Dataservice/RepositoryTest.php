@@ -24,15 +24,39 @@ class Mage_Core_Model_Dataservice_RepositoryTest extends PHPUnit_Framework_TestC
         $this->assertEquals($dataservice, $this->_repository->add($name, $dataservice)->get($name));
     }
 
+    public function testGet()
+    {
+        $this->assertEquals(null, $this->_repository->get('name'));
+    }
+
+    public function testGetByNamespace()
+    {
+        $result = $this->_repository->getByNamespace('unknown_namespace');
+        $this->assertEquals(array(), $result);
+    }
+
     public function testAddGetNamespace()
     {
         $dataservice = (object)array();
         $nameInNamespace = 'name_in_namespace';
         $namespace = 'namespace';
         $name = 'name';
-        $namespaceResults = $this->_repository->add($name, $dataservice)->addNameInNamespace(
-            $namespace, $name, $nameInNamespace
-        )->getByNamespace($namespace);
+        $namespaceResults = $this->_repository->add($name, $dataservice)
+            ->addNameInNamespace($namespace, $name, $nameInNamespace)
+            ->getByNamespace($namespace);
+        $this->assertEquals($dataservice, $namespaceResults[$nameInNamespace]);
+    }
+
+    public function testAddGetNamespaceAgain()
+    {
+        $dataservice = (object)array();
+        $nameInNamespace = 'name_in_namespace';
+        $namespace = 'namespace';
+        $name = 'name';
+        $namespaceResults = $this->_repository->add($name, $dataservice)
+            ->addNameInNamespace($namespace, $name, 'something_different')
+            ->addNameInNamespace($namespace, $name, $nameInNamespace)
+            ->getByNamespace($namespace);
         $this->assertEquals($dataservice, $namespaceResults[$nameInNamespace]);
     }
 

@@ -52,9 +52,11 @@ class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_T
     public function childrenProvider()
     {
         return array(
+            // elementName, expectedResult
             array(self::ITEM_ONE, (object)array('name' => self::ITEM_ONE)),
             array(self::ITEM_TWO, (object)array('name' => self::ITEM_TWO)),
             array(self::ITEM_THREE, (object)array('name' => self::ITEM_THREE)),
+            array('none', null),
         );
     }
 }
