@@ -4850,7 +4850,8 @@ table .col-draggable .draggable-handle {
     background: #fbfaf6;
 }
 
-.data-table tfoot tr:last-child td {
+.data-table tfoot tr:last-child td,
+.data-table tfoot tr:last-child th {
     border: 0;
 }
 
@@ -5559,6 +5560,10 @@ table .col-draggable .draggable-handle {
 
 .attribute-popup {
     background: none;
+}
+
+.attribute-popup #edit_form > .fieldset > .legend {
+    display: none;
 }
 
 .attribute-popup .wrapper-popup {
