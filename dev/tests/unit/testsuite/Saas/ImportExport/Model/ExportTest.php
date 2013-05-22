@@ -24,7 +24,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_exportModel = $objectManager->getObject('Saas_ImportExport_Model_Export', array());
-  }
+    }
 
     public function testExportIsProcess()
     {

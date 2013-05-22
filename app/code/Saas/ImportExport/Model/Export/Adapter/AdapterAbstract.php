@@ -145,7 +145,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
             $exportFiles = $this->_filesystem->searchKeys(dirname($this->_destination), '*');
             foreach ($exportFiles as $exportFile) {
                 if (!$this->_filesystem->delete($exportFile)) {
-                    $this->_logger->log(sprintf('Export cleanup dir error in %s. File %'), __METHOD__, $exportFile);
+                    $this->_logger->log(sprintf('Export cleanup dir error in %s. File %', __METHOD__, $exportFile));
                 }
             }
         } catch (Exception $e) {
