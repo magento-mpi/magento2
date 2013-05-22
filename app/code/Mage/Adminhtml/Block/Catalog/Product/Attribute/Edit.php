@@ -57,6 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
         }
 
         $this->_updateButton('save', 'label', Mage::helper('Mage_Catalog_Helper_Data')->__('Save Attribute'));
+        $this->_updateButton('save', 'class', 'save primary');
         $this->_updateButton('save', 'data_attribute', array(
             'mage-init' => array(
                 'button' => array('event' => 'save', 'target' => '#edit_form'),

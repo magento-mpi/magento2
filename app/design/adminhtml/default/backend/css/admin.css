@@ -5549,7 +5549,12 @@ table .col-draggable .draggable-handle {
     Add Attribute Popup
 -------------------------------------- */
 #create_new_attribute {
-    overflow-x: hidden;
+    overflow: hidden;
+}
+
+#create_new_attribute > .loading-mask {
+    left: -25px;
+    top: -50px;
 }
 
 .attribute-popup {
@@ -5557,7 +5562,10 @@ table .col-draggable .draggable-handle {
 }
 
 .attribute-popup .wrapper-popup {
-    padding: 0 0 100px;
+    padding: 0;
+    height: 511px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .attribute-popup .fieldset,
@@ -5574,6 +5582,11 @@ table .col-draggable .draggable-handle {
 
 .attribute-popup .fieldset-wrapper .fieldset-wrapper-title {
     border-bottom: none;
+}
+
+.attribute-popup .fieldset-wrapper .fieldset-wrapper-content > .fieldset {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .attribute-popup .fieldset > .field > input[type="checkbox"] {
@@ -5619,6 +5632,14 @@ table .col-draggable .draggable-handle {
     margin-left: 18px;
 }
 
+.attribute-popup #base_fieldset {
+    padding-top: 20px;
+}
+
+.attribute-popup #base_fieldset > .legend {
+    display: none;
+}
+
 .attribute-popup .page-actions #reset,
 .attribute-popup .page-actions #reset:hover,
 .attribute-popup .page-actions #reset:active,
@@ -5643,6 +5664,10 @@ table .col-draggable .draggable-handle {
 
 .attribute-popup .footer {
     display: none;
+}
+
+#manage-options-panel > .data-table {
+    clear: both;
 }
 
 /*
