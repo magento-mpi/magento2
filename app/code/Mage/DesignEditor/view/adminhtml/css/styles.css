@@ -2268,6 +2268,11 @@
     margin: 0 0 15px 0;
 }
 
+.uploader-image .action-delete,
+.uploader-image .action-delete:active {
+    padding: 0;
+}
+
 .uploader-image .file-row {
     display: table-row;
     margin: 15px 0 15px 15px;
