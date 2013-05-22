@@ -103,6 +103,7 @@ class Mage_Paypal_Model_Info
     const PAYMENTSTATUS_UNREVERSED   = 'canceled_reversal';
     const PAYMENTSTATUS_PROCESSED    = 'processed';
     const PAYMENTSTATUS_VOIDED       = 'voided';
+    const PAYMENTSTATUS_REVIEW       = 'paymentreview';
 
     /**
      * PayPal payment transaction type

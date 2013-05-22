@@ -568,14 +568,19 @@ class Mage_Paypal_Model_Ipn
      */
     protected function _registerPaymentAuthorization()
     {
-        $this->_importPaymentInformation();
-
-        $this->_order->getPayment()
-            ->setPreparedMessage($this->_createIpnComment(''))
-            ->setTransactionId($this->getRequestData('txn_id'))
-            ->setParentTransactionId($this->getRequestData('parent_txn_id'))
-            ->setIsTransactionClosed(0)
-            ->registerAuthorizationNotification($this->getRequestData('mc_gross'));
+        /** @var $payment Mage_Sales_Model_Order_Payment */
+        $payment = $this->_order->getPayment();
+        if ($this->_order->canFetchPaymentReviewUpdate()) {
+            $payment->registerPaymentReviewAction(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE, true);
+        } else {
+            $this->_importPaymentInformation();
+            $payment
+                ->setPreparedMessage($this->_createIpnComment(''))
+                ->setTransactionId($this->getRequestData('txn_id'))
+                ->setParentTransactionId($this->getRequestData('parent_txn_id'))
+                ->setIsTransactionClosed(0)
+                ->registerAuthorizationNotification($this->getRequestData('mc_gross'));
+        }
         if (!$this->_order->getEmailSent()) {
             $this->_order->sendNewOrderEmail();
         }
