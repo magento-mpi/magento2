@@ -116,7 +116,7 @@ class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
     {
         $string = strtr($string, $this->getConvertTable());
         return '"libiconv"' == ICONV_IMPL
-            ?  iconv('ascii//ignore//translit', Mage_Core_Helper_String::ICONV_CHARSET, $string)
+            ? iconv(Mage_Core_Helper_String::ICONV_CHARSET, 'ascii//ignore//translit', $string)
             : $string;
     }
 }
