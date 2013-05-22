@@ -9,8 +9,6 @@
  */
 class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_TestCase
 {
-    const SOMETHING_MORE_INTERESTING_THAN_NULL = 'Something more interesting than null.';
-
     /** @var Mage_Core_Model_Dataservice_Path_Navigator */
     protected $_navigator;
 
