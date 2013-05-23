@@ -36,6 +36,12 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         $this->_updateButton('add', 'label', Mage::helper('Mage_Core_Helper_Data')->__('Create Website'));
         $this->_updateButton('add', 'onclick', null);
 
+        /** @var Mage_Core_Model_Website_Limitation $websiteLimitation */
+        $websiteLimitation = Mage::getObjectManager()->get('Mage_Core_Model_Website_Limitation');
+        if ($websiteLimitation->isCreateRestricted()) {
+            $this->_removeButton('add');
+        }
+
         /* Add Store Group button */
 
         /** @var $storeLimitation Mage_Core_Model_Store_Group_Limitation */
@@ -61,24 +67,5 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         }
 
         return parent::_prepareLayout();
-    }
-
-    /**
-     * Make additional actions, before rendering the block
-     *
-     * @return Mage_Adminhtml_Block_System_Store_Store
-     */
-    protected function _beforeToHtml()
-    {
-        parent::_beforeToHtml();
-
-        // Add javascript for the Create Website button
-        /** @var $block Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs */
-        $block = $this->_layout->createBlock('Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs');
-        $block->setHtmlId('add');
-        $html = $block->toHtml();
-        $this->_updateButton('add', 'after_html', $html);
-
-        return $this;
     }
 }
