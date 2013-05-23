@@ -2570,8 +2570,7 @@ INSERT INTO `cms_page_store` (`page_id`, `store_id`) VALUES
 	(3, 0),
 	(4, 0),
 	(5, 0),
-	(6, 0),
-	(7, 0);
+	(6, 0);
 
 
 
@@ -3351,9 +3350,7 @@ INSERT INTO `customer_eav_attribute` (`attribute_id`, `is_visible`, `input_filte
 	(37, 0, NULL, 0, NULL, 1, 0, NULL, 0),
 	(38, 0, NULL, 0, NULL, 1, 0, NULL, 0),
 	(39, 0, NULL, 0, NULL, 1, 0, NULL, 0),
-	(40, 0, NULL, 0, NULL, 1, 0, NULL, 0),
-	(147, 0, NULL, 1, NULL, 0, 0, NULL, 0),
-	(148, 0, NULL, 1, NULL, 0, 0, NULL, 0);
+	(40, 0, NULL, 0, NULL, 1, 0, NULL, 0);
 
 
 
@@ -5596,8 +5593,6 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(142, 4, 4, 8, 144, 21),
 	(143, 4, 4, 8, 145, 22),
 	(144, 4, 4, 8, 146, 23),
-	(145, 1, 1, 1, 147, 114),
-	(146, 1, 1, 1, 148, 115),
 	(147, 4, 4, 8, 149, 24),
 	(148, 4, 4, 8, 150, 25),
 	(149, 4, 4, 8, 151, 26),
