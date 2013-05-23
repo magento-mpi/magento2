@@ -52,7 +52,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
                 $behaviorCode . '_fieldset',
                 array(
                     'legend' => $helper->__('Import Behavior'),
-                    'style'  => 'display:none',
+                    'class'  => 'no-display',
                 )
             );
             /** @var $behaviorSource Mage_ImportExport_Model_Source_Import_BehaviorAbstract */
