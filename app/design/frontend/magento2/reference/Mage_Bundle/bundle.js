@@ -68,13 +68,13 @@
                             _elements.each(function() {
                                 var _qty = $(this);
                                 _qty.on('blur', $.proxy(function() {
-                                    var parts = _elem.attr('id').split('-'),
+                                    var parts = _qty.attr('id').split('-'),
                                         value = _elem.val(),
                                         quantity = parseInt(_qty.val(), 10);
                                     if (quantity > 0 && _this.options.bundleConfig.options[parts[2]] && _this.options.bundleConfig.options[parts[2]].selections[value]
                                         && _this.options.optionConfig.options[parts[2]].selections[_elem.val()] && _this.options.optionConfig.options[parts[2]]) {
-                                        _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(quantity);
-                                        _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(quantity);
+                                        _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(quantity,10);
+                                        _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(quantity,10);
                                     }
                                     _this.reloadPrice();
                                     _this.element.trigger('updateProductSummary', [
