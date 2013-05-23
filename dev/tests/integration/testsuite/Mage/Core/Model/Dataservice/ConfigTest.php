@@ -17,8 +17,7 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $xml
-            = <<<XML
+        $xml = <<<XML
 <?xml version="1.0"?>
 <config>
     <modules>
@@ -39,17 +38,11 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
 </config>
 XML;
         $dirs = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Dir', array(
-                                        'baseDir' => array(__DIR__ . '/_files'),
-                                        'dirs'    => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'),
-                                   )
+            'Mage_Core_Model_Dir', array('baseDir' => array(__DIR__ . '/_files'),
+                                         'dirs'    => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'),)
         );
-        $loader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules', array('dirs' => $dirs,)
-        );
-        $config = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Base', array($xml)
-        );
+        $loader = Mage::getObjectManager()->create('Mage_Core_Model_Config_Loader_Modules', array('dirs' => $dirs,));
+        $config = Mage::getObjectManager()->create('Mage_Core_Model_Config_Base', array($xml));
         $loader->load($config);
         $fileReader = Mage::getObjectManager()->create(
             'Mage_Core_Model_Config_Loader_Modules_File', array('dirs' => $dirs)
@@ -59,6 +52,7 @@ XML;
 
     public function testGetClassByAlias()
     {
+        $unusedVar;
         $classInfo = $this->_config->getClassByAlias('alias');
         $this->assertEquals('some_class_name', $classInfo['class']);
         $this->assertEquals('some_method_name', $classInfo['retrieveMethod']);
