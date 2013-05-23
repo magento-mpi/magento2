@@ -44,12 +44,6 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $this->_getSession()->addNotice($storeLimitation->getCreateRestrictionMessage());
         }
 
-        /** @var $storeGroupLimitation Mage_Core_Model_Store_Group_Limitation */
-        $storeGroupLimitation = $this->_objectManager->get('Mage_Core_Model_Store_Group_Limitation');
-        if (!$storeGroupLimitation->canCreate()) {
-            $this->_getSession()->addNotice($storeGroupLimitation->getCreateRestrictionMessage());
-        }
-
         $this->_initAction()
             ->renderLayout();
     }

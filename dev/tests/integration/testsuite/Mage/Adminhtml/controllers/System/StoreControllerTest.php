@@ -13,6 +13,7 @@ class Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Con
 
         $response = $this->getResponse()->getBody();
         $this->assertContains('Create Website', $response);
+        $this->assertContains('Create Store', $response);
         $this->assertContains('Create Store View', $response);
     }
 
@@ -37,6 +38,5 @@ class Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Con
         $this->assertNotContains('>Create Store View<', $response);
         $this->assertNotContains('>Create Store<', $response);
         $this->assertContains('You are using the maximum number of store views allowed.', $response);
-        $this->assertContains('You are using the maximum number of stores allowed.', $response);
     }
 }
