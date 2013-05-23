@@ -42,7 +42,7 @@
             <button class="action-default primary" data-action="browse" type="submit">
                 <?php echo $this->__('Browse Files'); ?>
             </button>
-            <input id="fileupload" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
+            <input data-action="fileinput" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
                    data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple>
     </span>
     <button class="no-display action-default primary" data-action="upload">
@@ -55,8 +55,10 @@
 (function($) {
     $(function () {
         $('[data-action="upload"]').on('click', function() {
+            $('[data-action="browse"]').prop('disabled', true);
             $('[data-action="upload"]').prop('disabled', true);
-            var queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
+            $('[data-action="fileinput"]').prop('disabled', true);
+            var queuedFiles = $('[data-action="fileinput"]').assetfileupload('option', 'queuedFiles');
 
             for (var c = 0; c < queuedFiles.length; c++) {
                 queuedFiles[c].submit();
@@ -64,10 +66,10 @@
 
             $('[data-upload-id]').find('button').addClass('hidden');
 
-            queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles', []);
+            queuedFiles = $('[data-action="fileinput"]').assetfileupload('option', 'queuedFiles', []);
         });
 
-        $('#fileupload').on('click', function() {
+        $('[data-action="fileinput"]').on('click', function() {
             $('[data-upload-id]').each(function(index, row) {
                 if ($(row).data('upload-status') === 'failure') {
                     $(row).remove();
@@ -81,11 +83,13 @@
                 $('[data-action="upload"]').removeClass('no-display');
                 $('[data-action="browse"]').removeClass('primary');
                 $('.uploaded').addClass('no-display');
-                $('#fileupload').assetfileupload('option', 'uploadCount', 0);
+                $('[data-action="fileinput"]').assetfileupload('option', 'uploadCount', 0);
             },
 
             switchToRegularView: function() {
                 $('[data-action="upload"]').addClass('no-display');
+                $('[data-action="browse"]').removeProp('disabled');
+                $('[data-action="fileinput"]').removeProp('disabled');
                 $('[data-action="browse"]').addClass('primary');
                 MediabrowserInstance.handleUploadComplete();
 
@@ -108,7 +112,7 @@
             }
         });
 
-        $('#fileupload').assetfileupload({
+        $('[data-action="fileinput"]').assetfileupload({
             dataType: 'json',
             formData: {
                 isAjax: 'true',
@@ -137,7 +141,7 @@
 
                     $('[data-delete-file="' + data.fileId + '"]').on('click', function() {
                         $('[data-upload-id="' + data.fileId + '"]').remove();
-                        var origQueuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
+                        var origQueuedFiles = $('[data-action="fileinput"]').assetfileupload('option', 'queuedFiles');
                         var newQueuedFiles = [];
 
                         for (var c = 0; c < origQueuedFiles.length; c++) {
@@ -147,7 +151,7 @@
                             }
                         }
 
-                        $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
+                        $('[data-action="fileinput"]').assetfileupload('option', 'queuedFiles', newQueuedFiles);
                         if (newQueuedFiles.length === 0) {
                             $(that).assetfileupload('switchToRegularView');
                         }
@@ -162,7 +166,7 @@
             },
             done: function(e, data) {
                 var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
-                var uploadCount = $('#fileupload').assetfileupload('option', 'uploadCount');
+                var uploadCount = $('[data-action="fileinput"]').assetfileupload('option', 'uploadCount');
                 $(progressSelector).css('width','100%');
 
                 var fileRow = $('[data-upload-id="' + data.fileId + '"]');
@@ -180,7 +184,7 @@
                     fileRow.data('upload-status', 'failure');
                 }
 
-                var fileUploadRows = $('#fileupload').assetfileupload('fileUploadsWithStatus', 'pending');
+                var fileUploadRows = $('[data-action="fileinput"]').assetfileupload('fileUploadsWithStatus', 'pending');
                 if (fileUploadRows.length === 0) {
                     $(this).assetfileupload('switchToRegularView');
                 }
@@ -188,7 +192,7 @@
                 /** Display and update number of files uploaded */
                 $('.uploaded span').html(uploadCount);
                 $('.uploaded').removeClass('no-display');
-                $('#fileupload').assetfileupload('option', 'uploadCount', uploadCount);
+                $('[data-action="fileinput"]').assetfileupload('option', 'uploadCount', uploadCount);
             },
             progress: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
