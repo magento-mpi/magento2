@@ -26,7 +26,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
 
-        // Set experiment_code
+        // Create category with experiment_code
         $categoryData = $this->loadDataSet('Category', 'sub_category_required');
         $categoryData['experiment_code'] = 'experiment_code';
         $this->categoryHelper()->createCategory($categoryData);
@@ -88,7 +88,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
         // Check result
         $this->assertTrue($this->textIsPresent(self::$_categoryData['experiment_code']),
-            'Experiment code is not found.');
+            'Experiment code is not equal.');
     }
 
     /**
