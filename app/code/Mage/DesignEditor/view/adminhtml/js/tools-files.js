@@ -387,8 +387,9 @@ Mediabrowser.prototype = {
 
     updateHeader: function(node) {
         var header = (node.id == 'root' ? this.headerText : node.text);
-        if (jQuery('[data-content-text="header"]') != undefined) {
-            jQuery('[data-content-text="header"]').innerHTML = header;
+        var dataContentText = jQuery('[data-content-text="header"]');
+        if (dataContentText != undefined) {
+            dataContentText.html(header);
         }
     },
 
