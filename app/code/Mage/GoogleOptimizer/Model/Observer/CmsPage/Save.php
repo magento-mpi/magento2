@@ -59,7 +59,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
             $this->_modelCode->load($values['code_id']);
         }
 
-        if ($values['experiment_script']) {
+        if (!empty($values['experiment_script'])) {
             $data = array(
                 'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
                 'entity_id' => $cmsPage->getId(),
@@ -71,7 +71,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
             $this->_modelCode->save();
         }
 
-        if ($this->_modelCode->getId() && !$values['experiment_script']) {
+        if ($this->_modelCode->getId() && empty($values['experiment_script'])) {
             $this->_modelCode->delete();
         }
 
