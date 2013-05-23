@@ -3906,39 +3906,31 @@ table tbody tr:nth-child(odd):hover th {
 .tabs-horiz {
     list-style: none;
     margin: 0;
-    padding: 5px 5px 0;
-    border: 1px solid #ccc;
-    background: #f2e5d7;
+    padding: 3px 0 0;
+    border-bottom: 1px solid #e9e4db;
 }
 
 .tabs-horiz > li {
     float: left;
-    border: 1px solid #ccc;
+    border: 1px solid #e9e4db;
     border-bottom-width: 0;
     margin: 0 -1px 0 0;
 }
 
 .tabs-horiz > li a {
     position: relative;
-    background: #f5f2ed;
     display: block;
-    padding: 8px 18px;
+    padding: 7px 18px 9px;
     text-decoration: none;
+    font: 14px/1.666 CallunaSans, Arial, sans-serif;
     color: #676056;
-    -webkit-transition: background 0.3s ease-in-out;
-    -moz-transition: background 0.3s ease-in-out;
-    transition: background 0.3s ease-in-out;
-}
-
-.tabs-horiz > li a:hover {
-    background: #fff;
 }
 
 .tabs-horiz > .ui-state-active a {
-    background: #DEDCD8;
-    border-top: 3px solid #d87e34;
-    padding-top: 5px;
-    box-shadow: 1px 0 3px #aaa;
+    background: #fff;
+    border-top: 3px solid #f3771e;
+    margin-top: -3px;
+    box-shadow: 1px 0 3px #e9e4db;
 }
 
 /*
