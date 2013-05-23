@@ -676,11 +676,6 @@
     box-shadow: none;
 }
 
-.vde-tools select {
-    border: 1px solid #30312c;
-    background: #000;
-}
-
 .vde-tools .field.with-addon .addbefore {
     background: transparent;
     border-color: #30312c;

@@ -40,20 +40,19 @@
     </style>
 <?php //endif; ?>
 <div class="product photo main">
-    <a class="product photo magento-zoom<?php echo (!$_hasImage) ? ' isPlaceholder' : ''; ?>" id="main-image" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>" >
+    <a class="product photo magento-zoom<?php echo (!$_hasImage) ? ' isPlaceholder' : ''; ?>"
+       id="base-image" data-role="base-image-zoom"
+       href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>" >
         <?php echo $this->getChildBlock('product.image.main')->init($_product, $image)->toHtml() ?>
     </a>
 <?php  ?>
     <script type="text/javascript">
-    //<![CDATA[
-        jQuery('a#main-image').attr('rel', '<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>');
-    //]]>
+        jQuery('[data-role=base-image-zoom]').attr('rel', '<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>');
     </script>
 
     <p class="notice"></p>
 
     <script type="text/javascript">
-    //<![CDATA[
         jQuery(function(){
             <?php if ($_isOldDisplayMode): ?>
                 jQuery('.magento-zoom').magentoZoom({
@@ -83,7 +82,6 @@
                 });
             <?php endif; ?>
         });
-    //]]>
     </script>
 <?php  ?>
 </div>
