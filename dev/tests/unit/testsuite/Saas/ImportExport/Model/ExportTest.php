@@ -20,7 +20,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_exportMock = $this->getMock('Saas_ImportExport_Model_Export', array('_init', '_paginateCollection',
-            '_isCanExport', '_finishExportSuccess', '_export'),
+            '_isCanExport', '_finishExportSuccess', '_export', '_saveHeaderColumns'),
             array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_exportModel = $objectManager->getObject('Saas_ImportExport_Model_Export', array());
@@ -30,6 +30,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     {
         $this->_exportMock->expects($this->once())->method('_init');
         $this->_exportMock->expects($this->once())->method('_paginateCollection');
+        $this->_exportMock->expects($this->once())->method('_saveHeaderColumns');
         $this->_exportMock->expects($this->once())->method('_isCanExport')->will($this->returnValue(true));
         $this->_exportMock->expects($this->once())->method('_export');
         $this->_exportMock->export(array());
@@ -39,7 +40,9 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     {
         $this->_exportMock->expects($this->once())->method('_init');
         $this->_exportMock->expects($this->once())->method('_paginateCollection');
+        $this->_exportMock->expects($this->once())->method('_saveHeaderColumns');
         $this->_exportMock->expects($this->once())->method('_isCanExport')->will($this->returnValue(false));
+        $this->_exportMock->expects($this->never())->method('_export');
         $this->_exportMock->expects($this->once())->method('_finishExportSuccess');
         $this->_exportMock->export(array());
     }
