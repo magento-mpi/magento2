@@ -22,7 +22,7 @@
         <reference name="head">
             <action method="addCss"><file>mui/reset.css</file></action>
             <action method="addCss"><file>css/styles.css</file></action>
-            <action method="addJs"><file>lib/modernizr.js</file></action>
+            <action method="addJs"><file>js/head.js</file></action>
             <action method="addJs"><file>jquery/jquery.hoverIntent.js</file></action>
             <action method="addJs"><file>js/jquery.dropdowns.js</file></action>
             <action method="addJs"><file>js/theme.js</file></action>
@@ -44,8 +44,7 @@
 
         <remove name="top.links" />
         <move element="minicart" destination="panel.menu" after="-" />
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/sidebar.phtml">
-            <action method="setIsLink"><link>1</link></action>
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/link.phtml">
         </block>
         <reference name="header.panel">
             <block type="Mage_Page_Block_Template_Links" name="panel.menu" before="-">
@@ -80,7 +79,6 @@
                 </block>
             </block>
         </reference>
-
         <move element="top.search" destination="header" before="-" />
         <move element="logo" destination="header" after="top.search" />
         <move element="catalog.topnav" destination="header-container" />
@@ -118,9 +116,7 @@
         <move element="product.info.sku" destination="product.info.main" before="page.main.title" />
         <move element="page.main.title" destination="product.info.main" before="-" />
         <move element="product.price" destination="product.info.main" after="product.info.type" />
-
         <remove name="product.info.overview" />
-
         <reference name="product.info.details" after="-">
             <block type="Mage_Catalog_Block_Product_View_Additional" name="product.info.reviews.tab" as="product_reviews">
                 <action method="addToParentGroup"><group>detailed_info</group></action>
@@ -154,7 +150,8 @@
 
     <print>
         <reference name="head">
-
+            <action method="addCss"><file>mui/reset.css</file></action>
+            <action method="addCss"><file>css/print.css</file></action>
         </reference>
     </print>
 

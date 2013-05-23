@@ -27,7 +27,7 @@
 
     <?php if($this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()): ?>
     <div class="order additional details gift">
-        <h2 class="order subtitle"><?php echo $this->__('Gift Message for This Order') ?></h2>
+        <div class="order subtitle caption"><?php echo $this->__('Gift Message for This Order') ?></div>
         <?php $_giftMessage=$this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessageForEntity($_order); ?>
         <dl class="gift message">
             <dt class="gift sender"><strong class="label"><?php echo $this->__('From:') ?></strong> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?></dt>
@@ -39,7 +39,7 @@
     <?php $_history = $this->getOrder()->getVisibleStatusHistory() ?>
     <?php if (count($_history)): ?>
     <div class="order additional details comments">
-        <h3 class="order subtitle"><?php echo $this->__('About Your Order') ?></h3>
+        <div class="order subtitle caption"><strong><?php echo $this->__('About Your Order') ?></strong></div>
         <dl class="order comments">
             <?php foreach ($_history as $_historyItem): ?>
                 <dt class="comment date"><?php echo $this->formatDate($_historyItem->getCreatedAtStoreDate(), 'medium', true) ?></dt>

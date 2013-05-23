@@ -93,6 +93,7 @@
         > .submenu {
             background: @primary2;
             background: @primary2Opacity;
+            display: none;
             position: absolute;
             letter-spacing: 0.1em;
             left: 0;
@@ -105,12 +106,12 @@
             // *    Submenu styles
             // *
             // ----------------------------------------------------------------------------- */
-                li.column {
+                > li {
                     min-width: 150px;
                     max-width: 220px;
                     .borderBox;
                     display: inline-block;
-                    margin: 0 20px 0 0;
+                    margin: 0;
                     vertical-align: top;
                     a {
                         color: @primary5;
@@ -136,8 +137,6 @@
                 }
                 .parent ul {
                     padding-left: 7px;
-                }
-                .submenu .parent {
                 }
             }
         }

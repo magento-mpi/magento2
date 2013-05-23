@@ -20,7 +20,8 @@
             btnCloseDrawer: '.action-close-drawer',
             btnSaveDrawer: '.action-save-settings',
             drawerTopPosition: '.navigation',
-            stickyHeaderClass: 'fixed'
+            stickyHeaderClass: 'fixed',
+            behaviorFixSelector: '#store-launcher-content,#nav,#system_messages,#action-launch-my-store'
         },
 
         _create: function() {
@@ -141,7 +142,9 @@
                 this._drawerFixedHeader();
                 this.drawerFooter.animate({
                     bottom: 0
-                }, 100);
+                }, 100, $.proxy(function() {
+                    $(this.options.behaviorFixSelector).hide();
+                }, this));
             }, this));
         },
 
@@ -149,6 +152,7 @@
             if (this._startDrawerClose) {
                 return;
             }
+            $(this.options.behaviorFixSelector).show();
             this._startDrawerClose = true;
             window.location.hash = '';
 
@@ -360,7 +364,8 @@
             this._toggleStatus();
         },
 
-        destroy: function() {
+        destroy: function(e) {
+            e.preventDefault();
             this.element.remove();
         },
 

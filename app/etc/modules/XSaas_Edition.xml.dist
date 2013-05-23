@@ -51,6 +51,8 @@
         <Saas_Saas><active>true</active></Saas_Saas>
         <Saas_Sales><active>true</active></Saas_Sales>
         <Saas_Search><active>true</active></Saas_Search>
+        <Saas_Shipping><active>true</active></Saas_Shipping>
+        <Saas_Sitemap><active>true</active></Saas_Sitemap>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
     </modules>
 </config>

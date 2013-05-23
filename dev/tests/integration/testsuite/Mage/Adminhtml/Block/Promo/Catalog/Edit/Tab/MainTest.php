@@ -15,11 +15,11 @@
 class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends Mage_Backend_Area_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::register('current_promo_catalog_rule', Mage::getObjectManager()->create('Mage_CatalogRule_Model_Rule'));
 
         $block = Mage::getObjectManager()->create('Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main');

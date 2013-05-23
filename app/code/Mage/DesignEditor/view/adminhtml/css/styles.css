@@ -676,11 +676,6 @@
     box-shadow: none;
 }
 
-.vde-tools select {
-    border: 1px solid #30312c;
-    background: #000;
-}
-
 .vde-tools .field.with-addon .addbefore {
     background: transparent;
     border-color: #30312c;
@@ -1865,6 +1860,10 @@
     content: '\e010'; /* reload icon */
     margin-right: 5px;
     vertical-align: text-bottom;
+}
+
+.eq-ie8 .vde-image-sizing .action-reset .ui-button-text {
+    vertical-align: bottom;
 }
 
 #add_white_borders {

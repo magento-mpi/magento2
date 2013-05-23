@@ -69,6 +69,13 @@
                 </enterprise_pbridge>
             </updates>
         </layout>
+        <di>
+            <Enterprise_Pbridge_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Enterprise_Pbridge_Model_Session>
+        </di>
     </frontend>
     <adminhtml>
         <layout>
@@ -88,6 +95,13 @@
                 </observers>
             </admin_system_config_changed_section_payment>
         </events>
+        <di>
+            <Enterprise_Pbridge_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Enterprise_Pbridge_Model_Session>
+        </di>
     </adminhtml>
     <admin>
         <routers>

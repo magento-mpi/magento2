@@ -110,6 +110,8 @@
         <selector><![CDATA[
             .navigation,
             .navigation > ul > .level-top > .submenu,
+            .navigation > ul > .level-top.more > .submenu > ul,
+            .level-top.more.hover:after,
             .switcher .options > ul
 
         ]]></selector>

@@ -89,7 +89,6 @@
          * @private
          */
         _switchToType: function(typeCode) {
-            //var self = this;
             $('[data-apply-to]:not(.removed)').each(function(index, element) {
                 var attrContainer = $(element),
                     applyTo = attrContainer.data('applyTo') || [];

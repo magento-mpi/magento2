@@ -88,6 +88,13 @@
                 </newsletters>
             </updates>
         </layout>
+        <di>
+            <Mage_Newsletter_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Newsletter_Model_Session>
+        </di>
     </adminhtml>
     <frontend>
         <events>
@@ -136,6 +143,13 @@
         <secure_url>
             <newsletter_manage>/newsletter/manage/</newsletter_manage>
         </secure_url>
+        <di>
+            <Mage_Newsletter_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Newsletter_Model_Session>
+        </di>
     </frontend>
     <default>
         <newsletter>
