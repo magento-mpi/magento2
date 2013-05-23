@@ -284,7 +284,7 @@ Mediabrowser.prototype = {
                 'class': 'action-close',
                 click: function() {
                     jQuery('#contents').trigger('hideLoadingPopup');
-                    jQuery('#' + dialogId).dialog('destroy');
+                    jQuery('#' + dialogId).dialog('close');
                 }
             }, {
                 text: jQuery.mage.__('Yes'),
@@ -329,7 +329,7 @@ Mediabrowser.prototype = {
                 'class': 'action-close',
                 click: function() {
                     jQuery('#contents').trigger('hideLoadingPopup');
-                    jQuery('#' + dialogId).dialog('destroy');
+                    jQuery('#' + dialogId).dialog('close');
                 }
             }, {
                 text: jQuery.mage.__('Yes'),
