@@ -2268,7 +2268,7 @@
     max-height: 300px;
 }
 
-#content_header_text {
+[data-content-text] {
     display: inline;
 }
 

@@ -92,20 +92,20 @@ Mediabrowser.prototype = {
         this.activateBlock('contents');
 
         // Activate/deactivate trash can icon
-        var dataFolderDelete = '[data-folder="delete"]';
-        if (jQuery(dataFolderDelete) != undefined) {
+        var dataFolderDelete = jQuery('[data-folder="delete"]');
+        if (dataFolderDelete != undefined) {
             var deleteFolderTitle = '';
             if(node.id == 'root') {
-                jQuery(dataFolderDelete).removeClass('activate');
+                dataFolderDelete.removeClass('activate');
             }
             else {
                 deleteFolderTitle = jQuery.mage.__('Delete') + ' ' + node.text + ' ' + jQuery.mage.__('Folder');
-                jQuery(dataFolderDelete).addClass('activate')
+                dataFolderDelete.addClass('activate')
                     .on('click', function() {
                         MediabrowserInstance.deleteFolder();
                     });
             }
-            jQuery(dataFolderDelete).on('mouseover', function() {
+            dataFolderDelete.on('mouseover', function() {
                 jQuery(this).attr('title', deleteFolderTitle);
             });
         }
@@ -387,8 +387,8 @@ Mediabrowser.prototype = {
 
     updateHeader: function(node) {
         var header = (node.id == 'root' ? this.headerText : node.text);
-        if ($('content_header_text') != undefined) {
-            $('content_header_text').innerHTML = header;
+        if (jQuery('[data-content-text="header"]') != undefined) {
+            jQuery('[data-content-text="header"]').innerHTML = header;
         }
     },
 
