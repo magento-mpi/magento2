@@ -49,48 +49,48 @@
             <checkmo>
                 <active>0</active>
             </checkmo>
-            <braintree_basic>
+            <pbridge_braintree_basic>
                 <group>online</group>
-            </braintree_basic>
-            <!--<cardgate>
+            </pbridge_braintree_basic>
+            <cardgate>
                 <group>online</group>
-            </cardgate>-->
+            </cardgate>
             <pbridge_authorizenet>
                 <group>online</group>
             </pbridge_authorizenet>
-            <cybersource_soap>
+            <pbridge_cybersource_soap>
                 <group>online</group>
-            </cybersource_soap>
-            <dibs>
+            </pbridge_cybersource_soap>
+            <pbridge_dibs>
                 <group>online</group>
-            </dibs>
-            <payone_gate>
+            </pbridge_dibs>
+            <pbridge_payone_gate>
                 <group>online</group>
-            </payone_gate>
+            </pbridge_payone_gate>
             <sagepay_direct>
                 <group>online</group>
             </sagepay_direct>
-            <firstdata>
+            <pbridge_firstdata>
                 <group>online</group>
-            </firstdata>
+            </pbridge_firstdata>
             <googlecheckout>
                 <group>online</group>
             </googlecheckout>
             <pbridge_ogone_direct>
                 <group>online</group>
             </pbridge_ogone_direct>
-            <paybox_direct>
+            <pbridge_paybox_direct>
                 <group>online</group>
-            </paybox_direct>
-            <psigate_basic>
+            </pbridge_paybox_direct>
+            <pbridge_psigate_basic>
                 <group>online</group>
-            </psigate_basic>
-            <worldpay_direct>
+            </pbridge_psigate_basic>
+            <pbridge_worldpay_direct>
                 <group>online</group>
-            </worldpay_direct>
-            <eway_direct>
+            </pbridge_worldpay_direct>
+            <pbridge_eway_direct>
                 <group>online</group>
-            </eway_direct>
+            </pbridge_eway_direct>
          </payment>
     </default>
     <frontend>
