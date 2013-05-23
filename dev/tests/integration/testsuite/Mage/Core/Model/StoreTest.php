@@ -307,11 +307,12 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture limitations/store 1
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
-     * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage You are using the maximum number of store views allowed.
      */
     public function testSaveValidationLimitation()
     {
+        // @codingStandardsIgnoreStart
+        $this->setExpectedException('Mage_Core_Exception', 'Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
+        // @codingStandardsIgnoreEnd
         $this->_model->setData(
             array(
                 'code'          => 'test',
