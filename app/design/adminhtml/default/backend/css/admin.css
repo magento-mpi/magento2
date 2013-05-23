@@ -3889,7 +3889,6 @@ table tbody tr:nth-child(odd):hover th {
     list-style: none;
     margin: 0;
     padding: 3px 0 0;
-    border-bottom: 1px solid #e9e4db;
 }
 
 .tabs-horiz > li {
