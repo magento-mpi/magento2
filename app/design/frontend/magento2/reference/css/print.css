@@ -64,6 +64,9 @@ body  { background:#fff !important; font-size:9pt !important; margin:15px !impor
 .order.details .block.order .content address {
     font-style: normal;
 }
+.data.table.order.tracking {
+    margin: 10px 0;
+}
 
 /* tables */
 .data.table.order {
