@@ -59,7 +59,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Save
             $this->_modelCode->load($values['code_id']);
         }
 
-        if ($product->getId() && $values['experiment_script']) {
+        if ($values['experiment_script']) {
             $data = array(
                 'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
                 'entity_id' => $product->getId(),

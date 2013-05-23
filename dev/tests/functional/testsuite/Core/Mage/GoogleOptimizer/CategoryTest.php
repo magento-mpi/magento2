@@ -107,17 +107,15 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->selectCategory(
             sprintf('%s/%s', self::$_categoryData['parent_category'], self::$_categoryData['name'])
         );
-        self::$_categoryData['experiment_code'] = 'experiment_code_updated';
         $this->categoryHelper()->fillCategoryInfo(array('experiment_code' => ''));
         $this->clickButton('save_category');
 
         // Open category on frontend
         $this->frontend('home');
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
-        var_dump(self::$_categoryData['name']);
         // Check result
         $this->assertFalse($this->textIsPresent(self::$_categoryData['experiment_code']),
-            'Experiment code is not found.');
+            'Experiment code is present.');
     }
 
 

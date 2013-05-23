@@ -59,7 +59,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_Save
             $this->_modelCode->load($values['code_id']);
         }
 
-        if ($category->getId() && $values['experiment_script']) {
+        if ($values['experiment_script']) {
             $data = array(
                 'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
                 'entity_id' => $category->getId(),
