@@ -55,7 +55,9 @@
 (function($) {
     $(function () {
         $('[data-action="upload"]').on('click', function() {
+            $('[data-action="browse"]').prop('disabled', true);
             $('[data-action="upload"]').prop('disabled', true);
+            $('#fileupload').prop('disabled', true);
             var queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
 
             for (var c = 0; c < queuedFiles.length; c++) {
@@ -86,6 +88,8 @@
 
             switchToRegularView: function() {
                 $('[data-action="upload"]').addClass('no-display');
+                $('[data-action="browse"]').removeProp('disabled');
+                $('#fileupload').removeProp('disabled');
                 $('[data-action="browse"]').addClass('primary');
                 MediabrowserInstance.handleUploadComplete();
 
