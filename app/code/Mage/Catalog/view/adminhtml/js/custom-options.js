@@ -105,7 +105,7 @@
                             {
                                 text: $.mage.__('Import'),
                                 id: 'import-custom-options-apply-button',
-                                class: 'primary',
+                                'class': 'primary',
                                 click: function (event, massActionTrigger) {
                                     var request = [];
                                     $(this).find('input[name=product]:checked').map(function () {
