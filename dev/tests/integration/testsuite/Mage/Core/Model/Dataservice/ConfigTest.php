@@ -15,40 +15,51 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_config;
 
-    /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_mockConfig;
-
-    public function setup()
-    {
+    public function setup() {
         $xml
             = <<<XML
 <?xml version="1.0"?>
+<config>
+    <modules>
+        <Testmodule>
+            <version>1.6.0.0.23</version>
+            <active>true</active>
+            <depends/>
+        </Testmodule>
+    </modules>
     <global>
+        <di/>
         <service_calls>
-                <file>_files/service_calls.xml</file>
+            <testmodule>
+                <file>Mage_TestModule/service_calls.xml</file>
+            </testmodule>
         </service_calls>
     </global>
+</config>
 XML;
-        $configElement = new Mage_Core_Model_Config_Element($xml);
-        $this->_mockConfig = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
-        $this->_mockConfig->expects($this->once())->method('getNode')->with(
-            $this->equalTo(
-                Mage_Core_Model_Dataservice_Config::CONFIG_AREA . '/' . Mage_Core_Model_Dataservice_Config::CONFIG_NODE
-            )
-        )->will($this->returnValue($configElement));
-        $this->_mockConfig->expects($this->once())->method('getModuleDir')->with(
-            $this->equalTo('etc'), $this->equalTo('_files')
-        )->will($this->returnValue(__DIR__ . '/_files'));
-        $this->_config = new Mage_Core_Model_Dataservice_Config($this->_mockConfig);
+        $dirs = Mage::getObjectManager()->create(
+            'Mage_Core_Model_Dir', array(
+                                        'baseDir' => array(__DIR__ . '/_files'),
+                                        'dirs'    => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'),
+                                   )
+        );
+        $loader = Mage::getObjectManager()->create(
+            'Mage_Core_Model_Config_Loader_Modules', array('dirs' => $dirs,)
+        );
+        $config = Mage::getObjectManager()->create(
+            'Mage_Core_Model_Config_Base', array($xml)
+        );
+        $loader->load($config);
+        $fileReader = Mage::getObjectManager()->create(
+            'Mage_Core_Model_Config_Loader_Modules_File', array('dirs' => $dirs)
+        );
+        $this->_config = new Mage_Core_Model_Dataservice_Config($config, $fileReader);
     }
 
-    public function testGetClassByAlias()
-    {
-        $classInfo = $this->_config->getClassByAlias('selectedProductDetails');
-        $this->assertEquals('Class_Name', $classInfo['class']);
-        $this->assertEquals('retrieve_method', $classInfo['retrieveMethod']);
-        $this->assertEquals(array('argument_one' => '{{value_one}}'), $classInfo['methodArguments']);
+    public function testGetClassByAlias() {
+        $classInfo = $this->_config->getClassByAlias('alias');
+        $this->assertEquals('some_class_name', $classInfo['class']);
+        $this->assertEquals('some_method_name', $classInfo['retrieveMethod']);
+        $this->assertEquals(array('some_arg_name' => 'some_arg_value'), $classInfo['methodArguments']);
     }
 }

@@ -34,8 +34,17 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
      */
     protected $_config;
 
-    public function __construct(Mage_Core_Model_Config $config)
-    {
+    /** @var \Mage_Core_Model_Config_Loader_Modules_File  */
+    protected $_fileReader;
+
+    /**
+     * @param Mage_Core_Model_Config_Base $config
+     * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
+     */
+    public function __construct(Mage_Core_Model_Config_Base $config,
+        Mage_Core_Model_Config_Loader_Modules_File $fileReader
+    ) {
+        $this->_fileReader = $fileReader;
         $this->_config = $config;
         $this->init();
     }
@@ -132,15 +141,16 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
             );
         }
 
+        $nameParts = array();
         if (strpos($file, '/') !== false) {
             $nameParts = explode('/', $file);
         } else {
             throw new Magento_Exception("Module is missing in Service calls configuration: '{$file}'");
         }
-        $filename = $this->_config->getModuleDir('etc', $nameParts[0]) . '/' . $nameParts[1];
+        $filename = $this->_fileReader->getModuleDir('etc', $nameParts[0]) . '/' . $nameParts[1];
         if (!is_readable($filename)) {
             throw new
-                Magento_Exception("Service calls configuration file '{$filename}' doesn't exist or isn't readable.");
+            Magento_Exception("Service calls configuration file '{$filename}' doesn't exist or isn't readable.");
         }
         return $filename;
     }

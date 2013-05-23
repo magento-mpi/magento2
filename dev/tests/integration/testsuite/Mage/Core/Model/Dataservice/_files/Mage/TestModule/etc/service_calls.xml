@@ -8,7 +8,7 @@
  */
 -->
 <service_calls>
-    <service_call name="selectedProductDetails" service="Class_Name" method="retrieve_method">
-        <arg name="argument_one">{{value_one}}</arg>
+    <service_call name="alias" service="some_class_name" method="some_method_name">
+        <arg name="some_arg_name">some_arg_value</arg>
     </service_call>
 </service_calls>
