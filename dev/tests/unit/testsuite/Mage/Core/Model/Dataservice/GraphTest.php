@@ -122,4 +122,15 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
             $this->_graph->getByNamespace(self::TEST_NAMESPACE)
         );
     }
+
+    public function testGetArgumentValue()
+    {
+        $this->_factoryMock->expects($this->once())->method('getArgumentValue')->with(
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
+        )->will($this->returnValue($this->_dataserviceMock));
+
+        $argValue = $this->_graph->getArgumentValue(self::TEST_DATA_SERVICE_NAME);
+
+        $this->assertEquals($this->_dataserviceMock, $argValue);
+    }
 }
