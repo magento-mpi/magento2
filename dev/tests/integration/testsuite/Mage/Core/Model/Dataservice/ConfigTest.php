@@ -52,7 +52,6 @@ XML;
 
     public function testGetClassByAlias()
     {
-        $unusedVar;
         $classInfo = $this->_config->getClassByAlias('alias');
         $this->assertEquals('some_class_name', $classInfo['class']);
         $this->assertEquals('some_method_name', $classInfo['retrieveMethod']);
