@@ -2535,10 +2535,6 @@ table tbody tr:nth-child(odd):hover th {
     padding-top: 36px;
 }
 
-.eq-ie8 .navigation .level-0.item-system > a {
-    padding-top: 0;
-}
-
 .navigation .level-0 > a:before {
     position: absolute;
     left: 0;
@@ -2692,13 +2688,20 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0;
 }
 
+.eq-ie8 .navigation .level-0.item-system > a,
 .eq-ie8 .navigation .level-0.item-system:hover > a,
-.eq-ie8 .navigation .level-0.item-system.hover > a {
+.eq-ie8 .navigation .level-0.item-system.hover > a,
+.eq-ie8 .navigation .level-0.item-stores > a,
+.eq-ie8 .navigation .level-0.item-stores:hover > a,
+.eq-ie8 .navigation .level-0.item-stores.hover > a {
     border-top: 0;
+    padding-top: 0;
 }
 
 .navigation .level-0.item-system:hover > a,
-.navigation .level-0.item-system.hover > a {
+.navigation .level-0.item-system.hover > a,
+.navigation .level-0.item-stores:hover > a,
+.navigation .level-0.item-stores.hover > a {
     background: transparent;
 }
 
