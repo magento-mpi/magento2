@@ -15,7 +15,8 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_config;
 
-    public function setup() {
+    public function setup()
+    {
         $xml
             = <<<XML
 <?xml version="1.0"?>
@@ -56,7 +57,8 @@ XML;
         $this->_config = new Mage_Core_Model_Dataservice_Config($config, $fileReader);
     }
 
-    public function testGetClassByAlias() {
+    public function testGetClassByAlias()
+    {
         $classInfo = $this->_config->getClassByAlias('alias');
         $this->assertEquals('some_class_name', $classInfo['class']);
         $this->assertEquals('some_method_name', $classInfo['retrieveMethod']);
