@@ -137,21 +137,22 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      * PreConditions: 'Manage Customers' page is opened.
      *
      * @param array $searchData
+     * @param string $fieldsetName
      */
-    public function openCustomer(array $searchData)
+    public function openCustomer(array $searchData, $fieldsetName = 'customers_grid')
     {
+        //Search Customer
         $searchData = $this->_prepareDataForSearch($searchData);
-        $xpathTR = $this->search($searchData, 'customers_grid');
-        $this->assertNotNull($xpathTR, 'Customer is not found');
-        $cellId = $this->getColumnIdByName('ID');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index', false);
-        $this->waitForPageToLoad();
+        $customerLocator = $this->search($searchData, $fieldsetName);
+        $this->assertNotNull($customerLocator, 'Customer is not found with data: ' . print_r($searchData, true));
+        $customerRowElement = $this->getElement($customerLocator);
+        $customerUrl = $customerRowElement->attribute('title');
+        //Define and add parameters for new page
+        $this->addParameter('id', $this->defineIdFromUrl($customerUrl));
+        //Open Customer
+        $this->url($customerUrl);
         $pageUIMap = $this->getUimapPage('admin', 'edit_customer');
-        $locator = $this->_getControlXpath('pageelement', 'customer_header', $pageUIMap);
-        $param = trim($this->getElement($locator)->text());
+        $param = trim($this->getControlElement('pageelement', 'customer_header', $pageUIMap)->text());
         $this->addParameter('elementTitle', $param);
         $this->validatePage('edit_customer');
     }

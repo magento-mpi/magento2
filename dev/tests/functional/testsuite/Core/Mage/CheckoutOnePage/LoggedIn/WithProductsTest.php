@@ -18,6 +18,18 @@
  */
 class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
 {
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     /**
      * <p>Creating Simple and Virtual products</p>
      *
@@ -30,9 +42,8 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
@@ -40,9 +51,9 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return array(
             'simple' => $simple['general_name'],

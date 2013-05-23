@@ -276,19 +276,6 @@ product_attribute_price: &productAttributePrice
     store_view_titles:
         Default Store View: Price_StoreView
 
-# Test Datasets for Add New MediaImage type Product Attribute
-product_attribute_mediaimage: &productAttributeMediaimage
-# properties:
-    catalog_input_type_for_store_owner: Media Image
-    attribute_code: attr_mediaimage_%randomize%
-    scope: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-# manage_labels_options:
-    admin_title: Media_Image_Admin_%randomize%
-    store_view_titles:
-        Default Store View: Media_Image_Storeview
-
 # Test Datasets for Add New FixedProductTax type Product Attribute
 product_attribute_fpt: &productAttributeFpt
 # properties:
@@ -312,7 +299,6 @@ product_attributes:
     product_attribute_dropdown: *productAttributeDropdown
     product_attribute_dropdown_with_options: *productAttributeDropdownWithOptions
     product_attribute_price: *productAttributePrice
-    product_attribute_mediaimage: *productAttributeMediaimage
 
 # Test Dataset for verifying attributes on tab after changing attribute set
 product_attributes_for_changing_template:

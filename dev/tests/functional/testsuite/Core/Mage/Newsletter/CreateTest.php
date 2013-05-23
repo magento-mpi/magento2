@@ -167,16 +167,13 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      */
     public function customerUseOwnEmail($category)
     {
-        $customer = $this->loadDataSet('Customers', 'generic_customer_account');
+        $customer = $this->loadDataSet('Customers', 'customer_account_register');
         $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
             array('filter_email' => $customer['email']));
         //Steps
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($customer);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->frontLoginCustomer(array('email' => $customer['email'],
-            'password' => $customer['password']));
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($customer);
+        $this->assertMessagePresent('success', 'success_registration');
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($search['filter_email']);
         //Verifying

@@ -54,13 +54,12 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
      *
      * @return array $productData
      * @test
-     * @skipTearDown
      */
     public function preconditionsForTests()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $wrappingNoImage = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $wrappingWithImage = $this->loadDataSet('GiftWrapping', 'gift_wrapping_with_image');
         //Steps and Verification
@@ -68,15 +67,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($wrappingNoImage);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($wrappingWithImage);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
+
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return array(
             'img' => $wrappingWithImage,

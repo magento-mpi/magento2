@@ -56,7 +56,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
                 $this->fillDropdown('item_gift_wrapping_design', $giftWrapping);
             }
             if ($giftMessage) {
-                $this->clickControl('link', 'add_order_gift_message', false);
+                if (!$this->controlIsEditable('field', 'item_gift_message_from')) {
+                    $this->clickControl('link', 'add_item_gift_message', false);
+                }
                 $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
@@ -76,7 +78,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
                 $this->fillDropdown('order_gift_wrapping_design', $giftWrapping);
             }
             if ($giftMessage) {
-                $this->clickControl('link', 'add_item_gift_message', false);
+                if (!$this->controlIsEditable('field', 'order_gift_message_from')) {
+                    $this->clickControl('link', 'add_order_gift_message', false);
+                }
                 $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
@@ -105,7 +109,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
             'add gift options to Entire Order');
         $this->verifyControlAvailability('dropdown', 'order_gift_wrapping_design', $forOrderWrapping,
             'add gift wrapping to Entire Order');
-        $this->verifyControlAvailability('link', 'add_item_gift_message', $forOrderMessage,
+        $this->verifyControlAvailability('link', 'add_order_gift_message', $forOrderMessage,
             'add gift message to Entire Order');
         //For Individual Items
         $this->verifyControlAvailability('checkbox', 'gift_option_for_item', $forItems,
@@ -125,7 +129,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
             $this->addParameter('productName', $productName);
             $forItemWrapping = (isset($data['item_gift_wrapping_design'])) ? true : false;
             $forItemMessage = (isset($data['gift_message'])) ? true : false;
-            $this->verifyControlAvailability('link', 'add_order_gift_message', $forItemMessage,
+            $this->verifyControlAvailability('link', 'add_item_gift_message', $forItemMessage,
                 'add gift message to ' . $productName);
             $this->verifyControlAvailability('dropdown', 'item_gift_wrapping_design', $forItemWrapping,
                 'add gift wrapping to ' . $productName);

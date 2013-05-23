@@ -108,7 +108,7 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         $this->fillDropdown('frequency', 'Monthly');
         $this->fillField('file_path', 'test/directory');
         // Step 3
-        $this->clickButton('save');
+        $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 4
         $this->importExportScheduledHelper()->openImportExport(array(
@@ -131,7 +131,7 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         $this->fillDropdown('frequency', 'Weekly');
         $this->fillField('file_path', 'test/directory/again');
         // Step 6
-        $this->clickButton('save');
+        $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_export');
         // Verifying
         $this->importExportScheduledHelper()->openImportExport(array(

@@ -148,8 +148,8 @@ report_customer_accounts:
                             filter_from: //input[@name='report_from']
                             filter_to: //input[@name='report_to']
                         links:
-                            period: //table[@id='gridAccounts_table']//span[contains(.,'Period')]
-                            number_of_new_accounts: //table[@id='gridAccounts_table']//span[contains(.,'Number of New Accounts')]
+                            period: //table[@id='gridAccounts_table']//th[span='Interval']/span
+                            number_of_new_accounts: //table[@id='gridAccounts_table']//th[span='New Accounts']/span
                         pageelements:
                             report_customer_accounts_table: //table[@id='gridAccounts_table']
 
@@ -174,11 +174,11 @@ report_customer_totals:
                             filter_from: //input[@id='gridTotalsCustomer_period_date_from']
                             filter_to: //input[@id='gridTotalsCustomer_period_date_to']
                         links:
-                            period: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Period')]
-                            customer_name: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Customer Name')]
-                            number_of_orders: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Number of Orders')]
-                            average_order_amount: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Average Order Amount')]
-                            total_order_amount: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Total Order Amount')]
+                            period: //table[@id='gridTotalsCustomer_table']//th[span='Interval']/span
+                            customer_name: //table[@id='gridTotalsCustomer_table']//th[span='Customer']/span
+                            number_of_orders: //table[@id='gridTotalsCustomer_table']//th[span='Orders']/span
+                            average_order_amount: //table[@id='gridTotalsCustomer_table']//th[span='Average']/span
+                            total_order_amount: //table[@id='gridTotalsCustomer_table']//th[span='Total']/span
                         pageelements:
                             customer_by_orders_total_table: //table[@id='gridTotalsCustomer_table']
                             top_order_amount: //table[@id='gridTotalsCustomer_table']/tbody/tr[1]/td[5]
@@ -221,12 +221,12 @@ report_tag_customer:
                     report_tag_grid:
                         xpath: //div[@id='grid']
                         links:
-                            id: //a[contains(.,'ID')]
-                            first_name: //a[contains(.,'First Name')]
-                            last_name: //a[contains(.,'Last Name')]
-                            total_tags: //a[contains(.,'Total Tags')]
-                            action: //th[contains(.,'Action')]
-                            show_tags: //a[contains(.,'Show Tags') and parent::td[preceding-sibling::td[contains(.,'%firstName%')] and preceding-sibling::td[contains(.,'%lastName%')]]]
+                            id: //a[span='ID']
+                            first_name: //a[span='First Name']
+                            last_name: //a[span='Last Name']
+                            total_tags: //a[span='Total Tags']
+                            action: //th[span='Action']
+                            show_tags: //a[text()='Show Tags' and parent::td[preceding-sibling::td[contains(.,'%firstName%')] and preceding-sibling::td[contains(.,'%lastName%')]]]
                         dropdowns:
                             view_limit: //select[@name='limit']
                             export_to: //select[@id='grid_export']
@@ -262,12 +262,12 @@ report_tag_product:
                     report_tag_grid:
                         xpath: //div[@id='gridProducts']
                         links:
-                            id: //a[contains(.,'ID')]
-                            product_name: //a[contains(.,'Product Name')]
-                            unique_tags_number: //a[contains(.,'Number of Unique Tags')]
-                            total_tags_number: //a[contains(.,'Number of Total Tags')]
-                            action: //th[contains(.,'Action')]
-                            show_tags: //a[contains(.,'Show Tags') and parent::td[preceding-sibling::td[contains(.,'%productName%')]]]
+                            id: //a[span='ID']
+                            product_name: //a[span='Product']
+                            unique_tags_number: //a[span='Unique Tags']
+                            total_tags_number: //a[span='Total Tags']
+                            action: //th[span='Action']
+                            show_tags: //a[text()='Show Tags' and parent::td[preceding-sibling::td[contains(.,'%productName%')]]]
                         dropdowns:
                             view_limit: //select[@name='limit']
                             export_to: //select[@id='gridProducts_export']
@@ -303,10 +303,10 @@ report_tag_popular:
                     report_tag_grid:
                         xpath: //div[@id='grid']
                         links:
-                            tag_name: //a[contains(.,'Tag Name')]
-                            popularity: //a[contains(.,'Popularity')]
-                            action: //th[contains(.,'Action')]
-                            show_details: //a[contains(.,'Show Details') and parent::td[preceding-sibling::td[contains(.,'%tagName%')]]]
+                            tag_name: //a[span='Tag']
+                            popularity: //a[span='Popularity']
+                            action: //th[span='Action']
+                            show_details: //a[text()='Show Details' and parent::td[preceding-sibling::td[contains(.,'%tagName%')]]]
                         dropdowns:
                             view_limit: //select[@name='limit']
                             export_to: //select[@id='grid_export']

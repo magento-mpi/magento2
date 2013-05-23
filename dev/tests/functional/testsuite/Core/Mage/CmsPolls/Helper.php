@@ -56,22 +56,27 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open Poll
      *
-     * @param array $searchPollData
+     * @param array $searchData
      */
-    public function openPoll(array $searchPollData)
+    public function openPoll(array $searchData)
     {
-        if (!$this->controlIsPresent('dropdown', 'filter_visible_in') && isset($searchPollData['filter_visible_in'])) {
-            unset($searchPollData['filter_visible_in']);
+        if (isset($searchData['filter_visible_in']) && !$this->controlIsVisible('dropdown', 'filter_visible_in')) {
+            unset($searchData['filter_visible_in']);
         }
-        $xpathTR = $this->search($searchPollData, 'poll_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Poll is not found');
+        //Search Poll
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $pollLocator = $this->search($searchData, 'poll_grid');
+        $this->assertNotNull($pollLocator, 'Poll is not found with data: ' . print_r($searchData, true));
+        $pollRowElement = $this->getElement($pollLocator);
+        $pollUrl = $pollRowElement->attribute('title');
+        //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Poll Question');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $cellElement = $this->getChildElement($pollRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($pollUrl));
+        //Open Poll
+        $this->url($pollUrl);
+        $this->validatePage('edit_poll');
     }
 
     /**

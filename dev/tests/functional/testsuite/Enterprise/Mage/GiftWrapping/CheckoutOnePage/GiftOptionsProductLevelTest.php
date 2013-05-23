@@ -55,14 +55,13 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      *
      * @return array $website
      * @test
-     * @skipTearDown
      */
     public function preconditionsForTests()
     {
         //Data
         $product1 = $this->loadDataSet('Product', 'simple_product_visible');
         $product2 = $this->loadDataSet('Product', 'simple_product_visible');
-        $defaultUser = $this->loadDataSet('Customers', 'generic_customer_account');
+        $defaultUser = $this->loadDataSet('Customers', 'customer_account_register');
         $wrapping = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         //Steps
         $this->navigate('manage_products');
@@ -71,13 +70,13 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->productHelper()->createProduct($product2);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($defaultUser);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($wrapping);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
+
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($defaultUser);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return array(
             'sku' => array($product1['general_sku'], $product2['general_sku']),

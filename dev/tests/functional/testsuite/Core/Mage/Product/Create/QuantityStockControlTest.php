@@ -85,8 +85,6 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attributeData['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifySystemAttribute($attributeData);
-        //Steps
-        $this->productAttributeHelper()->processAttributeValue($attributeData);
         $this->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');

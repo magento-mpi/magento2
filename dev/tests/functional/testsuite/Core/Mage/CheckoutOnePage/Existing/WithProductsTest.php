@@ -23,6 +23,13 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     /**
      * <p>Creating Simple and Virtual products</p>
      *
@@ -34,6 +41,7 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
@@ -42,9 +50,15 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
-        return array('simple'  => $simple['general_name'],
-                     'virtual' => $virtual['general_name']);
+        return array(
+            'simple' => $simple['general_name'],
+            'virtual' => $virtual['general_name'],
+            'email' => $userData['email']
+        );
     }
 
     /**
@@ -58,19 +72,10 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
      */
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'exist_flatrate_checkmoney_usa',
-            array(
-                'general_name'   => $data['simple'],
-                'email_address'  => $userData['email']
-            )
-        );
-        //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa', array(
+            'general_name' => $data['simple'],
+            'email_address' => $data['email']
+        ));
         //Steps
         $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -90,19 +95,11 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
     public function withVirtualProductAndCustomerWithoutAddress($data)
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'exist_flatrate_checkmoney_virtual',
-            array(
-                'general_name'   => $data['virtual'],
-                'email_address'  => $userData['email']
-            )
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_virtual', array(
+            'general_name' => $data['virtual'],
+            'email_address' => $data['email']
+        ));
         //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification

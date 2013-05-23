@@ -16,7 +16,8 @@ allow_open_amount:
         admin_option_name: No
     option_2:
         admin_option_name: Yes
-    default_value: Yes
+    default_value: No
+    set_default_value: Yes
 
 gift_wrapping_available:
     attribute_code: gift_wrapping_available
@@ -25,7 +26,8 @@ gift_wrapping_available:
         admin_option_name: Yes
     option_2:
         admin_option_name: No
-    default_value: Yes
+    default_value: No
+    set_default_value: Yes
 
 is_returnable:
     attribute_code: is_returnable

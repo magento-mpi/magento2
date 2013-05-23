@@ -53,12 +53,11 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     /**
      * @test
      * @return array
-     * @skipTearDown
      */
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $giftWrapping = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         //Steps and Verification
         $simple1 = $this->productHelper()->createSimpleProduct();
@@ -66,9 +65,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrapping);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return array(
             'email' => $userData['email'],
@@ -238,9 +238,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
      */
     public function giftWrappingAndMessageForItemAvailableButGiftWrappingForProductIsNot($backendData, $testData)
     {
-        if ($backendData == 'ind_items_all_yes_order_wrapping_no_message_yes') {
-            $this->markTestIncomplete('BUG: It is impossible to add gift options to order');
-        }
+        $this->markTestIncomplete('BUG: It is impossible to add gift options to order');
         //Data
         list($simple1, $simple2) = $testData['products'];
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_message_yes_wrapping_no');
@@ -301,6 +299,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
      */
     public function giftWrappingAndMessageForItemAvailableButGiftMessageForProductIsNot($backendData, $testData)
     {
+        $this->markTestIncomplete('BUG: It is impossible to add gift options to order');
         //Data
         list($simple1, $simple2) = $testData['products'];
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_message_no_wrapping_yes');

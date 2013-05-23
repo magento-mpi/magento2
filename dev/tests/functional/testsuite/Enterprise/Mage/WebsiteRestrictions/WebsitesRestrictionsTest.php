@@ -154,9 +154,9 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $user = array('email' => $userData['email'], 'password' => $userData['password']);
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
-            array('general_name' => $simple['general_name'], 'email_address' => $user['email']));
+        $loginData = array('email' => $userData['email'], 'password' => $userData['password']);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+            array('general_name' => $simple['general_name']));
         //Preconditions
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
@@ -170,14 +170,20 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         //Steps
         $this->frontend('home_page', false);
         $this->validatePage('customer_login');
-        $this->fillFieldset($user, 'log_in_customer');
-        $this->clickButton('login');
+        $this->fillFieldset($loginData, 'log_in_customer');
+        $this->clickButton('login', false);
+        $this->waitForElement(array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('link', 'log_out')
+        ));
+        $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+        $this->validatePage();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
         //Postcondition
         $this->clickControl('link', 'log_out');
-
     }
 
     /**
@@ -202,7 +208,6 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $this->validatePage('customer_account');
         //Postcondition
         $this->clickControl('link', 'log_out');
-
     }
 
     /**
@@ -224,5 +229,3 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $this->assertFalse($this->controlIsPresent('button', 'create_account'));
     }
 }
-
-

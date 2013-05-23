@@ -53,7 +53,7 @@ custom_design:
     option_20:
         admin_option_name: Upstream
     default_value: Magento Blank
-    default_control_value: Magento Blank
+    set_default_value: Magento Blank
 
 system_attributes:
     attribute_0:

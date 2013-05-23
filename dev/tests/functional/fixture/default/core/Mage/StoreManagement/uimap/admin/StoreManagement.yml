@@ -35,7 +35,7 @@ manage_stores:
                             store_view_name: //input[@name='store_title']
                             page: //input[@name='page']
                         pageelements:
-                            cell_store_link: //table[@id]/tbody/tr[%rowIndex%]/td[%cellIndex%]/a
+                            cell_store_link: //table[@id]/tbody//td[%cellIndex%]/a
                             grid_head: //*[@id='storeGrid_table']/thead/tr[@class='headings']
                             stores_table: //*[@id='storeGrid_table']/tbody
         buttons:

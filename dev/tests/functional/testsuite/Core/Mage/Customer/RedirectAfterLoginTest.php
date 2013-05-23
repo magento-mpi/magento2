@@ -34,16 +34,17 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        //Register new customer
-        $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //create Simple Product
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
+        //Register new customer
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
         return array(
             'email' => $userData['email'],
             'password' => $userData['password'],

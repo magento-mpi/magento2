@@ -142,19 +142,24 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Opens widget
      *
-     * @param array $searchWidget
+     * @param array $searchData
      */
-    public function openWidget(array $searchWidget)
+    public function openWidget(array $searchData)
     {
-        $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
-        $this->assertNotNull($xpathTR, 'Widget is not found');
-        $cellId = $this->getColumnIdByName('Widget Instance Title');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search Widget
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $widgetLocator = $this->search($searchData, 'cms_widgets_grid');
+        $this->assertNotNull($widgetLocator, 'Widget is not found with data: ' . print_r($searchData, true));
+        $widgetRowElement = $this->getElement($widgetLocator);
+        $widgetUrl = $widgetRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Widget Instance');
+        $cellElement = $this->getChildElement($widgetRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($widgetUrl));
+        //Open Widget
+        $this->url($widgetUrl);
+        $this->validatePage('edit_cms_widget');
     }
 
     /**
@@ -164,7 +169,6 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteWidget(array $searchWidget)
     {
-        $this->markTestIncomplete('MAGETWO-9232');
         $this->openWidget($searchWidget);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }

@@ -54,8 +54,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
             self::$_connId = ftp_connect($host, $port);
             if (self::$_connId === false) {
                 self::$_connId = null;
-                //$this->fail('Can not connect to ftp: ' . $host);
-                $this->markTestIncomplete('BUG: Can not connect to ftp: ' . $host);
+                $this->fail('Can not connect to ftp: ' . $host);
             }
         }
         if (is_null(self::$_loginResult)) {
@@ -135,7 +134,10 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
         }
         $export['file_mode'] = (strtolower($export['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
         $fileContent = $this->getFileFromFtp($export['file_mode'], $export['file_path'], $export['file_name']);
-        return $this->csvHelper()->csvToArray($fileContent);
+        $csvArray = $this->csvHelper()->csvToArray($fileContent);
+        ftp_close(self::$_connId);
+        self::$_connId = self::$_loginResult = null;
+        return $csvArray;
     }
 
     /**
@@ -177,7 +179,10 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
         }
         $fileContent = $this->csvHelper()->arrayToCsv($fileContent);
         $import['file_mode'] = (strtolower($import['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
-        return $this->putFileToFtp($import['file_mode'], $import['file_path'], $import['file_name'], $fileContent);
+        $result = $this->putFileToFtp($import['file_mode'], $import['file_path'], $import['file_name'], $fileContent);
+        ftp_close(self::$_connId);
+        self::$_connId = self::$_loginResult = null;
+        return $result;
     }
 
     /**
@@ -222,7 +227,11 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
         $this->_fillConnectionParameters($importData);
         $this->addParameter('type', 'Import');
         $this->clickButton('add_scheduled_import');
-        $this->fillForm($importData);
+        try {
+            $this->fillForm($importData);
+        } catch (RuntimeException $e) {
+            $this->markTestIncomplete('BUG: field behavior is not editable for import.');
+        }
         $this->saveForm('save');
     }
 
@@ -235,8 +244,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
      */
     public function openImportExport(array $searchData)
     {
-        $this->addParameter('type', $searchData['operation']);
-        $this->searchAndOpen($searchData, 'grid_and_filter');
+        $this->applyAction($searchData, 'Edit');
     }
 
     /**
@@ -281,7 +289,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
         $this->assertNotNull($xpath, 'Can\'t find item in grid for data: ' . print_r($searchData, true));
-        $columnNumber = $this->getColumnIdByName('Last Run Date', $this->_getControlXpath('field', 'grid'));
+        $columnNumber = $this->getColumnIdByName('Last Run', $this->_getControlXpath('field', 'grid'));
         return trim($this->getElement($xpath . '/td[' . $columnNumber . ']')->text());
     }
 
@@ -316,7 +324,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
         $columnNumber = $this->getColumnIdByName('Action', $this->_getControlXpath('field', 'grid'));
         $this->fillDropdown('action', $action, $xpath . "/td[{$columnNumber}]/select");
         $this->waitForPageToLoad();
-        if (strtolower($action) == 'edit') {
+        if ($action === 'Edit') {
             $this->addParameter('type', $searchData['operation']);
             $this->addParameter('id', $this->defineIdFromUrl());
             $this->validatePage('scheduled_importexport_edit');

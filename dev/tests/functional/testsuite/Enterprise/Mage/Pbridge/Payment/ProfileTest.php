@@ -32,13 +32,10 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
      */
     public function isProfilePageSecure()
     {
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $login = array('email' => $userData['email'], 'password' => $userData['password']);
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->frontLoginCustomer($login);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
         $this->frontend('my_credit_cards');
         $this->assertTrue($this->controlIsVisible('pageelement', 'account_title'));
         $this->assertStringStartsWith('https://', $this->url(), 'Url must be secure');

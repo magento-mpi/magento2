@@ -48,18 +48,18 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $products = array();
         //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_products');
         $this->runMassAction('Delete', 'all');
         foreach (self::$_productTypes as $type) {
             $method = 'create' . ucfirst($type) . 'Product';
             $products[$type] = $this->productHelper()->$method();
         }
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
         return array($products, 'user' => array(
             'email' => $userData['email'],
             'password' => $userData['password']

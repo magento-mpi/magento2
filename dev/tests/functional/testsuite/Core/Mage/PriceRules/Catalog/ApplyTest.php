@@ -60,14 +60,13 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $data = $this->productHelper()->createSimpleProduct(true);
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
         return array(
             'customer' => array('email' => $userData['email'], 'password' => $userData['password']),
             'categoryPath' => $data['category']['path'],

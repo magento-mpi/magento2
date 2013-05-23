@@ -69,7 +69,7 @@ class Enterprise_Mage_ImportExportScheduled_ImportStatusFilterTest extends Mage_
         $this->_openAndVerifyScheduledImportExport($importData['name'], 'Disabled');
         // Step 2
         $this->fillDropdown('status', 'Enabled');
-        $this->clickButton('save');
+        $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_import');
         // Verifying
         $this->_openAndVerifyScheduledImportExport($importData['name'], 'Enabled');

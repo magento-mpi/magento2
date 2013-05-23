@@ -87,33 +87,31 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open Tax Rate|Tax Rule
      *
-     * @param array $taxSearchData Data for search
+     * @param array $searchData Data for search
      * @param string $type search type rate|rule
      *
      * @throws OutOfRangeException
      */
-    public function openTaxItem(array $taxSearchData, $type)
+    public function openTaxItem(array $searchData, $type)
     {
-        $taxSearchData = $this->_prepareDataForSearch($taxSearchData);
-        $taxLocator = $this->search($taxSearchData, 'manage_tax_' . $type);
-        $this->assertNotNull($taxLocator, 'Search item is not found');
-        $taxRowElement = $this->getElement($taxLocator);
-        $taxUrl = $taxRowElement->attribute('title');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $taxLocator = $this->search($searchData, 'manage_tax_' . $type);
+        $this->assertNotNull($taxLocator, 'Search item is not found with data: ' . print_r($searchData, true));
         switch ($type) {
             case 'rate':
-                $cellId = $this->getColumnIdByName('Name');
-                $cellElement = $this->getChildElement($taxRowElement, 'td[' . $cellId . ']');
-                $this->addParameter('elementTitle', trim($cellElement->text()));
+                $cellId = $this->getColumnIdByName('Tax Identifier');
                 break;
             case 'rule':
-                $cellId = $this->getColumnIdByName('Tax Identifier');
-                $cellElement = $this->getChildElement($taxRowElement, 'td[' . $cellId . ']');
-                $this->addParameter('elementTitle', trim($cellElement->text()));
+                $cellId = $this->getColumnIdByName('Name');
                 break;
             default:
                 throw new OutOfRangeException('Unsupported value for parameter $type');
                 break;
         }
+        $taxRowElement = $this->getElement($taxLocator);
+        $taxUrl = $taxRowElement->attribute('title');
+        $taxElement = $this->getChildElement($taxRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($taxElement->text()));
         $this->addParameter($type, $this->defineParameterFromUrl($type, $taxUrl));
         $this->url($taxUrl);
         $this->validatePage();

@@ -24,7 +24,6 @@ class Enterprise_Mage_Grid_Reports_Invitations_GridTest extends Mage_Selenium_Te
      */
     public function setUpBeforeTests()
     {
-        $this->loginAdminUser();
         $this->invitationHelper()->sendInvitationWithNewlyCreatedCustomer(1);
     }
 

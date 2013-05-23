@@ -154,8 +154,8 @@ class Enterprise_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->assertTrue($this->checkCurrentPage('manage_cms_widgets'), $this->getParsedMessages());
         $this->cmsWidgetsHelper()->openWidget($widgetToDelete);;
-        $this->assertFalse($this->controlIsVisible('button', 'delete'),
-            "This user doesn't have permission to delete pull.");
+        $this->assertTrue($this->controlIsVisible('button', 'delete'),
+            "This user doesn't have permission to delete CmsWidget.");
     }
 }
 

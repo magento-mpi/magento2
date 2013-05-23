@@ -39,6 +39,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openAdminUser(array $searchData)
     {
+        //Search Admin User
         $searchData = $this->_prepareDataForSearch($searchData);
         $userLocator = $this->search($searchData, 'permissionsUserGrid');
         $this->assertNotNull($userLocator, 'Admin User is not found with data: ' . print_r($searchData, true));
@@ -51,7 +52,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $cellElement2 = trim($this->getChildElement($userRowElement, 'td[' . $cellId2 . ']')->text());
         $this->addParameter('elementTitle', $cellElement1 . ' ' . $cellElement2);
         $this->addParameter('id', $this->defineIdFromUrl($userUrl));
-        //Open user
+        //Open Admin User
         $this->url($userUrl);
         $this->validatePage('edit_admin_user');
     }
@@ -189,20 +190,24 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param array $searchRole
+     * @param array $searchData
      */
-    public function openRole(array $searchRole)
+    public function openRole(array $searchData)
     {
-        $searchRole = $this->_prepareDataForSearch($searchRole);
-        $xpathTR = $this->search($searchRole, 'role_list');
-        $this->assertNotNull($xpathTR, 'Role is not found');
-        $cellId = $this->getColumnIdByName('Role Name');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search Role
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $roleLocator = $this->search($searchData, 'role_list');
+        $this->assertNotNull($roleLocator, 'Role is not found with data: ' . print_r($searchData, true));
+        $roleRowElement = $this->getElement($roleLocator);
+        $roleUrl = $roleRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Role');
+        $cellElement = $this->getChildElement($roleRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($roleUrl));
+        //Open Role
+        $this->url($roleUrl);
+        $this->validatePage('admin_edit_role');
     }
 
     /**

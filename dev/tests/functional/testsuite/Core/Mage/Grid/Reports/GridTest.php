@@ -47,8 +47,8 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
     public function uiElementsTest($pageName)
     {
         $this->navigate($pageName);
-        $page = $this->loadDataSet('Report', 'grid');
-        foreach ($page[$pageName] as $control => $type) {
+        $page = $this->loadDataSet('Report', 'grid/' . $pageName);
+        foreach ($page as $control => $type) {
             foreach ($type as $typeName => $name) {
                 if (!$this->controlIsPresent($control, $typeName)) {
                     $this->addVerificationMessage("The $control $typeName is not present on page $pageName");

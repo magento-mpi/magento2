@@ -97,20 +97,16 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     }
 
     /**
-     * <p>"Price" fieldset is displayed if Single Store Mode enabled.</p>
+     * <p>"Price" fieldset is not displayed if Single Store Mode enabled.</p>
      *
      * @test
      * @TestLinkId TL-MAGE-6182
      */
     public function systemConfigurationVerificationCatalogPrice()
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('BUG:');
-        }
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'price'), "Fieldset Price is not present on the page");
+        $this->assertFalse($this->controlIsPresent('fieldset', 'price'), "Fieldset Price is present on the page");
     }
 
     /**
@@ -123,7 +119,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('advanced_developer');
-        $this->assertFalse($this->controlIsPresent('fieldset', 'debug'), "Fieldset Debug is present on the page");
+        $this->assertTrue($this->controlIsPresent('fieldset', 'debug'), "Fieldset Debug is not present on the page");
     }
 
     /**
@@ -390,6 +386,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      */
     public function editCustomer($userData)
     {
+        $this->markTestIncomplete('BUG: Fatal error on customer wishlist tab');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));

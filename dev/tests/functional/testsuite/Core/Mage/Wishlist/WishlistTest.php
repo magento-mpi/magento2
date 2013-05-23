@@ -70,7 +70,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
             'associated_2' => $virtual['general_sku'],
             'associated_3' => $download['general_sku']
         ));
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $configurOptName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
         $simpleWithCO = $this->loadDataSet('Product', 'simple_product_visible',
@@ -108,12 +108,12 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($simpleWithCO);
         $this->assertMessagePresent('success', 'success_saved_product');
-
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->reindexInvalidedData();
         $this->flushCache();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
         return array(
             'productNames' => array(
@@ -126,7 +126,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
                 'downloadable_opt' => $downloadWithOption['general_name']
             ),
             'configurableOption' => array(
-                'title' => $attrData['admin_title'],
+                'title' => $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $configurOptName
             ),
             'groupedOption' => array(

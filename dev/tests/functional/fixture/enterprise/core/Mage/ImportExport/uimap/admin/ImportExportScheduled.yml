@@ -106,7 +106,7 @@ scheduled_importexport_add:
                             email_copy_method: //select[@id='email_copy_method']
                 -
                     grid_and_filter:
-                        xpath: //fielset[@id='export_filter_grid_container' and not(ancestor::div[contains(@style,'display: none')])]
+                        xpath: //*[@id='export_filter_container']
                         fields:
                             attribute_label: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_frontend_label']
                             attribute_code: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_attribute_code']

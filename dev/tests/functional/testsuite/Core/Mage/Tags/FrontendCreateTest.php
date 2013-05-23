@@ -39,19 +39,21 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $simple = $this->productHelper()->createSimpleProduct(true);
         $this->reindexInvalidedData();
         $this->flushCache();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
-        return array('user'     => array('email'    => $userData['email'],
-                                         'password' => $userData['password']),
-                     'simple'   => $simple['simple']['product_name'],
-                     'category' => $simple['category']['path']);
+        return array(
+            'user' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'simple' => $simple['simple']['product_name'],
+            'category' => $simple['category']['path']
+        );
     }
 
     /**
@@ -94,7 +96,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
             array("'" . $this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7, ':alpha:') . "'"),
             //3 tags = 1 word + 1 phrase with a space + 1 word; enclosed within quotes
             array($this->generate('string', 4, ':alpha:') . ' ' . "'" . $this->generate('string', 4, ':alpha:') . ' '
-                  . $this->generate('string', 7, ':alpha:') . "'" . ' ' . $this->generate('string', 4, ':alpha:'))
+                . $this->generate('string', 7, ':alpha:') . "'" . ' ' . $this->generate('string', 4, ':alpha:'))
         );
     }
 

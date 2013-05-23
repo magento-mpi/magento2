@@ -291,6 +291,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
         }
 
         if ($productData) {
+            $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
             $this->clickButton('add_products', false);
             $xpathProduct = $this->search($productData, 'select_products_to_add');
             $this->assertNotNull($xpathProduct, 'Product is not found with data: ' . print_r($productData, true));
@@ -774,19 +775,24 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $searchOrder
+     * @param array $searchData
      */
-    public function openOrder($searchOrder)
+    public function openOrder(array $searchData)
     {
-        $xpathTR = $this->search($searchOrder, 'sales_order_grid');
-        $this->assertNotNull($xpathTR, 'Order is not found with data: ' . print_r($searchOrder, true));
-        $cellId = $this->getColumnIdByName('Order #');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', '#' . $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search order
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $orderLocator = $this->search($searchData, 'sales_order_grid');
+        $this->assertNotNull($orderLocator, 'Order is not found with data: ' . print_r($searchData, true));
+        $orderRowElement = $this->getElement($orderLocator);
+        $orderUrl = $orderRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Order');
+        $cellElement = $this->getChildElement($orderRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', '#' . trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($orderUrl));
+        //Open order
+        $this->url($orderUrl);
+        $this->validatePage('view_order');
     }
 
     /**

@@ -59,19 +59,19 @@ class Core_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openEmailTemplate(array $searchData)
     {
-        //Search product
+        //Search Email Template.
         $searchData = $this->_prepareDataForSearch($searchData);
-        $productLocator = $this->search($searchData, 'system_email_template_grid');
-        $this->assertNotNull($productLocator, 'Email Template is not found with data: ' . print_r($searchData, true));
-        $productRowElement = $this->getElement($productLocator);
-        $productUrl = $productRowElement->attribute('title');
+        $templateLocator = $this->search($searchData, 'system_email_template_grid');
+        $this->assertNotNull($templateLocator, 'Email Template is not found with data: ' . print_r($searchData, true));
+        $templateRowElement = $this->getElement($templateLocator);
+        $templateUrl = $templateRowElement->attribute('title');
         //Define and add parameters for new page
-        $cellId = $this->getColumnIdByName('Template Name');
-        $cellElement = $this->getChildElement($productRowElement, 'td[' . $cellId . ']');
+        $cellId = $this->getColumnIdByName('Template');
+        $cellElement = $this->getChildElement($templateRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
-        $this->addParameter('id', $this->defineIdFromUrl($productUrl));
-        //Open product
-        $this->url($productUrl);
+        $this->addParameter('id', $this->defineIdFromUrl($templateUrl));
+        //Open Email Template.
+        $this->url($templateUrl);
         $this->validatePage('edit_email_template');
     }
 

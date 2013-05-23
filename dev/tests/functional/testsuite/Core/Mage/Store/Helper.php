@@ -36,24 +36,6 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Determination of element name
-     *
-     * @param array $storeData
-     * @return string $elementName
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    protected function _determineElementName($storeData)
-    {
-        $elementName = '';
-        foreach ($storeData as $fieldName => $fieldValue) {
-            if (preg_match('/_name$/', $fieldName)) {
-                $elementName = $fieldName;
-            }
-        }
-        return $elementName;
-    }
-
-    /**
      * Delete Website|Store|Store View
      *
      * @param array $storeData
@@ -62,69 +44,54 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteStore(array $storeData)
     {
-        $elementName = $this->_determineElementName($storeData);
-        $element = preg_replace('/_name$/', '', $elementName);
+        $elementName = '';
+        foreach ($storeData as $fieldName => $fieldValue) {
+            if (preg_match('/_name$/', $fieldName)) {
+                $elementName = preg_replace('/_name$/', '', $fieldName);
+                break;
+            }
+        }
         if ($elementName == '') {
             $this->fail('It is impossible to determine what needs to be deleted');
         }
         //Search
         $this->clickButton('reset_filter');
-        $this->fillField($elementName, $storeData[$elementName]);
+        $this->fillField($elementName . '_name', $storeData[$elementName . '_name']);
         $this->clickButton('search');
         //Determination of found items amount
-        $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
-        list(, , $foundItems) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
-        $foundItems = trim(preg_replace('/[A-Za-z]+/', '', $foundItems));
-        if ($foundItems == 0) {
-            $this->fail('No records found.');
-        }
+        $this->assertNotEquals(0, $this->getTotalRecordsInTable('fieldset', 'manage_stores'), 'No records found.');
         //Determination of row id
-        $names = $this->getTableHeadRowNames();
-        foreach ($names as $key => $value) {
-            $names[$key] = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
-        }
-        $number = (in_array($elementName, $names)) ? array_search($elementName, $names) + 1 : 0;
+        $number = $this->getColumnIdByName(ucwords(str_replace('_', ' ', $elementName)));
         //Deletion
         $error = false;
-        $this->addParameter('elementTitle', $storeData[$elementName]);
-        for ($i = 1; $i <= $foundItems; $i++) {
-            //Definition element url
-            $this->addParameter('rowIndex', $i);
-            $this->addParameter('cellIndex', $number);
-            $url = $this->getControlAttribute('pageelement', 'cell_store_link', 'href');
-            //Open element
+        $this->addParameter('elementTitle', $storeData[$elementName . '_name']);
+        $this->addParameter('cellIndex', $number);
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element*/
+        foreach ($this->getControlElements('pageelement', 'cell_store_link') as $element) {
+            $url = $element->attribute('href');
             $this->addParameter('id', $this->defineIdFromUrl($url));
             $this->execute(array('script' => "window.open()", 'args' => array()));
-            $windows = $this->windowHandles();
-            $this->window(end($windows));
+            $this->selectLastWindow();
             $this->url($url);
-            $this->validatePage('edit_' . $element);
+            $this->validatePage('edit_' . $elementName);
             //Searching a necessary element
             if ($this->verifyForm($storeData)) {
-                if ($this->controlIsPresent('button', 'delete_' . $element)) {
-                    $this->clickButton('delete_' . $element);
+                if ($this->controlIsPresent('button', 'delete_' . $elementName)) {
+                    $this->clickButton('delete_' . $elementName);
                     $this->fillDropdown('create_backup', 'No');
-                    $this->clickButton('delete_' . $element);
-                    $this->assertMessagePresent('success', 'success_deleted_' . $element);
-                    $this->closeWindow();
-                    $this->window('');
-
+                    $this->clickButton('delete_' . $elementName);
+                    $this->assertMessagePresent('success', 'success_deleted_' . $elementName);
+                    $this->closeLastWindow();
                     return true;
                 } else {
                     $error = true;
-                    $this->closeWindow();
-                    $this->window('');
                 }
-            } else {
-                $this->closeWindow();
-                $this->window('');
             }
+            $this->closeLastWindow();
         }
-
         if ($error) {
-            $this->fail('It is impossible to delete ' . $element);
+            $this->fail('It is impossible to delete ' . $elementName);
         }
-
         return false;
     }
 
@@ -177,7 +144,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteStoresByType($type, array $exclude = array())
     {
-        $id = $this->getColumnIdByName(ucwords(str_replace('_', ' ', $type)) . ' Name');
+        $id = $this->getColumnIdByName(ucwords(str_replace('_', ' ', $type)));
         $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'stores_table'));
         $toDelete = array();
         do {

@@ -229,8 +229,7 @@ class Enterprise_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
      */
     public function checkInvitationSentCustomerOrderGridTestTest()
     {
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $loginData = array('email' => $userData['email'], 'password' => $userData['password']);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
@@ -245,8 +244,9 @@ class Enterprise_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $count = $this->getControlCount('pageelement', 'invitations_order_conversion_rate_line');
         $totalBefore = $this->getElement($lineXpath . "[$count]/*[2]")->text();
         //Send Invitation from customer account on frontend with newly created customer on backend
-        $this->customerHelper()->frontLoginCustomer($loginData);
-        $this->validatePage('customer_account');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
         $this->invitationHelper()->sendInvitationFrontend(1, $messageType = 'success', 'success_send');
         // Steps
         $this->loginAdminUser();
