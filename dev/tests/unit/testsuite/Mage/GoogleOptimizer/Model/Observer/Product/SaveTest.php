@@ -112,4 +112,23 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
 
         $this->_model->saveProductGoogleExperimentScript($this->_eventObserverMock);
     }
+
+    public function testSaveProductGoogleExperimentScriptDeleteCode()
+    {
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
+
+        $entityId = 3;
+        $codeId = 1;
+
+        $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
+            ->will($this->returnValue(array('code_id' => $codeId, 'experiment_script' => '')));
+        $this->_codeMock->expects($this->once())->method('load')->with($codeId);
+        $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
+        $this->_codeMock->expects($this->never())->method('addData');
+        $this->_codeMock->expects($this->never())->method('save');
+        $this->_codeMock->expects($this->once())->method('delete');
+        $this->_productMock->expects($this->once())->method('getId')->will($this->returnValue($entityId));
+
+        $this->_model->saveProductGoogleExperimentScript($this->_eventObserverMock);
+    }
 }

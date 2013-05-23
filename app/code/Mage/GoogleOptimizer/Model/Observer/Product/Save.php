@@ -71,6 +71,10 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Save
             $this->_modelCode->save();
         }
 
+        if ($this->_modelCode->getId() && !$values['experiment_script']) {
+            $this->_modelCode->delete();
+        }
+
         return $this;
     }
 }

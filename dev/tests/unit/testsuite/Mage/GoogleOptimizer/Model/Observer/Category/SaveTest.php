@@ -60,7 +60,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
         ));
     }
 
-    public function testSaveProductGoogleExperimentScriptSuccess()
+    public function testSaveCategoryGoogleExperimentScriptSuccess()
     {
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
 
@@ -83,7 +83,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
         $this->_model->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
     }
 
-    public function testSaveProductGoogleExperimentScriptFail()
+    public function testSaveCategoryGoogleExperimentScriptFail()
     {
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
 
@@ -105,7 +105,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
         $this->_model->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
     }
 
-    public function testSaveProductGoogleExperimentScriptFailSecond()
+    public function testSaveCategoryGoogleExperimentScriptFailSecond()
     {
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(false));
 
@@ -114,6 +114,25 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
         $this->_codeMock->expects($this->never())->method('addData');
         $this->_categoryMock->expects($this->never())->method('getId');
         $this->_categoryMock->expects($this->once())->method('getStoreId');
+
+        $this->_model->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
+    }
+
+    public function testSaveCategoryGoogleExperimentScriptDeleteCode()
+    {
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
+
+        $entityId = 3;
+        $codeId = 1;
+
+        $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
+            ->will($this->returnValue(array('code_id' => $codeId, 'experiment_script' => '')));
+        $this->_codeMock->expects($this->once())->method('load')->with($codeId);
+        $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
+        $this->_codeMock->expects($this->never())->method('addData');
+        $this->_codeMock->expects($this->never())->method('save');
+        $this->_codeMock->expects($this->once())->method('delete');
+        $this->_categoryMock->expects($this->once())->method('getId')->will($this->returnValue($entityId));
 
         $this->_model->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
     }
