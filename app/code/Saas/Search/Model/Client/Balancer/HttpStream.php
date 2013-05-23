@@ -92,7 +92,7 @@ class Saas_Search_Model_Client_Balancer_HttpStream extends Saas_Search_Model_Cli
      * Retrieve index version of service
      *
      * @throws Exception
-     * @return bool|string
+     * @return int
      */
     public function getIndexVersion()
     {
@@ -100,10 +100,11 @@ class Saas_Search_Model_Client_Balancer_HttpStream extends Saas_Search_Model_Cli
         if ($response->getHttpStatus() == 200) {
             $xml = simplexml_load_string($response->getRawResponse());
             $indexVersions = $xml->xpath("//long[@name='indexVersion']");
-            if (isset($indexVersions[0])) {
-                return (string)$indexVersions[0];
+            if (!isset($indexVersions[0]) || !is_numeric((string)$indexVersions[0])) {
+                throw new Exception('Index version is not numeric');
             }
+            return (int)$indexVersions[0];
         }
-        return false;
+        return -1;
     }
 }

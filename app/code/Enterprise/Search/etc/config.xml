@@ -20,11 +20,6 @@
         </Enterprise_Search>
     </modules>
     <global>
-        <di>
-            <preferences>
-                <Enterprise_Search_Helper_ClientInterface>Enterprise_Search_Helper_Data</Enterprise_Search_Helper_ClientInterface>
-            </preferences>
-        </di>
         <!--  Example of manual addition locale code with language code to support new language -->
         <!--
         <enterprise_search>

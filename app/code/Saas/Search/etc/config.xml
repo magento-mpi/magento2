@@ -18,11 +18,6 @@
         </depends>
     </modules>
     <global>
-        <di>
-            <preferences>
-                <Enterprise_Search_Helper_ClientInterface>Saas_Search_Helper_Data</Enterprise_Search_Helper_ClientInterface>
-            </preferences>
-        </di>
         <events>
             <pagecache_processor_metadata_before_save>
                 <observers>

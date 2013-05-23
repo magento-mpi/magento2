@@ -29,6 +29,7 @@
         <di>
             <preferences>
                 <Enterprise_PageCache_Model_Processor_RestrictionInterface>Enterprise_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
+                <Enterprise_Search_Helper_ClientInterface>Enterprise_Search_Helper_Data</Enterprise_Search_Helper_ClientInterface>
             </preferences>
             <Enterprise_PageCache_Model_Processor>
                 <parameters>
