@@ -11,16 +11,14 @@
 /**
  * Product media data template
  *
- * @see Mage_Catalog_Block_Product_View_Media
+ * @var $this Mage_Catalog_Block_Product_View_Media
  */
 ?>
 <?php
     $_product = $this->getProduct();
     $_helper = $this->helper('Mage_Catalog_Helper_Output');
     $_nativeZoom = false;
-
 ?>
-
 
 <?php if (!$_nativeZoom): ?>
 <?php
@@ -30,56 +28,68 @@
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
         <?php list($_imgWidth, $_imgHeight) = $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->getOriginalSizeArray(); ?>
         <?php if ($_imgWidth > $_zoomSize+10 && $_imgHeight > $_zoomSize+10):?>
-            <div data-role="main-image-parent">
-                <a class="product-image image-zoom" id="main-image" data-role="main-image-anchor" title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+            <div data-role="base-image-container">
+                <a class="product-image image-zoom" id="base-image" data-role="base-image-zoom"
+                   title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
+                   href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
                     <?php
-                    $_img = '<img data-role="base-image" src="'.$this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                    $src = $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize);
+                    $_img = '<img data-role="base-image" src="' . $this->escapeHtml($src) . '" height="' . $_zoomSize
+                        . '" width="' . $_zoomSize . '" alt="' . $this->escapeHtml($_product->getImageLabel())
+                        . '" title="' . $this->escapeHtml($_product->getImageLabel()) . '"/>';
                     echo $_helper->productAttribute($_product, $_img, 'image');
                     ?>
                 </a>
             </div>
-            <script data-container="image-tmpl" type="text/x-jQuery-tmpl">
-                <a class="product-image image-zoom" id="main-image"  data-role="main-image-anchor" title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+            <script data-role="base-image-template" type="text/x-jquery-tmpl">
+                <a class="product-image image-zoom" id="base-image" data-role="base-image-zoom"
+                   title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
+                   href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
                     <?php
-                    $_img = '<img data-role="main-image" src="'.$this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                    $src = $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize);
+                    $_img = '<img data-role="base-image" src="' . $this->escapeHtml($src) .'" height="' . $_zoomSize
+                        . '" width="' . $_zoomSize.'" alt="' . $this->escapeHtml($_product->getImageLabel())
+                        . '" title="' . $this->escapeHtml($_product->getImageLabel()) . '"/>';
                     echo $_helper->productAttribute($_product, $_img, 'image');
                     ?>
                 </a>
-                <img data-role="hidden-true-img" class="no-display" src="#"/>
+                <img data-role="hidden-true-image" class="no-display" src="#"/>
             </script>
             <script type="text/javascript">
-                jQuery(document).ready(function(){
-                    var imgSize = <?php echo $_zoomSize?>;
-                    var options = {
-                        zoomType: 'reverse',//Values: standard, reverse
-                        zoomWidth: 374,
-                        zoomHeight: 327,
-                        xOffset: 0,
-                        yOffset: 50,
-                        imageOpacity: 0.6,
-                        title : false
-                    };
-                    jQuery('[data-role="main-image-anchor"]').jqzoom(options);
+                jQuery(function ($) {
+                    var imageSize = <?php echo $_zoomSize?>,
+                        options = {
+                            zoomType: 'reverse',//Values: standard, reverse
+                            zoomWidth: 374,
+                            zoomHeight: 327,
+                            xOffset: 0,
+                            yOffset: 50,
+                            imageOpacity: 0.6,
+                            title : false
+                        };
+                    $('[data-role=base-image-zoom]').jqzoom(options);
                     /* On these events, need to remove all elements associated with jqzoom
                     * add back the original element using jQuery template
                     * update image source and attach jqzoom
                     */
-                    jQuery('[data-role="main-image-parent"]').on('imageChanged', function(event, data) {
-                        jQuery('[data-role="main-image-anchor"]').remove();
-                        jQuery('[data-container="image-tmpl"]').tmpl().appendTo('[data-role="main-image-parent"]');
-                        jQuery('[data-role="main-image-anchor"]').attr('href', data).find('[data-role="main-image"]').attr('src', data);
+                    $('[data-role=base-image-container]').on('imageChanged', function(event, data) {
+                        $('[data-role=base-image-zoom]').remove();
+                        $('[data-role=base-image-template]').tmpl().appendTo('[data-role=base-image-container]');
+                        $('[data-role=base-image-zoom]').attr('href', data)
+                            .find('[data-role=base-image]')
+                            .attr('src', data);
                         // Hidden image element to get actual image size
-                        jQuery('[data-role="hidden-true-img"]').attr('src', data).load(function() {
-                            if (jQuery(this).height() <= imgSize && jQuery(this).width() <= imgSize) {
+                        $('[data-role=hidden-true-image]').attr('src', data).load(function() {
+                            if ($(this).height() <= imageSize && $(this).width() <= imageSize) {
                                 return;
                             }
-                            jQuery('[data-role="main-image-anchor"]').jqzoom(options);
+                            $('[data-role=base-image-zoom]').jqzoom(options);
                         });
                     });
-                    jQuery('[data-role="main-image-parent"]').on('loadOriginalImage', function(event, data) {
-                        jQuery('[data-role="main-image-anchor"]').remove();
-                        jQuery('[data-container="image-tmpl"]').tmpl().appendTo('[data-role="main-image-parent"]');
-                        jQuery('[data-role="main-image-anchor"]').jqzoom(options);
+                    $('[data-role=base-image-container]').on('loadOriginalImage', function() {
+                        $('[data-role=base-image-zoom]').remove();
+                        $('[data-role=base-image-template]').tmpl().appendTo('[data-role=base-image-container]');
+                        $('[data-role=base-image-zoom]').jqzoom(options);
                     });
                 });
             </script>
