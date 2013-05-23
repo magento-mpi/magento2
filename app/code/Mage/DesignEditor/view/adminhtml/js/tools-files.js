@@ -28,6 +28,7 @@ MediabrowserUtility = {
             modal:      true,
             resizable:  false,
             width:      width || 950,
+            height:     height || 456,
             zIndex:     this.getMaxZIndex(),
             close:      function(event, ui) {
                 jQuery(this).dialog('destroy');
@@ -124,7 +125,6 @@ Mediabrowser.prototype = {
                     jQuery('#contents').trigger('hideLoadingPopup');
                     if ($('contents') != undefined) {
                         $('contents').update(transport.responseText);
-                        jQuery('#modal_dialog_message').dialog("option", "position", "center");
                         $$('div.filecnt').each(function(s) {
                             // Bind to the Insert File button.
                             var dataInsertFile = "[data-insert-file='" + s.id + "']";
