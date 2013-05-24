@@ -47,10 +47,11 @@
             <paypal_standard>
                 <active>0</active>
             </paypal_standard>
-            <paypal_mep>
+            <!--TODO node from XmlConnect-->
+            <!--<paypal_mep>
                 <active>0</active>
                 <disabled>1</disabled>
-            </paypal_mep>
+            </paypal_mep>-->
             <paypal_billing_agreement>
                 <active>1</active>
                 <disabled>1</disabled>

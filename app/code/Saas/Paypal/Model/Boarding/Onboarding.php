@@ -351,7 +351,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
      */
     protected function _saveConfig($path, $value, $scope = 'default', $scopeId = 0)
     {
-        $this->_configWriter->saveConfig($path, $value, $scope, $scopeId);
+        $this->_configWriter->save($path, $value, $scope, $scopeId);
         return $this;
     }
 }
