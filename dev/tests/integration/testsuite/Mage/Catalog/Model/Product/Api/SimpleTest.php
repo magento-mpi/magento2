@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      * @magentoConfigFixture limitations/catalog_product 1
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      * @expectedException SoapFault
-     * @expectedExceptionMessage Maximum allowed number of products is reached.
+     * @expectedExceptionMessage Sorry, you are using all the products your account allows.
      */
     public function testCreateLimitationReached()
     {

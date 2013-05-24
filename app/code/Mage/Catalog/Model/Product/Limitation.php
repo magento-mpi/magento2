@@ -72,6 +72,8 @@ class Mage_Catalog_Model_Product_Limitation
      */
     public function getCreateRestrictedMessage()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Maximum allowed number of products is reached.');
+        // @codingStandardsIgnoreStart
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the products your account allows. To add more, first delete a product or upgrade your service.');
+        // @codingStandardsIgnoreEnd
     }
 }

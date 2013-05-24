@@ -63,7 +63,28 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     {
         $this->dispatch('backend/admin/catalog_product');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of products is reached.', $body);
+
+        $this->assertNotContains($this->_getCreateRestrictedMessage(), $body);
+
+        $this->assertSelectCount('#add_new_product', 1, $body,
+            '"Add Product" button container should be present on Manage Products page, if the limit is not  reached');
+        $this->assertSelectCount('#add_new_product-button', 1, $body,
+            '"Add Product" button should be present on Manage Products page, if the limit is not reached');
+        $this->assertSelectCount('#add_new_product-button.disabled', 0, $body,
+            '"Add Product" button should be enabled on Manage Products page, if the limit is not reached');
+        $this->assertSelectCount('#add_new_product .action-toggle', 1, $body,
+            '"Add Product" button split should be present on Manage Products page, if the limit is not reached');
+    }
+
+    /**
+     * Return the expected message, used by product limitation
+     *
+     * @return string
+     */
+    protected function _getCreateRestrictedMessage()
+    {
+        return 'Sorry, you are using all the products your account allows. ' .
+            'To add more, first delete a product or upgrade your service.';
     }
 
     /**
@@ -74,9 +95,15 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     {
         $this->dispatch('backend/admin/catalog_product');
         $body = $this->getResponse()->getBody();
-        $this->assertContains('Maximum allowed number of products is reached.', $body);
-        $this->assertSelectCount('#add_new_product', 0, $body,
-            '"Add Product" button should not be present on Manage Products page, if the limit is reached');
+
+        $this->assertContains($this->_getCreateRestrictedMessage(), $body);
+
+        $this->assertSelectCount('#add_new_product', 1, $body,
+            '"Add Product" button container should be present on Manage Products page, if the limit is reached');
+        $this->assertSelectCount('#add_new_product-button.disabled', 1, $body,
+            '"Add Product" button should be present and disabled on Manage Products page, if the limit is reached');
+        $this->assertSelectCount('#add_new_product .action-toggle', 0, $body,
+            '"Add Product" button split should not be present on Manage Products page, if the limit is reached');
     }
 
     /**
@@ -86,7 +113,7 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     {
         $this->dispatch('backend/admin/catalog_product/edit/id/1');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of products is reached.', $body);
+        $this->assertNotContains($this->_getCreateRestrictedMessage(), $body);
         $this->assertSelectCount('#save-split-button', 1, $body,
             '"Save" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-new-button', 1, $body,
@@ -106,7 +133,7 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     {
         $this->dispatch('backend/admin/catalog_product/edit/id/1');
         $body = $this->getResponse()->getBody();
-        $this->assertContains('Maximum allowed number of products is reached.', $body);
+        $this->assertContains($this->_getCreateRestrictedMessage(), $body);
         $this->assertSelectCount('#save-split-button', 1, $body,
             '"Save" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-new-button', 0, $body,
