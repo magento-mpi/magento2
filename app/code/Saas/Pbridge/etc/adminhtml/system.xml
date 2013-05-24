@@ -64,7 +64,8 @@
                                     <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="1" showInWebsite="0">
+                            <field id="centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                                 <label>Enable 3D Secure Card Validation in Admin</label>
                                 <config_path>payment/paypal_direct/centinel_backend</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
@@ -79,7 +80,8 @@
                                     <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
                                 </depends>
                             </field>
-                            <field id="direct_boarding_centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="1" showInWebsite="0">
+                            <field id="direct_boarding_centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                                 <label>Enable 3D Secure Card Validation in Admin</label>
                                 <config_path>payment/paypal_direct_boarding/centinel_backend</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
