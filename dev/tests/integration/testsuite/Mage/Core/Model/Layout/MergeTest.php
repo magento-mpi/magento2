@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
+ */
 class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -18,11 +21,6 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /* Disable loading and saving layout cache */
-        /** @var Mage_Core_Model_Cache_Types $cacheTypes */
-        $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, false);
-
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
@@ -212,15 +210,12 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testLoadCache()
     {
-        /** @var Mage_Core_Model_Cache_Types $cacheTypes */
-        $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
-
         $layoutHandle = 'layout_test_handle';
         $expectedTextThemeOne = 'Text declared in the frontend/test/test_theme';
         $expectedTextThemeTwo = 'Text declared in the frontend/test/cache_test_theme';

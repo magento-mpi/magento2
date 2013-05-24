@@ -78,7 +78,9 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array(), array(), '', false, false
         );
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
-        $this->_storeManagerMock = $this->getMockForAbstractClass('Mage_Core_Model_StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMockForAbstractClass(
+            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('reinitStores')
+        );
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
             array('addSuccess', 'addException'), array(), '', false, false
@@ -127,8 +129,18 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         );
     }
 
+    /**
+     * Setup expectation on occurrence of stores reinitialization
+     */
+    protected function _expectResetStores()
+    {
+        $this->_storeManagerMock->expects($this->once())->method('reinitStores');
+    }
+
     public function testIndexActionWithAllowedSection()
     {
+        $this->_expectResetStores();
+
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $this->_sessionMock->expects($this->once())->method('addSuccess')->with('The configuration has been saved.');
 
@@ -201,6 +213,8 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionGetGroupForSave()
     {
+        $this->_expectResetStores();
+
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $groups = array('some.key' => 'some.val');
@@ -242,6 +256,8 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionSaveAdvanced()
     {
+        $this->_expectResetStores();
+
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $requestParamMap = array(

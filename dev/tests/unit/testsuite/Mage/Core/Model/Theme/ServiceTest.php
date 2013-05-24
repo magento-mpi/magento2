@@ -27,6 +27,16 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_designPackageMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeManagerMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_configCacheMock;
 
     /**
@@ -47,13 +57,19 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_themeFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_themeMock));
+        $this->_designPackageMock = $this->getMockForAbstractClass(
+            'Mage_Core_Model_Design_PackageInterface', array(), '', true, true, true, array('getConfigurationDesignTheme')
+        );
+        $this->_storeManagerMock = $this->getMockForAbstractClass(
+            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStores')
+        );
         $this->_configCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $this->_model = new Mage_Core_Model_Theme_Service(
             $this->_themeFactoryMock,
             $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Design_PackageInterface'),
-            $this->getMock('Mage_Core_Model_App', array(), array(), '', false),
+            $this->_designPackageMock,
+            $this->_storeManagerMock,
             $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
             $this->getMock('Mage_DesignEditor_Model_Resource_Layout_Update', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
@@ -243,5 +259,37 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
                 'expectedUnassignedThemes' => array(2, 5, 6, 7, 9)
             )
         );
+    }
+
+    public function testGetStoresByThemes()
+    {
+        $storeOne = new Varien_Object(array('id' => 1));
+        $storeTwo = new Varien_Object(array('id' => 2));
+        $storeThree = new Varien_Object(array('id' => 3));
+        $this->_storeManagerMock
+            ->expects($this->once())
+            ->method('getStores')
+            ->will($this->returnValue(array($storeOne, $storeTwo, $storeThree)))
+        ;
+        $this->_designPackageMock
+            ->expects($this->at(0))
+            ->method('getConfigurationDesignTheme')
+            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeOne))
+            ->will($this->returnValue(123))
+        ;
+        $this->_designPackageMock
+            ->expects($this->at(1))
+            ->method('getConfigurationDesignTheme')
+            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeTwo))
+            ->will($this->returnValue(456))
+        ;
+        $this->_designPackageMock
+            ->expects($this->at(2))
+            ->method('getConfigurationDesignTheme')
+            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeThree))
+            ->will($this->returnValue(123)) // intentionally the same theme
+        ;
+        $expectedResult = array(123 => array($storeOne, $storeThree), 456 => array($storeTwo));
+        $this->assertEquals($expectedResult, $this->_model->getStoresByThemes());
     }
 }
