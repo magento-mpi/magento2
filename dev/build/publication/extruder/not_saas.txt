@@ -43,6 +43,7 @@ dev/tests/integration/testsuite/Enterprise/CatalogPermissions
 dev/tests/integration/testsuite/Enterprise/CustomerSegment
 dev/tests/integration/testsuite/Enterprise/Checkout
 dev/tests/integration/testsuite/Enterprise/GiftRegistry
+dev/tests/integration/testsuite/Enterprise/GiftWrapping
 dev/tests/integration/testsuite/Enterprise/ImportExport
 dev/tests/integration/testsuite/Enterprise/PricePermissions
 dev/tests/integration/testsuite/Enterprise/PromotionPermissions

@@ -159,10 +159,6 @@
             <path>dev/tests/static/testsuite/Php/_files/phpcpd/blacklist</path>
         </item>
         <item>
-            <word>GiftWrapping</word>
-            <path>app/code/Enterprise/GiftCardAccount/etc/config.xml</path>
-        </item>
-        <item>
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>

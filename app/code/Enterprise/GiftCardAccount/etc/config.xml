@@ -45,7 +45,7 @@
                 <totals>
                     <giftcardaccount>
                         <class>Enterprise_GiftCardAccount_Model_Total_Invoice_Giftcardaccount</class>
-                        <after>discount,tax,grand_total,giftwrapping</after>
+                        <after>discount,tax,grand_total</after>
                         <before>customerbalance</before>
                     </giftcardaccount>
                 </totals>
@@ -54,7 +54,7 @@
                 <totals>
                     <giftcardaccount>
                         <class>Enterprise_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount</class>
-                        <after>weee,discount,tax,grand_total,giftwrapping,customerbalance</after>
+                        <after>weee,discount,tax,grand_total,customerbalance</after>
                     </giftcardaccount>
                 </totals>
             </order_creditmemo>
