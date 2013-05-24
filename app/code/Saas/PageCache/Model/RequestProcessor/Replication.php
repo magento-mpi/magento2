@@ -24,18 +24,15 @@ class Saas_PageCache_Model_RequestProcessor_Replication implements Enterprise_Pa
     protected $_fpcCache;
 
     /**
-     * @param Saas_Saas_Model_Cache $cache
+     * @param Enterprise_PageCache_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Metadata $metadata
-     * @param Saas_Search_Helper_Cache $cacheHelper
      */
     public function __construct(
-        Saas_Saas_Model_Cache $cache,
-        Enterprise_PageCache_Model_Metadata $metadata,
-        Saas_Search_Helper_Cache $cacheHelper
+        Enterprise_PageCache_Model_Cache $cache,
+        Enterprise_PageCache_Model_Metadata $metadata
     ) {
         $this->_fpcCache = $cache;
         $this->_metadata = $metadata;
-        $this->_cacheHelper = $cacheHelper;
     }
 
     /**
@@ -45,7 +42,11 @@ class Saas_PageCache_Model_RequestProcessor_Replication implements Enterprise_Pa
      */
     protected function _isReplicationCompleted()
     {
-        return $this->_cacheHelper->isReplicationCompleted();
+        //Checks whether index version in cache and index version in search slave are different
+
+        //TODO:: FPC must be invalidated if replication is completed
+        //TODO:: add logic of replication state identification here after saas search module will be implemented
+        return false;
     }
 
     /**
@@ -66,7 +67,7 @@ class Saas_PageCache_Model_RequestProcessor_Replication implements Enterprise_Pa
         if ($this->_metadata->getMetadata(Enterprise_PageCache_Model_Processor_Category::METADATA_CATEGORY_ID) &&
             $this->_isReplicationCompleted()
         ) {
-            $this->_fpcCache->invalidateType(Enterprise_PageCache_Model_Cache_Type::TYPE_IDENTIFIER);
+            $this->_fpcCache->invalidateType(Enterprise_PageCache_Model_Processor::CACHE_TAG);
         }
         return $content;
     }
