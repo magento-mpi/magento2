@@ -27,7 +27,12 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configCacheTypeMock;
+    protected $_configCacheMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_layoutCacheMock;
 
     /**
      * @var Mage_Core_Model_Theme_Service
@@ -42,7 +47,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_themeFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_themeMock));
-        $this->_configCacheTypeMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $this->_configCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $this->_model = new Mage_Core_Model_Theme_Service(
             $this->_themeFactoryMock,
             $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false),
@@ -52,7 +58,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_DesignEditor_Model_Resource_Layout_Update', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface'),
-            $this->_configCacheTypeMock
+            $this->_configCacheMock,
+            $this->_layoutCacheMock
         );
     }
 
@@ -60,7 +67,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     {
         $this->_themeMock = null;
         $this->_themeFactoryMock = null;
-        $this->_configCacheTypeMock = null;
+        $this->_configCacheMock = null;
+        $this->_layoutCacheMock = null;
         $this->_model = null;
     }
     
@@ -183,12 +191,11 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('Mage_Core_Model_Theme', array(), array(), '', false)));
 
         $writerMock = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface', array(), array(), '', false);
-        $configCacheTypeMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
         $copyServiceMock = $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false);
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('_getThemeCustomizations'), array(
             $themeFactoryMock, $copyServiceMock, $designMock, $appMock, $helperMock, $layoutUpdateMock,
-            $eventManagerMock, $writerMock, $configCacheTypeMock
+            $eventManagerMock, $writerMock, $this->_configCacheMock, $this->_layoutCacheMock
         ));
         $themeService->expects($this->once())
             ->method('_getThemeCustomizations')

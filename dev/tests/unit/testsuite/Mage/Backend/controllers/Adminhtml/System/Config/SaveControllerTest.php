@@ -9,11 +9,9 @@
  * @license     {license_link}
  */
 
-require_once (realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/app/code/Mage/Backend/Controller/System/ConfigAbstract.php');
-
-require_once (realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/app/code/Mage/Backend/controllers/Adminhtml/System/Config/SaveController.php');
+require_once __DIR__ . '/../../../../../../../../../../app/code/Mage/Backend/Controller/System/ConfigAbstract.php';
+require_once __DIR__
+    . '/../../../../../../../../../../app/code/Mage/Backend/controllers/Adminhtml/System/Config/SaveController.php';
 
 class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Framework_TestCase
 {
@@ -52,16 +50,20 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
      */
     protected $_authMock;
 
-
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_appMock;
+    protected $_storeManagerMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sectionMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cacheMock;
 
     public function setUp()
     {
@@ -76,7 +78,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array(), array(), '', false, false
         );
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
-        $this->_appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false, false);
+        $this->_storeManagerMock = $this->getMockForAbstractClass('Mage_Core_Model_StoreManagerInterface');
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
             array('addSuccess', 'addException'), array(), '', false, false
@@ -89,6 +91,8 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $this->_sectionMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
+
+        $this->_cacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
 
         $configStructureMock->expects($this->any())->method('getElement')
             ->will($this->returnValue($this->_sectionMock));
@@ -115,8 +119,9 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
                 $configStructureMock,
                 $this->_configMock,
                 $this->_configFactoryMock,
-                $this->_appMock,
+                $this->_storeManagerMock,
                 $this->_authMock,
+                $this->_cacheMock,
                 null,
             )
         );
@@ -252,9 +257,9 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             ->will($this->returnValue($backendConfigMock));
         $backendConfigMock->expects($this->once())->method('save');
 
-        $this->_appMock->expects($this->once())
-            ->method('cleanCache')
-            ->with(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
+        $this->_cacheMock->expects($this->once())
+            ->method('clean')
+            ->with(Zend_Cache::CLEANING_MODE_ALL);
         $this->_controller->indexAction();
     }
 }

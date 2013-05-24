@@ -14,6 +14,21 @@
 class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    protected $_cache;
+
+    /**
+     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Cache_FrontendInterface $cache
+     */
+    public function __construct(Mage_Core_Model_Resource $resource, Magento_Cache_FrontendInterface $cache)
+    {
+        parent::__construct($resource);
+        $this->_cache = $cache;
+    }
+
+    /**
      * Define main table
      */
     protected function _construct()
@@ -96,7 +111,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
                 'is_temporary'     => (int)$object->getIsTemporary(),
             ));
         }
-        Mage::app()->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
+        $this->_cache->clean();
         return parent::_afterSave($object);
     }
 }

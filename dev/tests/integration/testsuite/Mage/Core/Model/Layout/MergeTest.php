@@ -19,7 +19,9 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /* Disable loading and saving layout cache */
-        Mage::app()->getCacheInstance()->banUse('layout');
+        /** @var Mage_Core_Model_Cache_Types $cacheTypes */
+        $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, false);
 
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
@@ -215,7 +217,9 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadCache()
     {
-        Mage::app()->getCacheInstance()->allowUse('layout');
+        /** @var Mage_Core_Model_Cache_Types $cacheTypes */
+        $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
 
         $layoutHandle = 'layout_test_handle';
         $expectedTextThemeOne = 'Text declared in the frontend/test/test_theme';
