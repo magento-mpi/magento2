@@ -40,5 +40,6 @@ class Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Con
         $this->assertSelectCount('#add_group', 0, $response);
         $this->assertContains('Sorry, you are using all the store views your account allows. '
             . 'To add more, first delete a store view or upgrade your service.', $response);
+        $this->assertNotContains('You are using the maximum number of stores allowed.', $response);
     }
 }
