@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Product Service.
+ * Catalog Product Entity Service.
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
 /**
  *
  */
-class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
+class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstract
 {
     const ERROR_INTERNAL_LOAD   = '01';
     const ERROR_INTERNAL_SAVE   = '02';
@@ -158,7 +158,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
             throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_SAVE);
         }
 
-        $result = $this->prepareModel('item', $product, $request);
+        $result = $this->prepareModel(get_class($this), 'item', $product, $request);
 
         return $result;
     }

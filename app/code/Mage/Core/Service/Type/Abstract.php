@@ -273,7 +273,7 @@ abstract class Mage_Core_Service_Type_Abstract
                 if (strpos($config['get_callback'], '/') !== false) {
                     list ($method, $key) = explode('/', $config['get_callback']);
                     $result = $model->$method();
-                    $result = array_key_exists($key, $result) ? $result[$key] : null;
+                    $result = is_array($result) && array_key_exists($key, $result) ? $result[$key] : null;
                 } else {
                     $result = $model->$config['get_callback']();
                 }

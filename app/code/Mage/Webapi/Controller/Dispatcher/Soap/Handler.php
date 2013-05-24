@@ -14,11 +14,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     const HEADER_SECURITY = 'Security';
     const RESULT_NODE_NAME = 'result';
 
-    /** @var Mage_Core_Service_Config */
-    protected $_serviceConfig;
-
     /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_soapApiConfig;
+    protected $_apiConfig;
 
     /**
      * WS-Security UsernameToken object from request.
@@ -36,9 +33,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Action controller factory.
      *
-     * @var Mage_Core_Service_Factory
+     * @var Mage_Webapi_Controller_Action_Factory
      */
-    protected $_serviceFactory;
+    protected $_controllerFactory;
 
     /** @var Mage_Webapi_Model_Authorization */
     protected $_authorization;
@@ -56,36 +53,45 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     protected $_requestHeaders = array(self::HEADER_SECURITY);
 
+    /** @var Mage_Core_Service_ObjectManager */
+    protected $_serviceManager;
+
+    /** @var Mage_Webapi_Config */
+    protected $_newApiConfig;
+
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Service_Config $serviceConfig
-     * @param Mage_Webapi_Model_Config_Soap $soapApiConfig
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
-     * @param Mage_Core_Service_Factory $controllerFactory
+     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+     * @param Mage_Core_Service_ObjectManager $serviceManager
+     * @param Mage_Webapi_Config $newApiConfig
      */
     public function __construct(
-        Mage_Core_Service_Config $serviceConfig,
-        Mage_Webapi_Model_Config_Soap $soapApiConfig,
+        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication,
-        Mage_Core_Service_Factory $controllerFactory,
+        Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
-        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
+        Mage_Core_Service_ObjectManager $serviceManager,
+        Mage_Webapi_Config $newApiConfig
     ) {
-        $this->_serviceConfig = $serviceConfig;
-        $this->_soapApiConfig = $soapApiConfig;
+        $this->_apiConfig = $apiConfig;
         $this->_helper = $helper;
         $this->_authentication = $authentication;
-        $this->_serviceFactory = $controllerFactory;
+        $this->_controllerFactory = $controllerFactory;
         $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
+        $this->_serviceManager = $serviceManager;
+        $this->_newApiConfig = $newApiConfig;
     }
 
     /**
@@ -103,37 +109,35 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             $this->_processSoapHeader($operation, $arguments);
         } else {
             try {
-                if (is_null($this->_usernameToken)) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
-                    );
-                }
-                $this->_authentication->authenticate($this->_usernameToken);
-                $serviceName = $this->_soapApiConfig->getServiceNameByOperation($operation);
-                $serviceInstance = $this->_serviceFactory->createServiceInstance($serviceName);
-                $method = $this->_soapApiConfig->getMethodNameByOperation($operation);
+                // TODO: Uncomment authentication
+//                if (is_null($this->_usernameToken)) {
+//                    throw new Mage_Webapi_Exception(
+//                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
+//                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
+//                    );
+//                }
+//                $this->_authentication->authenticate($this->_usernameToken);
 
-                /**
-                 * TODO: Uncomment authorization check after it is refactored.
-                 * TODO: Uncomment its testing in Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest::testCall()
-                 */
-                // $this->_authorization->checkResourceAcl($serviceName, $method);
+                // TODO: Enable authorization
+//                $this->_authorization->checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
 
-                $this->_serviceConfig->checkDeprecationPolicy($serviceName, $method);
-                // TODO: Refactor after versioning removal
-                $action = $method;
-                $arguments = $this->_helper->prepareMethodParams(
-                    $serviceName,
-                    $action,
+                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation);
+                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation);
+                $outputData = $this->_serviceManager->call(
+                    $serviceId,
+                    $serviceMethod,
                     $arguments,
-                    $this->_serviceConfig
+                    'V1' // TODO: Service version is hardcoded for now
                 );
-                $outputData = call_user_func_array(array($serviceInstance, $action), $arguments);
-                return (object)array(self::RESULT_NODE_NAME => $outputData);
+                if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
+                    $outputData = $outputData->getData();
+                }
+                // TODO: Check why 'result' node is not generated in WSDL
+                // return (object)array(self::RESULT_NODE_NAME => $outputData);
+                return (object)$outputData;
             } catch (Mage_Webapi_Exception $e) {
                 throw new Mage_Webapi_Model_Soap_Fault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
@@ -176,5 +180,31 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 }
                 break;
         }
+    }
+
+    /**
+     * Identify version of requested operation.
+     *
+     * This method is required when there are two or more resource versions specified in request:
+     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
+     * In this case it is not obvious what version of requested operation should be used.
+     *
+     * @param string $operationName
+     * @return int
+     * @throws Mage_Webapi_Exception
+     */
+    protected function _getOperationVersion($operationName)
+    {
+        $requestedResources = $this->_request->getRequestedResources();
+        $resourceName = $this->_apiConfig->getResourceNameByOperation($operationName);
+        if (!isset($requestedResources[$resourceName])) {
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__('The version of "%s" operation cannot be identified.', $operationName),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
+        }
+        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
+        $this->_apiConfig->validateVersionNumber($version, $resourceName);
+        return $version;
     }
 }

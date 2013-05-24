@@ -158,7 +158,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
         $rule->expects($this->once())
             ->method('getResources')
             ->withAnyParameters()
-            ->will($this->returnValue(array('ServiceName')));
+            ->will($this->returnValue(array('ResourceName')));
 
         $model = $this->_createModel();
 
@@ -171,7 +171,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
         $this->_adapter->expects($this->once())
             ->method('insertArray')
             ->with('webapi_rule', array('role_id', 'resource_id'),
-                array(array('role_id' => 1, 'resource_id' => 'ServiceName')))
+                array(array('role_id' => 1, 'resource_id' => 'ResourceName')))
             ->will($this->returnValue(1));
 
         $rule->setRoleId(1);

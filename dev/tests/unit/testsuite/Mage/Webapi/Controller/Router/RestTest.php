@@ -29,7 +29,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Rest')
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')
             ->disableOriginalConstructor()
             ->getMock();
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
@@ -42,13 +42,9 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->_routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')
             ->disableOriginalConstructor()
-            ->setMethods(array('match', 'getHttpMethod'))
+            ->setMethods(array('match'))
             ->getMock();
-        $this->_request = $this->getMock(
-            'Mage_Webapi_Controller_Request_Rest',
-            array('getHttpMethod'),
-            array($interpreterFactory, $this->_helperMock)
-        );
+        $this->_request = new Mage_Webapi_Controller_Request_Rest($interpreterFactory, $this->_helperMock);
         /** Initialize SUT. */
         $this->_router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
     }
@@ -65,17 +61,13 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
 
     public function testMatch()
     {
-        $httpMethod = 'GET';
         $this->_apiConfigMock->expects($this->once())
-            ->method('getAllRestRoutes')
+            ->method('getRestRoutes')
             ->will($this->returnValue(array($this->_routeMock)));
-        $this->_routeMock
-            ->expects($this->once())
+        $this->_routeMock->expects($this->once())
             ->method('match')
             ->with($this->_request)
             ->will($this->returnValue(array()));
-        $this->_routeMock->expects($this->once())->method('getHttpMethod')->will($this->returnValue($httpMethod));
-        $this->_request->expects($this->once())->method('getHttpMethod')->will($this->returnValue($httpMethod));
 
         $matchedRoute = $this->_router->match($this->_request);
         $this->assertEquals($this->_routeMock, $matchedRoute);
@@ -87,7 +79,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     public function testNotMatch()
     {
         $this->_apiConfigMock->expects($this->once())
-            ->method('getAllRestRoutes')
+            ->method('getRestRoutes')
             ->will($this->returnValue(array($this->_routeMock)));
         $this->_routeMock
             ->expects($this->once())
@@ -96,5 +88,29 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->_router->match($this->_request);
+    }
+
+    /**
+     * Prepare mocks for SUT constructor for testCheckRoute().
+     *
+     * @return array
+     */
+    protected function _prepareMockDataForCheckRouteTest()
+    {
+        $methodName = 'foo';
+        $version = 'bar';
+        $request = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getResourceName'))
+            ->getMock();
+        $resourceName = 'Resource Name';
+        $request->expects($this->once())
+            ->method('getResourceName')
+            ->will($this->returnValue($resourceName));
+        $this->_apiConfigMock->expects($this->once())
+            ->method('getMethodRestRoutes')
+            ->with($resourceName, $methodName, $version)
+            ->will($this->returnValue(array($this->_routeMock)));
+        return array('request' => $request, 'methodName' => $methodName, 'version' => $version);
     }
 }

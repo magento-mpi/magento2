@@ -42,8 +42,9 @@ class Mage_Webapi_Controller_Router_Rest
      */
     public function match(Mage_Webapi_Controller_Request_Rest $request)
     {
+        $this->_matchVersion($request);
         /** @var Mage_Webapi_Controller_Router_Route_Rest[] $routes */
-        $routes = $this->_apiConfig->getRestRoutes($request->getHttpMethod());
+        $routes = $this->_apiConfig->getRestRoutes($request);
         foreach ($routes as $route) {
             $params = $route->match($request);
             if ($params !== false) {
@@ -57,5 +58,23 @@ class Mage_Webapi_Controller_Router_Rest
         }
         throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
             Mage_Webapi_Exception::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * Extract version from path info and set it into request.
+     * Remove version from path info if set.
+     *
+     * @param Mage_Webapi_Controller_Request_Rest $request
+     */
+    protected function _matchVersion(Mage_Webapi_Controller_Request_Rest $request)
+    {
+        $versionPattern = '/^\/(' . Mage_Core_Service_Config::VERSION_NUMBER_PREFIX .'\d+)/';
+        preg_match($versionPattern, $request->getPathInfo(), $matches);
+        if (isset($matches[1])) {
+            $version = $matches[1];
+            $request->setResourceVersion($version);
+            /** Remove version from path info is set */
+            $request->setPathInfo(preg_replace($versionPattern, '', $request->getPathInfo()));
+        }
     }
 }
