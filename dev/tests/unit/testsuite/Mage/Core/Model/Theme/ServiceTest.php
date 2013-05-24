@@ -58,7 +58,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_themeMock));
         $this->_designPackageMock = $this->getMockForAbstractClass(
-            'Mage_Core_Model_Design_PackageInterface', array(), '', true, true, true, array('getConfigurationDesignTheme')
+            'Mage_Core_Model_Design_PackageInterface', array(), '', true, true, true,
+            array('getConfigurationDesignTheme')
         );
         $this->_storeManagerMock = $this->getMockForAbstractClass(
             'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStores')
