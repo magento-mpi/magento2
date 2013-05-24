@@ -11,7 +11,7 @@
 /**
  *
  */
-class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstract
+class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
 {
     const ERROR_INTERNAL_LOAD   = '01';
     const ERROR_INTERNAL_SAVE   = '02';

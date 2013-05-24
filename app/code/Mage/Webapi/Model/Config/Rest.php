@@ -45,7 +45,7 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
                 array(
                     'routePath' => '/products/:entity_id',
                     'version' => 1,
-                    'serviceId' => 'Mage_Catalog_Service_ProductService',
+                    'serviceId' => 'Mage_Catalog_Service_Product',
                     'serviceMethod' => 'item'
                 ),
                 array(
