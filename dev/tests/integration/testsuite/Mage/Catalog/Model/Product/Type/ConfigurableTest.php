@@ -245,6 +245,37 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     }
 
     /**
+     * @magentoAppIsolation enabled
+     */
+    public function testGetSelectedAttributesInfoForStore()
+    {
+        $attributes = $this->_model->getConfigurableAttributesAsArray($this->_product);
+
+        $attribute = reset($attributes);
+        $optionValueId = $attribute['values'][0]['value_index'];
+
+        $this->_product->addCustomOption(
+            'attributes',
+            serialize(array($attribute['attribute_id'] => $optionValueId))
+        );
+        /** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $configurableAttributes */
+        $configurableAttributes = $this->_model->getConfigurableAttributes($this->_product);
+        $attribute = $configurableAttributes->getFirstItem();
+
+        $attribute->getProductAttribute()->setStoreLabel('store label');
+        $info = $this->_model->getSelectedAttributesInfo($this->_product);
+        $this->assertEquals(
+            array(
+                array(
+                    'label' => 'store label',
+                    'value' => 'Option 1'
+                )
+            ),
+            $info
+        );
+    }
+
+    /**
      * @depends testGetConfigurableAttributesAsArray
      */
     public function testPrepareForCart()
@@ -416,6 +447,7 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
      */
     public function testGenerateSimpleProductsWithoutQty($productsData)
     {
+        $this->_product->setNewVariationsAttributeSetId(4);
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         foreach ($generatedProducts as $productId) {
             /** @var $product Mage_Catalog_Model_Product */

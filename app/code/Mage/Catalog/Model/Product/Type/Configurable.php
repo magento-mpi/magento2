@@ -519,17 +519,16 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
             foreach ($data as $attributeId => $attributeValue) {
                 if (isset($usedAttributes[$attributeId])) {
-                    $attribute = $usedAttributes[$attributeId];
-                    $label = $attribute->getProductAttribute()->getStoreLabel();
-                    $value = $attribute->getProductAttribute();
+                    $attribute = $usedAttributes[$attributeId]->getProductAttribute();
+                    $label = $attribute->getStoreLabel();
+                    $value = $attribute;
                     if ($value->getSourceModel()) {
                         $value = $value->getSource()->getOptionText($attributeValue);
-                    }
-                    else {
+                    } else {
                         $value = '';
                     }
 
-                    $attributes[] = array('label'=>$label, 'value'=>$value);
+                    $attributes[] = array('label' => $label, 'value' => $value);
                 }
             }
         }
