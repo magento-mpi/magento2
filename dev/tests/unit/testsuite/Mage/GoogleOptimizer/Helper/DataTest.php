@@ -35,26 +35,32 @@ class Mage_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $value
      * @dataProvider dataProviderBoolValues
+     * @param $isExperiments
+     * @param $isAnalytics
      */
-    public function testGoogleExperimentIsActive($value)
+    public function testGoogleExperimentIsActive($isExperiments, $isAnalytics)
     {
         $store = 1;
-        $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with('google/analytics/experiments', $store)->will($this->returnValue($value));
 
-        $this->assertEquals($value, $this->_helper->isGoogleExperimentActive($store));
+        $this->_storeConfigMock->expects($this->atLeastOnce())->method('getConfigFlag')
+            ->with($this->logicalOr('google/analytics/experiments', 'google/analytics/active'))
+            ->will($this->onConsecutiveCalls($isAnalytics, $isExperiments));
+
+        $this->assertEquals(($isExperiments && $isAnalytics), $this->_helper->isGoogleExperimentActive($store));
     }
 
     /**
+     * DataProvider for testGoogleExperimentIsActive
      * @return array
      */
     public function dataProviderBoolValues()
     {
         return array(
-            array(true),
-            array(false),
+            array(true, true),
+            array(false, true),
+            array(false, false),
+            array(true, false),
         );
     }
 }

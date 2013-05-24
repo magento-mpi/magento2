@@ -44,6 +44,11 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isGoogleExperimentActive($store = null)
     {
-        return (bool)$this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
+        $googleAnalyticsActive = (bool)$this->_storeConfig->getConfigFlag(
+            Mage_GoogleAnalytics_Helper_Data::XML_PATH_ACTIVE,
+            $store
+        );
+        $googleExperimentActive = (bool)$this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $googleExperimentActive && $googleAnalyticsActive;
     }
 }
