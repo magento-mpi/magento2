@@ -73,7 +73,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
             'experiment_script' => 'some string',
         ));
         $this->_codeMock->expects($this->once())->method('save');
-        $this->_productMock->expects($this->exactly(2))->method('getId')->will($this->returnValue($entityId));
+        $this->_productMock->expects($this->once())->method('getId')->will($this->returnValue($entityId));
         $this->_productMock->expects($this->exactly(2))->method('getStoreId')->will($this->returnValue($storeId));
 
         $this->_model->saveProductGoogleExperimentScript($this->_eventObserverMock);
@@ -95,7 +95,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
             'store_id' => $storeId,
             'experiment_script' => 'some string',
         ));
-        $this->_productMock->expects($this->exactly(2))->method('getId')->will($this->returnValue($entityId));
+        $this->_productMock->expects($this->once())->method('getId')->will($this->returnValue($entityId));
         $this->_productMock->expects($this->exactly(2))->method('getStoreId')->will($this->returnValue($storeId));
 
         $this->_model->saveProductGoogleExperimentScript($this->_eventObserverMock);
@@ -127,7 +127,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         $this->_codeMock->expects($this->never())->method('addData');
         $this->_codeMock->expects($this->never())->method('save');
         $this->_codeMock->expects($this->once())->method('delete');
-        $this->_productMock->expects($this->once())->method('getId')->will($this->returnValue($entityId));
+        $this->_productMock->expects($this->never())->method('getId')->will($this->returnValue($entityId));
 
         $this->_model->saveProductGoogleExperimentScript($this->_eventObserverMock);
     }
