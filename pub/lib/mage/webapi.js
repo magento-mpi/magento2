@@ -13,7 +13,7 @@
      *
      * @param {string}           baseUrl Base URL
      * @param {Object|undefined} args    Arguments for constructor, see "options" variable
-     * @returns {{method: Object, responseType: Object, call: Function, Product: Function}}
+     * @returns {{method: Object, call: Function}}
      */
     $.mage.webapi = function(baseUrl, args) {
         /**
@@ -29,17 +29,6 @@
         };
 
         /**
-         * Response type expected from server
-         *
-         * @const
-         * @type {{json: string, xml: string}}
-         */
-        this.responseType = {
-            json: 'application/json',
-            xml:  'application/xml'
-        };
-
-        /**
          *
          *
          * @const
@@ -52,7 +41,6 @@
             'delete': 'DELETE'
         };
 
-        var validResponseTypes = [this.responseType.json, this.responseType.xml];
         var validMethods = [this.method.create, this.method.update, this.method.get, this.method['delete']];
 
         var options = {
@@ -60,10 +48,6 @@
              * Timeout for AJAX request
              */
             timeout: 5000,
-            /**
-             * Acceptable response type from the server
-             */
-            responseType: this.responseType.json,
             /**
              * Success AJAX call function handler
              */
@@ -149,19 +133,6 @@
                 return resourceUrl;
             }
 
-            /**
-             * Helper function to get Accept header value
-             *
-             * @returns {string}
-             */
-            function getAcceptHeaderValue() {
-                if (validResponseTypes.indexOf(options.responseType) === -1) {
-                    throw 'Response type is not valid: ' + options.responseType;
-                }
-
-                return options.responseType;
-            }
-
             return $.ajax({
                 url: getUrl(resourceUri, method, data, version),
                 type: validateMethod(method),
@@ -172,7 +143,7 @@
                 cache: false, // Disable browser cache for GET requests
 
                 beforeSend: function (request) {
-                    request.setRequestHeader('Accept', getAcceptHeaderValue());
+                    request.setRequestHeader('Accept', 'application/json');
                 },
 
                 success: function (response) {
