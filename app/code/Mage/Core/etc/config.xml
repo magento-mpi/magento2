@@ -122,6 +122,7 @@
                 <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
                 <Mage_Core_Model_Dataservice_Config_Interface>Mage_Core_Model_Dataservice_Config</Mage_Core_Model_Dataservice_Config_Interface>
+                <Mage_Core_Model_ConfigInterface>Mage_Core_Model_Config</Mage_Core_Model_ConfigInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>

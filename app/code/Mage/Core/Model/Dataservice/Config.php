@@ -30,7 +30,7 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
     protected $_elementClass = 'Varien_Simplexml_Element';
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Core_Model_ConfigInterface
      */
     protected $_config;
 
@@ -38,10 +38,10 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
     protected $_fileReader;
 
     /**
-     * @param Mage_Core_Model_Config_Base $config
+     * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
      */
-    public function __construct(Mage_Core_Model_Config_Base $config,
+    public function __construct(Mage_Core_Model_ConfigInterface $config,
         Mage_Core_Model_Config_Loader_Modules_File $fileReader
     ) {
         $this->_fileReader = $fileReader;
