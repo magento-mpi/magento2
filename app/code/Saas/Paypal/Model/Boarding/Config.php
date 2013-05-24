@@ -390,7 +390,7 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
      */
     public function setWasActivated($paymentMethod, $value, $scope = 'default', $scopeId = 0)
     {
-        $this->_configWriter->saveConfig('payment/'.$paymentMethod.'/was_activated',
+        $this->_configWriter->save('payment/'.$paymentMethod.'/was_activated',
             $value, $scope, $scopeId);
         return $this;
     }
