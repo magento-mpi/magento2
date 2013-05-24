@@ -1,6 +1,6 @@
 <?php
 /**
- * Catalog Product Entity Service.
+ * Catalog Product Service.
  *
  * {license_notice}
  *
@@ -11,19 +11,32 @@
 /**
  *
  */
-class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstract
+class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
 {
+    const ERROR_INTERNAL_LOAD   = '01';
+    const ERROR_INTERNAL_SAVE   = '02';
+    const ERROR_INTERNAL_DELETE = '03';
+
+    /**
+     * @var $_serviceID string
+     */
+    protected $_serviceID = 'Mage_Catalog_Service_Product';
+
+    /**
+     * @var $_serviceVersion string
+     */
+    protected $_serviceVersion = '1';
+
     /**
      * Return resource object or resource object data.
      *
      * @param mixed $request
-     * @param mixed $version [optional]
      * @throws Mage_Core_Service_Exception
-     * @return Varien_Object
+     * @return Varien_Object | array
      */
-    public function item($request, $version = null)
+    public function item($request)
     {
-        $request = $this->prepareRequest(get_class($this), 'item', $request);
+        $request = $this->_prepareRequest('item', $request);
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -50,11 +63,11 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
                 throw $e;
             } catch (Exception $e) {
                 $message = Mage::helper('core')->__('An error occurred while loading the product.');
-                throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+                throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_LOAD, $e);
             }
         }
 
-        $result = $this->prepareModel(get_class($this), 'item', $product, $request);
+        $result = $this->_prepareModel('item', $product, $request);
 
         return $result;
     }
@@ -63,13 +76,12 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
      * Return collection of products.
      *
      * @param mixed $request
-     * @param mixed $version [optional]
      * @throws Mage_Core_Service_Exception
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Magento_Data_Collection | array
      */
-    public function items($request, $version = null)
+    public function items($request)
     {
-        $request = $this->prepareRequest(get_class($this), 'items', $request);
+        $request = $this->_prepareRequest('items', $request);
 
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
@@ -86,23 +98,22 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             throw $e;
         } catch (Exception $e) {
             $message = Mage::helper('core')->__('An error occurred while loading the product collection.');
-            throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+            throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_LOAD);
         }
 
-        $result = $this->prepareCollection(get_class($this), 'items', $collection, $request);
+        $result = $this->_prepareCollection('items', $collection, $request);
 
         return $result;
     }
 
     /**
      * @param mixed $request
-     * @param string $version [optional]
      * @throws Mage_Core_Service_Exception
-     * @return Varien_Object
+     * @return Varien_Object | array
      */
-    public function create($request, $version = null)
+    public function create($request)
     {
-        $request = $this->prepareRequest(get_class($this), 'create', $request);
+        $request = $this->_prepareRequest('create', $request);
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -115,26 +126,27 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             throw $e;
         } catch (Exception $e) {
             $message = Mage::helper('core')->__('An error occurred while creating the product.');
-            throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+            throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_SAVE);
         }
 
-        $result = $this->prepareModel(get_class($this), 'item', $product, $request);
+        $result = $this->prepareModel('item', $product, $request);
 
         return $result;
     }
 
     /**
      * @param mixed $request
-     * @param string $version [optional]
      * @throws Mage_Core_Service_Exception
-     * @return Varien_Object
+     * @return Varien_Object | array
      */
-    public function update($request, $version = null)
+    public function update($request)
     {
-        $request = $this->prepareRequest(get_class($this), 'update', $request);
+        $request = $this->_prepareRequest('update', $request);
+        $data    = $this->item($request);
 
-        $product = $this->item($request);
-
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->setData($data);
         $product->addData($request->getData());
 
         try {
@@ -143,10 +155,10 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             throw $e;
         } catch (Exception $e) {
             $message = Mage::helper('core')->__('An error occurred while updating the product.');
-            throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+            throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_SAVE);
         }
 
-        $result = $this->prepareModel(get_class($this), 'item', $product, $request);
+        $result = $this->prepareModel('item', $product, $request);
 
         return $result;
     }

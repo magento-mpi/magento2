@@ -96,10 +96,17 @@ class Mage_Catalog_ProductController
      */
     public function serviceAction()
     {
-        /** @var $product Mage_Catalog_Service_Product_Extended */
-        $productService = Mage::getObjectManager()->create('Mage_Catalog_Service_Product_Extended');
-        $data = $productService->getLinks(1);
-        die(nl2br(print_r($data, true)));
+        /** @var $manager Mage_Core_Service_Manager */
+        $manager = Mage::getObjectManager()->create('Mage_Core_Service_Manager');
+
+        try {
+            $product = $manager->call('Mage_Catalog_Service_Product', 'item', array('entity_id' => 1));
+        } catch (Exception $e) {
+            echo $e;d();
+        }
+
+
+        die(nl2br(var_dump($product)));
     }
 
 }

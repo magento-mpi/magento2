@@ -9,44 +9,31 @@
  */
 class Mage_Core_Service_Exception extends RuntimeException
 {
-    /**#@+
-     * Error HTTP response codes.
+    /**
+     * @var int $_httpErrorCode
      */
-    const HTTP_BAD_REQUEST          = 400;
-    const HTTP_UNAUTHORIZED         = 401;
-    const HTTP_FORBIDDEN            = 403;
-    const HTTP_NOT_FOUND            = 404;
-    const HTTP_METHOD_NOT_ALLOWED   = 405;
-    const HTTP_NOT_ACCEPTABLE       = 406;
-    const HTTP_INTERNAL_ERROR       = 500;
-    /**#@-*/
-
-    const ORIGINATOR_SENDER     = 'Sender';
-    const ORIGINATOR_RECEIVER   = 'Receiver';
+    protected $_httpErrorCode = null;
 
     /**
      * Initialize exception with HTTP code.
      *
-     * @param string $message
-     * @param int $code
-     * @throws InvalidArgumentException
+     * @param string $message [optional] The Exception message to throw.
+     * @param int $code [optional] The Exception code.
+     * @param Exception $previous [optional] The previous exception used for the exception chaining. Since 5.3.0
+     * @param $forcedHttpErrorCode [optional] HTTP Error code.
      */
-    public function __construct($message, $code)
+    public function __construct($message = "", $code = 0, Exception $previous = null, $httpErrorCode = null)
     {
-        /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
-        if ($code < 400 || $code > 599) {
-            throw new InvalidArgumentException(sprintf('The specified code "%d" is invalid.', $code));
-        }
-        parent::__construct($message, $code);
+        $this->_httpErrorCode = $httpErrorCode;
+
+        parent::__construct($message, $code, $previous);
     }
 
     /**
-     * Identify exception originator: sender or receiver.
-     *
-     * @return string
+     * @return int|null
      */
-    public function getOriginator()
+    public function getHttpErrorCode()
     {
-        return ($this->getCode() < 500) ? self::ORIGINATOR_SENDER : self::ORIGINATOR_RECEIVER;
+        return $this->_httpErrorCode;
     }
 }

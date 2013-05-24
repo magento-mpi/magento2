@@ -9,61 +9,65 @@
  */
 abstract class Mage_Core_Service_Type_Abstract
 {
-    /** @var Mage_Core_Service_ObjectManager */
-    protected $_serviceObjectManager;
+    /**
+     * @var Mage_Core_Service_Manager
+     */
+    protected $_serviceManager;
 
-    /** @var Mage_Core_Service_Context */
+    /**
+     * @var Mage_Core_Service_Context
+     */
     protected $_serviceContext;
 
     /**
-     * @param Mage_Core_Service_ObjectManager $serviceObjectManager
+     * @var $_serviceID string
+     */
+    protected $_serviceID = null;
+
+    /**
+     * @var $_serviceVersion string
+     */
+    protected $_serviceVersion = null;
+
+    /**
+     * @param Mage_Core_Service_Manager $serviceManager
      * @param Mage_Core_Service_Context $context
      */
     public function __construct(
-        Mage_Core_Service_ObjectManager $serviceObjectManager,
+        Mage_Core_Service_Manager $serviceManager,
         Mage_Core_Service_Context $context)
     {
-        $this->_serviceObjectManager = $serviceObjectManager;
+        if (empty($this->_serviceID)) {
+            $message = Mage::helper('core')->__('Empty Service ID for the service %s', get_class($this));
+            throw new Mage_Core_Service_Exception($message);
+        }
+
+        $this->_serviceManager = $serviceManager;
         $this->_serviceContext = $context;
     }
 
     /**
-     * Call service method (alternative approach)
+     * Invoke service method
      *
      * @param string $serviceMethod
      * @param mixed $request [optional]
      * @param mixed $version [optional]
      * @return mixed (service execution response)
      */
-    final public function call($serviceMethod, $request = null, $version = null)
+    final public function invoke($serviceMethod, $request = null, $version = null)
     {
-        // implement ACL and other routine procedures here (debugging, profiling, etc)
-        $this->authorize(get_class($this), $serviceMethod);
-
-        return $this->$serviceMethod($request, $version);
-    }
-
-    public function authorize($serviceClass, $serviceMethod)
-    {
-        $user = $this->_serviceContext->getUser();
-        $acl  = $this->_serviceContext->getAcl();
-
-        if ($user && $acl) {
-            try {
-                $result = $acl->isAllowed($user->getAclRole(), $serviceClass . '/' . $serviceMethod);
-            } catch (Exception $e) {
-                try {
-                    if (!$acl->has($serviceClass . '/' . $serviceMethod)) {
-                        $result = $acl->isAllowed($user->getAclRole(), null);
-                    }
-                } catch (Exception $e) {
-                    $result = false;
-                }
-            }
+        if (false) {
+            // check "before" plugins
         }
 
-        if (false === $result) {
-            throw new Mage_Core_Service_Exception($serviceClass . '/' . $serviceMethod, Mage_Core_Service_Exception::HTTP_FORBIDDEN);
+        if (false) {
+            // check "instead" plugin
+        } else {
+            $result = $this->$serviceMethod($request, $version);
+        }
+
+        if (false) {
+            // check "after" plugins
         }
 
         return $result;
@@ -72,25 +76,22 @@ abstract class Mage_Core_Service_Type_Abstract
     /**
      * Prepare service request object
      *
-     * @param string $serviceClass
      * @param string $serviceMethod
      * @param mixed $request [optional]
      * @return Magento_Data_Array $request
      */
-    public function prepareRequest($serviceClass, $serviceMethod, $request = null)
+    protected function _prepareRequest($serviceMethod, $request = null)
     {
         if (!$request instanceof Magento_Data_Array) {
             $request = new Magento_Data_Array($request);
         }
 
         if (!$request->getIsPrepared()) {
-            $requestSchema = $request->getRequestSchema() ? $request->getRequestSchema() : array();
-            if (!$requestSchema instanceof Magento_Data_Schema) {
-                $requestSchema = $this->_serviceObjectManager->getRequestSchema($serviceClass, $serviceMethod, $request->getVersion(), $requestSchema);
-            }
+            $_requestSchema = $request->getRequestSchema() ? (array) $request->getRequestSchema() : array();
+            $requestSchema  = $this->_serviceManager->getRequestSchema($this->_serviceID, $serviceMethod, $this->_serviceVersion, $_requestSchema);
 
             if ($requestSchema->getDataNamespace()) {
-                $requestParams = (array)Mage::app()->getRequest()->getParam($requestSchema->getDataNamespace());
+                $requestParams = (array) Mage::app()->getRequest()->getParam($requestSchema->getDataNamespace());
                 if (!empty($requestParams)) {
                     $request->addData($requestParams);
                 }
@@ -156,7 +157,7 @@ abstract class Mage_Core_Service_Type_Abstract
             if (array_key_exists($key, $fields)) {
                 $config = $fields[$key];
                 if (isset($config['schema'])) {
-                    $schema = $this->_serviceObjectManager->getContentSchema($config['schema']);
+                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
                     $this->filter($value, $schema);
                     $data[$key] = $value;
                 }
@@ -178,7 +179,7 @@ abstract class Mage_Core_Service_Type_Abstract
             if (array_key_exists($key, $fields)) {
                 $config = $schema->getData($key);
                 if (isset($config['schema'])) {
-                    $schema = $this->_serviceObjectManager->getContentSchema($config['schema']);
+                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
                     $this->validate($value, $schema);
                 } else {
                     $this->_validate($value, $config);
@@ -195,42 +196,42 @@ abstract class Mage_Core_Service_Type_Abstract
     /**
      * Prepare collection for response
      *
-     * @param string $serviceClass
      * @param string $serviceMethod
      * @param Varien_Data_Collection $collection
      * @param mixed $request
-     * @return $collection
+     * @return Magento_Data_Collection | array
      */
-    public function prepareCollection($serviceClass, $serviceMethod, $collection, $request)
+    protected function _prepareCollection($serviceMethod, $collection, $request)
     {
-        //$_collection = clone $collection;
-        //$_collection->removeAllItems()
-        //    ->setItemObjectClass('Varien_Object');
+        $resultCollection = new Magento_Data_Collection();
+
         foreach ($collection->getItems() as $item) {
-            $container = $this->prepareModel($serviceClass, $serviceMethod, $item, $request);
-            $item->setData($container->getData());
-            //$container->setId($item->getId());
-            //$_collection->addItem($container);
+            $container = $this->_prepareModel($serviceMethod, $item, $request);
+            $resultCollection->addItem($container);
         }
-        return $collection;
+
+        if ($request->getAsArray()) {
+            return $resultCollection->toArray();
+        } else {
+            return $resultCollection;
+        }
     }
 
     /**
      * Prepare service response
      *
-     * @param string $serviceClass
      * @param string $serviceMethod
      * @param mixed $model
      * @param mixed $request
      * @return bool
      */
-    public function prepareModel($serviceClass, $serviceMethod, $model, $request)
+    protected function _prepareModel($serviceMethod, $model, $request)
     {
         $responseSchema = $request->getResponseSchema();
 
         if (!$responseSchema instanceof Magento_Data_Schema) {
             $params = $responseSchema;
-            $responseSchema = $this->_serviceObjectManager->getResponseSchema($serviceClass, $serviceMethod, $request->getVersion());
+            $responseSchema = $this->_serviceManager->getResponseSchema($this->_serviceID, $serviceMethod, $this->_serviceVersion);
             if (!empty($params) && is_array($params)) {
                 $responseSchema->addData($params);
             }
@@ -238,13 +239,17 @@ abstract class Mage_Core_Service_Type_Abstract
 
         $responseSchema->setRequestedFields($request->getFields());
 
-        $container = new Varien_Object();
+        $array = array();
         foreach ($responseSchema->getData('fields') as $key => $config) {
             $result = $this->_fetchValue($model, $key, $config);
-            $container->setData($key, $result);
+            $array[$key] = $result;
         }
 
-        return $container;
+        if ($request->getAsArray()) {
+            return $array;
+        } else {
+            return new Varien_Object($array);
+        }
     }
 
     /**
@@ -273,7 +278,7 @@ abstract class Mage_Core_Service_Type_Abstract
                     $result = $model->$config['get_callback']();
                 }
             } else {
-                $callbackObject = $this->_serviceObjectManager->getObject($config['get_callback'][0]);
+                $callbackObject = $this->_serviceManager->getObject($config['get_callback'][0]);
                 $result = $callbackObject->$config['get_callback'][1]($model);
             }
         } else {

@@ -16,13 +16,7 @@
             <current_api_version>1</current_api_version>
             <active>true</active>
             <depends>
-                <Mage_Eav>
-                    <services>
-                        <eav_attribute>
-                            <version>V2</version>
-                        </eav_attribute>
-                    </services>
-                </Mage_Eav>
+                <Mage_Eav />
                 <Mage_Cms/>
                 <Mage_Index/>
                 <Mage_Customer/>
@@ -85,6 +79,15 @@
                     </type_transition>
                 </observers>
             </catalog_product_transition_product_type>
+
+            <sales_order_place_before>
+                <observers>
+                    <ns_module_bla>
+                        <class>Mage_Catalog_Model_Observer</class>
+                        <method>transitionProductType</method>
+                    </ns_module_bla>
+                </observers>
+            </sales_order_place_before>
         </events>
         <catalog>
             <product>

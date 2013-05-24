@@ -166,7 +166,7 @@ class Mage_Core_Service_Config
                     if (!isset($result['services'])) {
                         $result['services'] = array();
                     }
-                    $nodeID = $_children['uri'] . (isset($_children['version']) ? ('-version-' . $_children['version']) : '');
+                    $nodeID = $_children['id'] . (isset($_children['version']) ? ('-version-' . $_children['version']) : '');
                     if (!isset($result['services'][$nodeID])) {
                         $result['services'][$nodeID] = $_children;
                     } else {
@@ -211,11 +211,9 @@ class Mage_Core_Service_Config
     protected function _readAttributes($node, & $result)
     {
         if ($node->hasAttributes()) {
-            $attributes = array();
             foreach ($node->attributes as $attr) {
-                $attributes[$attr->name] = $attr->value;
+                $result[$attr->name] = $attr->value;
             }
-            $result['_attributes_'] = $attributes;
         }
     }
 
@@ -246,6 +244,7 @@ class Mage_Core_Service_Config
         if (!empty($className) && class_exists($className)) {
             return $className;
         }
+
         $className = $this->getServices()->getData($serviceReferenceId . '/class');
         if (!empty($className) && class_exists($className)) {
             return $className;
@@ -256,21 +255,18 @@ class Mage_Core_Service_Config
         }
 
         throw new Mage_Core_Service_Exception(
-            Mage::helper('Mage_Core_Helper_Data')->__('Service %s does not exist!', $serviceReferenceId),
-            Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+            Mage::helper('Mage_Core_Helper_Data')->__('Service %s does not exist!', $serviceReferenceId)
+        );
     }
 
     /**
      * @param string $serviceReferenceId
+     * @param string $serviceMethod
      * @return string
      */
-    public function getServiceVersionBind($serviceReferenceId)
+    public function getServiceVersionBind($serviceReferenceId, $serviceMethod = null)
     {
-        $result = $this->_config->getNode("modules/{$serviceReferenceId}/current_api_version");
-        if (!$result) {
-            $result = $this->_config->getNode('global/current_api_version');
-        }
-
-        return $result;
+        // loookup for default service version
+        return '1';
     }
 }
