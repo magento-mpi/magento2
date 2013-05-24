@@ -24,6 +24,7 @@ class Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Con
     {
         $this->dispatch('backend/admin/system_store/index');
         $response = $this->getResponse()->getBody();
+        $this->assertNotContains('Sorry, but you can\'t add any more websites with this account.', $response);
         $this->assertSelectRegExp('#add', '/Create Website/', 0, $response);
     }
 
