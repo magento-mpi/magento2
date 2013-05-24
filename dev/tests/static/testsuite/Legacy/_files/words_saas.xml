@@ -14,5 +14,6 @@
 <config>
     <words>
         <word>Enterprise_Staging</word>
+        <word>reward.points</word>
     </words>
 </config>
