@@ -49,16 +49,13 @@
                                 <field id="heading_sftp" showInDefault="1" showInWebsite="0"/>
                                 <field id="settlement_reports_ftp_login" showInDefault="1" showInWebsite="0"/>
                                 <field id="settlement_reports_ftp_password" showInDefault="1" showInWebsite="0"/>
-                                <group id="settlement_reports_ftp_advanced" showInDefault="0" showInWebsite="0">
-                                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                                    <field id="settlement_reports_ftp_sandbox" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_ftp_ip" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_ftp_path" showInDefault="1" showInWebsite="0"/>
-                                    <field id="heading_schedule" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_active" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_schedule" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_time" showInDefault="1" showInWebsite="0"/>
-                                </group>
+                                <field id="settlement_reports_ftp_sandbox" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_ip" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_path" showInDefault="1" showInWebsite="0"/>
+                                <field id="heading_schedule" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_active" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_schedule" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_time" showInDefault="1" showInWebsite="0"/>
                             </group>
                             <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
                                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
