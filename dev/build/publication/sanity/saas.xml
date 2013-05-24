@@ -30,6 +30,8 @@
         <word>PricePermissions</word>
         <word>PromotionPermissions</word>
         <word>Enterprise_Reminder</word>
+        <word>Enterprise_Reward</word>
+        <word>reward.points</word>
         <word>Enterprise_Rma</word>
         <word>Enterprise_Tag</word>
         <word>TargetRule</word>
@@ -143,6 +145,7 @@
             <word>GoogleOptimizer</word>
             <word>TargetRule</word>
             <word>Enterprise_Reminder</word>
+            <word>Enterprise_Reward</word>
             <word>Mage_Ogone</word>
             <word>Enterprise_Checkout</word>
             <word>CustomerSegment</word>
