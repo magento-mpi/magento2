@@ -17,6 +17,25 @@
  */
 class Mage_User_Block_User extends Mage_Backend_Block_Widget_Grid_Container
 {
+    /**
+     * @var Mage_User_Model_Resource_User
+     */
+    protected $_resourceModel;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_User_Model_Resource_User $resourceModel
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_User_Model_Resource_User $resourceModel,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_resourceModel = $resourceModel;
+    }
+
     protected function _construct()
     {
         $this->addData(array(
@@ -37,9 +56,7 @@ class Mage_User_Block_User extends Mage_Backend_Block_Widget_Grid_Container
     {
         Mage::dispatchEvent('permissions_user_html_before', array('block' => $this));
         $this->_addNewButton();
-        /** @var $model Mage_User_Model_Resource_User */
-        $model = Mage::getObjectManager()->get('Mage_User_Model_Resource_User');
-        if (!$model->canCreateUser()) {
+        if (!$this->_resourceModel->canCreateUser()) {
             $this->_updateButton('add', 'disabled', true);
         }
         return parent::_toHtml();
