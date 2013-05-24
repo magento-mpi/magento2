@@ -67,7 +67,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Mage_Core_Exception
      * @expectedExceptionMessage Data reference configuration doesn't have a block to link to
      */
     public function testInitMissingNamespaces()

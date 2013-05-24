@@ -47,14 +47,14 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
      *
      * @param array $dataservicesList
      * @return Mage_Core_Model_Dataservice_Graph
-     * @throws Exception
+     * @throws Mage_Core_Exception
      */
     public function init(array $dataservicesList)
     {
         foreach ($dataservicesList as $dataserviceName => $namespaceConfig) {
             $this->get($dataserviceName);
             if (!isset($namespaceConfig['namespaces'])) {
-                throw new Exception("Data reference configuration doesn't have a block to link to");
+                throw new Mage_Core_Exception("Data reference configuration doesn't have a block to link to");
             }
             foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
                 $this->_repository->addNameInNamespace($namespaceName, $dataserviceName, $aliasInNamespace);
