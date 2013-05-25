@@ -273,22 +273,13 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array($storeOne, $storeTwo, $storeThree)))
         ;
         $this->_designPackageMock
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('getConfigurationDesignTheme')
-            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeOne))
-            ->will($this->returnValue(123))
-        ;
-        $this->_designPackageMock
-            ->expects($this->at(1))
-            ->method('getConfigurationDesignTheme')
-            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeTwo))
-            ->will($this->returnValue(456))
-        ;
-        $this->_designPackageMock
-            ->expects($this->at(2))
-            ->method('getConfigurationDesignTheme')
-            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeThree))
-            ->will($this->returnValue(123)) // intentionally the same theme
+            ->will($this->returnValueMap(array(
+                array(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeOne), 123),
+                array(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeTwo), 456),
+                array(Mage_Core_Model_App_Area::AREA_FRONTEND, array('store' => $storeThree), 123),
+            )))
         ;
         $expectedResult = array(123 => array($storeOne, $storeThree), 456 => array($storeTwo));
         $this->assertEquals($expectedResult, $this->_model->getStoresByThemes());
