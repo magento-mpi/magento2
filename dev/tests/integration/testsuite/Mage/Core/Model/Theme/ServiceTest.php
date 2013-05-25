@@ -84,6 +84,33 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/application_cache.php
+     * @magentoDataFixture Mage/Core/_files/config_cache.php
+     * @magentoDataFixture Mage/Core/_files/layout_cache.php
+     * @magentoAppIsolation enabled
+     */
+    public function testReassignThemeToStoresClearCache()
+    {
+        /** @var $appCache Mage_Core_Model_Cache */
+        $appCache = Mage::getSingleton('Mage_Core_Model_Cache');
+        /** @var Mage_Core_Model_Cache_Type_Config $layoutCache */
+        $configCache = Mage::getSingleton('Mage_Core_Model_Cache_Type_Config');
+        /** @var Mage_Core_Model_Cache_Type_Layout $layoutCache */
+        $layoutCache = Mage::getSingleton('Mage_Core_Model_Cache_Type_Layout');
+
+        $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'));
+        $this->assertNotEmpty($configCache->load('CONFIG_CACHE_FIXTURE'));
+        $this->assertNotEmpty($layoutCache->load('LAYOUT_CACHE_FIXTURE'));
+
+        $this->testReassignThemeToStores();
+
+        $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'), 'Unrelated cache must be kept');
+        $this->assertFalse($layoutCache->load('CONFIG_CACHE_FIXTURE'), 'Config cache must be erased');
+        $this->assertFalse($layoutCache->load('LAYOUT_CACHE_FIXTURE'), 'Layout cache must be erased');
+    }
+
+    /**
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
     protected function _getThemeCollection()
