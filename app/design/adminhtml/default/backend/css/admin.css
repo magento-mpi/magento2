@@ -532,7 +532,12 @@ button.primary.disabled:hover,
 .notification .action-close:hover,
 .notification .action-close:active,
 .notification .action-close.active,
-.notification .action-close[disabled] {
+.notification .action-close[disabled],
+.adminhtml-sales-order-create-index .page-actions-inner .cancel,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:hover,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel.active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel[disabled] {
     border: 0;
     border-radius: 0;
     background: none;
