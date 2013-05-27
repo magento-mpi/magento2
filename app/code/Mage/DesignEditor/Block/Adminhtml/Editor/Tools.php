@@ -79,7 +79,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
                 'is_hidden'     => false,
                 'is_disabled'   => $isDisabled,
                 'id'            => 'vde-tab-code',
-                'label'         => $this->__('Scripts'),
+                'label'         => $this->__('Advanced'),
                 'content_block' => 'design_editor_tools_code',
                 'class'         => 'item-code'
             ),
