@@ -41,6 +41,12 @@ class Magento_Test_Helper_Api
         $result = call_user_func_array(array($handlerMock, $path), $params);
         Mage::unregister('isSecureArea');
         Mage::register('isSecureArea', false);
+
+        /**
+         * Error handler need to be restored because of Mage_Api_Model_Server_HandlerAbstract::__construct
+         * see set_error_handler(array($this, 'handlePhpError'), E_ALL);
+         */
+        set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
         return $result;
     }
 
