@@ -48,7 +48,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     }
 
     /**
-     * Get assign to storeview button
+     * Get assign to store view button
      *
      * @return string
      */

@@ -47,12 +47,4 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
         $this->_block->setThemeId(2);
         $this->assertAttributeEquals(2, '_themeId', $this->_block);
     }
-
-    public function testGetQuitUrl()
-    {
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->will($this->returnArgument(0));
-        $this->assertEquals('*/*/quit', $this->_block->getQuitUrl());
-    }
 }
