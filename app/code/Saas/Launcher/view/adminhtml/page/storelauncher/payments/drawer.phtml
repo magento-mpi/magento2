@@ -203,7 +203,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="hidden" name="payment_method" value="paypal_express_checkout">
                 <div class="field field-store-paypal-express-email with-note">
                     <div class="control">
-                        <input type="text" name="groups[account][fields][business_account][value]" class="input-text  validate-email required-entry" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-express-email">
+                        <input type="text" name="groups[paypal_alternative_payment_methods][groups][express_checkout_us][groups][express_checkout_required][groups][express_checkout_required_express_checkout][fields][business_account][value]" class="input-text  validate-email required-entry" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-express-email">
                     </div>
                     <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Confirm'); ?></span>
@@ -224,7 +224,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Email'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" name="groups[account][fields][business_account][value]" class="input-text validate-email required-entry" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-standard-email">
+                        <input type="text" name="groups[paypal_group_all_in_one][groups][wps_us][groups][wps_required_settings][fields][business_account][value]" class="input-text validate-email required-entry" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-standard-email">
                         <div class="note"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Payments will be sent to this address'); ?></div>
                     </div>
                 </div>
@@ -246,7 +246,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Partner'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" name="groups[payflow_advanced][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/partner'); ?>" class="input-text required-entry" id="advanced-partner">
+                        <input type="text" name="groups[paypal_group_all_in_one][groups][payflow_advanced_us][groups][required_settings][groups][payments_advanced][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/partner'); ?>" class="input-text required-entry" id="advanced-partner">
                     </div>
                 </div>
                 <div class="field field-advanced-vendor required">
@@ -254,7 +254,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Merchant Login'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" name="groups[payflow_advanced][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/vendor'); ?>" class="input-text required-entry" id="advanced-vendor">
+                        <input type="text" name="groups[paypal_group_all_in_one][groups][payflow_advanced_us][groups][required_settings][groups][payments_advanced][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/vendor'); ?>" class="input-text required-entry" id="advanced-vendor">
                     </div>
                 </div>
                 <div class="field field-advanced-user required with-tooltip">
@@ -262,7 +262,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('User'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" name="groups[payflow_advanced][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/user'); ?>" class="input-text required-entry" id="advanced-user">
+                        <input type="text" name="groups[paypal_group_all_in_one][groups][payflow_advanced_us][groups][required_settings][groups][payments_advanced][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/user'); ?>" class="input-text required-entry" id="advanced-user">
                         <div class="tooltip"><span class="help"><span></span></span><div class="tooltip-content"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal recommends you set up an additional User on your account at manager.paypal.com, instead of entering your admin username and password here. This will enhance your security and prevent service interruptions if you later change your password. If you do not want to set up an additional User, you can re-enter your Merchant Login here.'); ?></div></div>
                         <div class="note"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal recommends that you set up an additional User on your account at manager.paypal.com'); ?></div>
                     </div>
@@ -272,7 +272,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Password'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="password" name="groups[payflow_advanced][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/payflow_advanced/pwd'); ?>" class="input-text required-entry" id="advanced-password">
+                        <input type="password" name="groups[paypal_group_all_in_one][groups][payflow_advanced_us][groups][required_settings][groups][payments_advanced][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/payflow_advanced/pwd'); ?>" class="input-text required-entry" id="advanced-password">
                     </div>
                 </div>
                 <div class="actions">
@@ -294,7 +294,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Email'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" name="groups[account][fields][business_account][value]" class="input-text validate-email required-entry" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="payments-pro-email">
+                        <input type="text" name="groups[paypal_group_all_in_one][groups][wpp_us][groups][wpp_required_settings][groups][wpp_and_express_checkout][fields][business_account][value]" class="input-text validate-email required-entry" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="payments-pro-email">
                     </div>
                 </div>
                 <div class="actions">
@@ -315,7 +315,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Partner'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" class="input-text required-entry" id="payflow-link-partner" name="groups[payflow_link][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/partner'); ?>">
+                        <input type="text" class="input-text required-entry" id="payflow-link-partner" name="groups[paypal_payment_gateways][groups][payflow_link_us][groups][payflow_link_required][groups][payflow_link_payflow_link][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/partner'); ?>">
                     </div>
                 </div>
                 <div class="field field-payflow-link-vendor required">
@@ -323,7 +323,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" class="input-text required-entry" id="payflow-link-vendor" name="groups[payflow_link][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/vendor'); ?>">
+                        <input type="text" class="input-text required-entry" id="payflow-link-vendor" name="groups[paypal_payment_gateways][groups][payflow_link_us][groups][payflow_link_required][groups][payflow_link_payflow_link][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/vendor'); ?>">
                     </div>
                 </div>
                 <div class="field field-payflow-link-user required">
@@ -331,7 +331,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('User'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" class="input-text required-entry" id="payflow-link-user" name="groups[payflow_link][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/user'); ?>">
+                        <input type="text" class="input-text required-entry" id="payflow-link-user" name="groups[paypal_payment_gateways][groups][payflow_link_us][groups][payflow_link_required][groups][payflow_link_payflow_link][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/user'); ?>">
                     </div>
                 </div>
                 <div class="field field-payflow-link-password required">
@@ -339,7 +339,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Password'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="password" class="input-text required-entry" id="payflow-link-password" name="groups[payflow_link][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/payflow_link/pwd'); ?>">
+                        <input type="password" class="input-text required-entry" id="payflow-link-password" name="groups[paypal_payment_gateways][groups][payflow_link_us][groups][payflow_link_required][groups][payflow_link_payflow_link][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/payflow_link/pwd'); ?>">
                     </div>
                 </div>
 
@@ -361,7 +361,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Partner'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" class="input-text required-entry" id="payflow-pro-partner" name="groups[verisign][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/verisign/partner'); ?>">
+                        <input type="text" class="input-text required-entry" id="payflow-pro-partner" name="groups[paypal_payment_gateways][groups][paypal_verisign_with_express_checkout_us][groups][paypal_payflow_required][groups][paypal_payflow_api_settings][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/verisign/partner'); ?>">
                     </div>
                 </div>
                 <div class="field field-payflow-pro-partner-vendor required">
@@ -369,7 +369,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="text" class="input-text required-entry" id="payflow-pro-partner-vendor" name="groups[verisign][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/verisign/vendor'); ?>">
+                        <input type="text" class="input-text required-entry" id="payflow-pro-partner-vendor" name="groups[paypal_payment_gateways][groups][paypal_verisign_with_express_checkout_us][groups][paypal_payflow_required][groups][paypal_payflow_api_settings][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/verisign/vendor'); ?>">
                     </div>
                 </div>
                 <div class="field field-payflow-pro-partner-user required">
@@ -377,7 +377,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('User'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="password" class="input-text required-entry" id="payflow-pro-user" name="groups[verisign][fields][user][value]" value="<?php echo $this->getObscuredConfigValue('payment/verisign/user'); ?>">
+                        <input type="password" class="input-text required-entry" id="payflow-pro-user" name="groups[paypal_payment_gateways][groups][paypal_verisign_with_express_checkout_us][groups][paypal_payflow_required][groups][paypal_payflow_api_settings][fields][user][value]" value="<?php echo $this->getObscuredConfigValue('payment/verisign/user'); ?>">
                     </div>
                 </div>
                 <div class="field field-payflow-pro-password required">
@@ -385,7 +385,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Password'); ?></span>
                     </label>
                     <div class="control">
-                        <input type="password" class="input-text required-entry" id="payflow-pro-password" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/verisign/pwd'); ?>">
+                        <input type="password" class="input-text required-entry" id="payflow-pro-password" name="groups[paypal_payment_gateways][groups][paypal_verisign_with_express_checkout_us][groups][paypal_payflow_required][groups][paypal_payflow_api_settings][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/verisign/pwd'); ?>">
                     </div>
                 </div>
                 <div class="actions">
