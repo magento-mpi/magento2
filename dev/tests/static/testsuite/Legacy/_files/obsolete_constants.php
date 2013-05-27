@@ -17,6 +17,7 @@ return array(
     array('CACHE_TAG', 'Mage_Core_Model_Resource_Db_Collection_Abstract',
         'Mage_Core_Model_Cache_Type_Collection::CACHE_TAG'
     ),
+    array('CACHE_TAG', 'Mage_Core_Model_Translate', 'Mage_Core_Model_Cache_Type_Translate::CACHE_TAG'),
     array('CACHE_TAG', 'Mage_Rss_Block_Catalog_NotifyStock'),
     array('CACHE_TAG', 'Mage_Rss_Block_Catalog_Review'),
     array('CACHE_TAG', 'Mage_Rss_Block_Order_New'),
@@ -59,6 +60,7 @@ return array(
     array('INIT_OPTION_SCOPE_TYPE', 'Mage_Core_Model_App', 'Mage::PARAM_RUN_TYPE'),
     array('INIT_OPTION_URIS', 'Mage_Core_Model_App', 'Mage::PARAM_APP_URIS'),
     array('INSTALLER_HOST_RESPONSE', 'Mage_Install_Model_Installer'),
+    array('LAYOUT_GENERAL_CACHE_TAG', 'Mage_Core_Model_Layout_Merge', 'Mage_Core_Model_Cache_Type_Layout::CACHE_TAG'),
     array('LOCALE_CACHE_KEY', 'Mage_Adminhtml_Block_Page_Footer'),
     array('LOCALE_CACHE_LIFETIME', 'Mage_Adminhtml_Block_Page_Footer'),
     array('LOCALE_CACHE_TAG', 'Mage_Adminhtml_Block_Page_Footer'),
