@@ -283,7 +283,7 @@
 
     <adminhtml_catalog_product_simple>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
+        <reference name="product_tabs">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
                 <block type="Mage_Core_Block_Template" name="attribute-block-template"
                        template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
@@ -295,12 +295,16 @@
                        template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
                        as="matrix"/>
             </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_simple>
 
     <adminhtml_catalog_product_virtual>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
+        <reference name="product_tabs">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
                 <block type="Mage_Core_Block_Template" name="attribute-block-template"
                        template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
@@ -312,12 +316,16 @@
                        template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
                        as="matrix"/>
             </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_virtual>
 
     <adminhtml_catalog_product_grouped>
         <update handle="adminhtml_catalog_product_grouped_grid_popup"/>
-        <reference name="product-type-tabs">
+        <reference name="product_tabs">
             <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Mage_Catalog::product/grouped/container.phtml">
                 <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Mage_Catalog::product/grouped/grouped.phtml">
                     <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts_List"
@@ -327,6 +335,10 @@
                     <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.grid.popup.container" as="catalog.product.group.grid.popup.container"/>
                 </block>
             </block>
+            <action method="addTab">
+                <name>grouped</name>
+                <block>catalog.product.edit.grouped.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_grouped>
 
@@ -411,7 +423,7 @@ Layout handle for configurable products
 
     <adminhtml_catalog_product_configurable_new>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
+        <reference name="product_tabs">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
                 <block type="Mage_Core_Block_Template" name="attribute-block-template"
                        template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
@@ -423,12 +435,16 @@ Layout handle for configurable products
                        template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
                        as="matrix"/>
             </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_configurable_new>
 
     <adminhtml_catalog_product_configurable>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
+        <reference name="product_tabs">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
                 <block type="Mage_Core_Block_Template" name="attribute-block-template"
                        template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
@@ -440,6 +456,10 @@ Layout handle for configurable products
                        template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
                        as="matrix"/>
             </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_configurable>
 

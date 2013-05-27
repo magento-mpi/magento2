@@ -95,11 +95,6 @@ jQuery(function($) {
     });
     $form.mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
-    $('#product_info_tabs').on('tabsbeforeactivate tabscreate', function (event, ui) {
-        var action = $(ui.newPanel || ui.panel).find('#attribute-name-container').length ? 'show' : 'hide';
-        $('#config_super_product, #grouped_product_container')[action]();
-    });
-
     var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
     var availablePlaceholders = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
     var Autogenerator = function(masks) {

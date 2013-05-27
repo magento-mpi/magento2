@@ -395,4 +395,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             ? array_filter($this->_getProductType()->getUsedProductAttributes($this->_getProduct()))
             : array();
     }
+
+    /**
+     * Get parent tab code
+     *
+     * @return string
+     */
+    public function getParentTab()
+    {
+        return 'product-details';
+    }
 }

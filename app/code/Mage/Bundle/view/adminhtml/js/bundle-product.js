@@ -19,7 +19,6 @@
             this._bindCheckboxHandlers();
             this._bindAddSelectionDialog();
             this._hideProductTypeSwitcher();
-            this._bindPanelVisibilityToggler();
         },
         _initOptionBoxes: function () {
             this.element.sortable({
@@ -151,14 +150,6 @@
         },
         _hideProductTypeSwitcher: function () {
             $('#weight_and_type_switcher, label[for=weight_and_type_switcher]').hide();
-        },
-        _bindPanelVisibilityToggler: function () {
-            var element = this.element;
-            this._on('#product_info_tabs', {
-                tabsbeforeactivate: function (event, ui) {
-                    element[$(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide']();
-                }
-            });
         },
         _bindCheckboxHandlers: function () {
             this._on({

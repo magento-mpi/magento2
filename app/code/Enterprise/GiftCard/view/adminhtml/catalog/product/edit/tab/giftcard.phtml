@@ -221,11 +221,6 @@ jQuery(function($){
     toggleDefault('lifetime');
     toggleDefault('allow_message');
 
-    $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
-        var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
-        $('#giftcard_info_container')[action]();
-    });
-
     $('#allow_open_amount').on('click', toggleOpenAmount);
     toggleOpenAmount();
 
