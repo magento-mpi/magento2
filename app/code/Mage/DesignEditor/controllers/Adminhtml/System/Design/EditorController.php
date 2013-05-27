@@ -280,6 +280,55 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * Revert 'staging' theme to the state of 'physical' or 'virtual'
+     *
+     * @throws Magento_Exception
+     */
+    public function revertAction()
+    {
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        $revertTo = $this->getRequest()->getParam('revert_to');
+
+        $virtualTheme = $this->_loadThemeById($themeId);
+        if (!$virtualTheme->isVirtual()) {
+            throw new Mage_Core_Exception($this->_helper->__('Theme "%s" is not editable.', $virtualTheme->getId()));
+        }
+
+        try {
+            /** @var $copyService Mage_Core_Model_Theme_CopyService */
+            $copyService = $this->_objectManager->get('Mage_Core_Model_Theme_CopyService');
+            $stagingTheme = $virtualTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
+            switch ($revertTo) {
+                case 'last_saved':
+
+                    $copyService->copy($virtualTheme, $stagingTheme);
+                    $message = $this->_helper->__('Theme "%s" reverted to last saved state',
+                        $virtualTheme->getThemeTitle()
+                    );
+                    $response = array('message' =>  $message);
+                    break;
+
+                case 'physical':
+                    $physicalTheme = $virtualTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+                        ->getPhysicalTheme();
+                    $copyService->copy($physicalTheme, $stagingTheme);
+                    $message = $this->_helper->__('Revert to physical theme is not yet implemented');
+                    $response = array('error' => true, 'message' => $message);
+                    break;
+
+                default:
+                    throw new Magento_Exception('Invalid revert mode "%s"', $revertTo);
+            }
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $response = array('error' => true, 'message' => $this->_helper->__('Unknown error'));
+        }
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
+    }
+
+    /**
      * Set page title
      */
     protected function _setTitle()

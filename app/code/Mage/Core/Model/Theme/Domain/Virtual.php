@@ -80,6 +80,25 @@ class Mage_Core_Model_Theme_Domain_Virtual
     }
 
     /**
+     * Get 'physical' theme
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getPhysicalTheme()
+    {
+        if ($this->_theme->getId()) {
+            $collection = $this->_theme->getCollection();
+            $collection->addFieldToFilter('parent_id', $this->_theme->getId());
+            $collection->addFieldToFilter('type', Mage_Core_Model_Theme::TYPE_PHYSICAL);
+            $physicalTheme = $collection->getFirstItem();
+            if ($physicalTheme->getId()) {
+                return $physicalTheme;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Check if theme is assigned to ANY store
      *
      * @return bool
