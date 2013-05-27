@@ -15,43 +15,27 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save extends Mage_GoogleOptimi
     protected $_page;
 
     /**
-     * @var Varien_Event_Observer
-     */
-    protected $_observer;
-
-    /**
-     * Save page script after saving page
+     * Init entity
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
-     * @throws InvalidArgumentException
      */
-    public function savePageGoogleExperimentScript($observer)
+    protected function _initEntity($observer)
     {
-        if (!$this->_helper->isGoogleExperimentActive()) {
-            return $this;
-        }
-
-        $this->_observer = $observer;
-
-        $this->_processSaveEvent();
-
-        return $this;
+        $this->_page = $observer->getEvent()->getObject();
     }
 
     /**
-     * Save code model
+     * Get data for saving code model
+     *
+     * @return array
      */
-    protected function _saveCodeModel()
+    protected function _getCodeData()
     {
-        $this->_page = $this->_observer->getEvent()->getObject();
-
-        $this->_modelCode->addData(array(
+        return array(
             'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
             'entity_id' => $this->_page->getId(),
             'store_id' => 0,
             'experiment_script' => $this->_params['experiment_script'],
-        ));
-        $this->_modelCode->save();
+        );
     }
 }

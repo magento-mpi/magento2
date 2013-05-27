@@ -42,7 +42,7 @@
                 <observers>
                     <googleoptimizer_observer>
                         <class>Mage_GoogleOptimizer_Model_Observer_Product_Save</class>
-                        <method>saveProductGoogleExperimentScript</method>
+                        <method>saveGoogleExperimentScript</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_save_after>
@@ -66,7 +66,7 @@
                 <observers>
                     <googleoptimizer_observer>
                         <class>Mage_GoogleOptimizer_Model_Observer_Category_Save</class>
-                        <method>saveCategoryGoogleExperimentScript</method>
+                        <method>saveGoogleExperimentScript</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_category_save_after>
@@ -90,7 +90,7 @@
                 <observers>
                     <googleoptimizer_observer>
                         <class>Mage_GoogleOptimizer_Model_Observer_CmsPage_Save</class>
-                        <method>savePageGoogleExperimentScript</method>
+                        <method>saveGoogleExperimentScript</method>
                     </googleoptimizer_observer>
                 </observers>
             </cms_page_save_after>

@@ -15,36 +15,35 @@ class Mage_GoogleOptimizer_Model_Observer_Category_Save extends Mage_GoogleOptim
     protected $_category;
 
     /**
-     * Save category script after saving category
+     * Init entity
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_GoogleOptimizer_Model_Observer_Category_Save
-     * @throws InvalidArgumentException
      */
-    public function saveCategoryGoogleExperimentScript($observer)
+    protected function _initEntity($observer)
     {
         $this->_category = $observer->getEvent()->getCategory();
-
-        if (!$this->_helper->isGoogleExperimentActive($this->_category->getStoreId())) {
-            return $this;
-        }
-
-        $this->_processSaveEvent();
-
-        return $this;
     }
 
     /**
-     * Save code model
+     * Check is Google Experiment enabled
      */
-    protected function _saveCodeModel()
+    protected function _isGoogleExperimentActive()
     {
-        $this->_modelCode->addData(array(
+        return $this->_helper->isGoogleExperimentActive($this->_category->getStoreId());
+    }
+
+    /**
+     * Get data for saving code model
+     *
+     * @return array
+     */
+    protected function _getCodeData()
+    {
+        return array(
             'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
             'entity_id' => $this->_category->getId(),
             'store_id' => $this->_category->getStoreId(),
             'experiment_script' => $this->_params['experiment_script'],
-        ));
-        $this->_modelCode->save();
+        );
     }
 }

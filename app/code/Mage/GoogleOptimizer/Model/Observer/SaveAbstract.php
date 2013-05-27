@@ -45,17 +45,69 @@ abstract class Mage_GoogleOptimizer_Model_Observer_SaveAbstract
     }
 
     /**
+     * Save script after saving entity
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_GoogleOptimizer_Model_Observer_Category_Save
+     * @throws InvalidArgumentException
+     */
+    public function saveGoogleExperimentScript($observer)
+    {
+        $this->_initEntity($observer);
+
+        if ($this->_isGoogleExperimentActive()) {
+            $this->_processCode();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Init entity
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    abstract protected function _initEntity($observer);
+
+    /**
+     * Check is Google Experiment enabled
+     */
+    protected function _isGoogleExperimentActive()
+    {
+        return $this->_helper->isGoogleExperimentActive();
+    }
+
+    /**
+     * Processes Save event of the entity
+     */
+    protected function _processCode()
+    {
+        $this->_initRequestParams();
+
+        if ($this->_isNewCode()) {
+            $this->_saveCode();
+        } else {
+            $this->_loadCode();
+            if ($this->_isEmptyCode()) {
+                $this->_deleteCode();
+            } else {
+                $this->_saveCode();
+            }
+        }
+    }
+
+    /**
      * Init request params
      *
      * @throws InvalidArgumentException
      */
     protected function _initRequestParams()
     {
-        $values = $this->_request->getParam('google_experiment');
-        if (!is_array($values) || !isset($values['experiment_script']) || !isset($values['code_id'])) {
+        $params = $this->_request->getParam('google_experiment');
+        if (!is_array($params) || !isset($params['experiment_script']) || !isset($params['code_id'])) {
             throw new InvalidArgumentException('Wrong request parameters');
         }
-        $this->_params = $values;
+        $this->_params = $params;
     }
 
     /**
@@ -63,9 +115,38 @@ abstract class Mage_GoogleOptimizer_Model_Observer_SaveAbstract
      *
      * @return bool
      */
-    protected function _isNewModelCode()
+    protected function _isNewCode()
     {
         return empty($this->_params['code_id']);
+    }
+
+    /**
+     * Save code model
+     */
+    protected function _saveCode()
+    {
+        $this->_modelCode->addData($this->_getCodeData());
+        $this->_modelCode->save();
+    }
+
+    /**
+     * Get data for saving code model
+     *
+     * @return array
+     */
+    abstract protected function _getCodeData();
+
+    /**
+     * Load model code
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function _loadCode()
+    {
+        $this->_modelCode->load($this->_params['code_id']);
+        if (!$this->_modelCode->getId()) {
+            throw new InvalidArgumentException('Code does not exist');
+        }
     }
 
     /**
@@ -79,39 +160,12 @@ abstract class Mage_GoogleOptimizer_Model_Observer_SaveAbstract
     }
 
     /**
-     * Save code model
-     */
-    protected abstract function _saveCodeModel();
-
-    /**
-     * Load model code
+     * Delete model code
      *
      * @throws InvalidArgumentException
      */
-    protected function _loadCodeModel()
+    protected function _deleteCode()
     {
-        $this->_modelCode->load($this->_params['code_id']);
-        if (!$this->_modelCode->getId()) {
-            throw new InvalidArgumentException('Code does not exist');
-        }
-    }
-
-    /**
-     * Processes Save event of the entity
-     */
-    protected function _processSaveEvent()
-    {
-        $this->_initRequestParams();
-
-        if ($this->_isNewModelCode()) {
-            $this->_saveCodeModel();
-        } else {
-            $this->_loadCodeModel();
-            if ($this->_isEmptyCode()) {
-                $this->_modelCode->delete();
-            } else {
-                $this->_saveCodeModel();
-            }
-        }
+        $this->_modelCode->delete();
     }
 }

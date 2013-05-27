@@ -48,6 +48,12 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         $this->_codeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
 
+        $this->_pageMock = $this->getMock('Mage_Cms_Model_Page', array(), array(), '', false);
+        $event = $this->getMock('Varien_Event', array('getObject'), array(), '', false);
+        $event->expects($this->once())->method('getObject')->will($this->returnValue($this->_pageMock));
+        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
+
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
             'Mage_GoogleOptimizer_Model_Observer_CmsPage_Save',
@@ -59,20 +65,8 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         );
     }
 
-    protected function _initEventAndPageMocks()
-    {
-        $this->_pageMock = $this->getMock('Mage_Cms_Model_Page', array(), array(), '', false);
-
-        $event = $this->getMock('Varien_Event', array('getObject'), array(), '', false);
-        $event->expects($this->once())->method('getObject')->will($this->returnValue($this->_pageMock));
-        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
-        $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-    }
-
     public function testCreatingCodeIfRequestIsValid()
     {
-        $this->_initEventAndPageMocks();
-
         $pageId = 3;
         $experimentScript = 'some string';
 
@@ -94,7 +88,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         ));
         $this->_codeMock->expects($this->once())->method('save');
 
-        $this->_modelObserver->savePageGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     /**
@@ -111,7 +105,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
             ->will($this->returnValue($params));
 
-        $this->_modelObserver->savePageGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     /**
@@ -135,7 +129,6 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
 
     public function testEditingCodeIfRequestIsValid()
     {
-        $this->_initEventAndPageMocks();
         $pageId = 3;
         $experimentScript = 'some string';
         $codeId = 5;
@@ -161,7 +154,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         ));
         $this->_codeMock->expects($this->once())->method('save');
 
-        $this->_modelObserver->savePageGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     /**
@@ -186,7 +179,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         $this->_codeMock->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(false));
         $this->_codeMock->expects($this->never())->method('save');
 
-        $this->_modelObserver->savePageGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     public function testRemovingCode()
@@ -208,7 +201,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         $this->_codeMock->expects($this->never())->method('save');
         $this->_codeMock->expects($this->once())->method('delete');
 
-        $this->_modelObserver->savePageGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
 
     }
 
@@ -220,6 +213,6 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
         $this->_codeMock->expects($this->never())->method('save');
         $this->_codeMock->expects($this->never())->method('delete');
 
-        $this->_modelObserver->savePageGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 }

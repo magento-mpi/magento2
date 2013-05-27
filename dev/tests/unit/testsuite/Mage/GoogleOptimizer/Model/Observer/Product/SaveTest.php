@@ -91,7 +91,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         ));
         $this->_codeMock->expects($this->once())->method('save');
 
-        $this->_modelObserver->saveProductGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
             ->will($this->returnValue($params));
 
-        $this->_modelObserver->saveProductGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     /**
@@ -158,7 +158,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         ));
         $this->_codeMock->expects($this->once())->method('save');
 
-        $this->_modelObserver->saveProductGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     /**
@@ -183,7 +183,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         $this->_codeMock->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(false));
         $this->_codeMock->expects($this->never())->method('save');
 
-        $this->_modelObserver->saveProductGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     public function testRemovingCode()
@@ -205,7 +205,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         $this->_codeMock->expects($this->never())->method('save');
         $this->_codeMock->expects($this->once())->method('delete');
 
-        $this->_modelObserver->saveProductGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
     public function testManagingCodeIfGoogleExperimentIsDisabled()
@@ -216,6 +216,6 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         $this->_codeMock->expects($this->never())->method('save');
         $this->_codeMock->expects($this->never())->method('delete');
 
-        $this->_modelObserver->saveProductGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 }
