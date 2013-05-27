@@ -2463,6 +2463,18 @@ table.items-to-invoice tbody tr:hover td {
     margin-right: 5px;
 }
 
+/* Permanent Redirect for old URL */
+.control > [name="product[url_key_create_redirect]"],
+.control > [name="general[url_key_create_redirect]"] {
+    float: left;
+    margin: 8px 5px 0 0;
+}
+
+.control > [name="product[url_key_create_redirect]"] + .label,
+.control > [name="general[url_key_create_redirect]"] + .label {
+    width: auto;
+}
+
 /*
     Clearfix
 -------------------------------------- */
