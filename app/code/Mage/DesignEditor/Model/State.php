@@ -115,7 +115,8 @@ class Mage_DesignEditor_Model_State
      * @param string $areaCode
      * @param Mage_Core_Controller_Request_Http $request
      */
-    public function update($areaCode, Mage_Core_Controller_Request_Http $request) {
+    public function update($areaCode, Mage_Core_Controller_Request_Http $request)
+    {
         $this->_backendSession->setData(self::CURRENT_URL_SESSION_KEY, $request->getPathInfo());
         $this->_backendSession->setData(self::CURRENT_MODE_SESSION_KEY, self::MODE_NAVIGATION);
         $this->_injectUrlModel(self::MODE_NAVIGATION);

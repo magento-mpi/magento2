@@ -179,50 +179,29 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_backendSession->expects($this->any())
             ->method('unsetData')
             ->with($this->logicalOr(
-                Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY
             ))
             ->will($this->returnValue($this->_backendSession));
-
-        $this->_model->reset();
+        $this->assertEquals($this->_model, $this->_model->reset());
     }
 
     public function testUpdateNavigationMode()
     {
         $this->_setAdditionalExpectations();
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam', 'isAjax', 'getPathInfo'),
-            array(), '', false);
+        $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getPathInfo'), array(), '', false);
 
-        $controller = $this->getMock('Mage_Adminhtml_Controller_Action', array('getFullActionName'), array(),
-            '', false);
-
-        $request->expects($this->once())
-            ->method('getParam')
-            ->with('handle', '')
-            ->will($this->returnValue(''));
-
-        $request->expects($this->once())
-            ->method('isAjax')
-            ->will($this->returnValue(false));
-
-        $controller->expects($this->once())
-            ->method('getFullActionName')
-            ->will($this->returnValue('index'));
-
-        $this->_backendSession->expects($this->at(0))
-            ->method('setData')
-            ->with('vde_current_handle', 'index');
+        $controller = $this->getMock('Mage_Adminhtml_Controller_Action', array(), array(), '', false);
 
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('/'));
 
-        $this->_backendSession->expects($this->at(1))
+        $this->_backendSession->expects($this->at(0))
             ->method('setData')
             ->with('vde_current_url', '/');
 
-        $this->_backendSession->expects($this->at(2))
+        $this->_backendSession->expects($this->at(1))
             ->method('setData')
             ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_NAVIGATION);
 
@@ -233,12 +212,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_layoutFactory->expects($this->once())
             ->method('createLayout')
             ->with(array('area' => self::AREA_CODE), self::LAYOUT_NAVIGATION_CLASS_NAME);
-
-        $this->_objectManager->expects($this->once())
-            ->method('configure')
-            ->with(array('preferences' => array(
-                self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME => self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME
-            )));
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }
