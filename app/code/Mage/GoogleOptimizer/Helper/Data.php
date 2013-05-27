@@ -45,6 +45,17 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Checks if Google Experiment is enabled
+     *
+     * @param string $store
+     * @return bool
+     */
+    public function isGoogleExperimentEnabled($store = null)
+    {
+        return (bool)$this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
+    }
+
+    /**
      * Checks if Google Experiment is active
      *
      * @param string $store
@@ -52,7 +63,6 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isGoogleExperimentActive($store = null)
     {
-        $googleExperimentActive = (bool)$this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
-        return $googleExperimentActive && $this->_analyticsHelper->isGoogleAnalyticsAvailable($store);
+        return $this->isGoogleExperimentEnabled($store) && $this->_analyticsHelper->isGoogleAnalyticsAvailable($store);
     }
 }
