@@ -16,38 +16,6 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * @var Mage_DesignEditor_Model_Theme_Context
-     */
-    protected $_themeContext;
-
-    /**
-     * Initialize dependencies
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
-     * @param null $areaCode
-     * @param array $invokeArgs
-     */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_DesignEditor_Model_Theme_Context $themeContext,
-        $areaCode = null,
-        array $invokeArgs = array()
-    ) {
-        $this->_themeContext = $themeContext;
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
-            $invokeArgs);
-    }
-
-    /**
      * Display the design editor launcher page
      */
     public function indexAction()
@@ -89,12 +57,15 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function launchAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        $this->_themeContext->setEditableThemeId($themeId);
+
+        /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
+        $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
+        $themeContext->setEditableThemeId($themeId);
         $mode = (string)$this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_NAVIGATION);
         try {
-            $lunchedTheme = $this->_themeContext->getEditableTheme();
+            $lunchedTheme = $themeContext->getEditableTheme();
             // We can run design editor with physical theme, but we cannot edit it through fronted
-            $editableTheme = $lunchedTheme->isPhysical() ? $lunchedTheme : $this->_themeContext->getStagingTheme();
+            $editableTheme = $lunchedTheme->isPhysical() ? $lunchedTheme : $themeContext->getStagingTheme();
 
             /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
             $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
@@ -153,22 +124,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $response = array('error' => true, 'message' => $errorMessage);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
-    }
-
-    /**
-     * VDE quit action
-     */
-    public function quitAction()
-    {
-        /** @var $state Mage_DesignEditor_Model_State */
-        $state = $this->_objectManager->get('Mage_DesignEditor_Model_State');
-        $state->reset();
-
-        /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
-        $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventDispatcher->dispatch('design_editor_deactivate');
-
-        $this->_redirect('*/*/');
     }
 
     /**
@@ -257,31 +212,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Get layout xml
-     */
-    public function getLayoutUpdateAction()
-    {
-        $historyData = Mage::app()->getRequest()->getPost('historyData');
-        if (!$historyData) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::ERROR => array($this->__('Invalid post data')))
-            ));
-            return;
-        }
-
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-
-        try {
-            $layoutUpdate = $this->_compactHistory($historyData);
-            $response = array(Mage_Core_Model_Message::SUCCESS => array($layoutUpdate));
-        } catch (Mage_Core_Exception $e) {
-            $response = array(Mage_Core_Model_Message::ERROR => array($e->getMessage()));
-        }
-        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
-    }
-
-    /**
      * Display available theme list. Only when no customized themes
      */
     public function firstEntranceAction()
@@ -303,9 +233,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function saveAction()
     {
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
+        $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
         try {
-            $editableTheme = $this->_themeContext->getStagingTheme();
-            $this->_themeContext->copyChanges();
+            $editableTheme = $themeContext->getStagingTheme();
+            $themeContext->copyChanges();
             $message = $this->_helper->__('You saved changes to the "%s" theme.', $editableTheme->getThemeTitle());
             $response = array('message' =>  $message);
         } catch (Exception $e) {
@@ -380,33 +312,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     protected function _isAllowed()
     {
         return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_DesignEditor::editor');
-    }
-
-    /**
-     * Compact history
-     *
-     * @param array $layoutUpdate
-     * @param string|null $xml
-     * @return string
-     */
-    protected function _compactHistory($layoutUpdate, $xml = null)
-    {
-        /** @var $historyModel Mage_DesignEditor_Model_History */
-        $historyModel = $this->_objectManager->create('Mage_DesignEditor_Model_History');
-        /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
-        $historyCompactModel = $this->_objectManager->create('Mage_DesignEditor_Model_History_Compact');
-        /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
-        $layoutRenderer = $this->_objectManager->create('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
-        /** @var $collection Mage_DesignEditor_Model_Change_Collection */
-        $collection = $historyModel->addXmlChanges($xml)
-            ->addChanges($layoutUpdate)
-            ->getChanges();
-        $historyCompactModel->compact($collection);
-        $layoutUpdate = $historyModel->output($layoutRenderer,
-            Mage_DesignEditor_Model_History_Renderer_LayoutUpdate::DEFAULT_HANDLE
-        );
-
-        return $layoutUpdate;
     }
 
     /**

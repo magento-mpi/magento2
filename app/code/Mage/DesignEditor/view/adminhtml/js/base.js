@@ -9,44 +9,6 @@
 
 (function($) {
     /**
-     * Widget tree
-     */
-    $.widget('vde.vde_tree', {
-        options: {
-            container_frame: '.vde_container_frame',
-            ui: {
-                select_limit: 1,
-                selected_parent_close: false
-            },
-            themes: {
-                dots: false,
-                icons: false
-            }
-        },
-        _create: function () {
-            this._bind();
-            this.element.jstree(this.options);
-        },
-        _bind: function() {
-            var self = this;
-            this.element
-                .on('loaded.jstree', function (e, data) {
-                    var selectNode = self.element.data('selected');
-                    if (selectNode) {
-                        self.element.jstree('select_node', self.element.find(selectNode));
-                    }
-                })
-                .on('select_node.jstree', function (e, data) {
-                    var link = $(data.rslt.obj).find('a:first');
-                    $(this).trigger('link_selected.' + self.widgetName, [link]);
-                    if (data.rslt.e) { // User clicked the link, not just tree initialization
-                        $(self.options.container_frame).attr('src', link.attr('href'));
-                    }
-                });
-        }
-    });
-
-    /**
      * Widget menu
      */
     $.widget('vde.vde_menu', {

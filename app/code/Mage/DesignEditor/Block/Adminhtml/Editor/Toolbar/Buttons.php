@@ -48,16 +48,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     }
 
     /**
-     * Get "Quit" button URL
-     *
-     * @return string
-     */
-    public function getQuitUrl()
-    {
-        return $this->getUrl('*/*/quit');
-    }
-
-    /**
      * Get assign to storeview button
      *
      * @return string
@@ -89,22 +79,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
         ));
 
         return $assignButton->toHtml();
-    }
-
-    /**
-     * Get Quit button HTML
-     *
-     * @return string
-     */
-    public function getQuitButtonHtml()
-    {
-        $button = sprintf('<a href="%s" title="%s"class="vde_button">%s</a>',
-            $this->getQuitUrl(),
-            $this->__('Quit'),
-            $this->__('Quit')
-        );
-
-        return $button;
     }
 
     /**
