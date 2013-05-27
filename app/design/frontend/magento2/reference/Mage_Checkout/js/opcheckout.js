@@ -137,7 +137,9 @@
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
-                            var msg = response.message;
+                            var msg = typeof response.message == 'undefined'
+                                ? response.error_messages
+                                : response.message;
                             if (msg) {
                                 if ($.type(msg) === 'array') {
                                     msg = msg.join("\n");
