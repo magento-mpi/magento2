@@ -15,36 +15,35 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Save extends Mage_GoogleOptimi
     protected $_product;
 
     /**
-     * Save product script after saving product
+     * Init entity
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_GoogleOptimizer_Model_Observer_Product_Save
-     * @throws InvalidArgumentException
      */
-    public function saveProductGoogleExperimentScript($observer)
+    protected function _initEntity($observer)
     {
         $this->_product = $observer->getEvent()->getProduct();
-
-        if (!$this->_helper->isGoogleExperimentActive($this->_product->getStoreId())) {
-            return $this;
-        }
-
-        $this->_processSaveEvent();
-
-        return $this;
     }
 
     /**
-     * Save code model
+     * Check is Google Experiment enabled
      */
-    protected function _saveCodeModel()
+    protected function _isGoogleExperimentActive()
     {
-        $this->_modelCode->addData(array(
+        return $this->_helper->isGoogleExperimentActive($this->_product->getStoreId());
+    }
+
+    /**
+     * Get data for saving code model
+     *
+     * @return array
+     */
+    protected function _getCodeData()
+    {
+        return array(
             'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
             'entity_id' => $this->_product->getId(),
             'store_id' => $this->_product->getStoreId(),
             'experiment_script' => $this->_params['experiment_script'],
-        ));
-        $this->_modelCode->save();
+        );
     }
 }
