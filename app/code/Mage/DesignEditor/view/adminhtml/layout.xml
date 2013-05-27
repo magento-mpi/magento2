@@ -93,10 +93,6 @@
         <reference name="content">
             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
                 <block type="Mage_Backend_Block_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
-                    <!-- MAGETWO-7406 - It was asked to hide Page Type navigation menu -->
-                    <!-- block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy" name="design_editor_toolbar_handles_hierarchy" template="Mage_DesignEditor::editor/toolbar/handles_hierarchy.phtml" /-->
-                    <!-- MAGETWO-7406 - It was asked to hide View Options > Highlight Elements -->
-                    <!--block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions" name="design_editor_toolbar_view_options" template="Mage_DesignEditor::editor/toolbar/view_options.phtml" /-->
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml">
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save" />
                     </block>

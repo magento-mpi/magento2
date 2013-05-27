@@ -90,7 +90,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $this->_themeContext->setEditableThemeId($themeId);
-        $mode = (string)$this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
+        $mode = (string)$this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_NAVIGATION);
         try {
             $lunchedTheme = $this->_themeContext->getEditableTheme();
             // We can run design editor with physical theme, but we cannot edit it through fronted
@@ -105,7 +105,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             $this->_configureToolbarBlocks($lunchedTheme, $editableTheme, $mode); //top panel
             $this->_configureToolsBlocks($editableTheme, $mode); //bottom panel
-            $this->_configureEditorBlock($editableTheme, $mode); //editor container
+            $this->_configureEditorBlock($editableTheme); //editor container
 
             $redirectOnAssign = $lunchedTheme->isPhysical();
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
@@ -282,32 +282,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Save temporary layout update
-     */
-    public function saveTemporaryLayoutUpdateAction()
-    {
-        $themeId = (int)$this->_getSession()->getData('theme_id');
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-        try {
-            $theme = $this->_loadThemeById($themeId);
-            if ($this->getRequest()->has('layoutUpdate')) {
-                $this->_saveLayoutUpdate(
-                    $this->getRequest()->getParam('layoutUpdate'),
-                    $this->getRequest()->getParam('handle'),
-                    $theme->getId(),
-                    true
-                );
-            }
-            $response = array('success' => $this->__('Temporary layout update saved'));
-        } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => $this->__('Temporary layout update not saved'));
-        }
-        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
-    }
-
-    /**
      * Display available theme list. Only when no customized themes
      */
     public function firstEntranceAction()
@@ -331,11 +305,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
         try {
             $editableTheme = $this->_themeContext->getStagingTheme();
-            $this->_saveLayoutUpdate(
-                $this->getRequest()->getParam('layoutUpdate', array()),
-                $this->getRequest()->getParam('handle'),
-                $editableTheme->getId()
-            );
             $this->_themeContext->copyChanges();
             $message = $this->_helper->__('You saved changes to the "%s" theme.', $editableTheme->getThemeTitle());
             $response = array('message' =>  $message);
@@ -441,67 +410,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Save layout update
-     *
-     * @param array $layoutUpdate
-     * @param string $handle
-     * @param int $themeId
-     * @param bool $isTemporary
-     */
-    protected function _saveLayoutUpdate($layoutUpdate, $handle, $themeId, $isTemporary = false)
-    {
-        /** @var $layoutCollection Mage_DesignEditor_Model_Resource_Layout_Update_Collection */
-        $layoutCollection = $this->_objectManager
-            ->create('Mage_DesignEditor_Model_Resource_Layout_Update_Collection');
-        $layoutCollection->addStoreFilter(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
-            ->addThemeFilter($themeId)
-            ->addFieldToFilter('handle', $handle)
-            ->addFieldToFilter('is_vde', true)
-            ->setOrder('sort_order', Varien_Data_Collection_Db::SORT_ORDER_ASC);
-
-        $xml = '';
-        if (!$isTemporary) {
-            /** @var $item Mage_DesignEditor_Model_Layout_Update */
-            foreach ($layoutCollection as $item) {
-                $xml .= $item->getXml();
-            }
-        }
-
-        if ($xml || $layoutUpdate) {
-            $layoutUpdateData = array(
-                'store_id'     => Mage_Core_Model_AppInterface::ADMIN_STORE_ID,
-                'theme_id'     => $themeId,
-                'handle'       => $handle,
-                'xml'          => $this->_compactHistory($layoutUpdate, $xml),
-                'is_temporary' => $isTemporary
-            );
-
-            if ($isTemporary) {
-                /** @var $layoutUpdateModel Mage_DesignEditor_Model_Layout_Update */
-                $layoutUpdateModel = $layoutCollection->getLastItem();
-                $sortOrder = 0;
-                if ($layoutUpdateModel->getId()) {
-                    $sortOrder = $layoutUpdateModel->getSortOrder() + 1;
-                }
-                $layoutUpdateData['sort_order'] = $sortOrder;
-                $layoutUpdateModel->setData($layoutUpdateData);
-            } else {
-                /** @var $layoutUpdateModel Mage_DesignEditor_Model_Layout_Update */
-                $layoutUpdateModel = $layoutCollection->getFirstItem();
-                $layoutUpdateModel->addData($layoutUpdateData);
-
-                /** @var @item Mage_DesignEditor_Model_Layout_Update */
-                foreach ($layoutCollection as $item) {
-                    if ($item->getId() != $layoutUpdateModel->getId()) {
-                        $item->delete();
-                    }
-                }
-            }
-            $layoutUpdateModel->save();
-        }
-    }
-
-    /**
      * Get theme customization
      *
      * @param Mage_Core_Model_Theme $theme
@@ -518,7 +426,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      * Pass data to the Tools panel blocks that is needed it for rendering
      *
      * @param Mage_Core_Model_Theme $theme
-     * @param int $mode
+     * @param string $mode
      * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
      */
     protected function _configureToolsBlocks($theme, $mode)
@@ -587,7 +495,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      *
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Theme $editableTheme
-     * @param int $mode
+     * @param string $mode
      * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
      */
     protected function _configureToolbarBlocks($theme, $editableTheme, $mode)
@@ -604,43 +512,18 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 ->setMode($mode);
         }
 
-        /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
-        $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
-        if ($hierarchyBlock) {
-            $customLayoutParams = array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND);
-
-            /** @var $customFrontLayout Mage_Core_Model_Layout_Merge */
-            $customFrontLayout = $this->_objectManager->create('Mage_Core_Model_Layout_Merge',
-                array('arguments' => $customLayoutParams)
-            );
-            $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
-            $hierarchyBlock->setHierarchy($pageTypes)
-                ->setMode($mode);
-        }
-
-        /** @var $viewOptionsBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions */
-        $viewOptionsBlock = $this->getLayout()->getBlock('design_editor_toolbar_view_options');
-        if ($viewOptionsBlock) {
-            $viewOptionsBlock->setMode($mode);
-        }
-
         return $this;
     }
 
     /**
      * @param Mage_Core_Model_Theme $editableTheme
-     * @param int $mode
      * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
      */
-    protected function _configureEditorBlock($editableTheme, $mode)
+    protected function _configureEditorBlock($editableTheme)
     {
         /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
         $editorBlock = $this->getLayout()->getBlock('design_editor');
-        if ($mode == Mage_DesignEditor_Model_State::MODE_NAVIGATION) {
-            $currentUrl = $this->_getCurrentUrl();
-        } else {
-            $currentUrl = $this->_getCurrentHandleUrl();
-        }
+        $currentUrl = $this->_getCurrentUrl();
         $editorBlock->setFrameUrl($currentUrl);
         $editorBlock->setTheme($editableTheme);
 
@@ -694,23 +577,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-    }
-
-    /**
-     * Get current handle
-     *
-     * @return string
-     */
-    protected function _getCurrentHandleUrl()
-    {
-        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
-        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_Handle');
-        $handle = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
-        if (empty($handle)) {
-            $handle = 'default';
-        }
-
-        return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
     }
 
     /**

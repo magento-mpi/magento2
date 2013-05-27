@@ -13,7 +13,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     /**#@+
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_DESIGN_CLASS_NAME     = 'Mage_DesignEditor_Model_Layout';
     const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
     /**#@-*/
 
@@ -21,7 +20,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
      * Url model classes that will be used instead of Mage_Core_Model_Url in different vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
-    const URL_MODEL_DESIGN_MODE_CLASS_NAME     = 'Mage_DesignEditor_Model_Url_DesignMode';
     /**#@-*/
 
     /**#@+
@@ -174,66 +172,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->method('banUse')
             ->with('type2')
             ->will($this->returnSelf());
-    }
-
-    public function testUpdateDesignMode()
-    {
-        $this->_setAdditionalExpectations();
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam'),
-            array(), '', false);
-
-        $controller = $this->getMock('Mage_Adminhtml_Controller_Action', array('getFullActionName'), array(),
-            '', false);
-
-        $request->expects($this->once())
-            ->method('getParam')
-            ->with('handle', '')
-            ->will($this->returnValue('default'));
-
-        $this->_backendSession->expects($this->once())
-            ->method('setData')
-            ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
-        $this->_themeContext->expects($this->once())->method('getVisibleTheme');
-        $this->_themeContext->expects($this->any())
-            ->method('getEditableThemeId')
-            ->will($this->returnValue(self::THEME_ID));
-        $this->_theme->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(self::THEME_ID));
-
-        $this->_urlModelFactory->expects($this->once())
-            ->method('replaceClassName')
-            ->with(self::URL_MODEL_DESIGN_MODE_CLASS_NAME);
-
-        $this->_layoutFactory->expects($this->once())
-            ->method('createLayout')
-            ->with(array('area' => self::AREA_CODE), self::LAYOUT_DESIGN_CLASS_NAME);
-
-        $this->_objectManager->expects($this->once())
-            ->method('configure')
-            ->with(array('preferences' => array(
-                self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME => self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME
-            )));
-        
-        $store = $this->getMock('Mage_Core_Model_Store', array('setConfig'), array(), '', false);
-        $store->expects($this->once())
-            ->method('setConfig')
-            ->with(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, self::THEME_ID);
-
-        $this->_application->expects($this->once())
-            ->method('getStore')
-            ->will($this->returnValue($store));
-
-        $config = $this->getMock('Mage_Core_Model_Config', array('setNode'), array(), '', false);
-        $config->expects($this->once())
-            ->method('setNode')
-            ->with('default/' . Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, self::THEME_ID);
-
-        $this->_application->expects($this->once())
-            ->method('getConfig')
-            ->will($this->returnValue($config));
-
-        $this->_model->update(self::AREA_CODE, $request, $controller);
     }
 
     public function testReset()
