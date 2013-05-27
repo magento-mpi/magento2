@@ -5204,15 +5204,6 @@ table .col-draggable .draggable-handle {
     transition: color 150ms linear;
 }
 
-.field-detailed_rating .field-rating .control input[type="radio"]:checked ~ label:before {
-    color: #333;
-}
-
-.field-detailed_rating .field-rating .control label:hover,
-.field-detailed_rating .field-rating .control label:hover ~ label {
-    color: #f30;
-}
-
 .field-detailed_rating .field-rating .control label:before {
     content: "\2605\0000a0";
 }
