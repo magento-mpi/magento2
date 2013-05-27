@@ -44,19 +44,19 @@
 <?php endif;?>
 <fieldset class="fieldset password" style="display:none;">
     <legend class="legend"><span><?php echo $this->__('Change Password') ?></span></legend><br />
-    <div class="field password current">
+    <div class="field password current required">
         <label class="label" for="current-password"><span><?php echo $this->__('Current Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="current_password" id="current-password" />
         </div>
     </div>
-    <div class="field new password">
+    <div class="field new password required">
         <label class="label" for="password"><span><?php echo $this->__('New Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="password" id="password" />
         </div>
     </div>
-    <div class="field confirm password">
+    <div class="field confirm password required">
         <label class="label" for="confirmation"><span><?php echo $this->__('Confirm New Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="confirmation" id="confirmation" />
