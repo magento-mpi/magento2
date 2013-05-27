@@ -54,7 +54,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
         $this->_exportModel = $objectManager->getObject('Saas_ImportExport_Model_Export', array(
             'storageFactory' => $storageFactory,
             'entityFactory' => $entityFactory,
-            'stateHelper' => $this->_stateHelperMock
+            'stateHelper' => $this->_stateHelperMock,
         ));
 
         // paginate collection
@@ -102,7 +102,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 
         $this->_exportModel->export(array(
             'file_format' => Saas_ImportExport_Model_Export_Adapter_Csv::EXTENSION_CSV,
-            'page' => $page
+            'page' => $page,
         ));
     }
 
@@ -120,7 +120,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 
         $this->_exportModel->export(array(
             'file_format' => Saas_ImportExport_Model_Export_Adapter_Csv::EXTENSION_CSV,
-            'page' => $currentPage
+            'page' => $currentPage,
         ));
     }
 
@@ -139,7 +139,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 
         $this->_exportModel->export(array(
             'file_format' => Saas_ImportExport_Model_Export_Adapter_Csv::EXTENSION_CSV,
-            'page' => $currentPage
+            'page' => $currentPage,
         ));
     }
 }
