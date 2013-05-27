@@ -312,7 +312,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getParsedMessages());
     }
 
     /**

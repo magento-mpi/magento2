@@ -84,14 +84,14 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='popularity'>
                         <arguments>
-                            <header translate='true' module='Mage_Catalog'>Number of Uses</header>
+                            <header translate='true' module='Mage_Catalog'>Uses</header>
                             <index>popularity</index>
                             <type>number</type>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='synonym_for'>
                         <arguments>
-                            <header translate='true' module='Mage_Catalog'>Synonym For</header>
+                            <header translate='true' module='Mage_Catalog'>Synonym</header>
                             <index>synonym_for</index>
                             <align>left</align>
                             <width>160px</width>
@@ -99,7 +99,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='redirect'>
                         <arguments>
-                            <header translate='true' module='Mage_Catalog'>Redirect</header>
+                            <header translate='true' module='Mage_Catalog'>Redirect URL</header>
                             <align>left</align>
                             <index>redirect</index>
                             <width>200px</width>
@@ -107,7 +107,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='display_in_terms'>
                         <arguments>
-                            <header translate='true' module='Mage_Catalog'>Display in Suggested Terms</header>
+                            <header translate='true' module='Mage_Catalog'>Suggested Terms</header>
                             <sortable>1</sortable>
                             <index>display_in_terms</index>
                             <width>100px</width>

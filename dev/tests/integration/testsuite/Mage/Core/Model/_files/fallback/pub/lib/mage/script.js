@@ -7,4 +7,4 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* fixture skin file located inside the library folder */
+/* Fixture js lib file */

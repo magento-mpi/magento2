@@ -173,7 +173,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'target'    => 'body',
                 'eventData' => array(
                     'theme_id' => $this->getTheme()->getId(),
-                    'save_url' => $this->getSaveUrl()
+                    'save_url' => $this->getSaveUrl(),
+                    'confirm_message' => null
                 )
             ),
         );

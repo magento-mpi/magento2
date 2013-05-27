@@ -10,10 +10,9 @@
  * @license     {license_link}
  */
 -->
-<!-- These are the settings for legacy testing of Magento 2 Go Edition (in addition to Magento 2 Community Edition) -->
+<!-- These are the settings for legacy testing of Magento 2 Go Edition (in addition to Magento 2 Community and Enterprise Edition) -->
 <config>
     <words>
-        <!-- Enterprise_Staging -->
         <word>Enterprise_Staging</word>
     </words>
 </config>

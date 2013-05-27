@@ -16,7 +16,6 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-
     }
 
     /**
@@ -48,24 +47,33 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
             $eventName = $taskName;
             $eventData = $taskParams;
         }
-        $dispatcher->expects($this->once())->method('dispatch')->with($eventName, $eventData);
+        $dispatcher->expects($this->exactly(2))
+            ->method('dispatch')
+            ->with(
+                $this->logicalOr($eventName, 'job_complete'),
+                $this->logicalOr($eventData, array('task_name' => $taskName))
+            );
 
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $app->expects($this->once())->method('setUseSessionInUrl')->with(false);
         $app->expects($this->once())->method('requireInstalledInstance');
 
+        $dirVerification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
+        $dirVerification->expects($this->once())->method('createAndVerifyDirectories');
+
         $valueMap = array(
             array('Mage_Core_Model_Config_Primary', $config),
             array('Mage_Core_Model_App', $app),
+            array('Mage_Core_Model_Dir_Verification', $dirVerification),
         );
         $this->_objectManagerMock
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('get')
             ->will($this->returnValueMap($valueMap));
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with('Mage_Core_Model_Event_Manager', array('invoker' => 'Mage_Core_Model_Event_InvokerDefault'))
+            ->with('Mage_Core_Model_Event_Manager', array('invoker' => 'Mage_Core_Model_Event_Invoker_InvokerDefault'))
             ->will($this->returnValue($dispatcher));
         $worker->processRequest();
     }

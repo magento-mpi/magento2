@@ -28,6 +28,15 @@
             </googleshopping_setup>
         </resources>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <googleshopping module="Mage_GoogleShopping">
+                    <file>layout.xml</file>
+                </googleshopping>
+            </updates>
+        </layout>
+    </frontend>
     <admin>
         <routers>
             <adminhtml>

@@ -44,6 +44,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandlerTes
         $preparedData0['carriers']['usps']['fields']['userid']['value'] = 'user id';
         $preparedData0['carriers']['usps']['fields']['password']['value'] = 'usps password';
         $preparedData0['carriers']['usps']['fields']['active']['value'] = 1;
+        $preparedData0['carriers']['usps']['fields']['mode']['value'] = 1;
 
         return array(
             array($data0, $preparedData0, array('carriers')),

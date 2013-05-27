@@ -20,8 +20,10 @@
             function toggleCustomerBalanceRefundAmount() {
                 if ($('creditmemo_customerbalance_return_enable').checked) {
                     $('creditmemo_customerbalance_return').disabled = false;
+                    disableElements('refund');
                 } else {
                     $('creditmemo_customerbalance_return').disabled = true;
+                    enableElements('refund');
                 }
             }
 

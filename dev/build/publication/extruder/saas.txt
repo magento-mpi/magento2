@@ -3,6 +3,7 @@
 #
 saas
 app/code/Saas
+app/design/frontend/magento2
 app/etc/modules/XSaas_Edition.xml.dist
 app/etc/saas.xml
 dev/tests/integration/testsuite/Saas

@@ -10,52 +10,21 @@
 class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * @var Mage_Core_Model_Authorization
-     */
-    protected $_authorizationModel;
-
-    /**
-     * Event manager model
-     *
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
-    /**
      * @var Saas_Index_Model_Flag
      */
     protected $_flag;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Core_Model_Authorization $authorizationModel
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Controller_Context $context
      * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param string $areaCode
-     * @param array $invokeArgs
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Core_Model_Authorization $authorizationModel,
-        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Controller_Context $context,
         Saas_Index_Model_FlagFactory $flagFactory,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
-            $invokeArgs
-        );
-        $this->_authorizationModel = $authorizationModel;
-        $this->_eventManager = $eventManager;
+        parent::__construct($context, $areaCode);
         $this->_flag = $flagFactory->create();
         $this->_flag->loadSelf();
     }
@@ -79,7 +48,6 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
             return $this->_redirect('*/*/index');
         }
 
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
         $this->_eventManager->dispatch('application_process_refresh_catalog');
 
         $this->_flag->setState(Saas_Index_Model_Flag::STATE_QUEUED);
@@ -133,6 +101,6 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return $this->_authorizationModel->isAllowed('Mage_Index::index');
+        return $this->_authorization->isAllowed('Mage_Index::index');
     }
 }

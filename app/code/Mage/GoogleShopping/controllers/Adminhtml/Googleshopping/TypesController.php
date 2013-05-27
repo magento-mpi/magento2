@@ -27,7 +27,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
             return;
         }
-        Mage::dispatchEvent('controller_action_postdispatch_adminhtml', array('controller_action' => $this));
+        $this->_eventManager->dispatch('controller_action_postdispatch_adminhtml', array('controller_action' => $this));
     }
 
     /**
@@ -272,6 +272,6 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_GoogleShopping::types');
+        return $this->_authorization->isAllowed('Mage_GoogleShopping::types');
     }
 }

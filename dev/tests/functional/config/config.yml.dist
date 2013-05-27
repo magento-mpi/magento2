@@ -78,6 +78,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'store_launcher'
             frontend:
                 url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
@@ -106,6 +107,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'store_launcher'
             frontend:
                 url: 'http://www.localhost.com/magento2_enterprise/'
                 base_page_uimap: 'home_page'
@@ -115,40 +117,30 @@ applications:
     saas: &saas
         fallbackOrderFixture: 'saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
-        application:
-            adminLogin: admin
-            adminPassword: 123123q
-            storeName: Store 1
-            failures:
-                tries: 2
-                sleep: 30
-            basePath: ''
-            # overrideRoot (for our server usage only) is a code root as it's seen by browser machine
-            overrideRoot: 'D:'
-            # overrideDS (for our server usage only) is browser-side directory separator.
-            overrideDS: \
-            # download dir as it's seen by browser. We can use it in download-edit-upload sessions
-            browserDownloadDir: 'var\testdownload'
-            # download dir as it's seen by PHP code
-            downloadDir: 'var\testdownload'
+        design_theme: Enterprise/Plushe
+        ftp: *ftp
         areas:
             admin:
-                url: 'http://localhost/Mage2/index.php/backend/admin'
+                url: 'http://www.localhost.com/magento2_saas/backend/backend/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'store_launcher'
             frontend:
-                url: 'http://localhost/Mage2/index.php'
+                url: 'http://www.localhost.com/magento2_saas/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
-                login: ''
-                password: ''
-                mca_preg_replace:
-                    replace_1:
-                        pattern: '|(?<=sales/billing_agreement/view/agreement/)([0-9]*)|'
-                        replacement: 'any'
-                    replace_2:
-                        pattern: '|(?<=customer/account/login/)([a-zA-Z\d\-\_\.\?\=]+)|'
-                        replacement: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+            tmt_api:
+                url: 'http://tenant.stage.server/soap.php?action=wsdl'
+                base_page_uimap: ~
+                uimap_path: ~
+                login: 'login'
+                password: 'password'
+            tmt:
+                url: 'http://tmt.domain.com/'
+                base_page_uimap: 'home'
+                uimap_path: 'tmt'
     default: *ee

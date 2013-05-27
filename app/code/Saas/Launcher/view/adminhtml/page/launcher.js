@@ -20,7 +20,8 @@
             btnCloseDrawer: '.action-close-drawer',
             btnSaveDrawer: '.action-save-settings',
             drawerTopPosition: '.navigation',
-            stickyHeaderClass: 'fixed'
+            stickyHeaderClass: 'fixed',
+            behaviorFixSelector: '#store-launcher-content,#nav,#system_messages,#action-launch-my-store'
         },
 
         _create: function() {
@@ -122,6 +123,10 @@
             }
         },
 
+        scrollToTop: function() {
+          window.scrollTo(0, 0);
+        },
+
         drawerOpen: function() {
             var elem = this.element,
                 headerHeight = this.drawerTopPosition.offset().top,
@@ -129,7 +134,7 @@
 
             elem.trigger('drawerRefresh');
             this._drawerMinHeight();
-            window.scrollTo(0, 0);
+            this.scrollToTop();
             this._startDrawerClose = false;
 
             elem
@@ -141,7 +146,9 @@
                 this._drawerFixedHeader();
                 this.drawerFooter.animate({
                     bottom: 0
-                }, 100);
+                }, 100, $.proxy(function() {
+                    $(this.options.behaviorFixSelector).hide();
+                }, this));
             }, this));
         },
 
@@ -149,6 +156,7 @@
             if (this._startDrawerClose) {
                 return;
             }
+            $(this.options.behaviorFixSelector).show();
             this._startDrawerClose = true;
             window.location.hash = '';
 
@@ -167,7 +175,7 @@
             }, 100);
 
             if (elem.hasClass(this.options.stickyHeaderClass)) {
-                window.scrollTo(0, 0);
+                this.scrollToTop()
                 elem.css({
                     top: 0
                 });
@@ -360,7 +368,8 @@
             this._toggleStatus();
         },
 
-        destroy: function() {
+        destroy: function(e) {
+            e.preventDefault();
             this.element.remove();
         },
 

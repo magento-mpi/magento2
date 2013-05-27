@@ -37,6 +37,8 @@ class Saas_Queue_Model_Observer_Config extends Saas_Queue_Model_ObserverAbstract
     /**
      * Rebuild whole config and save to fast storage task
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param  Varien_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Config
      */

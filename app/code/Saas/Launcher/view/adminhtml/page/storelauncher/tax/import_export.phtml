@@ -23,61 +23,61 @@
 </div>
 
 <script type="text/javascript">
-    (function($) {
-        $('#import_rates_file').fileupload({
-            dataType: 'json',
-            formData: {
-                isAjax: 'true',
-                form_key: FORM_KEY
-            },
-            sequentialUploads: false,
-            done: function(e, data) {
-                if (data.result.success == true) {
-                    updateTaxRateMultiselect(data.result);
-                    insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('The tax rate has been imported.'); ?>', 'success');
-                } else {
-                    insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Invalid file format.'); ?>', 'error')
-                }
-            },
-            fail: function(e, data) {
+jQuery(function ($) {
+    $('#import_rates_file').fileupload({
+        dataType: 'json',
+        formData: {
+            isAjax: 'true',
+            form_key: FORM_KEY
+        },
+        sequentialUploads: false,
+        done: function(e, data) {
+            if (data.result.success == true) {
+                updateTaxRateMultiselect(data.result);
+                insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('The tax rate has been imported.'); ?>', 'success');
+            } else {
                 insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Invalid file format.'); ?>', 'error')
-            },
-            add: function(e, data) {
-                $(this).fileupload('process', data).done(function() {
-                    data.submit();
-                });
             }
-        });
-
-        /**
-         * Show tax rate import error message
-         *
-         * @param message
-         */
-        var messagePlaceholder = $('#import-tax-rates-tagline'),
-                insertValidationMessage = function(messageText, messageType) {
-                    $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
-                            .insertAfter(messagePlaceholder);
-                    delay && clearTimeout(delay);
-                    var delay = setTimeout(function() {
-                        $('.message-validation').slideUp(400);
-                    }, 3000);
-                };
-
-        /**
-         * Refresh tax Rate Field
-         *
-         * @param result array import rates request result
-         */
-        var updateTaxRateMultiselect = function(result) {
-            var taxSection = $('#tax_rate').parent().parent(),
-                previousSection = taxSection.prev();
-            taxSection.remove();
-            // Next variable is global for tax rule page and is used in edit tax rate pop-up
-            taxRateCollection = result.tax_rate_collection;
-            previousSection.after(result.tax_rate_field);
+        },
+        fail: function(e, data) {
+            insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Invalid file format.'); ?>', 'error')
+        },
+        add: function(e, data) {
+            $(this).fileupload('process', data).done(function() {
+                data.submit();
+            });
         }
-    }(jQuery));
+    });
+
+    /**
+     * Show tax rate import error message
+     *
+     * @param message
+     */
+    var messagePlaceholder = $('#import-tax-rates-tagline'),
+            insertValidationMessage = function(messageText, messageType) {
+                $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
+                        .insertAfter(messagePlaceholder);
+                delay && clearTimeout(delay);
+                var delay = setTimeout(function() {
+                    $('.message-validation').slideUp(400);
+                }, 3000);
+            };
+
+    /**
+     * Refresh tax Rate Field
+     *
+     * @param result array import rates request result
+     */
+    var updateTaxRateMultiselect = function(result) {
+        var taxSection = $('#tax_rate').parent().parent(),
+            previousSection = taxSection.prev();
+        taxSection.remove();
+        // Next variable is global for tax rule page and is used in edit tax rate pop-up
+        taxRateCollection = result.tax_rate_collection;
+        previousSection.after(result.tax_rate_field);
+    }
+});
 </script>
 <?php endif; ?>
 

@@ -22,7 +22,6 @@ var Product = {};
         _showPopup: function (event) {
             var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
                 title: 'New Attribute',
-                dialogClass:'ui-dialog-sticky',
                 minWidth: 1000,
                 minHeight: 700,
                 modal: true,

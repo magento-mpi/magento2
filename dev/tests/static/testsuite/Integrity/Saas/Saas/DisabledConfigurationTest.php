@@ -41,14 +41,15 @@ class Integrity_Saas_Saas_DisabledConfigurationTest extends PHPUnit_Framework_Te
     protected function _buildXPath($path)
     {
         $chunks = explode('/', $path);
-
-        if (count($chunks) > 3) {
+        if (count($chunks) > 20) {
             $this->fail('Path \'' . $path . '\' has too many chunks');
         }
 
         if (isset($chunks[2])) {
-            return '/config/system/section[@id="' . $chunks[0] . '"]/group[@id="' . $chunks[1]
-                . '"]/field[@id="' . $chunks[2] . '"]';
+            $fieldId = array_pop($chunks);
+            $sectionId = array_shift($chunks);
+            return '/config/system/section[@id="' . $sectionId . '"]/group[@id="'
+                . implode('"]/group[@id="', $chunks) . '"]/field[@id="' . $fieldId . '"]';
         } elseif (isset($chunks[1])) {
             return '/config/system/section[@id="' . $chunks[0] . '"]/group[@id="' . $chunks[1] . '"]';
         } else {

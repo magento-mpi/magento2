@@ -96,7 +96,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
             )
         ));
 
-        $collection = new Mage_Core_Model_Resource_Theme_Collection;
+        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test/default')->getId();
         Mage::app()->getStore()->setConfig(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, $themeId);
 

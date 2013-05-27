@@ -170,4 +170,15 @@
             </pages>
         </launcher>
     </adminhtml>
+    <frontend>
+        <routers>
+            <launcher>
+                <use>standard</use>
+                <args>
+                    <module>Saas_Launcher</module>
+                    <frontName>launcher</frontName>
+                </args>
+            </launcher>
+        </routers>
+    </frontend>
 </config>
