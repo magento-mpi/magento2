@@ -7,74 +7,51 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
+class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save extends Mage_GoogleOptimizer_Model_Observer_SaveAbstract
 {
     /**
-     * @var Mage_GoogleOptimizer_Helper_Data
+     * @var Mage_Cms_Model_Page
      */
-    protected $_helper;
+    protected $_page;
 
     /**
-     * @var Mage_GoogleOptimizer_Model_Code
+     * @var Varien_Event_Observer
      */
-    protected $_modelCode;
+    protected $_observer;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
-     */
-    protected $_request;
-
-    /**
-     * @param Mage_GoogleOptimizer_Helper_Data $helper
-     * @param Mage_GoogleOptimizer_Model_Code $modelCode
-     * @param Mage_Core_Controller_Request_Http $request
-     */
-    public function __construct(
-        Mage_GoogleOptimizer_Helper_Data $helper,
-        Mage_GoogleOptimizer_Model_Code $modelCode,
-        Mage_Core_Controller_Request_Http $request
-    ) {
-        $this->_helper = $helper;
-        $this->_modelCode = $modelCode;
-        $this->_request = $request;
-    }
-
-    /**
-     * Save product scripts after saving product
+     * Save page script after saving page
      *
      * @param Varien_Event_Observer $observer
      * @return Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
+     * @throws InvalidArgumentException
      */
-    public function saveCmsGoogleExperimentScript($observer)
+    public function savePageGoogleExperimentScript($observer)
     {
         if (!$this->_helper->isGoogleExperimentActive()) {
             return $this;
         }
 
-        /** @var $cmsPage Mage_Cms_Model_Page */
-        $cmsPage = $observer->getEvent()->getObject();
+        $this->_observer = $observer;
 
-        $values = $this->_request->getParam('google_experiment');
-        if (!empty($values['code_id'])) {
-            $this->_modelCode->load($values['code_id']);
-        }
-
-        if (!empty($values['experiment_script'])) {
-            $data = array(
-                'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
-                'entity_id' => $cmsPage->getId(),
-                'store_id' => 0,
-                'experiment_script' => $values['experiment_script'],
-            );
-
-            $this->_modelCode->addData($data);
-            $this->_modelCode->save();
-        }
-
-        if ($this->_modelCode->getId() && empty($values['experiment_script'])) {
-            $this->_modelCode->delete();
-        }
+        $this->_processSaveEvent();
 
         return $this;
+    }
+
+    /**
+     * Save code model
+     */
+    protected function _saveCodeModel()
+    {
+        $this->_page = $this->_observer->getEvent()->getObject();
+
+        $this->_modelCode->addData(array(
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
+            'entity_id' => $this->_page->getId(),
+            'store_id' => 0,
+            'experiment_script' => $this->_params['experiment_script'],
+        ));
+        $this->_modelCode->save();
     }
 }

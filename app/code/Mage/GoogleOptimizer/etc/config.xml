@@ -90,7 +90,7 @@
                 <observers>
                     <googleoptimizer_observer>
                         <class>Mage_GoogleOptimizer_Model_Observer_CmsPage_Save</class>
-                        <method>saveCmsGoogleExperimentScript</method>
+                        <method>savePageGoogleExperimentScript</method>
                     </googleoptimizer_observer>
                 </observers>
             </cms_page_save_after>

@@ -82,12 +82,11 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
                 'experiment_script' => $experimentScript,
             )));
 
-        $this->_codeMock->expects($this->once())->method('setData')->with(array(
+        $this->_codeMock->expects($this->once())->method('addData')->with(array(
             'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
             'entity_id' => $categoryId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,
-
         ));
         $this->_codeMock->expects($this->once())->method('save');
 
@@ -97,6 +96,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
     /**
      * @param array $params
      * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Wrong request parameters
      * @dataProvider dataProviderWrongRequestForCreating
      */
     public function testCreatingCodeIfRequestIsNotValid($params)
@@ -148,12 +148,11 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
         $this->_codeMock->expects($this->once())->method('load')->with($codeId);
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
 
-        $this->_codeMock->expects($this->once())->method('setData')->with(array(
+        $this->_codeMock->expects($this->once())->method('addData')->with(array(
             'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
             'entity_id' => $categoryId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,
-
         ));
         $this->_codeMock->expects($this->once())->method('save');
 
@@ -162,6 +161,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
 
     /**
      * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Code does not exist
      */
     public function testEditingCodeIfCodeModelIsNotFound()
     {
@@ -179,6 +179,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
 
         $this->_codeMock->expects($this->once())->method('load')->with($codeId);
         $this->_codeMock->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(false));
+        $this->_codeMock->expects($this->never())->method('save');
 
         $this->_modelObserver->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
     }
@@ -203,14 +204,15 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
         $this->_codeMock->expects($this->once())->method('delete');
 
         $this->_modelObserver->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
-
     }
 
     public function testManagingCodeIfGoogleExperimentIsDisabled()
     {
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->with($this->_storeId)
             ->will($this->returnValue(false));
+        $this->_codeMock->expects($this->never())->method('load');
         $this->_codeMock->expects($this->never())->method('save');
+        $this->_codeMock->expects($this->never())->method('delete');
 
         $this->_modelObserver->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
     }
