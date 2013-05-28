@@ -86,15 +86,16 @@ class Mage_Core_Model_Theme_Domain_Virtual
      */
     public function getPhysicalTheme()
     {
-        if ($this->_theme->getId()) {
-            $collection = $this->_theme->getCollection();
-            $collection->addFieldToFilter('parent_id', $this->_theme->getId());
-            $collection->addFieldToFilter('type', Mage_Core_Model_Theme::TYPE_PHYSICAL);
-            $physicalTheme = $collection->getFirstItem();
-            if ($physicalTheme->getId()) {
-                return $physicalTheme;
-            }
+        /** @var $parentTheme Mage_Core_Model_Theme */
+        $parentTheme = $this->_theme->getParentTheme();
+        while ($parentTheme && !$parentTheme->isPhysical()) {
+            $parentTheme = $parentTheme->getParentTheme();
         }
+
+        if ($parentTheme->getId()) {
+            return $parentTheme;
+        }
+
         return null;
     }
 
