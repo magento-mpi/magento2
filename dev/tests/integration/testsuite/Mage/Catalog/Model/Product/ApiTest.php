@@ -29,8 +29,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $expectedProduct->load($productId);
         $fieldsToCompare = array(
             'special_price',
-            'special_price_to',
-            'special_price_from'
+            'special_from_date'
         );
         /** Assert response product equals to actual product data. */
         Magento_Test_Helper_Api::checkEntityFields(
@@ -353,9 +352,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'name',
             'is_returnable',
             'price',
-            'unit_price_unit',
-            'unit_price_base_unit',
-            'unit_price_base_amount',
             'quantity_and_stock_status'
         );
         Magento_Test_Helper_Api::checkEntityFields(
