@@ -333,8 +333,15 @@ class Mage_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_TestCa
         $optionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
             self::$_customOptionFixture->customOptionsToUpdate
         );
-        $option = (array)reset(self::$_createdOptionAfter);
 
+        $option = array();
+        foreach (self::$_createdOptionAfter as $optionObject) {
+            $options = (array)$optionObject;
+            if (array_key_exists($options['type'], $optionsToUpdate)) {
+                $option = (array) $options;
+                break;
+            }
+        }
         $toUpdateValues = $optionsToUpdate[$option['type']];
         $toUpdateValues['type'] = 'unknown_type';
         $this->_updateOption($option['option_id'], $toUpdateValues);

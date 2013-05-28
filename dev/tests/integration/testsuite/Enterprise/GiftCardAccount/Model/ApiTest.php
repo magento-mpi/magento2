@@ -96,7 +96,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidInfo);
-        Magento_Test_Helper_Api::callWithException($this, 'giftcardAccountInfo', array($invalidData->giftcardId));
+        Magento_Test_Helper_Api::callWithException($this, 'giftcardAccountInfo', array($invalidData['giftcard_id']));
     }
 
     /**

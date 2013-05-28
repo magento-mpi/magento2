@@ -287,7 +287,7 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
         $categoryRead = Magento_Test_Helper_Api::call(
             $this,
             'catalogCategoryInfo',
-            array('categoryId' => $categoryId, $categoryFixture['update']['storeView'])
+            array('categoryId' => $categoryId, $categoryFixture['update']['store'])
         );
 
         $this->assertEquals(

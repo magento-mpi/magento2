@@ -75,7 +75,6 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
         /** Check received data validity. */
         $fieldsToCheck = array(
             'increment_id',
-            'parent_id',
             'store_id',
             'order_id',
             'state',
