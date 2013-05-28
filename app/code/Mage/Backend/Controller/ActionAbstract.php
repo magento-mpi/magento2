@@ -10,6 +10,8 @@
 
 /**
  * Generic backend controller
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controller_Varien_Action
 {

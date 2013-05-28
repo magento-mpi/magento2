@@ -114,161 +114,160 @@
 
 <?php echo $this->getChildHtml('store_design.widget'); ?>
 <script type="text/javascript">
-    (function($) {
-        var logoUploadDropZone = $('#store-logo-upload-drop-zone'),
-            messagePlaceholder = $('.store-logo-config-data'),
-            showUploadedImage = function(url) {
-                $('#store-logo-preview').removeClass('hidden');
-                $('.store-logo-config').addClass('hidden');
-                $('.current-logo-inner').find('img').attr('src', url);
-            },
-            insertValidationMessage = function(messageText, messageType) {
-                $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
-                    .insertAfter(messagePlaceholder);
-                delay && clearTimeout(delay);
-                var delay = setTimeout(function() {
-                    $('.message-validation').slideUp(400);
-                }, 3000);
-            };
+jQuery(function ($) {
+    'use strict';
 
-        logoUploadDropZone
-            .on('click.uploadFile', function(e) {
-                $(this).next().trigger(e);
+    var logoUploadDropZone = $('#store-logo-upload-drop-zone'),
+        messagePlaceholder = $('.store-logo-config-data'),
+        showUploadedImage = function(url) {
+            $('#store-logo-preview').removeClass('hidden');
+            $('.store-logo-config').addClass('hidden');
+            $('.current-logo-inner').find('img').attr('src', url);
+        },
+        insertValidationMessage = function(messageText, messageType) {
+            $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
+                .insertAfter(messagePlaceholder);
+            delay && clearTimeout(delay);
+            var delay = setTimeout(function() {
+                $('.message-validation').slideUp(400);
+            }, 3000);
+        };
+
+    logoUploadDropZone
+        .on('click.uploadFile', function(e) {
+            $(this).next().trigger(e);
+        });
+    $('#design_header_logo_upload').fileupload({
+        dataType: 'json',
+        formData: {
+            isAjax: 'true',
+            form_key: FORM_KEY
+        },
+        sequentialUploads: false,
+        dropZone: logoUploadDropZone,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        done: function(e, data) {
+            if (data.result.success == true) {
+                showUploadedImage(data.result.url);
+                $('#design_header_logo_src').val(data.result.file)
+            } else {
+                insertValidationMessage(data.result.error, 'error')
+            }
+        },
+        fail: function(e, data) {
+            insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+        },
+        add: function(e, data) {
+            $(this).fileupload('process', data).done(function () {
+                data.submit();
             });
-        $('#design_header_logo_upload').fileupload({
+        }
+    });
+
+    // Add click event listener to 'Generate Logo' button
+    $('#action-generate-logo').on('click.generateLogo', function(e) {
+        var logoCaption = $('#generated_logo_caption').val();
+        if (logoCaption.length == 0) {
+            insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Logo caption must not be empty.'); ?>', 'error')
+            return;
+        }
+        $.ajax({
+            type: 'POST',
             dataType: 'json',
-            formData: {
-                isAjax: 'true',
-                form_key: FORM_KEY
+            url: $(this).attr('data-url'),
+            data: {
+                generated_logo_caption: logoCaption
             },
-            sequentialUploads: false,
-            dropZone: logoUploadDropZone,
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            done: function(e, data) {
-                if (data.result.success == true) {
-                    showUploadedImage(data.result.url);
-                    $('#design_header_logo_src').val(data.result.file)
+            success: function(data, status, jqXHR) {
+                if (data.success == true) {
+                    showUploadedImage(data.url);
+                    $('#design_header_logo_src').val(data.file)
                 } else {
-                    insertValidationMessage(data.result.error, 'error')
+                    insertValidationMessage(data.error_message, 'error')
                 }
             },
-            fail: function(e, data) {
+            error: function(jqXHR, textStatus, errorThrown) {
                 insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+            }
+        });
+    });
+
+    var currentThemeId = $('#theme-id').val();
+    $('#drawer')
+        .drawerPages()
+        .drawerPages('headerButtonCreate', {
+            name: 'skip',
+            id: 'button_skip',
+            title: '<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
+            click: function() {
+                $('#drawer').drawerPages('drawerPageSwitch', 'theme-config');
             },
-            add: function(e, data) {
-                $(this).fileupload('process', data).done(function () {
-                    data.submit();
-                });
-            }
-        });
-
-        // Add click event listener to 'Generate Logo' button
-        $('#action-generate-logo').on('click.generateLogo', function(e) {
-            var logoCaption = $('#generated_logo_caption').val();
-            if (logoCaption.length == 0) {
-                insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Logo caption must not be empty.'); ?>', 'error')
-                return;
-            }
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: $(this).attr('data-url'),
-                data: {
-                    generated_logo_caption: logoCaption
-                },
-                success: function(data, status, jqXHR) {
-                    if (data.success == true) {
-                        showUploadedImage(data.url);
-                        $('#design_header_logo_src').val(data.file)
-                    } else {
-                        insertValidationMessage(data.error_message, 'error')
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+            afterShow: function() {
+                if (!currentThemeId) {
+                    $(this).addClass('hidden');
                 }
-            });
+            }
+        })
+        .drawerPages('drawerPageAdd', {
+            name: 'themes',
+            page: '.themes-list',
+            buttons: ['skip', 'close']
+        })
+        .drawerPages('drawerPageAdd', {
+            name: 'theme-config',
+            page: '.theme-config',
+            buttons: ['save', 'close']
+        })
+        .drawerPages('drawerPageSwitch', currentThemeId ? 'theme-config' : 'themes');
+
+    $('#action-new-logo')
+        .on('click.newLogo', function() {
+            $('#store-logo-preview').addClass('hidden');
+            $('.store-logo-config').removeClass('hidden');
         });
 
-        $(document).ready(function() {
-            'use strict';
-            var currentThemeId = $('#theme-id').val();
+    $('#action-use-existing-logo')
+        .on('click.newLogo', function() {
+            $('#store-logo-preview').removeClass('hidden');
+            $('.store-logo-config').addClass('hidden');
+        });
+
+    $('#action-another-theme')
+        .on('click.anotherTheme', function() {
+            $('#drawer').drawerPages('drawerPageSwitch', 'themes');
+        });
+
+    $('.action-theme-assign')
+        .on('click.themeAssign', function(event) {
+            event.preventDefault();            
+            $('#theme-image').attr('src', $(this).attr('data-theme-img-src'));
+            $('#theme-id').val($(this).attr('data-theme-id'));
             $('#drawer')
-                .drawerPages()
-                .drawerPages('headerButtonCreate', {
-                    name: 'skip',
-                    id: 'button_skip',
-                    title: '<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
-                    click: function() {
-                        $('#drawer').drawerPages('drawerPageSwitch', 'theme-config');
-                    },
-                    afterShow: function() {
-                        if (!currentThemeId) {
-                            $(this).addClass('hidden');
-                        }
-                    }
-                })
-                .drawerPages('drawerPageAdd', {
-                    name: 'themes',
-                    page: '.themes-list',
-                    buttons: ['skip', 'close']
-                })
-                .drawerPages('drawerPageAdd', {
-                    name: 'theme-config',
-                    page: '.theme-config',
-                    buttons: ['save', 'close']
-                })
-                .drawerPages('drawerPageSwitch', currentThemeId ? 'theme-config' : 'themes');
-
-            $('#action-new-logo')
-                .on('click.newLogo', function() {
-                    $('#store-logo-preview').addClass('hidden');
-                    $('.store-logo-config').removeClass('hidden');
-                });
-
-            $('#action-use-existing-logo')
-                .on('click.newLogo', function() {
-                    $('#store-logo-preview').removeClass('hidden');
-                    $('.store-logo-config').addClass('hidden');
-                });
-
-            $('#action-another-theme')
-                .on('click.anotherTheme', function() {
-                    $('#drawer').drawerPages('drawerPageSwitch', 'themes');
-                });
-
-            $('.action-theme-assign')
-                .on('click.themeAssign', function(event) {
-                    event.preventDefault();
-                    $('#theme-image').attr('src', $(this).attr('data-theme-img-src'));
-                    $('#theme-id').val($(this).attr('data-theme-id'));
-                    $('#drawer')
-                        .drawerPages('drawerPageSwitch', 'theme-config')
-                        .drawer('scrollToTop');
-                });
-
-            $('.store-logo-bg-switcher li')
-                .on('click.switchLogoBg',function() {
-                    var elem = $(this),
-                        bgClass = elem
-                            .attr('class')
-                            .replace('active', '')
-                            .replace(' ', ''),
-                        logo = $('.current-logo'),
-                        bgClassOld = logo
-                            .attr('class')
-                            .replace('current-logo', '')
-                            .replace(' ', '');
-
-                    logo
-                        .addClass('current-' + bgClass)
-                        .removeClass(bgClassOld);
-
-                    elem
-                        .addClass('active')
-                        .siblings()
-                        .removeClass('active');
-                });
+                .drawerPages('drawerPageSwitch', 'theme-config')
+                .drawer('scrollToTop');
         });
-    })(jQuery);
+
+    $('.store-logo-bg-switcher li')
+        .on('click.switchLogoBg',function() {
+            var elem = $(this),
+                bgClass = elem
+                    .attr('class')
+                    .replace('active', '')
+                    .replace(' ', ''),
+                logo = $('.current-logo'),
+                bgClassOld = logo
+                    .attr('class')
+                    .replace('current-logo', '')
+                    .replace(' ', '');
+
+            logo
+                .addClass('current-' + bgClass)
+                .removeClass(bgClassOld);
+
+            elem
+                .addClass('active')
+                .siblings()
+                .removeClass('active');
+        });
+});
 </script>

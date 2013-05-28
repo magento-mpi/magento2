@@ -59,7 +59,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
             $regions = array(array('value' => '', 'label' => '*'));
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate Information')));
+        $legend = $this->getShowLegend() ? Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate Information') : '';
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $legend));
 
         if ($rateObject->getTaxCalculationRateId() > 0) {
             $fieldset->addField('tax_calculation_rate_id', 'hidden', array(

@@ -100,32 +100,10 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
             ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
 
         $this->_elementMock->expects($this->any())->method('getSortedElements')->will($this->returnValue(array()));
-
-        $expected = '<div class="entry-edit-head collapseable" id="' . $this->_testData['htmlId'] . '-head">';
-
-        $expected .= '<span id="' . $this->_testData['htmlId'] . '-link" class="entry-edit-head-link"></span>';
-
-        $expected .= '<a id="' . $this->_testData['htmlId'] . '-head" href="#' . $this->_testData['htmlId']
-            . '-link" onclick="Fieldset.toggleCollapse(\'' . $this->_testData['htmlId'] . '\', \'\'); '
-            . 'return false;">' . $this->_testData['legend'] . '</a>';
-
-        $expected .= '</div><input id="' . $this->_testData['htmlId']
-            . '-state" name="config_state[]" type="hidden" value="1" />';
-
-        $expected .= '<fieldset class="config collapseable test_fieldset_css'
-            . '" id="' . $this->_testData['htmlId']
-            . '"><legend>' . $this->_testData['legend'] . '</legend>';
-
-        $expected .= '<span class="comment" style="display: block;">' . $this->_testData['comment'] . '</span>';
-
-        $expected .= '<table cellspacing="0" class="form-list">';
-        $expected .= '<colgroup class="label" />';
-        $expected .= '<colgroup class="value" />';
-        $expected .= '<colgroup class="scope-label" />';
-        $expected .= '<colgroup class="" />';
-        $expected .= '<tbody></tbody></table></fieldset>';
-
-        $this->assertEquals($expected, $this->_object->render($this->_elementMock));
+        $actualHtml = $this->_object->render($this->_elementMock);
+        $this->assertContains($this->_testData['htmlId'], $actualHtml);
+        $this->assertContains($this->_testData['legend'], $actualHtml);
+        $this->assertContains($this->_testData['comment'], $actualHtml);
     }
 
     public function testRenderWithStoredElements()
@@ -161,7 +139,5 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $expected = '<div id="row_test_field_id_comment" class="system-tooltip-box"'
             .' style="display:none;">test_field_tootip</div>';
         $this->assertContains($expected, $actual);
-
-        $this->assertContains("$$('#test_field_id table')[0].addClassName('system-tooltip-wrap');", $actual);
     }
 }

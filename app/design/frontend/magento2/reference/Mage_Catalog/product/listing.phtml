@@ -71,7 +71,7 @@ $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image
                     }
 
                     $info['links'] = '<div class="product links">'
-                                    . '<a href="' . $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) . '" class="action towishlist">'
+                                    . '<a href="' . $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) . '" class="action towishlist" data-action="add-to-wishlist">'
                                     . '<span>' . $this->__('Add to Wishlist') . '</span></a>'
                                     . '<a href="' . $this->getAddToCompareUrl($_product) . '" class="action tocompare">'
                                     . '<span>' . $this->__('Add to Compare') . '</span></a></div>';
