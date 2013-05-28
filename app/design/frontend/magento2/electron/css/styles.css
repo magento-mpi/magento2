@@ -3219,7 +3219,6 @@ select:disabled {
 ----------------------------------------------------------------------------- */
 .minicart.wrapper {
   display: inline-block;
-  position: relative;
   text-align: right;
   vertical-align: middle;
   width: 15%;
@@ -3228,14 +3227,12 @@ select:disabled {
 .minicart.wrapper .block.minicart {
   border: 1px solid #343439;
   background: #4a4a52;
-  visibility: hidden;
   position: absolute;
-  top: 100%;
-  right: 0;
   margin: -1px 0 0;
   padding: 0 235px 0 0;
   text-align: center;
   z-index: 2;
+  left: -100%;
 }
 .minicart.wrapper .block.minicart.empty {
   padding: 20px;
@@ -3323,7 +3320,8 @@ select:disabled {
   z-index: 11;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: 0;
 }
 .minicart.wrapper .action.previous,
 .minicart.wrapper .action.next {

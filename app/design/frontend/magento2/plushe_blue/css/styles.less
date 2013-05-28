@@ -2191,14 +2191,11 @@ div.mage-error {
 .minicart.wrapper {
     float: right;
     margin-right: 40px;
-    position: relative;
     z-index: 11;
     .block.minicart {
-        top: 100%;
+        left:-100%;
         margin-top: 15px;
         .clearfix;
-        right: -20px;
-        visibility: hidden;
         position: absolute;
         z-index: 2;
         background: @primary1;
@@ -2322,8 +2319,9 @@ div.mage-error {
         }
         position: relative;
         z-index: 11;
-        .block.minicart { //display: block;
-            visibility: visible;
+        .block.minicart {
+            left: auto;
+            right: -20px;
         }
     }
     .action.previous,

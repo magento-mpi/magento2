@@ -2772,15 +2772,12 @@ div.mage-error {
 .minicart.wrapper {
   float: right;
   margin-right: 40px;
-  position: relative;
   z-index: 11;
 }
 .minicart.wrapper .block.minicart {
-  top: 100%;
+  left: -100%;
   margin-top: 15px;
   *zoom: 1;
-  right: -20px;
-  visibility: hidden;
   position: absolute;
   z-index: 2;
   background: #f8f8f8;
@@ -2918,7 +2915,8 @@ div.mage-error {
   opacity: 0.01;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: -20px;
 }
 .minicart.wrapper .action.previous,
 .minicart.wrapper .action.next {

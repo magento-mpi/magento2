@@ -1193,15 +1193,12 @@ div.mage-error {
 }
 .minicart.wrapper {
   float: right;
-  position: relative;
   z-index: 1;
   color: #5e5e5e;
 }
 .minicart.wrapper .block.minicart {
   *zoom: 1;
-  top: 100%;
-  right: -1px;
-  visibility: hidden;
+  left: -100%;
   position: absolute;
   z-index: 2;
   background: #ffffff;
@@ -1344,10 +1341,12 @@ div.mage-error {
   margin: 0 -330px 0 0;
 }
 .minicart.wrapper.active {
+  position: relative;
   z-index: 11;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: -1px;
 }
 .minicart.wrapper .action.previous,
 .minicart.wrapper .action.next {

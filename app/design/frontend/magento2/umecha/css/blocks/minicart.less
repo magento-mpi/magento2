@@ -103,15 +103,11 @@
 
 .minicart.wrapper {
     float: right;
-    position: relative;
     z-index: 1;
     color: @color13;
-
     .block.minicart {
         .clearfix;
-        top: 100%;
-        right: -1px;
-        visibility: hidden;
+        left: -100%;
         position: absolute;
         z-index: 2;
         background: @light;
@@ -212,9 +208,11 @@
         }
     }
     &.active {
+        position: relative;
         z-index: 11;
         .block.minicart {
-            visibility: visible;
+            left: auto;
+            right: -1px;
         }
     }
     .action.previous,

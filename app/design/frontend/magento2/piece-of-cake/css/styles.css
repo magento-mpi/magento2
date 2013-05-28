@@ -3272,7 +3272,6 @@ select:disabled {
 ----------------------------------------------------------------------------- */
 .minicart.wrapper {
   display: inline-block;
-  position: relative;
   text-align: right;
   vertical-align: middle;
   width: 15%;
@@ -3282,10 +3281,8 @@ select:disabled {
   border: 1px solid #000000;
   background: #fff;
   color: #333;
-  visibility: hidden;
   position: absolute;
-  top: 100%;
-  right: 0;
+  left: -100%;
   padding: 0 235px 0 0;
   text-align: center;
   z-index: 2;
@@ -3396,7 +3393,8 @@ select:disabled {
   z-index: 11;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: 0;
 }
 .minicart.wrapper .action.previous,
 .minicart.wrapper .action.next {

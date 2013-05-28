@@ -2093,13 +2093,10 @@ select {
 
 .minicart.wrapper {
   float: right;
-  position: relative;
   z-index: 11;
   .block.minicart {
     .clearfix;
-    top: 100%;
-    right: 0;
-    visibility: hidden;
+    left: -100%;
     position: absolute;
     z-index: 2;
     background: @primary1;
@@ -2197,7 +2194,8 @@ select {
     position: relative;
     z-index: 11;
     .block.minicart {
-      visibility: visible;
+      left: auto;
+      right: 0;
     }
   }
   .action.close {
@@ -2437,7 +2435,6 @@ select {
   color: @primary2;
   margin-top: 23px;
   margin-left: 20px;
-  position: relative;
   display: inline-block;
   padding: 5px 10px;
   border: 1px solid transparent;
@@ -2456,6 +2453,7 @@ select {
   &.active {
     border-color: @primary2;
     border-bottom-color: transparent;
+    position: relative;
     z-index: 3;
     &:after {
       content: "";

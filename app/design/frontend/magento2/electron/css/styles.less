@@ -2354,7 +2354,6 @@ select {
 
 .minicart.wrapper {
     display: inline-block;
-    position: relative;
     text-align: right;
     vertical-align: middle;
     width: 15%;
@@ -2362,14 +2361,12 @@ select {
     .block.minicart {
         border: 1px solid #343439;
         background: #4a4a52;
-        visibility: hidden;
         position: absolute;
-        top: 100%;
-        right: 0;
         margin: -1px 0 0;
         padding:0 235px 0 0;
         text-align: center;
         z-index: 2;
+        left:-100%;
         &.empty {
             padding: 20px;
             min-width: 200px;
@@ -2452,8 +2449,8 @@ select {
         position: relative;
         z-index: 11;
         .block.minicart {
-            //display: block;
-            visibility: visible;
+            left: auto;
+            right: 0;
         }
     }
     .action.previous,
