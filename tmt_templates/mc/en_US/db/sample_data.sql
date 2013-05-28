@@ -2760,7 +2760,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('core_setup', '1.6.0.12', '1.6.0.12'),
 	('cron_setup', '1.6.0.0', '1.6.0.0'),
 	('customer_setup', '1.6.2.0.3', '1.6.2.0.3'),
-	('designeditor_setup', '1.0.0.1', '1.0.0.1'),
+	('designeditor_setup', '1.0.0.3', '1.0.0.3'),
 	('directory_setup', '1.6.0.1', '1.6.0.1'),
 	('downloadable_setup', '1.6.0.0.3', '1.6.0.0.3'),
 	('eav_setup', '1.6.0.2', '1.6.0.2'),
@@ -10385,6 +10385,20 @@ CREATE TABLE IF NOT EXISTS `widget_instance_page` (
 INSERT INTO `widget_instance_page` (`page_id`, `instance_id`, `page_group`, `layout_handle`, `block_reference`, `page_for`, `entities`, `page_template`) VALUES
 	(1, 1, 'pages', 'cms_index_index', 'top.container', 'all', '', 'widget/block.phtml'),
 	(2, 2, 'pages', 'cms_index_index', 'footer.before', 'all', '', 'widget/block.phtml');
+
+
+# Dumping structure for table vde_theme_change
+CREATE TABLE IF NOT EXISTS `vde_theme_change` (
+  `change_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Theme Change Identifier',
+  `theme_id` INT(10) UNSIGNED NOT NULL COMMENT 'Theme Id',
+  `change_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Change Time',
+  PRIMARY KEY (`change_id`),
+  INDEX `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
+  CONSTRAINT `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Editor Theme Change';
+
+# Dumping data for table vde_theme_change: ~0 rows (approximately)
+
 
 
 
