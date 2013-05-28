@@ -260,6 +260,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
 
     public function testGetResourceVersionVersionIsNotSpecifiedException()
     {
+        $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Resource version is not specified or invalid one is specified',

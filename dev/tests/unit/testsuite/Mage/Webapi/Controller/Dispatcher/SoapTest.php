@@ -111,6 +111,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
      */
     public function testDispatchWsdl()
     {
+        $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
         $this->_mockGetParam(1);
 
         $charset = 'utf8';
