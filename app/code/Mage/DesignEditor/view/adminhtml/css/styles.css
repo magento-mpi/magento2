@@ -565,7 +565,7 @@
     position: absolute;
     left: 0;
     top: 52px;
-    right: 20px;
+    right: 0;
     height: 10px;
     background: url(Mage_DesignEditor::images/vde-panel-top-shadow.png) repeat-x;
     content: '';
@@ -813,7 +813,7 @@
 
 .vde-tab-data {
     position: relative;
-    padding: 50px 0 0;
+    padding: 50px 0 20px;
     color: #f2ebde;
 }
 
@@ -907,6 +907,7 @@
     display: block;
     float: left;
     margin-left: 14.127659574%;
+    margin-bottom: 50px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -918,6 +919,10 @@
 .files-wrapper .files-list:first-child,
 .files-wrapper .files-list:nth-child(3n+1) {
     margin-left: 0;
+}
+
+.files-wrapper .files-list:last-child {
+    margin-bottom: 0;
 }
 
 .eq-ie8 .files-wrapper .files-list:first-child {
