@@ -74,7 +74,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
      */
     public function getChildrenHtml()
     {
-        return $this->_elementsToString($this->getChildren());
+        return $this->_elementsToHtml($this->getChildren());
     }
 
     /**
