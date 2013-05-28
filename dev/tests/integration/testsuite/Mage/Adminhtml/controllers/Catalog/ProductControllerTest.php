@@ -60,7 +60,6 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     }
 
     /**
-     * @magentoConfigFixture limitations/catalog_product 2
      * @magentoDbIsolation enabled
      */
     public function testSaveActionAndNew()
