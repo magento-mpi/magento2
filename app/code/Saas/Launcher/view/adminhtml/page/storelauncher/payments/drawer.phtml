@@ -77,13 +77,16 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
             </div>
             <div class="payment-method <?php if ($this->getConfigValue('payment/payflow_advanced/active')): ?> configured <?php endif; ?>" data-payment-method="payments-advanced">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Saas_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
-                <h3 class="payment-title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Payments Advanced'); ?></h3>
+                <h3 class="payment-title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Payments Advanced (Includes Express Checkout)'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
                 <ul class="payment-features">
                     <li><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Customers check out and pay on your website'); ?></li>
                     <li><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Simplifies PCI compliance'); ?></li>
                     <li><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Customers can pay by credit card, PayPal, or Bill Me Later&reg;.'); ?></li>
                 </ul>
+                <a class="learn-more" href="<?php echo $this->getMoreUrl('payment/paypal_payments/payflow_advanced'); ?>" target="_blank">
+                    <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Learn More'); ?>
+                </a>
                 <footer class="payment-method-footer">
                     <span class="price-plan"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('$5/month'); ?></span>
                     <div class="actions">
@@ -230,7 +233,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
             </fieldset>
         </div>
 
-        <div class="payment-config" id="payments-advanced">
+        <div class="payment-config" id="payments-advanced" data-payment-method="payments-advanced">
             <fieldset class="fieldset">
                 <legend class="legend"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
                 <input type="hidden" name="groups[global][fields][payflow_advanced][value]" value="1">
@@ -245,18 +248,20 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 </div>
                 <div class="field field-advanced-vendor required">
                     <label for="advanced-vendor" class="label">
-                        <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
+                        <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Merchant Login'); ?></span>
                     </label>
                     <div class="control">
                         <input type="text" name="groups[payflow_advanced][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/vendor'); ?>" class="input-text required-entry" id="advanced-vendor">
                     </div>
                 </div>
-                <div class="field field-advanced-user required">
+                <div class="field field-advanced-user required with-tooltip">
                     <label for="advanced-user" class="label">
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('User'); ?></span>
                     </label>
                     <div class="control">
                         <input type="text" name="groups[payflow_advanced][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/user'); ?>" class="input-text required-entry" id="advanced-user">
+                        <div class="tooltip"><span class="help"><span></span></span><div class="tooltip-content"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal recommends you set up an additional User on your account at manager.paypal.com, instead of entering your admin username and password here. This will enhance your security and prevent service interruptions if you later change your password. If you do not want to set up an additional User, you can re-enter your Merchant Login here.'); ?></div></div>
+                        <div class="note"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal recommends that you set up an additional User on your account at manager.paypal.com'); ?></div>
                     </div>
                 </div>
                 <div class="field field-advanced-password required">

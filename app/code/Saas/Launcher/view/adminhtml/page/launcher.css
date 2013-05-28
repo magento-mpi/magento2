@@ -1464,6 +1464,24 @@
     margin: 0 2% 10px 0;
 }
 
+.payment-config[data-payment-method="payments-advanced"] .field {
+    float: none;
+}
+.payment-config .field.with-tooltip .tooltip {
+    margin: -5px 0 0 -10px;
+}
+.payment-config .field.with-tooltip .help {
+    width: 15px;
+}
+.tooltip-content {
+    min-width: 400px;
+    margin-left: -2px;
+}
+
+.payment-config[data-payment-method="payments-advanced"]  .field + .field + .actions {
+    width: 25%;
+}
+
 .payment-config .actions {
     clear: left;
     width: 25%;
