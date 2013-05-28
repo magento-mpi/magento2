@@ -60,33 +60,31 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     }
 
     /**
-     * @magentoDbIsolation enabled
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndNew()
     {
-        $productData = array(
-            'set' => $this->_getDefaultAttributeSetId(),
-            'back' => 'new',
-        );
-        $this->getRequest()->setPost($productData);
-        $this->dispatch('backend/admin/catalog_product/save');
+        $this->getRequest()->setPost(array('back' => 'new'));
+        $this->dispatch('backend/admin/catalog_product/save/id/1');
         $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/new/'));
+        $this->assertSessionMessages(
+            $this->contains('The product has been saved.'), Mage_Core_Model_Message::SUCCESS
+        );
     }
 
     /**
      * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDbIsolation enabled
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndNewLimitationReached()
     {
-        $productData = array(
-            'set' => $this->_getDefaultAttributeSetId(),
-            'back' => 'new',
-        );
-        $this->getRequest()->setPost($productData);
-        $this->dispatch('backend/admin/catalog_product/save');
+        $this->getRequest()->setPost(array('back' => 'new'));
+        $this->dispatch('backend/admin/catalog_product/save/id/1');
         $this->assertRedirect(
-            $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/')
+            $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
+        );
+        $this->assertSessionMessages(
+            $this->contains('The product has been saved.'), Mage_Core_Model_Message::SUCCESS
         );
         $this->assertSessionMessages($this->contains("You can't create new product."), Mage_Core_Model_Message::ERROR);
     }
