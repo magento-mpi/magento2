@@ -135,7 +135,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
          * To avoid complicated environment emulation for online payment,
          * we can check if proper error message from payment gateway was received or not.
          */
-        $this->setExpectedException('SoapFault', 'Invoice capturing problem.');
+        $this->setExpectedException('SoapFault', 'Invalid vendor account');
 
         /** Capture invoice data via API. */
         $invoiceBefore = $this->_getFixtureInvoice();
@@ -154,7 +154,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
          * To avoid complicated environment emulation for online voiding,
          * we can check if proper error message from payment gateway was received or not.
          */
-        $this->setExpectedException('SoapFault', 'Invoice void problem');
+        $this->setExpectedException('SoapFault', 'Invalid vendor account');
 
         /** Prepare data. Make invoice voidable. */
         $invoiceBefore = $this->_getFixtureInvoice();
