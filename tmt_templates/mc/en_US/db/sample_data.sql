@@ -2724,17 +2724,16 @@ CREATE TABLE IF NOT EXISTS `core_layout_update` (
   `handle` varchar(255) DEFAULT NULL COMMENT 'Handle',
   `xml` text COMMENT 'Xml',
   `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Last Update Timestamp',
-  `is_vde` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Defines whether layout update created via design editor',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Last Update Timestamp'
   PRIMARY KEY (`layout_update_id`),
   KEY `IDX_CORE_LAYOUT_UPDATE_HANDLE` (`handle`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Updates';
 
 # Dumping data for table core_layout_update: ~2 rows (approximately)
 
-INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`, `is_vde`) VALUES
-	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="f67da881fe40f85289ada1c629b5b4a5" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>615bc143c65af1cc21ae2391432830a6</value></action></block></reference>', 0, NULL, 0),
-	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="a6a20f3c508bf4efa0b27a2a3fe9be24" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>942e542da1a4d789db9b4b02a536ffde</value></action></block></reference>', 1, NULL, 0);
+INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`) VALUES
+	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="f67da881fe40f85289ada1c629b5b4a5" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>615bc143c65af1cc21ae2391432830a6</value></action></block></reference>', 0, NULL),
+	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="a6a20f3c508bf4efa0b27a2a3fe9be24" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>942e542da1a4d789db9b4b02a536ffde</value></action></block></reference>', 1, NULL);
 
 
 
