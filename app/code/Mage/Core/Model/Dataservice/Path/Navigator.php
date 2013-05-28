@@ -1,10 +1,14 @@
 <?php
 /**
+ * Navigates the Dataservice path.
+ *
  * Dataservices can be represented by a path, for example {root.branch.leaf} could be a way to point to
  * a specific 'leaf' data service that lives within the context of 'branch' which itself is found under
  * the 'root' data service. What we are trying to solve here is an efficient and easy to use method of
  * accessing a specific data service within an existing hierarchy.
  *
+ * {license_notice}
+ * 
  * @copyright   {copyright}
  * @license     {license_link}
  */

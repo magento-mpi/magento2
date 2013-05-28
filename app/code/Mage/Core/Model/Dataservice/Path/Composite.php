@@ -2,6 +2,8 @@
 /**
  * Data source composite visitable element
  *
+ * {license_notice}
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -1,9 +1,12 @@
 <?php
 /**
+ * This class reads config.xml of modules, and provides interface to the configuration of service calls.
+ *
+ * Service calls are defined in service_calls.xml files in etc directory of the modules.
+ * Additionally, reference to service_calls.xml file is configured in config.xml file.
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */

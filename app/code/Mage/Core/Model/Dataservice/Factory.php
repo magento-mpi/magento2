@@ -1,6 +1,8 @@
 <?php
 /**
- * Dataservice factory
+ * Dataservice factory instantiates the service, calls the methods and retrieves the data from the call.
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}

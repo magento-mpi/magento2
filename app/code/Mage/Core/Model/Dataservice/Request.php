@@ -1,5 +1,7 @@
 <?php
 /**
+ * Wrapper around Mage_Core_Controller_Request_Http for the Navigator class.
+ *
  * HTTP Requests need to be exposed as data services for the front end (twig) to be able to access the
  * request data. This class acts as a wrapper around the Mage_Core_Controller_Request_Http object so
  * that the data can be searched for and extracted via the Navigator class.

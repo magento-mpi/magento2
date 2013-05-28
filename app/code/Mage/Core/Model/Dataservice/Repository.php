@@ -2,6 +2,10 @@
 /**
  * Data source Repository
  *
+ * Stores the data and allows to retrieve for service calls.  Assigns namespaces and aliases to the service calls data.
+ *
+ * {license_notice}
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */

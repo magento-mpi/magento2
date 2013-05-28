@@ -1,6 +1,13 @@
 <?php
 /**
- * Dataservice graph.  Manages creation and storage of dataservices.
+ * Dataservice graph manages creation and storage of dataservices.
+ *
+ * manages the graph of objects
+ *  - initializes datasource
+ *  - calls factory to retrieve data
+ *  - stores data to repository
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}

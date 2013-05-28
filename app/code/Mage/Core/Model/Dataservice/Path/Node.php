@@ -1,7 +1,10 @@
 <?php
 /**
- * Data service path node.  Think of the data service paths as forming a graph.  This interface represents
- * a node in such a graph.
+ * Data service path node.
+ *
+ * Think of the data service paths as forming a graph.  This interface represents a node in such a graph.
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
