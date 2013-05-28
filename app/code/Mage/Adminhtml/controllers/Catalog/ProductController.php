@@ -162,11 +162,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function indexAction()
     {
         $this->_title($this->__('Manage Products'));
-        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
+        $this->_addProductLimitationMassage();
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_products');
         $this->renderLayout();
@@ -181,6 +177,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_forward('noroute');
             return;
         }
+
+        $this->_addProductLimitationMassage();
+        $this->_addGroupLimitationMessage();
+
         $product = $this->_initProduct();
 
         $productData = $this->getRequest()->getPost('product');
@@ -225,11 +225,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function editAction()
     {
-        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
+        $this->_addProductLimitationMassage();
+        $this->_addGroupLimitationMessage();
 
         $productId  = (int) $this->getRequest()->getParam('id');
         $product = $this->_initProduct();
@@ -1048,5 +1045,30 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->getLayout()->createBlock('Mage_Catalog_Block_Product_TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
+    }
+
+    /**
+     * In case of fully used limit on products - display message about this.
+     */
+    protected function _addProductLimitationMassage()
+    {
+
+        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
+    }
+
+    /**
+     * In case of fully used limit on groups - display message about this.
+     */
+    protected function _addGroupLimitationMessage()
+    {
+        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
     }
 }

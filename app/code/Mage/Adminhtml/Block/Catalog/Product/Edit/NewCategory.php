@@ -18,6 +18,13 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * Categories limitation
+     *
+     * @var Mage_Catalog_Model_Category_Limitation
+     */
+    protected $_limitation;
+
+    /**
      * Limitations model
      *
      * @var Mage_Catalog_Model_Category_Limitation $_limitation
@@ -58,6 +65,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
             'required' => true,
             'name'     => 'new_category_name',
+            'disabled' => $this->_limitation->isCreateRestricted() ? 'true' : 'false',
         ));
 
         $fieldset->addField('new_category_parent', 'select', array(
@@ -67,6 +75,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'options'  => array(),
             'class'    => 'validate-parent-category',
             'name'     => 'new_category_parent',
+            'disabled' => $this->_limitation->isCreateRestricted() ? 'true' : 'false',
         ));
 
         $this->setForm($form);

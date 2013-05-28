@@ -18,6 +18,20 @@
 class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_Data_Form_Element_Multiselect
 {
     /**
+     * Used for category count limitation
+     *
+     * @var Mage_Catalog_Model_Category_Limitation
+     */
+    protected $_limitation;
+
+    public function __construct($attributes = array(), Mage_Catalog_Model_Category_Limitation $limitation = null)
+    {
+        parent::__construct($attributes);
+        $this->_limitation = $limitation ?: Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+
+    }
+
+    /**
      * Get values for select
      * @return array
      */
@@ -65,12 +79,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = Mage::helper('Mage_Catalog_Helper_Data')->__('New Category');
 
+        $status = sprintf('disabled = "%s"', $this->_limitation->isCreateRestricted());
         return <<<HTML
     <input id="{$htmlId}-suggest" placeholder="$suggestPlaceholder" />
     <script>
         jQuery('#{$htmlId}-suggest').mage('treeSuggest', {$selectorOptions});
     </script>
-    <button title="{$newCategoryCaption}" type="button" onclick="jQuery('#new-category').dialog('open')">
+    <button title="{$newCategoryCaption}" type="button" {$status} onclick="jQuery('#new-category').dialog('open')">
         <span><span><span>{$newCategoryCaption}</span></span></span>
     </button>
 HTML;
