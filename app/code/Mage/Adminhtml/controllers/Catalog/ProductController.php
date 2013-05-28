@@ -800,6 +800,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
                     $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
+                } else if ($redirectBack === 'new') {
+                    /** @var $limitation Mage_Catalog_Model_Product_Limitation */
+                    $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
+                    if ($limitation->isCreateRestricted()) {
+                        $redirectBack = true;
+                        $this->_getSession()->addError($this->__("You can't create new product."));
+                    }
                 }
 
             } catch (Mage_Core_Exception $e) {
