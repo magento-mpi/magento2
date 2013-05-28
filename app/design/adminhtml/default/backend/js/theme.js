@@ -385,7 +385,7 @@
         var colorPicker = $('.farbtastic:visible'),
             colorPickerWidth = 350;
 
-        colorPicker.toggleClass('vertical', parseInt(colorPicker.offset().left, 10) + colorPickerWidth > $(window).width());
+        colorPicker.offset() && colorPicker.toggleClass('vertical', parseInt(colorPicker.offset().left, 10) + colorPickerWidth > $(window).width());
     };
 
     $(document).ready(function() {
