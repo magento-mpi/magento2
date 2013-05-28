@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**
+ * * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_LoaderInterface
 {
     /**

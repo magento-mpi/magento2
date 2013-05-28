@@ -62,8 +62,10 @@ abstract class Mage_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUnit_F
     {
         try {
             $this->_tryToCreateProductWithApi($productData);
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail('SoapFault exception was expected to be raised.');
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->_checkErrorMessagesInResponse($e, $expectedMessages);
         }
     }

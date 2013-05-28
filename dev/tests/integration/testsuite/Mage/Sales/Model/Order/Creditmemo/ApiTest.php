@@ -80,18 +80,17 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
 
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
-        $this->setExpectedException('SoapFault');
-        Magento_Test_Helper_Api::call(
+        Magento_Test_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCancel',
             array('creditmemoIncrementId' => $creditMemoIncrement)
         );
+
     }
 
     /**
      * Test Exception when refund amount greater than available to refund amount
      *
-     * @expectedException SoapFault
      * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/multiple_invoices.php
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
@@ -101,8 +100,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
         /** @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
-
-        Magento_Test_Helper_Api::call(
+        Magento_Test_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCreate',
             array(
@@ -132,12 +130,10 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test Exception on invalid creditmemo create data
-     *
-     * @expectedException SoapFault
      */
     public function testCreateInvalidOrderException()
     {
-        Magento_Test_Helper_Api::call(
+        Magento_Test_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCreate',
             array(
@@ -149,12 +145,10 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test Exception on invalid credit memo while adding comment
-     *
-     * @expectedException SoapFault
      */
     public function testAddCommentInvalidCreditmemoException()
     {
-        Magento_Test_Helper_Api::call(
+        Magento_Test_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoAddComment',
             array(
@@ -166,12 +160,10 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test Exception on invalid credit memo while getting info
-     *
-     * @expectedException SoapFault
      */
     public function testInfoInvalidCreditmemoException()
     {
-        Magento_Test_Helper_Api::call(
+        Magento_Test_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoInfo',
             array('creditmemoIncrementId' => 'invalid-id')
@@ -180,12 +172,10 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test exception on invalid credit memo cancel
-     *
-     * @expectedException SoapFault
      */
     public function testCancelInvalidIdException()
     {
-        Magento_Test_Helper_Api::call(
+        Magento_Test_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCancel',
             array('creditmemoIncrementId' => 'invalid-id')

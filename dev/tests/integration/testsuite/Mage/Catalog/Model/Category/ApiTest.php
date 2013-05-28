@@ -407,7 +407,10 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
         $params['categoryId'] = 9999;
         try {
             $result = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $params);
+            Magento_Test_Helper_Api::restoreErrorHandler();
+            $this->fail();
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             //make result like in response
             $result = array(
                 'faultcode' => $e->faultcode,
@@ -434,7 +437,10 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             $categoryFixture['vulnerability']['categoryData']->custom_layout_update;
         try {
             $result = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $params);
+            Magento_Test_Helper_Api::restoreErrorHandler();
+            $this->fail();
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             //make result like in response
             $result = array(
                 'faultcode' => $e->faultcode,
@@ -460,7 +466,10 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
                 'catalogCategoryDelete',
                 array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID)
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
+            $this->fail();
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $result = array(
                 'faultcode' => $e->faultcode,
                 'faultstring' => $e->faultstring
