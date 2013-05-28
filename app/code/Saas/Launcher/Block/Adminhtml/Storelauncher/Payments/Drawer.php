@@ -20,6 +20,27 @@
 class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
     /**
+     * @var Mage_Backend_Model_Config_Structure
+     */
+    protected $_configStructure;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Saas_Launcher_Model_LinkTracker $linkTracker
+     * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Saas_Launcher_Model_LinkTracker $linkTracker,
+        Mage_Backend_Model_Config_Structure $configStructure,
+        array $data = array()
+    ) {
+        parent::__construct($context, $linkTracker, $data);
+        $this->_configStructure = $configStructure;
+    }
+
+    /**
      * Get Translated Tile Header
      *
      * @return string
@@ -30,12 +51,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Saas_L
     }
 
     /**
-     * @todo Will be replaced in #MAGETWO-10159
-     * @return string
+     * @param string $path
+     * @return mixed
      */
-    public function getMoreUrl()
+    public function getMoreUrl($path)
     {
-        return
-            'https://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS';
+        /** @var Mage_Backend_Model_Config_Structure_Element_Group $element */
+        $element = $this->_configStructure->getElement($path);
+        return $element->getAttribute('more_url');
     }
 }
