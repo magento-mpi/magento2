@@ -2793,9 +2793,10 @@ select:disabled {
   width: 665px;
 }
 .cart.summary {
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 0 20px 20px;
+  margin-left: 10px;
 }
 .cart.summary .summary.title {
   color: #202020;
@@ -2909,6 +2910,19 @@ select:disabled {
 .cart.summary .block .action span {
   font-size: 12px;
   line-height: 12px;
+}
+.cart > .summary.fixed,
+.cart.container > .summary > .container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container > .summary.bottom {
+  position: absolute;
+  vertical-align: bottom;
+  bottom: 0;
+}
+.cart.table.wrapper.detailed + .cart.summary {
+  margin-top: 54px;
 }
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 16px;

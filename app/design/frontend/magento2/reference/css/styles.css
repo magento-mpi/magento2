@@ -2396,9 +2396,10 @@ div.mage-error {
 .cart.summary {
   margin-top: 33px;
   background: #f8f8f8;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left: 10px;
 }
 .cart.summary .summary.title {
   font-size: 20px;
@@ -2493,6 +2494,20 @@ div.mage-error {
 .cart.summary .block .action.check span:active,
 .cart.summary .block .action.check span:hover {
   color: #da370a;
+}
+.cart.container > .summary.sticky {
+  position: fixed;
+  display: inline-block !important;
+}
+.cart.container > .summary.bottom {
+  position: absolute;
+  vertical-align: bottom;
+  bottom: 0;
+}
+.cart  > .summary.fixed,
+.cart.container  > .summary  > .container.fixed {
+  position: fixed;
+  top: 0;
 }
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 54px;
