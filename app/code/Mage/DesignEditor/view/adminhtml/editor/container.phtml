@@ -20,5 +20,12 @@
             isPhysicalTheme: '<?php echo (int)$this->getTheme()->getType() == Mage_Core_Model_Theme::TYPE_PHYSICAL ?>',
             createVirtualThemeUrl: '<?php echo $this->getVirtualThemeCreationUrl() ?>'
         });
+        $(document).ready(function(){
+            $("#vde_container_frame").vdeFrame({
+                vdeToolbar: '#vde_toolbar_row',
+                vdeFooter: '.vde-tools-footer'
+            });
+            $("#vde_toolbar_row").themeSave();
+        });
     })(jQuery);
 </script>

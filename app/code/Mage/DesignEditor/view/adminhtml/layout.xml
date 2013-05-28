@@ -79,8 +79,8 @@
             <action method="addJs"><file>Mage_Theme::js/custom-js-list.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/vde-frame.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-save.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/image-sizing.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-element.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
