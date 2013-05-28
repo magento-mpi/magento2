@@ -70,7 +70,7 @@
             $container.on('click', '[data-role=make-base-button]', function(event) {
                 event.preventDefault();
                 var data = $(event.target).closest('.image').data('image');
-                $galleryContainer.productGallery('setMain', data);
+                $galleryContainer.productGallery('setBase', data);
             });
 
             $container.on('click', '[data-role=delete-button]', function(event) {

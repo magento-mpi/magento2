@@ -32,7 +32,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
         $this->setElement($element);
         $html = $this->_getHeaderHtml($element);
 
-        foreach ($element->getSortedElements() as $field) {
+        foreach ($element->getElements() as $field) {
             if ($field instanceof Varien_Data_Form_Element_Fieldset) {
                 $html .= '<tr id="row_' . $field->getHtmlId() . '"><td colspan="4">' . $field->toHtml() . '</td></tr>';
             } else {
@@ -143,7 +143,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
     protected function _getFooterHtml($element)
     {
         $html = '</tbody></table>';
-        foreach ($element->getSortedElements() as $field) {
+        foreach ($element->getElements() as $field) {
             if ($field->getTooltip()) {
                 $html .= sprintf('<div id="row_%s_comment" class="system-tooltip-box" style="display:none;">%s</div>',
                     $field->getId(), $field->getTooltip()

@@ -68,7 +68,7 @@
                             _elements.each(function() {
                                 var _qty = $(this);
                                 _qty.on('blur', $.proxy(function() {
-                                    var parts = _elem.attr('id').split('-'),
+                                    var parts = _qty.attr('id').split('-'),
                                         value = _elem.val(),
                                         quantity = parseInt(_qty.val(), 10);
                                     if (quantity > 0 && _this.options.bundleConfig.options[parts[2]] &&

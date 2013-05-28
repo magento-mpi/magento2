@@ -33,12 +33,18 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
     protected $_checkoutSession;
 
     /**
+     * @var Saas_Launcher_Helper_Data
+     */
+    protected $_launcherHelper;
+
+    /**
      * Constructor
      *
      * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param Mage_Checkout_Model_Cart $cartModel
      * @param Mage_Catalog_Model_Product $productModel
      * @param Mage_Checkout_Model_Session $checkoutSession
+     * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
      */
     public function __construct(
@@ -46,6 +52,7 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
         Mage_Checkout_Model_Cart $cartModel,
         Mage_Catalog_Model_Product $productModel,
         Mage_Checkout_Model_Session $checkoutSession,
+        Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
@@ -53,6 +60,7 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
         $this->_cartModel = $cartModel;
         $this->_productModel = $productModel;
         $this->_checkoutSession = $checkoutSession;
+        $this->_launcherHelper = $launcherHelper;
     }
 
     /**
@@ -75,6 +83,10 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
                 $this->_cartModel->addProduct($product, 1);
                 $this->_cartModel->save();
                 $this->_checkoutSession->setCartWasUpdated(true);
+            } else {
+                $this->_checkoutSession->addNotice($this->_launcherHelper->__(
+                    'You need to have at least one Simple or Virtual Product to run test transaction.'
+                ));
             }
         }
         $this->_redirect('checkout/cart');

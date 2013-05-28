@@ -29,7 +29,6 @@
                 <Magento_JobQueue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_JobQueue_Client_ConfigInterface>
                 <Enterprise_PageCache_Model_Processor_RestrictionInterface>Saas_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
                 <Enterprise_Customer_Helper_Data>Saas_Customer_Helper_Data</Enterprise_Customer_Helper_Data>
-                <Enterprise_Search_Helper_ClientInterface>Saas_Search_Helper_Data</Enterprise_Search_Helper_ClientInterface>
             </preferences>
             <!--<Mage_Core_Model_Config>-->
                 <!--<parameters>-->

@@ -2790,7 +2790,6 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('index_setup', '1.6.0.0', '1.6.0.0'),
 	('launcher_setup', '2.0.0.0', '2.0.0.0'),
 	('log_setup', '1.6.0.0', '1.6.0.0'),
-	('moneybookers_setup', '1.6.0.0', '1.6.0.0'),
 	('newsletter_setup', '1.6.0.2', '1.6.0.2'),
 	('ogone_setup', '1.6.0.0', '1.6.0.0'),
 	('paygate_setup', '1.6.0.0', '1.6.0.0'),
@@ -2919,7 +2918,8 @@ INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`
   (15, 8, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
   (16, 13, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
   (17, 9, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (18, 11, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
+  (18, 11, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (19, 9, 'magento2/zen', '1.0.0.0', 'Zen', 'preview_zen.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
 
 
 
