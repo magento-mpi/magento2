@@ -4575,6 +4575,7 @@ div.mage-error {
   float: left;
   line-height: 25px;
   margin: 2px 15px 0 0;
+  display: none;
 }
 .block.widget .pager .text {
   display: none;
