@@ -63,6 +63,9 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <li><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__("Customers don't need a PayPal account"); ?></li>
                     <li><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Easiest way to accept credit cards, PayPal, and Bill Me Later&reg;.'); ?></li>
                 </ul>
+                <a class="learn-more" href="<?php echo $this->getMoreUrl('payment/paypal_payments/wps'); ?>" target="_blank">
+                    <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Learn More'); ?>
+                </a>
                 <footer class="payment-method-footer">
                     <span class="price-plan"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Free'); ?></span>
                     <div class="actions">
@@ -213,7 +216,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 
         <div class="payment-config" id="paypal-standard">
             <fieldset class="fieldset">
-                <legend class="legend"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Please email address associated with the PayPal account'); ?></legend>
+                <legend class="legend"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Please enter email address associated with the PayPal account'); ?></legend>
                 <input type="hidden" name="groups[global][fields][wps][value]" value="1">
                 <input type="hidden" name="payment_method" value="paypal_payments_standard">
                 <div class="field field-store-paypal-standard-email with-note required">
