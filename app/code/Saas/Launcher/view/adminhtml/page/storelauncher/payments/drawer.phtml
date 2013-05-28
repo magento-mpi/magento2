@@ -36,6 +36,9 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
             <li><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add an Express Checkout button for a quick and easy way to pay'); ?></li>
             <li><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Customer uses information stored in their PayPal accounts to check out quickly.'); ?></li>
         </ul>
+        <a class="learn-more" href="<?php echo $this->getMoreUrl('payment/paypal_payments/express_checkout'); ?>" target="_blank">
+            <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Learn more'); ?>
+        </a>
         <footer class="payment-method-footer">
             <span class="price-plan"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Free'); ?></span>
             <div class="actions">
@@ -186,26 +189,23 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
     </div>
 </div>
     <div class="payments-config-data">
-        <div class="payment-config" id="express-checkout">
+        <div class="payment-config" id="express-checkout" data-payment-method="express-checkout">
+            <p class="payment-info"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('With Paypal Express Checkout, you can accept payments now, and set up your payments account later'); ?><p>
             <fieldset class="fieldset">
-                <legend class="legend"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Just enter your PayPal account email address.'); ?></legend>
+                <legend class="legend"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal payments will be sent to your email address at:'); ?></legend>
                 <input type="hidden" name="groups[global][fields][express][value]" value="1">
                 <input type="hidden" name="payment_method" value="paypal_express_checkout">
-                <div class="field field-store-paypal-express-email with-note required">
-                    <label for="store-paypal-express-email" class="label">
-                        <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Email'); ?></span>
-                    </label>
+                <div class="field field-store-paypal-express-email with-note">
                     <div class="control">
                         <input type="text" name="groups[account][fields][business_account][value]" class="input-text  validate-email required-entry" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-express-email">
-                        <div class="note"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Payments will be sent to this address'); ?></div>
                     </div>
-                </div>
-                <div class="actions">
                     <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
                         <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Confirm'); ?></span>
                     </button>
                 </div>
             </fieldset>
+
+            <p class="payment-info"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('For your convenience, we have automatically enabled PayPal Express Checkout.'); ?><p>
         </div>
 
         <div class="payment-config" id="paypal-standard">

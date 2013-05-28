@@ -1454,6 +1454,10 @@
     border-bottom: none;
 }
 
+.payment-config[data-payment-method="express-checkout"] .field {
+    width: 33%;
+}
+
 .payment-config .field {
     width: 25%;
     float: left;
@@ -1537,6 +1541,16 @@
 
 .payments-tab-content .payment-method {
     width: 28%;
+}
+
+.payment-config[data-payment-method="express-checkout"]  .payment-info {
+    width: 410px;
+    color: #333;
+}
+
+.field-store-paypal-express-email .control {
+    display: inline-block;
+    width: 75%;
 }
 
 /* Validation */

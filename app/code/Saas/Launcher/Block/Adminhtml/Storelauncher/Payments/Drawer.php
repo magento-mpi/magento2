@@ -28,4 +28,14 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Saas_L
     {
         return $this->helper('Saas_Launcher_Helper_Data')->__('Payments');
     }
+
+    /**
+     * @todo Will be replaced in #MAGETWO-10159
+     * @return string
+     */
+    public function getMoreUrl()
+    {
+        return
+            'https://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS';
+    }
 }
