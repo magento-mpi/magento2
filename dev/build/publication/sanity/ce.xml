@@ -57,6 +57,7 @@
         </item>
         <item>
             <word>enterprise</word>
+            <word>saas</word>
             <path>dev/tests/functional/framework/Mage/Selenium/AbstractHelper.php</path>
         </item>
         <item>

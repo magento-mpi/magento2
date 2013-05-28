@@ -14,6 +14,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object implements Mage_Co
     const XML_STORE_ROUTERS_PATH = 'web/routers';
 
     /**
+     * Prevent redirect to baseUrl for some areas (use for VDE into Magento Go)
+     */
+    const XML_FORBIDDEN_FOR_REDIRECT_AREAS = 'default/web/forbiddenForRedirectAreas';
+
+    /**
      * @var Mage_Core_Controller_Varien_Router_Factory
      */
     protected $_routerFactory;
@@ -359,6 +364,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object implements Mage_Co
             return;
         }
 
+        if($this->_isForbiddenForRedirectArea($request)) {
+
+            return;
+        }
+
         $baseUrl = Mage::getBaseUrl(
             Mage_Core_Model_Store::URL_TYPE_WEB,
             Mage::app()->getStore()->isCurrentlySecure()
@@ -392,12 +402,49 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object implements Mage_Co
      */
     protected function _isAdminFrontNameMatched($request)
     {
+        $pathPrefix = $this->_extractPathPrefixFromUrl($request);
+        return $pathPrefix == Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
+    }
+
+    /**
+     * Extract first path part from url (in most cases this is area code)
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @return string
+     */
+    protected function _extractPathPrefixFromUrl($request)
+    {
         $pathPrefix = ltrim($request->getPathInfo(), '/');
         $urlDelimiterPos = strpos($pathPrefix, '/');
         if ($urlDelimiterPos) {
             $pathPrefix = substr($pathPrefix, 0, $urlDelimiterPos);
         }
 
-        return $pathPrefix == Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
+        return $pathPrefix;
+    }
+
+    /**
+     * Check is current request may be redirected into base URL
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @return bool
+     */
+    protected function _isForbiddenForRedirectArea($request)
+    {
+        $result = false;
+        $pathPrefix = $this->_extractPathPrefixFromUrl($request);
+
+        $forbiddenForRedirectAreas = Mage::app()->getConfig()->getNode();
+        if ($forbiddenForRedirectAreas) {
+            $areasList = $forbiddenForRedirectAreas->asArray();
+            foreach ($areasList as $nodeName => $nodeValue)
+            {
+                if ($nodeName == $pathPrefix) {
+                    $result = true;
+                    break;
+                }
+            }
+        }
+        return $result;
     }
 }

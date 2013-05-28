@@ -108,7 +108,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                     ),
                 ),
             ),
-            'class'   => 'action-duplicate'
+            'class'   => 'action-duplicate hidden'
         ));
 
         $themeBlock->addButton($assignButton);

@@ -263,7 +263,6 @@ new_admin_role:
                                         config_system: //*[@data-ui-id='Mage_Adminhtml::config_system']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         config_wishlist: //*[@data-ui-id='Mage_Wishlist::config_wishlist']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         config_promotion: //*[@data-ui-id='Mage_SalesRule::config_promo']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
-                                        config_moneybookers: //*[@data-ui-id='Phoenix_Moneybookers::moneybookers']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         config_advanced: //*[@data-ui-id='Mage_Adminhtml::advanced']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         config_admin: //*[@data-ui-id='Mage_Adminhtml::config_admin']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         config_trans_email: //*[@data-ui-id='Mage_Adminhtml::trans_email']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]

@@ -16,12 +16,17 @@
         <div class="page-title-inner">
             <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
             <div class="actions">
-                <button class="action-launch-store primary"
+                <button class="action-launch-store primary button-with-tooltip"
                         <?php if (!$this->getPage()->isComplete()): ?>disabled="disabled"<?php endif; ?>
                         id="action-launch-my-store"
                         data-show-popup="launch-my-store">
                     <span><?php echo $this->__('Launch My Store'); ?></span>
                 </button>
+                <div class="button-tooltip">
+                    <div class="tooltip-text">
+                        <p><?php echo $this->__('Please, complete all tiles before Store launches.'); ?></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

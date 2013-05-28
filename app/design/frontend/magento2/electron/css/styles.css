@@ -603,6 +603,10 @@ a:visited:hover {
 .column.main {
   min-height: 500px;
 }
+.column.left,
+.column.right {
+  min-height: 1px;
+}
 .col1-layout .column.main {
   display: inline;
   float: left;
@@ -1315,19 +1319,17 @@ a:visited:hover {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
-.no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
-  padding-top: 8px;
 }
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
@@ -1755,9 +1757,6 @@ textarea {
   line-height: 1.2;
   min-height: 4.8em;
 }
-.no-borderradius textarea {
-  padding-top: 8px;
-}
 .control textarea {
   width: 100%;
 }
@@ -1782,12 +1781,9 @@ input[type="text"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
-}
-.no-borderradius input[type="password"],
-.no-borderradius input[type="text"] {
-  padding-top: 8px;
+  line-height: 13px;
 }
 .control input[type="password"],
 .control input[type="text"] {
@@ -1816,9 +1812,6 @@ select {
   background-clip: padding-box;
   font-family: sans-serif;
   padding: 5px;
-}
-.no-borderradius select {
-  padding-top: 8px;
 }
 .control select {
   width: 100%;
@@ -2731,7 +2724,6 @@ select:disabled {
   float: right;
   width: 290px;
   padding: 0 20px 20px;
-  display:inline-block;
 }
 .cart.summary .summary.title {
   color: #bec1c4;
@@ -2743,21 +2735,6 @@ select:disabled {
   padding-bottom: 4px;
   text-align: center;
 }
-
-.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
-    position: fixed;
-    top: 0;
-}
-.cart.container > .summary.bottom {
-    vertical-align: bottom;
-    bottom:0;
-}
-
-.cart.container > .summary.sticky{
-    position:fixed;
-    display:inline-block !important
-}
-
 .cart.summary .block {
   background: #4a4a52;
   font-size: 12px;
@@ -3301,10 +3278,15 @@ select:disabled {
   text-decoration: underline;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
+  display: block;
+  padding: 0 45px;
+  margin: 20px 0 0 0;
+  font-weight: 400;
 }
 .minicart.wrapper .block.minicart > .content .subtitle.empty {
   display: block;
+  padding: 0;
+  margin: 0;
 }
 .minicart.wrapper .block.minicart > .title,
 .minicart.wrapper .block.minicart > .content .subtotal,
@@ -3921,6 +3903,138 @@ select:disabled {
   margin: 0;
   list-style-type: none;
 }
+.block.widget .pager {
+  *zoom: 1;
+}
+.block.widget .pager:before,
+.block.widget .pager:after {
+  content: "";
+  display: table;
+}
+.block.widget .pager:after {
+  clear: both;
+}
+.block.widget .pager .amount {
+  display: none;
+  float: left;
+  margin: 2px 15px 0 0;
+}
+.block.widget .pager .text {
+  display: none;
+}
+.block.widget .pages {
+  color: #999999;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  margin-left: 15px;
+  float: left;
+}
+.block.widget .pages .label {
+  line-height: 25px;
+  display: inline-block;
+}
+.block.widget .pages strong.label {
+  font-weight: 400;
+  float: left;
+  line-height: 25px;
+  margin-top: 2px;
+  margin-right: 5px;
+  display: none;
+}
+.block.widget .pages input {
+  width: 30px;
+  margin: 0 5px;
+  text-align: center;
+  padding: 0 5px;
+  height: 25px;
+  line-height: 25px;
+}
+.block.widget .pages > ol {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: inline-block;
+  margin-top: 2px;
+  vertical-align: middle;
+}
+.block.widget .pages > ol > li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.block.widget .pages > ol li {
+  display: inline;
+  vertical-align: middle;
+}
+.block.widget .pages > ol a,
+.block.widget .pages > ol strong {
+  padding: 0 3px;
+}
+.block.widget .pages > ol a:hover,
+.block.widget .pages > ol strong:hover {
+  border-color: #bec1c4;
+}
+.block.widget .pages > ol a {
+  border-bottom: 1px solid #e5e5e5;
+}
+.block.widget .pages > ol a.action {
+  border: none;
+}
+.block.widget .pages > ol strong {
+  font-weight: 400;
+}
+.block.widget .action.next,
+.block.widget .action.previous {
+  color: #999999;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.block.widget .action.next span,
+.block.widget .action.previous span {
+  width: 16px;
+  display: block;
+  line-height: 0px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+}
+.block.widget .action.next span:after,
+.block.widget .action.previous span:after {
+  font-family: "cake-icons";
+  font-size: 16px;
+  line-height: 16px;
+  height: 16px;
+  overflow: hidden;
+  content: '';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.block.widget .action.next span:active,
+.block.widget .action.previous span:active {
+  outline: 0;
+}
+.block.widget .action.next span:after,
+.block.widget .action.previous span:after {
+  text-indent: 0;
+  display: block;
+}
+.block.widget .action.next:hover,
+.block.widget .action.previous:hover {
+  color: #bec1c4;
+}
+.block.widget .action.next span:after {
+  content: "\e01c";
+}
+.block.widget .action.previous span:after {
+  content: "\e01d";
+}
 /*
  *    Mage_Catalog
  *
@@ -4262,22 +4376,27 @@ select:disabled {
   background: linear-gradient(to bottom, #b8c3ce 0%, #a2afbd 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8c3ce', endColorstr='#a2afbd', GradientType=0);
 }
+.block.widget.new,
+.block.widget.compared,
 .block.widget.viewed,
 .block.crosssell,
 .block.upsell,
 .block.related,
 .block.product.tags {
+  clear: both;
   *zoom: 1;
   margin: 30px 0;
   padding-top: 25px;
-  padding-left: 140px;
-  padding-right: 140px;
 }
+.block.widget.new:before,
+.block.widget.compared:before,
 .block.widget.viewed:before,
 .block.crosssell:before,
 .block.upsell:before,
 .block.related:before,
 .block.product.tags:before,
+.block.widget.new:after,
+.block.widget.compared:after,
 .block.widget.viewed:after,
 .block.crosssell:after,
 .block.upsell:after,
@@ -4286,6 +4405,8 @@ select:disabled {
   content: "";
   display: table;
 }
+.block.widget.new:after,
+.block.widget.compared:after,
 .block.widget.viewed:after,
 .block.crosssell:after,
 .block.upsell:after,
@@ -4293,6 +4414,8 @@ select:disabled {
 .block.product.tags:after {
   clear: both;
 }
+.block.widget.new .title,
+.block.widget.compared .title,
 .block.widget.viewed .title,
 .block.crosssell .title,
 .block.upsell .title,
@@ -4301,6 +4424,8 @@ select:disabled {
   position: relative;
   text-align: center;
 }
+.block.widget.new .title strong,
+.block.widget.compared .title strong,
 .block.widget.viewed .title strong,
 .block.crosssell .title strong,
 .block.upsell .title strong,
@@ -4317,6 +4442,8 @@ select:disabled {
   position: relative;
   z-index: 1;
 }
+.block.widget.new .title:after,
+.block.widget.compared .title:after,
 .block.widget.viewed .title:after,
 .block.crosssell .title:after,
 .block.upsell .title:after,
@@ -4332,13 +4459,8 @@ select:disabled {
   top: 50%;
   width: 100%;
 }
-.block.widget.viewed .products.list,
-.block.crosssell .products.list,
-.block.upsell .products.list,
-.block.related .products.list,
-.block.product.tags .products.list {
-  margin: 0 -20px;
-}
+.block.widget.new .products.list .item.product,
+.block.widget.compared .products.list .item.product,
 .block.widget.viewed .products.list .item.product,
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
@@ -4346,7 +4468,7 @@ select:disabled {
 .block.product.tags .products.list .item.product {
   display: inline;
   float: left;
-  width: 33.33333333333333%;
+  width: 16.666666666666664%;
   margin: 0 0%;
   display: inline-block;
   vertical-align: top;
@@ -4360,9 +4482,61 @@ select:disabled {
   /* Opera/IE 8+ */
 
   margin: 0;
-  padding: 20px;
+  padding: 13px;
   float: none;
 }
+.col1-layout.catalog-product-view .block.widget.new .products.list .item.product,
+.col1-layout.catalog-product-view .block.widget.compared .products.list .item.product,
+.col1-layout.catalog-product-view .block.widget.viewed .products.list .item.product,
+.col1-layout.catalog-product-view .block.crosssell .products.list .item.product,
+.col1-layout.catalog-product-view .block.upsell .products.list .item.product,
+.col1-layout.catalog-product-view .block.related .products.list .item.product,
+.col1-layout.catalog-product-view .block.product.tags .products.list .item.product {
+  display: inline;
+  float: left;
+  width: 25%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.col2-left-layout .block.widget.new .products.list .item.product,
+.col2-left-layout .block.widget.compared .products.list .item.product,
+.col2-left-layout .block.widget.viewed .products.list .item.product,
+.col2-left-layout .block.crosssell .products.list .item.product,
+.col2-left-layout .block.upsell .products.list .item.product,
+.col2-left-layout .block.related .products.list .item.product,
+.col2-left-layout .block.product.tags .products.list .item.product,
+.col2-right-layout .block.widget.new .products.list .item.product,
+.col2-right-layout .block.widget.compared .products.list .item.product,
+.col2-right-layout .block.widget.viewed .products.list .item.product,
+.col2-right-layout .block.crosssell .products.list .item.product,
+.col2-right-layout .block.upsell .products.list .item.product,
+.col2-right-layout .block.related .products.list .item.product,
+.col2-right-layout .block.product.tags .products.list .item.product {
+  width: 20%;
+}
+.col3-layout .block.widget.new .products.list .item.product,
+.col3-layout .block.widget.compared .products.list .item.product,
+.col3-layout .block.widget.viewed .products.list .item.product,
+.col3-layout .block.crosssell .products.list .item.product,
+.col3-layout .block.upsell .products.list .item.product,
+.col3-layout .block.related .products.list .item.product,
+.col3-layout .block.product.tags .products.list .item.product {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.block.widget.new .products.list .item.product .product.details,
+.block.widget.compared .products.list .item.product .product.details,
 .block.widget.viewed .products.list .item.product .product.details,
 .block.crosssell .products.list .item.product .product.details,
 .block.upsell .products.list .item.product .product.details,
@@ -4370,11 +4544,15 @@ select:disabled {
 .block.product.tags .products.list .item.product .product.details {
   overflow: hidden;
 }
+.block.widget.new .products.list .item.product .product.name,
+.block.widget.compared .products.list .item.product .product.name,
 .block.widget.viewed .products.list .item.product .product.name,
 .block.crosssell .products.list .item.product .product.name,
 .block.upsell .products.list .item.product .product.name,
 .block.related .products.list .item.product .product.name,
 .block.product.tags .products.list .item.product .product.name,
+.block.widget.new .products.list .item.product .price-box,
+.block.widget.compared .products.list .item.product .price-box,
 .block.widget.viewed .products.list .item.product .price-box,
 .block.crosssell .products.list .item.product .price-box,
 .block.upsell .products.list .item.product .price-box,
@@ -4382,14 +4560,8 @@ select:disabled {
 .block.product.tags .products.list .item.product .price-box {
   margin: 0 0 10px;
 }
-.block.widget.viewed .products.list .item.product .addto.links,
-.block.crosssell .products.list .item.product .addto.links,
-.block.upsell .products.list .item.product .addto.links,
-.block.related .products.list .item.product .addto.links,
-.block.product.tags .products.list .item.product .addto.links {
-  padding: 10px 0 0;
-  border-top: 1px solid #bec1c4;
-}
+.block.widget.new .products.list .item.product .addto.links .action:after,
+.block.widget.compared .products.list .item.product .addto.links .action:after,
 .block.widget.viewed .products.list .item.product .addto.links .action:after,
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
@@ -4398,13 +4570,28 @@ select:disabled {
   content: '';
   display: block;
 }
+.block.widget.new .products.list .item.product .actions,
+.block.widget.compared .products.list .item.product .actions,
 .block.widget.viewed .products.list .item.product .actions,
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
 .block.related .products.list .item.product .actions,
 .block.product.tags .products.list .item.product .actions {
-  display: none;
+  visibility: hidden;
 }
+.block.widget.new .products.list .item.product .actions .addto.links a,
+.block.widget.compared .products.list .item.product .actions .addto.links a,
+.block.widget.viewed .products.list .item.product .actions .addto.links a,
+.block.crosssell .products.list .item.product .actions .addto.links a,
+.block.upsell .products.list .item.product .actions .addto.links a,
+.block.related .products.list .item.product .actions .addto.links a,
+.block.product.tags .products.list .item.product .actions .addto.links a {
+  font-size: 11px;
+  line-height: 1.5;
+  text-decoration: underline;
+}
+.block.widget.new .products.list .item.product .actions .primary,
+.block.widget.compared .products.list .item.product .actions .primary,
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
 .block.upsell .products.list .item.product .actions .primary,
@@ -4412,12 +4599,24 @@ select:disabled {
 .block.product.tags .products.list .item.product .actions .primary {
   margin: 0 0 10px;
 }
+.block.widget.new .products.list .item.product:hover .actions,
+.block.widget.compared .products.list .item.product:hover .actions,
 .block.widget.viewed .products.list .item.product:hover .actions,
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
 .block.related .products.list .item.product:hover .actions,
 .block.product.tags .products.list .item.product:hover .actions {
-  display: block;
+  visibility: visible;
+}
+.catalog-product-view.col1-layout .block.widget.new,
+.catalog-product-view.col1-layout .block.widget.compared,
+.catalog-product-view.col1-layout .block.widget.viewed,
+.catalog-product-view.col1-layout .block.crosssell,
+.catalog-product-view.col1-layout .block.upsell,
+.catalog-product-view.col1-layout .block.related,
+.catalog-product-view.col1-layout .block.product.tags {
+  padding-left: 140px;
+  padding-right: 140px;
 }
 .block.crosssell .products.list.items.crosssell {
   margin: 0 -13px;
@@ -4430,6 +4629,8 @@ select:disabled {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  float: none;
+  display: inline-block;
   padding: 13px;
   margin-bottom: 90px;
 }
@@ -4445,10 +4646,57 @@ select:disabled {
   display: block;
   margin: 0 0 10px;
 }
-.block.widget.viewed .products.list.items.widget-viewed-grid {
-  margin: 0 -13px;
+.block.widget.compared.grid .products.list .item.product,
+.block.widget.new.grid .products.list .item.product,
+.block.widget.viewed.grid .products.list .item.product {
+  float: none;
+  display: inline-block;
 }
-.block.widget.viewed .products.list.items.widget-viewed-grid .item.product {
+.block.widget.compared.grid .products.list .item.product .product.photo,
+.block.widget.new.grid .products.list .item.product .product.photo,
+.block.widget.viewed.grid .products.list .item.product .product.photo {
+  display: block;
+  margin: 0 0 10px;
+}
+.block.widget.compared.list .products.list .item.product,
+.block.widget.new.list .products.list .item.product,
+.block.widget.viewed.list .products.list .item.product {
+  width: 100%;
+  float: none;
+  display: inline-block;
+}
+.col1-layout.catalog-product-view .block.widget.compared.list .products.list .item.product,
+.col1-layout.catalog-product-view .block.widget.new.list .products.list .item.product,
+.col1-layout.catalog-product-view .block.widget.viewed.list .products.list .item.product {
+  width: 100%;
+}
+.block.widget.compared.list .products.list .item.product .product.photo,
+.block.widget.new.list .products.list .item.product .product.photo,
+.block.widget.viewed.list .products.list .item.product .product.photo {
+  float: left;
+  margin-right: 20px;
+}
+.block.widget.compared.list .products.list .item.product .product.details,
+.block.widget.new.list .products.list .item.product .product.details,
+.block.widget.viewed.list .products.list .item.product .product.details {
+  overflow: hidden;
+}
+.block.widget.new .products.list.widget-new-grid .item.product {
+  width: 20%;
+}
+.catalog-product-view.col1-layout .block.widget.new .products.list.widget-new-grid .item.product {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.col2-left-layout .block.widget.new .products.list.widget-new-grid .item.product,
+.col2-right-layout .block.widget.new .products.list.widget-new-grid .item.product {
   display: inline;
   float: left;
   width: 25%;
@@ -4458,12 +4706,17 @@ select:disabled {
   box-sizing: border-box;
   float: none;
   display: inline-block;
-  padding: 13px;
 }
-.block.widget.viewed .products.list.items.widget-viewed-grid .item.product .product.photo {
+.col3-layout .block.widget.new .products.list.widget-new-grid .item.product {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   float: none;
-  display: block;
-  margin: 0 0 10px;
+  display: inline-block;
 }
 .block.related .products.list .item.product .product.details {
   overflow: visible;
@@ -5928,19 +6181,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .fieldset > .field .addon .addbefore,
-.no-borderradius .fieldset > .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .fieldset > .field .addon .addbefore,
 .control .fieldset > .field .addon .addafter {
@@ -6166,19 +6417,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .product.main.info .product.options.wrapper .field .addon .addbefore,
-.no-borderradius .product.main.info .product.options.wrapper .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .product.main.info .product.options.wrapper .field .addon .addbefore,
 .control .product.main.info .product.options.wrapper .field .addon .addafter {
@@ -6343,6 +6592,9 @@ select:disabled {
 .action.mailto {
   display: block;
   margin: 0 0 30px;
+  padding: 5px 0;
+}
+.col1-layout.catalog-product-view .action.mailto {
   padding: 5px 140px;
 }
 .action.mailto span {
@@ -6479,7 +6731,6 @@ select:disabled {
 .product.info.detailed {
   *zoom: 1;
   clear: left;
-  padding: 0 140px;
 }
 .product.info.detailed:before,
 .product.info.detailed:after {
@@ -6488,6 +6739,9 @@ select:disabled {
 }
 .product.info.detailed:after {
   clear: both;
+}
+.catalog-product-view.col1-layout .product.info.detailed {
+  padding: 0 140px;
 }
 @media only screen and (max-width: 99999px) {
   .product.data {
@@ -7288,7 +7542,8 @@ img[align="right"] {
 .form.create.account .fieldset,
 .form.newsletter.manage .fieldset,
 .form.giftcard.redeem .fieldset,
-.form.password.reset .fieldset {
+.form.password.reset .fieldset,
+.form.paypal.review .fieldset {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -7321,7 +7576,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field,
 .form.newsletter.manage .fieldset > .field,
 .form.giftcard.redeem .fieldset > .field,
-.form.password.reset .fieldset > .field {
+.form.password.reset .fieldset > .field,
+.form.paypal.review .fieldset > .field {
   *zoom: 1;
 }
 .form.address.edit .fieldset > .field:before,
@@ -7334,6 +7590,7 @@ img[align="right"] {
 .form.newsletter.manage .fieldset > .field:before,
 .form.giftcard.redeem .fieldset > .field:before,
 .form.password.reset .fieldset > .field:before,
+.form.paypal.review .fieldset > .field:before,
 .form.address.edit .fieldset > .field:after,
 .form.edit.account .fieldset > .field:after,
 .form.search.advanced .fieldset > .field:after,
@@ -7343,7 +7600,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field:after,
 .form.newsletter.manage .fieldset > .field:after,
 .form.giftcard.redeem .fieldset > .field:after,
-.form.password.reset .fieldset > .field:after {
+.form.password.reset .fieldset > .field:after,
+.form.paypal.review .fieldset > .field:after {
   content: "";
   display: table;
 }
@@ -7356,7 +7614,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field:after,
 .form.newsletter.manage .fieldset > .field:after,
 .form.giftcard.redeem .fieldset > .field:after,
-.form.password.reset .fieldset > .field:after {
+.form.password.reset .fieldset > .field:after,
+.form.paypal.review .fieldset > .field:after {
   clear: both;
 }
 .form.address.edit .fieldset > .field > .control,
@@ -7369,6 +7628,7 @@ img[align="right"] {
 .form.newsletter.manage .fieldset > .field > .control,
 .form.giftcard.redeem .fieldset > .field > .control,
 .form.password.reset .fieldset > .field > .control,
+.form.paypal.review .fieldset > .field > .control,
 .form.address.edit .fieldset > .field > .label,
 .form.edit.account .fieldset > .field > .label,
 .form.search.advanced .fieldset > .field > .label,
@@ -7378,7 +7638,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field > .label,
 .form.newsletter.manage .fieldset > .field > .label,
 .form.giftcard.redeem .fieldset > .field > .label,
-.form.password.reset .fieldset > .field > .label {
+.form.password.reset .fieldset > .field > .label,
+.form.paypal.review .fieldset > .field > .label {
   margin: 0;
   float: left;
   width: 30%;
@@ -7401,7 +7662,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field > .control,
 .form.newsletter.manage .fieldset > .field > .control,
 .form.giftcard.redeem .fieldset > .field > .control,
-.form.password.reset .fieldset > .field > .control {
+.form.password.reset .fieldset > .field > .control,
+.form.paypal.review .fieldset > .field > .control {
   width: 70%;
 }
 .form.address.edit .fieldset > .field.no-label .control,
@@ -7413,7 +7675,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.no-label .control,
 .form.newsletter.manage .fieldset > .field.no-label .control,
 .form.giftcard.redeem .fieldset > .field.no-label .control,
-.form.password.reset .fieldset > .field.no-label .control {
+.form.password.reset .fieldset > .field.no-label .control,
+.form.paypal.review .fieldset > .field.no-label .control {
   margin-left: 30%;
 }
 .form.address.edit .fieldset > *,
@@ -7425,7 +7688,8 @@ img[align="right"] {
 .form.create.account .fieldset > *,
 .form.newsletter.manage .fieldset > *,
 .form.giftcard.redeem .fieldset > *,
-.form.password.reset .fieldset > * {
+.form.password.reset .fieldset > *,
+.form.paypal.review .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -7438,7 +7702,8 @@ img[align="right"] {
 .form.create.account .fieldset > .legend + br,
 .form.newsletter.manage .fieldset > .legend + br,
 .form.giftcard.redeem .fieldset > .legend + br,
-.form.password.reset .fieldset > .legend + br {
+.form.password.reset .fieldset > .legend + br,
+.form.paypal.review .fieldset > .legend + br {
   display: none;
 }
 .form.address.edit .fieldset .legend,
@@ -7450,7 +7715,8 @@ img[align="right"] {
 .form.create.account .fieldset .legend,
 .form.newsletter.manage .fieldset .legend,
 .form.giftcard.redeem .fieldset .legend,
-.form.password.reset .fieldset .legend {
+.form.password.reset .fieldset .legend,
+.form.paypal.review .fieldset .legend {
   float: left;
   color: #bec1c4;
   line-height: 1.2;
@@ -7472,7 +7738,8 @@ img[align="right"] {
 .form.create.account .fieldset .legend + br,
 .form.newsletter.manage .fieldset .legend + br,
 .form.giftcard.redeem .fieldset .legend + br,
-.form.password.reset .fieldset .legend + br {
+.form.password.reset .fieldset .legend + br,
+.form.paypal.review .fieldset .legend + br {
   display: block;
   clear: both;
 }
@@ -7485,7 +7752,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field,
 .form.newsletter.manage .fieldset > .field,
 .form.giftcard.redeem .fieldset > .field,
-.form.password.reset .fieldset > .field {
+.form.password.reset .fieldset > .field,
+.form.paypal.review .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -7501,7 +7769,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field > .label,
 .form.newsletter.manage .fieldset > .field > .label,
 .form.giftcard.redeem .fieldset > .field > .label,
-.form.password.reset .fieldset > .field > .label {
+.form.password.reset .fieldset > .field > .label,
+.form.paypal.review .fieldset > .field > .label {
   display: block;
 }
 .form.address.edit .fieldset > .field.choice > .control,
@@ -7513,7 +7782,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.choice > .control,
 .form.newsletter.manage .fieldset > .field.choice > .control,
 .form.giftcard.redeem .fieldset > .field.choice > .control,
-.form.password.reset .fieldset > .field.choice > .control {
+.form.password.reset .fieldset > .field.choice > .control,
+.form.paypal.review .fieldset > .field.choice > .control {
   width: auto;
 }
 .form.address.edit .fieldset > .field.choice > .label,
@@ -7525,7 +7795,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.choice > .label,
 .form.newsletter.manage .fieldset > .field.choice > .label,
 .form.giftcard.redeem .fieldset > .field.choice > .label,
-.form.password.reset .fieldset > .field.choice > .label {
+.form.password.reset .fieldset > .field.choice > .label,
+.form.paypal.review .fieldset > .field.choice > .label {
   display: inline;
 }
 .form.address.edit .fieldset > .field.required > .label span:first-child:after,
@@ -7537,7 +7808,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.required > .label span:first-child:after,
 .form.newsletter.manage .fieldset > .field.required > .label span:first-child:after,
 .form.giftcard.redeem .fieldset > .field.required > .label span:first-child:after,
-.form.password.reset .fieldset > .field.required > .label span:first-child:after {
+.form.password.reset .fieldset > .field.required > .label span:first-child:after,
+.form.paypal.review .fieldset > .field.required > .label span:first-child:after {
   content: '*';
   color: red;
 }
@@ -7550,7 +7822,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon,
 .form.newsletter.manage .fieldset > .field .addon,
 .form.giftcard.redeem .fieldset > .field .addon,
-.form.password.reset .fieldset > .field .addon {
+.form.password.reset .fieldset > .field .addon,
+.form.paypal.review .fieldset > .field .addon {
   padding: 0;
   display: table;
   width: 100%;
@@ -7565,6 +7838,7 @@ img[align="right"] {
 .form.newsletter.manage .fieldset > .field .addon textarea,
 .form.giftcard.redeem .fieldset > .field .addon textarea,
 .form.password.reset .fieldset > .field .addon textarea,
+.form.paypal.review .fieldset > .field .addon textarea,
 .form.address.edit .fieldset > .field .addon select,
 .form.edit.account .fieldset > .field .addon select,
 .form.search.advanced .fieldset > .field .addon select,
@@ -7575,6 +7849,7 @@ img[align="right"] {
 .form.newsletter.manage .fieldset > .field .addon select,
 .form.giftcard.redeem .fieldset > .field .addon select,
 .form.password.reset .fieldset > .field .addon select,
+.form.paypal.review .fieldset > .field .addon select,
 .form.address.edit .fieldset > .field .addon input,
 .form.edit.account .fieldset > .field .addon input,
 .form.search.advanced .fieldset > .field .addon input,
@@ -7584,7 +7859,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon input,
 .form.newsletter.manage .fieldset > .field .addon input,
 .form.giftcard.redeem .fieldset > .field .addon input,
-.form.password.reset .fieldset > .field .addon input {
+.form.password.reset .fieldset > .field .addon input,
+.form.paypal.review .fieldset > .field .addon input {
   display: table-cell;
   width: 100%;
   border-radius: 0;
@@ -7601,6 +7877,7 @@ img[align="right"] {
 .form.newsletter.manage .fieldset > .field .addon .addbefore,
 .form.giftcard.redeem .fieldset > .field .addon .addbefore,
 .form.password.reset .fieldset > .field .addon .addbefore,
+.form.paypal.review .fieldset > .field .addon .addbefore,
 .form.address.edit .fieldset > .field .addon .addafter,
 .form.edit.account .fieldset > .field .addon .addafter,
 .form.search.advanced .fieldset > .field .addon .addafter,
@@ -7610,7 +7887,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addafter,
 .form.newsletter.manage .fieldset > .field .addon .addafter,
 .form.giftcard.redeem .fieldset > .field .addon .addafter,
-.form.password.reset .fieldset > .field .addon .addafter {
+.form.password.reset .fieldset > .field .addon .addafter,
+.form.paypal.review .fieldset > .field .addon .addafter {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -7627,37 +7905,17 @@ img[align="right"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .form.address.edit .fieldset > .field .addon .addbefore,
-.no-borderradius .form.edit.account .fieldset > .field .addon .addbefore,
-.no-borderradius .form.search.advanced .fieldset > .field .addon .addbefore,
-.no-borderradius .form.orders.search .fieldset > .field .addon .addbefore,
-.no-borderradius .form.contact .fieldset > .field .addon .addbefore,
-.no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
-.no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
-.no-borderradius .form.newsletter.manage .fieldset > .field .addon .addbefore,
-.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addbefore,
-.no-borderradius .form.password.reset .fieldset > .field .addon .addbefore,
-.no-borderradius .form.address.edit .fieldset > .field .addon .addafter,
-.no-borderradius .form.edit.account .fieldset > .field .addon .addafter,
-.no-borderradius .form.search.advanced .fieldset > .field .addon .addafter,
-.no-borderradius .form.orders.search .fieldset > .field .addon .addafter,
-.no-borderradius .form.contact .fieldset > .field .addon .addafter,
-.no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
-.no-borderradius .form.create.account .fieldset > .field .addon .addafter,
-.no-borderradius .form.newsletter.manage .fieldset > .field .addon .addafter,
-.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addafter,
-.no-borderradius .form.password.reset .fieldset > .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .form.address.edit .fieldset > .field .addon .addbefore,
 .control .form.edit.account .fieldset > .field .addon .addbefore,
@@ -7669,6 +7927,7 @@ img[align="right"] {
 .control .form.newsletter.manage .fieldset > .field .addon .addbefore,
 .control .form.giftcard.redeem .fieldset > .field .addon .addbefore,
 .control .form.password.reset .fieldset > .field .addon .addbefore,
+.control .form.paypal.review .fieldset > .field .addon .addbefore,
 .control .form.address.edit .fieldset > .field .addon .addafter,
 .control .form.edit.account .fieldset > .field .addon .addafter,
 .control .form.search.advanced .fieldset > .field .addon .addafter,
@@ -7678,7 +7937,8 @@ img[align="right"] {
 .control .form.create.account .fieldset > .field .addon .addafter,
 .control .form.newsletter.manage .fieldset > .field .addon .addafter,
 .control .form.giftcard.redeem .fieldset > .field .addon .addafter,
-.control .form.password.reset .fieldset > .field .addon .addafter {
+.control .form.password.reset .fieldset > .field .addon .addafter,
+.control .form.paypal.review .fieldset > .field .addon .addafter {
   width: 100%;
 }
 .form.address.edit .fieldset > .field .addon .addbefore:disabled,
@@ -7691,6 +7951,7 @@ img[align="right"] {
 .form.newsletter.manage .fieldset > .field .addon .addbefore:disabled,
 .form.giftcard.redeem .fieldset > .field .addon .addbefore:disabled,
 .form.password.reset .fieldset > .field .addon .addbefore:disabled,
+.form.paypal.review .fieldset > .field .addon .addbefore:disabled,
 .form.address.edit .fieldset > .field .addon .addafter:disabled,
 .form.edit.account .fieldset > .field .addon .addafter:disabled,
 .form.search.advanced .fieldset > .field .addon .addafter:disabled,
@@ -7700,7 +7961,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addafter:disabled,
 .form.newsletter.manage .fieldset > .field .addon .addafter:disabled,
 .form.giftcard.redeem .fieldset > .field .addon .addafter:disabled,
-.form.password.reset .fieldset > .field .addon .addafter:disabled {
+.form.password.reset .fieldset > .field .addon .addafter:disabled,
+.form.paypal.review .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
 .form.address.edit .fieldset > .field .note,
@@ -7712,7 +7974,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .note,
 .form.newsletter.manage .fieldset > .field .note,
 .form.giftcard.redeem .fieldset > .field .note,
-.form.password.reset .fieldset > .field .note {
+.form.password.reset .fieldset > .field .note,
+.form.paypal.review .fieldset > .field .note {
   padding-left: 15px;
 }
 .form.address.edit .fieldset > .field .note:before,
@@ -7724,7 +7987,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .note:before,
 .form.newsletter.manage .fieldset > .field .note:before,
 .form.giftcard.redeem .fieldset > .field .note:before,
-.form.password.reset .fieldset > .field .note:before {
+.form.password.reset .fieldset > .field .note:before,
+.form.paypal.review .fieldset > .field .note:before {
   position: absolute;
   margin: 4px 0 0 -14px;
   content: '';
@@ -7746,7 +8010,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field:last-child,
 .form.newsletter.manage .fieldset > .field:last-child,
 .form.giftcard.redeem .fieldset > .field:last-child,
-.form.password.reset .fieldset > .field:last-child {
+.form.password.reset .fieldset > .field:last-child,
+.form.paypal.review .fieldset > .field:last-child {
   margin-bottom: 0;
 }
 .form.address.edit .fieldset > .field .nested,
@@ -7758,7 +8023,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .nested,
 .form.newsletter.manage .fieldset > .field .nested,
 .form.giftcard.redeem .fieldset > .field .nested,
-.form.password.reset .fieldset > .field .nested {
+.form.password.reset .fieldset > .field .nested,
+.form.paypal.review .fieldset > .field .nested {
   padding: 0 0 5px;
 }
 .form.address.edit .fieldset > .field .nested .field,
@@ -7770,7 +8036,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field .nested .field,
 .form.newsletter.manage .fieldset > .field .nested .field,
 .form.giftcard.redeem .fieldset > .field .nested .field,
-.form.password.reset .fieldset > .field .nested .field {
+.form.password.reset .fieldset > .field .nested .field,
+.form.paypal.review .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.address.edit .fieldset > .field > .label,
@@ -7782,7 +8049,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field > .label,
 .form.newsletter.manage .fieldset > .field > .label,
 .form.giftcard.redeem .fieldset > .field > .label,
-.form.password.reset .fieldset > .field > .label {
+.form.password.reset .fieldset > .field > .label,
+.form.paypal.review .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
@@ -7795,7 +8063,8 @@ img[align="right"] {
 .form.create.account .fieldset > .field.note,
 .form.newsletter.manage .fieldset > .field.note,
 .form.giftcard.redeem .fieldset > .field.note,
-.form.password.reset .fieldset > .field.note {
+.form.password.reset .fieldset > .field.note,
+.form.paypal.review .fieldset > .field.note {
   width: 100%;
 }
 .form.address.edit .fieldset .field.street,
@@ -7807,7 +8076,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.street,
 .form.newsletter.manage .fieldset .field.street,
 .form.giftcard.redeem .fieldset .field.street,
-.form.password.reset .fieldset .field.street {
+.form.password.reset .fieldset .field.street,
+.form.paypal.review .fieldset .field.street {
   width: 100%;
 }
 .form.address.edit .fieldset .field.fullname,
@@ -7819,7 +8089,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.fullname,
 .form.newsletter.manage .fieldset .field.fullname,
 .form.giftcard.redeem .fieldset .field.fullname,
-.form.password.reset .fieldset .field.fullname {
+.form.password.reset .fieldset .field.fullname,
+.form.paypal.review .fieldset .field.fullname {
   width: 100%;
 }
 .form.address.edit .fieldset .field.fullname .fields.group-5 .field,
@@ -7831,7 +8102,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.fullname .fields.group-5 .field,
 .form.newsletter.manage .fieldset .field.fullname .fields.group-5 .field,
 .form.giftcard.redeem .fieldset .field.fullname .fields.group-5 .field,
-.form.password.reset .fieldset .field.fullname .fields.group-5 .field {
+.form.password.reset .fieldset .field.fullname .fields.group-5 .field,
+.form.paypal.review .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
 .form.address.edit .fieldset .field.choice.newsletter,
@@ -7843,7 +8115,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.choice.newsletter,
 .form.newsletter.manage .fieldset .field.choice.newsletter,
 .form.giftcard.redeem .fieldset .field.choice.newsletter,
-.form.password.reset .fieldset .field.choice.newsletter {
+.form.password.reset .fieldset .field.choice.newsletter,
+.form.paypal.review .fieldset .field.choice.newsletter {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -7865,7 +8138,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.choice.newsletter > .label,
 .form.newsletter.manage .fieldset .field.choice.newsletter > .label,
 .form.giftcard.redeem .fieldset .field.choice.newsletter > .label,
-.form.password.reset .fieldset .field.choice.newsletter > .label {
+.form.password.reset .fieldset .field.choice.newsletter > .label,
+.form.paypal.review .fieldset .field.choice.newsletter > .label {
   float: none;
 }
 .form.address.edit .fieldset .field.dob .fields.group .field,
@@ -7877,7 +8151,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.dob .fields.group .field,
 .form.newsletter.manage .fieldset .field.dob .fields.group .field,
 .form.giftcard.redeem .fieldset .field.dob .fields.group .field,
-.form.password.reset .fieldset .field.dob .fields.group .field {
+.form.password.reset .fieldset .field.dob .fields.group .field,
+.form.paypal.review .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
@@ -7891,7 +8166,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.dob .fields.group .field .label,
 .form.newsletter.manage .fieldset .field.dob .fields.group .field .label,
 .form.giftcard.redeem .fieldset .field.dob .fields.group .field .label,
-.form.password.reset .fieldset .field.dob .fields.group .field .label {
+.form.password.reset .fieldset .field.dob .fields.group .field .label,
+.form.paypal.review .fieldset .field.dob .fields.group .field .label {
   position: absolute;
   bottom: 0;
   font-size: 12px;
@@ -7906,7 +8182,8 @@ img[align="right"] {
 .form.create.account .fieldset .field.dob .fields.group .field input,
 .form.newsletter.manage .fieldset .field.dob .fields.group .field input,
 .form.giftcard.redeem .fieldset .field.dob .fields.group .field input,
-.form.password.reset .fieldset .field.dob .fields.group .field input {
+.form.password.reset .fieldset .field.dob .fields.group .field input,
+.form.paypal.review .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
 .form.address.edit .actions,
@@ -7918,7 +8195,8 @@ img[align="right"] {
 .form.create.account .actions,
 .form.newsletter.manage .actions,
 .form.giftcard.redeem .actions,
-.form.password.reset .actions {
+.form.password.reset .actions,
+.form.paypal.review .actions {
   *zoom: 1;
   text-align: center;
   margin: 20px auto;
@@ -7934,6 +8212,7 @@ img[align="right"] {
 .form.newsletter.manage .actions:before,
 .form.giftcard.redeem .actions:before,
 .form.password.reset .actions:before,
+.form.paypal.review .actions:before,
 .form.address.edit .actions:after,
 .form.edit.account .actions:after,
 .form.search.advanced .actions:after,
@@ -7943,7 +8222,8 @@ img[align="right"] {
 .form.create.account .actions:after,
 .form.newsletter.manage .actions:after,
 .form.giftcard.redeem .actions:after,
-.form.password.reset .actions:after {
+.form.password.reset .actions:after,
+.form.paypal.review .actions:after {
   content: "";
   display: table;
 }
@@ -7956,7 +8236,8 @@ img[align="right"] {
 .form.create.account .actions:after,
 .form.newsletter.manage .actions:after,
 .form.giftcard.redeem .actions:after,
-.form.password.reset .actions:after {
+.form.password.reset .actions:after,
+.form.paypal.review .actions:after {
   clear: both;
 }
 .form.address.edit .actions .action.submit,
@@ -7969,6 +8250,7 @@ img[align="right"] {
 .form.newsletter.manage .actions .action.submit,
 .form.giftcard.redeem .actions .action.submit,
 .form.password.reset .actions .action.submit,
+.form.paypal.review .actions .action.submit,
 .form.address.edit .actions .action.search,
 .form.edit.account .actions .action.search,
 .form.search.advanced .actions .action.search,
@@ -7978,7 +8260,8 @@ img[align="right"] {
 .form.create.account .actions .action.search,
 .form.newsletter.manage .actions .action.search,
 .form.giftcard.redeem .actions .action.search,
-.form.password.reset .actions .action.search {
+.form.password.reset .actions .action.search,
+.form.paypal.review .actions .action.search {
   border: none;
   border-radius: 0;
   background: transparent;
@@ -8005,6 +8288,7 @@ img[align="right"] {
 .form.newsletter.manage .actions .action.submit > span,
 .form.giftcard.redeem .actions .action.submit > span,
 .form.password.reset .actions .action.submit > span,
+.form.paypal.review .actions .action.submit > span,
 .form.address.edit .actions .action.search > span,
 .form.edit.account .actions .action.search > span,
 .form.search.advanced .actions .action.search > span,
@@ -8014,7 +8298,8 @@ img[align="right"] {
 .form.create.account .actions .action.search > span,
 .form.newsletter.manage .actions .action.search > span,
 .form.giftcard.redeem .actions .action.search > span,
-.form.password.reset .actions .action.search > span {
+.form.password.reset .actions .action.search > span,
+.form.paypal.review .actions .action.search > span {
   border: 1px solid #b17805;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
@@ -8047,6 +8332,7 @@ img[align="right"] {
 .form.newsletter.manage .actions .action.submit:hover > span,
 .form.giftcard.redeem .actions .action.submit:hover > span,
 .form.password.reset .actions .action.submit:hover > span,
+.form.paypal.review .actions .action.submit:hover > span,
 .form.address.edit .actions .action.search:hover > span,
 .form.edit.account .actions .action.search:hover > span,
 .form.search.advanced .actions .action.search:hover > span,
@@ -8056,7 +8342,8 @@ img[align="right"] {
 .form.create.account .actions .action.search:hover > span,
 .form.newsletter.manage .actions .action.search:hover > span,
 .form.giftcard.redeem .actions .action.search:hover > span,
-.form.password.reset .actions .action.search:hover > span {
+.form.password.reset .actions .action.search:hover > span,
+.form.paypal.review .actions .action.search:hover > span {
   background: #ffd263;
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZDI2MyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmQyNjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
   background: -moz-linear-gradient(top, #ffd263 0%, #ffd263 100%);
@@ -8076,7 +8363,8 @@ img[align="right"] {
 .form.create.account .actions .secondary,
 .form.newsletter.manage .actions .secondary,
 .form.giftcard.redeem .actions .secondary,
-.form.password.reset .actions .secondary {
+.form.password.reset .actions .secondary,
+.form.paypal.review .actions .secondary {
   font-size: 12px;
   text-decoration: underline;
   float: left;
@@ -8094,12 +8382,27 @@ img[align="right"] {
 .form.create.account .actions .secondary span:before,
 .form.newsletter.manage .actions .secondary span:before,
 .form.giftcard.redeem .actions .secondary span:before,
-.form.password.reset .actions .secondary span:before {
+.form.password.reset .actions .secondary span:before,
+.form.paypal.review .actions .secondary span:before {
   content: '«';
   display: inline;
 }
 .form.search.advanced .fieldset {
   width: 550px;
+}
+.form.search.advanced .fieldset .range.price .field {
+  width: 90px;
+}
+.form.search.advanced .fieldset .range.price .with-addon {
+  position: relative;
+  margin: 0 0 0 20px;
+  width: 125px;
+}
+.form.search.advanced .fieldset .range.price .with-addon:before {
+  content: '-';
+  left: -9px;
+  top: 5px;
+  position: absolute;
 }
 .form.newsletter.manage .field.choice,
 .form.address.edit .field.choice.set,
@@ -8225,6 +8528,194 @@ img[align="right"] {
   background: -ms-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
   background: linear-gradient(to bottom, #b8c3ce 0%, #a2afbd 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8c3ce', endColorstr='#a2afbd', GradientType=0);
+}
+/*
+ *    Review paypal express checkout order
+ *
+ ----------------------------------------------------------------------------- */
+.paypal.review.view .paypal.subtitle.caption {
+  margin-bottom: 25px;
+}
+.paypal.review.view .paypal.subtitle.caption .action {
+  margin-left: 10px;
+}
+.paypal.review.view .paypal.subtitle.caption strong {
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1.2;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.address {
+  float: right;
+  width: 48%;
+}
+.paypal.review.view .form.paypal.review .fieldset.billing.address {
+  float: left;
+  width: 48%;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.method {
+  clear: both;
+  margin: 0 0 40px;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.method .legend {
+  text-align: left;
+}
+.paypal.review.view .form.paypal.review .fieldset.customer.email {
+  margin: 0;
+  width: 48%;
+}
+.paypal.review.view .form.paypal.review .fieldset .nested {
+  margin-top: 5px;
+}
+.paypal.review.view .form.paypal.review .field {
+  margin: 0 0 10px;
+}
+.paypal.review.view .form.paypal.review .field:last-child {
+  margin-bottom: 0;
+}
+.paypal.review.view .form.paypal.review .field .nested {
+  padding: 0 0 5px;
+}
+.paypal.review.view .form.paypal.review .field .nested .field {
+  margin: 5px 0;
+}
+.paypal.review.view .form.paypal.review .field:not(.choice) .label {
+  display: block;
+  padding-bottom: 5px;
+}
+.paypal.review.view .form.paypal.review .actions {
+  *zoom: 1;
+  padding: 35px 0 10px;
+  text-align: left;
+  width: 100%;
+}
+.paypal.review.view .form.paypal.review .actions:before,
+.paypal.review.view .form.paypal.review .actions:after {
+  content: "";
+  display: table;
+}
+.paypal.review.view .form.paypal.review .actions:after {
+  clear: both;
+}
+.paypal.review.view .form.paypal.review .actions .action {
+  float: right;
+}
+.paypal.review.view .form.paypal.review .actions .action.checkout {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  display: inline-block;
+  line-height: normal !important;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  text-shadow: none;
+  text-align: center;
+  outline: none;
+  min-width: 113px;
+  -webkit-appearance: none;
+  z-index: 1;
+  margin-left: 5px;
+}
+.paypal.review.view .form.paypal.review .actions .action.checkout > span {
+  border: 1px solid #b17805;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+  display: block;
+  color: #333333;
+  background: #efb411;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VmYjQxMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlOTlkMDgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #efb411 0%, #e99d08 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #efb411), color-stop(100%, #e99d08));
+  background: -webkit-linear-gradient(top, #efb411 0%, #e99d08 100%);
+  background: -o-linear-gradient(top, #efb411 0%, #e99d08 100%);
+  background: -ms-linear-gradient(top, #efb411 0%, #e99d08 100%);
+  background: linear-gradient(to bottom, #efb411 0%, #e99d08 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efb411', endColorstr='#e99d08', GradientType=0);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  padding: 7px 6px 6px;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+.paypal.review.view .form.paypal.review .actions .action.checkout:hover > span {
+  background: #ffd263;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZDI2MyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmQyNjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #ffd263 0%, #ffd263 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffd263), color-stop(100%, #ffd263));
+  background: -webkit-linear-gradient(top, #ffd263 0%, #ffd263 100%);
+  background: -o-linear-gradient(top, #ffd263 0%, #ffd263 100%);
+  background: -ms-linear-gradient(top, #ffd263 0%, #ffd263 100%);
+  background: linear-gradient(to bottom, #ffd263 0%, #ffd263 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd263', endColorstr='#ffd263', GradientType=0);
+}
+.paypal.review.view .form.paypal.review .actions .action.update {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  display: inline-block;
+  line-height: normal !important;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  text-shadow: none;
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+  z-index: 1;
+  margin-left: 5px;
+}
+.paypal.review.view .form.paypal.review .actions .action.update > span {
+  border: none;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+  background: #9ea5ac;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzllYTVhYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4MzhhOTMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9ea5ac), color-stop(100%, #838a93));
+  background: -webkit-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -o-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -ms-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: linear-gradient(to bottom, #9ea5ac 0%, #838a93 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ea5ac', endColorstr='#838a93', GradientType=0);
+  color: #333;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  display: block;
+  margin: 0;
+  padding: 8px 11px 7px;
+  position: relative;
+}
+.paypal.review.view .form.paypal.review .actions .action.update:hover > span {
+  background: #b8c3ce;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2I4YzNjZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhMmFmYmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b8c3ce), color-stop(100%, #a2afbd));
+  background: -webkit-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -o-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -ms-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: linear-gradient(to bottom, #b8c3ce 0%, #a2afbd 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8c3ce', endColorstr='#a2afbd', GradientType=0);
+}
+.paypal.review.view .form.paypal.review .actions .action.update span {
+  padding: 9px 11px;
+}
+.paypal.review.view .data.table.paypal.review.items {
+  width: 100%;
+}
+.paypal.review.view .data.table.paypal.review.items .amount {
+  text-align: right;
+}
+.paypal.review.view .data.table.paypal.review.items thead th {
+  font-size: 16px;
+}
+.paypal.review.view .data.table.paypal.review.items tfoot tr:first-child td {
+  border-top: 3px solid #bec1c4;
+  padding-top: 15px;
 }
 /*
     Email to a friend

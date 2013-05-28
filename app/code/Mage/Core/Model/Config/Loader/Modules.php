@@ -256,24 +256,12 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         foreach ($xml->{$sys}->php->extensions->children() as $node) {
             $extension = $node->getName();
             if ($node->hasChildren() && $node->getName() == 'any') {
-                $installed = false;
-                $extentions = array();
-                foreach($node->children() as $any) {
-                    $extentions[] = "'" . $any->getName() .
-                        ($any->attributes()->min_version ? ' - v.' . $any->attributes()->min_version : '') . "'";
-                    if ($this->_checkExtension($any->getName(), $any->attributes()->min_version)) {
-                        $installed = true;
-                        break;
-                    }
+                try {
+                    $this->_checkMutualExclusive($node);
+                } catch (Magento_Exception $e) {
+                    throw new Magento_Exception( "The module '{$moduleName}' cannot be enabled. " . $e->getMessage());
                 }
-                if (!$installed) {
-                    throw new Magento_Exception(
-                        "The module '{$moduleName}' cannot be enabled without one of PHP extensions: " .
-                        implode($extentions, ', ')
-                    );
-                }
-            }
-            elseif (!$this->_checkExtension($extension, $node->attributes()->min_version)) {
+            } elseif (!$this->_checkExtension($extension, $node->attributes()->min_version)) {
                 throw new Magento_Exception(
                     "The module '{$moduleName}' cannot be enabled without PHP extension '{$extension}'"
                 );
@@ -298,5 +286,27 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
             }
         }
         return false;
+    }
+
+    /**
+     * Check mutual exclusive
+     *
+     * @see self::_assertSystemRequirements()
+     * @param SimpleXMLElement $node
+     * @throws Magento_Exception
+     */
+    protected function _checkMutualExclusive($node)
+    {
+        $extentions = array();
+        foreach ($node->children() as $any) {
+            $extentions[] = "'" . $any->getName() .
+                ($any->attributes()->min_version ? ' - v.' . $any->attributes()->min_version : '') . "'";
+            if ($this->_checkExtension($any->getName(), $any->attributes()->min_version)) {
+                return;
+            }
+        }
+        throw new Magento_Exception(
+            'One of PHP extensions: ' . implode($extentions, ', ') . ' needed.'
+        );
     }
 }

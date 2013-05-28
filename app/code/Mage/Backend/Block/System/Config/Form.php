@@ -358,19 +358,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $dependencies = $field->getDependencies($fieldPrefix, $this->getStoreCode());
         $this->_populateDependenciesBlock($dependencies, $elementId, $elementName);
 
-        $sharedClass = '';
-        if ($field->getAttribute('shared') && $field->getConfigPath()) {
-            $sharedClass = ' shared shared-' . str_replace('/', '-', $field->getConfigPath());
-        }
-
-        $requiresClass = '';
-        $requiredPaths = array_merge($field->getRequiredFields($fieldPrefix), $field->getRequiredGroups($fieldPrefix));
-        if (!empty($requiredPaths)) {
-            $requiresClass = ' requires';
-            foreach ($requiredPaths as $requiredPath) {
-                $requiresClass .= ' requires-' . $this->_generateElementId($requiredPath);
-            }
-        }
+        $sharedClass = $this->_getSharedCssClass($field);
+        $requiresClass = $this->_getRequiresCssClass($field, $fieldPrefix);
 
         $formField = $fieldset->addField($elementId, $field->getType(), array(
             'name' => $elementName,
@@ -655,5 +644,42 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     public function getStoreCode()
     {
         return $this->getRequest()->getParam('store', '');
+    }
+
+    /**
+     * Get css class for "shared" functionality
+     *
+     * @param Mage_Backend_Model_Config_Structure_Element_Field $field
+     * @return string
+     */
+    protected function _getSharedCssClass(Mage_Backend_Model_Config_Structure_Element_Field $field)
+    {
+        $sharedClass = '';
+        if ($field->getAttribute('shared') && $field->getConfigPath()) {
+            $sharedClass = ' shared shared-' . str_replace('/', '-', $field->getConfigPath());
+            return $sharedClass;
+        }
+        return $sharedClass;
+    }
+
+    /**
+     * Get css class for "requires" functionality
+     *
+     * @param Mage_Backend_Model_Config_Structure_Element_Field $field
+     * @param $fieldPrefix
+     * @return string
+     */
+    protected function _getRequiresCssClass(Mage_Backend_Model_Config_Structure_Element_Field $field, $fieldPrefix)
+    {
+        $requiresClass = '';
+        $requiredPaths = array_merge($field->getRequiredFields($fieldPrefix), $field->getRequiredGroups($fieldPrefix));
+        if (!empty($requiredPaths)) {
+            $requiresClass = ' requires';
+            foreach ($requiredPaths as $requiredPath) {
+                $requiresClass .= ' requires-' . $this->_generateElementId($requiredPath);
+            }
+            return $requiresClass;
+        }
+        return $requiresClass;
     }
 }

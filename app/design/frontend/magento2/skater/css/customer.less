@@ -156,7 +156,7 @@
     }
 }
 
-// Registration */
+// Registration
 .form.password.forget,
 .form.create.account {
     .fieldset {
@@ -358,13 +358,11 @@
             }
             span {
                 line-height: 1.2;
-                font-weight: 200;
-                font-size: 20px;
+                .customFont(15px, uppercase, 0.1em, 700);
             }
             strong {
                 margin-left: 10px;
-                font-size: 20px;
-                font-weight: 600;
+                .customFont(15px, uppercase, 0.1em, 700);
             }
         }
         > .field {
@@ -1071,5 +1069,20 @@
                 z-index: 2;
             }
         }
+    }
+}
+
+// Track order popup
+
+.page.tracking {
+    padding: 20px;
+    .actions {
+        .action.close {
+            .primaryAction();
+        }
+    }
+    .subtitle.caption {
+        margin-bottom: 20px;
+        .customFont(15px);
     }
 }

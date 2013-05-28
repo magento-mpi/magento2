@@ -14,6 +14,39 @@
 class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    private $_storeManager;
+
+    /**
+     * @var Mage_Core_Model_Design_PackageInterface
+     */
+    private $_designPackage;
+
+    /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    private $_cache;
+
+    /**
+     * @param Mage_Core_Model_Resource $resource
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Magento_Cache_FrontendInterface $cache
+     */
+    public function __construct(
+        Mage_Core_Model_Resource $resource,
+        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Magento_Cache_FrontendInterface $cache
+    ) {
+        parent::__construct($resource);
+        $this->_storeManager = $storeManager;
+        $this->_designPackage = $designPackage;
+        $this->_cache = $cache;
+    }
+
+    /**
      * Define main table
      */
     protected function _construct()
@@ -31,8 +64,8 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
     public function fetchUpdatesByHandle($handle, $params = array())
     {
         $bind = array(
-            'store_id' => Mage::app()->getStore()->getId(),
-            'theme_id' => Mage::getDesign()->getDesignTheme()->getThemeId(),
+            'store_id' => $this->_storeManager->getStore()->getId(),
+            'theme_id' => $this->_designPackage->getDesignTheme()->getThemeId(),
         );
 
         foreach ($params as $key => $value) {
@@ -96,7 +129,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
                 'is_temporary'     => (int)$object->getIsTemporary(),
             ));
         }
-        Mage::app()->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
+        $this->_cache->clean();
         return parent::_afterSave($object);
     }
 }
