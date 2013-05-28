@@ -1937,10 +1937,23 @@
     speak: none;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
-    content: '\e02b'; /* user icon */
+    content: '\e02b'; /* arrow left */
     color: #31302b;
     font-size: 20px;
     text-shadow: -1px 0 0 #555;
+}
+
+.farbtastic.vertical {
+    top: 39px;
+    left: -80px;
+}
+
+.farbtastic.vertical:before {
+    left: 50%;
+    top: -17px;
+    margin-top: 0;
+    margin-left: -13px;
+    content: '\e029'; /* arrow up */
 }
 
 /*
