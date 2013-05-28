@@ -145,6 +145,8 @@
 
             elem.height(height - this.panelHeaderHeight);
             this._toggleClassIfScrollBarExist(elem);
+
+            this._getActiveResizableAreaInner().scrollTop(0);
         },
         /**
          * Open/Reopen panel
