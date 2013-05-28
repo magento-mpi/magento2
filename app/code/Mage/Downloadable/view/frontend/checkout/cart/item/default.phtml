@@ -58,7 +58,7 @@
     </td>
     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
     <td class="a-center">
-        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist"><?php echo $this->__('Move'); ?></a>
+        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Move'); ?></a>
     </td>
     <?php endif ?>
 <?php if ($canApplyMsrp): ?>

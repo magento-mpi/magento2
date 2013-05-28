@@ -1559,6 +1559,10 @@
     width: 50%;
 }
 
+.tax-rate-popup .field-rate label.mage-error {
+    display:block;
+}
+
 .tax-rate-popup .tax-rate-titles-note-td {
     margin-left: 26%;
     padding-left: 20px;
@@ -2021,7 +2025,7 @@
 [class^=" adminhtml-sales-"] .col-return-to-stock,
 .adminhtml-rma-new .col-select {
     text-align: center;
-    width: 35px;   
+    width: 35px;
 }
 
 [class^=" adminhtml-sales-order-"] .col-status,
@@ -2155,6 +2159,11 @@
 .adminhtml-sales-order-index .col-1-layout table.data {
     table-layout: fixed;
     word-wrap: break-word;
+}
+
+.eq-ie8 .adminhtml-sales-order-index .col-1-layout table.data {
+    table-layout: auto;
+    word-wrap: normal;
 }
 
 [class^=" adminhtml-sales-"] .col-from-store {

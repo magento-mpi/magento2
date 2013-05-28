@@ -177,7 +177,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
-                    $this->__('Upload Images...'), true
+                    $this->__('Upload Images'), true
                 )
                 . "');"
         ));
@@ -201,7 +201,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
-                    $this->__('Upload fonts...'), true
+                    $this->__('Upload Fonts'), true
                 )
                 . "');",
         ));
@@ -229,13 +229,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     {
         $messages = array(
             $this->__('Allowed file types *.css.'),
-            $this->__('The file you upload will replace the existing custom.css file (shown below).')
+            $this->__('This file will replace the current custom.css file and can\'t be more than 2 MB.')
         );
         $maxFileSize = $this->_objectManager->get('Magento_File_Size')->getMaxFileSizeInMb();
         if ($maxFileSize) {
             $messages[] = $this->__('Max file size to upload %sM', $maxFileSize);
         } else {
-            $messages[] = $this->__('System doesn\'t allow to get file upload settings');
+            $messages[] = $this->__('Something is wrong with the file upload settings.');
         }
 
         return implode('<br />', $messages);
