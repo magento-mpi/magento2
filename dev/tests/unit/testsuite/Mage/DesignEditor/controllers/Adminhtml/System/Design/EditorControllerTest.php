@@ -108,7 +108,6 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
     {
         $this->_objectManagerMock->expects($this->any())->method('get')
             ->will($this->returnValueMap($this->_getObjectManagerMap($hasCustomizedThemes, 'index')));
-
         $this->assertNull($this->_model->indexAction());
     }
 
@@ -131,7 +130,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
     {
         $this->_objectManagerMock->expects($this->any())->method('get')
             ->will($this->returnValueMap($this->_getObjectManagerMap($hasCustomizedThemes)));
-        $this->_model->firstEntranceAction();
+        $this->assertNull($this->_model->firstEntranceAction());
     }
 
     /**
