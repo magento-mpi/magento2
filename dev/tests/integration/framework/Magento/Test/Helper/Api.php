@@ -10,6 +10,13 @@
 class Magento_Test_Helper_Api
 {
     /**
+     * Previous error handler
+     *
+     * @var mixed
+     */
+    protected static $_previousHandler = null;
+
+    /**
      * Call API method via API handler.
      *
      * @param PHPUnit_Framework_TestCase $testCase Active test case
@@ -31,7 +38,12 @@ class Magento_Test_Helper_Api
         $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
         $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
 
-        $handlerMock = $testCase->getMock('Mage_Api_Model_Server_Handler_Soap', array('_getServer', '_getSession'));
+        $handlerMock = $testCase->getMock('Mage_Api_Model_Server_Handler_Soap',
+            array('_getServer', '_getSession'), array(), '', false
+        );
+        self::$_previousHandler = set_error_handler(array($handlerMock, 'handlePhpError'));
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMIN, Mage_Core_Model_App_Area::PART_EVENTS);
+
         $handlerMock->expects($testCase->any())->method('_getServer')->will($testCase->returnValue($serverMock));
         $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));
 
@@ -42,12 +54,42 @@ class Magento_Test_Helper_Api
         Mage::unregister('isSecureArea');
         Mage::register('isSecureArea', false);
 
-        /**
-         * Error handler need to be restored because of Mage_Api_Model_Server_HandlerAbstract::__construct
-         * see set_error_handler(array($this, 'handlePhpError'), E_ALL);
-         */
-        set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
+        self::restoreErrorHandler();
         return $result;
+    }
+
+    /**
+     * Call API method via API handler.
+     *
+     * @param PHPUnit_Framework_TestCase $testCase Active test case
+     * @param string $path
+     * @param array $params Order of items matters as they are passed to call_user_func_array
+     * @param string $message exception message
+     */
+    public static function callWithException(
+        PHPUnit_Framework_TestCase $testCase,
+        $path,
+        $params = array(),
+        $message = ''
+    ) {
+        try {
+            self::call($testCase, $path, $params);
+            self::restoreErrorHandler();
+            $testCase->fail('Expected error exception was not raised.');
+        } catch (SoapFault $exception) {
+            self::restoreErrorHandler();
+            if ($message) {
+                $testCase->assertEquals($message, $exception->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Restore previously used error handler
+     */
+    public static function restoreErrorHandler()
+    {
+        set_error_handler(self::$_previousHandler);
     }
 
     /**

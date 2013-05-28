@@ -62,8 +62,10 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
                     )
                 )
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail('Expected error exception was not raised.');
         } catch(SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
         }
     }
@@ -261,8 +263,10 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
                     'paymentData' => (object)$paymentMethod
                 )
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
         }
     }
@@ -289,8 +293,10 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
                     'paymentData' => array()
                 )
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
         }
     }
@@ -327,8 +333,10 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
                     'paymentData' => (object)$paymentMethod
                 )
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
         }
     }

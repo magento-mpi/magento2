@@ -153,8 +153,10 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
                 'catalogProductMultiUpdate',
                 array($productIds, $productData)
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail('Expected exception SoapFault has not been thrown');
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->assertEquals(107, (int)$e->faultcode);
         }
     }
@@ -183,8 +185,10 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
                 'catalogProductMultiUpdate',
                 array($productIds, $productData)
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail('Expected exception SoapFault has not been thrown');
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $this->assertEquals(108, (int)$e->faultcode);
             /** @var $product Mage_Catalog_Model_Product */
             $product = Mage::getModel('Mage_Catalog_Model_Product')->load(10);
@@ -238,7 +242,10 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
                     'product' => '12345'
                 )
             );
+            Magento_Test_Helper_Api::restoreErrorHandler();
+            $this->fail();
         } catch (SoapFault $e) {
+            Magento_Test_Helper_Api::restoreErrorHandler();
             $result = array(
                 'faultcode' => $e->faultcode,
                 'faultstring' => $e->faultstring
