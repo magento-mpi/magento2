@@ -1,4 +1,4 @@
-/*
+/**
  * {license_notice}
  *
  * @category    design
