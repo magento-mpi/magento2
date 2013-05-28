@@ -2,14 +2,14 @@
  * {license_notice}
  *
  * @category    EE
- * @package     EE_CustomerBalance
+ * @package     EE_Checkout_Balance
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
 (function($, undefined) {
     "use strict";
-    $.widget('mage.customerBalance', {
+    $.widget('mage.checkoutBalance', {
         /**
          * Initialize store credit events
          * @private
