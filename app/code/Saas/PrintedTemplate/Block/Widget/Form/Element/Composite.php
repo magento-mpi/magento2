@@ -58,7 +58,7 @@ class Saas_PrintedTemplate_Block_Widget_Form_Element_Composite
     public function getChildrenHtml()
     {
         $html = '';
-        foreach ($this->getSortedElements() as $element) {
+        foreach ($this->getElements() as $element) {
             $html .= $element->toHtml();
         }
         return $html;
@@ -89,20 +89,6 @@ class Saas_PrintedTemplate_Block_Widget_Form_Element_Composite
     {
         return parent::addField($elementId, $type, $config, $after)
             ->setRenderer($this->_getElementRenderer());
-    }
-
-    /**
-     * Sort elements by sort key
-     *
-     * @return array
-     */
-    public function getSortedElements()
-    {
-        $elements = array();
-        foreach ($this->getElements() as $element) {
-            $elements[] = $element;
-        }
-        return $elements;
     }
 
     /**

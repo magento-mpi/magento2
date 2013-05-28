@@ -1751,6 +1751,11 @@
     word-wrap: break-word;
 }
 
+.eq-ie8 .adminhtml-sales-order-index .col-1-layout table.data {
+    table-layout: auto;
+    word-wrap: normal;
+}
+
 [class^=" adminhtml-sales-"] .col-from-store {
     width: 15%;
 }

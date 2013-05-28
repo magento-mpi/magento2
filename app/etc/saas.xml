@@ -10,6 +10,14 @@
 -->
 <config>
     <global>
+        <cache>
+            <request_processors>
+                <saas_replication>
+                    <sortOrder>40</sortOrder>
+                    <class>Saas_PageCache_Model_RequestProcessor_Replication</class>
+                </saas_replication>
+            </request_processors>
+        </cache>
         <configurators>
             <saas_search>Saas_Search_Model_ObjectManager_Configurator</saas_search>
             <saas>Saas_Saas_Model_ObjectManager_Configurator</saas>
@@ -80,6 +88,11 @@
                     </handlers>
                 </parameters>
             </Magento_Http_Handler_Composite>
+            <Saas_Saas_Model_Cache>
+                <parameters>
+                    <config>Mage_Core_Model_Config_Proxy</config>
+                </parameters>
+            </Saas_Saas_Model_Cache>
         </di>
     </global>
 </config>
