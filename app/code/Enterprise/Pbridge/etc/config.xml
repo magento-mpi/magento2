@@ -136,7 +136,7 @@
         <layout>
             <updates>
                 <enterprise_pbridge module="Enterprise_Pbridge">
-                    <file>pbridge.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_pbridge>
             </updates>
         </layout>
@@ -170,7 +170,7 @@
         <layout>
             <updates>
                 <enterprise_pbridge module="Enterprise_Pbridge">
-                    <file>enterprise/pbridge.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_pbridge>
             </updates>
         </layout>
