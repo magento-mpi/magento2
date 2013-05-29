@@ -11,8 +11,8 @@
 /**
  * Form fieldset
  *
- * @method Saas_Launcher_MoVarien_Data_Form_Element_Fieldsetdel_Tile setAdvancedLabel()
- * @method Saas_Launcher_MoVarien_Data_Form_Element_Fieldsetdel_Tile getAdvancedLabel()
+ * @method Varien_Data_Form_Element_Fieldset setAdvancedLabel()
+ * @method Varien_Data_Form_Element_Fieldset getAdvancedLabel()
  *
  * @category   Varien
  * @package    Varien_Data
