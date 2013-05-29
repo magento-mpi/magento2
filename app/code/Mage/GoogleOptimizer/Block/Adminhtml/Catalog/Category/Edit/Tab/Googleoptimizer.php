@@ -16,19 +16,27 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     protected $_registry;
 
     /**
+     * @var Mage_GoogleOptimizer_Helper_Code
+     */
+    protected $_codeHelper;
+
+    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_Registry $registry
+     * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
      * @param Varien_Data_Form $form
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Registry $registry,
+        Mage_GoogleOptimizer_Helper_Code $codeHelper,
         Varien_Data_Form $form,
         array $data = array()
     ) {
         parent::__construct($context, $data);
 
+        $this->_codeHelper = $codeHelper;
         $this->_registry = $registry;
         $this->setForm($form);
     }
@@ -75,15 +83,30 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     /**
      * Get google experiment code model
      *
-     * @return Mage_GoogleOptimizer_Model_Code
+     * @return Mage_GoogleOptimizer_Model_Code|null
      * @throws RuntimeException
      */
     protected function _getGoogleExperiment()
+    {
+        $category = $this->_getCategory();
+        if ($category->getId()) {
+            return $this->_codeHelper->getCodeObjectByEntity($category);
+        }
+        return null;
+    }
+
+    /**
+     * Get category model from registry
+     *
+     * @return mixed
+     * @throws RuntimeException
+     */
+    protected function _getCategory()
     {
         $entity = $this->_registry->registry('current_category');
         if (!$entity) {
             throw new RuntimeException('Entity is not found in registry.');
         }
-        return $entity->getGoogleExperiment();
+        return $entity;
     }
 }
