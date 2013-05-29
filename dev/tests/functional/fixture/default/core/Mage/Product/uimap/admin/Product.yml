@@ -819,7 +819,6 @@ edit_product:
                     user_tab: *userTab
         buttons:
             back: //div[@class='page-actions']//button[span='Back']
-            delete: //div[@class='page-actions']//button[span='Delete']
             save_and_continue_edit: //div[@class='page-actions']//*[@data-ui-id='product-edit-save-split-button']
             save_split_select: //div[@class='page-actions']//*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //div[@class='page-actions']//*[@id='save-split-button-%additionalAction%-button']

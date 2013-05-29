@@ -866,26 +866,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Delete product action
-     */
-    public function deleteAction()
-    {
-        if ($id = $this->getRequest()->getParam('id')) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
-                ->load($id);
-            $sku = $product->getSku();
-            try {
-                $product->delete();
-                $this->_getSession()->addSuccess($this->__('The product has been deleted.'));
-            } catch (Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            }
-        }
-        $this->getResponse()
-            ->setRedirect($this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store'))));
-    }
-
-    /**
      * Get alerts price grid
      */
     public function alertsPriceGridAction()

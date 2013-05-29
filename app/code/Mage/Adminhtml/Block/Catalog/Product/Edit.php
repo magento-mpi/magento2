@@ -66,16 +66,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             ));
         }
 
-        if (!$this->getRequest()->getParam('popup')) {
-            if ($this->getProduct()->isDeleteable()) {
-                $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
-                    'onclick' => 'confirmSetLocation(\''
-                        . Mage::helper('Mage_Catalog_Helper_Data')->__('Are you sure?') . '\', \'' . $this->getDeleteUrl() . '\')',
-                    'class' => 'delete'
-                ));
-            }
-        }
         if (!$this->getProduct()->isReadonly()) {
             $this->addChild('save-split-button', 'Mage_Backend_Block_Widget_Button_Split', array(
                 'id' => 'save-split-button',
