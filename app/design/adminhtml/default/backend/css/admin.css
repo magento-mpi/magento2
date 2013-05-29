@@ -2526,10 +2526,6 @@ table tbody tr:nth-child(odd):hover th {
     padding-top: 36px;
 }
 
-.eq-ie8 .navigation .level-0.item-system > a {
-    padding-top: 0;
-}
-
 .navigation .level-0 > a:before {
     position: absolute;
     left: 0;
@@ -2683,13 +2679,20 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0;
 }
 
+.eq-ie8 .navigation .level-0.item-system > a,
 .eq-ie8 .navigation .level-0.item-system:hover > a,
-.eq-ie8 .navigation .level-0.item-system.hover > a {
+.eq-ie8 .navigation .level-0.item-system.hover > a,
+.eq-ie8 .navigation .level-0.item-stores > a,
+.eq-ie8 .navigation .level-0.item-stores:hover > a,
+.eq-ie8 .navigation .level-0.item-stores.hover > a {
     border-top: 0;
+    padding-top: 0;
 }
 
 .navigation .level-0.item-system:hover > a,
-.navigation .level-0.item-system.hover > a {
+.navigation .level-0.item-system.hover > a,
+.navigation .level-0.item-stores:hover > a,
+.navigation .level-0.item-stores.hover > a {
     background: transparent;
 }
 
@@ -4386,7 +4389,7 @@ table tbody tr:nth-child(odd):hover th {
     border-color: transparent;
 }
 
-.grid tr.headings th a span {
+.grid tr.headings th a label {
     display: block;
     padding-right: 20px;
 }
@@ -4736,6 +4739,15 @@ tr.dynamic-grid input.input-text {
 .ui-dialog .data {
     word-wrap: break-word;
     table-layout: fixed;
+}
+
+.eq-ie8 #cross_sell_product_grid table.data,
+.eq-ie8 #up_sell_product_grid table.data,
+.eq-ie8 #related_product_grid table.data,
+.eq-ie8 #productGrid_table,
+.eq-ie8 .ui-dialog .data {
+    word-wrap: normal;
+    table-layout: auto;
 }
 
 #cross_sell_product_grid table.data th,
@@ -5372,6 +5384,10 @@ table .col-draggable .draggable-handle {
 
 .widget-layout-updates .data-table {
     table-layout: fixed;
+}
+
+.eq-ie8 .widget-layout-updates .data-table {
+    table-layout: auto;
 }
 
 .widget-layout-updates .data-table,

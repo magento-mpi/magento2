@@ -30,7 +30,7 @@
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                     <?php endif; ?>
-                    <ul class="add-to-links">
+                    <ul class="add-to-links" data-role="add-to-links">
                         <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                             <li><a href="<?php echo $this->getAddToWishlistUrl($_product) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                         <?php endif; ?>

@@ -258,7 +258,7 @@
             $('.customer.welcome > .customer').dropdown({menu:'.customer.welcome > .menu'});
         };
 
-        if ($('.checkout-cart-index').length > 0) {
+        if ($('body').hasClass('checkout-cart-index')) {
             $('.cart.summary > .block > .title').dropdown({autoclose:false, menu:'.title + .content'});
             if ($('#co-shipping-method-form .fieldset.rates').length > 0 && $('#co-shipping-method-form .fieldset.rates :checked').length === 0 ) {
                 $('.block.shipping > .title').addClass('active');

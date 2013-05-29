@@ -50,10 +50,12 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testCreateLimitationReached()
     {
+        $formattedData = $this->_prepareProductDataForSoap(require __DIR__ . '/_files/_data/simple_product_data.php');
         /** @var Mage_Catalog_Model_Product_Limitation $limitation */
         $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
-        $this->setExpectedException('SoapFault', $limitation->getCreateRestrictedMessage());
-        $this->_createProductWithApi(require __DIR__ . '/_files/_data/simple_product_data.php');
+        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData,
+            $limitation->getCreateRestrictedMessage()
+        );
     }
 
     /**

@@ -18,6 +18,24 @@
 
 class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    private $_attributeLabelCache;
+
+    /**
+     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Cache_FrontendInterface $attributeLabelCache
+     * @param string|null $areaCode
+     */
+    public function __construct(
+        Mage_Backend_Controller_Context $context,
+        Magento_Cache_FrontendInterface $attributeLabelCache,
+        $areaCode = null
+    ) {
+        parent::__construct($context, $areaCode);
+        $this->_attributeLabelCache = $attributeLabelCache;
+    }
 
     protected $_entityTypeId;
 
@@ -314,10 +332,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $session->addSuccess(
                     Mage::helper('Mage_Catalog_Helper_Data')->__('The product attribute has been saved.'));
 
-                /**
-                 * Clear translation cache because attribute labels are stored in translation
-                 */
-                Mage::app()->cleanCache(array(Mage_Core_Model_Translate::CACHE_TAG));
+                $this->_attributeLabelCache->clean();
                 $session->setAttributeData(false);
                 if ($this->getRequest()->getParam('popup')) {
                     $requestParams = array(

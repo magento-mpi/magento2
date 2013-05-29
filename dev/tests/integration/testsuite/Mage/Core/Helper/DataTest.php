@@ -123,12 +123,6 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($this->_helper->getStoreId()));
     }
 
-    public function testRemoveAccents()
-    {
-        $noReplacementsNeeded = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $this->assertEquals($noReplacementsNeeded, $this->_helper->removeAccents($noReplacementsNeeded));
-    }
-
     /**
      * @magentoAppIsolation enabled
      */

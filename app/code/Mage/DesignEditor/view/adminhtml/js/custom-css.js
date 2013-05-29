@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,8 @@
             customCssCode: '#custom_code',
             btnUpdateCss: '[data-action="update"]',
             btnDeleteCss: '[data-action="delete"]',
-            btnUpdateDownload: '[data-action="download"]'
+            btnUpdateDownload: '[data-action="download"]',
+            fileRowInfo: '[data-file="uploaded-css"]'
         },
 
         updateButtons: function() {
@@ -28,7 +27,9 @@
             this.btnCssDelete = this.element.find(this.options.btnDeleteCss);
             this.customCssCode = this.element.find(this.options.customCssCode);
             this.btnUpdateDownload = this.element.find(this.options.btnUpdateDownload);
+            this.fileRowInfo = this.element.find(this.options.fileRowInfo);
             this._prepareUpdateButton();
+            this.btnCssUpdate.prop('disabled', true);
             this._events();
         },
 
@@ -52,6 +53,7 @@
 
         _postUpdatedCustomCssContent: function()
         {
+            this.btnCssUpdate.prop('disabled', true);
             $.ajax({
                 type: 'POST',
                 url:  this.options.saveCustomCssUrl,
@@ -90,6 +92,9 @@
             } else {
                 this.btnCssUpdate.removeProp('disabled');
                 this.btnUpdateDownload.add(this.btnCssDelete).fadeIn();
+                this.fileRowInfo.addClass('no-display');
+            } else {
+                this.fileRowInfo.removeClass('no-display');
             }
         }
     });

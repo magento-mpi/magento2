@@ -54,14 +54,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Laun
      */
     public function getTileState()
     {
-        $tileState = parent::getTileState();
-        // This logic has been added for optimization purposes (in order not to listen to product creation events)
-        // Product tile is considered complete even when product is created not from the Product Tile
-        if (!$this->getTile()->isComplete()) {
-            $this->getTile()->refreshState();
-            $tileState = $this->getTile()->getState();
-        }
-        return $tileState;
+        $this->getTile()->refreshState();
+        return parent::getTileState();
     }
 
     /**

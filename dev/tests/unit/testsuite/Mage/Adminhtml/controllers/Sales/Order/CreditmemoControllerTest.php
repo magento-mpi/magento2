@@ -7,6 +7,7 @@
  */
 require_once 'Mage/Adminhtml/controllers/Sales/Order/CreditmemoController.php';
 
+
 class Mage_Adminhtml_Sales_Order_CreditmemoControllerTest extends PHPUnit_Framework_TestCase
 {
     /**

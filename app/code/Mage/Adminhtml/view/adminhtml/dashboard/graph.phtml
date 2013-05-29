@@ -31,13 +31,15 @@
 </div>
 <?php */ ?>
 <div class="dashboard-diagram">
-    <div class="store-switcher"><?php echo $this->__('Select Range') ?>:
-        <select name="period" id="order_<?php echo $this->getHtmlId() ?>_period" onchange="changeDiagramsPeriod(this);">
-            <?php foreach ($this->helper('Mage_Adminhtml_Helper_Dashboard_Data')->getDatePeriods() as $_value=>$_label): ?>
-                <?php if(in_array($_value, array('custom'))) continue; ?>
-                <option value="<?php echo $_value ?>" <?php if($this->getRequest()->getParam('period')==$_value): ?> selected="selected"<?php endif; ?>><?php echo $_label ?></option>
-            <?php endforeach; ?>
-        </select>
+    <div class="store-switcher">
+        <label><?php echo $this->__('Select Range') ?>:
+            <select name="period" id="order_<?php echo $this->getHtmlId() ?>_period" onchange="changeDiagramsPeriod(this);">
+                <?php foreach ($this->helper('Mage_Adminhtml_Helper_Dashboard_Data')->getDatePeriods() as $_value=>$_label): ?>
+                    <?php if(in_array($_value, array('custom'))) continue; ?>
+                    <option value="<?php echo $_value ?>" <?php if($this->getRequest()->getParam('period')==$_value): ?> selected="selected"<?php endif; ?>><?php echo $_label ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
     </div>
     <?php
     $_containerStyle = "width:{$this->getWidth()}px;height:{$this->getHeight()}px; margin:0 auto;";

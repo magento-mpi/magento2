@@ -1972,6 +1972,7 @@ select {
     float: right;
     width: 290px;
     padding: 0 20px 20px;
+    display: inline-block;
     .summary.title {
         color: @primary2;
         font-family: 'Open Sans', sans-serif;
@@ -2053,6 +2054,17 @@ select {
             }
         }
     }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
+  }
 }
 .cart.table.wrapper.detailed + .cart.summary {
         margin-top: 16px;
@@ -2860,6 +2872,90 @@ select {
     .resetList;
 }
 
+.block.widget {
+    @optionsHeigth:23px;
+    .pager {
+        .clearfix();
+        .amount {
+            display: none;
+            float: left;
+            margin: 2px 15px 0 0;
+        }
+        .text {
+            display: none;
+        }
+    }
+    .pages {
+        color: #999999;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 13px;
+        margin-left: 15px;
+        float:left;
+        .label { line-height: @optionsHeigth + 2px; display: inline-block; }
+        strong.label {
+            font-weight: 400;
+            float:left;
+            line-height: @optionsHeigth + 2px;
+            margin-top:2px;
+            margin-right:5px;
+            display: none;
+        }
+        input {
+            width:30px;
+            margin:0 5px;
+            text-align: center;
+            padding:0 5px;
+            height:@optionsHeigth + 2px;
+            line-height:@optionsHeigth + 2px;
+        }
+        > ol {
+            .resetList;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 2px;
+            vertical-align: middle;
+            li {
+                display: inline;
+                vertical-align: middle;
+            }
+            a,
+            strong {
+                padding:0 3px;
+                &:hover {
+                    border-color: #bec1c4;
+                }
+            }
+            a {
+                border-bottom: 1px solid #e5e5e5;
+                &.action {
+                    border: none;
+                }
+            }
+            strong {
+                font-weight: 400;
+                span {
+                }
+            }
+        }
+    }
+    .action.next,
+    .action.previous {
+        color: #999999;
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: bottom;
+        span {
+            .iconAfter('', 16px, 'cake-icons');
+            .hideText();
+        }
+        &:hover {
+            color: #bec1c4;
+        }
+    }
+    .action.next span:after { content: "\e01c"; }
+    .action.previous span:after { content: "\e01d"; }
+}
+
 /*
  *    Mage_Catalog
  *
@@ -3073,8 +3169,10 @@ select {
     @spacing:0 0 10px;
     .item.product {
         .column(2);
-        .catalog-product-view.col1-layout & {
+        .col1-layout.catalog-product-view & {
             .column(3);
+            float: none;
+            display: inline-block;
         }
         .col2-left-layout &,
         .col2-right-layout & {
@@ -3082,6 +3180,8 @@ select {
         }
         .col3-layout & {
             .column(4);
+            float: none;
+            display: inline-block;
         }
         display: inline-block;
         vertical-align: top;
@@ -3229,6 +3329,8 @@ select {
     }
 }
 
+.block.widget.new,
+.block.widget.compared,
 .block.widget.viewed,
 .block.crosssell,
 .block.upsell,
@@ -3248,6 +3350,8 @@ select {
         margin:0 -13px;
         .item.product {
             .column(2);
+            float: none;
+            display: inline-block;
             padding:13px;
             .product.photo {
                 float: none;
@@ -3273,26 +3377,62 @@ select {
     }
 }
 
-.block.widget.viewed {
-    .products.list.items.widget-viewed-grid {
+.block.widget.compared.grid,
+.block.widget.new.grid,
+.block.widget.viewed.grid {
+    .products.list {
         .item.product {
             float: none;
             display: inline-block;
             .product.photo {
                 display: block;
-                margin:0 0 10px;
+                margin: 0 0 10px;
             }
         }
     }
-    .products.list.items.widget-viewed-list {
+}
+
+.block.widget.compared.list,
+.block.widget.new.list,
+.block.widget.viewed.list {
+    .products.list {
         .item.product {
-            .column(12);
+            width:100%;
+            .col1-layout.catalog-product-view & {
+                width:100%;
+            }
+            float: none;
+            display: inline-block;
             .product.photo {
                 float: left;
                 margin-right: 20px;
             }
             .product.details {
                 overflow: hidden;
+            }
+        }
+    }
+}
+
+.block.widget.new {
+    .products.list.widget-new-grid {
+        .item.product {
+            width:20%;
+            .catalog-product-view.col1-layout & {
+                .column(4);
+                float: none;
+                display: inline-block;
+            }
+            .col2-left-layout &,
+            .col2-right-layout & {
+                .column(3);
+                float: none;
+                display: inline-block;
+            }
+            .col3-layout & {
+                .column(4);
+                float: none;
+                display: inline-block;
             }
         }
     }
@@ -4625,7 +4765,10 @@ select {
 .action.mailto {
     display: block;
     margin: 0 0 30px;
-    padding: 5px 140px;
+    padding: 5px 0;
+    .col1-layout.catalog-product-view & {
+        padding: 5px 140px;
+    }
     span {
         .icon("\e020", 16px);
         font-size: 11px;
@@ -5163,7 +5306,8 @@ and (max-width : 768px)  {
 .form.create.account,
 .form.newsletter.manage,
 .form.giftcard.redeem,
-.form.password.reset {
+.form.password.reset,
+.form.paypal.review {
     .fieldset {
         .borderBox();
         border:0;
@@ -5271,7 +5415,15 @@ and (max-width : 768px)  {
                 width: 90px;
             }
             .with-addon {
+                position: relative;
+                margin: 0 0 0 20px;
                 width: 125px;
+                &:before {
+                    content: '-';
+                    left: -9px;
+                    top: 5px;
+                    position: absolute;
+                }
             }
         }
     }
@@ -5313,6 +5465,93 @@ and (max-width : 768px)  {
                 .secondaryAction();
             }
         }
+    }
+}
+
+/*
+ *    Review paypal express checkout order
+ *
+ ----------------------------------------------------------------------------- */
+
+.paypal.review.view {
+    .paypal.subtitle.caption {
+        margin-bottom: 25px;
+        .action {
+            margin-left: 10px;
+        }
+        strong {
+            font-size: 20px;
+            font-weight: 200;
+            line-height: 1.2;
+        }
+    }
+    .form.paypal.review {
+        .fieldset {
+            &.shipping.address {
+                float: right;
+                width: 48%;
+            }
+            &.billing.address {
+                float: left;
+                width: 48%;
+            }
+            &.shipping.method {
+                clear: both;
+                margin: 0 0 40px;
+                .legend {
+                    text-align: left;
+                }
+            }
+            &.customer.email {
+                margin: 0;
+                width: 48%;
+            }
+            .nested {
+                margin-top: 5px;
+            }
+        }
+        .field {
+            .fieldStyle();
+            &:not(.choice) {
+                .label {
+                    display: block;
+                    padding-bottom:5px;
+                }
+            }
+        }
+        .actions {
+            .clearfix();
+            padding: 35px 0 10px;
+            text-align: left;
+            width: 100%;
+            .action {
+                float: right;
+                &.checkout {
+                    .primaryAction();
+                    margin-left: 5px;
+                }
+                &.update {
+                    .secondaryAction();
+                    margin-left: 5px;
+                    span {
+                        padding: 9px 11px;
+                    }
+                }
+            }
+        }
+    }
+    .data.table.paypal.review.items {
+        .amount {
+            text-align: right;
+        }
+        thead th {
+            font-size: 16px;
+        }
+        tfoot tr:first-child td {
+            border-top: 3px solid @primary2;
+            padding-top: 15px;
+        }
+        width: 100%;
     }
 }
 

@@ -41,6 +41,10 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
      */
     protected $_layoutMock;
 
+    /**
+     * @var Magento_Test_Helper_ObjectManager
+     */
+    protected $_testHelper;
 
     protected function setUp()
     {
@@ -58,8 +62,8 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
                 'group' => $groupMock
             )
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
+        $this->_testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_object = $this->_testHelper->getObject('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',
@@ -71,7 +75,7 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         );
 
         $this->_elementMock = $this->getMock('Varien_Data_Form_Element_Text',
-            array('getHtmlId' , 'getName', 'getExpanded', 'getSortedElements', 'getLegend', 'getComment'),
+            array('getHtmlId' , 'getName', 'getExpanded', 'getElements', 'getLegend', 'getComment'),
             array(),
             '',
             false,
@@ -99,7 +103,8 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
 
-        $this->_elementMock->expects($this->any())->method('getSortedElements')->will($this->returnValue(array()));
+        $collection = $this->_testHelper->getObject('Varien_Data_Form_Element_Collection');
+        $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
         $actualHtml = $this->_object->render($this->_elementMock);
         $this->assertContains($this->_testData['htmlId'], $actualHtml);
         $this->assertContains($this->_testData['legend'], $actualHtml);
@@ -128,8 +133,13 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $fieldMock->expects($this->any())->method('getTooltip')->will($this->returnValue('test_field_tootip'));
         $fieldMock->expects($this->any())->method('toHtml')->will($this->returnValue('test_field_toHTML'));
 
-        $this->_elementMock->expects($this->any())->method('getSortedElements')
-            ->will($this->returnValue( array($fieldMock))
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $collection = $helper->getObject('Varien_Data_Form_Element_Collection', array(
+            'container' => $this->getMock('Varien_Data_Form_Abstract')
+        ));
+        $collection->add($fieldMock);
+        $this->_elementMock->expects($this->any())->method('getElements')
+            ->will($this->returnValue($collection)
         );
 
         $actual = $this->_object->render($this->_elementMock);

@@ -1847,9 +1847,10 @@ select {
 .cart.summary {
   margin-top: 33px;
   background: @reconSecondary2;
-  float: right;
+  display: inline-block;;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
   .summary.title {
     font-size: 24px;
     display: block;
@@ -1930,6 +1931,18 @@ select {
     display: block;
     padding-bottom: 8px;
     text-transform: uppercase;
+  }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  margin-left: 4px;
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
   }
 }
 .cart.table.wrapper.detailed + .cart.summary {
@@ -2531,6 +2544,79 @@ select {
   .resetList;
 }
 
+.block.widget {
+  @optionsHeigth: 23px;
+  clear: both;
+  .pager {
+    .clearfix();
+    font-weight: 700;
+    font-style: italic;
+    color: @secondary4;
+    text-align: right;
+    position: relative;
+    z-index: 1;
+    .amount {
+      float: left;
+      line-height: @optionsHeigth + 2px;
+      margin: 2px 15px 0 0;
+    }
+    .text {
+      margin:0 5px;
+      line-height: @optionsHeigth + 2px;
+      float: left;
+    }
+  }
+  .pages {
+    margin-left: 15px;
+    float: right;
+    .label { line-height: @optionsHeigth + 2px; display: inline-block; }
+    strong.label {
+      font-weight: 400;
+      float:left;
+      line-height: @optionsHeigth + 2px;
+      margin-top:2px;
+      margin-right:5px;
+      display: none;
+    }
+    input {
+      width:30px;
+      margin:0 5px;
+      text-align: center;
+      padding:0 5px;
+      height:@optionsHeigth + 2px;
+      line-height:@optionsHeigth + 2px;
+    }
+    > ol {
+      .resetList;
+      display: inline-block;
+      vertical-align: top;
+      margin-top:2px;
+      line-height:@optionsHeigth + 2px;
+      vertical-align: middle;
+      li { display: inline; }
+      strong,
+      a { padding:0 3px; }
+      strong {
+        font-weight: 400;
+        color:@secondary1;
+      }
+    }
+  }
+  .action.next,
+  .action.previous {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    span {
+      color: @secondary4;
+      .iconAfter('',16px,'icons');
+      .hideText();
+    }
+  }
+  .action.next span:after { content:'\e008'; }
+  .action.previous span:after { content:'\e00c'; }
+}
+
 /*
  *    Mage_Catalog
  *
@@ -2900,7 +2986,6 @@ select {
   }
 }
 
-.block.widget.viewed,
 .block.crosssell,
 .block.upsell,
 .block.related {
@@ -2924,30 +3009,6 @@ select {
       .actions {
         position: absolute;
       }
-    }
-  }
-}
-
-.block.widget.viewed {
-  .products.list.items.widget-viewed-grid {
-    .item.product {
-      .borderBox;
-      width: 20%;
-      padding-left: 1%;
-      padding-right: 1%;
-      .col3-layout & {
-        width: 25%;
-      }
-      .product.photo {
-        float: none;
-        display: block;
-        margin: 0 0 10px;
-      }
-    }
-  }
-  .products.list.items.widget-viewed-list {
-    .item.product {
-        .column(12);
     }
   }
 }
@@ -3313,7 +3374,10 @@ select {
 .products.wrapper .products.list,
 .widget.new.grid .products.list,
 .widget.new.list .products.list,
-.widget.viewed.grid .products.list {
+.widget.viewed.grid .products.list,
+.widget.viewed.list .products.list,
+.widget.compared.grid .products.list,
+.widget.compared.list .products.list {
   .item {
     .product.photo {
       display: block;
@@ -3402,7 +3466,8 @@ select {
 
 .products.wrapper.grid .products.list,
 .widget.new.grid .products.list,
-.widget.viewed.grid .products.list {
+.widget.viewed.grid .products.list,
+.widget.compared.grid .products.list {
   .item.product {
     .borderBox;
     width: 20%;
@@ -3438,8 +3503,11 @@ select {
     }
   }
 }
+
 .products.wrapper.list .products.list,
-.widget.new.list .products.list {
+.widget.new.list .products.list,
+.widget.viewed.list .products.list,
+.widget.compared.list .products.list {
   margin-bottom: 20px;
   .item.product {
     display: block;
@@ -3469,7 +3537,10 @@ select {
     margin: 9px 0;
   }
 }
-.widget.new.list .products.list {
+
+.widget.new.list .products.list,
+.widget.viewed.list .products.list,
+.widget.compared.list .products.list {
   .actions {
     .secondary {
       position: static;
@@ -5096,6 +5167,77 @@ and (max-width : 768px)  {
       font-weight: 400;
     }
   }
+}
+
+/*
+ *    Review paypal express checkout order
+ *
+----------------------------------------------------------------------------- */
+
+.paypal.review.view {
+    .paypal.subtitle.caption {
+        margin-bottom: 25px;
+        .action {
+            margin-left: 10px;
+        }
+        strong {
+            font-family: "archivonarrow", sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.2;
+            margin: 0.5em 0;
+        }
+    }
+    .form.paypal.review {
+        .fieldset {
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
+            &.shipping.address {
+                float: right;
+                width: 49%;
+            }
+            &.billing.address {
+                float: left;
+                width: 49%;
+            }
+            &.shipping.method {
+                clear: both;
+                margin: 0 0 35px;
+            }
+            .nested {
+                margin-top: 10px;
+            }
+        }
+    }
+    .actions {
+        margin-top: 35px;
+        text-align: right;
+        .action.update {
+            .secondaryAction();
+            margin-left: 10px;
+        }
+    }
+    .data.table.paypal.review.items {
+        width: 100%;
+        td,
+        th {
+            padding: 10px 20px;
+            text-align:left;
+            &.col.total {
+                text-align: right;
+            }
+        }
+        th {
+            font-size: 16px;
+            font-weight: 400;
+        }
+        .product.name {
+            color: @secondary3;
+            font-size: 14px;
+            font-weight: 700;
+        }
+    }
 }
 
 /* Widgets */

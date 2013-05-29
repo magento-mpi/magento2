@@ -1,7 +1,6 @@
 # Files or directories that are not part of Go Edition.
 #
 CHANGELOG.markdown
-app/code/Phoenix
 app/code/Enterprise/AdminGws
 app/code/Enterprise/BannerCustomerSegment
 app/code/Enterprise/CatalogEvent
@@ -16,6 +15,7 @@ app/code/Enterprise/Persistent
 app/code/Enterprise/PricePermissions
 app/code/Enterprise/PromotionPermissions
 app/code/Enterprise/Reminder
+app/code/Enterprise/Reward
 app/code/Enterprise/Rma
 app/code/Enterprise/Tag
 app/code/Enterprise/TargetRule
@@ -43,21 +43,23 @@ dev/tests/integration/testsuite/Enterprise/CatalogPermissions
 dev/tests/integration/testsuite/Enterprise/CustomerSegment
 dev/tests/integration/testsuite/Enterprise/Checkout
 dev/tests/integration/testsuite/Enterprise/GiftRegistry
+dev/tests/integration/testsuite/Enterprise/GiftWrapping
 dev/tests/integration/testsuite/Enterprise/ImportExport
 dev/tests/integration/testsuite/Enterprise/PricePermissions
 dev/tests/integration/testsuite/Enterprise/PromotionPermissions
 dev/tests/integration/testsuite/Enterprise/Reminder
+dev/tests/integration/testsuite/Enterprise/Reward
 dev/tests/integration/testsuite/Enterprise/Rma
 dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/Mage/Authorizenet
+dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
 # multi-address checkout is not available in Saas Edition
 dev/tests/integration/testsuite/Mage/Checkout/controllers/MultishippingControllerTest.php
 dev/tests/integration/testsuite/Mage/Connect
 dev/tests/integration/testsuite/Mage/Downloadable
 dev/tests/integration/testsuite/Mage/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
-dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws

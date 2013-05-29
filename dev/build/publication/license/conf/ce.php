@@ -21,20 +21,10 @@ $magentoOslAfl = array(
 $magentoAfl = $magentoOslAfl;
 unset($magentoAfl['php']);
 
-$phoenixOsl = array(
-    'xml'   => 'Phoenix',
-    'phtml' => 'Phoenix',
-    'php'   => 'Phoenix',
-    'css'   => 'Phoenix',
-    'js'    => 'Phoenix',
-    'less'  => 'Phoenix',
-);
-
 $config = array(
     ''    => array('php' => 'OSL', '_recursive' => false),
     'app' => array('php' => 'OSL', '_recursive' => false),
     'app/code/Find'         => $magentoOslAfl,
-    'app/code/Phoenix'      => $phoenixOsl,
     'app/code/Social'       => $magentoOslAfl,
     'app/code/Enterprise'   => $magentoOslAfl,
     'app/code/Mage'         => $magentoOslAfl,
