@@ -146,18 +146,12 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             (object)array('description' => 'something'),
         );
 
-        try {
-            Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductMultiUpdate',
-                array($productIds, $productData)
-            );
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->fail('Expected exception SoapFault has not been thrown');
-        } catch (SoapFault $e) {
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->assertEquals(107, (int)$e->faultcode);
-        }
+        $exception = Magento_Test_Helper_Api::callWithException(
+            $this,
+            'catalogProductMultiUpdate',
+            array($productIds, $productData)
+        );
+        $this->assertEquals(107, (int)$exception->faultcode);
     }
 
     /**
@@ -178,23 +172,17 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        try {
-            Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductMultiUpdate',
-                array($productIds, $productData)
-            );
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->fail('Expected exception SoapFault has not been thrown');
-        } catch (SoapFault $e) {
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->assertEquals(108, (int)$e->faultcode);
-            /** @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load(10);
-            $this->assertEquals($productData[0]->description, $product->getDescription());
-            $product->load(11);
-            $this->assertNotEquals($productData[1]->description, $product->getDescription());
-        }
+        $exception = Magento_Test_Helper_Api::callWithException(
+            $this,
+            'catalogProductMultiUpdate',
+            array($productIds, $productData)
+        );
+        $this->assertEquals(108, (int)$exception->faultcode);
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load(10);
+        $this->assertEquals($productData[0]->description, $product->getDescription());
+        $product->load(11);
+        $this->assertNotEquals($productData[1]->description, $product->getDescription());
     }
 
     /**
@@ -233,23 +221,15 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $numericalProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $numericalProduct->load(2);
 
-        try{
-            Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductInfo',
-                array(
-                    'product' => '12345'
-                )
-            );
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->fail();
-        } catch (SoapFault $e) {
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $result = array(
-                'faultcode' => $e->faultcode,
-                'faultstring' => $e->faultstring
-            );
-        }
+        $exception = Magento_Test_Helper_Api::callWithException(
+            $this,
+            'catalogProductInfo',
+            array('product' => '12345')
+        );
+        $result = array(
+            'faultcode' => $exception->faultcode,
+            'faultstring' => $exception->faultstring
+        );
 
         $this->assertInternalType('array', $result);
         $this->assertEquals(101, $result['faultcode'], 'Fault code is not right.');

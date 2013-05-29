@@ -93,7 +93,6 @@ class Mage_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_TestCas
             file_get_contents(dirname(__FILE__) . '/_files/_data/files/test.txt')
         );
 
-
         Magento_Test_Helper_Api::callWithException(
             $this,
             'catalogProductAttributeMediaCreate',

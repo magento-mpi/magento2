@@ -59,18 +59,19 @@ class Magento_Test_Helper_Api
     }
 
     /**
-     * Call API method via API handler.
+     * Call API method via API handler that raises SoapFault exception
      *
      * @param PHPUnit_Framework_TestCase $testCase Active test case
      * @param string $path
      * @param array $params Order of items matters as they are passed to call_user_func_array
-     * @param string $message exception message
+     * @param string $expectedMessage exception message
+     * @return SoapFault
      */
     public static function callWithException(
         PHPUnit_Framework_TestCase $testCase,
         $path,
         $params = array(),
-        $message = ''
+        $expectedMessage = ''
     ) {
         try {
             self::call($testCase, $path, $params);
@@ -78,9 +79,10 @@ class Magento_Test_Helper_Api
             $testCase->fail('Expected error exception was not raised.');
         } catch (SoapFault $exception) {
             self::restoreErrorHandler();
-            if ($message) {
-                $testCase->assertEquals($message, $exception->getMessage());
+            if ($expectedMessage) {
+                $testCase->assertEquals($expectedMessage, $exception->getMessage());
             }
+            return $exception;
         }
     }
 
