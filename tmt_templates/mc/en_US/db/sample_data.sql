@@ -2763,7 +2763,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('core_setup', '1.6.0.12', '1.6.0.12'),
 	('cron_setup', '1.6.0.0', '1.6.0.0'),
 	('customer_setup', '1.6.2.0.3', '1.6.2.0.3'),
-	('designeditor_setup', '1.0.0.1', '1.0.0.1'),
+	('designeditor_setup', '1.0.0.3', '1.0.0.3'),
 	('directory_setup', '1.6.0.1', '1.6.0.1'),
 	('downloadable_setup', '1.6.0.0.3', '1.6.0.0.3'),
 	('eav_setup', '1.6.0.2', '1.6.0.2'),
