@@ -260,7 +260,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $defaults['magento_version_from'] = Mage::getVersion();
         $defaults['magento_version_to'] = '*';
         $defaults['theme_version'] = '0.0.0.1';
-        $defaults['theme_title'] = $this->__('New theme');
+        $defaults['theme_title'] = $this->__('New Theme');
 
         return $defaults;
     }
@@ -302,7 +302,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         if ($maxImageSize) {
             return $this->__('Max image size %sM', $maxImageSize);
         } else {
-            return $this->__('System doesn\'t allow to get file upload settings');
+            return $this->__('Something is wrong with the file upload settings.');
         }
     }
 }

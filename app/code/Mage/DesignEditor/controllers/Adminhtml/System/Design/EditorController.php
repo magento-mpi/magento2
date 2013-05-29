@@ -107,7 +107,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Unknown error'));
+            $this->_getSession()->addException($e, $this->__('Sorry, there was an unknown error.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -133,7 +133,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_getSession()->addException($e, $e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Unknown error.');
+            $errorMessage = $this->__('Sorry, there was an unknown error.');
             $this->_getSession()->addException($e, $errorMessage);
             $response = array('error' => true, 'message' => $errorMessage);
         }
@@ -324,7 +324,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $response = array('message' =>  $message);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => true, 'message' => $this->_helper->__('Unknown error'));
+            $response = array('error' => true, 'message' => $this->_helper->__('Sorry, there was an unknown error.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
     }

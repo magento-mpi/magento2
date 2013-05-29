@@ -205,7 +205,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         $newPath = $path . DS . $name;
 
         if ($this->_filesystem->isDirectory($newPath, $path)) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('A directory with the same name already exists. Please try another folder name.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('We found a directory with the same name. Please try another folder name.'));
         }
 
         $this->_filesystem->createDirectory($newPath);
@@ -240,7 +240,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         $pathCmp = rtrim($path, DS);
 
         if ($rootCmp == $pathCmp) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Cannot delete root directory %s.', $path));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('We cannot delete root directory %s.', $path));
         }
 
 
@@ -303,7 +303,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            Mage::throwException( Mage::helper('Mage_Cms_Helper_Data')->__('Cannot upload file.') );
+            Mage::throwException( Mage::helper('Mage_Cms_Helper_Data')->__('We cannot upload the file.') );
         }
 
         // create thumbnail
