@@ -181,7 +181,7 @@ jQuery(function($) {
                     if (imageElement.length) {
                         imageElement.attr('src', $gridRow.find('[data-role=image-url]').val());
                     } else {
-                        parentElement.find('.action-upload').remove();
+                        parentElement.find('[data-action=upload-image]').remove();
                         $('<img>', {
                             src: $gridRow.find('[data-role=image-url]').val(),
                             style: 'width:55px;height:55px'

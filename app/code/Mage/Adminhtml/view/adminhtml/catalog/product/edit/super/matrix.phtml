@@ -25,25 +25,25 @@ $productByUsedAttributes = $this->getAssociatedProducts();
         <table class="data-table">
             <thead>
                 <tr>
-                    <th class="col-display">
+                    <th class="col-display" data-column="display">
                         <?php echo $this->__('Display'); ?>
                     </th>
-                    <th class="col-image">
+                    <th class="col-image" data-column="image">
                         <?php echo $this->__('Image'); ?>
                     </th>
-                    <th class="col-name <?php echo $this->getAttributeFrontendClass('name'); ?>">
+                    <th class="col-name <?php echo $this->getAttributeFrontendClass('name'); ?>" data-column="name">
                         <?php echo $this->__('Name'); ?>
                     </th>
-                    <th class="col-sku <?php echo $this->getAttributeFrontendClass('sku'); ?>">
+                    <th class="col-sku <?php echo $this->getAttributeFrontendClass('sku'); ?>" data-column="sku">
                         <?php echo $this->__('SKU'); ?>
                     </th>
-                    <th class="col-price">
+                    <th class="col-price" data-column="price">
                         <?php echo $this->__('Price'); ?>
                     </th>
-                    <th class="col-qty">
+                    <th class="col-qty" data-column="qty">
                         <?php echo $this->__('Quantity'); ?>
                     </th>
-                    <th class="col-weight <?php echo str_replace('required-entry', '', $this->getAttributeFrontendClass('weight')); ?>">
+                    <th class="col-weight <?php echo str_replace('required-entry', '', $this->getAttributeFrontendClass('weight')); ?>" data-column="weight">
                         <?php echo $this->__('Weight'); ?>
                     </th>
                     <?php
@@ -82,14 +82,14 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     ?>
 
                 <tr class="<?php echo $isEven ? 'even' : '' ?>">
-                    <td class="col-display">
+                    <td class="col-display" data-column="display">
                         <input type="checkbox" name="associated_product_ids[]" data-column="entity_id"
                                value="<?php echo $product->getId()?>" class="checkbox"
                                checked="checked"/>
                     </td>
-                    <td class="col-image">
+                    <td class="col-image" data-column="image">
                         <?php $image = $product->getImage(); if ($image == 'no_selection'): $image = ''; endif; ;?>
-                        <div class="action-upload"<?php if ($image): ?> style="display:none"<?php endif;?>>
+                        <div class="action-upload<?php if ($image): ?> no-display<?php endif;?>" data-action="upload-image">
                             <span><?php echo $this->__('Upload Image'); ?></span>
                             <input name="image" type="file" disabled="disabled"
                                    data-url="<?php echo $this->escapeHtml($this->_getImageUploadUrl()) ?>"
@@ -111,7 +111,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
                     </td>
-                    <td class="col-sku">
+                    <td class="col-sku" data-column="sku">
                         <span data-column="sku"><?php echo $this->escapeHtml($product->getSku())?></span>
                     </td>
                     <td class="col-price" data-column="price"><?php echo $price ?></td>
@@ -124,7 +124,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             $this->escapeHtml($variation[$attribute->getId()]['label']), '</td>', PHP_EOL;
                     }
                     ?>
-                    <td class="col-actions hidden">
+                    <td class="col-actions hidden" data-column="actions">
                         <div class="actions-split">
                             <button type="button" class="action-default">
                                 <span>Edit</span>
@@ -134,7 +134,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#" class="item">Reset Variation</a>
+                                    <a class="item">Reset Variation</a>
                                 </li>
                             </ul>
                         </div>
@@ -146,19 +146,29 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     $disabled = $this->_getProduct()->getId() && !$this->_getProduct()->dataHasChangedFor('type_id') ? ' disabled="disabled"' : '';
                     ?>
                 <tr class="<?php echo $isEven ? 'even' : '' ?>">
-                    <td class="col-display">
+                    <td class="col-display" data-column="display">
                         <input type="checkbox" name="associated_product_ids[]" value=""
                                class="checkbox" data-column="entity_id" <?php echo $checked?> />
                     </td>
-                    <td class="col-image">
-                        <div class="action-upload">
-                            <span><?php echo $this->__('Upload Image'); ?></span>
-                            <input data-url="<?php echo $this->escapeHtml($this->_getImageUploadUrl()) ?>"
-                                   title="<?php echo $this->__('Upload Image'); ?>"
-                                   type="file" name="image" <?php echo $disabled;?>/>
-                            <input id="variations-matrix-<?php echo $key?>-image"
-                                   name="variations-matrix[<?php echo $key?>][image]"
-                                   value="" type="hidden" <?php echo $disabled;?>/>
+                    <td class="col-image" data-column="image">
+                        <div class="actions-split actions-image-uploader">
+                            <div class="action-upload" data-action="upload-image">
+                                <span><?php echo $this->__('Upload Image'); ?></span>
+                                <input name="image" type="file" <?php echo $disabled;?>
+                                       data-url="<?php echo $this->escapeHtml($this->_getImageUploadUrl()) ?>"
+                                       title="<?php echo $this->__('Upload Image'); ?>" />
+                                <input id="variations-matrix-<?php echo $key?>-image"
+                                       name="variations-matrix[<?php echo $key?>][image]"
+                                       value="" type="hidden" <?php echo $disabled;?>/>
+                            </div>
+                            <button type="button" class="action-toggle" data-toggle="dropdown">
+                                <span><?php echo $this->__('Select'); ?></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="item" data-action="no-image"><?php echo $this->__('No Image'); ?></a>
+                                </li>
+                            </ul>
                         </div>
                     </td>
                     <td class="col-name" data-column="name">
@@ -208,7 +218,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             '</td>', PHP_EOL;
                     }
                     ?>
-                    <td class="col-actions hidden">
+                    <td class="col-actions hidden" data-column="actions">
                         <div class="actions-split">
                             <button type="button" class="action-default">
                                 <span>Edit</span>
@@ -218,7 +228,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#">Reset Variation</a>
+                                    <a>Reset Variation</a>
                                 </li>
                             </ul>
                         </div>
@@ -235,7 +245,9 @@ $productByUsedAttributes = $this->getAssociatedProducts();
 </div>
 <script type="text/javascript">
 jQuery(function ($) {
-    $('.action-upload > [name=image]').each(function() {
+    var matrix = $('[data-role=product-variations-matrix]');
+
+    matrix.find('[data-action=upload-image] [name=image]').each(function() {
         $(this).fileupload({
             dataType: 'json',
             dropZone: $(this),
@@ -245,13 +257,13 @@ jQuery(function ($) {
                     return;
                 }
                 if (!data.result.error) {
-                    var parentElement = $(event.target).closest('.col-image'),
+                    var parentElement = $(event.target).closest('[data-column=image]'),
                         imageElement = parentElement.find('img');
                     if (imageElement.length) {
                         imageElement.attr('src', data.result.url);
                     } else {
-                        parentElement.find('.action-upload').hide();
-                        $.tmpl('<img src="${url}" style="width:55px;height:55px"/>', data.result).appendTo(parentElement);
+                        parentElement.find('[data-action=upload-image]').hide();
+                        $.tmpl('<img src="${url}" style="width:55px;height:55px"/>', data.result).prependTo(parentElement);
                         parentElement.find('img').on('click', function (event) {
                             if ($(event.target).closest('tr').find('[data-column=entity_id]').is(':checked')) {
                                 $(event.target).closest('.col-image').find('[name=image]').trigger('click');
@@ -263,16 +275,22 @@ jQuery(function ($) {
                     alert($.mage.__('File extension not known or unsupported type.'));
                 }
             },
-            start: function(event, data) {
-                var uploaderContainer = $(event.target).closest('.action-upload');
+            start: function(event) {
+                var uploaderContainer = $(event.target).closest('[data-action=upload-image]');
                 uploaderContainer.addClass('loading');
             },
-            stop: function(event, data) {
-                var uploaderContainer = $(event.target).closest('.action-upload');
-
+            stop: function(event) {
+                var uploaderContainer = $(event.target).closest('[data-action=upload-image]');
                 uploaderContainer.removeClass('loading');
             }
         });
     });
+    matrix.find('[data-action=no-image]').click(function (event) {
+        var parentElement = $(event.target).closest('[data-column=image]');
+        parentElement.find('[data-action=upload-image]').show();
+        parentElement.find('img').remove();
+        parentElement.find('[data-toggle=dropdown]').trigger('close.dropdown');
+    });
+    matrix.find('[data-toggle=dropdown]').dropdown();
 });
 </script>
