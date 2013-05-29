@@ -75,7 +75,7 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         $this->_physicalThemeId = $physicalTheme->getId();
         $this->_virtualThemeId = $virtualTheme->getId();
     }
-    
+
     public function testGetPhysicalTheme()
     {
         /** @var $virtualTheme Mage_Core_Model_Theme */
