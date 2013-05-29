@@ -165,6 +165,7 @@
                 });
             },
             done: function(e, data) {
+                var that = this;
                 var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
                 var uploadCount = $('[data-action="fileinput"]').assetfileupload('option', 'uploadCount');
                 $(progressSelector).css('width','100%');
@@ -192,7 +193,7 @@
                 /** Display and update number of files uploaded */
                 $('.uploaded span').html(uploadCount);
                 $('.uploaded').removeClass('no-display');
-                $('[data-action="fileinput"]').assetfileupload('option', 'uploadCount', uploadCount);
+                $(that).assetfileupload('option', 'uploadCount', uploadCount);
             },
             progress: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
