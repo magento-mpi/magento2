@@ -1887,9 +1887,10 @@ div.mage-error {
 .cart.summary {
     margin-top: 33px;
     background: @primary1;
-    float: right;
+    display: inline-block;
     width: 290px;
     padding: 20px;
+    margin-left:10px;
     .summary.title {
         font-size: 20px;
         font-weight: 200;
@@ -1970,6 +1971,21 @@ div.mage-error {
     }
 }
 
+.cart.container {
+  & > .summary.sticky {
+    position:fixed;
+    display:inline-block !important;
+  }
+  & > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom:0;
+  }
+}
+.cart &>.summary.fixed, .cart.container &>.summary &>.container.fixed {
+  position: fixed;
+  top: 0;
+}
 .cart.table.wrapper.detailed + .cart.summary {
     margin-top: 54px;
 }

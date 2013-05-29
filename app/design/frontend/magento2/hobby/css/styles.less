@@ -1849,9 +1849,10 @@ select {
 .cart.summary {
   margin-top: 33px;
   background: @primary1;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
   .summary.title {
     font-family: "benchnine";
     font-size: 24px;
@@ -1937,6 +1938,17 @@ select {
     display: block;
     padding-bottom: 8px;
     text-transform: uppercase;
+  }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
   }
 }
 .cart.table.wrapper.detailed + .cart.summary {

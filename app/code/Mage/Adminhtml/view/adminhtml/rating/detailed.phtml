@@ -15,7 +15,7 @@
             <label class="label"><span><?php echo $this->escapeHtml($_rating->getRatingCode()) ?></span></label>
             <?php $_iterator = 1; ?>
             <?php $_options = ( $_rating->getRatingOptions() ) ? $_rating->getRatingOptions() : $_rating->getOptions() ?>
-            <div class="control">
+            <div class="control" data-mage-init="{ratingControl:{}}">
             <?php foreach (array_reverse($_options) as $_option): ?>
                 <input type="radio" name="ratings[<?php echo ( $_rating->getVoteId() ) ? $_rating->getVoteId() : $_rating->getId() ?>]" id="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>" <?php if( $this->isSelected($_option, $_rating)): ?>checked="checked"<?php endif; ?> />
                 <label for="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>"><?php echo Mage::helper('Mage_Rating_Helper_Data')->__('%s %s', $_iterator, $_iterator > 1 ? 'stars' : 'star') ?></label>
@@ -28,10 +28,8 @@
     </div>
 <script type="text/javascript">
 //@TODO: Fix validation
-//<![CDATA[
     jQuery.mage.extend('validation', 'validation',
         '<?php echo $this->getViewFileUrl('Mage_Adminhtml::validation-rules.js'); ?>');
-//]]>
 </script>
 <?php else: ?>
     <?php echo Mage::helper('Mage_Rating_Helper_Data')->__("Rating isn't Available") ?>
