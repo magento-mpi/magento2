@@ -11,8 +11,8 @@
 /**
  * Form fieldset
  *
- * @method Varien_Data_Form_Element_Fieldset setAdvancedLabel()
- * @method Varien_Data_Form_Element_Fieldset getAdvancedLabel()
+ * @method string setAdvancedLabel()
+ * @method string getAdvancedLabel()
  *
  * @category   Varien
  * @package    Varien_Data
