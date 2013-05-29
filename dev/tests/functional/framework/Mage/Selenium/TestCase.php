@@ -3948,7 +3948,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->getArea() !== 'frontend' || $this->url() == 'about:blank') {
             $this->frontend();
         }
-        if ($this->controlIsVisible('link', 'log_out')) {
+        if ($this->controlIsPresent('link', 'log_out')) {
+            //For GO default theme(Plushe). Open links menu
+            if ($this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'menu')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'menu', false);
+                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'menu_active');
+            }
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');

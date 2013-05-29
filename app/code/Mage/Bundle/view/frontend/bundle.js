@@ -40,7 +40,9 @@
 
                 // Trigger Event to update Summary box
                 this.reloadPrice();
-                this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
+                this.element.trigger('updateProductSummary', [
+                    {config: this.options.bundleConfig}
+                ]);
             }
         },
         _create: function() {
@@ -66,7 +68,7 @@
                             _elements.each(function() {
                                 var _qty = $(this);
                                 _qty.on('blur', $.proxy(function() {
-                                    var parts = _elem.attr('id').split('-'),
+                                    var parts = _qty.attr('id').split('-'),
                                         value = _elem.val(),
                                         quantity = parseInt(_qty.val(), 10);
                                     if (quantity > 0 && _this.options.bundleConfig.options[parts[2]] &&
@@ -141,7 +143,9 @@
                                 config.selected[parts[2]] = [selected];
                             }
                         } else {
-                            config.selected[parts[2]] = $.grep(config.selected[parts[2]], function(e) {return e[0] != element.val();});
+                            config.selected[parts[2]] = $.grep(config.selected[parts[2]], function(e) {
+                                return e[0] != element.val();
+                            });
                         }
                     }
                 }
@@ -155,7 +159,9 @@
             }
             // Trigger Event to update Summary box
             this.reloadPrice();
-            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
+            this.element.trigger('updateProductSummary', [
+                {config: this.options.bundleConfig}
+            ]);
         },
 
         reloadPrice: function() {
@@ -278,7 +284,9 @@
                 this.showQtyInput(optionId, this.options.optionConfig.options[optionId].selections[selectionId].qty, false);
             }
             this.reloadPrice();
-            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
+            this.element.trigger('updateProductSummary', [
+                {config: this.options.bundleConfig}
+            ]);
         },
 
         showQtyInput: function(optionId, value, canEdit) {

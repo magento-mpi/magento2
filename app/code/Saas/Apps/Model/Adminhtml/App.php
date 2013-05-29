@@ -66,7 +66,7 @@ class Saas_Apps_Model_Adminhtml_App extends Mage_Core_Model_Abstract
     public function getContents()
     {
         $data = $this->_cacheManager->load(self::APPS_PROXY_PAGE_CACHE_KEY);
-        if (!$data){
+        if (!$data) {
             $url  = $this->_helper->getAppTabUrl();
             if ($url) {
                 $this->_curl->setConfig(array(

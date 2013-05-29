@@ -19,41 +19,25 @@ custom_design:
     option_3:
         admin_option_name: Hobby
     option_4:
-        admin_option_name: Magento Blank
-    option_5:
-        admin_option_name: Magento Demo
-    option_6:
-        admin_option_name: Magento Demo Blue
-    option_7:
-        admin_option_name: Magento Fixed Design
-    option_8:
-        admin_option_name: Magento Fluid Design (incompatible version)
-    option_9:
-        admin_option_name: Magento Iphone
-    option_10:
-        admin_option_name: Magento Iphone (HTML5)
-    option_11:
-        admin_option_name: Magento Modern
-    option_12:
         admin_option_name: Modern 2
-    option_13:
+    option_5:
         admin_option_name: Piece of Cake
-    option_14:
+    option_6:
         admin_option_name: Plushe
-    option_15:
+    option_7:
         admin_option_name: Plushe Blue
-    option_16:
+    option_8:
         admin_option_name: Plushe Dark
-    option_17:
+    option_9:
         admin_option_name: Recon
-    option_18:
+    option_10:
         admin_option_name: Skater
-    option_19:
+    option_11:
         admin_option_name: Umecha
-    option_20:
+    option_12:
         admin_option_name: Upstream
-    default_value: Magento Blank
-    set_default_value: Magento Blank
+    default_value: -- Please Select --
+    default_control_value: -- Please Select --
 
 system_attributes:
     attribute_0:

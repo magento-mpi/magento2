@@ -32,7 +32,7 @@ class Saas_Search_Helper_Data extends Enterprise_Search_Helper_Data
      */
     public function getSolrServers()
     {
-        $path = $this->getSolrConfigData('server_path');
+        $path = (string)$this->getSolrConfigData('server_path');
         $servers = $this->_config->getNode('global/search/solr/servers')->asArray();
         $serversArray = array();
         foreach ($servers as $type => $group) {

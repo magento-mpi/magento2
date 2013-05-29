@@ -41,7 +41,7 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
 
     /**
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage The module 'Mage_Core' cannot be enabled without one of PHP extensions: 'version - v.1'
+     * @expectedExceptionMessage The module 'Mage_Core' cannot be enabled. One of PHP extensions: 'version - v.1'
      */
     public function testLoadMissingExtensions()
     {

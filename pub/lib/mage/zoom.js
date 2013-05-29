@@ -1201,7 +1201,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
     $.fn.magentoZoom.defaults = {
         main: {
             activeTrackClass: 'zoom-activated',
-            selector: '#main-image',
+            selector: '[data-role=base-image-zoom]',
             prefix: 'magento-zoom'
         },
         lens: {

@@ -67,6 +67,7 @@ jQuery(function ($) {
         saveOriginAddress = $('#action-origin-address-save'),
         cancelOriginAddress = $('#action-origin-address-cancel'),
         messagePlaceholder = $('#shipping-origin-address-view-title'),
+        originAddressWrapper = $('#shipping-origin-address-wrapper'),
         insertValidationMessage = function(messageText, messageType) {
             $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
                     .insertAfter(messagePlaceholder);
@@ -93,17 +94,15 @@ jQuery(function ($) {
             if (!drawerForm.valid()) {
                 return;
             }
-            originAddressForm.addClass('loading');
 
             $.ajax({
                 type: 'POST',
                 data: drawerForm.serializeArray(),
                 dataType: 'json',
                 showLoader: true,
-                context: originAddressForm,
+                context: originAddressWrapper,
                 url: $(this).attr('data-save-url')
             }).success(function(result, status) {
-                    originAddressForm.removeClass('loading');
                     if (result && result.error_message) {
                         insertValidationMessage(result.error_message, 'error');
                     } else {

@@ -141,7 +141,7 @@ product_page:
                         xpath: //div[@class='box-collateral box-related' or @class='block block-related']
                         links:
                             related_select_all: //*[text()='select all']
-                            related_product: //a[text()='%productName%']
+                            related_product: //a[normalize-space(text())='%productName%']
                 -
                     related_product: &related_product
                         xpath: //div[@class='box-collateral box-related' or @class='block block-related']//li[*//a[text()='%productName%']]
@@ -164,7 +164,7 @@ product_page:
                     upsells: &upsells
                         xpath: //div[@class='box-collateral box-up-sell']
                         links:
-                            up_sells_product: //div[@class='box-collateral box-up-sell']//a[text()='%productName%']
+                            up_sells_product: //a[normalize-space(text())='%productName%']
                 -
                     upsells_product: &upsells_product
                         xpath: //td[*//a[text()='%productName%']]
