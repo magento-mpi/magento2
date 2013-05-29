@@ -10404,7 +10404,7 @@ CREATE TABLE IF NOT EXISTS `vde_theme_change` (
   PRIMARY KEY (`change_id`),
   INDEX `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
   CONSTRAINT `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Editor Theme Change'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Editor Theme Change';
 
 # Dumping data for table vde_theme_change: ~0 rows (approximately)
 
