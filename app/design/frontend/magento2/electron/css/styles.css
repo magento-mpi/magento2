@@ -3525,20 +3525,18 @@ select:disabled {
 }
 .products.minilist.animation {
   position: relative;
+  /*&:after {
+            content:'moving';
+            position: absolute;
+            z-index: 999;
+            top:0; left:0; bottom:0; right:0;
+            background: #fff;
+            opacity: 0.01;
+        }*/
+
 }
 .products.minilist.animation .items-wrapper {
   overflow: hidden;
-}
-.products.minilist.animation:after {
-  content: 'moving';
-  position: absolute;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: #fff;
-  opacity: 0.01;
 }
 .products.minilist.animation .item {
   visibility: visible;
@@ -3641,6 +3639,25 @@ select:disabled {
   content: "\e002";
   font-size: 16px;
   font-family: "cake-icons";
+}
+.eq-ie8 .block.minicart .products.minilist .action.delete,
+.eq-ie8 .block.minicart .products.minilist .action.edit {
+  visibility: hidden;
+}
+.eq-ie8 .block.minicart .products.minilist .shown .action.delete,
+.eq-ie8 .block.minicart .products.minilist .shown .action.edit {
+  visibility: visible;
+}
+.eq-ie8 .block.minicart .products.minilist .shown.item .pricing:not(.complex) .rate .qty,
+.eq-ie8 .block.minicart .products.minilist .shown.item .pricing:not(.complex) .details .qty {
+  visibility: visible;
+}
+.eq-ie8 .block.minicart .products.minilist .item .pricing:not(.complex) .rate .qty,
+.eq-ie8 .block.minicart .products.minilist .item .pricing:not(.complex) .details .qty {
+  visibility: hidden;
+}
+.eq-ie8 .block.minicart .products.minilist .item:before {
+  border-left: 0;
 }
 .action.delete {
   display: inline-block;

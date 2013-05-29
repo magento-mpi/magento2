@@ -270,7 +270,7 @@
             overflow: hidden;
         }
         position: relative;
-        &:after {
+        /*&:after {
             content: 'moving';
             position: absolute;
             z-index: 990;
@@ -280,7 +280,7 @@
             right: 0;
             background: @light;
             opacity: 0.01;
-        }
+        }*/
         .item {
             visibility: visible;
         }
@@ -368,6 +368,24 @@
             &:hover {
                 background: none;
             }
+        }
+    }
+}
+
+.eq-ie8 .block.minicart {
+    .action.delete,
+    .action.edit {
+        visibility: hidden;
+    }
+    .shown {
+        .action.delete,
+        .action.edit {
+            visibility: visible;
+        }
+    }
+    .item {
+        &:before {
+            border-left: 0;
         }
     }
 }
