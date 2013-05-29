@@ -25,12 +25,18 @@ class Mage_Backend_Model_Config_Backend_Image_AdapterTest extends Mage_Backend_A
     /**
      * @expectedException Mage_Core_Exception
      * expectedExceptionMessage  The specified image adapter cannot be used because of some missed dependencies.
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      */
     public function testExceptionSave()
     {
         $this->_model->setValue('wrong')->save();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     */
     public function testCorrectSave()
     {
         $this->_model->setValue(Mage_Core_Model_Image_AdapterFactory::ADAPTER_GD2)->save();

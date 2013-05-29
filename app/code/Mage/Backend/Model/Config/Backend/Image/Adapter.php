@@ -44,9 +44,9 @@ class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Co
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_imageFactory = $imageFactory;
         $this->_helper = $helper;
-        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
