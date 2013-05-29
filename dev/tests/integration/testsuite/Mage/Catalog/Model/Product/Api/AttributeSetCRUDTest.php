@@ -62,7 +62,6 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
         $this->assertGreaterThan(0, $createdAttrSetId);
 
         // Duplicate name exception test
-
         Magento_Test_Helper_Api::callWithException(
             $this,
             'catalogProductAttributeSetCreate',
@@ -94,7 +93,6 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
                 'productData' => $productData['productData']
             )
         );
-
 
         Magento_Test_Helper_Api::callWithException(
             $this,
@@ -175,7 +173,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
             );
             Magento_Test_Helper_Api::restoreErrorHandler();
             $this->fail("Didn't receive exception!");
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             Magento_Test_Helper_Api::restoreErrorHandler();
         }
 

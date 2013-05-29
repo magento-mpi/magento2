@@ -50,14 +50,10 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testCreateLimitationReached()
     {
-        try {
-            $this->_createProductWithApi(require __DIR__ . '/_files/_data/simple_product_data.php');
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->fail();
-        } catch (SoapFault $exception) {
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->assertEquals('Maximum allowed number of products is reached.', $exception->getMessage());
-        }
+        $formattedData = $this->_prepareProductDataForSoap(require __DIR__ . '/_files/_data/simple_product_data.php');
+        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData,
+            'Maximum allowed number of products is reached.'
+        );
     }
 
     /**
@@ -338,7 +334,6 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate',
             $productData, 'Product attribute set does not exist.'
         );
-
 
         // find not product (category) attribute set identifier to try other error message
         /** @var $entity Mage_Eav_Model_Entity_Type */

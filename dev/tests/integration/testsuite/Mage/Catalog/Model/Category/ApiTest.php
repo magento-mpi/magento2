@@ -405,18 +405,12 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
          */
         $params = $categoryFixture['update'];
         $params['categoryId'] = 9999;
-        try {
-            $result = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $params);
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->fail();
-        } catch (SoapFault $e) {
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            //make result like in response
-            $result = array(
-                'faultcode' => $e->faultcode,
-                'faultstring' => $e->faultstring
-            );
-        }
+        $exception = $result = Magento_Test_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
+        //make result like in response
+        $result = array(
+            'faultcode' => $exception->faultcode,
+            'faultstring' => $exception->faultstring
+        );
 
         $category->load($categoryId);
         //name must has old value
@@ -434,19 +428,13 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
          */
         $params['categoryId'] = $categoryId;
         $params['categoryData']->custom_layout_update =
-            $categoryFixture['vulnerability']['categoryData']->custom_layout_update;
-        try {
-            $result = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $params);
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->fail();
-        } catch (SoapFault $e) {
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            //make result like in response
-            $result = array(
-                'faultcode' => $e->faultcode,
-                'faultstring' => $e->faultstring
-            );
-        }
+        $categoryFixture['vulnerability']['categoryData']->custom_layout_update;
+        $exception = Magento_Test_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
+        $result = array(
+            'faultcode' => $exception->faultcode,
+            'faultstring' => $exception->faultstring
+        );
+
         $category->load($categoryId);
 
         //"103" is code error when data validation is not passed
@@ -460,21 +448,15 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testRootCategoryDeleteViaHandler()
     {
-        try {
-            $result = Magento_Test_Helper_Api::call(
-                $this,
-                'catalogCategoryDelete',
-                array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID)
-            );
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $this->fail();
-        } catch (SoapFault $e) {
-            Magento_Test_Helper_Api::restoreErrorHandler();
-            $result = array(
-                'faultcode' => $e->faultcode,
-                'faultstring' => $e->faultstring
-            );
-        }
+        $exception = Magento_Test_Helper_Api::callWithException(
+            $this,
+            'catalogCategoryDelete',
+            array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID)
+        );
+        $result = array(
+            'faultcode' => $exception->faultcode,
+            'faultstring' => $exception->faultstring
+        );
 
         $this->assertInternalType('array', $result);
         $this->assertEquals(105, $result['faultcode'], 'Fault code is not right.');

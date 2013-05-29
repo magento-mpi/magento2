@@ -85,7 +85,6 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
             'salesOrderCreditmemoCancel',
             array('creditmemoIncrementId' => $creditMemoIncrement)
         );
-
     }
 
     /**
