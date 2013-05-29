@@ -1464,6 +1464,7 @@
     margin: 0 2% 10px 0;
 }
 
+.payment-config[data-payment-method="payflow-pro"] .field,
 .payment-config[data-payment-method="payments-advanced"] .field {
     float: none;
 }
@@ -1478,10 +1479,6 @@
     margin-left: -2px;
 }
 
-.payment-config[data-payment-method="payments-advanced"]  .field + .field + .actions {
-    width: 25%;
-}
-
 .payment-config .actions {
     clear: left;
     width: 25%;
@@ -1492,6 +1489,11 @@
 
 .payment-config .field + .field + .actions  {
     width: 52%;
+}
+
+.payment-config[data-payment-method="payflow-pro"] .field + .field + .actions,
+.payment-config[data-payment-method="payments-advanced"] .field + .field + .actions {
+    width: 25%;
 }
 
 .price-plan {
