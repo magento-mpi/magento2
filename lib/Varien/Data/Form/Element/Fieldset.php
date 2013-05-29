@@ -11,9 +11,6 @@
 /**
  * Form fieldset
  *
- * @method string setAdvancedLabel()
- * @method string getAdvancedLabel()
- *
  * @category   Varien
  * @package    Varien_Data
  * @author      Magento Core Team <core@magentocommerce.com>
