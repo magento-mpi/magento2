@@ -16,6 +16,7 @@
             <active>false</active>
             <depends>
                 <Mage_Customer/>
+                <Enterprise_Checkout/>
             </depends>
         </Enterprise_CustomerBalance>
     </modules>

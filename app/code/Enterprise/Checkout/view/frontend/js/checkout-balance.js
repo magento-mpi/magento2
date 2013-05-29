@@ -1,13 +1,12 @@
 /**
  * {license_notice}
  *
- * @category    EE
  * @package     EE_Checkout_Balance
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($, undefined) {
+(function($) {
     "use strict";
     $.widget('mage.checkoutBalance', {
         /**
