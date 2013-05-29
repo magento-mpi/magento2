@@ -148,7 +148,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode', $storeId));
-        $params['merchant_version'] = (string)Mage::getConfig()->getOptions()->getData('tenant_version');
+        $params['merchant_version'] = '2.0.0.0.0';
 
         $sourceUrl .= '?' . http_build_query($params);
 
