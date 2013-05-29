@@ -10396,6 +10396,21 @@ CREATE TABLE IF NOT EXISTS `tax_order_aggregated_updated` (
 
 
 
+# Dumping structure for table vde_theme_change
+CREATE TABLE IF NOT EXISTS `vde_theme_change` (
+  `change_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Theme Change Identifier',
+  `theme_id` INT(10) UNSIGNED NOT NULL COMMENT 'Theme Id',
+  `change_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Change Time',
+  PRIMARY KEY (`change_id`),
+  INDEX `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
+  CONSTRAINT `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Editor Theme Change'
+
+# Dumping data for table vde_theme_change: ~0 rows (approximately)
+
+
+
+
 # Dumping structure for table weee_discount
 CREATE TABLE IF NOT EXISTS `weee_discount` (
   `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
