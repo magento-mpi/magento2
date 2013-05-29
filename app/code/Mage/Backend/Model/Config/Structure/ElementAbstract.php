@@ -156,13 +156,13 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     public function isVisible()
     {
         $showInScope = array(
-            Mage_Backend_Model_Config_ScopeDefiner::SCOPE_STORE => $this->_getVisibilityValue('showInStore'),
-            Mage_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE => $this->_getVisibilityValue('showInWebsite'),
-            Mage_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT => $this->_getVisibilityValue('showInDefault'),
+            Mage_Backend_Model_Config_ScopeDefiner::SCOPE_STORE => $this->_hasVisibilityValue('showInStore'),
+            Mage_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE => $this->_hasVisibilityValue('showInWebsite'),
+            Mage_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT => $this->_hasVisibilityValue('showInDefault'),
         );
 
         if ($this->_application->isSingleStoreMode()) {
-            $result = !$this->_getVisibilityValue('hide_in_single_store_mode')
+            $result = !$this->_hasVisibilityValue('hide_in_single_store_mode')
                 && array_sum($showInScope);
             return $result;
         }
@@ -176,7 +176,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      * @param string $key
      * @return bool
      */
-    protected function _getVisibilityValue($key)
+    protected function _hasVisibilityValue($key)
     {
         return isset($this->_data[$key]) && $this->_data[$key];
     }
