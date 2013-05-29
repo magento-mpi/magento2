@@ -202,7 +202,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $data = require __DIR__ . '/_files/ProductData.php';
 
         //generate numeric sku
-        $data['create_with_attributes_soapv2']->sku = rand(1000000, 99999999);
+        $data['create_with_attributes_soapv2']['sku'] = rand(1000000, 99999999);
 
         $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create']);
 
