@@ -11,9 +11,6 @@
 /**
  * Form fieldset
  *
- * @method Saas_Launcher_MoVarien_Data_Form_Element_Fieldsetdel_Tile setAdvancedLabel()
- * @method Saas_Launcher_MoVarien_Data_Form_Element_Fieldsetdel_Tile getAdvancedLabel()
- *
  * @category   Varien
  * @package    Varien_Data
  * @author      Magento Core Team <core@magentocommerce.com>
