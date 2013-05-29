@@ -103,7 +103,7 @@ class Saas_Saas_Model_Tenant_Config
         if (empty($tenantData['maintenance_mode'])) {
             $tenantData['maintenance_mode'] = array('url' => 'http://golinks.magento.com/noStore');
             //TODO remove previous line and uncomment the following once TMT changes in MAGETWO-9307 are deployed
-//            throw new InvalidArgumentException('Maintenance url is not specified');
+            //throw new InvalidArgumentException('Maintenance url is not specified');
         }
         $this->_maintenanceMode = $tenantData['maintenance_mode'];
     }
