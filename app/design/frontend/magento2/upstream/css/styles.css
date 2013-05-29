@@ -6641,14 +6641,15 @@ body.account .page.title > .action.disabled:active {
   clear: both;
 }
 .cart.container > .wrapper {
-  display: inline;
-  float: left;
-  width: 66.66666666666666%;
-  margin: 0 0%;
+  display: inline-block;
+  padding-right: 10px;
+  width: 610px;
+  margin: 0;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  padding-right: 10px;
+  padding-right: 27px;
+  vertical-align: top;
 }
 .cart.container > .wrapper .cart.items > .cart.item:nth-child(even) {
   background: #f2f2f2;
@@ -6744,10 +6745,10 @@ body.account .page.title > .action.disabled:active {
   color: #000000;
 }
 .cart.container > .summary {
-  display: inline;
-  float: left;
-  width: 33.33333333333333%;
-  margin: 0 0%;
+  position: relative;
+  display: inline-block;
+  width: 365px;
+  margin: 31px 0 0 0;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -6853,6 +6854,17 @@ body.account .page.title > .action.disabled:active {
 }
 .cart.container > .summary .checkout.methods .action.checkout {
   margin-top: 5px;
+}
+.cart > .summary.fixed,
+.cart.container > .summary > .container.fixed {
+  margin-left: 4px;
+  position: fixed;
+  top: 0;
+}
+.cart.container > .summary.bottom {
+  position: absolute;
+  vertical-align: bottom;
+  bottom: 0;
 }
 /*
     CMS Pages
