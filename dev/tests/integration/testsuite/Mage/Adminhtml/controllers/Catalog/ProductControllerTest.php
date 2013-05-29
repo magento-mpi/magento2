@@ -151,8 +151,9 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
      */
     protected function _getCreateRestrictedMessage()
     {
-        return 'Sorry, you are using all the products your account allows. ' .
-            'To add more, first delete a product or upgrade your service.';
+        /** @var Mage_Catalog_Model_Product_Limitation $limitation */
+        $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
+        return $limitation->getCreateRestrictedMessage();
     }
 
     /**

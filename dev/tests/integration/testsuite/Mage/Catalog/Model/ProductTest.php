@@ -93,8 +93,9 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     protected function _getCreateRestrictedMessage()
     {
-        return 'Sorry, you are using all the products your account allows. ' .
-            'To add more, first delete a product or upgrade your service.';
+        /** @var Mage_Catalog_Model_Product_Limitation $limitation */
+        $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
+        return $limitation->getCreateRestrictedMessage();
     }
 
     public function testCleanCache()

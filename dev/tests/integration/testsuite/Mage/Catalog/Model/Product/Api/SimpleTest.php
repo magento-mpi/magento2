@@ -47,11 +47,12 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     /**
      * @magentoConfigFixture limitations/catalog_product 1
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     * @expectedException SoapFault
-     * @expectedExceptionMessage Sorry, you are using all the products your account allows.
      */
     public function testCreateLimitationReached()
     {
+        /** @var Mage_Catalog_Model_Product_Limitation $limitation */
+        $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
+        $this->setExpectedException('SoapFault', $limitation->getCreateRestrictedMessage());
         $this->_createProductWithApi(require __DIR__ . '/_files/_data/simple_product_data.php');
     }
 

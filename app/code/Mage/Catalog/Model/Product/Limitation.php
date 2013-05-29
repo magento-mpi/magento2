@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Product_Limitation
     public function getCreateRestrictedMessage()
     {
         // @codingStandardsIgnoreStart
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the products your account allows. To add more, first delete a product or upgrade your service.');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the products and variations your account allows. To add more, first delete a product or upgrade your service.');
         // @codingStandardsIgnoreEnd
     }
 }
