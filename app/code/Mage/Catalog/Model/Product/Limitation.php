@@ -52,20 +52,6 @@ class Mage_Catalog_Model_Product_Limitation
     }
 
     /**
-     * Whether adding new product is restricted
-     *
-     * @return bool
-     */
-    public function isNewRestricted()
-    {
-        $limit = $this->getLimit();
-        if ($limit) {
-            return $this->_resource->countAll() + 1 >= $limit;
-        }
-        return false;
-    }
-
-    /**
      * Returns limit for product creation, or NULL if no limit is set
      *
      * @return int|null

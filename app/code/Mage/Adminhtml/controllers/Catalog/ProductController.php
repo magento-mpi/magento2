@@ -543,9 +543,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             /* Verify limitation */
             $numProductsToCreate = $product->getId() ? 0 : 1;
-            if ($variationProducts) {
-                $numProductsToCreate += count($variationProducts);
-            }
+            $numProductsToCreate += count($variationProducts);
             $limitation = $this->_getLimitation();
             if ($limitation->isCreateRestricted($numProductsToCreate)) {
                 $message = Mage::helper('Mage_Catalog_Helper_Data')->__('We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.');

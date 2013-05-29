@@ -311,9 +311,7 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
 
     public static function validateActionOnVariationsLimitReachedDataProvider()
     {
-        // @codingStandardsIgnoreStart
-        $message = 'We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.';
-        // @codingStandardsIgnoreEnd
+        $message = 'You tried to add %d products, but the most you can have is %d.';
         return array(
             'new product' => array(
                 null,
