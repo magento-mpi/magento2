@@ -1471,12 +1471,27 @@
 .payment-config .field.with-tooltip .tooltip {
     margin: -5px 0 0 -10px;
 }
+
+.payment-config[data-payment-method="payflow-link"] .field,
+.payment-config[data-payment-method="payments-advanced"] .field {
+    float: none;
+    position: relative;
+}
+.payment-config .field.with-tooltip .tooltip {
+    margin: -5px 0 0 -10px;
+    top: 27px;
+}
 .payment-config .field.with-tooltip .help {
     width: 15px;
 }
 .tooltip-content {
     min-width: 400px;
     margin-left: -2px;
+}
+
+.payment-config[data-payment-method="payflow-link"]  .field + .field + .actions,
+.payment-config[data-payment-method="payments-advanced"]  .field + .field + .actions {
+    width: 25%;
 }
 
 .payment-config .actions {
