@@ -70,6 +70,31 @@ abstract class Enterprise_Pbridge_Model_Payment_Method_Abstract extends Mage_Pay
     protected $_isAdmin3dSecureSeparate = false;
 
     /**
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @var Mage_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    /**
+     * @var bool|unknown
+     */
+    protected $_isAdmin = false;
+
+    public function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Model_StoreManager $storeManager
+    ) {
+        $this->_helperFactory = $helperFactory;
+        $this->_storeConfig = $storeConfig;
+        $this->_isAdmin = $storeManager->getStore()->isAdmin();
+    }
+
+    /**
      * Return that current payment method is dummy
      *
      * @return boolean
@@ -87,7 +112,9 @@ abstract class Enterprise_Pbridge_Model_Payment_Method_Abstract extends Mage_Pay
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_helperFactory
+                ->get('Mage_Payment_Helper_Data')
+                ->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -120,7 +147,7 @@ abstract class Enterprise_Pbridge_Model_Payment_Method_Abstract extends Mage_Pay
      */
     public function is3dSecureEnabled()
     {
-        if($this->_isAdmin3dSecureSeparate && Mage::app()->getStore()->isAdmin()) {
+        if($this->_isAdmin3dSecureSeparate && $this->_isAdmin) {
             return $this->getConfigData('enable3ds') && $this->getConfigData('enable3ds_backend');
         }
         return (bool)$this->getConfigData('enable3ds');
@@ -191,7 +218,7 @@ abstract class Enterprise_Pbridge_Model_Payment_Method_Abstract extends Mage_Pay
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_storeConfig->getConfig($path, $storeId);
     }
 
     /**
@@ -212,7 +239,7 @@ abstract class Enterprise_Pbridge_Model_Payment_Method_Abstract extends Mage_Pay
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return $this->_isAdmin ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
@@ -312,7 +339,9 @@ abstract class Enterprise_Pbridge_Model_Payment_Method_Abstract extends Mage_Pay
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_helperFactory
+            ->get('Enterprise_Pbridge_Helper_Data')
+            ->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }
