@@ -48,8 +48,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Theme types group
      */
     const TYPE_PHYSICAL = 0;
-    const TYPE_VIRTUAL = 1;
-    const TYPE_STAGING = 2;
+    const TYPE_VIRTUAL  = 1;
+    const TYPE_STAGING  = 2;
     /**#@-*/
 
     /**

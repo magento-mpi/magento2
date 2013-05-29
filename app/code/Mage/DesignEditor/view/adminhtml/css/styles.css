@@ -1562,7 +1562,7 @@
     border-left: 1pt solid #deddd9;
 }
 
-#vde_toolbar_buttons {
+.vde_toolbar_buttons {
     float: right;
     z-index: 998;
     position: relative;
@@ -1579,7 +1579,7 @@
     font-weight: normal;
 }
 
-#vde_toolbar_buttons a.vde_button,
+.vde_toolbar_buttons a.vde_button,
 .action-switch-mode {
     display: block;
     border: 1px solid #c9c6be;
@@ -1595,23 +1595,23 @@
     margin-right: 3px;
 }
 
-#vde_toolbar_buttons a.vde_button:hover,
+.vde_toolbar_buttons a.vde_button:hover,
 .action-switch-mode:hover {
     box-shadow: 0 0 1pt 1pt #c9c6be;
     background-image: url(../images/button_hover.png);
 }
 
-#vde_toolbar_buttons .action-theme-assign {
+.vde_toolbar_buttons .action-theme-assign {
     float: left;
     margin-right: 10px;
     height: 30px;
 }
 
-#vde_toolbar_buttons .actions-split {
+.vde_toolbar_buttons .actions-split {
     margin: 0 20px 0 0;
 }
 
-#vde_toolbar_buttons .actions-split > [class^='action-'] {
+.vde_toolbar_buttons .actions-split > [class^='action-'] {
     line-height: 20px;
 }
 

@@ -586,6 +586,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $saveButtonBlock->setTheme($theme)
                 ->setMode($mode);
         }
+        /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit */
+        $editButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_edit');
+        if ($editButtonBlock) {
+            $editButtonBlock->setTheme($editableTheme);
+        }
 
         /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
         $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');

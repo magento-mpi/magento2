@@ -103,6 +103,7 @@
                     <!-- MAGETWO-7406 - It was asked to hide View Options > Highlight Elements -->
                     <!--block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions" name="design_editor_toolbar_view_options" template="Mage_DesignEditor::editor/toolbar/view_options.phtml" /-->
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml">
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit" name="design_editor_toolbar_buttons_edit" />
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save" />
                     </block>
                 </block>

@@ -88,7 +88,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Disable actions-split functionality if no options provided
      *
-     *
      * @return bool
      */
     public function hasSplit()
