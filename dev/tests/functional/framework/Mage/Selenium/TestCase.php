@@ -51,7 +51,6 @@
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
- * @method Core_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -2435,7 +2434,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
         if (count($headElements) > 1) {
             foreach ($headElements as $element) {
-                if ($element->attribute('class') == 'headings') {
+                if (trim($element->attribute('class')) == 'headings') {
                     $headElement = $element;
                     break;
                 }
@@ -2461,7 +2460,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $columnId = array_search($columnName, $this->getTableHeadRowNames($tableXpath));
         if ($columnId === false) {
-            $this->fail('There is no column with name "' . $columnName . '" in grid');
+            $this->fail('There is no column with name "' . $columnName . '" in grid with locator ' . $tableXpath);
         }
         return $columnId + 1;
     }
@@ -3045,7 +3044,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->focusOnElement($searchElement);
         $searchElement->click();
         $this->pleaseWait();
-        $this->waitForElementVisible(array($noRecordsLocator, $trLocator, $pagerLocator));
+        $this->waitForElement(array($noRecordsLocator, $trLocator, $pagerLocator));
 
         return $this->elementIsPresent($trLocator) ? $trLocator : null;
     }
@@ -4453,15 +4452,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function waitForWindowToClose($countBeforeClose = 2, $timeout = null)
     {
-        $this->waitUntil(
-            function ($testCase) use ($countBeforeClose) {
-                /** @var Mage_Selenium_TestCase $testCase */
-                if (count($testCase->windowHandles()) != $countBeforeClose) {
-                    $testCase->window('');
-                    return true;
-                }
-            }, $timeout
-        );
+        $this->waitUntil(function ($testCase) use ($countBeforeClose) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            if (count($testCase->windowHandles()) == $countBeforeClose - 1) {
+                $testCase->window('');
+                return true;
+            }
+            sleep(1);
+        }, $timeout);
     }
 
     /**

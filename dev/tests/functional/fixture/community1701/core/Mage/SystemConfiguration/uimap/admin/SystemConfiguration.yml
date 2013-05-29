@@ -17,7 +17,7 @@ system_configuration:
         form:
             tabs:
                  -
-                    sales_paypal:
+                    sales_paypal: ~
                  -
                     sales_payment_methods:
                         fieldsets:

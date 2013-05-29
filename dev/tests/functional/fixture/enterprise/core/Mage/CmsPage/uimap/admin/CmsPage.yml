@@ -17,3 +17,12 @@ manage_pages_hierarchy:
 
 create_cms_page:
     title: New Page / Pages / Elements / Content / Magento Admin
+
+edit_cms_page:
+    title: %elementTitle% / Pages / Elements / Content / Magento Admin
+
+save_and_continue_edit_cms_page:
+    title: %elementTitle% / Pages / Elements / Content / Magento Admin
+
+error_cms_page:
+    title: New Page / Pages / Elements / Content / Magento Admin

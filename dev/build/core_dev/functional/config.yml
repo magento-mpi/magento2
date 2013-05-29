@@ -55,7 +55,7 @@ framework:
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: false
-    browserTimeoutPeriod: 40
+    browserTimeoutPeriod: 60
 ################################################################################
 #                                                                              #
 #                  Applications for running tests                              #
@@ -63,14 +63,14 @@ framework:
 ################################################################################
 applications:
     ce: &ce
-        fallbackOrderFixture: 'default'
-        fallbackOrderHelper: 'Core'
+        fallbackOrderFixture: 'community1701, default'
+        fallbackOrderHelper: 'Community1701, Core'
         design_theme: Default/Magento Demo
         ftp: &ftp
-            url: 'localhost'
-            base_dir: ''
-            login: 'admin'
-            password: '123123q'
+            url: '{{selenium_host}}'
+            base_dir: '/'
+            login: 'autotests'
+            password: 'autotests'
         areas:
             admin:
                 url: '{{admin_url}}'
@@ -93,11 +93,11 @@ applications:
                 url: 'https://developer.paypal.com/'
                 base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
-                login: 'ssergunin@ebay.com'
-                password: 'magentoTAF1'
+                login: 'maposov@magento.com'
+                password: 'testPayPal!'
     ee: &ee
-        fallbackOrderFixture: 'enterprise, default'
-        fallbackOrderHelper: 'Enterprise, Core'
+        fallbackOrderFixture: 'enterprise, enterprise11201, community1701, default'
+        fallbackOrderHelper: 'Enterprise, Community1701, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:

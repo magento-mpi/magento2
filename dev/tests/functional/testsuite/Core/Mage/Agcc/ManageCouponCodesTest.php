@@ -24,6 +24,7 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->fillField('coupon_qty', '9');
         $this->clickButton('generate');

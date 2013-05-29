@@ -36,7 +36,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         }
         $this->openConfigurationTab('sales_payment_methods');
         $this->disableAllPaypalMethods();
-        if ($country) {
+        if ($country && $this->controlIsVisible('fieldset', 'merchant_location')) {
             $this->selectPaypalCountry($country, true);
         }
         $forVerify = array();

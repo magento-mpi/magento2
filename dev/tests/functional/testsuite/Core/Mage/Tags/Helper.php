@@ -203,7 +203,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         $tagRowElement = $this->getElement($tagLocator);
         $tagUrl = $tagRowElement->attribute('title');
         //Define and add parameters for new page
-        $cellId = $this->getColumnIdByName('Tag');
+        $cellId = $this->getColumnIdByName('Tag', $this->_getControlXpath('fieldset', $fieldsetName));
         $cellElement = $this->getChildElement($tagRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', "Edit Tag '" . trim($cellElement->text()) . "'");
         $this->addParameter('id', $this->defineIdFromUrl($tagUrl));

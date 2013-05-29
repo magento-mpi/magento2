@@ -159,6 +159,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('id', $this->defineIdFromUrl($widgetUrl));
         //Open Widget
         $this->url($widgetUrl);
+        $this->pleaseWait();
         $this->validatePage('edit_cms_widget');
     }
 

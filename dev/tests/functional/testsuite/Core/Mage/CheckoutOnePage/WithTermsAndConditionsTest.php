@@ -17,6 +17,8 @@
  */
 class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium_TestCase
 {
+    private static $_paypalAccount;
+
     public function setUpBeforeTests()
     {
         $this->markTestIncomplete('MAGETWO-9011');
@@ -44,8 +46,10 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
         $this->systemConfigurationHelper()->configure('TermsAndConditions/terms_and_conditions_frontend_disable');
         $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->deleteAllTerms();
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
+        if (isset(self::$_paypalAccount)) {
+            $this->paypalHelper()->paypalDeveloperLogin();
+            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
+        }
     }
 
     /**
@@ -82,6 +86,7 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
+        self::$_paypalAccount = $accountInfo['email'];
 
         return array(
             'sku' => $simple['general_name'],

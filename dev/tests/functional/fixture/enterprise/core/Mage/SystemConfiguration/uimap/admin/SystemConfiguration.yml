@@ -255,7 +255,7 @@ system_configuration:
                                 customer_customer_segment:
                                     xpath: //fieldset[@id='customer_enterprise_customersegment']
                                     links:                
-                                        customer_customer_segment_link: //parent::div//div[@id='customer_enterprise_customersegment-head']
+                                        customer_customer_segment_link: //parent::div//a[@id='customer_enterprise_customersegment-head']
                                     dropdowns:
                                         enable_customer_segment: //select[@id='customer_enterprise_customersegment_is_enabled']
                 -
@@ -383,7 +383,7 @@ system_configuration:
                                 authorize_net_payment_bridge:
                                     xpath: //fieldset[@id='payment_pbridge_authorizenet']
                                     links:
-                                        authorize_net_payment_bridge_link: //parent::div//div[@id='payment_pbridge_authorizenet-head']
+                                        authorize_net_payment_bridge_link: //parent::div//a[@id='payment_pbridge_authorizenet-head']
                                     dropdowns:
                                         anpb_enabled: //select[@name='groups[pbridge_authorizenet][fields][active][value]']
                                         anpb_enable_cim: //select[@name='groups[pbridge_authorizenet][fields][payment_profiles_enabled][value]']
@@ -391,7 +391,7 @@ system_configuration:
                                 payment_bridge:
                                     xpath: //fieldset[@id='payment_pbridge']
                                     links:
-                                        payment_bridge_link: //parent::div//div[@id='payment_pbridge-head']
+                                        payment_bridge_link: //parent::div//a[@id='payment_pbridge-head']
                                     fields:
                                         pb_merchant_code: //input[@name='groups[pbridge][fields][merchantcode][value]']
                                         pb_merchant_key: //input[@name='groups[pbridge][fields][merchantkey][value]']

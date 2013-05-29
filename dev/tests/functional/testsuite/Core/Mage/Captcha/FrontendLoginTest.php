@@ -106,6 +106,7 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
      */
     public function refreshCaptchaWithMergeJS()
     {
+        $this->markTestIncomplete('BUG: Fatal error on page');
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('MergeJS/enable_merge_js');

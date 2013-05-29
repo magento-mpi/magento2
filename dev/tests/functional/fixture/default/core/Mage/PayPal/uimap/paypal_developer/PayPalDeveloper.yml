@@ -23,7 +23,7 @@ paypal_developer_home:
                 #PayPal Login popup
                 -
                     login_form:
-                        xpath: //form
+                        xpath: //*[@id='PPA']//form
                         buttons:
                             login: //input[@value='Log In']
                         checkboxes:

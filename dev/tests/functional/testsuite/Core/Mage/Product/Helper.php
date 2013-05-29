@@ -1911,6 +1911,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
             return;
         }
+        $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
         $this->fillCheckbox($type . '_select_all', 'No');
         if (!$saveChanges) {
             return;

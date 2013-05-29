@@ -59,22 +59,27 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     public function paypalDeveloperLogin()
     {
         try {
-            $this->goToArea('paypal_developer', 'paypal_developer_home', false);
+            $this->goToArea('paypal_developer', 'paypal_developer_home');
         } catch (Exception $e) {
             $this->skipTestWithScreenshot($e->getMessage());
         }
-        $loginData = array(
-            'login_email' => $this->getConfigHelper()->getDefaultLogin(),
-            'login_password' => $this->getConfigHelper()->getDefaultPassword()
-        );
-        $this->validatePage();
         if ($this->controlIsPresent('button', 'login_with_paypal')) {
+            $loginData = array(
+                'login_email' => $this->getConfigHelper()->getDefaultLogin(),
+                'login_password' => $this->getConfigHelper()->getDefaultPassword()
+            );
             $this->clickButton('login_with_paypal', false);
             $this->selectLastWindow();
             $this->fillFieldset($loginData, 'login_form');
             $this->getControlElement('button', 'login')->click();
+            $this->waitForElementVisible(array(
+                $this->_getControlXpath('pageelement', 'loadingHolder'),
+                $this->_getMessageXpath('general_validation')
+            ));
+            $error = $this->errorMessage();
+            $validation = $this->validationMessage();
+            $this->assertFalse($error['success'] || $validation['success'], $this->getMessagesOnPage());
             $this->waitForWindowToClose();
-            $this->validatePage();
             $this->waitForControlVisible('button', 'logout');
         }
         $result = $this->errorMessage();

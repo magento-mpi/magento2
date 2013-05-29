@@ -28,13 +28,10 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function frontAddProductToCart($dataForBuy = null)
     {
-        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
-        $customizeFieldset = $this->_getControlXpath('fieldset', 'customize_product_info');
-        if ($customize) {
-            $productInfoFieldset = $this->_getControlXpath('fieldset', 'product_info');
+        if ($this->controlIsPresent('button', 'customize_and_add_to_cart')) {
             $this->clickButton('customize_and_add_to_cart', false);
-            $this->waitForElementVisible($customizeFieldset);
-            $this->waitForElement($productInfoFieldset . "/parent::*[@style='display: none;']");
+            $this->waitForControlVisible('fieldset', 'customize_product_info');
+            $this->waitForControlNotVisible('fieldset', 'product_info');
         }
         parent::frontAddProductToCart($dataForBuy);
     }

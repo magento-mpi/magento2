@@ -339,9 +339,6 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
     {
-        if ($product !== 'configurable') {
-            $this->markTestIncomplete('BUG: options is not saved after add to wishlist for bundle,grouped,downloadable');
-        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -568,7 +565,6 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlist($testData)
     {
-        $this->markTestIncomplete('BUG: custom options is not saved after add to wishlist');
         $productName = $testData['withCustomOption'];
         $options = $this->loadDataSet('Product', 'custom_options_to_add_to_shopping_cart');
         $this->customerHelper()->frontLoginCustomer($testData['user']);

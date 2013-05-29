@@ -42,6 +42,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         //Verification
         $this->addParameter('defaultValue', $defaultValue);
@@ -65,6 +66,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
@@ -89,6 +91,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
@@ -113,6 +116,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
@@ -148,6 +152,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
