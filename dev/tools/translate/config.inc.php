@@ -344,11 +344,6 @@ $CONFIG['translates'] = array(
     'translate' => array(
         'app/design/frontend/base/default/template/callouts/',
     ),
-    'Phoenix_Moneybookers' => array(
-        'app/code/Phoenix/Moneybookers/',
-        'app/design/frontend/base/default/template/moneybookers/',
-        'app/design/frontend/base/default/layout/moneybookers.xml',
-    ),
     'Enterprise_AdminGws' => array(
         'app/code/Enterprise/AdminGws/',
         'app/design/adminhtml/default/default/layout/enterprise/admingws.xml',
@@ -637,7 +632,6 @@ $CONFIG['helpers']  = array(
     'weee'              => 'Mage_Weee',
     'wishlist'          => 'Mage_Wishlist',
     'widget'            => 'Mage_Widget',
-    'moneybookers'      => 'Phoenix_Moneybookers',
     'enterprise_admingws'           => 'Enterprise_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',
     'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',

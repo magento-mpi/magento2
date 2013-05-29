@@ -50,7 +50,7 @@ class Saas_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
         $this->_cacheMock = $this->getMock('Mage_Core_Model_Config_Cache',
             array(), array(), '', false, false);
-        $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Queue_HandlerInterface',
+        $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Event_HandlerInterface',
             array(), array(), '', false, false);
         $this->_eventFactoryMock = $this->getMock('Varien_EventFactory',
             array('create'), array(), '', false, false);

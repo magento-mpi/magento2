@@ -38,21 +38,10 @@
         },
 
         _createDropdown: function() {
-            this.dropdown = $('<li />', {
-                class: 'level0 level-top parent more'
-            });
-            this.dropdownLabel = $('<a />', {
-                href: '#',
-                class: 'level-top',
-                html: '<span>' + $.mage.__(this.options.dropdownLabel) + '</span>'
-            });
-            this.dropdownSubmenu = $('<div />', {
-                class: 'submenu'
-            });
-            this.dropdownItems = $('<ul />', {
-                class: 'level0',
-                html: this._getHiddenLinks()
-            });
+            this.dropdown = $('<li class="level0 level-top parent more"></li>');
+            this.dropdownLabel = $('<a href="#" class="level-top"><span>' + $.mage.__(this.options.dropdownLabel) + '</span></a>');
+            this.dropdownSubmenu = $('<div class="submenu"></div>');
+            this.dropdownItems = $('<ul class="level0">' + this._getHiddenLinks() + '</ul>');
 
             this.dropdownSubmenu
                 .append(this.dropdownItems);
@@ -68,7 +57,6 @@
         },
 
         _destroyDropdown: function() {
-            console.log('destroy', this.dropdown);
             this.dropdown && this.dropdown.remove();
             $('.level0.hidden', this.element)
                 .removeClass('hidden')
@@ -88,19 +76,17 @@
         _getHiddenLinks: function() {
             var totalWidth = 0;
 
-            this.hiddenLinks = [];
+            this.hiddenLinks = $('<div></div>');
 
             $.each(this.topLinks, $.proxy(function(index, item) {
                 totalWidth += $(item).outerWidth(true);
                 if (totalWidth + 50 >= this.element.outerWidth(true)) {
-                    this.hiddenLinks.push($(item).clone().attr({
-                        class: 'column'
-                    }));
+                    this.hiddenLinks.append($(item).clone().attr('class', 'column'));
                     $(item).addClass('hidden').hide();
                 }
             }, this));
 
-            return this.hiddenLinks;
+            return this.hiddenLinks.html();
         }
     });
 
@@ -291,7 +277,6 @@
                     for (var i=perpage; i < items.length; i++) {
                         $(items[i + page*perpage]).addClass('hidden');
                     };
-                    console.log(i);
                     previous.removeAttr('disabled');
                     if (page == pages) {
                         next.attr('disabled', 'disabled');
@@ -346,7 +331,7 @@
             $('.customer.welcome > .customer').dropdown({menu:'.customer.welcome > .menu'});
         };
 
-        if ($('.checkout-cart-index').length > 0) {
+        if ($('body').hasClass('checkout-cart-index')) {
             $('.cart.summary > .block > .title').dropdown({autoclose:false, menu:'.title + .content'});
             if ($('#co-shipping-method-form .fieldset.rates').length > 0 && $('#co-shipping-method-form .fieldset.rates :checked').length === 0 ) {
                 $('.block.shipping > .title').addClass('active');

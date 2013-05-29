@@ -81,6 +81,8 @@
                 $(this).css('top', 'auto');
             });
 
+            this.panelTab.on('click.tab.data-api', $.proxy(this._onPanelTabClick, self));
+
             this.panelTab.on('shown', function () {
                 if (self.panel.hasClass(self.options.openedPanelClass)) {
                     self._recalcDataHeight(self.options.panelDefaultHeight);
@@ -107,6 +109,22 @@
             this.btnCloseMsg.live('click.hideVDEMessage', $.proxy(function(e) {
                 $(e.target).parents('.vde-message')[0].remove();
             }, this));
+        },
+        /**
+         * Panel tab click event handler.
+         * Fire an event to determine if inline translation text is being edited.
+         * @protected
+         */
+        _onPanelTabClick: function(event) {
+            var data = {
+                next_action: this.options.panelTab,
+                alert_message: "To switch modes, please save or revert your current text edits."
+            };
+            $('[data-frame="editor"]').trigger('modeChange', data);
+
+            if (data.is_being_edited) {
+                event.stopPropagation();
+            }
         },
         /**
          * Toggle hasScroll class if scroll is necessary

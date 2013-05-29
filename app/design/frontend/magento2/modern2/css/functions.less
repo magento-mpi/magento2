@@ -44,6 +44,20 @@
     transition-delay: @delay;
 }
 
+// The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack/
+.clearfix() {
+    *zoom:1;
+
+    &:before,
+    &:after {
+        content:"";
+        display:table;
+    }
+    &:after {
+        clear:both;
+    }
+}
+
 .borderBox() {
     -webkit-box-sizing: border-box; // Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    // Firefox, other Gecko */
@@ -79,12 +93,10 @@
 }
 
 // * assign comfortaa uppercased font 
-.customFont(@size: 12px, @transform: uppercase, @spacing: 0.1em) {
-    font-size: @size;
-    font-family: "comfortaa", Arial, Helvetica, sans-serif;
-    font-weight: 400;
-    text-transform: @transform;
+.customFont(@size: 12px, @transform: uppercase, @spacing: 0.1em, @fontWeight: 400) {
+    font: @fontWeight @size @headingsFont, Arial, Helvetica, sans-serif;
     letter-spacing: @spacing;
+    text-transform: @transform;
 }
 
 .resetAction() {

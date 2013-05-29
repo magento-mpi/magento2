@@ -127,6 +127,15 @@
             margin-right: 15px;
         }
     }
+    .title .qty {
+        color: @primary1;
+        &:before {
+            content: '(';
+        }
+        &:after {
+            content: ')';
+        }
+    }
 }
 
 // *
@@ -147,6 +156,7 @@
 }
 
 .data.comparison {
+    table-layout: fixed;
     border-collapse: separate;
     .cell {
         padding: 15px;
@@ -157,12 +167,21 @@
             font-weight: 600;
             text-align: left;
             border-right: 1px solid @primary1;
+            .attribute.label {
+              display: block;
+              width: 100%;
+              word-break:break-all;
+            }
             &.product {
                 width: 150px;
             }
         }
         p:first-child {
             margin-top: 0;
+        }
+        .attibute.value {
+          width: 100%;
+          overflow: hidden;
         }
         &.product {
             font-size: 12px;
@@ -179,7 +198,7 @@
             }
         }
         .attribute {
-          font-size: 12px;
+            font-size: 12px;
         }
     }
     td:last-child {
@@ -223,8 +242,8 @@
 // *
 //----------------------------------------------------------------------------- */
 
-.block.compared,
-.block.viewed.links {
+.sidebar .block.compared,
+.sidebar .block.viewed.links {
     ol {
         list-style: none;
         margin: 0;
@@ -607,8 +626,6 @@
             margin-bottom: 10px;
             > .photo {
                 display: block;
-                margin: 0 auto;
-                max-width: 100%;
                 margin: 0 9px 0 0;
                 img {
                     max-width: 100%;
@@ -680,11 +697,6 @@
                 .action {
                     padding: 6px 10px;
                     display: inline-block;
-                    vertical-align: top;
-                    span:before {
-                        margin-top: -2px;
-                        height: 15px;
-                    }
                 }
             }
         }
@@ -710,7 +722,7 @@
         .product.photo {
             float: none;
             > .photo {
-                margin: 0;
+                margin: 0 auto;
             }
         }
         > .product {
@@ -729,7 +741,8 @@
                     visibility: hidden;
                     opacity: 1;
                     .action.tocart,
-                    .secondary {
+                    .secondary,
+                    .stock.unavailable {
                         visibility: visible;
                     }
                 }
@@ -868,13 +881,8 @@
     }
     span:before {
         content: "\e00a ";
-        font-family: "icons";
-        font-weight: 400;
-        font-size: 13px;
+        font: 400 13px "icons";
         height: 13px;
-        overflow: hidden;
-        vertical-align: top;
-        display: inline-block;
         color: @primary1;
     }
 }

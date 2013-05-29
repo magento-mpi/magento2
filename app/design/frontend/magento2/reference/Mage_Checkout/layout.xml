@@ -90,7 +90,7 @@ Default layout, loads most of the pages
                         <block type="Mage_Checkout_Block_Cart" name="checkout.cart.methods.bottom" template="cart/methods.phtml">
                             <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                                 <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.bottom" template="onepage/link.phtml"/>
-                                <block type="Mage_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
+                                <!-- <block type="Mage_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/> -->
                             </container>
                         </block>
                         <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>
@@ -330,6 +330,9 @@ One page checkout main layout
         <label>One Page Checkout</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><file>Mage_Checkout::js/opcheckout.js</file></action>
         </reference>
         <reference name="content">
             <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">

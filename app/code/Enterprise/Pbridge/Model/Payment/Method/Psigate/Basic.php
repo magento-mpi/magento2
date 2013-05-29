@@ -236,6 +236,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(1);
         return $this;
     }
     /**

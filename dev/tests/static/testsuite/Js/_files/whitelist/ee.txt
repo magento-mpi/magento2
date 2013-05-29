@@ -7,4 +7,5 @@ app/code/Enterprise/Pbridge
 app/code/Enterprise/Rma
 app/code/Enterprise/Wishlist
 app/code/Enterprise/CustomerBalance
+app/code/Enterprise/CatalogEvent/view/frontend/js
 app/design/frontend/enterprise/fixed/js

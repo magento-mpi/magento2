@@ -86,6 +86,13 @@
         <secure_url>
             <tag_customer>/tag/customer/</tag_customer>
         </secure_url>
+        <di>
+            <Mage_Tag_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Tag_Model_Session>
+        </di>
     </frontend>
     <admin>
         <routers>
@@ -135,5 +142,12 @@
                 </tag_report>
             </updates>
         </layout>
+        <di>
+            <Mage_Tag_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Tag_Model_Session>
+        </di>
     </adminhtml>
 </config>

@@ -54,8 +54,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed('Enterprise_ImportExport::enterprise_scheduled_operation');
+        return $this->_authorization->isAllowed('Enterprise_ImportExport::enterprise_scheduled_operation');
     }
 
     /**

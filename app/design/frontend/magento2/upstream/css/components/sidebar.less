@@ -25,7 +25,10 @@
 
 /* Recently viewed block */
 .block.viewed,
-.block.reorder {
+.block.reorder,
+.block.poll,
+.block.new,
+.block.compared {
     .block;
     .product.name {
         font-family: @defaultFont;
@@ -85,7 +88,8 @@
         margin: 0 0 50px 0;
     }
 
-    .widget.new {
+    .widget.new,
+    .block.wishlist {
         .block;
         .products.minilist {
             float: none;
@@ -140,5 +144,37 @@
                 }
             }
         }
+    }
+}
+
+/*
+    Polls
+-------------------------------------- */
+.block.poll {
+    .fieldset {
+        .legend {
+            margin-bottom: -25px;
+            span {
+                font-size: 12px;
+            }
+        }
+    }
+    .choice {
+        padding: 0 3px;
+        margin-bottom: 0;
+        &:nth-child(even) {
+            background: @color7;
+        }
+        .label {
+            float: none;
+            width: auto;
+            span {
+                display: inline;
+            }
+        }
+    }
+    .actions {
+        margin: 10px 0;
+        text-align: right;
     }
 }

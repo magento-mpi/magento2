@@ -62,7 +62,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Name'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment'),
             'index'     => 'name',
             'header_css_class'  => 'col-segment',
             'column_css_class'  => 'col-segment'
@@ -92,7 +92,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         }
 
         $this->addColumn('customer_count', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Customers'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customers'),
             'index'     =>'customer_count',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'

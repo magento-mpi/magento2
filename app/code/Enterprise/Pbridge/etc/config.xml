@@ -69,6 +69,13 @@
                 </enterprise_pbridge>
             </updates>
         </layout>
+        <di>
+            <Enterprise_Pbridge_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Enterprise_Pbridge_Model_Session>
+        </di>
     </frontend>
     <adminhtml>
         <layout>
@@ -88,6 +95,13 @@
                 </observers>
             </admin_system_config_changed_section_payment>
         </events>
+        <di>
+            <Enterprise_Pbridge_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Enterprise_Pbridge_Model_Session>
+        </di>
     </adminhtml>
     <admin>
         <routers>
@@ -210,7 +224,7 @@
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic</model>
-                <active>1</active>
+                <active>0</active>
             </psigate_basic>
         </payment>
     </default>

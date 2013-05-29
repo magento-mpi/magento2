@@ -32,11 +32,20 @@
                 </gearman>
             </adapter>
         </queue>
+        <resources>
+            <enterprise_queue_setup>
+                <setup>
+                    <module>Enterprise_Queue</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </enterprise_queue_setup>
+        </resources>
         <di>
             <preferences>
-                <Mage_Core_Model_Event_InvokerInterface>Enterprise_Queue_Model_Core_Event_InvokerAsynchronous</Mage_Core_Model_Event_InvokerInterface>
-                <Enterprise_Queue_Model_Queue_HandlerInterface>Enterprise_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
-                <Enterprise_Queue_Model_Queue_AdapterInterface>Enterprise_Queue_Model_Queue_Adapter_Gearman</Enterprise_Queue_Model_Queue_AdapterInterface>
+                <Mage_Core_Model_Event_InvokerInterface>Enterprise_Queue_Model_Event_Invoker_Asynchronous</Mage_Core_Model_Event_InvokerInterface>
+                <Enterprise_Queue_Model_QueueInterface>Enterprise_Queue_Model_Queue</Enterprise_Queue_Model_QueueInterface>
+                <Magento_JobQueue_ClientInterface>Magento_JobQueue_Client_Gearman</Magento_JobQueue_ClientInterface>
+                <Magento_JobQueue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_JobQueue_Client_ConfigInterface>
             </preferences>
         </di>
     </global>

@@ -24,9 +24,11 @@
 }
 
 /* Recently viewed block */
+.block.new,
 .block.viewed,
 .block.reorder,
-.block.compared {
+.block.compared,
+.block.poll {
     .block;
     .product.name {
         font-family: @defaultFont;
@@ -88,7 +90,8 @@
         margin: 0 0 50px 0;
     }
 
-    .widget.new {
+    .widget.new,
+    .block.wishlist {
         .block;
         .products.minilist {
             float: none;
@@ -152,5 +155,37 @@
                 }
             }
         }
+    }
+}
+
+/*
+    Polls
+-------------------------------------- */
+.block.poll {
+    .fieldset {
+        .legend {
+            margin-bottom: -20px;
+            span {
+                font-size: 12px;
+            }
+        }
+    }
+    .choice {
+        padding: 3px;
+        margin-bottom: 0;
+        &:nth-child(even) {
+            background: @color7;
+        }
+        .label {
+            float: none;
+            width: auto;
+            span {
+                display: inline;
+            }
+        }
+    }
+    .actions {
+        margin: 10px 0;
+        text-align: right;
     }
 }

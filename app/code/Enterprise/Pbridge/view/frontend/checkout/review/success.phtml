@@ -9,9 +9,7 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
-        $(function() {
-            $('[data-role="review-save"]').trigger('saveOrder');
-        });
-    })(parent.jQuery);
+parent.jQuery(function($) {
+    $('[data-role="review-save"]').trigger('saveOrder');
+});
 </script>

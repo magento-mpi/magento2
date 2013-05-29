@@ -36,7 +36,7 @@
             <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode(); ?>"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/save'); ?>"
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/load'); ?>">
-                <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Edit Products'); ?></span>
+                <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add Products'); ?></span>
             </button>
         </div>
         <footer class="tile-more-info">
@@ -50,30 +50,31 @@
         <?php endif; ?>
     </div>
     <script type="text/javascript">
-        (function ($) {
-            head.js(
-                "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
-                "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
-                function () {
-                    $('#drawer').drawer();
-                    $('#drawer').drawer('setDependencies',
-                        '<?php echo $this->getTileCode() ?>',
-                        [
-                            "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/base-image-uploader.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>",
-                            "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/type-switcher.js') ?>",
-                            "<?php echo $this->getViewFileUrl('Mage_Catalog::js/product-gallery.js') ?>",
-
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.iframe-transport.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/load-image.min.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/canvas-to-blob.min.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload-fp.js') ?>"
-                        ]
-                    );
-                }
-            );
-        })(jQuery);
+    jQuery(function ($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
+            "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
+            function () {
+                $('#drawer').drawer();
+                $('#drawer').drawer('setDependencies',
+                    '<?php echo $this->getTileCode() ?>',
+                    [
+                        "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.iframe-transport.js') ?>",
+                        "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload.js') ?>",
+                        "<?php echo $this->getViewFileUrl('jquery/fileUploader/load-image.min.js') ?>",
+                        "<?php echo $this->getViewFileUrl('jquery/fileUploader/canvas-to-blob.min.js') ?>",
+                        "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload-fp.js') ?>",
+                        "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/base-image-uploader.js') ?>",
+                        "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js') ?>",
+                        "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>",
+                        "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/type-switcher.js') ?>",
+                        "<?php echo $this->getViewFileUrl('Mage_Catalog::js/product-gallery.js') ?>",
+                        "<?php echo $this->getViewFileUrl('mage/adminhtml/browser.js') ?>",
+                        "<?php echo $this->getViewFileUrl('mage/proxy-event.js') ?>"
+                    ]
+                );
+            }
+        );
+    });
     </script>
 </article>

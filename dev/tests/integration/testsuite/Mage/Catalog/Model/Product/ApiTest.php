@@ -29,8 +29,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $expectedProduct->load($productId);
         $fieldsToCompare = array(
             'special_price',
-            'special_price_to',
-            'special_price_from'
+            'special_from_date'
         );
         /** Assert response product equals to actual product data. */
         Magento_Test_Helper_Api::checkEntityFields(
@@ -84,7 +83,12 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             array('simple', 4)
         );
         $this->assertGreaterThan(20, count($attributesList), "Attributes quantity seems to be incorrect.");
-        $oldIdAttributeData = reset($attributesList);
+        $oneAttribute = reset($attributesList);
+        $this->assertArrayHasKey('attribute_id', $oneAttribute);
+        $this->assertArrayHasKey('code', $oneAttribute);
+        $this->assertArrayHasKey('type', $oneAttribute);
+        $this->assertArrayHasKey('required', $oneAttribute);
+        $this->assertArrayHasKey('scope', $oneAttribute);
         $oldIdExpectedData = array(
             'attribute_id' => '89',
             'code' => 'old_id',
@@ -92,7 +96,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'required' => '0',
             'scope' => 'global'
         );
-        $this->assertEquals($oldIdExpectedData, $oldIdAttributeData, "Attribute data from the list is incorrect.");
+        $this->assertContains($oldIdExpectedData, $attributesList);
     }
 
     /**
@@ -142,16 +146,12 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             (object)array('description' => 'something'),
         );
 
-        try {
-            Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductMultiUpdate',
-                array($productIds, $productData)
-            );
-            $this->fail('Expected exception SoapFault has not been thrown');
-        } catch (SoapFault $e) {
-            $this->assertEquals(107, (int)$e->faultcode);
-        }
+        $exception = Magento_Test_Helper_Api::callWithException(
+            $this,
+            'catalogProductMultiUpdate',
+            array($productIds, $productData)
+        );
+        $this->assertEquals(107, (int)$exception->faultcode);
     }
 
     /**
@@ -172,21 +172,17 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        try {
-            Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductMultiUpdate',
-                array($productIds, $productData)
-            );
-            $this->fail('Expected exception SoapFault has not been thrown');
-        } catch (SoapFault $e) {
-            $this->assertEquals(108, (int)$e->faultcode);
-            /** @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load(10);
-            $this->assertEquals($productData[0]->description, $product->getDescription());
-            $product->load(11);
-            $this->assertNotEquals($productData[1]->description, $product->getDescription());
-        }
+        $exception = Magento_Test_Helper_Api::callWithException(
+            $this,
+            'catalogProductMultiUpdate',
+            array($productIds, $productData)
+        );
+        $this->assertEquals(108, (int)$exception->faultcode);
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load(10);
+        $this->assertEquals($productData[0]->description, $product->getDescription());
+        $product->load(11);
+        $this->assertNotEquals($productData[1]->description, $product->getDescription());
     }
 
     /**
@@ -225,20 +221,15 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $numericalProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $numericalProduct->load(2);
 
-        try{
-            Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductInfo',
-                array(
-                    'product' => '12345'
-                )
-            );
-        } catch (SoapFault $e) {
-            $result = array(
-                'faultcode' => $e->faultcode,
-                'faultstring' => $e->faultstring
-            );
-        }
+        $exception = Magento_Test_Helper_Api::callWithException(
+            $this,
+            'catalogProductInfo',
+            array('product' => '12345')
+        );
+        $result = array(
+            'faultcode' => $exception->faultcode,
+            'faultstring' => $exception->faultstring
+        );
 
         $this->assertInternalType('array', $result);
         $this->assertEquals(101, $result['faultcode'], 'Fault code is not right.');
@@ -339,11 +330,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'category_ids',
             'weight',
             'name',
-            'is_returnable',
             'price',
-            'unit_price_unit',
-            'unit_price_base_unit',
-            'unit_price_base_amount',
             'quantity_and_stock_status'
         );
         Magento_Test_Helper_Api::checkEntityFields(
@@ -381,7 +368,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     {
         /*
          * Some product attributes (e.g. tier_price) rely on _origData to determine whether attributes are new (thus,
-         * should be INSERTed into the DB) or updated. Real-world requests works fine because same code contained in
+         * should be inserted into the DB) or updated. Real-world requests works fine because same code contained in
          * Mage_Api_Controller_Action::preDispatch().
          */
         Mage::app()->setCurrentStore('admin');

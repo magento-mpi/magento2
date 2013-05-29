@@ -89,6 +89,12 @@
         </container>
     </adminhtml_catalog_product_reviews>
 
+    <adminhtml_catalog_product_review_edit>
+        <reference name="head">
+            <action method="addJs"><file>Mage_Catalog::js/rating.js</file></action>
+        </reference>
+    </adminhtml_catalog_product_review_edit>
+
     <adminhtml_catalog_product_options>
         <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options" name="admin.product.options"/>
@@ -561,7 +567,7 @@ Additional block in composite_fieldset block dependant on product type
                     </arguments>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='set_name'>
                         <arguments>
-                            <header translate='true' module='Mage_Catalog'>Set Name</header>
+                            <header translate='true' module='Mage_Catalog'>Set</header>
                             <align>left</align>
                             <sortable>1</sortable>
                             <index>attribute_set_name</index>

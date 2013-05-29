@@ -20,7 +20,10 @@
             btnCloseDrawer: '.action-close-drawer',
             btnSaveDrawer: '.action-save-settings',
             drawerTopPosition: '.navigation',
-            stickyHeaderClass: 'fixed'
+            stickyHeaderClass: 'fixed',
+            behaviorFixSelector: '#store-launcher-content,#nav,#system_messages,#action-launch-my-store',
+            urlHash: '',
+            drawerAnimationTime: 1000
         },
 
         _create: function() {
@@ -32,19 +35,18 @@
             this.btnCloseDrawer = $(this.options.btnCloseDrawer);
             this.btnSaveDrawer = $(this.options.btnSaveDrawer);
             this.drawerTopPosition = $(this.options.drawerTopPosition);
-            this._startDrawerClose = false;
             this._bind();
         },
 
         _bind: function() {
-            $('body')
-                .on('click.openDrawer', this.options.btnOpenDrawer, this._setButtonHandler);
+            $('body').on('click.drawer', this.options.btnOpenDrawer, this._setButtonHandler);
 
-            this.btnCloseDrawer
-                .on('click.closeDrawer', $.proxy(this.drawerClose, this));
+            this.btnCloseDrawer.on('click.drawer', function() {
+                window.location.hash = '';
+            });
 
             this.btnSaveDrawer
-                .on('click.saveSettings', $.proxy(function(e) {
+                .on('click.drawer', $.proxy(function(e) {
                 var elem = $(e.currentTarget),
                     drawerForm = $("#drawer-form"),
                     postData;
@@ -69,6 +71,7 @@
                 return true;
             }, this));
 
+            this.options.urlHash = window.location.hash;
             $(window)
                 .scroll($.proxy(this._drawerFixedHeader, this))
                 .hashchange($.proxy(this.handleHash, this))
@@ -122,7 +125,7 @@
             }
         },
 
-        drawerOpen: function() {
+        _drawerOpen: function() {
             var elem = this.element,
                 headerHeight = this.drawerTopPosition.offset().top,
                 bodyHeight = $('body').outerHeight() + 500;
@@ -130,28 +133,23 @@
             elem.trigger('drawerRefresh');
             this._drawerMinHeight();
             window.scrollTo(0, 0);
-            this._startDrawerClose = false;
 
             elem
                 .css('top', bodyHeight)
                 .show()
                 .animate({
                     top: headerHeight
-                }, 1000, 'easeOutExpo', $.proxy(function() {
-                this._drawerFixedHeader();
-                this.drawerFooter.animate({
-                    bottom: 0
-                }, 100);
+                }, this.options.drawerAnimationTime, 'easeOutExpo', $.proxy(function() {
+                    //Just simplified version of 'tabindex' = -1 usage
+                    $(this.options.behaviorFixSelector).hide();
+                    this._drawerFixedHeader();
+                    this.drawerFooter.animate({
+                        bottom: 0
+                    }, 100);
             }, this));
         },
 
-        drawerClose: function() {
-            if (this._startDrawerClose) {
-                return;
-            }
-            this._startDrawerClose = true;
-            window.location.hash = '';
-
+        _drawerClose: function() {
             var elem = this.element,
                 drawerFooter = this.drawerFooter,
                 drawerFooterHeight = drawerFooter.height(),
@@ -174,13 +172,15 @@
                 elem.removeClass(this.options.stickyHeaderClass)
                     .animate({
                         top: bodyHeight
-                    }, 1000, hideDrawer);
+                    }, this.options.drawerAnimationTime, hideDrawer);
             } else {
                 var deltaTop = $(window).scrollTop();
                 elem.animate({
                     top: deltaTop + bodyHeight
-                }, 1000, hideDrawer);
+                }, this.options.drawerAnimationTime, hideDrawer);
             }
+            //Just simplified version of 'tabindex' = 0 usage
+            $(this.options.behaviorFixSelector).show();
         },
 
         setDependencies: function(tileCode, dependencies) {
@@ -225,7 +225,7 @@
         _drawerAfterLoad: function(result, status) {
             if (result.success) {
                 $('.title', this.drawerHeader).text(result.tile_header);
-                this.drawerOpen();
+                this._drawerOpen();
                 $('.drawer-content-inner', this.drawerContent).html(result.tile_content).trigger('contentUpdated');
                 var drawerSwitcher = $('.drawer-content-inner').find('.drawer-switcher');
                 if (drawerSwitcher.length) {
@@ -251,7 +251,6 @@
                 $('#tile-' + result.tile_code).before(result.tile_content).remove();
                 this._handleLaunchStoreButton();
                 window.location.hash = '';
-                this.drawerClose();
             } else if (result && result.error_message) {
                 alert(result.error_message);
             }
@@ -264,9 +263,20 @@
 
         handleHash: function() {
             if (window.location.hash == '' || window.location.hash == '#') {
-                this.drawerClose();
+                this._drawerClose();
+                this.options.urlHash = '';
                 return;
             }
+            if ($.inArray(this.options.urlHash, ['', '#']) == -1) {
+                this._drawerClose();
+                setTimeout($.proxy(this._handleHash, this), this.options.drawerAnimationTime + 100);
+                return;
+            }
+            this._handleHash();
+        },
+
+        _handleHash: function() {
+            this.options.urlHash = window.location.hash;
             var tileCode = window.location.hash.replace('#', ''),
                 tile = $('#tile-' + tileCode),
                 elem = tile.find(this.options.btnOpenDrawer);
@@ -360,7 +370,8 @@
             this._toggleStatus();
         },
 
-        destroy: function() {
+        destroy: function(e) {
+            e.preventDefault();
             this.element.remove();
         },
 

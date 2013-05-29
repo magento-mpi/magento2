@@ -68,7 +68,7 @@
                         </div>
                     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                         <div class="secondary addto links">
-                            <a href="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="action towishlist">
+                            <a href="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="action towishlist" data-action="add-to-wishlist">
                                 <span><?php echo $this->__('Add to Wishlist') ?></span>
                             </a>
                         </div>

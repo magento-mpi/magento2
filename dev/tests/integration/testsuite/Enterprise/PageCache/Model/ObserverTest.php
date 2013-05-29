@@ -47,10 +47,12 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $request->setActionName('view');
 
         $observerData = new Varien_Event_Observer();
+        $arguments = array('request' => $request, 'response' => $response);
+        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => $response)
+                array('context' => $context, 'areaCode' => 'frontend')
             )
         )));
 
@@ -73,21 +75,23 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testProcessPreDispatchCannotProcessRequest()
     {
-        /** @var $restriction Enterprise_PageCache_Model_Processor_Restriction */
-        $restriction = Mage::getSingleton('Enterprise_PageCache_Model_Processor_Restriction');
+        /** @var $restriction Enterprise_PageCache_Model_Processor_RestrictionInterface */
+        $restriction = Mage::getSingleton('Enterprise_PageCache_Model_Processor_RestrictionInterface');
         $restriction->setIsDenied();
 
         $observerData = new Varien_Event_Observer();
+        $arguments = array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response());
+        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response())
+                array('context' => $context, 'areaCode' => 'frontend')
             )
         )));
         $this->_cookie
             ->expects($this->once())
-            ->method('updateCustomerCookies')
-        ;
+            ->method('updateCustomerCookies');
+
         Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         $this->_observer->processPreDispatch($observerData);
         $this->assertFalse(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());

@@ -14,23 +14,22 @@
     .clearfix;
     .pageWidth;
     margin-top: 14px;
+    position: relative;
     a {
         font: 14px/1.333 @font1;
         text-transform: capitalize;
         .colorA(@color13, @color1);
     }
-
-
     > ul {
         background-image: url(../images/header-bg.png);
         background-repeat: no-repeat;
         background-position: 50% 100%;
         margin: 0 -27px;
         padding: 0 27px 7px;
+        position: relative;
         > .level-top {
-            position: relative;
             display: inline-block;
-            margin: 0 43px 0 0;
+            margin: 0 42px 0 0;
             &.active {
                 > a,
                 > a > span {
@@ -40,11 +39,11 @@
             > .submenu {
                 display: none;
                 position: absolute;
-                left: 0;
                 top: 100%;
-                margin: 12px -27px 0 -27px;
+                margin: 12px -7px;
                 background-color: @color3;
                 border-radius: 5px;
+                width: auto;
                 z-index: 2;
                 &:before {
                     position: absolute;
@@ -58,14 +57,14 @@
                     content: '';
                 }
                 > ul {
-                    white-space: nowrap;
+                    position: relative;
                     padding: 14px 0;
                     > .column {
                         .borderBox;
                         position: relative;
                         display: inline-block;
                         vertical-align: top;
-                        max-width: 300px;
+                        max-width: 220px;
                         .level1 {
                             > a {
                                 font-size: 14px;
@@ -121,15 +120,13 @@
                         > span {
                             display: block;
                             padding: 6px 40px 3px 10px;
-                            width: 90%;
                             overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
                         }
                     }
                 }
             }
             &.more.parent {
+                margin: 0;
                 > a {
                     .iconAfter('\e012', 8px, Icons);
                     &:after {

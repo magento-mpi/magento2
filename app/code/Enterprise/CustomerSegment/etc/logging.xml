@@ -35,7 +35,7 @@
 
             <adminhtml_customersegment_match>
                 <action>refresh_data</action>
-                <post_dispatch>postDispatchCustomerSegmentMatch</post_dispatch>
+                <post_dispatch>Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch</post_dispatch>
             </adminhtml_customersegment_match>
 
             <adminhtml_customersegment_delete>

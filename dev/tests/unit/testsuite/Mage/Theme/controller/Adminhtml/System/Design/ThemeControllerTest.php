@@ -38,28 +38,22 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
             'Mage_Core_Controller_Request_Http', array('getParam', 'getPost'), array(), '', false
         );
 
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $arguments = array(
+            'request' => $this->_request,
+            'objectManager' => $this->_objectManagerMock,
+
+        );
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+
         $this->_model = $this->getMock('Mage_Theme_Adminhtml_System_Design_ThemeController',
-            array('_forward', '_title', '__', 'loadLayout', 'renderLayout', '_redirect', '_getSession'),
-            array(
-                $this->_request,
-                $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false),
-                $this->_objectManagerMock,
-                $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false),
-                null,
-                array(
-                    'translator' => 'translator',
-                    'helper'     => 'helper',
-                    'session'    => 'session'
-                ),
-            ));
+            array('_forward', '_title', '__', 'loadLayout', 'renderLayout', '_redirect'),
+            array($context, null)
+        );
         $this->_model->expects($this->any())->method('_title')->will($this->returnValue($this->_model));
         $this->_model->expects($this->any())->method('loadLayout');
         $this->_model->expects($this->any())->method('renderLayout');
         $this->_model->expects($this->any())->method('__');
-
-        $sessionMock = $this->getMock('Mage_Backend_Model_Session', array('addSuccess'), array(), '', false);
-        $this->_model->expects($this->any())->method('_getSession')->will($this->returnValue($sessionMock));
     }
 
     /**

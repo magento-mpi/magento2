@@ -99,11 +99,6 @@
             $.each(this.options.settings, $.proxy(function(index, element) {
                 $(element).on('change', this, this._configure);
             }, this));
-            var superSelector = this.options.superSelector;
-            $('.link-wishlist').on('click', function () {
-                var url = $(this).attr('href');
-                $(this).attr('href', url + (url.indexOf('?') == -1 ? '?' : '&') + $(superSelector).serialize());
-            });
         },
 
         /**
@@ -222,11 +217,11 @@
             $.each(imagesArray || {}, function (k, v) {
                 result.push(v);
             });
-            // trigger events when image is changed
+            var baseImage = this.element.find('[data-role=base-image]');
             if (result.length === 1) {
-                this.element.find('[data-role="main-image"]').attr('src', result[0]).trigger('imageChanged', result[0]);
+                baseImage.attr('src', result[0]).trigger('imageChanged', result[0]);
             } else {
-                this.element.find('[data-role="main-image"]').attr('src', this.options.parentImage).trigger('loadOriginalImage', this.options.parentImage);
+                baseImage.attr('src', this.options.parentImage).trigger('loadOriginalImage', this.options.parentImage);
             }
             this._fitImageToContainer();
         },
@@ -236,20 +231,18 @@
          * @private
          */
         _fitImageToContainer: function () {
-            var $image = this.element.find('[data-role=base-image]'),
-                width = $image.width(),
-                height = $image.height(),
-                parentWidth = $image.parent().width(),
-                parentHeight = $image.parent().height();
-
-            // Image is smaller than parent container, no need to see full picture or zoom slider
-            if (width < parentWidth && height < parentHeight) {
+            var image = this.element.find('[data-role=base-image]'),
+                imageContainer = image.closest('[data-role=base-image-container]'),
+                width = image.width(),
+                height = image.height(),
+                parentWidth = imageContainer.width(),
+                parentHeight = imageContainer.height();
+            // Image is not larger than parent container, no need to see full picture or zoom slider
+            if (width <= parentWidth && height <= parentHeight) {
                 return;
             }
-            if (width === parentWidth || height === parentHeight)
-                return;
             // Resize Image to fit parent container
-            $image.css({
+            image.css({
                 width:  width > height ? parentWidth : '',
                 height: width > height ? '' : parentHeight,
                 top:    width > height ? ((parentHeight - height) / 2) + 'px' : '',

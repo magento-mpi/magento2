@@ -57,7 +57,7 @@
                     event.stopImmediatePropagation();
                     var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
                     var imageData = $imageContainer.data('imageData');
-                    this.setMain(imageData);
+                    this.setBase(imageData);
                 }
             };
             this._on(events);
@@ -78,7 +78,7 @@
          * @param {Object} imageData
          * @private
          */
-        setMain: function(imageData) {
+        setBase: function(imageData) {
             var baseImage = this.options.types.image;
             var sameImages = $.grep(
                 $.map(this.options.types, function(el) {
@@ -137,7 +137,7 @@
             if (!this.options.initialized && this.options.images.length === 0 ||
                 this.options.initialized && this.element.find(this.options.imageSelector + ':not(.removed)').length == 1
             ) {
-                this.setMain(imageData);
+                this.setBase(imageData);
             }
             $.each(this.options.types, $.proxy(function(index, image) {
                 if (imageData.file == image.value) {
@@ -276,7 +276,7 @@
                 imageWidth = image.width(),
                 pointer = $('.image-pointer', panel),
                 pointerWidth = pointer.width(),
-                padding = 15,
+                padding = -3,
                 pointerOffset = posX + padding + pointerWidth / 2 + imageWidth / 2;
 
             pointer.css({left: pointerOffset});

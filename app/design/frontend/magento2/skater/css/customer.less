@@ -63,7 +63,8 @@
 
 .customer-account-login .page.title,
 .customer-account-forgotpassword .page.title,
-.customer-account-create .page.title {
+.customer-account-create .page.title,
+.customer-account-resetpassword .page.title {
     text-align: center;
 }
 
@@ -155,7 +156,7 @@
     }
 }
 
-// Registration */
+// Registration
 .form.password.forget,
 .form.create.account {
     .fieldset {
@@ -232,16 +233,83 @@
     }
 }
 
+.form.password.reset {
+    .fieldset {
+        .borderBox();
+        width: 490px;
+        .formFieldset();
+        .formInline(34%);
+        border: 0;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        .legend {
+            float: left;
+            line-height: 1.2;
+            .customFont(16px);
+            padding-bottom: 20px;
+            width: 100%;
+            margin: 15px 0 5px;
+            & + br {
+                display: block;
+                clear: both;
+            }
+        }
+        > .field {
+            margin: 0 0 20px;
+            .label {
+                margin-top: 6px;
+                font-size: 13px;
+            }
+        }
+        .field.choice.newsletter {
+            padding-left: 27%;
+            .label {
+                float: none;
+            }
+            .choice input {
+                margin-top: 3px;
+            }
+        }
+    }
+    .actions {
+        margin: 15px auto 0;
+        position: relative;
+        width: 490px;
+        .primary {
+            text-align: center;
+        }
+        .secondary {
+            font-size: 12px;
+            position: absolute;
+            left: 0;
+            top: 12px;
+            a {
+                .colorA(@primary3,@primary4);
+                span {
+                    .icon('\e020',12px,'icons');
+                    &:before {
+                        position: relative;
+                        top: -1px;
+                    }
+                }
+            }
+        }
+    }
+    .action.submit {
+        .primaryActionBig();
+        margin: 0 auto;
+        span {
+            font-size: 15px;
+        }
+    }
+}
+
 // *
 // *    Mage_Customer
 // *
 // *    Account
 // ----------------------------------------------------------------------------- */
-
-.my-account {
-    font-size: 13px;
-    margin: 45px 0 0;
-}
 
 .account {
     .column.main > .page.title {
@@ -275,6 +343,8 @@
 }
 
 .my-account {
+    font-size: 13px;
+    margin: 45px 0 0;
     .fieldset {
         > .legend {
             float: left;
@@ -288,13 +358,11 @@
             }
             span {
                 line-height: 1.2;
-                font-weight: 200;
-                font-size: 20px;
+                .customFont(15px, uppercase, 0.1em, 700);
             }
             strong {
                 margin-left: 10px;
-                font-size: 20px;
-                font-weight: 600;
+                .customFont(15px, uppercase, 0.1em, 700);
             }
         }
         > .field {
@@ -366,7 +434,6 @@
             }
         }
     }
-
     .block {
         margin-top: 50px;
         &.welcome {
@@ -447,6 +514,12 @@
                 content: ' | '
             }
         }
+        &.dashboard .product.name > a {
+            &:hover {
+                color: @secondary3;
+                text-decoration: none;
+            }
+        }
     }
     .page.title .action.add {
         .primaryAction();
@@ -456,7 +529,8 @@
     .data.table.orders, // My Orders
     .data.wishlist, // My Whishlist
     .data.table.reviews, // My Product Reviews
-    .data.tags { // My Tags
+    .data.tags, // My Tags
+    .data.table.balance.history { // Store Credit
         background: @commonBg;
         border: 1px solid @primary7;
         border-collapse: separate;
@@ -573,6 +647,12 @@
                     font-size: 12px;
                 }
             }
+        }
+    }
+//Share whishlist
+    .wishlist.share {
+        > .fieldset > .field > .label {
+            padding-right: 5px;
         }
     }
 // Giftcard Account
@@ -755,8 +835,254 @@
             display: block;
         }
     }
+    .dashboard.tags {
+        .products.list.items > .item {
+            .details {
+                padding: 0;
+            }
+            .product.tags li {
+                display: inline;
+            }
+        }
+        .title .action.view {
+            background: none;
+            letter-spacing: 0;
+            text-decoration: none;
+            > span {
+                font-family: Arial, Helvetica, sans-serif;
+                text-transform: lowercase;
+            }
+        }
+    }
+// Store credit
+    .storecredit {
+        .account.balance .price {
+            font-weight: bold;
+        }
+        .subtitle,
+        .sub-title {
+            .customFont(15px);
+            margin: 40px 0 10px;
+        }
+        .data.table.balance.history tbody:nth-child(odd) td {
+            background: @secondBg;
+        }
+    }
 }
 
 .wishlist-index-index .actions .primary {
     text-align: right;
+}
+
+// *
+// *    Mage_Customer - My orders
+// *
+// ----------------------------------------------------------------------------- */
+.order.details {
+    &.view {
+        .clearfix();
+    }
+    &.additional {
+        margin-top: 50px;
+    }
+    .status {
+        float: left;
+        .customFont(18px);
+    }
+    .subtitle.caption,
+    .title {
+        margin-bottom: 20px;
+        strong {
+            .customFont(15px);
+        }
+        .action {
+            margin-left: 10px;
+        }
+    }
+    .order.toolbar {
+        float: right;
+        margin: 4px 0 0;
+        line-height: 1.43;
+        .actions {
+            margin: 0;
+        }
+        .action {
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    }
+    .block.order {
+        float: left;
+        width: 48%;
+        margin-top: 50px;
+        padding-right: 2%;
+        &.billing.address {
+            clear: left;
+        }
+        .content address {
+            font-style: normal;
+        }
+    }
+    .order.info {
+        clear: both;
+        padding: 20px 0;
+        margin: 0;
+        > dt {
+            .customFont(15px);
+        }
+        > dd {
+            margin: 10px 0 0;
+            .items {
+                .clearfix();
+                .item {
+                    float: left;
+                    margin-right: 15px;
+                    a {
+                        .secondaryAction();
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+    .additional.details {
+        .order.comments {
+            margin: 0 0 20px;
+            dt {
+                font-weight: bold;
+                margin: 10px 0 5px;
+            }
+            dd {
+                margin-left: 30px;
+            }
+        }
+        .gift.message {
+            dt {
+                margin: 0 0 5px;
+            }
+            dd {
+                margin: 0 0 20px 30px;
+            }
+        }
+    }
+    &.items {
+        clear: both;
+        margin: 50px 0;
+        .action.show {
+            text-decoration: none;
+            .iconAfter("\e00f", 12px, 'icons');
+            &.expanded:after {
+                content: "\e010";
+            }
+        }
+        .order.data.items {
+            td.col.qty {
+                white-space: nowrap;
+            }
+            .col.discount,
+            .col.rowtotal {
+                text-align: right;
+            }
+            .col.name {
+                width: 190px;
+            }
+            tbody tr:nth-child(odd) td {
+                background: @commonBg;
+            }
+            tbody:nth-child(odd) tr td {
+                background: @primary7;
+            }
+            .option.value {
+                padding-left: 10px;
+            }
+        }
+    }
+}
+
+.gift.message.details {
+    position: relative;
+    .action.close {
+        .iconAfter("\e001", 12px, 'icons');
+        .hideText(12px);
+        position: absolute;
+        top: 0;
+        right: 0;
+        &:hover:after {
+            color: @primary4;
+        }
+    }
+}
+
+.data.table.tracking {
+    margin: 0 0 20px;
+    .label {
+        padding: 0 10px 0 0;
+    }
+}
+
+.shipping-tracking-popup {
+    .action.close {
+        .secondaryAction();
+        text-indent: 0;
+        span {
+            width: auto;
+            text-indent: 0;
+            &:after {
+                content: "";
+                display: none;
+            }
+        }
+    }
+}
+
+// Tooltip popup
+.truncated {
+    position: relative;
+    .truncated_full_value {
+        display: none;
+        background: @optionsBg;
+        margin-top: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        max-width: 400px;
+        min-width: 100px;
+        color: @optionsColor;
+        &.show {
+            display: block;
+            &:before {
+                content: '';
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid @optionsBg;
+                height: 0;
+                width: 0;
+                overflow: hidden;
+                display: block;
+                position: absolute;
+                top: -10px;
+                margin-left: -5px;
+                left: 50%;
+                zoom: 1;
+                z-index: 2;
+            }
+        }
+    }
+}
+
+// Track order popup
+
+.page.tracking {
+    padding: 20px;
+    .actions {
+        .action.close {
+            .primaryAction();
+        }
+    }
+    .subtitle.caption {
+        margin-bottom: 20px;
+        .customFont(15px);
+    }
 }

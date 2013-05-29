@@ -68,7 +68,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Mage_Adminhtml_Bloc
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('Created At'), 'index' => 'created_at'
+            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('Created'), 'index' => 'created_at'
         ));
 
         return parent::_prepareColumns();

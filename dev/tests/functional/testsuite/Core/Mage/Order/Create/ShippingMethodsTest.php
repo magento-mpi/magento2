@@ -19,16 +19,23 @@
 class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
     /**
+     * <p>Log in to Backend and configure preconditions.</p>
+     *
      * <p>Log in to Backend.</p>
+     *
      */
     public function setUpBeforeTests()
     {
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->systemConfigurationHelper()->configure('ShippingSettings/store_information');
     }
 
+    /**
+     * <p>Log in to Backend.</p>
+     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();

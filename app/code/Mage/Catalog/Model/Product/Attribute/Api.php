@@ -18,6 +18,11 @@
 class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Resource
 {
     /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    private $_attributeLabelCache;
+
+    /**
      * Product entity type id
      *
      * @var int
@@ -27,8 +32,9 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
     /**
      * Constructor. Initializes default values.
      */
-    public function __construct()
+    public function __construct(Magento_Cache_FrontendInterface $attributeLabelCache)
     {
+        $this->_attributeLabelCache = $attributeLabelCache;
         $this->_storeIdSessionField = 'product_store_id';
         $this->_ignoredAttributeCodes[] = 'type_id';
         $this->_ignoredAttributeTypes[] = 'gallery';
@@ -166,8 +172,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
 
         try {
             $model->save();
-            // clear translation cache because attribute labels are stored in translation
-            Mage::app()->cleanCache(array(Mage_Core_Model_Translate::CACHE_TAG));
+            $this->_attributeLabelCache->clean();
         } catch (Exception $e) {
             $this->_fault('unable_to_save', $e->getMessage());
         }
@@ -199,8 +204,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
         $model->addData($data);
         try {
             $model->save();
-            // clear translation cache because attribute labels are stored in translation
-            Mage::app()->cleanCache(array(Mage_Core_Model_Translate::CACHE_TAG));
+            $this->_attributeLabelCache->clean();
             return true;
         } catch (Exception $e) {
             $this->_fault('unable_to_save', $e->getMessage());

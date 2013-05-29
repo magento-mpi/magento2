@@ -885,7 +885,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .top-cart .block-content .block-subtitle .close-btn { float:right; width:13px; height:0; padding-top:12px; text-align:left; overflow:hidden; cursor:pointer; background:url(../images/bkg_close.gif) no-repeat 0 0; position:relative; z-index:1; }
 .top-cart .cart-empty .close-btn { float:right; width:13px; height:0; padding-top:12px; text-align:left; overflow:hidden; cursor:pointer; background:url(../images/bkg_close.gif) no-repeat 0 0; position:relative; z-index:1; }
 .top-cart .cart-empty { padding:10px 10px 10px 20px; }
-.top-cart .block-content ol { padding-bottom:7px; }
+.top-cart .block-content ol { padding-bottom:7px; overflow: auto; max-height: 300px; }
 .top-cart .block-content .item { padding:8px 5px 8px 11px; }
 .top-cart .block-content .item .product-name { font-size:11px; line-height:14px; }
 .top-cart .block-content .item .product-name a { font-size:11px; text-decoration:none; color:#444; }

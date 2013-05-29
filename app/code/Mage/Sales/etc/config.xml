@@ -415,6 +415,11 @@
                 </observers>
             </sales_order_place_after>
         </events>
+        <di>
+            <Mage_Sales_Model_Resource_Report>
+                <shared>0</shared>
+            </Mage_Sales_Model_Resource_Report>
+        </di>
     </global>
     <frontend>
         <secure_url>

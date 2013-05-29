@@ -34,18 +34,10 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
     protected $_regionModel;
 
     /**
-     * Validate VAT Number
-     *
-     * @var Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory
-     */
-    protected $_validateVatFactory;
-
-    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Directory_Model_Config_Source_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
-     * @param Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat
      * @param array $data
      */
     public function __construct(
@@ -53,14 +45,11 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Directory_Model_Config_Source_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
-        Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);
         $this->_countryModel = $countryModel;
         $this->_regionModel = $regionModel;
-        /** As it's optional dependency, we instantiate VAT validator just in case we need it */
-        $this->_validateVatFactory = $validateVat;
     }
 
     /**
@@ -126,7 +115,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'required' => true,
             'class' => 'validate-email',
             'disabled' => 'disabled',
-            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
+            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email'),
+            'note' => $helper->__('Uses Store Contact Email as your General Contact Email.'),
         ));
 
         $salesRepresentative = $storeInfo->addFieldset('sales_representative',
@@ -227,6 +217,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'value' => $addressData['city']
         ));
 
+        $businessAddress->addField('postcode', 'text', array(
+            'name' => 'postcode',
+            'label' => $helper->__('ZIP/Postal Code'),
+            'required' => false,
+            'value' => $addressData['postcode']
+        ));
+
         $isRegionFieldText = true;
         if ($addressData['country_id']) {
             $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($addressData['country_id']);
@@ -249,14 +246,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             ));
         }
 
-        $businessAddress->addField('postcode', 'text', array(
-            'name' => 'postcode',
-            'label' => $helper->__('ZIP/Postal Code'),
-            'required' => false,
-            'value' => $addressData['postcode']
-        ));
-
-        $countries = $this->_countryModel->toOptionArray();
+        $countries = $this->_countryModel->toOptionArray(false, 'US');
         $businessAddress->addField('country_id', 'select', array(
             'name' => 'groups[general][store_information][fields][country_id][value]',
             'label' => $helper->__('Country'),
@@ -268,29 +258,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
                 . 'originAddress = new originModel();'
                 . '</script>',
         ));
-
-        if ($this->_storeConfig->getConfig('general/locale/code') != 'en_US') {
-            $vatValidator = $this->_validateVatFactory->createVatValidator();
-            $businessAddress->addField('vat_number', 'text', array(
-                'name' => 'groups[general][store_information][fields][merchant_vat_number][value]',
-                'label' => $helper->__('VAT Number'),
-                'note' => 'Required for countries in European Union.',
-                'required' => false,
-                'value' => $addressData['merchant_vat_number']
-            ));
-
-            $businessAddress->addField('validate_vat_number', 'button', array(
-                'name' => 'validate_vat_number',
-                'required' => false,
-                'value' => $helper->__('Validate VAT Number')
-            ));
-
-            // Set custom renderer for VAT field
-            $vatIdElement = $form->getElement('validate_vat_number');
-            $vatValidator->setMerchantCountryField('country_id');
-            $vatValidator->setMerchantVatNumberField('vat_number');
-            $vatIdElement->setRenderer($vatValidator);
-        }
 
         $businessAddress->addField('use_for_shipping', 'checkbox', array(
             'name' => 'use_for_shipping',
@@ -328,8 +295,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         $addressData['name'] = $this->_storeConfig->getConfig('general/store_information/name');
         $addressData['phone'] = $this->_storeConfig->getConfig('general/store_information/phone');
         $addressData['email'] = $this->_storeConfig->getConfig('trans_email/ident_general/email');
-        $addressData['merchant_vat_number'] =
-            $this->_storeConfig->getConfig('general/store_information/merchant_vat_number');
         return $addressData;
     }
 
