@@ -40,6 +40,8 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
     /**
      * Constructor
      *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager

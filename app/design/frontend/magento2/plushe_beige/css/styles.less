@@ -1878,9 +1878,10 @@ div.mage-error {
 .cart.summary {
   margin-top: 33px;
   background: @primary1;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
   .summary.title {
     font-size: 20px;
     font-weight: 200;
@@ -1958,6 +1959,17 @@ div.mage-error {
         .actionLink;
       }
     }
+  }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
   }
 }
 
@@ -3590,6 +3602,7 @@ div.mage-error {
             float: left;
             line-height: @optionsHeigth + 2px;
             margin: 2px 15px 0 0;
+            display: none;
         }
         .text {
             display: none;

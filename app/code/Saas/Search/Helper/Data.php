@@ -58,8 +58,6 @@ class Saas_Search_Helper_Data extends Enterprise_Search_Helper_Data
      */
     public function prepareClientOptions($options = array())
     {
-        $def_options = $this->getSolrServers();
-        $options = array_merge($def_options, $options);
-        return $options;
+        return array_merge($this->getSolrServers(), $options);
     }
 }
