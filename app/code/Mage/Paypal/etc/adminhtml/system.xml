@@ -1264,7 +1264,7 @@
                     </group>
                 </group>
                 <group id="payflow_link" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
-                    <label>Payflow Link (Includes Express Checkout)</label>
+                    <label>Payflow Link and Express Checkout</label>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <fieldset_css>pp-method-payflow</fieldset_css>
                     <comment>Connect your merchant account with a PCI-compliant gateway that lets customers pay without leaving your site.</comment>
@@ -1276,6 +1276,11 @@
                         <group id="payflow_link_payflow_link" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                             <label>Payflow Link</label>
                             <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
+                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account" translate="label" sortOrder="5">
+                                <frontend_class>not-required</frontend_class>
+                                <label>Email Associated with PayPal Merchant Account (Optional)</label>
+                                <attribute type="shared">1</attribute>
+                            </field>
                             <field id="partner" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Partner</label>
                                 <config_path>payment/payflow_link/partner</config_path>
@@ -1338,34 +1343,20 @@
                             <requires>
                                 <group id="payflow_link_payflow_link"/>
                             </requires>
-                            <frontend_class>paypal-enabler paypal-ec-independent</frontend_class>
+                            <frontend_class>paypal-enabler paypal-ec-pe paypal-ec-payflowlink</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
-                        <group id="payflow_link_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
-                            <label>Express Checkout</label>
-                            <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"/>
-                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"/>
-                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"/>
-                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"/>
-                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"/>
-                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"/>
-                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"/>
-                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"/>
-                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"/>
-                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"/>
-                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"/>
-                        </group>
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Enable Express Checkout</label>
-                            <config_path>payment/paypal_express/active</config_path>
+                            <config_path>payment/paypaluk_express/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <frontend_class>paypal-ec-payflow-enabler</frontend_class>
                             <attribute type="shared">1</attribute>
                             <requires>
-                                <group id="payflow_link_express_checkout"/>
+                                <field id="business_account"/>
                                 <field id="enable_payflow_link"/>
+                                <group id="payflow_link_payflow_link"/>
                             </requires>
-                            <frontend_class>paypal-enabler paypal-ec-enabler</frontend_class>
                         </field>
                     </group>
                     <group id="settings_payflow_link" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -1474,14 +1465,36 @@
                     <group id="settings_payflow_link_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
-                        <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/sort_order"/>
-                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
-                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
-                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
-                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"/>
-                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"/>
-                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"/>
+                        <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/paypaluk_express/title</config_path>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypaluk_express/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
+                            <label>Payment Action</label>
+                            <config_path>payment/paypaluk_express/payment_action</config_path>
+                            <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="visible_on_cart" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shortcut on Shopping Cart</label>
+                            <comment>Also affects mini-shopping cart.</comment>
+                            <config_path>payment/paypaluk_express/visible_on_cart</config_path>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="visible_on_product" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shortcut on Product View</label>
+                            <config_path>payment/paypaluk_express/visible_on_product</config_path>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
+                        </field>
                         <group id="settings_payflow_link_express_checkout_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                             <label>Advanced Settings</label>
                             <fieldset_css>config-advanced</fieldset_css>
