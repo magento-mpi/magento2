@@ -305,20 +305,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                     $message = $this->_helper->__('Theme "%s" reverted to last saved state',
                         $virtualTheme->getThemeTitle()
                     );
-                    $response = array('message' =>  $message);
                     break;
 
                 case 'physical':
                     $physicalTheme = $virtualTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
                         ->getPhysicalTheme();
                     $copyService->copy($physicalTheme, $stagingTheme);
-                    $message = $this->_helper->__('Revert to physical theme is not yet implemented');
-                    $response = array('error' => true, 'message' => $message);
+                    $message = $this->_helper->__('Theme "%s" reverted to last default state',
+                        $virtualTheme->getThemeTitle()
+                    );
                     break;
 
                 default:
                     throw new Magento_Exception('Invalid revert mode "%s"', $revertTo);
             }
+            $response = array('message' => $message);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array('error' => true, 'message' => $this->_helper->__('Unknown error'));
