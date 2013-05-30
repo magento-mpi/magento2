@@ -81,6 +81,11 @@
                 $(this).css('top', 'auto');
             });
 
+            $('body')
+                .on('addMessage clearMessages', $.proxy(function() {
+                    this.resizableArea.trigger('resize.vdeToolsResize');
+                }, this));
+
             this.panelTab.on('shown', function () {
                 if (self.panel.hasClass(self.options.openedPanelClass)) {
                     self._recalcDataHeight(self.options.panelDefaultHeight);
@@ -145,6 +150,8 @@
 
             elem.height(height - this.panelHeaderHeight);
             this._toggleClassIfScrollBarExist(elem);
+
+            this._getActiveResizableAreaInner().scrollTop(0);
         },
         /**
          * Open/Reopen panel
@@ -158,6 +165,7 @@
                     height: this.options.panelDefaultHeight - this.panelHeaderHeight
                 }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
                     this.resizableArea.trigger('resize.vdeToolsResize');
+                    $(window).trigger('resize');
                 }, this));
             }
         },
@@ -172,6 +180,7 @@
                 height: 0
             }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
                 this.mainTabs.removeClass(this.options.activeTabClass);
+                $(window).trigger('resize');
             }, this));
         }
     });

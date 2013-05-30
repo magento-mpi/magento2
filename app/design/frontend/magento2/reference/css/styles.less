@@ -2204,14 +2204,11 @@ div.mage-error {
 .minicart.wrapper {
     float: right;
     margin-right: 40px;
-    position: relative;
     z-index: 11;
     .block.minicart {
-        top: 100%;
+        left:-100%;
         margin-top: 15px;
         .clearfix;
-        right: -20px;
-        visibility: hidden;
         position: absolute;
         z-index: 2;
         background: @primary1;
@@ -2335,8 +2332,9 @@ div.mage-error {
         }
         position: relative;
         z-index: 11;
-        .block.minicart { //display: block;
-            visibility: visible;
+        .block.minicart {
+            left: auto;
+            right: -20px;
         }
     }
     .action.previous,
@@ -2572,7 +2570,7 @@ div.mage-error {
                 overflow: hidden;
             }
             position: relative;
-            &:after {
+            /*&:after {
                 content: 'moving';
                 position: absolute;
                 z-index: 999;
@@ -2582,7 +2580,7 @@ div.mage-error {
                 right: 0;
                 background: #fff;
                 opacity: 0.01;
-            }
+            }*/
             .item {
                 visibility: visible;
             }
@@ -2666,6 +2664,26 @@ div.mage-error {
                 margin-left: -5px;
                 margin-top: -1.35em;
                 bottom:0;
+            }
+        }
+    }
+}
+
+.eq-ie8 .block.minicart {
+    .products.minilist {
+        .action.delete,
+        .action.edit {
+            visibility: hidden;
+        }
+        .shown {
+            .action.delete,
+            .action.edit {
+                visibility: visible;
+            }
+        }
+        .item {
+            &:before {
+                border-left: 0;
             }
         }
     }

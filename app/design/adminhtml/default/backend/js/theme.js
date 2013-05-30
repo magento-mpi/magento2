@@ -381,6 +381,13 @@
         });
     };
 
+    var toggleColorPickerPosition = function () {
+        var colorPicker = $('.farbtastic:visible'),
+            colorPickerWidth = 350;
+
+        colorPicker.offset() && colorPicker.toggleClass('vertical', parseInt(colorPicker.offset().left, 10) + colorPickerWidth > $(window).width());
+    };
+
     $(document).ready(function() {
         $('.header-panel .search').globalSearch();
         $('.navigation').globalNavigation({
@@ -419,6 +426,15 @@
                 updateColorPickerValues();
             }
         });
+        $(window)
+            .on('resize.vdeColorPicker', function () {
+                this.vdeColorPickerTimeoutId && clearTimeout(this.vdeColorPickerTimeoutId);
+
+                this.vdeColorPickerTimeoutId = setTimeout(function() {
+                    toggleColorPickerPosition();
+                }, 500);
+            });
+
         $('.color-box')
             .on('click.showColorPicker', function() {
                 updateColorPickerValues();  // Update values is other color picker is not closed yet
@@ -426,6 +442,7 @@
                     .addClass('active')
                     .siblings('input').end()
                     .find('.farbtastic').show();
+                toggleColorPickerPosition();
             });
     });
 

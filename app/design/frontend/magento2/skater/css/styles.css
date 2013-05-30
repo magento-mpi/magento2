@@ -6255,7 +6255,6 @@ body.type-bundle {
 }
 .minicart.wrapper {
   display: inline-block;
-  position: relative;
   z-index: 11;
 }
 .minicart.wrapper .block.minicart {
@@ -6278,12 +6277,10 @@ body.type-bundle {
   -ms-transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
   -o-transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
-  top: 100%;
-  left: -88px;
+  left: -100%;
   margin-top: 20px;
   width: 308px;
   *zoom: 1;
-  visibility: hidden;
   position: absolute;
   z-index: 2;
 }
@@ -6384,7 +6381,8 @@ body.type-bundle {
   z-index: 11;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: -150px;
 }
 .minicart.wrapper .action.close {
   color: #666666;
