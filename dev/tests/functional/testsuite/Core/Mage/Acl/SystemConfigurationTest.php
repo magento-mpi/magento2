@@ -89,7 +89,6 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
             array('config_carries', 'sales_shipping_methods'),
             array('config_cms', 'general_content_management'),
             array('config_newsletter', 'customers_newsletter'),
-            array('config_moneybookers', 'sales_moneybookers'),
             array('config_sitemap', 'catalog_xml_sitemap'),
             array('config_persistent', 'customers_persistent_shopping_cart'),
             array('config_reports', 'general_reports'),

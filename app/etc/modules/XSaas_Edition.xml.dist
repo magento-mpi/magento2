@@ -25,7 +25,6 @@
         <Enterprise_Pbridge><active>true</active></Enterprise_Pbridge>
         <Enterprise_Pci><active>true</active></Enterprise_Pci>
         <Enterprise_Queue><active>true</active></Enterprise_Queue>
-        <Enterprise_Reward><active>true</active></Enterprise_Reward>
         <Enterprise_SalesArchive><active>true</active></Enterprise_SalesArchive>
         <Enterprise_Search><active>true</active></Enterprise_Search>
         <Mage_Connect><active>false</active></Mage_Connect>
@@ -54,6 +53,7 @@
         <Saas_Shipping><active>true</active></Saas_Shipping>
         <Saas_Sitemap><active>true</active></Saas_Sitemap>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Saas_Webistrano><active>true</active></Saas_Webistrano>
         <Saas_ImportExport><active>true</active></Saas_ImportExport>
     </modules>
 </config>

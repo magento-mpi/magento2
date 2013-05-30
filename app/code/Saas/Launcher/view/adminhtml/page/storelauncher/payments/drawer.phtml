@@ -420,26 +420,24 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 </form>
 
 <script type="text/javascript">
-    (function ($) {
-        $(document).ready(function() {
-            'use strict';
+jQuery(function ($) {
+    'use strict';
 
-            $('.payment-method')
-                .on('click.configurePaymentMethod', function () {
-                    var elem = $(this),
-                        activePaymentTile = $('.payment-method').filter('.active'),
-                        paymentMethod = elem.attr('data-payment-method');
+    $('.payment-method')
+        .on('click.configurePaymentMethod', function () {
+            var elem = $(this),
+                activePaymentTile = $('.payment-method').filter('.active'),
+                paymentMethod = elem.attr('data-payment-method');
 
-                    activePaymentTile.removeClass('active');
-                    elem.addClass('active');
+            activePaymentTile.removeClass('active');
+            elem.addClass('active');
 
-                    $('#' + paymentMethod)
-                        .show()
-                        .siblings()
-                        .hide();
-                });
-
-            $('.action-save-method').partiallyValidateDrawer({'currentSection': '.payments-tiles'});
+            $('#' + paymentMethod)
+                .show()
+                .siblings()
+                .hide();
         });
-    })(jQuery);
+
+    $('.action-save-method').partiallyValidateDrawer({'currentSection': '.payments-tiles'});
+});
 </script>

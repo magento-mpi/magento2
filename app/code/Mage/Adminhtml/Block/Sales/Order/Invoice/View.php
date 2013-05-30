@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
             return;
         }
 
-        if ($this->_isAllowedAction('Mage_Sales::cancel') && $this->getInvoice()->canCancel()) {
+        if ($this->_isAllowedAction('Mage_Sales::cancel') && $this->getInvoice()->canCancel() && !$this->_isPaymentReview()) {
             $this->_addButton('cancel', array(
                 'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Cancel'),
                 'class'     => 'delete',
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
             }
         }
 
-        if ($this->_isAllowedAction('Mage_Sales::capture') && $this->getInvoice()->canCapture()) {
+        if ($this->_isAllowedAction('Mage_Sales::capture') && $this->getInvoice()->canCapture() && !$this->_isPaymentReview()) {
             $this->_addButton('capture', array(
                 'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Capture'),
                 'class'     => 'save',
@@ -101,6 +101,17 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
                 )
             );
         }
+    }
+
+    /**
+     * Check whether order is under payment review
+     *
+     * @return bool
+     */
+    protected function _isPaymentReview()
+    {
+        $order = $this->getInvoice()->getOrder();
+        return $order->canReviewPayment() || $order->canFetchPaymentReviewUpdate();
     }
 
     /**

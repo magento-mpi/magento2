@@ -34,6 +34,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
 
         $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Submit Order'));
         $this->_updateButton('save', 'onclick', 'order.submit()');
+        $this->_updateButton('save', 'class', 'primary');
         // Temporary solution, unset button widget. Will have to wait till jQuery migration is complete
         $this->_updateButton('save', 'data_attribute', array());
 

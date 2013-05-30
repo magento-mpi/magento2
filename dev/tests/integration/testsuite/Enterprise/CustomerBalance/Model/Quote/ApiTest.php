@@ -148,8 +148,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
 
     /**
      * Test customer balance set amount to quote using store code exception: No store found with requested id or code.
-     *
-     * @expectedException SoapFault
      */
     public function testCustomerBalanceForQuoteSetAmountUsingInvalidStoreCodeException()
     {
@@ -159,41 +157,38 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
-
-        Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', (array)$data['input']);
+        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
+            (array)$data['input']
+        );
     }
 
     /**
      * Test customer balance set amount to quote exception:  No quote found with requested id.
-     *
-     * @expectedException SoapFault
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionQuoteNotExists()
     {
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
-
-        Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', (array)$data['input']);
+        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
+            (array)$data['input']
+        );
     }
 
     /**
      * Test customer balance remove amount from quote exception: No quote found with requested id.
-     *
-     * @expectedException SoapFault
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionQuoteNotExists()
     {
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
-
-        Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', (array)$data['input']);
+        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceRemoveAmount',
+            (array)$data['input']
+        );
     }
 
     /**
      * Test customer balance set amount to quote exception:
      * Store credit can not be used for quote created by guest.
-     *
-     * @expectedException SoapFault
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionGuestQuote()
     {
@@ -203,15 +198,14 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$guestQuote->getId();
-
-        Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', (array)$data['input']);
+        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
+            (array)$data['input']
+        );
     }
 
     /**
      * Test customer balance remove amount from quote exception:
      * Store credit can not be used for quote created by guest.
-     *
-     * @expectedException SoapFault
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionGuestQuote()
     {
@@ -219,9 +213,9 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
             dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForGuestQuote.xml'
         );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
-
         $data['input']['quoteId'] = self::$guestQuote->getId();
-
-        Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', (array)$data['input']);
+        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceRemoveAmount',
+            (array)$data['input']
+        );
     }
 }

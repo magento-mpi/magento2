@@ -210,11 +210,14 @@ textarea {
   color: #333333;
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
-html {
-  min-width: 1025px;
-  background: #ee2375;
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 body {
+  background: #ee2375;
+  min-width: 1025px;
   position: relative;
 }
 .page.wrapper {
@@ -343,6 +346,7 @@ a > span:hover {
 .column.left,
 .column.right {
   padding-top: 20px;
+  min-height: 1px;
 }
 .col1-layout .column.main {
   width: 100%;
@@ -439,6 +443,13 @@ strong {
   border-color: #666666 !important;
   color: #666666 !important;
   background: #cccccc !important;
+}
+.page.popup {
+  background: #ffffff;
+  min-width: 100px;
+}
+.page.popup .page.wrapper {
+  background: #ffffff;
 }
 .page.wrapper > .header {
   background-color: #ee2375;
@@ -1237,7 +1248,7 @@ strong {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  display: inline-block;
+  display: block;
   margin: 0;
   vertical-align: top;
 }
@@ -1320,7 +1331,7 @@ strong {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 8px;
-  background: #f00;
+  background: #4d5d64;
   color: #fff;
   top: 0;
   left: 0;
@@ -1729,14 +1740,14 @@ ul.messages ul {
 .comparison.headings th {
   background: #ffffff url(../images/content-bg.jpg);
 }
-.block.compared ol,
-.block.viewed.links ol {
+.sidebar .block.compared ol,
+.sidebar .block.viewed.links ol {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.block.compared ol > .item,
-.block.viewed.links ol > .item {
+.sidebar .block.compared ol > .item,
+.sidebar .block.viewed.links ol > .item {
   background: #6ab92d;
   color: #f6f4f3;
   font-size: 12px;
@@ -1745,25 +1756,25 @@ ul.messages ul {
   position: relative;
   z-index: 1;
 }
-.block.compared ol > .item a,
-.block.viewed.links ol > .item a {
+.sidebar .block.compared ol > .item a,
+.sidebar .block.viewed.links ol > .item a {
   color: #f6f4f3;
   opacity: 0.8;
   text-decoration: underline;
 }
-.block.compared ol > .item a:hover,
-.block.viewed.links ol > .item a:hover {
+.sidebar .block.compared ol > .item a:hover,
+.sidebar .block.viewed.links ol > .item a:hover {
   color: #f6f4f3;
   opacity: 1;
 }
-.block.compared ol > .item .product.name,
-.block.viewed.links ol > .item .product.name {
+.sidebar .block.compared ol > .item .product.name,
+.sidebar .block.viewed.links ol > .item .product.name {
   margin: 0;
   font-size: 12px;
   font-weight: normal;
 }
-.block.compared ol > .item .product.name a,
-.block.viewed.links ol > .item .product.name a {
+.sidebar .block.compared ol > .item .product.name a,
+.sidebar .block.viewed.links ol > .item .product.name a {
   text-decoration: underline;
   color: #ffffff;
 }
@@ -2408,7 +2419,7 @@ ul.messages ul {
   float: none;
 }
 .grid .products.list.items > .item .product.photo > .photo {
-  margin: 0;
+  margin: 0 auto;
 }
 .grid .products.list.items > .item > .product {
   background: transparent;
@@ -3119,7 +3130,7 @@ ul.messages ul {
   float: none;
 }
 .block.crosssell .content > .items > .item .product.photo > .photo {
-  margin: 0;
+  margin: 0 auto;
 }
 .block.crosssell .content > .items > .item > .product {
   background: transparent;
@@ -3204,20 +3215,31 @@ ul.messages ul {
 .block.widget.viewed .content > ol:after {
   clear: both;
 }
-.block.widget.viewed .products.list.items > .item .addto.links .action {
+.col2-right-layout .block.upsell .products.list.items > .item,
+.col2-left-layout .block.upsell .products.list.items > .item,
+.col2-right-layout .block.related .products.list.items > .item,
+.col2-left-layout .block.related .products.list.items > .item {
+  display: inline;
+  float: left;
+  width: 25%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   display: inline-block;
-  margin: 0 0 0 -1px;
+  float: none;
 }
-.block.widget.viewed .products.list.items > .item .product.actions .primary {
-  text-align: center;
-}
-.block.widget.viewed .products.list.items > .item .product.actions .primary .action.tocart {
-  margin: 8px auto 0;
-}
-.col3-layout .block.widget.viewed .products.list .item.product,
-.col3-layout .block.upsell .products.list .item.product,
-.col3-layout .block.related .products.list .item.product {
-  width: 33%;
+.col3-layout .block.upsell .products.list.items > .item,
+.col3-layout .block.related .products.list.items > .item {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  float: none;
 }
 .checkout.paypal {
   display: block;
@@ -3736,6 +3758,15 @@ ul.messages ul {
 .product.add.form .giftcard.form + .product.options.wrapper {
   margin: 0;
   padding: 0;
+}
+.product-pricing {
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-top: 0;
+  color: #666666;
+  font-size: 12px;
+  margin: -5px 0 0;
+  padding: 0 15px 5px;
 }
 .product-pricing {
   background: #ffffff;
@@ -4341,11 +4372,10 @@ body.type-bundle {
 .block.bundle.summary {
   background: #ffffff;
   border: 1px solid #cccccc;
-  margin-top: 45px;
-  position: absolute;
-  right: 20px;
-  top: 0;
   width: 300px;
+  margin-top: 54px;
+  float: right;
+  position: relative;
 }
 .block.bundle.summary > .title {
   font-weight: 400;
@@ -5299,6 +5329,216 @@ body.type-bundle {
 .opc .review .items.data td.col.qty {
   padding-top: 10px;
 }
+.paypal-express-review .page.title {
+  margin: 30px 0;
+}
+.paypal.review.view .paypal.subtitle.caption {
+  margin-bottom: 25px;
+}
+.paypal.review.view .paypal.subtitle.caption .action {
+  margin-left: 10px;
+}
+.paypal.review.view .paypal.subtitle.caption strong {
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.paypal.review.view .form.paypal.review .fieldset {
+  margin: 0;
+  letter-spacing: -0.31em;
+  word-spacing: -0.43em;
+  border: 0;
+  margin: 0 0 60px;
+  padding: 0;
+}
+.paypal.review.view .form.paypal.review .fieldset > * {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+.paypal.review.view .form.paypal.review .fieldset > .legend + br {
+  display: none;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field {
+  *zoom: 1;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field:before,
+.paypal.review.view .form.paypal.review .fieldset > .field:after {
+  content: "";
+  display: table;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field:after {
+  clear: both;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field > .control,
+.paypal.review.view .form.paypal.review .fieldset > .field > .label {
+  margin: 0;
+  float: left;
+  width: 25%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field > .control {
+  width: 75%;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field.no-label .control {
+  margin-left: 25%;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.address {
+  float: right;
+  width: 48%;
+}
+.paypal.review.view .form.paypal.review .fieldset.billing.address {
+  float: left;
+  width: 48%;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.method {
+  clear: both;
+}
+.paypal.review.view .form.paypal.review .fieldset > .legend {
+  float: left;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
+.paypal.review.view .form.paypal.review .fieldset > .legend + br {
+  clear: both;
+  display: block !important;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 0 10px;
+  margin: 0 0 18px;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field > .label {
+  display: block;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field.choice > .control {
+  width: auto;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field.choice > .label {
+  display: inline;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field.required > .label span:first-child:after {
+  content: '*';
+  color: #dc0000;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .control .required > .label span:first-child:after {
+  content: '';
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .addon {
+  padding: 0;
+  display: table;
+  width: 100%;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .addon textarea,
+.paypal.review.view .form.paypal.review .fieldset > .field .addon select,
+.paypal.review.view .form.paypal.review .fieldset > .field .addon input {
+  display: table-cell;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .addon .addbefore,
+.paypal.review.view .form.paypal.review .fieldset > .field .addon .addafter {
+  vertical-align: middle;
+  width: 1px;
+  height: 0;
+  white-space: nowrap;
+  display: inline-block;
+  display: table-cell;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #cccccc;
+  border-bottom-color: #999999;
+  background: #ffffff;
+  color: #111111;
+  font: 15px/1.33em Arial, Helvetica, sans-serif;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  height: 28px;
+  padding: 0 10px;
+}
+.control .paypal.review.view .form.paypal.review .fieldset > .field .addon .addbefore,
+.control .paypal.review.view .form.paypal.review .fieldset > .field .addon .addafter {
+  width: 100%;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .addon .addbefore:disabled,
+.paypal.review.view .form.paypal.review .fieldset > .field .addon .addafter:disabled {
+  opacity: 0.5;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .note {
+  padding-left: 15px;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .note:before {
+  position: absolute;
+  margin: 4px 0 0 -14px;
+  content: '';
+  display: inline-block;
+  vertical-align: top;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  border-bottom: 5px solid #666666;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field:last-child {
+  margin-bottom: 0;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .nested {
+  padding: 0 0 5px;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .nested .field {
+  margin: 5px 0;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field > .label {
+  padding: 0 0 5px;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field:last-child {
+  margin-bottom: 0;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .nested {
+  margin: 18px 0 0;
+  padding: 0;
+}
+.paypal.review.view .form.paypal.review .fieldset > .field .nested .field {
+  margin: 0;
+}
+.paypal.review.view .actions {
+  margin-top: 35px;
+  text-align: right;
+}
+.paypal.review.view .actions .action {
+  float: right;
+}
+.paypal.review.view .actions .action.update {
+  margin-right: 10px;
+  background: #ee2375;
+  color: #ffffff;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 9px;
+  border: 0;
+  padding: 8px 9px 7px;
+}
+.paypal.review.view .actions .action.update:hover {
+  background: #6ab92d;
+}
+.paypal.review.view tfoot td {
+  text-align: right;
+}
 .cart.container {
   position: relative;
   z-index: 1;
@@ -5541,27 +5781,21 @@ body.type-bundle {
   float: left;
   width: 650px;
 }
+.cart.table.wrapper .action.delete {
+  position: relative;
+}
+.cart.table.wrapper .action.delete span:after {
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
 .cart.summary {
   background: #cccccc;
   display: inline-block;
   width: 260px;
   padding: 20px;
-  margin-left:10px;
+  margin-left: 10px;
 }
-.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
-    position: fixed;
-    top: 0;
-}
-.cart.container > .summary.bottom {
-    vertical-align: bottom;
-    bottom:0;
-}
-
-.cart.container > .summary.sticky{
-    position:fixed;
-    display:inline-block !important
-}
-
 .cart.summary .summary.title {
   font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
@@ -5661,6 +5895,20 @@ body.type-bundle {
 }
 .cart.summary .block .giftcard.form {
   padding: 0;
+}
+.cart.container > .summary.sticky {
+  position: fixed;
+  display: inline-block !important;
+}
+.cart.container > .summary.bottom {
+  position: absolute;
+  vertical-align: bottom;
+  bottom: 0;
+}
+.cart  > .summary.fixed,
+.cart.container  > .summary  > .container.fixed {
+  position: fixed;
+  top: 0;
 }
 .block.shipping .content {
   *zoom: 1;
@@ -5936,13 +6184,16 @@ body.type-bundle {
 .cart.totals td:first-child strong {
   font-size: 14px;
 }
-.cart.totals .giftcard .amount span {
+.cart.totals .giftcard .amount span,
+.cart.totals .storecredit .amount span {
   white-space: nowrap;
 }
-.cart.totals .giftcard .action.delete {
+.cart.totals .giftcard .action.delete,
+.cart.totals .storecredit .action.delete {
   display: inline-block;
 }
-.cart.totals .giftcard .action.delete span {
+.cart.totals .giftcard .action.delete span,
+.cart.totals .storecredit .action.delete span {
   color: #666666;
   width: 13px;
   display: block;
@@ -5952,19 +6203,23 @@ body.type-bundle {
   text-align: center;
   text-indent: -999em;
 }
-.cart.totals .giftcard .action.delete span:active {
+.cart.totals .giftcard .action.delete span:active,
+.cart.totals .storecredit .action.delete span:active {
   outline: 0;
 }
-.cart.totals .giftcard .action.delete span:after {
+.cart.totals .giftcard .action.delete span:after,
+.cart.totals .storecredit .action.delete span:after {
   text-indent: 0;
   display: block;
 }
-.cart.totals .giftcard .action.delete span:after {
+.cart.totals .giftcard .action.delete span:after,
+.cart.totals .storecredit .action.delete span:after {
   font-size: 10px;
   height: 10px;
   line-height: 10px;
 }
-.cart.totals .giftcard .action.delete:hover span {
+.cart.totals .giftcard .action.delete:hover span,
+.cart.totals .storecredit .action.delete:hover span {
   color: #111111;
 }
 .cart.totals .discount .amount span {
@@ -6009,7 +6264,6 @@ body.type-bundle {
 }
 .minicart.wrapper {
   display: inline-block;
-  position: relative;
   z-index: 11;
 }
 .minicart.wrapper .block.minicart {
@@ -6032,12 +6286,10 @@ body.type-bundle {
   -ms-transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
   -o-transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
-  top: 100%;
-  left: -88px;
+  left: -100%;
   margin-top: 20px;
   width: 308px;
   *zoom: 1;
-  visibility: hidden;
   position: absolute;
   z-index: 2;
 }
@@ -6073,7 +6325,7 @@ body.type-bundle {
   clear: both;
 }
 .minicart.wrapper .block.minicart > .content {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 .minicart.wrapper .block.minicart > .content .subtotal {
   padding: 15px;
@@ -6120,10 +6372,11 @@ body.type-bundle {
   color: #111111;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
+  display: block;
+  font-weight: 400;
+  padding: 0 35px 15px 15px;
 }
 .minicart.wrapper .block.minicart > .content .subtitle.empty {
-  display: block;
   padding: 10px 15px;
 }
 .minicart.wrapper .block.minicart > .title {
@@ -6137,7 +6390,8 @@ body.type-bundle {
   z-index: 11;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: -150px;
 }
 .minicart.wrapper .action.close {
   color: #666666;
@@ -6239,8 +6493,6 @@ body.type-bundle {
 .minicart .products.minilist .minilist.items {
   margin: 0;
   position: relative;
-  overflow: auto;
-  max-height: 540px;
 }
 .minicart .products.minilist .item {
   *zoom: 1;
@@ -7113,13 +7365,15 @@ body.type-bundle {
 }
 .my-account .fieldset > .legend span {
   line-height: 1.2;
-  font-weight: 200;
-  font-size: 20px;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 .my-account .fieldset > .legend strong {
   margin-left: 10px;
-  font-size: 20px;
-  font-weight: 600;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 .my-account .fieldset > .field {
   -moz-box-sizing: border-box;
@@ -8194,6 +8448,33 @@ body.type-bundle {
   zoom: 1;
   z-index: 2;
 }
+.page.tracking {
+  padding: 20px;
+}
+.page.tracking .actions .action.close {
+  border: none;
+  background: #ee2375;
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  outline: none;
+}
+.page.tracking .actions .action.close span {
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  line-height: 16px;
+}
+.page.tracking .actions .action.close:hover {
+  background: #6ab92d;
+}
+.page.tracking .subtitle.caption {
+  margin-bottom: 20px;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 .widget ul {
   padding: 0;
   margin: 0;
@@ -8211,10 +8492,14 @@ body.type-bundle {
 .column.main .block.widget + .block.widget {
   margin-bottom: 50px;
 }
+.block.widget {
+  clear: both;
+}
 .block.widget .pager .amount {
   color: #999999;
   font-size: 11px;
   margin: 0;
+  display: none;
 }
 .block.widget .pages {
   margin: 0 0 10px;
@@ -8386,6 +8671,32 @@ body.type-bundle {
 .block.widget.minilist .item.product .price-including-tax .price {
   float: left;
   margin-right: 5px;
+}
+.col1-layout .block.widget.new.grid .products.list.items > .item {
+  width: 20%;
+}
+.col2-left-layout .block.widget.new.grid .products.list.items > .item,
+.col2-right-layout .block.widget.new.grid .products.list.items > .item {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  float: none;
+}
+.col3-layout .block.widget.new.grid .products.list.items > .item {
+  display: inline;
+  float: left;
+  width: 50%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  float: none;
 }
 .block.widget.names .content > .items > .item {
   background: #6ab92d;

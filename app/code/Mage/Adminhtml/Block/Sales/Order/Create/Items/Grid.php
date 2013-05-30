@@ -212,7 +212,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $html = '';
         $prices = $item->getProduct()->getTierPrice();
         if ($prices) {
-            $info = $item->getProductType() == 'bundle'
+            $info = $item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
                 ? $this->_getBundleTierPriceInfo($prices)
                 : $this->_getTierPriceInfo($prices);
             $html = implode('<br/>', $info);
@@ -231,8 +231,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $info = array();
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
-            $info[] = $this->_helperFactory->get('Mage_Sales_Helper_Data')
-                ->__('%1$s with %2$s discount each', $qty, ($data['price'] * 1) . '%');
+            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%1$s with %2$s discount each', $qty, ($data['price'] * 1) . '%');
         }
         return $info;
     }
@@ -249,7 +248,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
             $price  = $this->convertPrice($data['price']);
-            $info[] = $this->_helperFactory->get('Mage_Sales_Helper_Data')->__('%s for %s', $qty, $price);
+            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%s for %s', $qty, $price);
         }
         return $info;
     }

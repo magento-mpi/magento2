@@ -27,7 +27,13 @@
                     th.animate({
                         top: '+=0'
                     }, 50, function(){
-                        var height = th.css('height');
+                        var height;
+                        if ($.browser.mozilla && $.browser.version <= '11.0') {
+                            height = th.outerHeight();
+                        }
+                        else {
+                            height = th.height();
+                        }
                         thCopy.css('height', height)
                             .appendTo(headings)
                             .wrap('<tr />');

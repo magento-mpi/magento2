@@ -11,8 +11,5 @@
     <menu>
         <!-- Marketing -->
         <remove id="Enterprise_Enterprise::private_sales" />
-
-        <!-- Stores -->
-        <remove id="Enterprise_Reward::customer_reward" />
     </menu>
 </config>

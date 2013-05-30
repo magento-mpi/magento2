@@ -86,7 +86,8 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
             'newFolderUrl'    => $this->getNewfolderUrl(),
             'deleteFolderUrl' => $this->getDeletefolderUrl(),
             'deleteFilesUrl'  => $this->getDeleteFilesUrl(),
-            'headerText'      => $this->getHeaderText()
+            'headerText'      => $this->getHeaderText(),
+            'showBreadcrumbs' => true
         ));
 
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);

@@ -79,9 +79,16 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         $preparedData1 = $preparedData0;
         $data1['groups']['flatrate']['fields']['type']['value'] = 'I';
         $preparedData1['carriers']['flatrate']['fields']['type']['value'] = 'I';
+
+        // data set #2
+        $data2 = $data0;
+        $preparedData2 = $preparedData0;
+        $data2['groups']['flatrate']['fields']['price']['value'] = '0';
+        $preparedData2['carriers']['flatrate']['fields']['price']['value'] = '0';
         return array(
             array($data0, $preparedData0, array('carriers')),
             array($data1, $preparedData1, array('carriers')),
+            array($data2, $preparedData2, array('carriers')),
         );
     }
 
@@ -160,6 +167,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         $data[1][0]['groups']['flatrate']['fields']['price']['value'] = '1,978.13';
         $data[1][1]['carriers']['flatrate']['fields']['price']['value'] = '1978.13';
         $data[1][] = 'en_US';
+        $data[2][] = 'en_US';
         return $data;
     }
 }

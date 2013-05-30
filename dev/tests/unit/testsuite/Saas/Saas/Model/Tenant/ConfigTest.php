@@ -68,11 +68,13 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetApplicationParameters()
     {
+        $taskNamePrefix = 'taskNamePrefix';
         $configData = array(
             'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR . self::XML_SAAS_ON)),
             'version_hash'        => '1234567',
             'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
             'maintenance_mode'    => array('url' => 'http://golinks.magento.com/noStore'),
+            'tmt_instance' => $taskNamePrefix,
         );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
@@ -86,6 +88,7 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertContains('media_dir', $result[Mage::PARAM_APP_URIS][Mage_Core_Model_Dir::MEDIA]);
         $this->assertArrayHasKey(Mage::PARAM_CUSTOM_LOCAL_CONFIG, $result);
         $this->assertContains('<Saas>', $result[Mage::PARAM_CUSTOM_LOCAL_CONFIG]);
+        $this->assertEquals($taskNamePrefix, $result['task_name_prefix']);
     }
 
     /**

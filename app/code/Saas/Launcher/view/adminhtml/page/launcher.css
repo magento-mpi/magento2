@@ -842,6 +842,42 @@
     margin: 0;
 }
 
+.button-tooltip {
+    position: absolute;
+    top: 84px;
+    right: -10px;
+    width: 300px;
+    background: #5c5c5c;
+    padding: 10px;
+    text-transform: none;
+    border-radius: 4px;
+    display: none;
+    z-index: 1;
+}
+
+.button-with-tooltip[disabled]:hover ~ .button-tooltip {
+    display: block;
+}
+
+.button-tooltip:before {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent #5c5c5c transparent;
+    position: absolute;
+    top: -8px;
+    left: 75%;
+    content: '';
+}
+
+.button-tooltip p {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    font-size: 13px;
+    margin: 0;
+}
+
 .no-tax-info .title,
 .shipping-disabled .title {
     margin-top: 11px;
@@ -1130,10 +1166,6 @@
 
 .field-country_id .addafter {
     display: none;
-}
-
-.shipping-origin-address .loading-mask {
-    display: none !important;
 }
 
 .shipping-config .field-fedex-key,

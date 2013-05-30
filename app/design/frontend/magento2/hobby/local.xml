@@ -47,8 +47,7 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/sidebar.phtml">
-            <action method="setIsLink"><link>1</link></action>
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/link.phtml">
         </block>
 
         <remove name="catalog.compare.sidebar"/>
@@ -146,7 +145,7 @@
             </block>
         </reference>
         <reference name="content.bottom">
-            <block type="Mage_Reports_Block_Product_Widget_Viewed" page_size="6" template="Mage_Catalog::product/list/items.phtml">
+            <block type="Mage_Reports_Block_Product_Widget_Viewed" name="product.viewed.products" page_size="6" template="Mage_Catalog::product/list/items.phtml">
                 <action method="setType"><type>widget-viewed</type></action>
                 <action method="setViewMode"><mode>grid</mode></action>
                 <action method="setImageType"><image>recently_viewed_products_grid_content_widget</image></action>
@@ -164,7 +163,8 @@
 
     <print>
         <reference name="head">
-            <!-- <action method="addCss"><file>css/print.css</file></action> -->
+            <action method="addCss"><file>mui/reset.css</file></action>
+            <action method="addCss"><file>css/print.css</file></action>
         </reference>
     </print>
 

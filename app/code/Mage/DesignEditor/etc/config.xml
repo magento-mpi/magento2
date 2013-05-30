@@ -17,6 +17,7 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_Page/>
+                <Mage_Theme/>
             </depends>
         </Mage_DesignEditor>
     </modules>
@@ -39,6 +40,13 @@
                 </observers>
             </save_xml_configuration>
         </events>
+        <di>
+            <Mage_DesignEditor_Model_Resource_Layout_Update>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                </parameters>
+            </Mage_DesignEditor_Model_Resource_Layout_Update>
+        </di>
     </global>
     <default>
         <web>

@@ -3,13 +3,12 @@
 #
 saas
 app/code/Saas
-app/design/frontend/magento2/reference
+app/design/frontend/magento2
 app/etc/modules/XSaas_Edition.xml.dist
 app/etc/saas.xml
 dev/tests/integration/testsuite/Saas
 dev/tests/static/testsuite/Integrity/Saas
 dev/tests/js/testsuite/saas
-dev/tests/static/testsuite/Legacy/_files/words_saas.xml
 dev/tests/static/testsuite/Php/_files/{blacklist,phpcpd/blacklist,whitelist}/saas.txt
 dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
 dev/tests/unit/testsuite/Magento/Profiler/_files/pinba_functions.php

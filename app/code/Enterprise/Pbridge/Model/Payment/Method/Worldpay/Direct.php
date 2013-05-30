@@ -200,6 +200,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Worldpay_Direct extends Mage_Payme
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(1);
         return $this;
     }
     /**
@@ -210,9 +211,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Worldpay_Direct extends Mage_Payme
      */
     public function cancel(Varien_Object $payment)
     {
-        $response = $this->getPbridgeMethodInstance()->void($payment);
-        $payment->addData((array)$response);
-        return $this;
+        return $this->void($payment);
     }
     /**
      * Check refund availability

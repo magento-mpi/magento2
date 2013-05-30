@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
+/*global alert*/
 (function($) {
     'use strict';
     $.widget('vde.quickStyleElement', {
@@ -33,12 +34,12 @@
         },
 
         _onChange: function() {
-            if (this.element.attr('type') == 'checkbox') {
+            if (this.element.attr('type') === 'checkbox') {
                 this.element.trigger('quickStyleElementBeforeChange');
             }
 
-            if (this.oldValue != $(this.element).val() || this.element.attr('type') == 'checkbox') {
-                this._send()
+            if (this.oldValue !== this.element.val() || this.element.attr('type') === 'checkbox') {
+                this._send();
             }
         },
 
