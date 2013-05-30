@@ -24,7 +24,8 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
             $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Config_Loader_Modules_File', array(), array(), '', false),
             $this->getMock('Magento_ObjectManager', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Config_Modules_SortedFactory', array(), array(), '', false)
+            $this->getMock('Mage_Core_Model_Config_Modules_SortedFactory', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Config_Loader_Local', array(), array(), '', false)
         );
         $config = new Mage_Core_Model_Config_Base('<config><modules/><global><di/></global></config>');
         $loader->load($config);

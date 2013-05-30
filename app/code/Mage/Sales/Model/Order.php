@@ -510,6 +510,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
+        if (!$this->canReviewPayment() && $this->canFetchPaymentReviewUpdate()) {
+            return false;
+        }
+
         $allInvoiced = true;
         foreach ($this->getAllItems() as $item) {
             if ($item->getQtyToInvoice()) {
@@ -1122,7 +1126,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function registerCancellation($comment = '', $graceful = true)
     {
-        if ($this->canCancel()) {
+        if ($this->canCancel() || $this->isPaymentReview()) {
             $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
                 if ($cancelState != self::STATE_PROCESSING && $item->getQtyToRefund()) {

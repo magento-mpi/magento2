@@ -27,7 +27,7 @@ class Mage_Paypal_StandardControllerTest extends Magento_Test_TestCase_Controlle
 
         $this->dispatch('paypal/standard/redirect');
         $this->assertContains(
-            '<form action="https://www.paypal.com/webscr" id="paypal_standard_checkout"'
+            '<form action="https://www.paypal.com/cgi-bin/webscr" id="paypal_standard_checkout"'
                 . ' name="paypal_standard_checkout" method="POST">',
             $this->getResponse()->getBody()
         );

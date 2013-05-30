@@ -1972,6 +1972,7 @@ select {
     float: right;
     width: 290px;
     padding: 0 20px 20px;
+    display: inline-block;
     .summary.title {
         color: @primary2;
         font-family: 'Open Sans', sans-serif;
@@ -2053,6 +2054,17 @@ select {
             }
         }
     }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
+  }
 }
 .cart.table.wrapper.detailed + .cart.summary {
         margin-top: 16px;

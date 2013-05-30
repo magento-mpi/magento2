@@ -264,11 +264,25 @@ class Mage_Paypal_Model_Pro
     }
 
     /**
+     * Check whether can do payment review
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Mage_Payment_Model_Info $payment
      * @return bool
      */
     public function canReviewPayment(Mage_Payment_Model_Info $payment)
+    {
+        $pendingReason = $payment->getAdditionalInformation(Mage_Paypal_Model_Info::PENDING_REASON_GLOBAL);
+        return $this->_isPaymentReviewRequired($payment)
+            && $pendingReason != Mage_Paypal_Model_Info::PAYMENTSTATUS_REVIEW;
+    }
+
+    /**
+     * Check whether payment review is required
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     */
+    protected function _isPaymentReviewRequired(Mage_Payment_Model_Info $payment)
     {
         return Mage_Paypal_Model_Info::isPaymentReviewRequired($payment);
     }
