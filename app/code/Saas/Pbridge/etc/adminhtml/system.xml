@@ -17,6 +17,9 @@
             </group>
             <group id="authorizenet" translate="comment" module="Saas_Pbridge" showInDefault="1" showInWebsite="1" showInStore="1">
                 <comment><![CDATA[<a href="http://golinks.magento.com/authorize_netRegistration" target="_blank">Sign up for Authorize.net</a>]]></comment>
+                <field id="using_pbridge" showInDefault="0" showInWebsite="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </field>
                 <field id="payment_profiles_enabled" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable CIM</label>
                     <comment>3D Secure Check will be unavailable if CIM enabled.</comment>
