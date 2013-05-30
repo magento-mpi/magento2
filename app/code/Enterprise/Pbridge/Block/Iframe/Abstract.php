@@ -26,6 +26,13 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     protected $_iframeHeight = '360';
 
     /**
+     * Default iframe width
+     *
+     * @var string
+     */
+    protected $_iframeWidth = '100%';
+
+    /**
      * Default iframe height for 3D Secure authorization
      *
      * @var string
@@ -73,6 +80,16 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     public function getIframeHeight()
     {
         return $this->_iframeHeight;
+    }
+
+    /**
+     * Getter for $_iframeWidth
+     *
+     * @return string
+     */
+    public function getIframeWidth()
+    {
+        return $this->_iframeWidth;
     }
 
     /**
@@ -129,6 +146,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         $iframeBlock = $this->getLayout()->createBlock($this->_iframeBlockType)
             ->setTemplate($this->_iframeTemplate)
             ->setIframeHeight($this->getIframeHeight())
+            ->setIframeWidth($this->getIframeWidth())
             ->setSourceUrl($this->getSourceUrl());
         return $iframeBlock;
     }
