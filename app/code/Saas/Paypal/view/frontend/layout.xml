@@ -33,20 +33,20 @@
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Paypal_Block_Express_Review" name="paypal.express.review" template="paypal/express/review.phtml">
-                <block type="Mage_Paypal_Block_Express_Review_Billing" name="express.review.billing" as="billing" template="paypal/express/review/address.phtml"/>
-                <block type="Mage_Paypal_Block_Express_Review_Shipping" name="express.review.shipping" as="shipping" template="paypal/express/review/address.phtml"/>
-                <block type="Mage_Paypal_Block_Express_Review" name="express.review.shipping.method" as="shipping_method" template="paypal/express/review/shipping/method.phtml"/>
-                <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="paypal/express/review/details.phtml">
-                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>checkout/onepage/review/item.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>checkout/onepage/review/item.phtml</template></action>
-                    <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+            <block type="Mage_Paypal_Block_Express_Review" name="paypal.express.review" template="express/review.phtml">
+                <block type="Mage_Paypal_Block_Express_Review_Billing" name="express.review.billing" as="billing" template="express/review/address.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review_Shipping" name="express.review.shipping" as="shipping" template="express/review/address.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review" name="express.review.shipping.method" as="shipping_method" template="express/review/shipping/method.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
+                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>onepage/review/item.phtml</template></action>
+                    <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
                 </block>
-                <block type="Mage_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+                <block type="Mage_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
             </block>
         </reference>
         <reference name="head">
@@ -63,6 +63,34 @@
             <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
         </block>
     </paypal_express_review_details>
+
+    <paypal_boarding_express_review translate="label">
+        <label>PayPal Express Order Review Form</label>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="Saas_Paypal_Block_Boarding_Express_Review" name="paypal.express.review" template="Mage_Paypal::express/review.phtml">
+                <block type="Mage_Paypal_Block_Express_Review_Billing" name="express.review.billing" as="billing" template="Mage_Paypal::express/review/address.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review_Shipping" name="express.review.shipping" as="shipping" template="Mage_Paypal::express/review/address.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review" name="express.review.shipping.method" as="shipping_method" template="Mage_Paypal::express/review/shipping/method.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="Mage_Paypal::express/review/details.phtml">
+                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
+                    <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="Mage_Checkout::onepage/review/totals.phtml"/>
+                </block>
+                <block type="Mage_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="Mage_Checkout::onepage/agreements.phtml"/>
+            </block>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><file>Mage_Paypal::order-review.js</file></action>
+        </reference>
+        <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
+    </paypal_boarding_express_review>
 
     <!--
     Available logo types can be assigned with action="setLogoType":
