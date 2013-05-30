@@ -4,6 +4,7 @@
  *
  * @copyright {copyright}
  * @license {license_link}
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Mage_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
 {

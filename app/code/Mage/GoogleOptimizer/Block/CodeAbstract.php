@@ -57,9 +57,7 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
      */
     protected function _getGoogleExperiment()
     {
-        /** @var $model Mage_GoogleOptimizer_Model_Code */
-        $model = $this->_codeHelper->getCodeObjectByEntity($this->_getEntity());
-        return $model;
+        return $this->_codeHelper->getCodeObjectByEntity($this->_getEntity());
     }
 
     /**
@@ -73,7 +71,7 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
     }
 
     /**
-     * Return script
+     * Return script code
      *
      * @return string
      */

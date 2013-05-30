@@ -36,10 +36,9 @@ class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Co
     }
 
     /**
-     * Get entity from registry
+     * Get cms page entity
      *
-     * @return mixed
-     * @throws RuntimeException
+     * @return Mage_Cms_Model_Page
      */
     protected function _getEntity()
     {
