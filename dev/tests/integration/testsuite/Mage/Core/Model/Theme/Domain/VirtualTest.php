@@ -51,8 +51,9 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
      */
     protected $_virtualThemeId;
 
-    protected function setUp()
+    public function testGetPhysicalTheme()
     {
+        //1. set up fixture
         /** @var $physicalTheme Mage_Core_Model_Theme */
         $physicalTheme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $physicalTheme->setData($this->_themes['physical']);
@@ -74,10 +75,8 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
 
         $this->_physicalThemeId = $physicalTheme->getId();
         $this->_virtualThemeId = $virtualTheme->getId();
-    }
 
-    public function testGetPhysicalTheme()
-    {
+        //2. run test
         /** @var $virtualTheme Mage_Core_Model_Theme */
         $virtualTheme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $virtualTheme->load($this->_virtualThemeId);
