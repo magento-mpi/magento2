@@ -48,53 +48,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     }
 
     /**
-     * Get "View Layout" button URL
-     *
-     * @return string
-     */
-    public function getViewLayoutUrl()
-    {
-        return $this->getUrl('*/*/getLayoutUpdate');
-    }
-
-    /**
-     * Get "Quit" button URL
-     *
-     * @return string
-     */
-    public function getQuitUrl()
-    {
-        return $this->getUrl('*/*/quit');
-    }
-
-    /**
-     * Get "Navigation Mode" button URL
-     *
-     * @return string
-     */
-    public function getNavigationModeUrl()
-    {
-        return $this->getUrl('*/*/launch', array(
-            'theme_id' => $this->getVirtualThemeId(),
-            'mode' => Mage_DesignEditor_Model_State::MODE_NAVIGATION
-        ));
-    }
-
-    /**
-     * Get "Design Mode" button URL
-     *
-     * @return string
-     */
-    public function getDesignModeUrl()
-    {
-        return $this->getUrl('*/*/launch', array(
-            'theme_id' => $this->getVirtualThemeId(),
-            'mode'     => Mage_DesignEditor_Model_State::MODE_DESIGN
-        ));
-    }
-
-    /**
-     * Get assign to storeview button
+     * Get assign to store view button
      *
      * @return string
      */
@@ -125,80 +79,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
         ));
 
         return $assignButton->toHtml();
-    }
-
-    /**
-     * Get switch mode button init data
-     *
-     * @return string
-     */
-    public function getSwitchModeButtonInitData()
-    {
-        $eventData = array(
-            'theme_id' => $this->getVirtualThemeId(),
-        );
-
-        if ($this->isNavigationMode()) {
-            $eventData['mode_url'] = $this->getDesignModeUrl();
-        } else {
-            $eventData['mode_url']         = $this->getNavigationModeUrl();
-            $eventData['save_changes_url'] = $this->getSaveTemporaryLayoutUpdateUrl();
-        }
-
-        $data = array(
-            'button' => array(
-                'event'     => 'switchMode',
-                'target'    => 'body',
-                'eventData' => $eventData
-            ),
-        );
-
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
-    }
-
-    /**
-     * Get save temporary layout changes url
-     *
-     * @return string
-     */
-    public function getSaveTemporaryLayoutUpdateUrl()
-    {
-        return $this->getUrl('*/*/saveTemporaryLayoutUpdate');
-    }
-
-    /**
-     * Get button HTML
-     *
-     * @return string
-     */
-    public function getViewLayoutButtonHtml()
-    {
-        //TODO If this link is clicked before event handler is assigned - it will result in opening a url
-        //intended for AJAX
-
-        $button = sprintf('<a href="%s" title="%s"class="vde_button view-layout">%s</a>',
-            $this->getViewLayoutUrl(),
-            $this->__('View Layout'),
-            $this->__('View Layout')
-        );
-
-        return $button;
-    }
-
-    /**
-     * Get Quit button HTML
-     *
-     * @return string
-     */
-    public function getQuitButtonHtml()
-    {
-        $button = sprintf('<a href="%s" title="%s"class="vde_button">%s</a>',
-            $this->getQuitUrl(),
-            $this->__('Quit'),
-            $this->__('Quit')
-        );
-
-        return $button;
     }
 
     /**

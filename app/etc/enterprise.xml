@@ -62,6 +62,7 @@
         <configurators>
             <pageCache>Enterprise_PageCache_Model_ObjectManager_Configurator</pageCache>
             <enterprise_search>Enterprise_Search_Model_ObjectManager_Configurator</enterprise_search>
+            <queue>Enterprise_Queue_Model_ParamMapper</queue>
         </configurators>
     </global>
 </config>

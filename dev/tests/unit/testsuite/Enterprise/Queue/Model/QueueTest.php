@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -33,10 +33,24 @@ class Enterprise_Queue_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     protected $_taskMock;
 
+    /**
+     * @var string
+     */
     protected $_taskName = 'taskName';
 
+    /**
+     * @var string
+     */
+    protected $_taskNamePrefix = 'taskNamePrefix';
+
+    /**
+     * @var array
+     */
     protected $_params = array('param1' => 'val1');
 
+    /**
+     * @var array
+     */
     protected $_mergedParams = array('param1' => 'val1', 'defaultParam' => 'defaultVal');
 
     protected function setUp()
@@ -52,7 +66,9 @@ class Enterprise_Queue_Model_QueueTest extends PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_taskRepositoryMock->expects($this->any())->method('get')->with($this->_taskName, $this->_mergedParams)
+        $this->_taskRepositoryMock->expects($this->any())
+            ->method('get')
+            ->with($this->_taskNamePrefix . $this->_taskName, $this->_mergedParams)
             ->will($this->returnValue($this->_taskMock));
 
         $this->_clientMock = $this->getMock('Magento_JobQueue_ClientInterface');
@@ -64,7 +80,7 @@ class Enterprise_Queue_Model_QueueTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('defaultParam' => 'defaultVal')));
 
         $this->_model = new Enterprise_Queue_Model_Queue(
-            $this->_configMock, $this->_taskRepositoryMock, $this->_clientMock
+            $this->_configMock, $this->_taskRepositoryMock, $this->_clientMock, $this->_taskNamePrefix
         );
     }
 
@@ -82,7 +98,7 @@ class Enterprise_Queue_Model_QueueTest extends PHPUnit_Framework_TestCase
         $this->_taskMock->expects($this->once())->method('getId')->will($this->returnValue('taskId'));
         $this->_taskMock->expects($this->once())->method('setHandle')->with('newHandle');
         $this->_clientMock->expects($this->once())->method('addBackgroundTask')
-            ->with($this->_taskName, $this->_mergedParams, 'high', 'taskId')
+            ->with($this->_taskNamePrefix . $this->_taskName, $this->_mergedParams, 'high', 'taskId')
             ->will($this->returnValue('newHandle'));
         $this->_model->addTask($this->_taskName, $this->_params, 'high');
     }

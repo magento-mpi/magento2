@@ -35,6 +35,13 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_loadInactive = false;
 
     /**
+     * Loaded order instance
+     *
+     * @var Mage_Sales_Model_Order
+     */
+    protected $_order;
+
+    /**
      * Initialize checkout session namespace
      *
      * @param string $sessionName
@@ -376,5 +383,33 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->_quote = $quote;
         $this->setQuoteId($quote->getId());
         return $this;
+    }
+
+    /**
+     * Get order instance based on last order ID
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getLastRealOrder()
+    {
+        $orderId = $this->getLastRealOrderId();
+        if ($this->_order !== null && $orderId == $this->_order->getIncrementId()) {
+            return $this->_order;
+        }
+        $this->_order = $this->_getOrderModel();
+        if ($orderId) {
+            $this->_order->loadByIncrementId($orderId);
+        }
+        return $this->_order;
+    }
+
+    /**
+     * Get order model
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _getOrderModel()
+    {
+        return Mage::getModel('Mage_Sales_Model_Order');
     }
 }
