@@ -11,9 +11,6 @@
 /**
  * Form fieldset
  *
- * @method Saas_Launcher_MoVarien_Data_Form_Element_Fieldsetdel_Tile setAdvancedLabel()
- * @method Saas_Launcher_MoVarien_Data_Form_Element_Fieldsetdel_Tile getAdvancedLabel()
- *
  * @category   Varien
  * @package    Varien_Data
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -74,7 +71,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
      */
     public function getChildrenHtml()
     {
-        return $this->_elementsToString($this->getChildren());
+        return $this->_elementsToHtml($this->getChildren());
     }
 
     /**
@@ -164,7 +161,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         $elements = array();
         foreach ($this->getElements() as $element) {
             if ($element->getType() == 'fieldset' && !$element->isAdvanced()) {
-                $elements [] = $element;
+                $elements[] = $element;
             }
         }
         return $elements;

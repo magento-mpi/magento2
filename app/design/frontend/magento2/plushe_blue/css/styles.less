@@ -1878,9 +1878,10 @@ div.mage-error {
 .cart.summary {
     margin-top: 33px;
     background: @primary1;
-    float: right;
+    display: inline-block;
     width: 290px;
     padding: 20px;
+    margin-left: 10px;
     .summary.title {
         font-size: 20px;
         font-weight: 200;
@@ -1959,6 +1960,17 @@ div.mage-error {
             }
         }
     }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
+  }
 }
 
 .cart.table.wrapper.detailed + .cart.summary {
@@ -2179,14 +2191,11 @@ div.mage-error {
 .minicart.wrapper {
     float: right;
     margin-right: 40px;
-    position: relative;
     z-index: 11;
     .block.minicart {
-        top: 100%;
+        left:-100%;
         margin-top: 15px;
         .clearfix;
-        right: -20px;
-        visibility: hidden;
         position: absolute;
         z-index: 2;
         background: @primary1;
@@ -2310,8 +2319,9 @@ div.mage-error {
         }
         position: relative;
         z-index: 11;
-        .block.minicart { //display: block;
-            visibility: visible;
+        .block.minicart {
+            left: auto;
+            right: -20px;
         }
     }
     .action.previous,
@@ -2547,7 +2557,7 @@ div.mage-error {
               overflow: hidden;
           }
           position: relative;
-          &:after {
+          /*&:after {
               content: 'moving';
               position: absolute;
               z-index: 999;
@@ -2557,7 +2567,7 @@ div.mage-error {
               right: 0;
               background: #fff;
               opacity: 0.01;
-          }
+          }*/
           .item {
               visibility: visible;
           }
@@ -2644,6 +2654,26 @@ div.mage-error {
           }
       }
   }
+}
+
+.eq-ie8 .block.minicart {
+    .products.minilist {
+        .action.delete,
+        .action.edit {
+            visibility: hidden;
+        }
+        .shown {
+            .action.delete,
+            .action.edit {
+                visibility: visible;
+            }
+        }
+        .item {
+            &:before {
+                border-left: 0;
+            }
+        }
+    }
 }
 
 .action.delete {
