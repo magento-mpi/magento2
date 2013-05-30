@@ -282,7 +282,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     /**
      * Revert 'staging' theme to the state of 'physical' or 'virtual'
      *
-     * @throws Magento_Exception
+     * @throws Mage_Core_Exception
      */
     public function revertAction()
     {

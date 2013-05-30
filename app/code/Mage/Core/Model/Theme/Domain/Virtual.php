@@ -92,11 +92,11 @@ class Mage_Core_Model_Theme_Domain_Virtual
             $parentTheme = $parentTheme->getParentTheme();
         }
 
-        if ($parentTheme->getId()) {
-            return $parentTheme;
+        if (!$parentTheme || !$parentTheme->getId()) {
+            return null;
         }
 
-        return null;
+        return $parentTheme;
     }
 
     /**
