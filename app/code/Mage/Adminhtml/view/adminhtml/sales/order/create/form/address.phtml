@@ -27,7 +27,27 @@ else:
 endif; ?>
 
 
-
+<script type="text/javascript">
+    (function($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+            "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/sales/order/create/region-updater.js') ?>",
+            function() {
+                $('#order-billing_address_country_id').regionUpdater({
+                    regionListId: '#region_id',
+                    regionInputId: '#order-billing_address_region',
+                    postcodeId: '#order-billing_address_postcode',
+                    form: $('#order-billing_address_fields').validation(),
+                    regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
+                    defaultRegion: "<?php echo $this->getEstimateRegionId() ?>",
+                    countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                });
+            });
+    })(jQuery);
+</script>
 <fieldset class="fieldset">
     <legend class="legend <?php echo $this->getHeaderCssClass() ?>"><span><?php echo $this->getHeaderText() ?></span></legend>
     <div id = "<?php echo $_addressChoiceContainerId ?>" class="field order-choose-address">

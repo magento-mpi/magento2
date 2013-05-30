@@ -2646,6 +2646,9 @@ CREATE TABLE IF NOT EXISTS `core_config_data` (
   UNIQUE KEY `UNQ_CORE_CONFIG_DATA_SCOPE_SCOPE_ID_PATH` (`scope`,`scope_id`,`path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Config Data';
 
+INSERT INTO `core_config_data` (scope, scope_id, path, value) VALUES
+('default', 0, 'general/region/state_required', 'US');
+
 # Dumping structure for table core_email_template
 CREATE TABLE IF NOT EXISTS `core_email_template` (
   `template_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Template Id',
