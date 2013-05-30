@@ -20,7 +20,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function indexAction()
     {
-        $this->_doSelectionTheme('firstEntrance');
+        $this->_resolveActions();
+        $this->_renderStoreDesigner();
     }
 
     /**
@@ -214,7 +215,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function firstEntranceAction()
     {
-        $this->_doSelectionTheme('index');
+        $this->_resolveActions();
+        $this->_renderStoreDesigner();
     }
 
     /**
@@ -502,16 +504,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
     /**
      * Load layout
-     *
-     * @param string $forwardAction
      */
-    protected function _doSelectionTheme($forwardAction)
+    protected function _renderStoreDesigner()
     {
-        if ($forwardAction == 'index' xor $this->_isFirstEntrance()) {
-            $this->_forward($forwardAction);
-            return;
-        }
-
         try {
             $this->_setTitle();
             $this->loadLayout();
@@ -535,6 +530,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
+    }
+
+    /**
+     * Resolve which action should be actually performed and forward to it
+     *
+     * @return $this
+     */
+    protected function _resolveActions()
+    {
+        $action = $this->_isFirstEntrance() ? 'firstEntrance' : 'index';
+        if ($action != $this->getRequest()->getActionName()) {
+            $this->_forward($action);
+        };
+
+        return $this;
     }
 
     /**
