@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_GoogleOptimizer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,14 +28,6 @@
             </googleoptimizer_setup>
         </resources>
         <events>
-            <catalog_product_load_after>
-                <observers>
-                    <googleoptimizer_observer>
-                        <class>Mage_GoogleOptimizer_Model_Observer_Product_Load</class>
-                        <method>appendToProductGoogleExperimentScript</method>
-                    </googleoptimizer_observer>
-                </observers>
-            </catalog_product_load_after>
             <catalog_product_save_after>
                 <observers>
                     <googleoptimizer_observer>
@@ -54,14 +44,6 @@
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_delete_after>
-            <catalog_category_load_after>
-                <observers>
-                    <googleoptimizer_observer>
-                        <class>Mage_GoogleOptimizer_Model_Observer_Category_Load</class>
-                        <method>appendToCategoryGoogleExperimentScript</method>
-                    </googleoptimizer_observer>
-                </observers>
-            </catalog_category_load_after>
             <catalog_category_save_after>
                 <observers>
                     <googleoptimizer_observer>
@@ -78,14 +60,6 @@
                     </googleoptimizer_observer>
                 </observers>
             </catalog_category_delete_after>
-            <cms_page_load_after>
-                <observers>
-                    <googleoptimizer_observer>
-                        <class>Mage_GoogleOptimizer_Model_Observer_CmsPage_Load</class>
-                        <method>appendToCmsPageGoogleExperimentScript</method>
-                    </googleoptimizer_observer>
-                </observers>
-            </cms_page_load_after>
             <cms_page_save_after>
                 <observers>
                     <googleoptimizer_observer>
