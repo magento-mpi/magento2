@@ -130,7 +130,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please assign gift card account.'));
+            Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());

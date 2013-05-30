@@ -73,7 +73,7 @@ class Split
     private $_clean = false;
 
     /**
-     * Variable that indicates errors occured
+     * Variable that indicates errors occurred
      *
      * @var bool
      */

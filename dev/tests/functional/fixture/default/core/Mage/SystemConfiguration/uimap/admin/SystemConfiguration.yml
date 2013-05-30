@@ -1688,13 +1688,13 @@ system_configuration:
                                     fields:
                                         send_payment_failed_email_copy_to: //input[@name='groups[payment_failed][fields][copy_to][value]']
                                     dropdowns:
-                                        payment_failed_email_receiver: //select[@name='groups[payment_failed][fields][reciever][value]']
+                                        payment_failed_email_receiver: //select[@name='groups[payment_failed][fields][receiver][value]']
                                         payment_failed_email_sender: //select[@name='groups[payment_failed][fields][identity][value]']
                                         payment_failed_template: //select[@name='groups[payment_failed][fields][template][value]']
                                         send_payment_failed_email_copy_method: //select[@name='groups[payment_failed][fields][copy_method][value]']
                                     checkboxes:
                                         send_payment_failed_email_copy_to_use_default: //input[@name='groups[payment_failed][fields][copy_to][inherit]']
-                                        payment_failed_email_receiver_use_default: //input[@name='groups[payment_failed][fields][reciever][inherit]']
+                                        payment_failed_email_receiver_use_default: //input[@name='groups[payment_failed][fields][receiver][inherit]']
                                         payment_failed_email_sender_use_default: //input[@name='groups[payment_failed][fields][identity][inherit]']
                                         payment_failed_template_use_default: //input[@name='groups[payment_failed][fields][template][inherit]']
                                         send_payment_failed_email_copy_method_use_default: //input[@name='groups[payment_failed][fields][copy_method][inherit]']

@@ -47,7 +47,7 @@ class Enterprise_CustomerBalance_CartController extends Mage_Core_Controller_Fro
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
-                $this->__('Store Credit payment is not being used in your shopping cart.')
+                $this->__('You are not using store credit in your shopping cart.')
             );
         }
 

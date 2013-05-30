@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
         ));
 
         $this->addColumn('days', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Days in Wishlist'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Days in Wish List'),
             'index'     => 'days_in_wishlist',
             'type'      => 'number',
             'width'     => '140px',

@@ -23,7 +23,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected function _initCustomer($idFieldName = 'id')
     {
         // Default title
-        $this->_title($this->__('Manage Customers'));
+        $this->_title($this->__('Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -40,7 +40,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Customers'));
+        $this->_title($this->__('Customers'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -172,7 +172,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             try {
                 $customer->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The customer has been deleted.'));
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('You deleted the customer.'));
             }
             catch (Exception $exception){
                 $this->_getSession()->addError($exception->getMessage());
@@ -225,7 +225,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
 
                 $this->_objectManager->get('Mage_Core_Model_Registry')->register('current_customer', $customer);
-                $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
+                $this->_getSession()->addSuccess($this->_getHelper()->__('You saved the customer.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
                 $customerId = $customer->getId();
@@ -672,7 +672,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were updated.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were updated.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());
@@ -697,7 +697,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were updated.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were updated.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());
@@ -724,7 +724,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         ->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were deleted.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were deleted.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());
@@ -750,7 +750,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were updated.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were updated.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());

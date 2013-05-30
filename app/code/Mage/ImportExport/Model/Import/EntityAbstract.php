@@ -598,7 +598,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
         }
 
         if (!$valid) {
-            $this->addRowError($this->_helper('Mage_ImportExport_Helper_Data')->__("Invalid value for '%s'"),
+            $this->addRowError($this->_helper('Mage_ImportExport_Helper_Data')->__("Please correct the value for '%s'."),
                 $rowNumber, $attributeCode
             );
         } elseif (!empty($attributeParams['is_unique'])) {
@@ -694,7 +694,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 Mage::throwException(
-                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Can not find required columns: %s',
+                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Cannot find required columns: %s',
                         implode(', ', $absentColumns)
                     )
                 );

@@ -116,7 +116,7 @@ create_customer:
                                         default_billing_address: //input[@id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping_item%address_number%']
                                     pageelements:
-                                        list_customer_address: //li[not (contains (@class,'adress-list-actions last'))]
+                                        list_customer_address: //li[not (contains (@class,'address-list-actions last'))]
                                         list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
@@ -218,7 +218,7 @@ edit_customer:
                                         default_billing_address: //input[@id='address_item_billing%address_number%' or @id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping%address_number%' or @id='address_item_shipping_item%address_number%']
                                     pageelements:
-                                        list_customer_address: //li[not (contains (@class,'adress-list-actions last'))]
+                                        list_customer_address: //li[not (contains (@class,'address-list-actions last'))]
                                         list_customer_address_index: //li[%index%]
                                         list_customer_address_address: //li[%index%]/address
                             -

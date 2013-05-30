@@ -432,7 +432,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
         }
         catch (Exception $e) {
             Mage::logException($e);
-            $this->_getCheckoutSession()->addException($e, $this->__('Cannot open the overview page'));
+            $this->_getCheckoutSession()->addException($e, $this->__('We cannot open the overview page.'));
             $this->_redirect('*/*/billing');
         }
     }
@@ -493,7 +493,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             Mage::logException($e);
             Mage::helper('Mage_Checkout_Helper_Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
-            $this->_getCheckoutSession()->addError($this->__('Order place error.'));
+            $this->_getCheckoutSession()->addError($this->__('Order place error'));
             $this->_redirect('*/*/billing');
         }
     }

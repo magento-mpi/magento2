@@ -39,8 +39,6 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function detailsAction()
     {
-        $this->_title($this->__('View Entry'));
-
         $eventId = $this->getRequest()->getParam('event_id');
         $model   = Mage::getModel('Enterprise_Logging_Model_Event')
             ->load($eventId);
@@ -48,6 +46,8 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
             $this->_redirect('*/*/');
             return;
         }
+        $this->_title($this->__("Log Entry #%d", $eventId));
+
         Mage::register('current_event', $model);
 
         $this->loadLayout();
@@ -80,7 +80,8 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function archiveAction()
     {
-        $this->_title($this->__('Archive'));
+        $log = $this->_initAuthentication();
+        $this->_title($this->__('Admin Actions Archive'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging_backups');

@@ -535,7 +535,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         }
 
         if (!$hasShipCode) {
-            $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('There is no available method for selected shipping address.');
+            $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('We don\'t have a way to ship to the selected shipping address. Please choose another address or edit the current address.');
             return;
         }
 
@@ -805,7 +805,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                     }
                 }
             } else {
-                $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('The response is in wrong format.');
+                $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('Please format your response correctly.');
             }
         }
 

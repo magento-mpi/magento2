@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends Mage_Backend_Area_TestC
                     'store_data' => Mage::getModel('Mage_Core_Model_Website'),
                     'store_action' => 'add'
                 ),
-                'New Website'
+                'New Web Site'
             ),
             array(
                 array(
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends Mage_Backend_Area_TestC
                     'store_data' => Mage::getModel('Mage_Core_Model_Website'),
                     'store_action' => 'edit'
                 ),
-                'Edit Website'
+                'Edit Web Site'
             ),
             array(
                 array(

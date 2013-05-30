@@ -281,11 +281,11 @@
                    </unable_to_save>
                    <can_not_delete>
                        <code>106</code>
-                       <message>This attribute cannot be deleted.</message>
+                       <message>You can't delete this attribute.</message>
                    </can_not_delete>
                    <can_not_edit>
                        <code>107</code>
-                       <message>This attribute cannot be edited.</message>
+                       <message>You can't edit this attribute.</message>
                    </can_not_edit>
                    <unable_to_add_option>
                        <code>108</code>

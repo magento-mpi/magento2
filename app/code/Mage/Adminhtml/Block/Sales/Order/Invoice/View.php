@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
             $this->addButton('send_notification', array(
                 'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Send Email'),
                 'onclick'   => 'confirmSetLocation(\''
-                . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to send Invoice email to customer?')
+                . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to send an Invoice email to customer?')
                 . '\', \'' . $this->getEmailUrl() . '\')'
             ));
         }

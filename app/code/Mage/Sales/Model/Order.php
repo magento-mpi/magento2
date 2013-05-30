@@ -1075,7 +1075,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function hold()
     {
         if (!$this->canHold()) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Hold action is not available.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('A hold action is not available.'));
         }
         $this->setHoldBeforeState($this->getState());
         $this->setHoldBeforeStatus($this->getStatus());
@@ -1092,7 +1092,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function unhold()
     {
         if (!$this->canUnhold()) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Unhold action is not available.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('You cannot remove the hold.'));
         }
         $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
         $this->setHoldBeforeState(null);
@@ -1156,7 +1156,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
             $this->_setState($cancelState, true, $comment);
         } elseif (!$graceful) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Order does not allow to be canceled.'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We cannot cancel this order.'));
         }
         return $this;
     }

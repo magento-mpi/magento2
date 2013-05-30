@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends Mage_Backend
      * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
-     * @expectedExceptionMessage Chosen product does not associated with any website, so URL rewrite is not possible.
+     * @expectedExceptionMessage We can't set up a URL rewrite because the product you chose is not associated with
      */
     public function testGetEntityStoresProductStoresException()
     {
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends Mage_Backend
      * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
-     * @expectedExceptionMessage Chosen product does not associated with any website, so URL rewrite is not possible.
+     * @expectedExceptionMessage We can't set up a URL rewrite because the product you chose is not associated with
      */
     public function testGetEntityStoresProductCategoryStoresException()
     {
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends Mage_Backend
      * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
-     * @expectedExceptionMessage Chosen category does not associated with any website, so URL rewrite is not possible.
+     * @expectedExceptionMessage We can't set up a URL rewrite because the category your chose is not associated with
      */
     public function testGetEntityStoresCategoryStoresException()
     {

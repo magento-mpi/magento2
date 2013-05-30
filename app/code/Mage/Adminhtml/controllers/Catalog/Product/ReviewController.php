@@ -29,7 +29,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
         $this->_title($this->__('Customer Reviews'));
 
-        $this->_title($this->__('All Reviews'));
+        $this->_title($this->__('Reviews'));
 
         if ($this->getRequest()->getParam('ajax')) {
             return $this->_forward('reviewGrid');
@@ -127,11 +127,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                     $review->aggregate();
 
-                    $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The review has been saved.'));
+                    $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You saved the review.'));
                 } catch (Mage_Core_Exception $e) {
                     $session->addError($e->getMessage());
                 } catch (Exception $e){
-                    $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while saving this review.'));
+                    $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong while saving this review.'));
                 }
             }
 
@@ -155,7 +155,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 ->aggregate()
                 ->delete();
 
-            $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The review has been deleted'));
+            $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The review has been deleted.'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
                 $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
             } else {
@@ -165,7 +165,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e){
-            $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while deleting this review.'));
+            $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong  deleting this review.'));
         }
 
         $this->_redirect('*/*/edit/',array('id'=>$reviewId));
@@ -185,7 +185,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     $model->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) have been deleted.', count($reviewsIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) have been deleted.', count($reviewsIds))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
@@ -215,7 +215,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                         ->aggregate();
                 }
                 $session->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) have been updated.', count($reviewsIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) have been updated.', count($reviewsIds))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
@@ -245,7 +245,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     $model->save();
                 }
                 $session->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) have been updated.', count($reviewsIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) have been updated.', count($reviewsIds))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
@@ -284,7 +284,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             $response->setError(0);
         } else {
             $response->setError(1);
-            $response->setMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('Unable to get the product ID.'));
+            $response->setMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t get the product ID.'));
         }
         $this->getResponse()->setBody($response->toJSON());
     }
@@ -324,7 +324,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 $review->aggregate();
 
-                $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The review has been saved.'));
+                $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You saved the review.'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
                     $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
                 } else {

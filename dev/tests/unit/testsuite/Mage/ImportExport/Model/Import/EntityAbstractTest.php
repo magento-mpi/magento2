@@ -549,7 +549,7 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Can not find required columns: %s
+     * @expectedExceptionMessage Cannot find required columns: %s
      */
     public function testValidateDataPermanentAttributes()
     {

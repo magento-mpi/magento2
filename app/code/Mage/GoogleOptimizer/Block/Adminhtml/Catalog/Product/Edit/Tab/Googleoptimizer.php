@@ -18,6 +18,26 @@
 class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer
     extends Mage_Adminhtml_Block_Catalog_Form implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Conversion page URL to form
+     *
+     * @var Mage_GoogleOptimizer_Block_Adminhtml_ConversionPageUrl_FormUpdater
+     */
+    protected $_conversionPage;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_GoogleOptimizer_Block_Adminhtml_ConversionPageUrl_FormUpdater $conversionPage
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_GoogleOptimizer_Block_Adminhtml_ConversionPageUrl_FormUpdater $conversionPage,
+        array $data = array()
+    ) {
+        $this->_conversionPage = $conversionPage;
+        parent::__construct($context, $data);
+    }
 
     protected function _prepareForm()
     {
@@ -73,27 +93,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 'onchange' => 'googleOptimizerConversionPageAction(this)'
             )
         );
-
-        if ($this->getProduct()->getStoreId() == '0' && !Mage::app()->hasSingleStore()) {
-            $fieldset->addField('conversion_page_url', 'note',
-                array(
-                    'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Conversion Page URL'),
-                    'text' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Please select store view to see the URL.')
-                )
-            );
-        } else {
-            $fieldset->addField('conversion_page_url', 'text',
-                array(
-                    'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Conversion Page URL'),
-                    'class' => 'input-text',
-                    'readonly' => 'readonly',
-                    'required' => false,
-                    'note' => Mage::helper('Mage_GoogleOptimizer_Helper_Data')->__('Please copy and paste this value to experiment edit form.')
-                )
-            );
-        }
+        $this->_conversionPage->update($this->getProduct()->getStoreId(), $fieldset);
 
         $fieldset->addField('export_controls', 'text', array('name' => 'export_controls'));
 

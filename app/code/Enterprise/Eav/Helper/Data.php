@@ -31,7 +31,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Use helper with defined EAV entity'));
+        Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -67,7 +67,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                     $minTextLength = (int) $validateRules['min_text_length'];
                     $maxTextLength = (int) $validateRules['max_text_length'];
                     if ($minTextLength > $maxTextLength) {
-                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Wrong values for minimum and maximum text length validation rules.');
+                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Please correct the values for minimum and maximum text length validation rules.');
                     }
                 }
                 break;
@@ -76,7 +76,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                     $minValue = (int) $validateRules['date_range_min'];
                     $maxValue = (int) $validateRules['date_range_max'];
                     if ($minValue > $maxValue) {
-                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Wrong values for minimum and maximum date validation rules.');
+                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Please correct the values for minimum and maximum date validation rules.');
                     }
                 }
                 break;
@@ -470,7 +470,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
             if (isset($data['attribute_code'])) {
                 $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
-                    Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'));
+                    Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
                 }
             }
         }

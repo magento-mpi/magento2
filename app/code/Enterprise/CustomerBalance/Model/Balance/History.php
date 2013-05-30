@@ -74,7 +74,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     {
         $balance = $this->getBalanceModel();
         if ((!$balance) || !$balance->getId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance history cannot be saved without existing balance.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('You need a balance to save your balance history.'));
         }
 
         $this->addData(array(
@@ -110,7 +110,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
             case self::ACTION_REFUNDED:
                 $this->_checkBalanceModelOrder($balance);
                 if ((!$balance->getCreditMemo()) || !$balance->getCreditMemo()->getIncrementId()) {
-                    Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('There is no creditmemo set to balance model.'));
+                    Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('There is no credit memo set to balance model.'));
                 }
                 $this->setAdditionalInfo(
                     Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s, creditmemo #%s', $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId())

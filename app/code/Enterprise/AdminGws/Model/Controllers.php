@@ -206,7 +206,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         switch ($controller->getRequest()->getActionName()) {
             case 'add':
                 /**
-                 * adding is not allowed from begining if user has scope specified permissions
+                 * adding is not allowed from beginning if user has scope specified permissions
                  */
                 $forward = true;
                 $parentId = $controller->getRequest()->getParam('parent');
@@ -889,7 +889,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
-            $message = Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to delete this item(s): %s.', $productNotExclusiveIds);
+            $message = Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to delete this item(s): %s.', $productNotExclusiveIds);
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
         }
 

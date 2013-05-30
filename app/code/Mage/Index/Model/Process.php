@@ -191,7 +191,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function reindexAll()
     {
         if ($this->isLocked()) {
-            Mage::throwException(Mage::helper('Mage_Index_Helper_Data')->__('%s Index process is working now. Please try run this process later.', $this->getIndexer()->getName()));
+            Mage::throwException(Mage::helper('Mage_Index_Helper_Data')->__('%s Index process is not working now. Please try running this process later.', $this->getIndexer()->getName()));
         }
 
         $processStatus = $this->getStatus();

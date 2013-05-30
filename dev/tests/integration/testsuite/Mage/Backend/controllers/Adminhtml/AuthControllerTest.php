@@ -171,7 +171,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->getRequest()->setPost($params);
         $this->dispatch('backend/admin/auth/login');
-        $this->assertContains('Invalid User Name or Password', $this->getResponse()->getBody());
+        $this->assertContains('Please correct the user name or password.', $this->getResponse()->getBody());
     }
 
     public function incorrectLoginDataProvider()
