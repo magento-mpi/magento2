@@ -47,9 +47,10 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         }
 
         if ($customer->getId()) {
+            $url = $this->getUrl('*/*/resetPassword', array('customer_id' => $customer->getId()));
             $this->_addButton('reset_password', array(
                 'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Reset Password'),
-                'onclick' => 'setLocation(\'' . $this->_getResetPasswordUrl($customer->getId()) . '\')',
+                'onclick' => 'setLocation(\'' . $url . '\')',
                 'class' => 'save',
             ), 0);
         }
@@ -115,19 +116,6 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
             '_current'  => true,
             'back'      => 'edit',
             'tab'       => '{{tab_id}}'
-        ));
-    }
-
-    /**
-     * Return URL to reset password action
-     *
-     * @param $customerId
-     * @return string
-     */
-    protected function _getResetPasswordUrl($customerId)
-    {
-        return $this->getUrl('*/*/resetPassword', array(
-            'customer_id' => $customerId
         ));
     }
 }

@@ -365,7 +365,7 @@ class Mage_User_Model_User
      * Send email to when password is resetting
      *
      * @param Mage_Core_Model_Email_Info $emailInfo
-     * @return Mage_Customer_Model_Customer
+     * @return Mage_User_Model_User
      */
     public function sendPasswordResetNotificationEmail(Mage_Core_Model_Email_Info $emailInfo)
     {

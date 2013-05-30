@@ -64,13 +64,13 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
             $user->save();
             $user->sendPasswordResetNotificationEmail($this->_objectManager->create('Mage_Core_Model_Email_Info'));
             $this->_getSession()->addSuccess(
-                $this->_objectManager->create('Mage_Adminhtml_Helper_Data')->__('The account has been saved.')
+                $this->__('The account has been saved.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                $this->_objectManager->create('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving account.')
+                $this->__('An error occurred while saving account.')
             );
         }
         $this->getResponse()->setRedirect($this->getUrl("*/*/"));

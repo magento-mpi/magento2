@@ -270,18 +270,17 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         try {
-            $newResetPasswordLinkToken = $this->_objectManager->create('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
+            $newResetPasswordLinkToken = $this->_objectManager->get('Mage_Customer_Helper_Data')
+                ->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
             $resetUrl = $this->_objectManager->create('Mage_Core_Model_Url')
                 ->getUrl('customer/account/createPassword',
-                    array(
-                        '_query' => array(
-                            'id' => $customer->getId(),
-                            'token' => $newResetPasswordLinkToken))
-            );
+                    array('_query' => array('id' => $customer->getId(), 'token' => $newResetPasswordLinkToken))
+                );
             $customer->setResetPasswordUrl($resetUrl);
             $customer->sendPasswordReminderEmail();
-            $this->_getSession()->addSuccess($this->_getHelper()->__('Customer will receive an email with a link to reset password.'));
+            $this->_getSession()
+                ->addSuccess($this->__('Customer will receive an email with a link to reset password.'));
         } catch (Mage_Core_Exception $exception) {
             $messages = $exception->getMessages(Mage_Core_Model_Message::ERROR);
             if (!count($messages)) {
@@ -290,10 +289,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $this->_addSessionErrorMessages($messages);
         } catch (Exception $exception) {
             $this->_getSession()->addException($exception,
-                Mage::helper('Mage_Backend_Helper_Data')->__('An error occurred while resetting customer password.'));
+                $this->__('An error occurred while resetting customer password.'));
         }
 
-        return $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
+        $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
     }
 
     /**
@@ -337,7 +336,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $this->getRequest(), 'adminhtml_customer', $customerEntity, $serviceAttributes, 'account');
         }
 
-        if (!$this->getRequest()->getPost('customer_id', false)) {
+        if (!$this->getRequest()->getPost('customer_id')) {
             $customerData['new_password'] = 'auto';
         }
         $this->_processCustomerPassword($customerData);
@@ -409,7 +408,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     protected function _processCustomerPassword(&$customerData)
     {
-        if (isset($customerData['new_password']) && !empty($customerData['new_password'])) {
+        if (!empty($customerData['new_password'])) {
             if ($customerData['new_password'] == 'auto') {
                 $customerData['autogenerate_password'] = true;
             } else {

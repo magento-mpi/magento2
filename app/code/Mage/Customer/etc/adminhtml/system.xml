@@ -135,7 +135,7 @@
                     <label>Remind Email Template</label>
                     <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
-                <field id="reset_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="reset_password_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Reset Password Template</label>
                     <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
