@@ -165,9 +165,8 @@
                 });
             },
             done: function(e, data) {
-                var that = this;
                 var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
-                var uploadCount = $('[data-action="fileinput"]').assetfileupload('option', 'uploadCount');
+                var uploadCount = $(this).assetfileupload('option', 'uploadCount');
                 $(progressSelector).css('width','100%');
 
                 var fileRow = $('[data-upload-id="' + data.fileId + '"]');
@@ -185,7 +184,7 @@
                     fileRow.data('upload-status', 'failure');
                 }
 
-                var fileUploadRows = $('[data-action="fileinput"]').assetfileupload('fileUploadsWithStatus', 'pending');
+                var fileUploadRows = $(this).assetfileupload('fileUploadsWithStatus', 'pending');
                 if (fileUploadRows.length === 0) {
                     $(this).assetfileupload('switchToRegularView');
                 }
@@ -193,7 +192,7 @@
                 /** Display and update number of files uploaded */
                 $('.uploaded span').html(uploadCount);
                 $('.uploaded').removeClass('no-display');
-                $(that).assetfileupload('option', 'uploadCount', uploadCount);
+                $(this).assetfileupload('option', 'uploadCount', uploadCount);
             },
             progress: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
