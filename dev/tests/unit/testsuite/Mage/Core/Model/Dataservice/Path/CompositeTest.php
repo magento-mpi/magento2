@@ -44,7 +44,7 @@ class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_T
      */
     public function testGetChildNode($elementName, $expectedResult)
     {
-        $child = $this->_composite->getChild($elementName);
+        $child = $this->_composite->getChildNode($elementName);
 
         $this->assertEquals($expectedResult, $child);
     }

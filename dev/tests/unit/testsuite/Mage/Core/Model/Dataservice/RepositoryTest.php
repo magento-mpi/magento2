@@ -65,6 +65,6 @@ class Mage_Core_Model_Dataservice_RepositoryTest extends PHPUnit_Framework_TestC
         $dataservice = (object)array();
         $name = 'name';
         $this->_repository->add($name, $dataservice);
-        $this->assertEquals($dataservice, $this->_repository->getChild($name));
+        $this->assertEquals($dataservice, $this->_repository->getChildNode($name));
     }
 }

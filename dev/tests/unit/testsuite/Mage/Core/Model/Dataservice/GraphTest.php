@@ -108,7 +108,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         )->will($this->returnValue($this->_dataserviceMock));
         $this->assertEquals(
             $this->_dataserviceMock,
-            $this->_graph->getChild(self::TEST_DATA_SERVICE_NAME)
+            $this->_graph->getChildNode(self::TEST_DATA_SERVICE_NAME)
         );
     }
 

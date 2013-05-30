@@ -29,11 +29,11 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
         $leaf = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
             ->disableOriginalConstructor()->getMock();
         $this->_rootNode->expects($this->any())
-            ->method('getChild')
+            ->method('getChildNode')
             ->with('branch')
             ->will($this->returnValue($branch));
         $branch->expects($this->any())
-            ->method('getChild')
+            ->method('getChildNode')
             ->with('leaf')
             ->will($this->returnValue($leaf));
 
@@ -50,7 +50,7 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
         $leaf = 'a leaf node can be anything';
         $branch['leaf'] = $leaf;
         $this->_rootNode->expects($this->any())
-            ->method('getChild')
+            ->method('getChildNode')
             ->with('branch')
             ->will($this->returnValue($branch));
 
@@ -65,7 +65,7 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
             ->disableOriginalConstructor()->getMock();
         $branch = array();
         $this->_rootNode->expects($this->any())
-            ->method('getChild')
+            ->method('getChildNode')
             ->with('branch')
             ->will($this->returnValue($branch));
 

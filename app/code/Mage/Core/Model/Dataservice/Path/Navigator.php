@@ -31,7 +31,7 @@ class  Mage_Core_Model_Dataservice_Path_Navigator
                 $childElement = $root[$pathElement];
             }
         } else {
-            $childElement = $root->getChild($pathElement);
+            $childElement = $root->getChildNode($pathElement);
         }
 
         if (empty($path)) {

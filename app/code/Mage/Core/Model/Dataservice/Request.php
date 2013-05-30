@@ -27,7 +27,7 @@ class Mage_Core_Model_Dataservice_Request implements Mage_Core_Model_Dataservice
      * @param string $pathElement the path element name of the child node
      * @return Mage_Core_Model_Dataservice_Path_Node|mixed|null the child node, or mixed if this is a leaf node
      */
-    public function getChild($pathElement)
+    public function getChildNode($pathElement)
     {
         switch ($pathElement) {
             case 'params':

@@ -22,7 +22,7 @@ class Mage_Core_Model_Dataservice_RequestTest extends PHPUnit_Framework_TestCase
             )
         );
         $requestVisitor = new Mage_Core_Model_Dataservice_Request($requestMock);
-        $this->assertEquals(self::SOME_INTERESTING_PARAMS, $requestVisitor->getChild('params'));
+        $this->assertEquals(self::SOME_INTERESTING_PARAMS, $requestVisitor->getChildNode('params'));
     }
 
     public function testNotFound()
@@ -31,6 +31,6 @@ class Mage_Core_Model_Dataservice_RequestTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $requestVisitor = new Mage_Core_Model_Dataservice_Request($requestMock);
-        $this->assertEquals(null, $requestVisitor->getChild('foo'));
+        $this->assertEquals(null, $requestVisitor->getChildNode('foo'));
     }
 }
