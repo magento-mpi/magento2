@@ -36,7 +36,7 @@
                 mouseleave: $.proxy(function(e) {
                     this._updateHover($(e.currentTarget), this.options.colorUnfilled);
                 }, this)
-            })
+            });
 
             this._updateRating();
         },
