@@ -37,6 +37,7 @@
         var paymentsProAuthMethodId                 = '<?php echo $this->getHtmlId() ?>';
         var paymentsProApiCredOpt                   = '<?php echo $this->getAuthMethOpt('api_credentials') ?>';
         var paymentsProPermissionsOpt               = '<?php echo $this->getAuthMethOpt('permissions') ?>';
+        var paymentsProBillAgrFieldSet              = '<?php echo $this->getPath() ?>' + '_wpp_settings_wpp_settings_advanced_wpp_billing_agreement';
         var paymentsProBillAgrEnable                = '<?php echo $this->getPath() ?>' + '_wpp_settings_wpp_settings_advanced_wpp_billing_agreement_active';
         var paymentsProApiCredEnable                = '<?php echo $this->getPath() ?>' + '_wpp_required_settings_enable_wpp';
         var paymentsProApiCredEnableRow             = 'row_' + paymentsProApiCredEnable;
@@ -45,6 +46,7 @@
         var paymentsProApiCredEnableInitVal         = $(paymentsProApiCredEnable).value;
 
         if ($(paymentsProAuthMethodId).value == paymentsProPermissionsOpt) {
+            $(paymentsProBillAgrFieldSet).up().hide();
             $(paymentsProApiCredEnableRow).hide();
         } else if ($(paymentsProAuthMethodId).value == paymentsProApiCredOpt) {
             $(paymentsProPermissionsEnableRow).hide();
@@ -59,6 +61,7 @@
             if ($(paymentsProAuthMethodId).value == paymentsProPermissionsOpt) {
                 $(paymentsProApiCredEnableRow).hide();
                 $(paymentsProPermissionsEnableRow).show();
+                $(paymentsProBillAgrFieldSet).up().hide();
                 $(paymentsProBillAgrEnable).value = 0;
                 if (paymentsProApiCredEnableInitVal == 1) {
                     $(paymentsProApiCredEnable).value = 0;
@@ -68,6 +71,7 @@
             } else if ($(paymentsProAuthMethodId).value == paymentsProApiCredOpt) {
                 $(paymentsProPermissionsEnableRow).hide();
                 $(paymentsProApiCredEnableRow).show();
+                $(paymentsProBillAgrFieldSet).up().show();
                 if (paymentsProApiCredEnableInitVal == 1) {
                     $(paymentsProApiCredEnable).value = 1;
                     $(paymentsProPermissionsEnable).value = 0;

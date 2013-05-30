@@ -490,12 +490,6 @@
                                     <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
                                 </depends>
                             </field>
-                            <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/boarind_allow_ba_signup">
-                                <config_path>payment/paypal_express_boarding/allow_ba_signup</config_path>
-                                <depends>
-                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
-                                </depends>
-                            </field>
                         </group>
                     </group>
                 </group>
@@ -954,6 +948,18 @@
                                     <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
                                 </depends>
                             </field>
+                            <field id="boarding_transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
+                                <label>Transfer Shipping Options</label>
+                                <config_path>payment/paypal_express_boarding/transfer_shipping_options</config_path>
+                                <attribute type="tooltip">If this option is enabled, customer can change shipping address and shipping method on PayPal website. In live mode works via HTTPS protocol only.</attribute>
+                                <comment>Does not work if there are more than 10 shipping options available.</comment>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
+                                <depends>
+                                    <field id="boarding_line_items_enabled">1</field>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
                             <field id="boarding_button_flavor" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <label>Shortcut Buttons Flavor</label>
                                 <config_path>paypal/wpp/button_flavor</config_path>
@@ -970,24 +976,6 @@
                                 <source_model>Mage_Paypal_Model_Config::getExpressCheckoutSolutionTypes</source_model>
                                 <attribute type="shared">1</attribute>
                                 <depends>
-                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
-                                </depends>
-                            </field>
-                            <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/allow_ba_signup">
-                                <config_path>payment/paypal_express_boarding/allow_ba_signup</config_path>
-                                <depends>
-                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
-                                </depends>
-                            </field>
-                            <field id="boarding_transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
-                                <label>Transfer Shipping Options</label>
-                                <config_path>payment/paypal_express_boarding/transfer_shipping_options</config_path>
-                                <attribute type="tooltip">If this option is enabled, customer can change shipping address and shipping method on PayPal website. In live mode works via HTTPS protocol only.</attribute>
-                                <comment>Does not work if there are more than 10 shipping options available.</comment>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                <attribute type="shared">1</attribute>
-                                <depends>
-                                    <field id="boarding_line_items_enabled">1</field>
                                     <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
                                 </depends>
                             </field>
