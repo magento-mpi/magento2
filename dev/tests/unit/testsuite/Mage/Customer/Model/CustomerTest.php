@@ -9,7 +9,7 @@
  */
 
 /**
- * Class Mage_Customer_Model_CustomerTest
+ * Test class for Mage_Customer_Model_Customer testing
  */
 class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPasswordResetConfirmationEmail()
     {
-        $storeId = rand(1, 10000);
+        $storeId = 1;
 
         $this->_model->expects($this->any())
             ->method('getStoreId')
@@ -44,11 +44,10 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($storeId));
         $this->_model->expects($this->once())
             ->method('_sendEmailTemplate')
-            ->with(
-                $this->equalTo(Mage_Customer_Model_Customer::XML_PATH_FORGOT_EMAIL_TEMPLATE),
-                $this->equalTo(Mage_Customer_Model_Customer::XML_PATH_FORGOT_EMAIL_IDENTITY),
-                $this->equalTo(array('customer' => $this->_model)),
-                $this->equalTo($storeId));
-        $this->_model->sendPasswordResetConfirmationEmail();
+            ->with(Mage_Customer_Model_Customer::XML_PATH_FORGOT_EMAIL_TEMPLATE,
+                Mage_Customer_Model_Customer::XML_PATH_FORGOT_EMAIL_IDENTITY,
+                array('customer' => $this->_model),
+                $storeId);
+        $this->assertEquals($this->_model, $this->_model->sendPasswordResetConfirmationEmail());
     }
 }
