@@ -89,6 +89,22 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * This method returns an indicator of whether or not the current request is for vde.
+     *
+     * @param $request Mage_Core_Controller_Request_Http
+     * @return _isVdeRequest bool
+     */
+    public function isVdeRequest(Mage_Core_Controller_Request_Http $request = null)
+    {
+        if (null !== $request) {
+            $url = trim($request->getOriginalPathInfo(), '/');
+            $vdeFrontName = $this->getFrontName();
+            $this->_isVdeRequest = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+        }
+        return $this->_isVdeRequest;
+    }
+
+    /**
      * Returns the translation mode the current request is in (null, text, script, or alt).
      *
      * @return mixed
