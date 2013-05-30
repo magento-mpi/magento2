@@ -71,7 +71,6 @@
         _clearMessages: function(containerId)
         {
             $(containerId).html('');
-            $('.vde-tools-content').trigger('resize.vdeToolsResize');
         },
 
         /**
@@ -89,7 +88,6 @@
             messageTemplate.html(messageTemplate.tmpl({message: message}));
             messageTemplate.removeClass('no-display');
             messageTemplate.appendTo(containerId);
-            $('.vde-tools-content').trigger('resize.vdeToolsResize');
         }
     });
 })(jQuery);
