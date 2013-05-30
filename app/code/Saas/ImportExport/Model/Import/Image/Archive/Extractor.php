@@ -54,8 +54,8 @@ class Saas_ImportExport_Model_Import_Image_Archive_Extractor
      * @param string $path
      * @param bool $deleteArchiveAfterExtract
      * @return Saas_ImportExport_Model_Import_Image_Archive_Extractor
-     * @throws RuntimeException Unsupported file type! Only ZIP file archives allowed.
-     * @throws RuntimeException Error while extracting images.
+     * @throws RuntimeException Unsupported file type! Only ZIP file archives allowed
+     * @throws RuntimeException Error while extracting images
      */
     public function extract($path, $deleteArchiveAfterExtract = true)
     {
