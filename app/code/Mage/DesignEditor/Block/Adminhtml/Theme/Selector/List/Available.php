@@ -69,27 +69,6 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     }
 
     /**
-     * Get demo button
-     *
-     * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
-     */
-    protected function _addDemoButtonHtml($themeBlock)
-    {
-        /** @var $demoButton Mage_Backend_Block_Widget_Button */
-        $demoButton = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Adminhtml_Theme_Button');
-        $demoButton->setData(array(
-            'label'  => $this->__('Theme Demo'),
-            'class'  => 'action-theme-preview',
-            'href'   => $this->_getPreviewUrl($themeBlock->getTheme()->getId()),
-            'target' => '_blank'
-        ));
-
-        $themeBlock->addButton($demoButton);
-        return $this;
-    }
-
-    /**
      * Add theme buttons
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
@@ -98,7 +77,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     protected function _addThemeButtons($themeBlock)
     {
         parent::_addThemeButtons($themeBlock);
-        $this->_addDemoButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock);
+        $this->_addAssignButtonHtml($themeBlock);
         $this->_addEditButtonHtml($themeBlock);
         return $this;
     }
