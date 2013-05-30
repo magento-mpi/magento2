@@ -180,6 +180,34 @@
     margin: 0 auto;
 }
 
+.eq-ie8 .adminhtml-system-design-editor-index .col-1-layout {
+    border-top: 0;
+    border-bottom: 0;
+    padding: 0 20px;
+}
+
+.eq-ie8 .adminhtml-system-design-editor-index .col-1-layout:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #d5d0ca;
+    content: '';
+}
+
+.eq-ie8 .adminhtml-system-design-editor-index .footer {
+    padding: 40px;
+    border-bottom: 1px solid #d5d0ca;
+}
+
+.eq-ie8 .adminhtml-system-design-editor-index .ui-tabs {
+    padding-top: 20px;
+}
+
+.eq-ie8 .adminhtml-system-design-editor-index .ui-tabs-panel {
+    margin-bottom: 20px;
+}
+
 /*
     Themes Tabs
 -------------------------------------- */
