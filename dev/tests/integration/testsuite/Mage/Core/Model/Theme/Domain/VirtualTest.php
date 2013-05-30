@@ -51,6 +51,9 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
      */
     protected $_virtualThemeId;
 
+    /**
+     * @magentoDbIsolation
+     */
     public function testGetPhysicalTheme()
     {
         //1. set up fixture
