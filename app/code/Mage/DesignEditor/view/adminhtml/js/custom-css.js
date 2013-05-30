@@ -1,6 +1,8 @@
 /**
  * {license_notice}
  *
+ * @category    design
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,9 +44,7 @@
 
         _editCustomCss: function()
         {
-            if ($.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.removeProp('disabled');
-            }
+            this.btnCssUpdate.removeProp('disabled');
         },
 
         _downloadCustomCss: function() {
@@ -87,11 +87,6 @@
         _prepareUpdateButton: function()
         {
             if (!$.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.prop('disabled', 'disabled');
-                this.btnUpdateDownload.add(this.btnCssDelete).fadeOut();
-            } else {
-                this.btnCssUpdate.removeProp('disabled');
-                this.btnUpdateDownload.add(this.btnCssDelete).fadeIn();
                 this.fileRowInfo.addClass('no-display');
             } else {
                 this.fileRowInfo.removeClass('no-display');
