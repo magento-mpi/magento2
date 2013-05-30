@@ -14,7 +14,7 @@
     $.widget('vde.vdeFrame', {
         options: {
             vdeToolbar: null,
-            vdeFooter: null
+            vdePanel: null
         },
 
         _create: function () {
@@ -29,9 +29,10 @@
 
         _resizeFrame: function() {
             var windowHeight = $(window).innerHeight(),
-            vdeToolbarHeight = $(this.options.vdeToolbar).height(),
-            vdeFooterHeight = $(this.options.vdeToolbar).height(),
-            frameHeight = windowHeight - vdeToolbarHeight - vdeFooterHeight;
+                vdeToolbarHeight = $(this.options.vdeToolbar).outerHeight(true),
+                vdePanelHeight = $(this.options.vdePanel).outerHeight(true),
+                frameHeight = windowHeight - vdeToolbarHeight - vdePanelHeight;
+
             this.element.height(frameHeight);
         },
 

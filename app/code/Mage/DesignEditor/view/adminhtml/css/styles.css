@@ -1398,8 +1398,8 @@
     float: right;
     z-index: 998;
     position: relative;
-    line-height: 21pt;
     padding: 2pt 0;
+    line-height: 0;
 }
 
 .action-switch-mode {
@@ -1445,6 +1445,10 @@
 
 #vde_toolbar_buttons .actions-split > [class^='action-'] {
     line-height: 20px;
+}
+
+#vde_toolbar_buttons .actions-split > .dropdown-menu {
+    line-height: 21pt;
 }
 
 .store-launcher-theme-preview .action-theme-assign {

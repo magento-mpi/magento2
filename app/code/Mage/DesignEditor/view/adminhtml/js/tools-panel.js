@@ -160,6 +160,7 @@
                     height: this.options.panelDefaultHeight - this.panelHeaderHeight
                 }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
                     this.resizableArea.trigger('resize.vdeToolsResize');
+                    $(window).trigger('resize');
                 }, this));
             }
         },
@@ -174,6 +175,7 @@
                 height: 0
             }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
                 this.mainTabs.removeClass(this.options.activeTabClass);
+                $(window).trigger('resize');
             }, this));
         }
     });
