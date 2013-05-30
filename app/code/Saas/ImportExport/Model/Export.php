@@ -97,6 +97,7 @@ class Saas_ImportExport_Model_Export
         try {
             $this->_init($options);
             $this->_paginateCollection();
+            $this->_saveHeaderColumns();
             if ($this->_isCanExport()) {
                 $this->_export();
             } else {
@@ -162,7 +163,6 @@ class Saas_ImportExport_Model_Export
     protected function _export()
     {
         try {
-            $this->_saveHeaderColumns();
             $this->_exportEntity->exportCollection();
             if ($this->_isExportFinished()) {
                 $this->_finishExportSuccess();
