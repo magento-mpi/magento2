@@ -20,6 +20,7 @@ class Mage_Checkout_MultishippingControllerTest extends Magento_Test_TestCase_Co
      *
      * @magentoDataFixture Mage/Sales/_files/quote.php
      * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoConfigFixture current_store shipping/option/checkout_multiple 1
      */
     public function testOverviewAction()
     {
