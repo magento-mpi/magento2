@@ -1,15 +1,12 @@
 #
+# Test data for API Users
+#
 # {license_notice}
 #
-# @category    tests
-# @package     selenium
-# @subpackage  test-data
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
-#Test data for API Users
-
 new_api_users_create:
     api_user_name: user(%randomize%)
     api_user_first_name: user(%randomize%)
