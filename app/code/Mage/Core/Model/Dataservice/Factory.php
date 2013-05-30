@@ -52,21 +52,13 @@ class Mage_Core_Model_Dataservice_Factory
      */
     public function createDataservice($sourceName)
     {
-        $classInformation = $this->getConfig()->getClassByAlias($sourceName);
+        $classInformation = $this->_config->getClassByAlias($sourceName);
         $instance = $this->_objectManager->create($classInformation['class']);
         $dataservice = $this->_applyMethod(
             $instance, $classInformation['retrieveMethod'],
             $classInformation['methodArguments']
         );
         return $dataservice;
-    }
-
-    /**
-     * @return Mage_Core_Model_Dataservice_Config_Interface
-     */
-    public function getConfig()
-    {
-        return $this->_config;
     }
 
     /**
