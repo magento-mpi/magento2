@@ -63,6 +63,7 @@ Mediabrowser.prototype = {
     tree: null,
     currentNode: null,
     storeId: null,
+    showBreadcrumbs: null,
     initialize: function (setup) {
         this.newFolderPrompt = setup.newFolderPrompt;
         this.deleteFolderConfirmationMessage = setup.deleteFolderConfirmationMessage;
@@ -74,6 +75,7 @@ Mediabrowser.prototype = {
         this.deleteFolderUrl = setup.deleteFolderUrl;
         this.deleteFilesUrl = setup.deleteFilesUrl;
         this.headerText = setup.headerText;
+        this.showBreadcrumbs = setup.showBreadcrumbs;
     },
     setTree: function (tree) {
         this.tree = tree;
@@ -96,7 +98,8 @@ Mediabrowser.prototype = {
         }
 
         this.updateHeader(this.currentNode);
-        this.drawBreadcrumbs(this.currentNode);
+        if (this.showBreadcrumbs)
+            this.drawBreadcrumbs(this.currentNode);
 
         this.showElement('loading-mask');
         new Ajax.Request(this.contentsUrl, {

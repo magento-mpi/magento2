@@ -1168,10 +1168,6 @@
     display: none;
 }
 
-.shipping-origin-address .loading-mask {
-    display: none !important;
-}
-
 .shipping-config .field-fedex-key,
 .field-dhl-account-number,
 .field-ups-user-id {
