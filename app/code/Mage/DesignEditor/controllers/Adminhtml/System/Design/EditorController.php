@@ -20,8 +20,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function indexAction()
     {
-        $this->_resolveActions();
-        $this->_renderStoreDesigner();
+        if (!$this->_resolveForwarding())
+        {
+            $this->_renderStoreDesigner();
+        }
     }
 
     /**
@@ -215,8 +217,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function firstEntranceAction()
     {
-        $this->_resolveActions();
-        $this->_renderStoreDesigner();
+        if (!$this->_resolveForwarding()) {
+            $this->_renderStoreDesigner();
+        }
     }
 
     /**
@@ -535,16 +538,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     /**
      * Resolve which action should be actually performed and forward to it
      *
-     * @return $this
+     * @return bool Is forwarding was done
      */
-    protected function _resolveActions()
+    protected function _resolveForwarding()
     {
         $action = $this->_isFirstEntrance() ? 'firstEntrance' : 'index';
         if ($action != $this->getRequest()->getActionName()) {
             $this->_forward($action);
+            return true;
         };
 
-        return $this;
+        return false;
     }
 
     /**
