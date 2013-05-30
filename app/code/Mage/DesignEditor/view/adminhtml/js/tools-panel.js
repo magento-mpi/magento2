@@ -81,6 +81,11 @@
                 $(this).css('top', 'auto');
             });
 
+            $('body')
+                .on('addMessage clearMessages', $.proxy(function() {
+                    this.resizableArea.trigger('resize.vdeToolsResize');
+                }, this));
+
             this.panelTab.on('shown', function () {
                 if (self.panel.hasClass(self.options.openedPanelClass)) {
                     self._recalcDataHeight(self.options.panelDefaultHeight);

@@ -124,6 +124,7 @@
                     containerId: '#vde-tab-custom-messages-placeholder',
                     message: data.result.message
                 });
+                $('.vde-tools-content').trigger('resize.vdeToolsResize');
             }
         });
     })(jQuery);

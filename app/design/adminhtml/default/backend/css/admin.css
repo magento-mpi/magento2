@@ -2320,13 +2320,6 @@ table tbody tr:nth-child(odd):hover th {
     opacity: .95;
 }
 
-.eq-ie8 .loading-old .loader {
-    bottom: auto;
-    right: auto;
-    margin: auto;
-    left: auto;
-}
-
 .loading-mask img {
     display: none;
 }
