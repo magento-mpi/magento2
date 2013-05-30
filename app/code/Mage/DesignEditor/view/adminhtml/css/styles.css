@@ -916,6 +916,10 @@
     margin-left: 0;
 }
 
+.eq-ie8 .files-wrapper .files-list:first-child + .files-list + .files-list + .files-list {
+    margin-left: 0;
+}
+
 .files-wrapper .files-list:last-child {
     margin-bottom: 0;
 }
