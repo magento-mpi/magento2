@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**
+ * * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_LoaderInterface
 {
     /**
@@ -67,6 +70,11 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_sortedFactory;
 
     /**
+     * @var Mage_Core_Model_Config_Loader_Local
+     */
+    protected $_localLoader;
+
+    /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
@@ -74,6 +82,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
      * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_Modules_SortedFactory $sortedFactory
+     * @param Mage_Core_Model_Config_Loader_Local $localLoader
      * @param array $allowedModules
      */
     public function __construct(
@@ -84,6 +93,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Mage_Core_Model_Config_Loader_Modules_File $fileReader,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Config_Modules_SortedFactory $sortedFactory,
+        Mage_Core_Model_Config_Loader_Local $localLoader,
         array $allowedModules = array()
     ) {
         $this->_dirs = $dirs;
@@ -94,6 +104,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         $this->_fileReader = $fileReader;
         $this->_objectManager = $objectManager;
         $this->_sortedFactory = $sortedFactory;
+        $this->_localLoader = $localLoader;
     }
 
     /**
@@ -122,7 +133,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Magento_Profiler::stop('load_modules_configuration');
 
         // Prevent local configuration overriding
-        $config->extend($this->_primaryConfig);
+        $this->_localLoader->load($config);
 
         $config->applyExtends();
 
@@ -256,24 +267,12 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         foreach ($xml->{$sys}->php->extensions->children() as $node) {
             $extension = $node->getName();
             if ($node->hasChildren() && $node->getName() == 'any') {
-                $installed = false;
-                $extentions = array();
-                foreach($node->children() as $any) {
-                    $extentions[] = "'" . $any->getName() .
-                        ($any->attributes()->min_version ? ' - v.' . $any->attributes()->min_version : '') . "'";
-                    if ($this->_checkExtension($any->getName(), $any->attributes()->min_version)) {
-                        $installed = true;
-                        break;
-                    }
+                try {
+                    $this->_checkMutualExclusive($node);
+                } catch (Magento_Exception $e) {
+                    throw new Magento_Exception( "The module '{$moduleName}' cannot be enabled. " . $e->getMessage());
                 }
-                if (!$installed) {
-                    throw new Magento_Exception(
-                        "The module '{$moduleName}' cannot be enabled without one of PHP extensions: " .
-                        implode($extentions, ', ')
-                    );
-                }
-            }
-            elseif (!$this->_checkExtension($extension, $node->attributes()->min_version)) {
+            } elseif (!$this->_checkExtension($extension, $node->attributes()->min_version)) {
                 throw new Magento_Exception(
                     "The module '{$moduleName}' cannot be enabled without PHP extension '{$extension}'"
                 );
@@ -298,5 +297,27 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
             }
         }
         return false;
+    }
+
+    /**
+     * Check mutual exclusive
+     *
+     * @see self::_assertSystemRequirements()
+     * @param SimpleXMLElement $node
+     * @throws Magento_Exception
+     */
+    protected function _checkMutualExclusive($node)
+    {
+        $extentions = array();
+        foreach ($node->children() as $any) {
+            $extentions[] = "'" . $any->getName() .
+                ($any->attributes()->min_version ? ' - v.' . $any->attributes()->min_version : '') . "'";
+            if ($this->_checkExtension($any->getName(), $any->attributes()->min_version)) {
+                return;
+            }
+        }
+        throw new Magento_Exception(
+            'One of PHP extensions: ' . implode($extentions, ', ') . ' needed.'
+        );
     }
 }

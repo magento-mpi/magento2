@@ -584,7 +584,7 @@ addressesModel.prototype = {
             label = $$('label[for="' + currentElement.id + '"]')[0];
             if (label) {
                 wildCard = label.down('em') || label.down('span.required');
-                if (!that.showAllRegions) {
+                if (!that.showAllRegions && label.up('tr')) {
                     if (regionRequired) {
                         label.up('tr').show();
                     } else {

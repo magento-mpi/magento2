@@ -1,8 +1,8 @@
 # special case for Saas edition in build mode: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
 app/code/Enterprise/Queue/etc/config.xml
-app/code/Saas/Search/etc/config.xml
 dev/tests/integration/testsuite/Enterprise/Checkout/controllers/CartControllerTest.php
+dev/tests/integration/testsuite/Enterprise/Enterprise/CodeIntegrityTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/WeightTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/Model/Sales/Order/CreateTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/CacheControllerTest.php

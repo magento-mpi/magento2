@@ -44,8 +44,7 @@
 
         <remove name="top.links" />
         <move element="minicart" destination="panel.menu" after="-" />
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/sidebar.phtml">
-            <action method="setIsLink"><link>1</link></action>
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/link.phtml">
         </block>
         <reference name="header.panel">
             <block type="Mage_Page_Block_Template_Links" name="panel.menu" before="-">
@@ -71,12 +70,12 @@
             </block>
 
             <!-- Login or register / welcome user -->
-            <block type="Mage_Page_Block_Template_Links" name="account.links" after="panel.menu">.
+            <block type="Mage_Page_Block_Template_Links" name="navigation.links" after="panel.menu">.
                 <action method="setCssClass"><class>customer</class></action>
                 <action method="addLinkBlock"><blockName>customer</blockName></action>
                 <block type="Mage_Customer_Block_Account_Link">
-                    <action method="addAuthLink"><target>account.links</target><position>0</position></action>
-                    <action method="addRegisterLink" translate="text_before"><target>account.links</target><position>100</position><text_before> or </text_before></action>
+                    <action method="addAuthLink"><target>navigation.links</target><position>0</position></action>
+                    <action method="addRegisterLink" translate="text_before"><target>navigation.links</target><position>100</position><text_before> or </text_before></action>
                 </block>
             </block>
         </reference>
@@ -151,7 +150,8 @@
 
     <print>
         <reference name="head">
-            <!-- <action method="addCss"><file>css/print.css</file></action> -->
+            <action method="addCss"><file>mui/reset.css</file></action>
+            <action method="addCss"><file>css/print.css</file></action>
         </reference>
     </print>
 

@@ -188,7 +188,7 @@ Product view
                     </container>
                 </container>
                 <container name="product.info.media" label="invisible" htmlTag="div" htmlClass="product media" after="product.info.main">
-                    <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media.image" template="product/view/mainimage.phtml">
+                    <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media.image" template="product/view/base-image.phtml">
                         <block type="Mage_Catalog_Block_Product_Image" name="product.image.main"/>
                         <block type="Mage_Catalog_Block_Product_Image" name="product.image.thumbs"/>
                     </block>

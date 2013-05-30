@@ -693,7 +693,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->clickButton('attribute_set_toggle', false);
         $attributeSetField = $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
-        $attributeSetField->value(' '); // @TODO replace to '$attributeSetField->click();' after fix MAGETWO-8635
+        $attributeSetField->click();
         $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
         $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
         $this->addParameter('attributeSet', $newAttributeSet);

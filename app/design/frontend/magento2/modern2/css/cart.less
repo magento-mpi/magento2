@@ -185,12 +185,21 @@
 .cart.table.wrapper {
     float: left;
     width: 650px;
+    .action.delete {
+        position: relative;
+        span:after {
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+    }
 }
 
 .cart.summary {
     background: @primary7;
     margin-top: 27px;
-    float: right;
+    display: inline-block;
+    margin-left:10px;
     width: 260px;
     padding: 20px;
     .summary.title {
@@ -286,7 +295,17 @@
         }
     }
 }
-
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
+  }
+}
 .cart.table.wrapper.detailed + .cart.summary {
     margin-top: 54px;
 }
@@ -509,7 +528,8 @@
             font-size: 14px;
         }
     }
-    .giftcard {
+    .giftcard,
+    .storecredit {
         .amount span {
             white-space: nowrap;
         }
@@ -573,20 +593,17 @@
 
 .minicart.wrapper {
     display: inline-block;
-    position: relative;
     z-index: 11;
     .block.minicart {
         .commonPopup();
-        top: 100%;
-        left: -88px;
+        left: -100%;
         margin-top: 15px;
         width: 308px;
         .clearfix;
-        visibility: hidden;
         position: absolute;
         z-index: 2;
         > .content {
-            margin-top: 20px;
+            margin-top: 5px;
             .subtotal {
                 padding: 15px;
                 font-size: 13px;
@@ -620,9 +637,11 @@
                 }
             }
             .subtitle {
-                display: none;
+                display: block;
+                font-weight: 400;
+                padding: 0 35px 15px 15px;
+                color: @primary1;
                 &.empty {
-                    display: block;
                     padding: 10px 15px;
                 }
             }
@@ -638,7 +657,8 @@
         position: relative;
         z-index: 11;
         .block.minicart {
-            visibility: visible;
+            left: auto;
+            right: -150px;
         }
     }
     .action.close {

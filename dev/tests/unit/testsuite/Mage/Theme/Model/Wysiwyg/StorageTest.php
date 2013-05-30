@@ -93,7 +93,6 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         /** Prepare image */
 
-        $dataHelper = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
         $image = $this->getMock('Varien_Image_Adapter_Gd2', array(), array(), '', false);
 
         $image->expects($this->once())

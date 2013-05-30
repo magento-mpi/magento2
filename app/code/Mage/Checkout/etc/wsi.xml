@@ -178,10 +178,6 @@
                     <xsd:element name="gift_cards_amount" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="base_gift_cards_amount" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="gift_cards_amount_used" type="xsd:string" minOccurs="0"/>
-                    <xsd:element name="use_reward_points" type="xsd:string" minOccurs="0"/>
-                    <xsd:element name="reward_points_balance" type="xsd:string" minOccurs="0"/>
-                    <xsd:element name="base_reward_currency_amount" type="xsd:string" minOccurs="0"/>
-                    <xsd:element name="reward_currency_amount" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="shipping_address" type="typens:shoppingCartAddressEntity" minOccurs="0"/>
                     <xsd:element name="billing_address" type="typens:shoppingCartAddressEntity" minOccurs="0"/>
                     <xsd:element name="items" type="typens:shoppingCartItemEntityArray" minOccurs="0"/>
