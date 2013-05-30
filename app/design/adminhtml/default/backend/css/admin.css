@@ -522,7 +522,12 @@ button.primary.disabled:hover,
 .notification .action-close:hover,
 .notification .action-close:active,
 .notification .action-close.active,
-.notification .action-close[disabled] {
+.notification .action-close[disabled],
+.adminhtml-sales-order-create-index .page-actions-inner .cancel,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:hover,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel.active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel[disabled] {
     border: 0;
     border-radius: 0;
     background: none;
@@ -5202,15 +5207,6 @@ table .col-draggable .draggable-handle {
     -o-transition: color 150ms linear;
     -ms-transition: color 150ms linear;
     transition: color 150ms linear;
-}
-
-.field-detailed_rating .field-rating .control input[type="radio"]:checked ~ label:before {
-    color: #333;
-}
-
-.field-detailed_rating .field-rating .control label:hover,
-.field-detailed_rating .field-rating .control label:hover ~ label {
-    color: #f30;
 }
 
 .field-detailed_rating .field-rating .control label:before {

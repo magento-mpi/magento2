@@ -16,17 +16,17 @@ class Mage_Paypal_Model_ProTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param bool $pendingReason
-     * @param bool $isPaymentReviewRequired
+     * @param bool $isReviewRequired
      * @param bool $expected
      * @dataProvider canReviewPaymentDataProvider
      */
-    public function testCanReviewPayment($pendingReason, $isPaymentReviewRequired, $expected)
+    public function testCanReviewPayment($pendingReason, $isReviewRequired, $expected)
     {
         /** @var $pro Mage_Paypal_Model_Pro */
         $pro = $this->getMock('Mage_Paypal_Model_Pro', array('_isPaymentReviewRequired'));
         $pro->expects($this->any())
             ->method('_isPaymentReviewRequired')
-            ->will($this->returnValue($isPaymentReviewRequired));
+            ->will($this->returnValue($isReviewRequired));
         $payment = $this->getMockBuilder('Mage_Payment_Model_Info')
             ->disableOriginalConstructor()
             ->setMethods(array('getAdditionalInformation'))

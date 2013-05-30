@@ -594,16 +594,13 @@
 
 .minicart.wrapper {
     display: inline-block;
-    position: relative;
     z-index: 11;
     .block.minicart {
         .commonPopup();
-        top: 100%;
-        left: -88px;
+        left: -100%;
         margin-top: 20px;
         width: 308px;
         .clearfix;
-        visibility: hidden;
         position: absolute;
         z-index: 2;
         > .content {
@@ -666,7 +663,8 @@
         position: relative;
         z-index: 11;
         .block.minicart {
-            visibility: visible;
+            left: auto;
+            right: -150px;
         }
     }
     .action.close {
