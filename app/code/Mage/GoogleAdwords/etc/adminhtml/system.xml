@@ -25,7 +25,6 @@
                 <field id="conversion_language" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Conversion Language</label>
                     <source_model>Mage_GoogleAdwords_Model_Config_Source_Language</source_model>
-
                     <depends>
                         <field id="*/*/active">1</field>
                     </depends>

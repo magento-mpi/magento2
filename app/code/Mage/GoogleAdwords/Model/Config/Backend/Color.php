@@ -36,14 +36,14 @@ class Mage_GoogleAdwords_Model_Config_Backend_Color extends Mage_Core_Model_Conf
     public function __construct(
         Mage_Core_Model_Context $context,
         Magento_Validator_Composite_VarienObject $validator,
-        Magento_Validator_BuilderFactory $validatorBuilderFactory, //add Factory
+        Magento_Validator_BuilderFactory $validatorBuilderFactory,
         Mage_GoogleAdwords_Helper_Data $helper,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null
     ) {
         parent::__construct($context, $resource, $resourceCollection);
-        $this->_validatorBuilderFactory = $validatorBuilderFactory;
 
+        $this->_validatorBuilderFactory = $validatorBuilderFactory;
         $this->_validator = $validator;
         $this->_helper = $helper;
     }
@@ -59,29 +59,28 @@ class Mage_GoogleAdwords_Model_Config_Backend_Color extends Mage_Core_Model_Conf
             $this->getValue());
         /** @var Magento_Validator_Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(array(
+            array(
                 array(
-                    array(
-                        'alias' => 'Regex',
-                        'type' => '',
-                        'class' => 'Magento_Validator_Regex',
-                        'options' => array(
-                            'arguments' => array('/^[0-9a-f]{6}$/i'),
-                            'methods' => array(
-                                array(
-                                    'method' => 'setMessages',
-                                    'arguments' => array(
-                                        array(
-                                            Magento_Validator_Regex::NOT_MATCH => $message,
-                                            Magento_Validator_Regex::INVALID => $message,
-                                        )
-                                    )
-                                )
+                    'alias' => 'Regex',
+                    'type' => '',
+                    'class' => 'Magento_Validator_Regex',
+                    'options' => array(
+                        'arguments' => array('/^[0-9a-f]{6}$/i'),
+                        'methods' => array(
+                            array(
+                                'method' => 'setMessages',
+                                'arguments' => array(
+                                    array(
+                                        Magento_Validator_Regex::NOT_MATCH => $message,
+                                        Magento_Validator_Regex::INVALID => $message,
+                                    ),
+                                ),
                             ),
                         ),
-                    )
+                    ),
                 ),
-            )
-        );
+            ),
+        ));
         return $builder->createValidator();
     }
 

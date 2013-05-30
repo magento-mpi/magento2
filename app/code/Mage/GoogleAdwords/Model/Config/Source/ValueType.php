@@ -34,11 +34,11 @@ class Mage_GoogleAdwords_Model_Config_Source_ValueType implements Mage_Core_Mode
         return array(
             array(
                 'value' => Mage_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_DYNAMIC,
-                'label' => $this->_helper->__('Dynamic')
+                'label' => $this->_helper->__('Dynamic'),
             ),
             array(
                 'value' => Mage_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_CONSTANT,
-                'label' => $this->_helper->__('Constant')
+                'label' => $this->_helper->__('Constant'),
             ),
         );
     }

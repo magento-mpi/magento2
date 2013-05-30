@@ -33,10 +33,7 @@ class Mage_GoogleAdwords_Block_Code extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        if (!$this->_helper->isGoogleAdwordsActive()) {
-            return '';
-        }
-        return parent::_toHtml();
+        return $this->_helper->isGoogleAdwordsActive() ? parent::_toHtml() : '';
     }
 
     /**

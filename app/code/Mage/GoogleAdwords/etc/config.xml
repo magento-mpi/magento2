@@ -17,7 +17,6 @@
             </depends>
         </Mage_GoogleAdwords>
     </modules>
-
     <frontend>
         <events>
             <checkout_onepage_controller_success_action>
@@ -45,9 +44,6 @@
             </updates>
         </layout>
     </frontend>
-
-    <adminhtml>
-    </adminhtml>
     <default>
         <google>
             <adwords>

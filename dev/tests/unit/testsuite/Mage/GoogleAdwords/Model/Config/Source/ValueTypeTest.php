@@ -25,7 +25,7 @@ class Mage_GoogleAdwords_Model_Config_Source_ValueTypeTest extends PHPUnit_Frame
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Mage_GoogleAdwords_Model_Config_Source_ValueType', array(
-            'helper' => $this->_helperMock
+            'helper' => $this->_helperMock,
         ));
     }
 
@@ -34,11 +34,11 @@ class Mage_GoogleAdwords_Model_Config_Source_ValueTypeTest extends PHPUnit_Frame
         $this->assertEquals(array(
             array(
                 'value' => Mage_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_DYNAMIC,
-                'label' => 'Dynamic'
+                'label' => 'Dynamic',
             ),
             array(
                 'value' => Mage_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_CONSTANT,
-                'label' => 'Constant'
+                'label' => 'Constant',
             ),
         ), $this->_model->toOptionArray());
     }

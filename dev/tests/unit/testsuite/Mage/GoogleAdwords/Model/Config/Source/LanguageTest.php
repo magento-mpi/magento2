@@ -38,7 +38,7 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Mage_GoogleAdwords_Model_Config_Source_Language', array(
             'locale' => $this->_localeMock,
-            'helper' => $this->_helperMock
+            'helper' => $this->_helperMock,
         ));
     }
 
@@ -66,11 +66,11 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
         $languagesReturn = array(
             array(
                 'value' => 'en',
-                'label' => $this->_getLanguageLabel('en')
+                'label' => $this->_getLanguageLabel('en'),
             ),
             array(
                 'value' => 'ru',
-                'label' => $this->_getLanguageLabel('ru')
+                'label' => $this->_getLanguageLabel('ru'),
             ),
         );
         $this->_helperMock->expects($this->once())->method('getLanguageCodes')

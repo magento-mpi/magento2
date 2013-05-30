@@ -105,11 +105,11 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get Google AdWords conversion id
      *
-     * @return string
+     * @return int
      */
     public function getConversionId()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_ID);
+        return (int)$this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_ID);
     }
 
     /**
@@ -175,22 +175,22 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get Google AdWords conversion value constant
      *
-     * @return string
+     * @return float
      */
     public function getConversionValueConstant()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_VALUE);
+        return (float)$this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_VALUE);
     }
 
     /**
      * Get Google AdWords conversion value
      *
-     * @return string
+     * @return float
      */
     public function getConversionValue()
     {
         if ($this->isDynamicConversionValue()) {
-            $conversionValue = $this->_registry->registry(self::CONVERSION_VALUE_REGISTRY_NAME);
+            $conversionValue = (float)$this->_registry->registry(self::CONVERSION_VALUE_REGISTRY_NAME);
         } else {
             $conversionValue = $this->getConversionValueConstant();
         }
