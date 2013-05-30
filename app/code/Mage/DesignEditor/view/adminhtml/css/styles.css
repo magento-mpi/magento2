@@ -667,6 +667,15 @@
     left: 9px;
 }
 
+@media screen and (max-width: 1340px) {
+    .vde-tab-content-inner.hasScroll .save_image_sizing {
+        bottom: 67px;
+    }
+    .vde-tab-content-inner.hasScroll #save_image_sizing {
+        right: 0;
+    }
+}
+
 .vde-tools .ui-resizable-handle {
     position: absolute;
     font-size: 0.1px;
@@ -1839,6 +1848,10 @@
 /*
     Image Sizing
 -------------------------------------- */
+.vde-image-sizing {
+    padding-bottom: 40px;
+}
+
 .vde-image-sizing fieldset.field {
     border: solid #31302b;
     border-width: 0 0 1px;
@@ -1967,10 +1980,15 @@
     background: #000;
     position: fixed;
     left: 0;
-    right: 30px;
+    right: 20px;
     bottom: 51px;
     height: 44px;
     z-index: 2;
+}
+
+.eq-ie8 .save_image_sizing {
+    background: transparent;
+    bottom: 67px;
 }
 
 .vde-image-sizing fieldset.save_image_sizing > .control {
@@ -1992,6 +2010,10 @@
 #save_image_sizing {
     position: relative;
     right: -15px;
+}
+
+.eq-ie8 #save_image_sizing {
+    right: 0;
 }
 
 /*
