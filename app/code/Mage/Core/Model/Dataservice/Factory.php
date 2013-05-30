@@ -90,21 +90,10 @@ class Mage_Core_Model_Dataservice_Factory
     {
         $result = array();
         foreach ($argumentsList as $name => $value) {
-            $result[$name] = $this->getArgumentValue($value);
+            // convert from '{parent.child}' format to array('parent', 'child') format
+            $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($value, '{}'));
+            $result[$name] = $this->_pathNavigator->search($this->_composite, $pathArray);
         }
         return $result;
-    }
-
-    /**
-     * Get the value for the method argument
-     *
-     * @param $path
-     * @return null
-     */
-    public function getArgumentValue($path)
-    {
-        // convert from '{parent.child}' format to array('parent', 'child') format
-        $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($path, '{}'));
-        return $this->_pathNavigator->search($this->_composite, $pathArray);
     }
 }

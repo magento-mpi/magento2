@@ -58,18 +58,6 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_dataserviceMock = (object)array();
     }
 
-    public function testGetArgumentValue()
-    {
-        $path = 'path';
-        $result = 'result';
-        $pathArray = array($path);
-        $this->_pathNavigatorMock->expects($this->once())->method('search')->with($this->_compositeMock, $pathArray)
-            ->will(
-            $this->returnValue($result)
-        );
-        $this->assertEquals($result, $this->_factory->getArgumentValue($path));
-    }
-
     public function testCreateDataservice()
     {
         $classInformation = array('class'          => self::TEST_CLASS_NAME,
