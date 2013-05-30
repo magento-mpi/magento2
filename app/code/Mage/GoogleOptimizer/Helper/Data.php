@@ -25,15 +25,34 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_storeConfig;
 
     /**
+     * @var Mage_GoogleAnalytics_Helper_Data
+     */
+    protected $_analyticsHelper;
+
+    /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Store_ConfigInterface $storeConfig
+     * @param Mage_GoogleAnalytics_Helper_Data $analyticsHelper
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Store_ConfigInterface $storeConfig
+        Mage_Core_Model_Store_ConfigInterface $storeConfig,
+        Mage_GoogleAnalytics_Helper_Data $analyticsHelper
     ) {
         $this->_storeConfig = $storeConfig;
+        $this->_analyticsHelper = $analyticsHelper;
         parent::__construct($context);
+    }
+
+    /**
+     * Checks if Google Experiment is enabled
+     *
+     * @param string $store
+     * @return bool
+     */
+    public function isGoogleExperimentEnabled($store = null)
+    {
+        return (bool)$this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
     }
 
     /**
@@ -44,6 +63,6 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isGoogleExperimentActive($store = null)
     {
-        return (bool)$this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $this->isGoogleExperimentEnabled($store) && $this->_analyticsHelper->isGoogleAnalyticsAvailable($store);
     }
 }

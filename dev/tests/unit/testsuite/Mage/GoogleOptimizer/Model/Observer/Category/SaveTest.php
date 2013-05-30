@@ -15,17 +15,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_codeMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_eventObserverMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_requestMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -33,88 +23,197 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
     protected $_categoryMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_codeMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_requestMock;
+
+    /**
      * @var Mage_GoogleOptimizer_Model_Observer_Category_Save
      */
-    protected $_model;
+    protected $_modelObserver;
+
+    /**
+     * @var int
+     */
+    protected $_storeId;
 
     public function setUp()
     {
         $this->_helperMock = $this->getMock('Mage_GoogleOptimizer_Helper_Data', array(), array(), '', false);
-        $this->_codeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code', array(), array(), '', false);
+        $this->_categoryMock = $this->getMock('Mage_Catalog_Model_Category', array(), array(), '', false);
+        $this->_storeId = 0;
+        $this->_categoryMock->expects($this->atLeastOnce())->method('getStoreId')
+            ->will($this->returnValue($this->_storeId));
         $event = $this->getMock('Varien_Event', array('getCategory'), array(), '', false);
-        $this->_categoryMock = $this->getMock(
-            'Mage_Catalog_Model_Category',
-            array('setGoogleExperiment', 'getId', 'getStoreId'),
-            array(),
-            '',
-            false
-        );
         $event->expects($this->once())->method('getCategory')->will($this->returnValue($this->_categoryMock));
         $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
+        $this->_codeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Mage_GoogleOptimizer_Model_Observer_Category_Save', array(
-            'helper' => $this->_helperMock, 'modelCode' => $this->_codeMock, 'request' => $this->_requestMock
-        ));
+        $this->_modelObserver = $objectManagerHelper->getObject(
+            'Mage_GoogleOptimizer_Model_Observer_Category_Save',
+            array(
+                'helper' => $this->_helperMock,
+                'modelCode' => $this->_codeMock,
+                'request' => $this->_requestMock,
+            )
+        );
     }
 
-    public function testSaveProductGoogleExperimentScriptSuccess()
+    public function testCreatingCodeIfRequestIsValid()
     {
-        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
+        $categoryId = 3;
+        $experimentScript = 'some string';
 
-        $entityId = 3;
-        $storeId = 0;
+        $this->_categoryMock->expects($this->once())->method('getId')->will($this->returnValue($categoryId));
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->with($this->_storeId)
+            ->will($this->returnValue(true));
 
         $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
-            ->will($this->returnValue(array('code_id' => 1, 'experiment_script' => 'some string')));
-        $this->_codeMock->expects($this->once())->method('load')->with(1);
+            ->will($this->returnValue(array(
+                'code_id' => '',
+                'experiment_script' => $experimentScript,
+            )));
+
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_id' => $entityId,
             'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
-            'store_id' => $storeId,
-            'experiment_script' => 'some string',
+            'entity_id' => $categoryId,
+            'store_id' => $this->_storeId,
+            'experiment_script' => $experimentScript,
         ));
         $this->_codeMock->expects($this->once())->method('save');
-        $this->_categoryMock->expects($this->exactly(2))->method('getId')->will($this->returnValue($entityId));
-        $this->_categoryMock->expects($this->exactly(2))->method('getStoreId')->will($this->returnValue($storeId));
 
-        $this->_model->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
-    public function testSaveProductGoogleExperimentScriptFail()
+    /**
+     * @param array $params
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Wrong request parameters
+     * @dataProvider dataProviderWrongRequestForCreating
+     */
+    public function testCreatingCodeIfRequestIsNotValid($params)
     {
-        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
-
-        $entityId = 3;
-        $storeId = 0;
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->with($this->_storeId)
+            ->will($this->returnValue(true));
 
         $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
-            ->will($this->returnValue( array('code_id' => 0, 'experiment_script' => 'some string')));
-        $this->_codeMock->expects($this->never())->method('load');
-        $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_id' => $entityId,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
-            'store_id' => $storeId,
-            'experiment_script' => 'some string',
-        ));
-        $this->_categoryMock->expects($this->exactly(2))->method('getId')->will($this->returnValue($entityId));
-        $this->_categoryMock->expects($this->exactly(2))->method('getStoreId')->will($this->returnValue($storeId));
+            ->will($this->returnValue($params));
 
-        $this->_model->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 
-    public function testSaveProductGoogleExperimentScriptFailSecond()
+    /**
+     * @return array
+     */
+    public function dataProviderWrongRequestForCreating()
     {
-        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(false));
+        return array(
+            // if param 'google_experiment' is not array
+            array('wrong type'),
+            // if param 'experiment_script' is missed
+            array(
+                array('code_id' => ''),
+            ),
+            // if param 'code_id' is missed
+            array(
+                array('experiment_script' => ''),
+            ),
+        );
+    }
 
-        $this->_requestMock->expects($this->never())->method('getParam');
+    public function testEditingCodeIfRequestIsValid()
+    {
+        $categoryId = 3;
+        $experimentScript = 'some string';
+        $codeId = 5;
+
+        $this->_categoryMock->expects($this->once())->method('getId')->will($this->returnValue($categoryId));
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->with($this->_storeId)
+            ->will($this->returnValue(true));
+
+        $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
+            ->will($this->returnValue(array(
+                'code_id' => $codeId,
+                'experiment_script' => $experimentScript,
+            )));
+
+        $this->_codeMock->expects($this->once())->method('load')->with($codeId);
+        $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
+
+        $this->_codeMock->expects($this->once())->method('addData')->with(array(
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
+            'entity_id' => $categoryId,
+            'store_id' => $this->_storeId,
+            'experiment_script' => $experimentScript,
+        ));
+        $this->_codeMock->expects($this->once())->method('save');
+
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Code does not exist
+     */
+    public function testEditingCodeIfCodeModelIsNotFound()
+    {
+        $experimentScript = 'some string';
+        $codeId = 5;
+
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->with($this->_storeId)
+            ->will($this->returnValue(true));
+
+        $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
+            ->will($this->returnValue(array(
+                'code_id' => $codeId,
+                'experiment_script' => $experimentScript,
+            )));
+
+        $this->_codeMock->expects($this->once())->method('load')->with($codeId);
+        $this->_codeMock->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(false));
+        $this->_codeMock->expects($this->never())->method('save');
+
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
+    }
+
+    public function testRemovingCode()
+    {
+        $codeId = 5;
+
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->with($this->_storeId)
+            ->will($this->returnValue(true));
+
+        $this->_requestMock->expects($this->once())->method('getParam')->with('google_experiment')
+            ->will($this->returnValue(array(
+                'code_id' => $codeId,
+                'experiment_script' => '',
+            )));
+
+        $this->_codeMock->expects($this->once())->method('load')->with($codeId);
+        $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
+
+        $this->_codeMock->expects($this->never())->method('save');
+        $this->_codeMock->expects($this->once())->method('delete');
+
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
+    }
+
+    public function testManagingCodeIfGoogleExperimentIsDisabled()
+    {
+        $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->with($this->_storeId)
+            ->will($this->returnValue(false));
         $this->_codeMock->expects($this->never())->method('load');
-        $this->_codeMock->expects($this->never())->method('addData');
-        $this->_categoryMock->expects($this->never())->method('getId');
-        $this->_categoryMock->expects($this->once())->method('getStoreId');
+        $this->_codeMock->expects($this->never())->method('save');
+        $this->_codeMock->expects($this->never())->method('delete');
 
-        $this->_model->saveCategoryGoogleExperimentScript($this->_eventObserverMock);
+        $this->_modelObserver->saveGoogleExperimentScript($this->_eventObserverMock);
     }
 }

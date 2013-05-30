@@ -21,9 +21,15 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     protected $_registry;
 
     /**
+     * @var Mage_GoogleOptimizer_Helper_Code
+     */
+    protected $_codeHelper;
+
+    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_GoogleOptimizer_Helper_Data $helperData
      * @param Mage_Core_Model_Registry $registry
+     * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
      * @param Varien_Data_Form $form
      * @param array $data
      */
@@ -31,6 +37,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         Mage_Core_Block_Template_Context $context,
         Mage_GoogleOptimizer_Helper_Data $helperData,
         Mage_Core_Model_Registry $registry,
+        Mage_GoogleOptimizer_Helper_Code $codeHelper,
         Varien_Data_Form $form,
         array $data = array()
     ) {
@@ -38,6 +45,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
 
         $this->_helperData = $helperData;
         $this->_registry = $registry;
+        $this->_codeHelper = $codeHelper;
         $this->setForm($form);
     }
 
@@ -83,11 +91,15 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     /**
      * Get google experiment code model
      *
-     * @return Mage_GoogleOptimizer_Model_Code
+     * @return Mage_GoogleOptimizer_Model_Code|null
      */
     protected function _getGoogleExperiment()
     {
-        return $this->_getProduct()->getGoogleExperiment();
+        $product = $this->_getProduct();
+        if ($product->getId()) {
+            return $this->_codeHelper->getCodeObjectByEntity($product);
+        }
+        return null;
     }
 
     /**
