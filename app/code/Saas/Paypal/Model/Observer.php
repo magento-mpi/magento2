@@ -15,29 +15,6 @@ class Saas_Paypal_Model_Observer extends Mage_Paypal_Model_Observer
 {
     /**
      * Update boarding status for current boarding method
-     * when admin open paypal configuration page
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Saas_Paypal_Model_Observer
-     */
-    public function updateBoardingStatus($observer)
-    {
-        $request = $observer->getEvent()->getControllerAction()->getRequest();
-        if ($request->getParam('section') == 'payment') {
-            $token = (string)$request->getParam('request_token');
-            $code  = (string)$request->getParam('verification_code');
-
-            if ($token && $code) {
-                $onboarding = Mage::getModel('Saas_Paypal_Model_Boarding_Onboarding');
-                $onboarding->updateMethodStatus($token, $code);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Update boarding status for current boarding method
      * if it has been changed
      *
      * @deprecated

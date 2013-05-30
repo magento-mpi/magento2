@@ -74,7 +74,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
      */
     public function getEnterBoardingUrl()
     {
-        return $this->getUrl('*/onboarding/enter');
+        return $this->getUrl('*/onboarding/enter', array('_current' => array('section', 'website', 'store')));
     }
 
     /**

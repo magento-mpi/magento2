@@ -207,7 +207,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
      *
      * @param string $token
      * @param string $code
-     * @return Saas_Paypal_Model_Boarding_Onboarding
+     * @return bool
      */
     public function updateMethodStatus($token = '', $code = '')
     {
@@ -225,9 +225,10 @@ class Saas_Paypal_Model_Boarding_Onboarding
             $this->_activateMethod($paymentMethod);
             $this->_resetStoreConfig();
             $this->_dispatchEventOnActivationSuccess();
+            return true;
         }
 
-        return $this;
+        return false;
     }
 
     /**

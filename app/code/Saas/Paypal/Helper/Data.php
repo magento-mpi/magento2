@@ -157,6 +157,6 @@ class Saas_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
     public function getRedirectUrl()
     {
         return Mage::getSingleton('Mage_Backend_Model_Url')
-            ->getUrl('*/system_config/edit', array('section' => 'payment'));
+            ->getUrl('*/onboarding/updateStatus', array('_current' => array('section', 'website', 'store')));
     }
 }

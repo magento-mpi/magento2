@@ -16,7 +16,21 @@ class Saas_Paypal_Adminhtml_OnboardingController extends Mage_Adminhtml_Controll
     /**
      * @var Saas_Paypal_Model_Boarding_Onboarding
      */
-    protected $_onboardingInstance;
+    protected $_onboarding;
+
+    /**
+     * @param Mage_Backend_Controller_Context $context
+     * @param Saas_Paypal_Model_Boarding_Onboarding $onboarding
+     * @param null $areaCode
+     */
+    public function __construct(
+        Mage_Backend_Controller_Context $context,
+        Saas_Paypal_Model_Boarding_Onboarding $onboarding,
+        $areaCode = null
+    ) {
+        parent::__construct($context, $areaCode);
+        $this->_onboarding = $onboarding;
+    }
 
     /**
      * Do requestPermissions operation
@@ -30,7 +44,7 @@ class Saas_Paypal_Adminhtml_OnboardingController extends Mage_Adminhtml_Controll
 
             try {
                 $response->setError(false)
-                    ->setUrl($this->_getOnboarding()->getEnterBoardingUrl($method));
+                    ->setUrl($this->_onboarding->getEnterBoardingUrl($method));
             } catch (Exception $e) {
                 $response->setError(true)
                     ->setMessage($e->getMessage());
@@ -40,32 +54,36 @@ class Saas_Paypal_Adminhtml_OnboardingController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Getter for $_onboardingInstance
-     * @return Saas_Paypal_Model_Boarding_Onboarding
-     */
-    protected function _getOnboarding()
-    {
-        if ($this->_onboardingInstance === null) {
-            return Mage::getModel('Saas_Paypal_Model_Boarding_Onboarding');
-        }
-        return $this->_onboardingInstance;
-    }
-
-    /**
-     * Setter for $_onboardingInstance
-     * @param Saas_Paypal_Model_Boarding_Onboarding $instance
-     */
-    public function setOnboarding(Saas_Paypal_Model_Boarding_Onboarding $instance)
-    {
-        $this->_onboardingInstance = $instance;
-    }
-
-    /**
      * Wrapper for response encoded with json
      * @return Varien_Object
      */
     protected function _responseContainer()
     {
         return new Varien_Object();
+    }
+
+    /**
+     * Update Paypal Boarding Status
+     */
+    public function updateStatusAction()
+    {
+        /** @var Mage_Core_Controller_Request_Http $request */
+        $request = $this->getRequest();
+        $token = (string)$request->getParam('request_token');
+        $code  = (string)$request->getParam('verification_code');
+
+        if ($token && $code) {
+            if ($this->_onboarding->updateMethodStatus($token, $code)) {
+                $this->_session->addSuccess(
+                    $this->_getHelper()->__('PayPal permissions have been successfully granted.')
+                );
+            } else {
+                $this->_session->addError(
+                    $this->_getHelper()->__('PayPal permissions haven\'t been granted due error.')
+                );
+            }
+        }
+
+        $this->_redirect('*/system_config/edit', array('_current' => array('section', 'website', 'store')));
     }
 }

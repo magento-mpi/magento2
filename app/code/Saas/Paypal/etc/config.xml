@@ -167,14 +167,6 @@
             </modules>
         </translate>
         <events>
-            <controller_action_predispatch_adminhtml_system_config_edit>
-                <observers>
-                    <saas_paypal_observer>
-                        <class>Saas_Paypal_Model_Observer</class>
-                        <method>updateBoardingStatus</method>
-                    </saas_paypal_observer>
-                </observers>
-            </controller_action_predispatch_adminhtml_system_config_edit>
             <controller_action_postdispatch_adminhtml_sales_order_reviewPayment>
                 <observers>
                     <saas_paypal_observer>
