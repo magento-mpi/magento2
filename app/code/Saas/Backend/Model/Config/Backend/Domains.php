@@ -77,8 +77,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct(
             $context,
             $resource,

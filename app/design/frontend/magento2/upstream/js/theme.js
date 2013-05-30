@@ -262,6 +262,7 @@
             list.append(previous);
             list.append(next);
             listInner.wrap('<div class="items-wrapper" />');
+            $('.items-wrapper').css('width', itemWidth*perpage);
             next.on('click.itemsScroll', function() {
                 list.addClass('animation');
                 items.removeClass('shown');

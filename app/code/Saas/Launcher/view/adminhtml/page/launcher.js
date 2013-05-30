@@ -21,7 +21,7 @@
             btnSaveDrawer: '.action-save-settings',
             drawerTopPosition: '.navigation',
             stickyHeaderClass: 'fixed',
-            behaviorFixSelector: '#store-launcher-content,#nav,#system_messages,#action-launch-my-store',
+            behaviorFixSelector: ['#store-launcher-content', '#nav', '#system_messages', '#action-launch-my-store'],
             urlHash: '',
             drawerAnimationTime: 1000
         },
@@ -81,6 +81,16 @@
             }, this));
         },
 
+        _switchPageFocus: function(tabindex) {
+            $.each(this.options.behaviorFixSelector, function() {
+                $.each($(this).find('a,:input'), function() {
+                    if (this.type != 'hidden') {
+                        $(this).attr('tabindex', tabindex);
+                    }
+                });
+            });
+        },
+
         _drawerMinHeight: function() {
             var bodyHeight = $('body').outerHeight(),
                 windowOffsetTop = $(window).scrollTop(),
@@ -107,11 +117,7 @@
          */
         _handleLaunchStoreButton: function() {
             var launchStoreButton = $('.action-launch-store');
-            if (this._isPageComplete()) {
-                launchStoreButton.prop("disabled", false);
-            } else {
-                launchStoreButton.prop("disabled", true);
-            }
+            launchStoreButton.prop('disabled', !this._isPageComplete());
         },
 
         _drawerFixedHeader: function() {
@@ -130,6 +136,7 @@
                 headerHeight = this.drawerTopPosition.offset().top,
                 bodyHeight = $('body').outerHeight() + 500;
 
+            this._switchPageFocus(-1);
             elem.trigger('drawerRefresh');
             this._drawerMinHeight();
             window.scrollTo(0, 0);
@@ -140,8 +147,6 @@
                 .animate({
                     top: headerHeight
                 }, this.options.drawerAnimationTime, 'easeOutExpo', $.proxy(function() {
-                    //Just simplified version of 'tabindex' = -1 usage
-                    $(this.options.behaviorFixSelector).hide();
                     this._drawerFixedHeader();
                     this.drawerFooter.animate({
                         bottom: 0
@@ -155,6 +160,7 @@
                 drawerFooterHeight = drawerFooter.height(),
                 bodyHeight = $('body').outerHeight();
 
+            this._switchPageFocus(0);
             elem.trigger('drawerClose');
             var hideDrawer = function() {
                 elem.hide();
@@ -179,8 +185,6 @@
                     top: deltaTop + bodyHeight
                 }, this.options.drawerAnimationTime, hideDrawer);
             }
-            //Just simplified version of 'tabindex' = 0 usage
-            $(this.options.behaviorFixSelector).show();
         },
 
         setDependencies: function(tileCode, dependencies) {

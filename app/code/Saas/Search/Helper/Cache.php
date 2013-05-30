@@ -52,6 +52,8 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
     /**
      * Retrieve information from search engine configuration not used store config
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param  string $field
      * @param  int $storeId
      * @return string|int

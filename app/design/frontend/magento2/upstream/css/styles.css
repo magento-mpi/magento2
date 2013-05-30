@@ -1184,15 +1184,12 @@ div.mage-error {
 }
 .minicart.wrapper {
   float: right;
-  position: relative;
   z-index: 1;
   color: #5e5e5e;
 }
 .minicart.wrapper .block.minicart {
   *zoom: 1;
-  top: 100%;
-  right: -1px;
-  visibility: hidden;
+  left: -100%;
   position: absolute;
   z-index: 2;
   background: #ffffff;
@@ -1335,10 +1332,12 @@ div.mage-error {
   margin: 0 -330px 0 0;
 }
 .minicart.wrapper.active {
+  position: relative;
   z-index: 11;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: -1px;
 }
 .minicart.wrapper .action.previous,
 .minicart.wrapper .action.next {
@@ -1428,20 +1427,21 @@ div.mage-error {
 }
 .products.minilist.animation {
   position: relative;
+  /*&:after {
+            content: 'moving';
+            position: absolute;
+            z-index: 990;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: @light;
+            opacity: 0.01;
+        }*/
+
 }
 .products.minilist.animation .items-wrapper {
   overflow: hidden;
-}
-.products.minilist.animation:after {
-  content: 'moving';
-  position: absolute;
-  z-index: 990;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: #ffffff;
-  opacity: 0.01;
 }
 .products.minilist.animation .item {
   visibility: visible;
@@ -1544,6 +1544,17 @@ div.mage-error {
 }
 .products.minilist .item .action.delete:hover {
   background: none;
+}
+.eq-ie8 .block.minicart .action.delete,
+.eq-ie8 .block.minicart .action.edit {
+  visibility: hidden;
+}
+.eq-ie8 .block.minicart .shown .action.delete,
+.eq-ie8 .block.minicart .shown .action.edit {
+  visibility: visible;
+}
+.eq-ie8 .block.minicart .item:before {
+  border-left: 0;
 }
 .action.delete {
   border: none;

@@ -23,10 +23,12 @@ class Saas_Saas_Model_Http_Handler implements Magento_Http_HandlerInterface
 
     /**
      * @param Mage_Core_Model_Config_Primary $config
+     * @param Saas_Saas_Model_Maintenance_Config $maintenanceConfig
      */
-    public function __construct(Mage_Core_Model_Config_Primary $config,
-                                Saas_Saas_Model_Maintenance_Config $maintenanceConfig)
-    {
+    public function __construct(
+        Mage_Core_Model_Config_Primary $config,
+        Saas_Saas_Model_Maintenance_Config $maintenanceConfig
+    ) {
         $this->_config = $config;
         $this->_maintenanceConfig = $maintenanceConfig;
     }
