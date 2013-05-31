@@ -53,11 +53,15 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Saas_L
     /**
      * @param string $path
      * @return mixed
+     * @throws Saas_Launcher_Exception
      */
     public function getMoreUrl($path)
     {
-        /** @var Mage_Backend_Model_Config_Structure_Element_Group $element */
+        /** @var Mage_Backend_Model_Config_Structure_ElementInterface $element */
         $element = $this->_configStructure->getElement($path);
+        if (!isset($element)) {
+            throw new Saas_Launcher_Exception('Element was not found: ' . $path);
+        }
         return $element->getAttribute('more_url');
     }
 }
