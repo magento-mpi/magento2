@@ -33,7 +33,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
      *
      * @param Enterprise_Pbridge_Model_Payment_Method_Paypal $pbridgePaymentMethod
      */
-
     public function setPaymentMethod($pbridgePaymentMethod)
     {
         $this->_pbridgePaymentMethod = $pbridgePaymentMethod;
@@ -47,7 +46,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_factoryHelper
+                ->get('Mage_Payment_Helper_Data')
+                ->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;
@@ -97,11 +98,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
      * Refund a capture transaction
      *
      * @param Varien_Object $payment
+     * @return Mage_Payment_Model_Abstract|void
      */
     public function void(Varien_Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('paypal/info')->importToPayment(new Varien_Object($result), $payment);
+        $this->getInfo()->importToPayment(new Varien_Object($result), $payment);
         return $result;
     }
 
@@ -114,7 +116,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('paypal/info')->importToPayment(new Varien_Object($result), $payment);
+            $this->getInfo()->importToPayment(new Varien_Object($result), $payment);
         }
     }
 
@@ -160,5 +162,4 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
         $data = $result->getRawSuccessResponseData();
         return ($data) ? $data : array();
     }
-
 }
