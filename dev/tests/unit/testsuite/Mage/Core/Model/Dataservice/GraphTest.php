@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Factory
+ * Test class for Mage_Core_Model_Dataservice_Invoker
  *
  * {license_notice}
  *
@@ -22,7 +22,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
 
     protected $_dataserviceMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Factory */
+    /** @var  Mage_Core_Model_Dataservice_Invoker */
     protected $_factoryMock;
 
     /** @var  Mage_Core_Model_Dataservice_Repository */
@@ -35,7 +35,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_Dataservice_Factory', array(), array(), "", false);
+        $this->_factoryMock = $this->getMock('Mage_Core_Model_Dataservice_Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
         $this->_graph = new Mage_Core_Model_Dataservice_Graph($this->_factoryMock, $this->_repositoryMock);
         $this->_dataserviceMock = (object)array();
@@ -54,7 +54,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
-        $this->_factoryMock->expects($this->once())->method('createDataservice')->with(
+        $this->_factoryMock->expects($this->once())->method('getServiceData')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($this->_dataserviceMock));
         $this->_repositoryMock->expects($this->once())->method("add")->with(
@@ -76,7 +76,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         $this->_repositoryMock->expects($this->any())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
-        $this->_factoryMock->expects($this->any())->method('createDataservice')->with(
+        $this->_factoryMock->expects($this->any())->method('getServiceData')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($this->_dataserviceMock));
         $this->_repositoryMock->expects($this->any())->method("add")->with(

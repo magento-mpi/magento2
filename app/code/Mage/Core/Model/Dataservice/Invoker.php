@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Factory
+class Mage_Core_Model_Dataservice_Invoker
 {
     const DATASERVICE_PATH_SEPARATOR = '.';
     /**
@@ -50,10 +50,10 @@ class Mage_Core_Model_Dataservice_Factory
      * @param $sourceName
      * @return bool|mixed
      */
-    public function createDataservice($sourceName)
+    public function getServiceData($sourceName)
     {
         $classInformation = $this->_config->getClassByAlias($sourceName);
-        $instance = $this->_objectManager->create($classInformation['class']);
+        $instance = $this->_objectManager->get($classInformation['class']);
         $dataservice = $this->_applyMethod(
             $instance, $classInformation['retrieveMethod'],
             $classInformation['methodArguments']
