@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
     {
         /* Update default add button to add website button */
         $this->_updateButton('add', 'label', Mage::helper('Mage_Core_Helper_Data')->__('Create Website'));
-        $this->_updateButton('add', 'onclick', null);
+        $this->_updateButton('add', 'onclick', "setLocation('" . $this->getUrl('*/*/newWebsite') . "')");
 
         if ($this->_websiteLimitation->isCreateRestricted()) {
             $this->_removeButton('add');
