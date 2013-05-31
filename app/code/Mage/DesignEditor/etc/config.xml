@@ -31,14 +31,26 @@
             </designeditor_setup>
         </resources>
         <events>
-            <save_xml_configuration>
+            <save_view_configuration>
                 <observers>
-                    <save_xml_configuration_observer>
+                    <save_view_configuration_observer>
                         <class>Mage_DesignEditor_Model_Observer</class>
                         <method>saveQuickStyles</method>
-                    </save_xml_configuration_observer>
+                    </save_view_configuration_observer>
+                    <design_editor_change_timestamp>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>saveChangeTime</method>
+                    </design_editor_change_timestamp>
                 </observers>
-            </save_xml_configuration>
+            </save_view_configuration>
+            <theme_copy_after>
+                <observers>
+                    <copy_theme_change_time>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>copyChangeTime</method>
+                    </copy_theme_change_time>
+                </observers>
+            </theme_copy_after>
         </events>
         <di>
             <Mage_DesignEditor_Model_Resource_Layout_Update>
