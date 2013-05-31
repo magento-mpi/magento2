@@ -102,18 +102,19 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
      */
     protected function _initEditButton()
     {
+        $isPhysicalTheme = $this->_themeContext->getEditableTheme()->isPhysical();
         $this->setData(array(
             'label'          => $this->__('Edit'),
             'options'        => array(
                 array(
                     'label'          => $this->__('Revert Styles to Last Saved'),
                     'data_attribute' => array('mage-init' => $this->_getDataRevertToPrevious()),
-                    'disabled'       => !$this->_isAbleRevertToPrevious()
+                    'disabled'       => $isPhysicalTheme || !$this->_isAbleRevertToPrevious()
                 ),
                 array(
                     'label'          => $this->__('Revert Styles to Theme Default Values'),
                     'data_attribute' => array('mage-init' => $this->_getDataRevertToDefault()),
-                    'disabled'       => !$this->_isAbleRevertToDefault()
+                    'disabled'       => $isPhysicalTheme || !$this->_isAbleRevertToDefault()
                 )
             )
         ));
