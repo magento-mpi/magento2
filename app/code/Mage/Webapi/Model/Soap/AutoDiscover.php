@@ -48,8 +48,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /** @var Mage_Core_Model_CacheInterface */
     protected $_cache;
 
-    /** @var Mage_Core_Service_ObjectManager */
-    protected $_serviceObjectManager;
+    /** @var Mage_Core_Service_Manager */
+    protected $_serviceManager;
 
     /**
      * Construct auto discover with resource config and list of requested resources.
@@ -59,7 +59,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Service_ObjectManager $serviceObjectManager
+     * @param Mage_Core_Service_Manager $serviceManager
      *
      * @throws InvalidArgumentException
      */
@@ -69,14 +69,14 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Service_ObjectManager $serviceObjectManager
+        Mage_Core_Service_Manager $serviceManager
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
-        $this->_serviceObjectManager = $serviceObjectManager;
+        $this->_serviceManager = $serviceManager;
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 /** Collect input parameters */
                 $inputParameters = array();
                 /** @var Magento_Data_Schema $requestSchema */
-                $requestSchema = $this->_serviceObjectManager->getRequestSchema($serviceData['class'], $operation);
+                $requestSchema = $this->_serviceManager->getRequestSchema($serviceData['class'], $operation);
                 $requestFields = $requestSchema->getData('fields');
                 foreach ($requestFields as $fieldName => $fieldData) {
                     $inputParameters[$fieldName] = array(
@@ -125,7 +125,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 /** Collect output parameters */
                 $outputParameters = array();
                 /** @var Magento_Data_Schema $responseSchema */
-                $responseSchema = $this->_serviceObjectManager->getResponseSchema($serviceData['class'], $operation);
+                $responseSchema = $this->_serviceManager->getResponseSchema($serviceData['class'], $operation);
                 $responseFields = $responseSchema->getData('fields');
                 foreach ($responseFields as $fieldName => $fieldData) {
                     $outputParameters[$fieldName] = array(

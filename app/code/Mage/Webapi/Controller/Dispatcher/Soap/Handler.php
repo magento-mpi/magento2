@@ -53,8 +53,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     protected $_requestHeaders = array(self::HEADER_SECURITY);
 
-    /** @var Mage_Core_Service_ObjectManager */
-    protected $_serviceManager;
+    /** @var Mage_Core_Service_Factory */
+    protected $_serviceFactory;
 
     /** @var Mage_Webapi_Config */
     protected $_newApiConfig;
@@ -69,7 +69,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
-     * @param Mage_Core_Service_ObjectManager $serviceManager
+     * @param Mage_Core_Service_Factory $serviceFactory
      * @param Mage_Webapi_Config $newApiConfig
      */
     public function __construct(
@@ -80,7 +80,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
-        Mage_Core_Service_ObjectManager $serviceManager,
+        Mage_Core_Service_Factory $serviceFactory,
         Mage_Webapi_Config $newApiConfig
     ) {
         $this->_apiConfig = $apiConfig;
@@ -90,7 +90,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
-        $this->_serviceManager = $serviceManager;
+        $this->_serviceFactory = $serviceFactory;
         $this->_newApiConfig = $newApiConfig;
     }
 
@@ -126,12 +126,12 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 
                 $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation);
                 $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation);
-                $outputData = $this->_serviceManager->call(
+                $service = $this->_serviceFactory->createServiceInstance(
                     $serviceId,
                     $serviceMethod,
-                    $arguments,
                     'V1' // TODO: Service version is hardcoded for now
                 );
+                $outputData = $service->$serviceMethod($arguments);
                 if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
                     $outputData = $outputData->getData();
                 }
