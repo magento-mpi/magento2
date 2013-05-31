@@ -64,7 +64,8 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
     {
         if (!$this->_formId || !$this->_tab) {
             throw new Mage_Core_Exception(
-                $this->__('Invalid block of class "%s". Not all required properties are defined', get_class($this))
+                $this->__('We found an invalid block of class "%s". Please define the required properties.',
+                    get_class($this))
             );
         }
         $form = $this->_formBuilder->create(array(

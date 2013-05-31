@@ -20,6 +20,6 @@ class Mage_DesignEditor_Block_Toolbar_History extends Mage_Core_Block_Template
      */
     public function getTitle()
     {
-        return $this->__('Changes history');
+        return $this->__('Change History');
     }
 }

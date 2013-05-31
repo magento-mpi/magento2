@@ -21,7 +21,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
      */
     public function getTabTitle()
     {
-        return $this->__('Customized themes not assigned to a storeview');
+        return $this->__('Themes Not Assigned to Store Views');
     }
 
     /**

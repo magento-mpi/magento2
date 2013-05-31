@@ -100,14 +100,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
     public function getAssignButtonHtml()
     {
-        $message = "You are about to change this theme for your live store, are you sure want to do this?\n\n" .
-            'Note: copy of the current theme will be created automatically and assigned to your store, ' .
-            'so you can change your copy later as you wish';
+        $message = "Are you sure you want to change the theme of your live store?";
 
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
-            'label'  => $this->__('Assign this Theme'),
+            'label'  => $this->__('Assign Theme'),
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array(

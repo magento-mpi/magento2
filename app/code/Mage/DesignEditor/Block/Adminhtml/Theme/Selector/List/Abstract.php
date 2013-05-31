@@ -124,12 +124,13 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     protected function _addAssignButtonHtml($themeBlock)
     {
         $themeId = $themeBlock->getTheme()->getId();
-        $message = $this->__('You are about to apply this theme for your live store, are you really want to do this?');
+        $message = $this->__('You are about to assign this theme to your live store.'
+             . ' Are you sure you want to do that?');
 
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
-            'label'   => $this->__('Assign to a Storeview'),
+            'label'   => $this->__('Assign to a Store View'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array(

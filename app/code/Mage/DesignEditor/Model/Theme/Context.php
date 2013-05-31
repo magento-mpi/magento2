@@ -111,7 +111,7 @@ class Mage_DesignEditor_Model_Theme_Context
             $themeId = $this->getEditableThemeId();
             $this->_theme = $this->_themeFactory->create();
             if (!($themeId && $this->_theme->load($themeId)->getId())) {
-                throw new Mage_Core_Exception($this->_helper->__('Theme "%s" was not found.', $themeId));
+                throw new Mage_Core_Exception($this->_helper->__('We can\'t find theme "%s".', $themeId));
             }
         }
         return $this->_theme;
@@ -125,7 +125,7 @@ class Mage_DesignEditor_Model_Theme_Context
     {
         $editableTheme = $this->getEditableTheme();
         if (!$editableTheme->isVirtual()) {
-            throw new Mage_Core_Exception($this->_helper->__('Theme "%s" is not editable.', $editableTheme->getId()));
+            throw new Mage_Core_Exception($this->_helper->__('Theme "%s" can\'t be edited', $editableTheme->getId()));
         }
         $stagingTheme = $editableTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
         return $stagingTheme;

@@ -109,7 +109,7 @@
             if (this.options.isMultipleStoreViewMode && !this._isStoreChanged(this.themeId, stores)) {
                 var message = [
                     '<div class="message message-error">',
-                    $.mage.__('No stores were reassigned.'),
+                    $.mage.__('You assigned a theme to your store.'),
                     '</div>'
                 ].join('');
                 dialog.find('.messages').html(message);
@@ -154,7 +154,7 @@
          */
         sendAssignRequest: function(themeId, stores) {
             if (!this.options.assignUrl) {
-                throw Error($.mage.__('Url to assign themes to store is not defined'));
+                throw Error($.mage.__('The URL to assign stores is not defined.'));
             }
 
             var data = {
@@ -180,7 +180,7 @@
                     this.assignThemeSuccess(response, stores, themeId);
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
         },

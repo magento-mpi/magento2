@@ -54,7 +54,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $themeCss->saveData($editableTheme);
             $response = array(
                 'success' => true,
-                'message' => $this->__('Custom.css file has been successfully saved.'),
+                'message' => $this->__('You saved the custom.css files.'),
                 'content' => $cssFileContent
             );
         } catch (Mage_Core_Exception $e) {
@@ -82,12 +82,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $editableTheme->setCustomization($themeCss)->save();
             $response = array(
                 'success' => true,
-                'message' => $this->__('Custom.css file has been successfully saved.')
+                'message' => $this->__('You saved the custom.css files.')
             );
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $this->__('Cannot save custom css'));
+            $response = array('error' => true, 'message' => $this->__('We can\'t save the custom css.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
@@ -202,11 +202,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             );
             $imageSizing = $imageSizingValidator->validate($configuration->getAllControlsData(), $imageSizing);
             $configuration->saveData($imageSizing);
-            $result = array('success' => true, 'message' => $this->__('Image sizes are saved.'));
+            $result = array('success' => true, 'message' => $this->__('We saved the image sizes.'));
         } catch (Mage_Core_Exception $e) {
              $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('Cannot save image sizes.'));
+            $result = array('error' => true, 'message' => $this->__('We can\'t save image sizes.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
@@ -296,7 +296,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $theme->load($themeId);
             if (!$theme->getId() || !$theme->isEditable()) {
                 throw new Mage_Core_Exception(
-                    $this->__('Theme "%s" was not found or cannot be editable.', $theme->getId())
+                    $this->__('The file can\'t be found or edited.')
                 );
             }
 
@@ -305,7 +305,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
             if (!$themeService->isThemeAssignedToSpecificStore($theme, $store)) {
-                throw new Mage_Core_Exception($this->__('Theme is not assigned to any store.', $theme->getId()));
+                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
+                    $theme->getId()));
             }
             /** @var $storeLogo Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
             $storeLogo = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
@@ -339,7 +340,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $theme->load($themeId);
             if (!$theme->getId() || !$theme->isEditable()) {
                 throw new Mage_Core_Exception(
-                    $this->__('Theme "%s" was not found or cannot be editable.', $theme->getId())
+                    $this->__('The file can\'t be found or edited.')
                 );
             }
 
@@ -348,7 +349,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
             if (!$themeService->isThemeAssignedToSpecificStore($theme, $store)) {
-                throw new Mage_Core_Exception($this->__('Theme is not assigned to any store.', $theme->getId()));
+                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
+                    $theme->getId()));
             }
 
             $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Store')
@@ -388,7 +390,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Error while saving quick style "%s"', 'some_style_id');
+            $errorMessage = $this->__('Something went wrong saving quick style "%s."', 'some_style_id');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }

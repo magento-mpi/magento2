@@ -72,7 +72,7 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Backend_Utility_Controll
 
         $response = $this->getResponse();
         $this->assertEquals(503, $response->getHttpResponseCode());
-        $this->assertEquals('Incorrect Design Editor layout.', $response->getBody());
+        $this->assertEquals('Incorrect Design Editor Layout', $response->getBody());
     }
 
     /**

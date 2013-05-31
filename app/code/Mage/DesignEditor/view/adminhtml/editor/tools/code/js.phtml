@@ -42,8 +42,8 @@
 
 <li class="js-file item no-display" id="js-uploaded-file-template">
     <span class="filename" title="${name}">${name}</span>
-    <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>" data-id="${id}">
-        <span><?php echo $this->__('Delete file'); ?></span>
+    <a href="#" class="action-delete" title="<?php echo $this->__('Delete File'); ?>" data-id="${id}">
+        <span><?php echo $this->__('Delete File'); ?></span>
     </a>
 </li>
 
@@ -102,7 +102,7 @@
                     var progressTmpl = $('#js-file-uploader-template').children(':first').clone();
                     progressTmpl.attr('id', data.fileId);
                     var fileSize = typeof(file.size) == "undefined"
-                        ? $.mage.__('size was not detected')
+                        ? $.mage.__('We could not detect a size.')
                         : byteConvert(file.size);
                     var fileInfoHtml = progressTmpl.html().replace('{{size}}', fileSize)
                         .replace('{{name}}', file.name);
@@ -161,7 +161,7 @@
                 $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
 
                 $(this).val('');
-                alert($.mage.__('File extension not known or unsupported type.'));
+                alert($.mage.__('We don\'t recognize or support this file extension type.'));
             }
         });
 
@@ -182,7 +182,7 @@
                         });
                     }, this),
                     error: $.proxy(function() {
-                        alert($.mage.__('Error: unknown error.'));
+                        alert($.mage.__('Sorry, there was an unknown error.'));
                     }, this)
                 });
             }

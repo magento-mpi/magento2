@@ -90,7 +90,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
         }
 
         throw new Mage_Core_Exception(
-            $this->_helper->__('Element "%s" is not found in "%s"', $checkboxId, $this->getData('name'))
+            $this->_helper->__('Element "%s" is not found in "%s".', $checkboxId, $this->getData('name'))
         );
     }
 
@@ -110,7 +110,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             }
         }
         throw new Mage_Core_Exception(
-            $this->_helper->__('Element "%s" is not found in "%s"', $imageUploaderId, $this->getData('name'))
+            $this->_helper->__('Element "%s" is not found in "%s".', $imageUploaderId, $this->getData('name'))
         );
     }
 }

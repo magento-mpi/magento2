@@ -55,7 +55,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      */
     public function getTabTitle()
     {
-        return $this->__('Available theme list');
+        return $this->__('Available Themes');
     }
 
     /**

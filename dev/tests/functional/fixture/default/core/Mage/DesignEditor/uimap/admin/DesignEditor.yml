@@ -32,9 +32,9 @@ design_editor_selector:
         messages:
             confirmation_for_delete: Are you sure you want to do this?
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
-            confirmation_for_assign_to_default: You are about to apply this theme for your live store, are you really want to do this?
+            confirmation_for_assign_to_default: You are about to assign this theme to your live store. Are you sure you want to do that?
         buttons:
-            assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
+            assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Store View')]
             edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
             delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
             preview_demo_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Theme Demo')]
@@ -61,8 +61,8 @@ preview_theme_in_navigation:
             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
             assign: //button[contains(@title, 'Assign')]
         messages:
-            confirmation_for_assign_to_default_in_nm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
-            confirmation_for_assign_to_default: You are about to apply current changes for your live store, are you sure want to do this?
+            confirmation_for_assign_to_default_in_nm: "Are you sure you want to change the theme of your live store?"
+            confirmation_for_assign_to_default: Are you sure you want to change the design of your live store?
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
@@ -84,8 +84,8 @@ preview_theme_in_design:
                             page: //div[@id='vde_handles_hierarchy']//span[@class='vde_toolbar_cell_value']
                             view_option: //div[@id='vde_view_options']//div[@class='vde_toolbar_cell_title']
                         messages:
-                            confirmation_for_assign_to_default_in_dm: You are about to apply current changes for your live store, are you sure want to do this?
-                            no_change: No changes found.
+                            confirmation_for_assign_to_default_in_dm: Are you sure you want to change the design of your live store?
+                            no_change: We found no changes.
                 -
                     bottom_bar:
                         links:

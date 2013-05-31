@@ -82,7 +82,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
             'no history data' => array(
                 '$source' => array(),
                 '$result' => array(
-                    Mage_Core_Model_Message::ERROR => array('Invalid post data')
+                    Mage_Core_Model_Message::ERROR => array('The post data is invalid.')
                 ),
             ),
             'correct data' => array(

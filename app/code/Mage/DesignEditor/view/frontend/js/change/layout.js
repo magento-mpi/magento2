@@ -25,7 +25,7 @@
             status: 'active',
             getType: function() {
                 if (!this.type) {
-                    throw Error($.mage.__('Type of change is not defined'));
+                    throw Error($.mage.__('The change type is not defined.'));
                 }
                 return this.type;
             },
@@ -34,13 +34,13 @@
             },
             undo: function() {
                 if (this.status == 'undone') {
-                    throw Error($.mage.__("Can't undo change twice"));
+                    throw Error($.mage.__("You can\'t undo an action more than once."));
                 }
                 alert('undo');
                 this.status = 'undone';
             },
             getTitle: function() {
-                throw Error($.mage.__('Method "getTitle" is not implemented'));
+                throw Error($.mage.__('The method "getTitle" is not implemented.'));
             },
             setData: function(data) {
                 this.data = data;
@@ -49,10 +49,10 @@
                 return this.data;
             },
             getPostData: function() {
-                throw Error($.mage.__('Method "getTitle" is not implemented'));
+                throw Error($.mage.__('The method "getTitle" is not implemented.'));
             },
             setActionData: function() {
-                throw Error($.mage.__('Method "getTitle" is not implemented'));
+                throw Error($.mage.__('The method "getTitle" is not implemented.'));
             }
         };
     }
@@ -90,13 +90,13 @@
 
                     case ACTION_MOVE:
                         if (data.origin.container == data.destination.container) {
-                            title = $.mage.__('Block #block# sorted').replace('#block#', data.block);
+                            title = $.mage.__('Block #block# is sorted.').replace('#block#', data.block);
                         } else {
-                            title = $.mage.__('Block #block# moved').replace('#block#', data.block);
+                            title = $.mage.__('Block #block# is moved.').replace('#block#', data.block);
                         }
                         break;
                     case ACTION_REMOVE:
-                        title = $.mage.__('Block #block# removed').replace('#block#', data.block);
+                        title = $.mage.__('Block #block# is removed.').replace('#block#', data.block);
                         break;
                 }
                 return title;
@@ -295,7 +295,7 @@
                 },
                 error: function(data) {
                     _isSaveLocked = false;
-                    throw Error($.mage.__('Some problem with save action'));
+                    throw Error($.mage.__('Something went wrong while saving.'));
                 }
             });
         }

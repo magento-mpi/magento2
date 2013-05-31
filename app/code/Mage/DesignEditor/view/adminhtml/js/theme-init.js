@@ -111,7 +111,7 @@
                 }, this),
 
                 error: function(data) {
-                    throw Error($.mage.__('Some problem with save action'));
+                    throw Error($.mage.__('Something went wrong while saving.'));
                 }
             });
         },

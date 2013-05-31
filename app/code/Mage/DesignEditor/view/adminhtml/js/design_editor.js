@@ -114,7 +114,7 @@
                 var historyObject = $(this.options.editorFrameSelector).get(0).contentWindow.vdeHistoryObject;
                 if (historyObject.getItems().length == 0) {
                     /** @todo temporary report */
-                    alert($.mage.__('No changes found.'));
+                    alert($.mage.__('We found no changes.'));
                     return false;
                 }
                 var data = this._preparePostItems(historyObject.getItems());
@@ -218,7 +218,7 @@
                     }
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
         },
@@ -322,13 +322,13 @@
                 success: function(data) {
                     if (data.error) {
                         /** @todo add error validator */
-                        throw Error($.mage.__('Some problem with save action'));
+                        throw Error($.mage.__('Something went wrong while saving.'));
                         return;
                     }
                     postResult = data.success;
                 },
                 error: function(data) {
-                    throw Error($.mage.__('Some problem with save action'));
+                    throw Error($.mage.__('Something went wrong while saving.'));
                 }
             });
             return postResult;

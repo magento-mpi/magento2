@@ -235,12 +235,12 @@
                 success: function(data) {
                     if (data.error) {
                         /** @todo add error validator */
-                        throw Error($.mage.__('Some problem with save action'));
+                        throw Error($.mage.__('Something went wrong while saving.'));
                     }
                     postResult = data.success;
                 },
                 error: function() {
-                    throw Error($.mage.__('Some problem with save action'));
+                    throw Error($.mage.__('Something went wrong while saving.'));
                 }
             });
             return postResult;
