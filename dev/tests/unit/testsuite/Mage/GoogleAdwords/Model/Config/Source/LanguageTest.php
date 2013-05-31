@@ -20,7 +20,12 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
     /**
      * @var Zend_Locale
      */
-    protected $_zendLocale;
+    protected $_currentLocale;
+
+    /**
+     * @var Mage_GoogleAdwords_Model_Filter_UppercaseTitle
+     */
+    protected $_uppercaseFilter;
 
     /**
      * @var Mage_GoogleAdwords_Model_Config_Source_Language
@@ -30,15 +35,17 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
     public function setUp()
     {
         $this->_helperMock = $this->getMock('Mage_GoogleAdwords_Helper_Data', array(), array(), '', false);
-        $this->_zendLocale =  new Zend_Locale();
+        $this->_currentLocale =  new Zend_Locale();
         $this->_localeMock = $this->getMock('Mage_Core_Model_LocaleInterface', array(), array(), '', false);
         $this->_localeMock->expects($this->atLeastOnce())->method('getLocale')
-            ->will($this->returnValue($this->_zendLocale));
+            ->will($this->returnValue($this->_currentLocale));
+        $this->_uppercaseFilter = new Mage_GoogleAdwords_Model_Filter_UppercaseTitle();
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Mage_GoogleAdwords_Model_Config_Source_Language', array(
             'locale' => $this->_localeMock,
             'helper' => $this->_helperMock,
+            'uppercaseFilter' => $this->_uppercaseFilter,
         ));
     }
 
@@ -50,13 +57,14 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
      */
     protected function _getLanguageLabel($language)
     {
-        $languageLocaleName = $this->_zendLocale->getTranslation($language, 'language', $language);
-        $languageName = $this->_zendLocale->getTranslation($language, 'language');
-        if (function_exists('mb_convert_case')) {
-            $languageLocaleName = mb_convert_case($languageLocaleName, MB_CASE_TITLE, 'UTF-8');
-        } else {
-            $languageLocaleName = ucwords($languageLocaleName);
-        }
+        $this->_helperMock->expects($this->any())->method('convertLanguageToCurrentLocale')
+            ->with($this->isType('string'))->will($this->returnCallback(function ($returnLanguage) use ($language) {
+                return $returnLanguage;
+            }));
+        $languageLocaleName = $this->_uppercaseFilter->filter(
+            $this->_currentLocale->getTranslation($language, 'language', $language)
+        );
+        $languageName = $this->_currentLocale->getTranslation($language, 'language');
         return sprintf('%s / %s (%s)', $languageLocaleName, $languageName, $language);
     }
 

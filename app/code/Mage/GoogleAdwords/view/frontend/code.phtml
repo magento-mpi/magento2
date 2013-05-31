@@ -8,25 +8,23 @@
 ?>
 <?php
 /** @var $this Mage_GoogleAdwords_Block_Code */
-$conversionId = $this->getHelper()->getConversionId();
-$conversionLabel = $this->getHelper()->getConversionLabel();
 ?>
 <!-- Google Code for Sale Conversion Page -->
 <script type="text/javascript">
     /* <![CDATA[ */
-    var google_conversion_id = <?php echo $conversionId ?>;
+    var google_conversion_id = <?php echo $this->getHelper()->getConversionId() ?>;
     var google_conversion_language = "<?php echo $this->getHelper()->getConversionLanguage() ?>";
     var google_conversion_format = "<?php echo $this->getHelper()->getConversionFormat() ?>";
     var google_conversion_color = "<?php echo $this->getHelper()->getConversionColor() ?>";
-    var google_conversion_label = "<?php echo $conversionLabel ?>";
+    var google_conversion_label = "<?php echo $this->getHelper()->getConversionLabel() ?>";
     var google_conversion_value = <?php echo $this->getHelper()->getConversionValue() ?>;
     /* ]]> */
 </script>
-<script type="text/javascript" src="https://www.googleadservices.com/pagead/conversion.js"></script>
+<script type="text/javascript" src="<?php echo $this->getHelper()->getConversionJsSrc()?>"></script>
 <noscript>
     <div style="display:inline;">
         <img height="1" width="1" style="border-style:none;" alt=""
-             src="https://www.googleadservices.com/pagead/conversion/<?php echo $conversionId ?>/?label=<?php echo $conversionLabel ?>&amp;guid=ON&amp;script=0"/>
+             src="<?php echo $this->getHelper()->getConversionImgSrc() ?>"/>
     </div>
 </noscript>
 <!-- END Google Code for Sale Conversion Page -->

@@ -47,8 +47,8 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function dataProviderForTestIsActive()
     {
         return array(
-            array(true, 'some-value', true),
-            array(false, 'some-value', false),
+            array(true, 1234, true),
+            array(true, 'conversionId', false),
             array(true, '', false),
             array(false, '', false),
         );
@@ -86,13 +86,24 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($languages, $this->_helper->getLanguageCodes());
     }
 
+    public function testGetConversionImgSrc()
+    {
+        $conversionId = 123;
+        $label = 'LabEl';
+        $imgSrc = sprintf('https://www.googleadservices.com/pagead/conversion/%s/?label=%s&amp;guid=ON&amp;script=0',
+            $conversionId, $label);
+        $this->_configMock->expects($this->once())->method('getNode')
+            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_IMG_SRC)->will($this->returnValue($imgSrc));
+        $this->assertEquals($imgSrc, $this->_helper->getConversionImgSrc());
+    }
+
     /**
      * @return array
      */
     public function dataProviderForTestStoreConfig()
     {
         return array(
-            array('getConversionId', Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_ID, '123'),
+            array('getConversionId', Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_ID, 123),
             array('getConversionLanguage', Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_LANGUAGE, 'en'),
             array('getConversionFormat', Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_FORMAT, '2'),
             array('getConversionColor', Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_COLOR, 'ffffff'),
@@ -118,7 +129,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetConversionValueDynamic()
     {
-        $returnValue = 'some-value';
+        $returnValue = 4.1;
         $this->_storeConfigMock->expects($this->any())->method('getConfig')
             ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_VALUE_TYPE)
             ->will($this->returnValue(Mage_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_DYNAMIC));
@@ -135,7 +146,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function dataProviderForTestConversionValueConstant()
     {
         return array(
-            array('some-value', 'some-value'),
+            array(1.4, 1.4),
             array('', Mage_GoogleAdwords_Helper_Data::CONVERSION_VALUE_DEFAULT),
         );
     }

@@ -20,27 +20,26 @@ class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model
      */
     protected $_helper;
 
-    /*
-     * Zend Locale language codes corresponding to Google language code
-     *
-     * @var array
+    /**
+     * @var Mage_GoogleAdwords_Model_Filter_UppercaseTitle
      */
-    protected $_googleToZendLanguageCode = array(
-        'zh_CN' => 'zh_Hans',
-        'zh_TW' => 'zh_Hant',
-        'iw' => 'he',
-    );
+    protected $_uppercaseFilter;
 
     /**
      * Constructor
      *
      * @param Mage_Core_Model_LocaleInterface $locale
      * @param Mage_GoogleAdwords_Helper_Data $helper
+     * @param Mage_GoogleAdwords_Model_Filter_UppercaseTitle $uppercaseFilter
      */
-    public function __construct(Mage_Core_Model_LocaleInterface $locale, Mage_GoogleAdwords_Helper_Data $helper)
-    {
+    public function __construct(
+        Mage_Core_Model_LocaleInterface $locale,
+        Mage_GoogleAdwords_Helper_Data $helper,
+        Mage_GoogleAdwords_Model_Filter_UppercaseTitle $uppercaseFilter
+    ) {
         $this->_helper = $helper;
         $this->_locale = $locale;
+        $this->_uppercaseFilter = $uppercaseFilter;
     }
 
     /**
@@ -68,26 +67,11 @@ class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model
      */
     protected function _getLanguageLabel($language)
     {
-        $zendLanguage = $this->_getZendLanguageCode($language);
-        $languageLocaleName = $this->_locale->getLocale()->getTranslation($zendLanguage, 'language', $language);
-        $languageName = $this->_locale->getLocale()->getTranslation($zendLanguage, 'language');
-        if (function_exists('mb_convert_case')) {
-            $languageLocaleName = mb_convert_case($languageLocaleName, MB_CASE_TITLE, 'UTF-8');
-        } else {
-            $languageLocaleName = ucwords($languageLocaleName);
-        }
+        $currentLanguage = $this->_helper->convertLanguageToCurrentLocale($language);
+        $languageLocaleName = $this->_uppercaseFilter->filter(
+            $this->_locale->getLocale()->getTranslation($currentLanguage, 'language', $language)
+        );
+        $languageName = $this->_locale->getLocale()->getTranslation($currentLanguage, 'language');
         return sprintf('%s / %s (%s)', $languageLocaleName, $languageName, $language);
-    }
-
-    /**
-     * Get Zend Locale language code
-     *
-     * @param string $language
-     * @return mixed
-     */
-    protected function _getZendLanguageCode($language)
-    {
-        return isset($this->_googleToZendLanguageCode[$language]) ? $this->_googleToZendLanguageCode[$language]
-            : $language;
     }
 }

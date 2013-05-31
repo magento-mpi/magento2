@@ -9,10 +9,19 @@
  */
 class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    /**
+    /**#@+
      * Google AdWords language codes
      */
     const XML_PATH_LANGUAGES = 'default/google/adwords/languages';
+    const XML_PATH_LANGUAGE_CONVERT = 'default/google/adwords/language_convert';
+    /**#@-*/
+
+    /**#@+
+     * Google AdWords conversion src
+     */
+    const XML_PATH_CONVERSION_JS_SRC = 'default/google/adwords/conversion_js_src';
+    const XML_PATH_CONVERSION_IMG_SRC = 'default/google/adwords/conversion_img_src';
+    /**#@-*/
 
     /**
      * Google AdWords registry name for conversion value
@@ -100,6 +109,39 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
     public function getLanguageCodes()
     {
         return $this->_config->getNode(self::XML_PATH_LANGUAGES)->asArray();
+    }
+
+    /**
+     * Convert language code in the code of the current locale language
+     *
+     * @param string $language
+     * @return string
+     */
+    public function convertLanguageToCurrentLocale($language)
+    {
+        $convertArray = $this->_config->getNode(self::XML_PATH_LANGUAGE_CONVERT)->asArray();
+        return isset($convertArray[$language]) ? $convertArray[$language] : $language;
+    }
+
+    /**
+     * Get conversion path to js src
+     *
+     * @return string
+     */
+    public function getConversionJsSrc()
+    {
+        return (string)$this->_config->getNode(self::XML_PATH_CONVERSION_JS_SRC);
+    }
+
+    /**
+     * Get conversion img src
+     *
+     * @return string
+     */
+    public function getConversionImgSrc()
+    {
+        return sprintf($this->_config->getNode(self::XML_PATH_CONVERSION_IMG_SRC), $this->getConversionId(),
+            $this->getConversionLabel());
     }
 
     /**
