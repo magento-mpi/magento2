@@ -27,8 +27,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
     /** @var Mage_Webapi_Controller_Response_Rest */
     protected $_response;
 
-    /** @var Mage_Core_Service_ObjectManager */
-    protected $_serviceManager;
+    /** @var Mage_Core_Service_Factory */
+    protected $_serviceFactory;
 
     /**
      * Initialize dependencies.
@@ -38,7 +38,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation
      * @param Mage_Webapi_Controller_Router_Rest $router
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
-     * @param Mage_Core_Service_ObjectManager $serviceManager
+     * @param Mage_Core_Service_Factory $serviceFactory
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Rest $request,
@@ -47,7 +47,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
         Mage_Webapi_Controller_Router_Rest $router,
         // TODO: Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication,
-        Mage_Core_Service_ObjectManager $serviceManager
+        Mage_Core_Service_Factory $serviceFactory
     ) {
         $this->_restPresentation = $restPresentation;
         $this->_router = $router;
@@ -55,7 +55,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
         // TODO: $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_response = $response;
-        $this->_serviceManager = $serviceManager;
+        $this->_serviceFactory = $serviceFactory;
     }
 
     /**
@@ -70,13 +70,14 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
             $route = $this->_router->match($this->_request);
             $inputData = $this->_restPresentation->fetchRequestData();
             // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
-            $outputData = $this->_serviceManager->call(
+            $serviceMethod = $route->getServiceMethod();
+            $service = $this->_serviceFactory->createServiceInstance(
                 $route->getServiceId(),
-                $route->getServiceMethod(),
-                $inputData,
+                $serviceMethod,
                 $route->getServiceVersion()
             );
-            if ($outputData instanceof Varien_Object) {
+            $outputData = $service->$serviceMethod($inputData);
+            if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
                 $outputData = $outputData->getData();
             }
             $this->_restPresentation->prepareResponse($outputData);

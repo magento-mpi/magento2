@@ -24,8 +24,8 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation */
     protected $_restPresentation;
 
-    /** @var Mage_Core_Service_ObjectManager */
-    protected $_serviceManagerMock;
+    /** @var Mage_Core_Service_Factory */
+    protected $_serviceFactoryMock;
 
     protected function setUp()
     {
@@ -43,7 +43,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest_Authentication')
             ->disableOriginalConstructor()->getMock();
 
-        $this->_serviceManagerMock = $this->getMockBuilder('Mage_Core_Service_ObjectManager')
+        $this->_serviceFactoryMock = $this->getMockBuilder('Mage_Core_Service_Factory')
             ->disableOriginalConstructor()->getMock();
 
         /** Init SUT. */
@@ -53,7 +53,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
             $this->_restPresentation,
             $this->_routerMock,
             $this->_authenticationMock,
-            $this->_serviceManagerMock
+            $this->_serviceFactoryMock
         );
         parent::setUp();
     }
@@ -64,7 +64,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         unset($this->_authenticationMock);
         unset($this->_responseMock);
         unset($this->_routerMock);
-        unset($this->_serviceManagerMock);
+        unset($this->_serviceFactoryMock);
         unset($this->_authorizationMock);
         unset($this->_restPresentation);
         parent::tearDown();
@@ -100,10 +100,15 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')->disableOriginalConstructor()
             ->getMock();
         $routeMock->expects($this->any())->method('getServiceId');
-        $routeMock->expects($this->any())->method('getServiceMethod');
+        $serviceMethodName = 'getServiceMethod';
+        $routeMock->expects($this->any())->method('getServiceMethod')->will($this->returnValue($serviceMethodName));
         $routeMock->expects($this->any())->method('getServiceVersion');
         $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
-        $this->_serviceManagerMock->expects($this->once())->method('call')->will($this->returnValue(array()));
+        $serviceMock = $this->getMockBuilder('Varien_Object')->disableOriginalConstructor()->getMock();
+        $serviceMock->expects($this->any())->method($serviceMethodName)->will($this->returnValue(array()));
+        $this->_serviceFactoryMock->expects($this->once())->method('createServiceInstance')->will(
+            $this->returnValue($serviceMock)
+        );
         $this->_restPresentation->expects($this->once())->method('prepareResponse')->will(
             $this->returnValue(array())
         );
