@@ -1668,8 +1668,13 @@
     line-height: 20px;
 }
 
-#vde_toolbar_buttons .actions-split > .dropdown-menu {
+.vde_toolbar_buttons .actions-split > .dropdown-menu {
     line-height: 21pt;
+}
+
+.vde_toolbar_buttons .dropdown-menu .disabled.ui-button {
+    color: #c6c6c6;
+    cursor: default;
 }
 
 .store-launcher-theme-preview .action-theme-assign {
