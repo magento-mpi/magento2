@@ -669,7 +669,7 @@
 
 @media screen and (max-width: 1340px) {
     .vde-tab-content-inner.hasScroll .save_image_sizing {
-        bottom: 67px;
+        bottom: 64px;
     }
     .vde-tab-content-inner.hasScroll #save_image_sizing {
         right: 0;
@@ -841,6 +841,7 @@
     position: relative;
     height: 348px;
     background: #000;
+    min-width: 1020px;
 }
 
 .vde-tab-data {
@@ -1866,6 +1867,13 @@
     border-width: 0 0 1px;
     margin-bottom: 2px;
     padding: 8px 0;
+}
+
+@media screen and (max-width: 960px) {
+    .vde-image-sizing [class^="fields-group-"] .field {
+        width: auto !important;
+        margin-bottom: 0 !important;
+    }
 }
 
 .vde-image-sizing fieldset.field > .label {
