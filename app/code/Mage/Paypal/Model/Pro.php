@@ -66,7 +66,6 @@ class Mage_Paypal_Model_Pro
 
     public function __construct(Mage_Paypal_Model_Info $paypalInfo, Mage_Core_Model_Factory_Helper $factoryHelper)
     {
-
         $this->_infoInstance = $paypalInfo;
         $this->_factoryHelper = $factoryHelper;
     }
