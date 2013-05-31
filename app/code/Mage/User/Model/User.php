@@ -91,6 +91,15 @@ class Mage_User_Model_User
      */
     protected $_mailer;
 
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array())
+    {
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Initialize user model
      */
@@ -364,10 +373,9 @@ class Mage_User_Model_User
     /**
      * Send email to when password is resetting
      *
-     * @param Mage_Core_Model_Email_Info $emailInfo
      * @return Mage_User_Model_User
      */
-    public function sendPasswordResetNotificationEmail(Mage_Core_Model_Email_Info $emailInfo)
+    public function sendPasswordResetNotificationEmail()
     {
         $mailer = $this->_getMailer();
         $emailInfo->addTo($this->getEmail(), $this->getName());

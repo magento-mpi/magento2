@@ -62,7 +62,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
         try {
             $user->save();
-            $user->sendPasswordResetNotificationEmail($this->_objectManager->create('Mage_Core_Model_Email_Info'));
+            $user->sendPasswordResetNotificationEmail();
             $this->_getSession()->addSuccess(
                 $this->__('The account has been saved.')
             );

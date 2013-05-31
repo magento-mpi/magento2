@@ -252,8 +252,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
     /**
      * Reset password handler
-     *
-     * @return Mage_Adminhtml_CustomerController
      */
     public function resetPasswordAction()
     {
