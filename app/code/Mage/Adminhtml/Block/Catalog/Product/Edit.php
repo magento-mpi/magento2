@@ -158,11 +158,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return $this->getProduct()->isGrouped();
     }
 
-    public function getDeleteUrl()
-    {
-        return $this->getUrl('*/*/delete', array('_current'=>true));
-    }
-
     public function getDuplicateUrl()
     {
         return $this->getUrl('*/*/duplicate', array('_current'=>true));

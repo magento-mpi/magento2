@@ -57,4 +57,46 @@ class Core_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
         //return array $loginData
         return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
+
+    /**
+     * <p>Delete product.</p>
+     *
+     * @param string $type
+     * @param array $loginData
+     *
+     * @test
+     * @dataProvider deleteSingleProductDataProvider
+     * @depends roleResourceAccessManageProduct
+     * @TestlinkId TL-MAGE-3425
+     */
+    public function deleteSingleProduct($type, $loginData)
+    {
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->getParsedMessages());
+        //Data
+        $productData = $this->loadDataSet('Product', $type . '_product_required');
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData, $type);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        $this->searchAndChoose($search, 'product_grid');
+
+        $this->fillDropdown('mass_action_select_action', 'Delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
+    }
+
+    public function deleteSingleProductDataProvider()
+    {
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable'),
+            array('grouped'),
+            array('bundle')
+        );
+    }
 }

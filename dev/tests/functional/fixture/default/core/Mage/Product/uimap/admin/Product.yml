@@ -54,7 +54,6 @@ manage_products:
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
-            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been deleted.')]
             success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been duplicated.')]
             success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been created.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]

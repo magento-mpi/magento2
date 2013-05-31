@@ -52,6 +52,50 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
     }
 
     /**
+     *
+     * <p>Delete product.</p>
+     *
+     * @param string $type
+     * @param array $loginData
+     *
+     * @depends roleResourceAccessManageProduct
+     * @test
+     * @dataProvider deleteSingleProductDataProvider
+     * @TestlinkId TL-MAGE-3425
+     */
+    public function deleteSingleProduct($type, $loginData)
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', $type . '_product_required');
+        $search = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->getParsedMessages());
+        $this->productHelper()->createProduct($productData, $type);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        $this->searchAndChoose($search, 'product_grid');
+
+        $this->fillDropdown('mass_action_select_action', 'Delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
+    }
+
+    public function deleteSingleProductDataProvider()
+    {
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable'),
+            array('grouped'),
+            array('bundle')
+        );
+    }
+
+    /**
      * <p>Precondition fot test. Creating User with role Catalog/Manage Products</p>
      *
      * @test
@@ -77,6 +121,51 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
         $this->assertMessagePresent('success', 'success_saved_user');
 
         return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
+    }
+
+    /**
+     * <p>Delete product without Price</p>
+     *
+     * @param string $type
+     * @param array $loginData
+     *
+     * @test
+     * @dataProvider deleteSingleProductWithoutPriceDataProvider
+     * @depends roleResourceAccessWithoutProductPrice
+     * @TestlinkId TL-MAGE-5966
+     */
+    public function deleteSingleProductWithoutPrice($type, $loginData)
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', $type . '_product_required',
+            array('general_price' => '%noValue%'));
+        $search = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->getParsedMessages());
+        // Verifying visibility Price column
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_grid_columns_price'),
+            "This user doesn't have permission to watch Column Price");
+        $this->productHelper()->createProduct($productData, $type);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        $this->searchAndChoose($search, 'product_grid');
+
+        $this->fillDropdown('mass_action_select_action', 'Delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
+    }
+
+    public function deleteSingleProductWithoutPriceDataProvider()
+    {
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable')
+        );
     }
 }
 

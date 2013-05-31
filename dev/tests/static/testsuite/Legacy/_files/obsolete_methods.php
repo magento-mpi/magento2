@@ -210,6 +210,7 @@ return array(
     array('createDirIfNotExists', '', 'mkdir()'),
     array('createOrderItem', 'Mage_CatalogInventory_Model_Observer'),
     array('debugRequest', 'Mage_Paypal_Model_Api_Standard'),
+    array('deleteAction', 'Mage_Adminhtml_Catalog_ProductController'),
     array('deleteConfig', 'Mage_Core_Model_Config'),
     array('deleteProductPrices', 'Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice'),
     array('display', 'Varien_Image_Adapter_Abstract', 'getImage()'),
