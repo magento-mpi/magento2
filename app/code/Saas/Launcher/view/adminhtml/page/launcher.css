@@ -1255,7 +1255,7 @@
     display: block;
     float: left;
     position: relative;
-    min-height: 300px;
+    min-height: 325px;
     width: 20%;
     font-size: 14px;
     border-left: 1px solid #cac2b5;
@@ -1478,9 +1478,14 @@
     position: relative;
 }
 .payment-config .field.with-tooltip .tooltip {
-    margin: -5px 0 0 -10px;
+    margin: -27px 0 0 -10px;
     top: 27px;
 }
+
+.payment-config[data-payment-method="payflow-link"] .field.with-tooltip .tooltip {
+    margin: -5px 0 0 -10px;
+}
+
 .payment-config .field.with-tooltip .help {
     width: 15px;
 }
