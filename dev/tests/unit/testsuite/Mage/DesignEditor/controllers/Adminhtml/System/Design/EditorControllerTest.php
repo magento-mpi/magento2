@@ -87,16 +87,10 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         $themeService = $this->getMock('Mage_Core_Model_Theme_Service',
             array('isCustomizationsExist'), array(), '', false);
 
-
-        $themeService->expects($this->at(0))
+        $themeService->expects($this->any())
             ->method('isCustomizationsExist')
             ->will($this->returnValue($hasCustomizedThemes));
 
-        if ($hasCustomizedThemes xor $action !== 'index') {
-            $themeService->expects($this->at(1))
-                ->method('isCustomizationsExist')
-                ->will($this->returnValue(false));
-        }
         return $themeService;
     }
 
