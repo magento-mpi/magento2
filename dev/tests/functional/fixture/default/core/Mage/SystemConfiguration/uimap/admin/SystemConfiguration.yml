@@ -2068,6 +2068,21 @@ system_configuration:
                                         account_number_use_default: //input[@name='groups[analytics][fields][account][inherit]']
                                         enable_use_default: //input[@name='groups[analytics][fields][active][inherit]']
                             -
+                                google_adwords:
+                                    xpath: //fieldset[@id='google_adwords']
+                                    links:
+                                        google_adwords_link: //parent::div//a[@id='google_adwords-head']
+                                    fields:
+                                        conversion_id: //input[@name='groups[adwords][fields][conversion_id][value]']
+                                        conversion_format: //input[@name='groups[adwords][fields][conversion_format][value]']
+                                        conversion_color: //input[@name='groups[adwords][fields][conversion_color][value]']
+                                        conversion_label: //input[@name='groups[adwords][fields][conversion_label][value]']
+                                        conversion_value: //input[@name='groups[adwords][fields][conversion_value][value]']
+                                    dropdowns:
+                                        enable_google_adwords: //select[@name='groups[adwords][fields][active][value]']
+                                        conversion_value_type: //select[@name='groups[adwords][fields][conversion_value_type][value]']
+                                        conversion_language: //select[@name='groups[adwords][fields][conversion_language][value]']
+                            -
                                 google_shopping:
                                     xpath: //fieldset[@id='google_googleshopping']
                                     links:
@@ -3798,6 +3813,8 @@ system_configuration:
             save_config: //button[@data-ui-id='content-schedule-block-save-button']
         messages:
             success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
+            error_save_google_adwords_color: //li[normalize-space(@class)='error-msg' and contains(.,'Conversion Color value is not valid "%color%". Please set hexadecimal 6-digit value.')]
+            error_save_google_adwords_conversion_id: //li[normalize-space(@class)='error-msg' and contains(.,'Conversion Id value is not valid "%conversionId%". Conversion Id should be an integer.')]
             validation_for_field_code_length: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_length']
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 
