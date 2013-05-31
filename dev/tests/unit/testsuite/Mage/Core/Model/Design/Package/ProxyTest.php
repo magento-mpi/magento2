@@ -58,12 +58,12 @@ class Mage_Core_Model_Design_Package_ProxyTest extends PHPUnit_Framework_TestCas
         $this->assertSame('return value', $this->_model->getPublicDir());
     }
 
-    public function testMergeFiles()
+    public function testGetViewFilePublicPath()
     {
         $this->_packageMock->expects($this->once())
-            ->method('mergeFiles')
-            ->with(array('file1.css', 'file2.css'), 'css')
+            ->method('getViewFilePublicPath')
+            ->with('file.css', array(1, 2))
             ->will($this->returnValue('return value'));
-        $this->assertSame('return value', $this->_model->mergeFiles(array('file1.css', 'file2.css'), 'css'));
+        $this->assertSame('return value', $this->_model->getViewFilePublicPath('file.css', array(1, 2)));
     }
 }

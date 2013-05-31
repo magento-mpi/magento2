@@ -11,7 +11,7 @@
 /**
  * Theme change resource model
  */
-class Mage_DesignEditor_Model_Resource_Theme_Change extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_DesignEditor_Model_Theme_Resource_Change extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization

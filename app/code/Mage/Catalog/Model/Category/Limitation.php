@@ -62,6 +62,6 @@ class Mage_Catalog_Model_Category_Limitation
      */
     public function getCreateRestrictedMessage()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Maximum allowed number of categories is reached.');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the categories your account allows. To add more, first delete a category or upgrade your service.');
     }
 }

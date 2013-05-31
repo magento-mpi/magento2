@@ -292,21 +292,22 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
     {
         $this->dispatch('backend/admin/catalog_category/index');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of categories is reached.', $body);
+        $this->assertNotContains('Sorry, you are using all the categories your account '
+            . 'allows. To add more, first delete a category or upgrade your service.', $body);
 
         $pattern = '/<button[^>]*add_root_category_button[^>]*>/';
         preg_match($pattern, $body, $matches);
         $this->assertNotEmpty($matches[0]);
         $btnRoot = $matches[0];
-        $this->assertNotContains('display: none', $btnRoot,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
+        $this->assertNotContains('disabled="disabled"', $btnRoot,
+            '"Add Root Category" button should be enabled on Categories page, if the limit is reached');
 
         $pattern = '/<button[^>]*add_subcategory_button[^>]*>/';
         preg_match($pattern, $body, $matches);
         $this->assertNotEmpty($matches[0]);
         $btnSub = $matches[0];
-        $this->assertNotContains('display: none', $btnSub,
-            '"Add Subcategory" should not be present on Categories page, if the limit is reached');
+        $this->assertNotContains('disabled="disabled"', $btnSub,
+            '"Add Subcategory" should be enabled on Categories page, if the limit is reached');
     }
 
     /**
@@ -319,21 +320,22 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
         $this->dispatch('backend/admin/catalog_category/index');
         $body = $this->getResponse()->getBody();
 
-        $this->assertContains('Maximum allowed number of categories is reached.', $body);
+        $this->assertContains('Sorry, you are using all the categories your account allows.'
+            . ' To add more, first delete a category or upgrade your service.', $body);
 
         $pattern = '/<button[^>]*add_root_category_button[^>]*>/';
         preg_match($pattern, $body, $matches);
         $this->assertNotEmpty($matches[0]);
         $btnRoot = $matches[0];
-        $this->assertContains('display: none', $btnRoot,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
+        $this->assertContains('disabled="disabled"', $btnRoot,
+            '"Add Root Category" button should be disabled on Categories page, if the limit is reached');
 
         $pattern = '/<button[^>]*add_subcategory_button[^>]*>/';
         preg_match($pattern, $body, $matches);
         $this->assertNotEmpty($matches[0]);
         $btnSub = $matches[0];
-        $this->assertContains('display: none', $btnSub,
-           '"Add Subcategory" should not be present on Categories page, if the limit is reached');
+        $this->assertContains('disabled="disabled"', $btnSub,
+           '"Add Subcategory" should be disabled on Categories page, if the limit is reached');
     }
 
     /**
@@ -345,21 +347,22 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
     {
         $this->dispatch('backend/admin/catalog_category/index');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of categories is reached.', $body);
+        $this->assertNotContains('Sorry, you are using all the categories your account allows.'
+            . ' To add more, first delete a category or upgrade your service.', $body);
 
         $pattern = '/<button[^>]*add_root_category_button[^>]*>/';
         preg_match($pattern, $body, $matches);
         $this->assertNotEmpty($matches[0]);
         $btnRoot = $matches[0];
-        $this->assertNotContains('display: none', $btnRoot,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
+        $this->assertNotContains('disabled="disabled"', $btnRoot,
+            '"Add Root Category" button should be enabled on Categories page, if the limit is reached');
 
         $pattern = '/<button[^>]*add_subcategory_button[^>]*>/';
         preg_match($pattern, $body, $matches);
         $this->assertNotEmpty($matches[0]);
         $btnSub = $matches[0];
-        $this->assertNotContains('display: none', $btnSub,
-            '"Add Subcategory" should not be present on Categories page, if the limit is reached');
+        $this->assertNotContains('disabled="disabled"', $btnSub,
+            '"Add Subcategory" should be enabled on Categories page, if the limit is reached');
     }
 
     /**
@@ -372,9 +375,9 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
         $this->dispatch('backend/admin/catalog_category/edit');
         $body = $this->getResponse()->getBody();
 
-        $this->assertContains('$(\"add_root_category_button\").show()', $body,
+        $this->assertContains('$(\"add_root_category_button\").enable()', $body,
             '"Add Root Category" button isn\'t present on Categories page');
-        $this->assertContains('$(\"add_subcategory_button\").show()', $body,
+        $this->assertContains('$(\"add_subcategory_button\").enable()', $body,
             '"Add Subcategory" button isn\'t present on Categories page');
     }
 
@@ -390,10 +393,10 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
         $this->dispatch('backend/admin/catalog_category/edit');
         $body = $this->getResponse()->getBody();
 
-        $this->assertContains('$(\"add_root_category_button\").hide()', $body,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
-        $this->assertContains('$(\"add_subcategory_button\").hide()', $body,
-            '"Add Subcategory" should not be present on Categories page, if the limit is reached');
+        $this->assertContains('$(\"add_root_category_button\").disable()', $body,
+            '"Add Root Category" button should be enabled on Categories page, if the limit is reached');
+        $this->assertContains('$(\"add_subcategory_button\").disable()', $body,
+            '"Add Subcategory" should be enabled on Categories page, if the limit is reached');
     }
 
     /**
@@ -408,9 +411,9 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
         $this->dispatch('backend/admin/catalog_category/edit');
         $body = $this->getResponse()->getBody();
 
-        $this->assertContains('$(\"add_root_category_button\").show()', $body,
+        $this->assertContains('$(\"add_root_category_button\").enable()', $body,
             '"Add Root Category" button isn\'t present on Categories page');
-        $this->assertContains('$(\"add_subcategory_button\").show()', $body,
+        $this->assertContains('$(\"add_subcategory_button\").enable()', $body,
             '"Add Subcategory" button isn\'t present on Categories page');
     }
 }
