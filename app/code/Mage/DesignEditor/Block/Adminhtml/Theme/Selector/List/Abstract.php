@@ -71,9 +71,9 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     {
         $themeId = $themeBlock->getTheme()->getId();
 
-        /** @var $assignButton Mage_Backend_Block_Widget_Button */
-        $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-        $assignButton->setData(array(
+        /** @var $duplicateButton Mage_Backend_Block_Widget_Button */
+        $duplicateButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $duplicateButton->setData(array(
             'label'          => $this->__('Duplicate'),
             'data_attribute' => array(
                 'mage-init' => array(
@@ -87,10 +87,10 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                     ),
                 ),
             ),
-            'class'   => 'action-duplicate hidden'
+            'class'   => 'action-duplicate'
         ));
 
-        $themeBlock->addButton($assignButton);
+        $themeBlock->addButton($duplicateButton);
         return $this;
     }
 
