@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Factory
+ * Test class for Mage_Core_Model_Dataservice_Invoker
  *
  * {license_notice}
  *
@@ -22,7 +22,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
 
     protected $_dataserviceMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Factory */
+    /** @var  Mage_Core_Model_Dataservice_Invoker */
     protected $_factoryMock;
 
     /** @var  Mage_Core_Model_Dataservice_Repository */
@@ -35,7 +35,7 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_Dataservice_Factory', array(), array(), "", false);
+        $this->_factoryMock = $this->getMock('Mage_Core_Model_Dataservice_Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
         $this->_graph = new Mage_Core_Model_Dataservice_Graph($this->_factoryMock, $this->_repositoryMock);
         $this->_dataserviceMock = (object)array();

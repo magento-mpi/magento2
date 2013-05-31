@@ -14,21 +14,21 @@
  */
 class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_Path_Node
 {
-    /** @var Mage_Core_Model_Dataservice_Factory */
-    protected $_factory;
+    /** @var Mage_Core_Model_Dataservice_Invoker */
+    protected $_invoker;
 
     /** @var Mage_Core_Model_Dataservice_Repository */
     protected $_repository;
 
     /**
-     * @param Mage_Core_Model_Dataservice_Factory
+     * @param Mage_Core_Model_Dataservice_Invoker $dataserviceInvoker
      * @param Mage_Core_Model_Dataservice_Repository $repository
      */
     public function __construct(
-        Mage_Core_Model_Dataservice_Factory $factory,
+        Mage_Core_Model_Dataservice_Invoker $dataserviceInvoker,
         Mage_Core_Model_Dataservice_Repository $repository
     ) {
-        $this->_factory = $factory;
+        $this->_invoker = $dataserviceInvoker;
         $this->_repository = $repository;
     }
 
@@ -69,7 +69,7 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
     {
         $dataservice = $this->_repository->get($sourceName);
         if ($dataservice == null) {
-            $dataservice = $this->_factory->createDataservice($sourceName);
+            $dataservice = $this->_invoker->createDataservice($sourceName);
         }
         $this->getRepository()->add($sourceName, $dataservice);
         return $dataservice;

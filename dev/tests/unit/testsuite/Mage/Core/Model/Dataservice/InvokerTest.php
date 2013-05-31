@@ -1,13 +1,13 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Factory
+ * Test class for Mage_Core_Model_Dataservice_Invoker
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
 {
     const TEST_CLASS_NAME = 'TEST_CLASS_NAME';
 
@@ -17,8 +17,8 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
 
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
 
-    /** @var Mage_Core_Model_Dataservice_Factory */
-    protected $_factory;
+    /** @var Mage_Core_Model_Dataservice_Invoker */
+    protected $_invoker;
 
     /** @var Mage_Core_Model_Dataservice_Config_Interface */
     protected $_configMock;
@@ -50,7 +50,7 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
         );
         $this->_pathNavigatorMock = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Navigator')
             ->disableOriginalConstructor()->getMock();
-        $this->_factory = new Mage_Core_Model_Dataservice_Factory(
+        $this->_invoker = new Mage_Core_Model_Dataservice_Invoker(
             $this->_configMock,
             $this->_objectManagerMock,
             $this->_compositeMock,
@@ -60,27 +60,42 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateDataservice()
     {
-        $classInformation = array('class'          => self::TEST_CLASS_NAME,
-                                  'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
-        $this->_configMock->expects($this->once())->method("getClassByAlias")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($classInformation));
-        $this->_objectManagerMock->expects($this->once())->method("create")->with(
-            $this->equalTo(self::TEST_CLASS_NAME)
-        )->will($this->returnValue($this));
-        $this->assertSame($this->_dataserviceMock, $this->_factory->createDataservice(self::TEST_DATA_SERVICE_NAME));
-    }
+        $classInformation = array(
+            'class'          => self::TEST_CLASS_NAME,
+            'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
+        $this->_configMock
+            ->expects($this->once())
+            ->method("getClassByAlias")
+            ->with($this->equalTo(self::TEST_DATA_SERVICE_NAME))
+            ->will($this->returnValue($classInformation));
+        $this->_objectManagerMock
+            ->expects($this->once())
+            ->method("get")
+            ->with($this->equalTo(self::TEST_CLASS_NAME))
+            ->will($this->returnValue($this));
+        $this->assertSame(
+            $this->_dataserviceMock,
+            $this->_invoker->createDataservice(self::TEST_DATA_SERVICE_NAME));
+     }
 
     public function testCreateDataserviceWithArguments()
     {
-        $classInformation = array('class'          => self::TEST_CLASS_NAME,
+        $classInformation = array(
+            'class'          => self::TEST_CLASS_NAME,
             'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array('something'));
-        $this->_configMock->expects($this->once())->method("getClassByAlias")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($classInformation));
-        $this->_objectManagerMock->expects($this->once())->method("create")->with(
-            $this->equalTo(self::TEST_CLASS_NAME)
-        )->will($this->returnValue($this));
-        $this->assertSame($this->_dataserviceMock, $this->_factory->createDataservice(self::TEST_DATA_SERVICE_NAME));
+        $this->_configMock
+            ->expects($this->once())
+            ->method("getClassByAlias")
+            ->with($this->equalTo(self::TEST_DATA_SERVICE_NAME))
+            ->will($this->returnValue($classInformation));
+        $this->_objectManagerMock
+            ->expects($this->once())
+            ->method("get")
+            ->with($this->equalTo(self::TEST_CLASS_NAME))
+            ->will($this->returnValue($this));
+
+        $this->assertSame(
+            $this->_dataserviceMock,
+            $this->_invoker->createDataservice(self::TEST_DATA_SERVICE_NAME));
     }
 }
