@@ -106,6 +106,39 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     private static $_isConfirmationRequired;
 
+    /** @var Mage_Customer_Model_Sender */
+    protected $_sender;
+
+    /** @var Mage_Core_Model_StoreManager */
+    protected $_storeManager;
+
+    /** @var Mage_Eav_Model_Config */
+    protected $_config;
+
+    /**
+     * @param Mage_Customer_Model_Sender $sender
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Eav_Model_Config $config
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Customer_Model_Sender $sender,
+        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Eav_Model_Config $config,
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_sender = $sender;
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Initialize customer model
      */
@@ -207,16 +240,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        $config = Mage::getSingleton('Mage_Eav_Model_Config');
-        if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $this->getPrefix()) {
+
+        if ($this->_config->getAttribute('customer', 'prefix')->getIsVisible() && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
         $name .= $this->getFirstname();
-        if ($config->getAttribute('customer', 'middlename')->getIsVisible() && $this->getMiddlename()) {
+        if ($this->_config->getAttribute('customer', 'middlename')->getIsVisible() && $this->getMiddlename()) {
             $name .= ' ' . $this->getMiddlename();
         }
         $name .=  ' ' . $this->getLastname();
-        if ($config->getAttribute('customer', 'suffix')->getIsVisible() && $this->getSuffix()) {
+        if ($this->_config->getAttribute('customer', 'suffix')->getIsVisible() && $this->getSuffix()) {
             $name .= ' ' . $this->getSuffix();
         }
         return $name;
@@ -662,10 +695,14 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $storeId = $this->_getWebsiteStoreId();
         }
 
-        $this->_sendEmailTemplate(self::XML_PATH_RESET_PASSWORD_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $storeId
+        $this->_sender->send(
+            $this->getEmail(),
+            $this->getName(),
+            self::XML_PATH_RESET_PASSWORD_TEMPLATE,
+            self::XML_PATH_FORGOT_EMAIL_IDENTITY,
+            array('customer' => $this),
+            $storeId
         );
-
         return $this;
     }
 
@@ -805,7 +842,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Invalid email address "%s".', $this->getEmail());
         }
 
-        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
+        $entityType = $this->_config->getEntityType('customer');
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'dob');
         if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
             $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The Date of Birth is required.');
@@ -1013,14 +1050,14 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Get either first store ID from a set website or the provided as default
      *
-     * @param int|string|null $storeId
+     * @param int|string|null $defaultStoreId
      *
      * @return int
      */
     protected function _getWebsiteStoreId($defaultStoreId = null)
     {
         if ($this->getWebsiteId() != 0 && empty($defaultStoreId)) {
-            $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
             reset($storeIds);
             $defaultStoreId = current($storeIds);
         }
