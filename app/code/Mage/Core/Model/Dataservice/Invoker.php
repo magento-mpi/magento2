@@ -50,7 +50,7 @@ class Mage_Core_Model_Dataservice_Invoker
      * @param $sourceName
      * @return bool|mixed
      */
-    public function createDataservice($sourceName)
+    public function getServiceData($sourceName)
     {
         $classInformation = $this->_config->getClassByAlias($sourceName);
         $instance = $this->_objectManager->get($classInformation['class']);

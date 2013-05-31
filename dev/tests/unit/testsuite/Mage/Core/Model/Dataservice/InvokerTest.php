@@ -58,7 +58,7 @@ class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
         $this->_dataserviceMock = (object)array();
     }
 
-    public function testCreateDataservice()
+    public function testGetServiceData()
     {
         $classInformation = array(
             'class'          => self::TEST_CLASS_NAME,
@@ -75,10 +75,10 @@ class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this));
         $this->assertSame(
             $this->_dataserviceMock,
-            $this->_invoker->createDataservice(self::TEST_DATA_SERVICE_NAME));
+            $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME));
      }
 
-    public function testCreateDataserviceWithArguments()
+    public function testGetServiceDataWithArguments()
     {
         $classInformation = array(
             'class'          => self::TEST_CLASS_NAME,
@@ -96,6 +96,6 @@ class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(
             $this->_dataserviceMock,
-            $this->_invoker->createDataservice(self::TEST_DATA_SERVICE_NAME));
+            $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME));
     }
 }

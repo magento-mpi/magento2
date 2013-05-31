@@ -69,7 +69,7 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
     {
         $dataservice = $this->_repository->get($sourceName);
         if ($dataservice == null) {
-            $dataservice = $this->_invoker->createDataservice($sourceName);
+            $dataservice = $this->_invoker->getServiceData($sourceName);
         }
         $this->getRepository()->add($sourceName, $dataservice);
         return $dataservice;
