@@ -37,7 +37,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $themeCss->saveData($editableTheme);
             $response = array(
                 'success' => true,
-                'message' => $this->__('Custom.css file has been successfully saved.'),
+                'message' => $this->__('You updated the custom.css file.'),
                 'content' => $cssFileContent
             );
         } catch (Mage_Core_Exception $e) {
@@ -67,7 +67,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $editableTheme->setCustomization($themeCss)->save();
             $response = array(
                 'success' => true,
-                'message' => $this->__('Custom.css file has been successfully saved.')
+                'message' => $this->__('You updated the custom.css file.')
             );
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
