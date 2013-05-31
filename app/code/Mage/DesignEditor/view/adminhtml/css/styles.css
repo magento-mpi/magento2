@@ -607,6 +607,11 @@
     z-index: 900;
 }
 
+.vde-tools-tabs {
+    position: relative;
+    z-index: 2;
+}
+
 .vde-tools-header {
     position: absolute;
     left: 0;
@@ -969,16 +974,11 @@
     background-position: 40px 33px;
 }
 
-.vde-tools-tabs {
-    left: 0;
-    position: absolute;
-    right: 20%;
-}
-
 .vde-tools-menu {
-    left: 95%;
     position: absolute;
+    top: 0;
     right: 0;
+    z-index: 3;
 }
 
 .tab-panel {
