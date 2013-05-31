@@ -144,15 +144,15 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
 
         $block->setArea($this->_parser->getDesignPackage()->getArea());
         $block->setAjaxUrl($ajaxUrl);
-        $block->setFrameUrl($this->_helper->getCurrentHandleUrl());
+        $frameUrl = Mage::getObjectManager()->get('Mage_Backend_Model_Session')
+            ->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
+        $block->setFrameUrl($frameUrl);
         $block->setRefreshCanvas($this->isAllowed());
 
         $block->setTemplate('Mage_DesignEditor::translate_inline.phtml');
         $block->setTranslateMode($this->_helper->getTranslationMode());
 
-        $html = $block->toHtml();
-
-        $this->_parser->setContent(str_ireplace('</body>', $html . '</body>', $content));
+        $this->_parser->setContent(str_ireplace('</body>', $block->toHtml() . '</body>', $content));
 
         $this->_isScriptInserted = true;
     }
@@ -168,7 +168,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
         $mode = self::MODE_TEXT;
         if (self::ELEMENT_SCRIPT == $tagName) {
             $mode = self::MODE_SCRIPT;
-        } else if (self::ELEMENT_IMG == $tagName) {
+        } elseif (self::ELEMENT_IMG == $tagName) {
             $mode = self::MODE_ALT;
         }
         return $mode;
