@@ -2083,9 +2083,10 @@ select {
     width:665px;
 }
 .cart.summary {
-    float: right;
+    display: inline-block;
     width: 290px;
     padding: 0 20px 20px;
+    margin-left:10px;
     .summary.title {
         color: @primary2;
         font-family: 'Tenor Sans', sans-serif;
@@ -2164,6 +2165,20 @@ select {
             }
         }
     }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
+  }
+}
+.cart.table.wrapper.detailed + .cart.summary {
+  margin-top: 54px;
 }
 .cart.table.wrapper.detailed + .cart.summary {
         margin-top: 16px;
@@ -2443,7 +2458,6 @@ select {
 
 .minicart.wrapper {
     display: inline-block;
-    position: relative;
     text-align: right;
     vertical-align: middle;
     width: 15%;
@@ -2452,10 +2466,8 @@ select {
         border: 1px solid @primary7;
         background: #fff;
         color: #333;
-        visibility: hidden;
         position: absolute;
-        top: 100%;
-        right: 0;
+        left: -100%;
         padding:0 235px 0 0;
         text-align: center;
         z-index: 2;
@@ -2561,8 +2573,8 @@ select {
         position: relative;
         z-index: 11;
         .block.minicart {
-            //display: block;
-            visibility: visible;
+            left: auto;
+            right: 0;
         }
     }
     .action.previous,
@@ -2745,14 +2757,14 @@ select {
             overflow: hidden;
         }
         position: relative;
-        &:after {
+        /*&:after {
             content:'moving';
             position: absolute;
             z-index: 999;
             top:0; left:0; bottom:0; right:0;
             background: #fff;
             opacity: 0.01;
-        }
+        }*/
         .item {
             visibility: visible;
         }
@@ -2853,6 +2865,48 @@ select {
                     font-size: 16px;
                     font-family: "cake-icons";
                 }
+            }
+        }
+    }
+}
+
+.eq-ie8 .block.minicart {
+    .products.minilist {
+        .action.delete,
+        .action.edit {
+            visibility: hidden;
+        }
+        .shown {
+            .action.delete,
+            .action.edit {
+                visibility: visible;
+            }
+            &.item {
+                .pricing {
+                    &:not(.complex) {
+                        .rate,
+                        .details {
+                            .qty {
+                                visibility: visible;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .item {
+            .pricing {
+                &:not(.complex) {
+                    .rate,
+                    .details {
+                        .qty {
+                            visibility: hidden;
+                        }
+                    }
+                }
+            }
+            &:before {
+                border-left: 0;
             }
         }
     }

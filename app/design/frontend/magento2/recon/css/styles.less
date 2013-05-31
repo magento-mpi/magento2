@@ -1847,9 +1847,10 @@ select {
 .cart.summary {
   margin-top: 33px;
   background: @reconSecondary2;
-  float: right;
+  display: inline-block;;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
   .summary.title {
     font-size: 24px;
     display: block;
@@ -1930,6 +1931,18 @@ select {
     display: block;
     padding-bottom: 8px;
     text-transform: uppercase;
+  }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  margin-left: 4px;
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
   }
 }
 .cart.table.wrapper.detailed + .cart.summary {
@@ -2072,13 +2085,10 @@ select {
 
 .minicart.wrapper {
   float: right;
-  position: relative;
   z-index: 11;
   .block.minicart {
     .clearfix;
-    top: 100%;
-    right: 0;
-    visibility: hidden;
+    left: -100%;
     position: absolute;
     z-index: 2;
     background: @reconSecondary2;
@@ -2177,7 +2187,8 @@ select {
     position: relative;
     z-index: 11;
     .block.minicart {
-      visibility: visible;
+      left: auto;
+      right: 0;
     }
   }
   .action.close {
@@ -2422,7 +2433,6 @@ select {
   color: @primary2;
   margin-top: 23px;
   margin-left: 20px;
-  position: relative;
   display: inline-block;
   padding: 5px 10px;
   border: 1px solid transparent;
@@ -2439,6 +2449,7 @@ select {
   &.active {
     border-color: @reconSecondary1;
     border-bottom-color: transparent;
+    position: relative;
     z-index: 3;
     &:after {
       content: "";

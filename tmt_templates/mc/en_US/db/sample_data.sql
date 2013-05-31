@@ -9730,7 +9730,9 @@ INSERT INTO `sales_order_status` (`status`, `label`) VALUES
 	('processed_ogone', 'Processed Ogone Payment'),
 	('processing', 'Processing'),
 	('processing_ogone', 'Processing Ogone Payment'),
-	('waiting_authorozation', 'Waiting Authorization');
+	('waiting_authorozation', 'Waiting Authorization'),
+	('paypal_reversed','PayPal Reversed'),
+	('paypal_canceled_reversal','PayPal Canceled Reversal');
 
 
 

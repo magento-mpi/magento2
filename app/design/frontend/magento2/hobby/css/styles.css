@@ -2745,9 +2745,10 @@ select:disabled {
 .cart.summary {
   margin-top: 33px;
   background: #ffffff;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left: 10px;
 }
 .cart.summary .summary.title {
   font-family: "benchnine";
@@ -2852,6 +2853,16 @@ select:disabled {
   display: block;
   padding-bottom: 8px;
   text-transform: uppercase;
+}
+.cart > .summary.fixed,
+.cart.container > .summary > .container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container > .summary.bottom {
+  position: absolute;
+  vertical-align: bottom;
+  bottom: 0;
 }
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 47px;
@@ -2999,14 +3010,11 @@ select:disabled {
 ----------------------------------------------------------------------------- */
 .minicart.wrapper {
   float: right;
-  position: relative;
   z-index: 11;
 }
 .minicart.wrapper .block.minicart {
   *zoom: 1;
-  top: 100%;
-  right: 0;
-  visibility: hidden;
+  left: -100%;
   position: absolute;
   z-index: 2;
   background: #ffffff;
@@ -3121,7 +3129,8 @@ select:disabled {
   opacity: 0.01;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: 0;
 }
 .minicart.wrapper .action.close {
   position: absolute;
@@ -3426,7 +3435,6 @@ select:disabled {
   color: #bdc0cb;
   margin-top: 23px;
   margin-left: 20px;
-  position: relative;
   display: inline-block;
   padding: 5px 10px;
   border: 1px solid transparent;
@@ -3448,6 +3456,7 @@ select:disabled {
 .action.showcart.active {
   border-color: #bdc0cb;
   border-bottom-color: transparent;
+  position: relative;
   z-index: 3;
 }
 .action.showcart.active:after {

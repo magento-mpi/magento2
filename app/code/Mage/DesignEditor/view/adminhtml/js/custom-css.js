@@ -87,13 +87,12 @@
         _prepareUpdateButton: function()
         {
             if (!$.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.prop('disabled', 'disabled');
+                this.btnCssUpdate.prop('disabled', true);
                 this.btnUpdateDownload.add(this.btnCssDelete).fadeOut();
-            } else {
-                this.btnCssUpdate.removeProp('disabled');
-                this.btnUpdateDownload.add(this.btnCssDelete).fadeIn();
                 this.fileRowInfo.addClass('no-display');
             } else {
+                this.btnCssUpdate.prop('disabled', false);
+                this.btnUpdateDownload.add(this.btnCssDelete).fadeIn();
                 this.fileRowInfo.removeClass('no-display');
             }
         }
