@@ -12,7 +12,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_Path_Node
+class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_Path_NodeInterface
 {
     /** @var Mage_Core_Model_Dataservice_Factory */
     protected $_factory;

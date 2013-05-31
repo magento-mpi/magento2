@@ -9,10 +9,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataservice_Path_Node
+class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataservice_Path_NodeInterface
 {
     /**
-     * @var array of Mage_Core_Model_Dataservice_Path_Node
+     * @var array of Mage_Core_Model_Dataservice_Path_NodeInterface
      */
     protected $_dataservices = array();
 
@@ -75,7 +75,7 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
      * Get service data by name.
      *
      * @param string $name
-     * @return Mage_Core_Model_Dataservice_Path_Node
+     * @return Mage_Core_Model_Dataservice_Path_NodeInterface
      */
     public function get($name)
     {
@@ -90,7 +90,7 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
      * dataservice graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Mage_Core_Model_Dataservice_Path_Node|mixed|null the child node, or mixed if this is a leaf node
+     * @return Mage_Core_Model_Dataservice_Path_NodeInterface|mixed|null the child node, or mixed if this is a leaf node
      */
     public function getChildNode($pathElement)
     {

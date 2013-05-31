@@ -12,7 +12,7 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
     /** @var Mage_Core_Model_Dataservice_Path_Navigator */
     protected $_navigator;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  Mage_Core_Model_Dataservice_Path_Node */
+    /** @var PHPUnit_Framework_MockObject_MockObject  Mage_Core_Model_Dataservice_Path_NodeInterface */
     private $_rootNode;
 
     public function setup()
@@ -22,11 +22,11 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
 
     public function testSearch()
     {
-        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
+        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_NodeInterface')
             ->disableOriginalConstructor()->getMock();
-        $branch = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
+        $branch = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_NodeInterface')
             ->disableOriginalConstructor()->getMock();
-        $leaf = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
+        $leaf = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_NodeInterface')
             ->disableOriginalConstructor()->getMock();
         $this->_rootNode->expects($this->any())
             ->method('getChildNode')
@@ -44,7 +44,7 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
 
     public function testSearchOfArray()
     {
-        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
+        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_NodeInterface')
             ->disableOriginalConstructor()->getMock();
         $branch = array();
         $leaf = 'a leaf node can be anything';
@@ -61,7 +61,7 @@ class Mage_Core_Model_Dataservice_Path_NavigatorTest extends PHPUnit_Framework_T
 
     public function testSearchOfEmptyArray()
     {
-        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Node')
+        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_NodeInterface')
             ->disableOriginalConstructor()->getMock();
         $branch = array();
         $this->_rootNode->expects($this->any())

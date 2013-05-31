@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Dataservice_Path_Node
+class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Dataservice_Path_NodeInterface
 {
     /**
      * @var array
@@ -30,7 +30,7 @@ class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Data
      * dataservice graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Mage_Core_Model_Dataservice_Path_Node|mixed|null the child node, or mixed if this is a leaf node
+     * @return Mage_Core_Model_Dataservice_Path_NodeInterface|mixed|null the child node, or mixed if this is a leaf node
      */
     public function getChildNode($pathElement)
     {
