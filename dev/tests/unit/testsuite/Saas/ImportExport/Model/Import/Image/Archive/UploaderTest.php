@@ -32,7 +32,8 @@ class Saas_ImportExport_Model_Import_Image_Archive_UploaderTest extends PHPUnit_
         $this->_configurationMock = $this->getMock('Saas_ImportExport_Helper_Import_Image_Configuration', array(),
             array(), '', false);
         $this->_uploaderMock = $this->getMock('Varien_File_Uploader', array(), array(), '', false);
-        $this->_uploaderFactoryMock = $this->getMock('Varien_File_UploaderFactory', array(), array(), '', false);
+        $this->_uploaderFactoryMock = $this->getMock('Varien_File_UploaderFactory', array('create'), array(), '',
+            false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_uploader = $objectManager->getObject('Saas_ImportExport_Model_Import_Image_Archive_Uploader', array(

@@ -39,8 +39,8 @@ class Saas_ImportExport_Model_Import_Image_Archive_ExtractorTest extends PHPUnit
             array(), '', false);
         $this->_adapterZipMock = $this->getMock('Saas_ImportExport_Model_Import_Image_Archive_Adapter_Zip',
             array(), array(), '', false);
-        $this->_collectionFilesystemFactoryMock = $this->getMock('Varien_Data_Collection_FilesystemFactory', array(),
-            array(), '', false);
+        $this->_collectionFilesystemFactoryMock = $this->getMock('Varien_Data_Collection_FilesystemFactory',
+            array('create'), array(), '', false);
         $this->_filesystemMock = $this->getMock('Saas_ImportExport_Model_Import_Image_FileSystem', array(),
             array(), '', false);
 
