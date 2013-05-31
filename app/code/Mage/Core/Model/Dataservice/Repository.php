@@ -1,6 +1,6 @@
 <?php
 /**
- * Data source Repository
+ * Dataservice Repository
  *
  * Stores the data and allows to retrieve for service calls.  Assigns namespaces and aliases to the service calls data.
  *

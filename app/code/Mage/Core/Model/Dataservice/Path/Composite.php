@@ -1,6 +1,6 @@
 <?php
 /**
- * Data source composite visitable element
+ * Dataservice composite visitable element
  *
  * {license_notice}
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * Data service path node.
+ * Dataservice path node interface.
  *
  * Think of the data service paths as forming a graph.  This interface represents a node in such a graph.
  *

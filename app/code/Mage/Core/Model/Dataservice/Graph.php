@@ -3,7 +3,7 @@
  * Dataservice graph manages creation and storage of dataservices.
  *
  * manages the graph of objects
- *  - initializes datasource
+ *  - initializes dataservice
  *  - calls factory to retrieve data
  *  - stores data to repository
  *
