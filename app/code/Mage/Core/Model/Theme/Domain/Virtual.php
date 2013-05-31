@@ -80,6 +80,26 @@ class Mage_Core_Model_Theme_Domain_Virtual
     }
 
     /**
+     * Get 'physical' theme
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getPhysicalTheme()
+    {
+        /** @var $parentTheme Mage_Core_Model_Theme */
+        $parentTheme = $this->_theme->getParentTheme();
+        while ($parentTheme && !$parentTheme->isPhysical()) {
+            $parentTheme = $parentTheme->getParentTheme();
+        }
+
+        if (!$parentTheme || !$parentTheme->getId()) {
+            return null;
+        }
+
+        return $parentTheme;
+    }
+
+    /**
      * Check if theme is assigned to ANY store
      *
      * @return bool

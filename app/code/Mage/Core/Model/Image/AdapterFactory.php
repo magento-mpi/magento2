@@ -40,6 +40,7 @@ class Mage_Core_Model_Image_AdapterFactory
      *
      * @param string $adapterType
      * @return Varien_Image_Adapter_Abstract
+     * @throws InvalidArgumentException
      */
     public function create($adapterType = null)
     {
@@ -54,7 +55,7 @@ class Mage_Core_Model_Image_AdapterFactory
         );
         if (!isset($adapterClasses[$adapterType])) {
             throw new InvalidArgumentException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid adapter selected.')
+                Mage::helper('Mage_Core_Helper_Data')->__('Invalid adapter selected.')
             );
         }
         return $this->_objectManager->create($adapterClasses[$adapterType]);

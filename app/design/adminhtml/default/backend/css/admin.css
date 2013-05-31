@@ -522,7 +522,12 @@ button.primary.disabled:hover,
 .notification .action-close:hover,
 .notification .action-close:active,
 .notification .action-close.active,
-.notification .action-close[disabled] {
+.notification .action-close[disabled],
+.adminhtml-sales-order-create-index .page-actions-inner .cancel,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:hover,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel.active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel[disabled] {
     border: 0;
     border-radius: 0;
     background: none;
@@ -2302,13 +2307,6 @@ table tbody tr:nth-child(odd):hover th {
     background: #e5e2dd url(../mui/images/ajax-loader-big.gif) no-repeat 50% 30%;
     border-radius: 5px;
     opacity: .95;
-}
-
-.eq-ie8 .loading-old .loader {
-    bottom: auto;
-    right: auto;
-    margin: auto;
-    left: auto;
 }
 
 .loading-mask img {
