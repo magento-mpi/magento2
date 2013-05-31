@@ -8,7 +8,7 @@
  * accessing a specific data service within an existing hierarchy.
  *
  * {license_notice}
- * 
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +17,8 @@ class  Mage_Core_Model_Dataservice_Path_Navigator
     /**
      * Searches a root node using a given path for a specific child node.
      *
-     * @param Mage_Core_Model_Dataservice_Path_NodeInterface|array $root Root node in the graph from which to start the search.
+     * @param Mage_Core_Model_Dataservice_Path_NodeInterface|array $root
+     *        Root node in the graph from which to start the search.
      * @param array $path path to use for searching.
      * @return mixed
      */
