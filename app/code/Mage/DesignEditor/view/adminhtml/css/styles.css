@@ -881,6 +881,15 @@
     color: #fff;
 }
 
+.eq-ie8 .vde-tab-data .action-download {
+    filter: none;
+    outline: none;
+}
+
+.eq-ie8 .vde-tab-data .action-download:focus:before {
+    color: #9F978B;
+}
+
 .vde-tab-data .action-download:before,
 .vde-tab-data .action-delete:before,
 .vde-tab-data .action-edit:before {
