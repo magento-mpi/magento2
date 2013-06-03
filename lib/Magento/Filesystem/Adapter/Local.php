@@ -27,10 +27,15 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @return string
+     * @throws Magento_Filesystem_Exception
      */
     public function read($key)
     {
-        return file_get_contents($key);
+        $result = @file_get_contents($key);
+        if (false === $result) {
+            throw new Magento_Filesystem_Exception('Unable to read file contents');
+        }
+        return $result;
     }
 
     /**
@@ -39,10 +44,15 @@ class Magento_Filesystem_Adapter_Local implements
      * @param string $key
      * @param string $content
      * @return bool true if write was success
+     * @throws Magento_Filesystem_Exception
      */
     public function write($key, $content)
     {
-        return (bool)file_put_contents($key, $content);
+        $result = @file_put_contents($key, $content);
+        if (false === $result) {
+            throw new Magento_Filesystem_Exception('Unable to write file contents');
+        }
+        return true;
     }
 
     /**
@@ -51,10 +61,15 @@ class Magento_Filesystem_Adapter_Local implements
      * @param string $source
      * @param string $target
      * @return bool
+     * @throws Magento_Filesystem_Exception
      */
     public function rename($source, $target)
     {
-        return rename($source, $target);
+        $result = @rename($source, $target);
+        if (!$result) {
+            throw new Magento_Filesystem_Exception('Unable to rename file');
+        }
+        return true;
     }
 
     /**
@@ -63,10 +78,15 @@ class Magento_Filesystem_Adapter_Local implements
      * @param string $source
      * @param string $target
      * @return bool
+     * @throws Magento_Filesystem_Exception
      */
     public function copy($source, $target)
     {
-        return copy($source, $target);
+        $result = @copy($source, $target);
+        if (!$result) {
+            throw new Magento_Filesystem_Exception('Unable to copy file');
+        }
+        return true;
     }
 
     /**
@@ -204,7 +224,11 @@ class Magento_Filesystem_Adapter_Local implements
      */
     public function searchKeys($pattern)
     {
-        return glob($pattern);
+        $result = @glob($pattern);
+        if (false === $result) {
+            throw new Magento_Filesystem_Exception('Unable to resolve the file pattern');
+        }
+        return $result;
     }
 
     /**
@@ -293,7 +317,7 @@ class Magento_Filesystem_Adapter_Local implements
      */
     public function getMTime($key)
     {
-        $mtime = filemtime($key);
+        $mtime = @filemtime($key);
         if (false === $mtime) {
             throw new Magento_Filesystem_Exception(sprintf('Failed to get modification time %s', $key));
         }
@@ -310,7 +334,7 @@ class Magento_Filesystem_Adapter_Local implements
     public function getFileSize($key)
     {
         $size = @filesize($key);
-        if (!$size) {
+        if (false === $size) {
             throw new Magento_Filesystem_Exception(sprintf('Failed to get file size %s', $key));
         }
         return $size;

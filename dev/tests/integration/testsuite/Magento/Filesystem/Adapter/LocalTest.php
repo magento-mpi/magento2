@@ -90,6 +90,15 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Unable to read file contents
+     */
+    public function testReadException()
+    {
+        $this->_adapter->read('non-existing-file.txt');
+    }
+
+    /**
      * @param string $fileName
      * @param string $fileData
      * @dataProvider writeDataProvider
@@ -111,6 +120,15 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
             'correct file' => array($this->_getFixturesPath() . 'tempFile.css', 'temporary data'),
             'empty file' => array($this->_getFixturesPath() . 'tempFile2.css', '')
         );
+    }
+
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Unable to write file contents
+     */
+    public function testWriteException()
+    {
+        $this->_adapter->write('?.?', 'any contents');
     }
 
     public function testDeleteNotExists()
@@ -230,6 +248,16 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Unable to rename file
+     */
+    public function testRenameException()
+    {
+        $this->_adapter->rename('non-existing-file.txt', 'any-new-file.txt');
+    }
+
+
     public function testIsDirectory()
     {
         $this->assertTrue($this->_adapter->isDirectory($this->_getFixturesPath()));
@@ -301,6 +329,15 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($testData, file_get_contents($targetName));
     }
 
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Unable to copy file
+     */
+    public function testCopyException()
+    {
+        $this->_adapter->copy('non-existing-file.txt', 'any-new-file.txt');
+    }
+
     public function testGetMTime()
     {
         $filePath = $this->_getFixturesPath() . 'mtime.txt';
@@ -310,13 +347,47 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, $this->_adapter->getMTime($filePath));
     }
 
-    public function testGetFileSize()
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Failed to get modification time non-existing-file.txt
+     */
+    public function testGetMTimeException()
+    {
+        $this->_adapter->getMTime('non-existing-file.txt');
+    }
+
+    /**
+     * @param string $content
+     * @param int $expectedSize
+     * @dataProvider getFileSizeDataProvider
+     */
+    public function testGetFileSize($content, $expectedSize)
     {
         $filePath = $this->_getFixturesPath() . 'filesize.txt';
         $this->_deleteFiles[] = $filePath;
-        $this->_adapter->write($filePath, '1234');
+        $this->_adapter->write($filePath, $content);
         $this->assertFileExists($filePath);
-        $this->assertEquals(4, $this->_adapter->getFileSize($filePath));
+        $this->assertEquals($expectedSize, $this->_adapter->getFileSize($filePath));
+    }
+
+    /**
+     * @return array
+     */
+    public static function getFileSizeDataProvider()
+    {
+        return array(
+            'usual file' => array('1234', 4),
+            'empty file' => array('', 0),
+        );
+    }
+
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Failed to get file size non-existing-file.txt
+     */
+    public function testGetFileSizeException()
+    {
+        $this->_adapter->getFileSize('non-existing-file.txt');
     }
 
     /**
@@ -399,5 +470,15 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
                 )
             )
         );
+    }
+
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Unable to resolve the file pattern
+     */
+    public function testSearchKeysException()
+    {
+        $pattern = str_repeat('1', 20000); // Overflow the glob() length limit (Win - 260b, Linux - 1k-8k)
+        $this->_adapter->searchKeys($pattern);
     }
 }
