@@ -188,6 +188,22 @@
                     <config>Mage_Core_Model_Config</config>
                 </parameters>
             </Mage_Core_Model_Observer>
+            <Mage_Core_Model_Layout_Merge>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                </parameters>
+            </Mage_Core_Model_Layout_Merge>
+            <Mage_Core_Model_Resource_Layout_Update>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Layout_Update>
+            <Mage_Core_Model_Theme_Service>
+                <parameters>
+                    <configCache>Mage_Core_Model_Cache_Type_Config</configCache>
+                    <layoutCache>Mage_Core_Model_Cache_Type_Layout</layoutCache>
+                </parameters>
+            </Mage_Core_Model_Theme_Service>
         </di>
     </global>
     <frontend>
