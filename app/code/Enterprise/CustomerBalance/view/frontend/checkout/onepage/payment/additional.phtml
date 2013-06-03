@@ -32,7 +32,7 @@
 <script type="text/javascript">
     (function($) {
         head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_Checkout::js/checkout-balance.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/checkout-balance.js') ?>",
             function() {
                 $('#use-customer-balance').checkoutBalance({
                     balance: <?php echo (float)$this->getBalance(); ?>,
