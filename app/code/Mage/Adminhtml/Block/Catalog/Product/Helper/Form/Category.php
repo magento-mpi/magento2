@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = Mage::helper('Mage_Catalog_Helper_Data')->__('New Category');
 
-        $status = sprintf('disabled = "%s"', $this->_limitation->isCreateRestricted());
+        $status = $this->_limitation->isCreateRestricted() ? 'disabled="disabled"' : '';
         return <<<HTML
     <input id="{$htmlId}-suggest" placeholder="$suggestPlaceholder" />
     <script>

@@ -68,8 +68,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
             $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save Category'),
                 'onclick'   => "categorySubmit('" . $this->getSaveUrl() . "', true)",
-                'class' => 'save',
-                'disabled' => $this->_limitation->isCreateRestricted() ? 'true' : 'false',
+                'class'     => 'save',
+                'disabled'  => $category->isObjectNew() && $this->_limitation->isCreateRestricted()
             ));
         }
 

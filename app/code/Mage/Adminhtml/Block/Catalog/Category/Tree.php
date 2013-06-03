@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             'onclick'   => "addNew('".$addUrl."', false)",
             'class'     => 'add',
             'id'        => 'add_subcategory_button',
-            'disabled'  => $this->canAddSubCategory() ? 'false' : 'true',
+            'disabled'  => !$this->canAddSubCategory(),
         ));
 
         $this->addChild('add_root_button', 'Mage_Adminhtml_Block_Widget_Button', array(
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             'onclick'   => "addNew('".$addUrl."', true)",
             'class'     => 'add',
             'id'        => 'add_root_category_button',
-            'disabled'     => $this->canAddRootCategory() ? 'false' : 'true',
+            'disabled'  =>  !$this->canAddSubCategory(),
         ));
 
         $this->setChild('store_switcher',
