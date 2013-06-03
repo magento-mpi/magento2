@@ -22,35 +22,30 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
      */
     const CONFIG_NODE = 'service_calls';
 
+    const FILE_NAME = 'service_calls.xml';
+
+    const ELEMENT_CLASS = 'Varien_Simplexml_Element';
+
+    /** @var Mage_Core_Model_Config_Modules_Reader  */
+    protected $_moduleReader;
+
+
     /**
      * @var Varien_Simplexml_Element
      */
     protected $_simpleXml;
 
-    /**
-     * @var string
-     */
-    protected $_elementClass = 'Varien_Simplexml_Element';
+
 
     /**
-     * @var Mage_Core_Model_ConfigInterface
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
-    protected $_config;
-
-    /** @var \Mage_Core_Model_Config_Loader_Modules_File  */
-    protected $_fileReader;
-
-    /**
-     * @param Mage_Core_Model_ConfigInterface $config
-     * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
-     */
-    public function __construct(Mage_Core_Model_ConfigInterface $config,
-        Mage_Core_Model_Config_Loader_Modules_File $fileReader
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
-        $this->_fileReader = $fileReader;
-        $this->_config = $config;
-        $this->init();
+        $this->_moduleReader = $moduleReader;
     }
+
 
     /**
      * @param $alias
@@ -59,16 +54,21 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
      */
     public function getClassByAlias($alias)
     {
-        $node = $this->_simpleXml->xpath("//service_call[@name='" . $alias . "']");
+        if ($this->_simpleXml === null) {
+            $this->_simpleXml = $this->_loadServiceCallsIntoXmlElement();
+        }
 
-        if (count($node) == 0) {
+        $nodes = $this->_simpleXml->xpath("//service_call[@name='" . $alias . "']");
+
+        if (count($nodes) == 0) {
             throw new Mage_Core_Exception('Service call with name "' . $alias . '" doesn\'t exist');
         }
 
-        /** @var $node Mage_Core_Model_Config_Element */
-        $node = current($node);
+        /** @var Mage_Core_Model_Config_Element $node */
+        $node = current($nodes);
 
         $methodArguments = array();
+        /** @var Mage_Core_Model_Config_Element $child */
         foreach ($node[0] as $child) {
             if ($child->getName() == 'arg') {
                 $methodArguments[$child->getAttribute('name')] = (string)$child;
@@ -90,71 +90,49 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
     }
 
     /**
+     * Loads the service calls config from all the service_calls.xml files
+     *
      * @return SimpleXMLElement
      */
-    public function init()
+    private function _loadServiceCallsIntoXmlElement()
     {
-        $updatesRootPath = self::CONFIG_AREA . '/' . self::CONFIG_NODE;
-        $sourcesRoot = $this->_config->getNode($updatesRootPath);
 
         /* Layout update files declared in configuration */
-        $callsStr = '<calls />';
-        if ($sourcesRoot) {
-            $callsStr = $this->_getServiceCallConfig($sourcesRoot);
-        }
+        $callsStr = $this->_getServiceCallConfig();
 
-        $this->_simpleXml = simplexml_load_string($callsStr, $this->_elementClass);
+        $this->_simpleXml = simplexml_load_string($callsStr, self::ELEMENT_CLASS);
         return $this->_simpleXml;
     }
 
     /**
-     * @param Mage_Core_Model_Config_Element $sourcesRoot
+     * Reads all service calls files into one XML string with <calls> as the root
+     *
      * @return string
      */
-    public function _getServiceCallConfig($sourcesRoot)
+    private function _getServiceCallConfig()
     {
-        $sourceFiles = array();
-        foreach ($sourcesRoot->children() as $sourceNode) {
-            $sourceFiles[] = $this->_getServiceCallsFile($sourceNode);
-        }
+        $sourceFiles = $this->_getServiceCallsFiles();
 
         $callsStr = '';
         foreach ($sourceFiles as $filename) {
             $fileStr = file_get_contents($filename);
 
             /** @var $fileXml Mage_Core_Model_Layout_Element */
-            $fileXml = simplexml_load_string($fileStr, $this->_elementClass);
+            $fileXml = simplexml_load_string($fileStr, self::ELEMENT_CLASS);
             $callsStr .= $fileXml->innerXml();
         }
         return '<calls>' . $callsStr . '</calls>';
     }
 
     /**
-     * @param Mage_Core_Model_Config_Element $sourceNode
-     * @return string
-     * @throws Magento_Exception
+     * Returns array of files that contain service calls config
+     *
+     * @return array of files
      */
-    protected function _getServiceCallsFile($sourceNode)
+    private function _getServiceCallsFiles()
     {
-        $file = (string)$sourceNode->file;
-        if (!$file) {
-            $sourceNodePath = $sourceNode->getName();
-            throw new Magento_Exception(
-                "Service calls instruction '{$sourceNodePath}' must specify file."
-            );
-        }
-
-        $nameParts = array();
-        if (strpos($file, '/') !== false) {
-            $nameParts = explode('/', $file);
-        } else {
-            throw new Magento_Exception("Module is missing in Service calls configuration: '{$file}'");
-        }
-        $filename = $this->_fileReader->getModuleDir('etc', $nameParts[0]) . '/' . $nameParts[1];
-        if (!is_readable($filename)) {
-            throw new
-            Magento_Exception("Service calls configuration file '{$filename}' doesn't exist or isn't readable.");
-        }
-        return $filename;
+        $files = $this->_moduleReader
+            ->getModuleConfigurationFiles(self::FILE_NAME);
+        return (array)$files;
     }
 }

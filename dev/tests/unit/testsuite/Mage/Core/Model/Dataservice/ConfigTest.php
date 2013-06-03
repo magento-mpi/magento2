@@ -14,28 +14,25 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_Dataservice_Config */
     protected $_dataserviceConfig;
 
-    /** @var Mage_Core_Model_Config_Base */
-    protected $_config;
-
-    /** @var Mage_Core_Model_Config_Loader_Modules_File */
-    protected $_fileReader;
+    /** @var  Mage_Core_Model_Config_Modules_Reader */
+    private $_reader;
 
     public function setup()
     {
-        $this->_config = $this->getMockBuilder('Mage_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
-        $updatesRootPath
-            = Mage_Core_Model_Dataservice_Config::CONFIG_AREA . '/' . Mage_Core_Model_Dataservice_Config::CONFIG_NODE;
+        $updatesRootPath = Mage_Core_Model_Dataservice_Config::CONFIG_AREA
+            . '/' . Mage_Core_Model_Dataservice_Config::CONFIG_NODE;
         $sourcesRoot = new Mage_Core_Model_Config_Element(
-            '<config><first><file>' . self::NAMEPART . '/config.xml</file></first></config>');
-        $this->_config->expects($this->once())->method('getNode')->with($this->equalTo($updatesRootPath))->will(
-            $this->returnValue($sourcesRoot)
+            '<config><first><file>' . self::NAMEPART . '/config.xml</file></first></config>'
         );
-        $this->_fileReader = $this->getMockBuilder('Mage_Core_Model_Config_Loader_Modules_File')
-                             ->disableOriginalConstructor()->getMock();
-        $this->_fileReader->expects($this->once())->method('getModuleDir')->with(
-            $this->equalTo('etc'), $this->equalTo(self::NAMEPART)
-        )->will($this->returnValue(__DIR__ . '/_files/'));
-        $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($this->_config, $this->_fileReader);
+        $this->_reader = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_reader->expects($this->any())
+            ->method('getModuleConfigurationFiles')
+            ->with('service_calls.xml')
+            ->will($this->returnValue(array(__DIR__ . '/_files/service_calls.xml')));
+
+        $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($this->_reader);
     }
 
     public function testGetClassByAlias()
@@ -66,59 +63,4 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_dataserviceConfig->getClassByAlias('missing_service');
     }
 
-    /**
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage must specify file
-     */
-    public function testInitNoFileElement()
-    {
-        $configMock = $this->getMockBuilder('Mage_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
-        $updatesRootPath
-            = Mage_Core_Model_Dataservice_Config::CONFIG_AREA . '/' . Mage_Core_Model_Dataservice_Config::CONFIG_NODE;
-        $sourcesRoot = new Mage_Core_Model_Config_Element(
-            '<config><first></first></config>');
-        $configMock->expects($this->once())->method('getNode')->with($this->equalTo($updatesRootPath))->will(
-            $this->returnValue($sourcesRoot)
-        );
-        $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($configMock, $this->_fileReader);
-    }
-
-    /**
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage Module is missing in Service calls configuration
-     */
-    public function testInitNoFilePath()
-    {
-        $configMock = $this->getMockBuilder('Mage_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
-        $updatesRootPath
-            = Mage_Core_Model_Dataservice_Config::CONFIG_AREA . '/' . Mage_Core_Model_Dataservice_Config::CONFIG_NODE;
-        $sourcesRoot = new Mage_Core_Model_Config_Element(
-            '<config><first><file>incomplete_path.given</file></first></config>');
-        $configMock->expects($this->once())->method('getNode')->with($this->equalTo($updatesRootPath))->will(
-            $this->returnValue($sourcesRoot)
-        );
-        $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($configMock, $this->_fileReader);
-    }
-
-    /**
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage doesn't exist or isn't readable
-     */
-    public function testInitNoFileFound()
-    {
-        $configMock = $this->getMockBuilder('Mage_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
-        $updatesRootPath
-            = Mage_Core_Model_Dataservice_Config::CONFIG_AREA . '/' . Mage_Core_Model_Dataservice_Config::CONFIG_NODE;
-        $sourcesRoot = new Mage_Core_Model_Config_Element(
-            '<config><first><file>' . self::NAMEPART . '/nothing.here</file></first></config>');
-        $configMock->expects($this->once())->method('getNode')->with($this->equalTo($updatesRootPath))->will(
-            $this->returnValue($sourcesRoot)
-        );
-        $fileReader = $this->getMockBuilder('Mage_Core_Model_Config_Loader_Modules_File')->disableOriginalConstructor()
-                      ->getMock();
-        $fileReader->expects($this->once())->method('getModuleDir')->with(
-            $this->equalTo('etc'), $this->equalTo(self::NAMEPART)
-        )->will($this->returnValue(__DIR__ . '/_files/'));
-        $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($configMock, $fileReader);
-    }
 }
