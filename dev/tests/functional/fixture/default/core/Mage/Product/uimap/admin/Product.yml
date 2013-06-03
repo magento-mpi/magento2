@@ -64,7 +64,6 @@ manage_products:
             enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //*[@class='mage-error' and @for='product_option_%optionId%_type' and contains(., 'Select type of option')]
-            confirmation_for_delete: Are you sure?
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
             success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
             success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]

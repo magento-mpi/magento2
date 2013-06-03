@@ -83,8 +83,8 @@ class Core_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
 
         $this->searchAndChoose($search, 'product_grid');
 
-        $this->fillDropdown('mass_action_select_action', 'Delete');
-        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
+        $this->addParameter('qtyDeletedProducts', 1);
+        $this->runMassAction('Delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
