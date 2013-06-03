@@ -45,8 +45,6 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         }
         //Back to main window
         $this->window('');
-        //Delete virtual themes
-        $this->themeHelper()->deleteAllVirtualThemes();
     }
 
     /**
@@ -60,69 +58,75 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
         $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'), 'Theme list not present');
-//        $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'), 'Header not present');
-    }
-
-    /**
-     * <p>Test Theme selector page when customized themes present</p>
-     *
-     * @TestlinkId TL-MAGE-6481
-     * @test
-     */
-    public function firstEntranceWithVirtualTheme()
-    {
-        //Data
-        $this->themeHelper()->createTheme();
-        //Steps
-        $this->navigate('design_editor_selector');
-        $this->assertFalse($this->controlIsPresent('pageelement', 'header_available_themes'));
-        $this->assertTrue($this->controlIsPresent('pageelement', 'customized_themes_tab_content'));
-        $this->assertTrue($this->controlIsVisible('pageelement', 'customized_themes_tab_content'));
-        $this->assertTrue($this->controlIsPresent('pageelement', 'available_themes_tab_content'));
-        $this->assertFalse($this->controlIsVisible('pageelement', 'available_themes_tab_content'));
-        $this->assertFalse($this->controlIsVisible('pageelement', 'theme_list'));
-
-        $this->clickControl('link', 'available_themes_tab', false);
-        $this->assertTrue($this->controlIsVisible('pageelement', 'available_themes_tab_content'));
-        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'));
-        $this->assertTrue($this->controlIsVisible('pageelement', 'theme_list'));
-        $this->assertFalse($this->controlIsVisible('pageelement', 'customized_themes_tab_content'));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'), 'Header is not present');
+        $xpath = $this->_getControlXpath('pageelement', 'theme_list_elements');
+        $this->waitForElementOrAlert($xpath);
+        $defaultElementsCount = $this->getControlCount('pageelement', 'theme_list_elements');
+        /** Check that theme list loaded */
+        $this->assertGreaterThan(0, $defaultElementsCount);
     }
 
     /**
      * <p>Assign theme to default store view</p>
      * Present one store view only
+     * @TestlinkId TL-MAGE-6480
      * @test
      */
     public function assignThemeToDefaultStoreView()
     {
         //Data
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified();
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
+        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
         //Steps
         $this->navigate('design_editor_selector');
-        $this->waitForPageToLoad();
-        $this->waitForAjax();
-        $this->addParameter('id', $themeId);
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->clickControlAndConfirm('link', 'assign_theme', 'confirmation_for_assign_to_default');
-        $this->_windowId = $this->selectLastWindow();
-        $this->validatePage('assigned_theme_default_in_design');
-        $this->closeWindow($this->_windowId);
-        $this->_windowId = null;
-        $this->selectLastWindow();
-        $this->validatePage('design_editor_selector');
-
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
         //Verify
         $this->addParameter('id', $themeId);
+        $this->navigate('design_editor_selector');
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
         $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View');
         $this->elementIsPresent($xpathAssignedStoreviews);
+
+        return $themeId;
+    }
+
+
+    /**
+     * <p>Test Theme selector page when customized themes present</p>
+     *
+     * @TestlinkId TL-MAGE-6481
+     * @test
+     * @depends assignThemeToDefaultStoreView
+     */
+    public function firstEntranceWithVirtualTheme($themeId)
+    {
+        //Data
+        $this->addParameter('id', $themeId);
+        //Steps
+        $this->navigate('design_editor_selector');
+        $tabElement = $this->getControlElement('tab', 'my_customization');
+        if (!$tabElement->displayed()) {
+            $this->fail($this->locationToString() . "Problem with tab 'customized_themes_tab_content':\nTab is not visible on the page");
+        }
+        //Validate controls for assigned theme on My Customization tab
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_thumbnail'));
+        $this->assertTrue($this->controlIsPresent('button', 'assign_customization_button'));
+        $this->assertTrue($this->controlIsPresent('button', 'duplicate_theme'));
+        $this->assertTrue($this->controlIsPresent('button', 'preview_theme_button'));
+        //Validate Available themes tab
+        $this->openTab('available_themes');
+        $this->waitForAjax();
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'), 'Theme list not present');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'header_available_themes'), 'Header is present');
+        $xpath = $this->_getControlXpath('pageelement', 'theme_list_elements');
+        $this->waitForElementOrAlert($xpath);
+        $defaultElementsCount = $this->getControlCount('pageelement', 'theme_list_elements');
+        /** Check that theme list loaded */
+        $this->assertGreaterThan(0, $defaultElementsCount);
     }
 
     /**
-     * <p>Assign theme to store view</p>
+     * <p>Assign theme to multiple store views</p>
      * @test
      */
     public function assignThemeWithMultipleStoreViews()
@@ -134,48 +138,45 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $dataStoreView = $this->loadDataSet('StoreView', 'generic_store_view');
         $this->storeHelper()->createStore($dataStoreView, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
         //Steps
         $this->navigate('design_editor_selector');
+        $this->openTab('available_themes');
         $this->waitForAjax();
-        $this->addParameter('id', $themeId);
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
+        $this->designEditorHelper()->focusOnThemeElement('button', 'assign_theme_button');
+        $this->designEditorHelper()->mouseOver('thumbnail');
+        $this->clickButton('assign_theme_button', false);
+        $this->assertTrue($this->controlIsPresent('fieldset', 'assign_theme_confirmation'));
+        $this->assertTrue($this->controlIsVisible('fieldset', 'assign_theme_confirmation'));
+        //Select store view for assign
         $this->addParameter('storeName', $dataStoreView['store_view_name']);
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->clickControl('link', 'assign_theme', false);
-
-        $this->assertTrue($this->controlIsPresent('pageelement', 'store_view_window'));
-        $this->assertTrue($this->controlIsVisible('pageelement', 'store_view_window'));
-
-        $xpathStoreView = $this->_getControlXpath('pageelement', 'store_view_label_by_title');
-        $storeViewId = $this->getElement($xpathStoreView)->attribute('for');
-        $this->addParameter('storeId', $storeViewId);
-        $xpathStoreViewInput = $this->_getControlXpath('pageelement', 'store_view_input_by_id');
-        $xpathStoreViewInput = sprintf($xpathStoreViewInput, $storeViewId);
-        $storeViewName = $this->getElement($xpathStoreViewInput)->attribute('name');
-        $this->fillCheckbox($storeViewName, 'Yes', $xpathStoreViewInput);
+        $this->designEditorHelper()->chooseStoreView();
+        //Select second store view for assign
         $this->addParameter('storeName', 'Default Store View');
-        $xpathDefaultStoreView = $this->_getControlXpath('pageelement', 'store_view_label_by_title');
-
-        $storeViewId = $this->getElement($xpathDefaultStoreView)->attribute('for');
+        $storeViewId = $this->designEditorHelper()->chooseStoreView();
+        //Assign theme to selected store views
         $this->addParameter('storeId', $storeViewId);
-        $xpathStoreViewInput = $this->_getControlXpath('pageelement', 'store_view_input_by_id');
-        $xpathStoreViewInput = sprintf($xpathStoreViewInput, $storeViewId);
-        $storeViewName = $this->getElement($xpathStoreViewInput)->attribute('name');
-        $this->fillCheckbox($storeViewName, 'Yes', $xpathStoreViewInput);
-
-        $this->clickControl('button', 'store_assign_done');
-        $this->waitForPageToLoad();
+        $this->clickControl('button', 'assign', false);
+        sleep(2);
         $this->_windowId = $this->selectLastWindow();
-        $this->validatePage('assigned_theme_in_design');
+        $themeId = $this->defineIdFromUrl();
+        $this->addParameter('id', $themeId);
+        $this->validatePage('assigned_theme_in_navigation');
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
-        //Verify
         $this->validatePage('design_editor_selector');
+        $this->assertMessagePresent('success', 'assign_success');
+        $this->clickButton('close');
+        //Verify
         $this->addParameter('id', $themeId);
+        $this->navigate('design_editor_selector');
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
         $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View'));
         $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, $dataStoreView['store_view_name']));
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
     }
 
     /**
@@ -191,52 +192,26 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $dataStoreView = $this->loadDataSet('StoreView', 'generic_store_view');
         $this->storeHelper()->createStore($dataStoreView, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
-        $themeData = $this->themeHelper()->createTheme();
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
         //Steps
         $this->navigate('design_editor_selector');
-        $this->waitForPageToLoad();
-        $this->addParameter('id', $themeData['id']);
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
+        $this->openTab('available_themes');
+        $this->waitForAjax();
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
+        $this->designEditorHelper()->focusOnThemeElement('button', 'assign_theme_button');
+        $this->designEditorHelper()->mouseOver('thumbnail');
         $this->clickButton('assign_theme_button');
-        $this->clickButton('store_assign_close');
-        $this->assertFalse($this->buttonIsPresent('assign_theme_button'));
-        $this->addParameter('id', $themeData['id']);
+        $this->clickButton('close');
+        $this->assertFalse($this->controlIsVisible('button', 'assign_theme_button'));
+        $this->addParameter('themeId', $themeId);
+        $this->designEditorHelper()->mouseOver('thumbnail');
         $this->clickButton('assign_theme_button');
-        $this->clickButton('store_assign_close_x');
-        $this->assertFalse($this->buttonIsPresent('assign_theme_button'));
+        $this->clickControl('link', 'close_x');
+        $this->assertFalse($this->controlIsVisible('button', 'assign_theme_button'));
         //Clean after test
-        $this->themeHelper()->deleteTheme($themeData);
         $this->navigate('manage_stores');
         $this->clickButton('reset_filter');
         $this->storeHelper()->deleteStoreViewsExceptSpecified();
-    }
-
-    /**
-     * <p>Test theme selector page with available themes and has preview demo button</p>
-     * @test
-     */
-    public function themeDemo()
-    {
-        $this->markTestIncomplete('MAGETWO-9010');
-        //Data
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
-        $this->addParameter('id', $themeId);
-        //Steps
-        $this->navigate('design_editor_selector');
-        $this->waitForAjax();
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->clickButton('preview_demo_button');
-        $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeId);
-        //Verify
-        $this->validatePage('preview_theme_in_navigation');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'));
-        $this->closeWindow($this->_windowId);
-        $this->_windowId = null;
-        $this->selectLastWindow();
-        $this->validatePage('design_editor_selector');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'));
     }
 
     /**
@@ -245,18 +220,17 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      */
     public function editFromAvailableTab()
     {
-        $this->markTestIncomplete('MAGETWO-9010');
-        //Data
-        $this->themeHelper()->createTheme();
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
-        $this->addParameter('id', $themeId);
         //Steps
         $this->navigate('design_editor_selector');
-        $this->clickControl('link', 'available_themes_tab', false);
+        $this->openTab('available_themes');
         $this->waitForAjax();
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->clickButton('edit_theme_button');
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
+        $this->designEditorHelper()->focusOnThemeElement('link', 'edit_theme');
+        $this->designEditorHelper()->mouseOver('thumbnail');
+        $this->clickControl('link', 'edit_theme');
         $this->_windowId = $this->selectLastWindow();
+        $themeId = $this->defineIdFromUrl();
         $this->addParameter('id', $themeId);
         //Verify
         $this->validatePage('preview_theme_in_design');

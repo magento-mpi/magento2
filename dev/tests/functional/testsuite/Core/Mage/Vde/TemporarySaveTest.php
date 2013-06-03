@@ -25,16 +25,27 @@ class Core_Mage_Vde_TemporarySaveTest extends Mage_Selenium_TestCase
     const CONTENT_FRONT_BLOCK_NAME = 'col-main';
     const RIGHT_SIDEBAR_FRONT_BLOCK_NAME = 'col-right sidebar';
 
+    /**
+     * Store new window handle
+     *
+     * @var null
+     */
+    private $_windowId = null;
+
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->admin('design_editor_selector');
-        $this->vdeHelper()->openThemeDemo();
     }
 
     protected function tearDownAfterTest()
     {
-          $this->window('');
+        //Close 'New' browser window if any
+        if ($this->_windowId) {
+            $this->closeWindow($this->_windowId);
+            $this->_windowId = null;
+        }
+        //Back to main window
+        $this->window('');
     }
 
     /**
@@ -44,12 +55,19 @@ class Core_Mage_Vde_TemporarySaveTest extends Mage_Selenium_TestCase
      */
     public function temporarySaveDragAndRemove()
     {
-        // Open VDE in design mode, select required page type
-        $this->vdeHelper()
-            ->switchToDesignMode()
-            ->expandPageHandle('All Pages')
-            ->expandPageHandle('Advanced Search Form')
-            ->selectPageHandle('Advanced Search Result');
+        //Data
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->addParameter('id', $themeId);
+        $this->designEditorHelper()->focusOnThemeElement('button', 'edit_customization_button');
+        $this->designEditorHelper()->mouseOver('theme_thumbnail');
+        $this->clickButton('edit_customization_button');
+        $this->_windowId = $this->selectLastWindow();
+        $this->addParameter('id', $themeId);
+        $this->validatePage('preview_theme_in_design');
 
         // Drag block into another container
         $blockDraggable = $this->vdeHelper()->getBlock(self::DRAGGABLE_VDE_BLOCK_NAME, true);

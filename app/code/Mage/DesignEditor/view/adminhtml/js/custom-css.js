@@ -71,6 +71,7 @@
                     alert($.mage.__('Error: unknown error.'));
                 }
             });
+            $('.vde-tools-content').trigger('resize.vdeToolsResize');
         },
 
         _updateCustomCss: function()

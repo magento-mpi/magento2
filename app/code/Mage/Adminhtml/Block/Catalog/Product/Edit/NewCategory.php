@@ -106,7 +106,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
     {
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
-        $widgetUrl = $coreHelper->jsonEncode($this->getViewFileUrl('Mage_Catalog::js/new-category-dialog.js'));
         $widgetOptions = $coreHelper->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
@@ -120,9 +119,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
         return <<<HTML
 <script>
     jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
-        head.js($widgetUrl, function () {
-            $('#new-category').mage('newCategoryDialog', $widgetOptions);
-        });
+        $('#new-category').mage('newCategoryDialog', $widgetOptions);
     });
 </script>
 HTML;

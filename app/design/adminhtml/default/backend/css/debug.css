@@ -904,7 +904,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add,
 .adminhtml-checkout-agreement-index .page-actions .add,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default,
 .adminhtml-catalog-event-index .page-actions .add,
 .adminhtml-catalog-product-attribute-index .page-actions .add,
 .adminhtml-catalog-product-set-index .page-actions .add,
@@ -977,7 +977,7 @@ th.required:after {
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add,
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add,
 /* catalog */
-.eq-ie8 .adminhtml-catalog-product-index .page-actions .actions-split > .action-default,
+.eq-ie8 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add,
 .eq-ie8 .adminhtml-catalog-product-attribute-index .page-actions .add,
 .eq-ie8 .adminhtml-catalog-product-set-index .page-actions .add,
@@ -1034,7 +1034,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
 .adminhtml-checkout-agreement-index .page-actions .add:hover,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default:hover,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default:hover,
 .adminhtml-catalog-event-index .page-actions .add:hover,
 .adminhtml-catalog-product-attribute-index .page-actions .add:hover,
 .adminhtml-catalog-product-set-index .page-actions .add:hover,
@@ -1099,7 +1099,7 @@ th.required:after {
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add:hover,
 /* catalog */
-.eq-ie8 .adminhtml-catalog-product-index .page-actions .actions-split > .action-default:hover,
+.eq-ie8 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default:hover,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-catalog-product-attribute-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-catalog-product-set-index .page-actions .add:hover,
@@ -1156,7 +1156,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add:active,
 .adminhtml-checkout-agreement-index .page-actions .add:active,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default:active,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default:active,
 .adminhtml-catalog-event-index .page-actions .add:active,
 .adminhtml-catalog-product-attribute-index .page-actions .add:active,
 .adminhtml-catalog-product-set-index .page-actions .add:active,
@@ -1217,7 +1217,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions .add > span,
 .adminhtml-checkout-agreement-index .page-actions .add > span,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default > span,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default > span,
 .adminhtml-catalog-event-index .page-actions .add > span,
 .adminhtml-catalog-product-attribute-index .page-actions .add > span,
 .adminhtml-catalog-product-set-index .page-actions .add > span,
@@ -1277,7 +1277,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add > span:before,
 .adminhtml-checkout-agreement-index .page-actions .add > span:before,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default > span:before,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default > span:before,
 .adminhtml-catalog-event-index .page-actions .add > span:before,
 .adminhtml-catalog-product-attribute-index .page-actions .add > span:before,
 .adminhtml-catalog-product-set-index .page-actions .add > span:before,
@@ -1342,8 +1342,8 @@ th.required:after {
     overflow: hidden;
 }
 
-.adminhtml-catalog-product-index .actions-split > .action-toggle,
-.adminhtml-catalog-product-index .actions-split > .action-toggle:focus {
+.adminhtml-catalog-product-index .btn-round > .action-toggle,
+.adminhtml-catalog-product-index .btn-round > .action-toggle:focus {
     border: 1px solid #c5c0b9;
     border-radius: 0 20px 20px 0;
     box-shadow: 0 1px 0 0 #f3f2f1, inset 0 1px 0 0 #f4f1ec;
@@ -1362,12 +1362,12 @@ th.required:after {
     background: linear-gradient(to bottom, #f1eee7 0%,#ebe7dc 100%);
 }
 
-.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle,
-.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle:focus {
+.eq-ie8 .adminhtml-catalog-product-index .btn-round > .action-toggle,
+.eq-ie8 .adminhtml-catalog-product-index .btn-round > .action-toggle:focus {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1eee7', endColorstr='#ebe7dc',GradientType=0 );
 }
 
-.adminhtml-catalog-product-index .actions-split > .action-toggle:hover {
+.adminhtml-catalog-product-index .btn-round > .action-toggle:hover {
     margin-left: -6px;
     text-shadow: none;
     background: #dfdbd4;
@@ -1380,11 +1380,11 @@ th.required:after {
     background: linear-gradient(to bottom, #dfdbd4 0%,#d3cdc3 100%);
 }
 
-.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle:hover {
+.eq-ie8 .adminhtml-catalog-product-index .btn-round > .action-toggle:hover {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfdbd4', endColorstr='#d3cdc3',GradientType=0 );
 }
 
-.adminhtml-catalog-product-index .actions-split.active {
+.adminhtml-catalog-product-index .btn-round.active {
     background: #fff;
     padding: 5px 4px 6px 7px;
     margin: -6px -4px -6px -8px;
@@ -1395,8 +1395,8 @@ th.required:after {
     filter: none
 }
 
-.adminhtml-catalog-product-index .actions-split.active > .action-toggle,
-.adminhtml-catalog-product-index .actions-split.active > .action-toggle:hover {
+.adminhtml-catalog-product-index .btn-round.active > .action-toggle,
+.adminhtml-catalog-product-index .btn-round.active > .action-toggle:hover {
     background: transparent;
     border: 0;
     border-radius: 0;
@@ -1405,12 +1405,12 @@ th.required:after {
     padding: 1px 5px 1px 11px;
 }
 
-.eq-ie8 .adminhtml-catalog-product-index .actions-split.active > .action-toggle,
-.eq-ie8 .adminhtml-catalog-product-index .actions-split.active > .action-toggle:hover {
+.eq-ie8 .adminhtml-catalog-product-index .btn-round.active > .action-toggle,
+.eq-ie8 .adminhtml-catalog-product-index .btn-round.active > .action-toggle:hover {
     filter: none;
 }
 
-.adminhtml-catalog-product-index .actions-split.active:before {
+.adminhtml-catalog-product-index .btn-round.active:before {
     position: absolute;
     display: block;
     bottom: -2px;
@@ -1422,7 +1422,7 @@ th.required:after {
     z-index: 5;
 }
 
-.adminhtml-catalog-product-index .actions-split .dropdown-menu {
+.adminhtml-catalog-product-index .btn-round .dropdown-menu {
     margin-top: -4px;
     left: -1px;
     right: auto;
@@ -1436,7 +1436,7 @@ th.required:after {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.adminhtml-catalog-product-index .actions-split.active .dropdown-menu > li > .item {
+.adminhtml-catalog-product-index .btn-round.active .dropdown-menu > li > .item {
     padding: 9px 10px 10px;
 }
 

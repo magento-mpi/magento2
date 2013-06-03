@@ -30,41 +30,17 @@
             </label>
         </dt>
     </dl>
-<script type="text/javascript">
-    if (payment) {
-        var customerBalanceInit = function() {
-            if ($('use-customer-balance')) {
-                $('use-customer-balance').disabled = false;
-            }
-        }
-        payment.addAfterInitFunction('customerbalance', customerBalanceInit.bind(payment));
-        var customerBalanceValidate = function() {
-            if (quoteBaseGrandTotal < 0.0001) {
-                return true;
-            }
-            return false;
-        }
-        payment.addBeforeValidateFunction('customerbalance', customerBalanceValidate.bind(payment));
-    }
-
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/storecredit.js') ?>",
-            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/onepagestorecredit.js') ?>",
-            function() {
-                $('#opc-payment').onePageStoreCredit({
-                    customerBalanceSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
-                    baseCustomerBalAmountUsed: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
-                    balance: <?php echo (float)$this->getBalance(); ?>,
-                    quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>,
-                    customerBalanceBlockSelector: '#customerbalance-placer',
-                    paymentMethodsSelector: '#checkout-payment-method-load',
-                    customerBalanceAmountSelector: "#customerbalance-available-amount",
-                    paymentForm: '#co-payment-form',
-                    formattedBalance: '<?php echo Mage::helper('Mage_Core_Helper_Data')->currency($this->getBalance()); ?>',
-                    isAllowed: "<?php echo $this->isAllowed(); ?>"
+    <script type="text/javascript">
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('Enterprise_Checkout::js/checkout-balance.js') ?>",
+                function() {
+                    $('#use-customer-balance').checkoutBalance({
+                        balance: <?php echo (float)$this->getBalance(); ?>,
+                        amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+                        usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>
+                    });
                 });
-            });
-    })(jQuery);
-</script>
+        })(jQuery);
+    </script>
 <?php endif; ?>
