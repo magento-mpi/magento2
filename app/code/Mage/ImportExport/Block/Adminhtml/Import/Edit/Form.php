@@ -71,7 +71,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
         $fieldsets['upload'] = $form->addFieldset('upload_file_fieldset',
             array(
                 'legend' => $helper->__('File to Import'),
-                'style'  => 'display:none'
+                'class'  => 'no-display',
             )
         );
         $fieldsets['upload']->addField(Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE, 'file', array(
