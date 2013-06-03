@@ -1447,6 +1447,10 @@
     display: block;
 }
 
+.payments-config-data h4 {
+    font-weight: bold;
+}
+
 .payment-config .legend {
     color: #31302b;
     font-weight: 400;

@@ -201,6 +201,18 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 </div>
     <div class="payments-config-data">
         <div class="payment-config" id="express-checkout" data-payment-method="express-checkout">
+            <?php if (Mage::helper('Saas_Paypal_Helper_Data')->isEcAcceleratedBoarding()): ?>
+            <h4><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Account Information'); ?>:</h4>
+            <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal Account ID'); ?>: <?php echo $this->getConfigValue('paypal/onboarding/receiver_id'); ?></p>
+            <fieldset class="fieldset">
+                <input type="hidden" name="payment_method" value="paypal_express_checkout">
+                <div class="actions">
+                    <button type="button" class="action-save-method primary <?php if ($this->getConfigValue('payment/paypal_express/active')): ?>disabled<?php endif; ?>" data-save-url="<?php echo $saveActionUrl; ?>">
+                        <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Confirm'); ?></span>
+                    </button>
+                </div>
+            </fieldset>
+            <?php else : ?>
             <p class="payment-info"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('With Paypal Express Checkout, you can accept payments now, and set up your payments account later'); ?><p>
             <fieldset class="fieldset">
                 <legend class="legend"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('PayPal payments will be sent to your email address at:'); ?></legend>
@@ -215,8 +227,8 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     </button>
                 </div>
             </fieldset>
-
             <p class="payment-info"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('For your convenience, we have automatically enabled PayPal Express Checkout.'); ?><p>
+            <?php endif; ?>
         </div>
 
         <div class="payment-config" id="paypal-standard">
@@ -455,6 +467,12 @@ jQuery(function ($) {
                 .hide();
         });
 
-    $('.action-save-method').partiallyValidateDrawer({'currentSection': '.payments-tiles'});
+    $('.action-save-method:not(.disabled)').partiallyValidateDrawer({'currentSection': '.payments-tiles'});
+
+    var partiallyValidate = $('[data-payment-method="express-checkout"]');
+    partiallyValidate.on('afterValidate.partiallyValidateDrawer', function() {
+            partiallyValidate.find('button.action-save-method').addClass('disabled').off('click.saveMethod');
+        }
+    );
 });
 </script>
