@@ -117,7 +117,7 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $language
      * @return string
      */
-    public function convertLanguageToCurrentLocale($language)
+    public function convertLanguageCodeToLocaleCode($language)
     {
         $convertArray = $this->_config->getNode(self::XML_PATH_LANGUAGE_CONVERT)->asArray();
         return isset($convertArray[$language]) ? $convertArray[$language] : $language;

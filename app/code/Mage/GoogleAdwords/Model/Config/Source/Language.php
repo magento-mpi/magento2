@@ -11,7 +11,7 @@
 class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Mage_Core_Model_LocaleInterface
+     * @var \Zend_Locale
      */
     protected $_locale;
 
@@ -38,7 +38,7 @@ class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model
         Mage_GoogleAdwords_Model_Filter_UppercaseTitle $uppercaseFilter
     ) {
         $this->_helper = $helper;
-        $this->_locale = $locale;
+        $this->_locale = $locale->getLocale();
         $this->_uppercaseFilter = $uppercaseFilter;
     }
 
@@ -50,28 +50,19 @@ class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model
     public function toOptionArray()
     {
         $languages = array();
-        foreach ($this->_helper->getLanguageCodes() as $language) {
+        foreach ($this->_helper->getLanguageCodes() as $languageCode) {
+            $localeCode = $this->_helper->convertLanguageCodeToLocaleCode($languageCode);
+            $translationForSpecifiedLanguage = $this->_locale->getTranslation($localeCode, 'language', $languageCode);
+            $translationForDefaultLanguage = $this->_locale->getTranslation($localeCode, 'language');
+
+            $label = sprintf('%s / %s (%s)', $this->_uppercaseFilter->filter($translationForSpecifiedLanguage),
+                $translationForDefaultLanguage, $languageCode);
+
             $languages[] = array(
-                'value' => $language,
-                'label' => $this->_getLanguageLabel($language)
+                'value' => $languageCode,
+                'label' => $label,
             );
         }
         return $languages;
-    }
-
-    /**
-     * Get language label
-     *
-     * @param string $language
-     * @return string
-     */
-    protected function _getLanguageLabel($language)
-    {
-        $currentLanguage = $this->_helper->convertLanguageToCurrentLocale($language);
-        $languageLocaleName = $this->_uppercaseFilter->filter(
-            $this->_locale->getLocale()->getTranslation($currentLanguage, 'language', $language)
-        );
-        $languageName = $this->_locale->getLocale()->getTranslation($currentLanguage, 'language');
-        return sprintf('%s / %s (%s)', $languageLocaleName, $languageName, $language);
     }
 }

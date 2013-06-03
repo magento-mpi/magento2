@@ -18,14 +18,14 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
     protected $_localeMock;
 
     /**
-     * @var Zend_Locale
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_currentLocale;
+    protected $_localeModelMock;
 
     /**
-     * @var Mage_GoogleAdwords_Model_Filter_UppercaseTitle
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_uppercaseFilter;
+    protected $_uppercaseFilterMock;
 
     /**
      * @var Mage_GoogleAdwords_Model_Config_Source_Language
@@ -35,54 +35,68 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
     public function setUp()
     {
         $this->_helperMock = $this->getMock('Mage_GoogleAdwords_Helper_Data', array(), array(), '', false);
-        $this->_currentLocale =  new Zend_Locale();
-        $this->_localeMock = $this->getMock('Mage_Core_Model_LocaleInterface', array(), array(), '', false);
-        $this->_localeMock->expects($this->atLeastOnce())->method('getLocale')
-            ->will($this->returnValue($this->_currentLocale));
-        $this->_uppercaseFilter = new Mage_GoogleAdwords_Model_Filter_UppercaseTitle();
+        $this->_localeMock = $this->getMock('Zend_Locale', array(), array(), '', false);
+        $this->_localeModelMock = $this->getMock('Mage_Core_Model_LocaleInterface', array(), array(), '', false);
+        $this->_localeModelMock->expects($this->once())->method('getLocale')
+            ->will($this->returnValue($this->_localeMock));
+        $this->_uppercaseFilterMock = $this->getMock('Mage_GoogleAdwords_Model_Filter_UppercaseTitle', array(), array(),
+            '', false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Mage_GoogleAdwords_Model_Config_Source_Language', array(
-            'locale' => $this->_localeMock,
+            'locale' => $this->_localeModelMock,
             'helper' => $this->_helperMock,
-            'uppercaseFilter' => $this->_uppercaseFilter,
+            'uppercaseFilter' => $this->_uppercaseFilterMock,
         ));
-    }
-
-    /**
-     * Get language label
-     *
-     * @param string $language
-     * @return string
-     */
-    protected function _getLanguageLabel($language)
-    {
-        $this->_helperMock->expects($this->any())->method('convertLanguageToCurrentLocale')
-            ->with($this->isType('string'))->will($this->returnCallback(function ($returnLanguage) use ($language) {
-                return $returnLanguage;
-            }));
-        $languageLocaleName = $this->_uppercaseFilter->filter(
-            $this->_currentLocale->getTranslation($language, 'language', $language)
-        );
-        $languageName = $this->_currentLocale->getTranslation($language, 'language');
-        return sprintf('%s / %s (%s)', $languageLocaleName, $languageName, $language);
     }
 
     public function testToOptionArray()
     {
-        $languages = array('en', 'ru');
-        $languagesReturn = array(
+        $languageCodes = array('languageCode1', 'languageCode2');
+        $languagesToLocalesMap = array('languageCode1' => 'localeCode1', 'languageCode2' => 'localeCode2');
+        $expectedLanguages = array(
             array(
-                'value' => 'en',
-                'label' => $this->_getLanguageLabel('en'),
+                'value' => 'languageCode1',
+                'label' => 'TranslationForSpecifiedLanguage1 / translationForDefaultLanguage1 (languageCode1)',
             ),
             array(
-                'value' => 'ru',
-                'label' => $this->_getLanguageLabel('ru'),
+                'value' => 'languageCode2',
+                'label' => 'TranslationForSpecifiedLanguage2 / translationForDefaultLanguage2 (languageCode2)',
             ),
         );
+
         $this->_helperMock->expects($this->once())->method('getLanguageCodes')
-            ->will($this->returnValue($languages));
-        $this->assertEquals($languagesReturn, $this->_model->toOptionArray());
+            ->will($this->returnValue($languageCodes));
+        $this->_helperMock->expects($this->atLeastOnce())->method('convertLanguageCodeToLocaleCode')
+            ->will($this->returnCallback(function ($languageCode) use ($languagesToLocalesMap) {
+                return $languagesToLocalesMap[$languageCode];
+            }));
+
+        $localeMock = $this->_localeMock;
+        $localeMock::staticExpects($this->at(0))->method('getTranslation')
+            ->with('localeCode1', 'language', 'languageCode1')
+            ->will($this->returnValue('translationForSpecifiedLanguage1'));
+
+        $localeMock::staticExpects($this->at(1))->method('getTranslation')
+            ->with('localeCode1', 'language')
+            ->will($this->returnValue('translationForDefaultLanguage1'));
+
+        $localeMock::staticExpects($this->at(2))->method('getTranslation')
+            ->with('localeCode2', 'language', 'languageCode2')
+            ->will($this->returnValue('translationForSpecifiedLanguage2'));
+
+        $localeMock::staticExpects($this->at(3))->method('getTranslation')
+            ->with('localeCode2', 'language')
+            ->will($this->returnValue('translationForDefaultLanguage2'));
+
+        $this->_uppercaseFilterMock->expects($this->at(0))->method('filter')
+            ->with('translationForSpecifiedLanguage1')
+            ->will($this->returnValue('TranslationForSpecifiedLanguage1'));
+
+        $this->_uppercaseFilterMock->expects($this->at(1))->method('filter')
+            ->with('translationForSpecifiedLanguage2')
+            ->will($this->returnValue('TranslationForSpecifiedLanguage2'));
+
+        $this->assertEquals($expectedLanguages, $this->_model->toOptionArray());
     }
 }
