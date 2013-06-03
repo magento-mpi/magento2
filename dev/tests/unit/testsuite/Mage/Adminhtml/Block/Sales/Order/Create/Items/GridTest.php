@@ -1,43 +1,130 @@
 <?php
 /**
- * Testcase for Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_Grid class.
- *
  * {license_notice}
  *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUnit_Framework_TestCase
+
+class Mage_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider getTierHtmlDataProvider
-     *
-     * @param array $tierPrices
-     * @param string $productType
-     * @param string $method
-     * @param array $tierPriceInfo
-     * @param string $expectedResult
+     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Sales_Helper_Data
      */
-    public function testGetTierHtml($tierPrices, $productType, $method, $tierPriceInfo, $expectedResult)
+    protected $_helperMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid
+     */
+    protected $_block;
+
+    /**
+     * Initialize required data
+     */
+    public function setUp()
     {
-        $testObject = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid')
+        $this->_helperMock = $this->getMockBuilder('Mage_Sales_Helper_Data')
             ->disableOriginalConstructor()
-            ->setMethods(array('_getBundleTierPriceInfo', '_getTierPriceInfo'))
+            ->setMethods(array('__'))
             ->getMock();
-        $testObject->expects($this->once())
-            ->method($method)
-            ->with($this->equalTo($tierPrices))
-            ->will($this->returnValue($tierPriceInfo));
-        $item = $this->_prepareItem($tierPrices, $productType);
-        $this->assertEquals($expectedResult, $testObject->getTierHtml($item));
+
+        $helperFactory = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')
+            ->disableOriginalConstructor()
+            ->setMethods(array('get'))
+            ->getMock();
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
+
+        $contextMock = $this->getMockBuilder('Mage_Core_Block_Template_Context')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getHelperFactory'))
+            ->getMock();
+        $contextMock->expects($this->any())->method('getHelperFactory')->will($this->returnValue($helperFactory));
+        $this->_block = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid')
+            ->setConstructorArgs(array($contextMock))
+            ->setMethods(array('_getSession'))
+            ->getMock();
+        $sessionMock = $this->getMockBuilder('Mage_Adminhtml_Model_Session_Quote')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getQuote'))
+            ->getMock();
+        $quoteMock = $this->getMockBuilder('Mage_Sales_Model_Quote')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStore'))
+            ->getMock();
+
+        $storeMock = $this->getMockBuilder('Mage_Core_Model_Store')
+            ->disableOriginalConstructor()
+            ->setMethods(array('convertPrice'))
+            ->getMock();
+        $storeMock->expects($this->any())->method('convertPrice')->will($this->returnArgument(0));
+
+        $quoteMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
+
+        $sessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
+        $this->_block->expects($this->any())->method('_getSession')->will($this->returnValue($sessionMock));
     }
 
     /**
-     * Prepare mock of Mage_Sales_Model_Quote_Item
-     *
-     * @param array $tierPrices
+     * @param array $itemData
+     * @param string $expectedMessage
      * @param string $productType
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @dataProvider tierPriceDataProvider
+     */
+    public function testTierPriceInfo($itemData, $expectedMessage, $productType)
+    {
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+
+        $itemMock = $this->_prepareItem($itemData, $productType);
+        $result = $this->_block->getTierHtml($itemMock);
+        $this->assertEquals($expectedMessage, $result);
+    }
+
+    /**
+     * Provider for test
+     *
+     * @return array
+     */
+    public function tierPriceDataProvider()
+    {
+        $endSign = '<br/>';
+        $bundleMessage = '%1$s with %2$s discount each';
+        $defaultMessage = '%s for %s';
+        $bundleMessages = $bundleMessage . $endSign . $bundleMessage;
+        $defaultMessages = $defaultMessage . $endSign . $defaultMessage;
+
+        return array(
+            array(
+                array(array('price' => 100, 'price_qty' => 1)),
+                $bundleMessage,
+                Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            ),
+            array(
+                array(array('price' => 100, 'price_qty' => 1), array('price' => 200, 'price_qty' => 2)),
+                $bundleMessages,
+                Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            ),
+            array(
+                array(array('price' => 50, 'price_qty' => 2)),
+                $defaultMessage,
+                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            ),
+            array(
+                array(array('price' => 50, 'price_qty' => 2), array('price' => 150, 'price_qty' => 3)),
+                $defaultMessages,
+                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            ),
+            array(
+                0,
+                '',
+                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            ),
+        );
+    }
+
+    /**
+     * @param array|int $tierPrices
+     * @param string $productType
+     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Sales_Model_Quote_Item
      */
     protected function _prepareItem($tierPrices, $productType)
     {
@@ -50,178 +137,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUni
             ->will($this->returnValue($tierPrices));
         $item = $this->getMockBuilder('Mage_Sales_Model_Quote_Item')
             ->disableOriginalConstructor()
-            ->setMethods(array('getProduct', 'getProductType', '_getBundleTierPriceInfo', '_getTierPriceInfo'))
+            ->setMethods(array('getProduct', 'getProductType'))
             ->getMock();
         $item->expects($this->once())
             ->method('getProduct')
             ->will($this->returnValue($product));
-        $item->expects($this->once())
+
+        $calledTimes = $tierPrices ? 'once' : 'never';
+        $item->expects($this->$calledTimes())
             ->method('getProductType')
             ->will($this->returnValue($productType));
         return $item;
-    }
-
-    /**
-     * Data provider for testGetTierHtml
-     *
-     * @return array
-     */
-    public static function getTierHtmlDataProvider()
-    {
-        return array(
-            array(
-                array('price_qty' => 2.0000, 'price' => 50.0000),
-                'bundle',
-                '_getBundleTierPriceInfo',
-                array('1', '2', '3'),
-                '1<br/>2<br/>3'
-            ),
-            array(
-                array('price_qty' => 5.0000, 'price' => 10.0000),
-                'configurable',
-                '_getTierPriceInfo',
-                array('1'),
-                '1'
-            )
-        );
-    }
-
-    /**
-     * Test for _getBundleTierPriceInfo method
-     *
-     * @dataProvider getBundleTierPriceInfoDataProvider
-     *
-     * @param array $prices
-     * @param string $expectedResult
-     */
-    public function testGetBundleTierPriceInfo($prices, $expectedResult)
-    {
-        $returnCallback = function() {
-            $arguments = func_get_args();
-            return vsprintf(array_shift($arguments), $arguments);
-        };
-        $helper = $this->getMockBuilder('Mage_Sales_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback($returnCallback));
-        $helperFactory = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')
-            ->disableOriginalConstructor()
-            ->setMethods(array('get'))
-            ->getMock();
-        $helperFactory->expects($this->exactly(count($prices)))
-            ->method('get')
-            ->with('Mage_Sales_Helper_Data')
-            ->will($this->returnValue($helper));
-        $testObjectStub = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid')
-            ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice'))
-            ->getMock();
-
-        $reflectionObject = new ReflectionObject($testObjectStub);
-        $reflectionProperty = $reflectionObject->getProperty('_helperFactory');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($testObjectStub, $helperFactory);
-        $reflectionMethod = $reflectionObject->getMethod('_getBundleTierPriceInfo');
-        $reflectionMethod->setAccessible(true);
-
-        $this->assertEquals($expectedResult, $reflectionMethod->invoke($testObjectStub, $prices));
-    }
-
-    /**
-     * Data provider for testGetBundleTierPriceInfo
-     *
-     * @return array
-     */
-    public static function getBundleTierPriceInfoDataProvider()
-    {
-        return array(
-            array(
-                array(
-                    array('price_qty' => 2.00, 'price' => 50.0000)
-                ),
-                array('2 with 50% discount each')
-            ),
-            array(
-                array(
-                    array('price_qty' => 2.00, 'price' => 50.0000),
-                    array('price_qty' => 5.00, 'price' => 55.5000)
-                ),
-                array('2 with 50% discount each', '5 with 55.5% discount each')
-            )
-        );
-    }
-
-    /**
-     * Test for _getTierPriceInfo method
-     *
-     * @dataProvider getTierPriceInfoDataProvider
-     *
-     * @param array $prices
-     * @param string $expectedResult
-     */
-    public function testGetTierPriceInfo($prices, $expectedResult)
-    {
-        $returnCallback = function() {
-            $arguments = func_get_args();
-            return vsprintf(array_shift($arguments), $arguments);
-        };
-        $helper = $this->getMockBuilder('Mage_Sales_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback($returnCallback));
-        $helperFactory = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')
-            ->disableOriginalConstructor()
-            ->setMethods(array('get'))
-            ->getMock();
-        $helperFactory->expects($this->exactly(count($prices)))
-            ->method('get')
-            ->with('Mage_Sales_Helper_Data')
-            ->will($this->returnValue($helper));
-        $testObjectStub = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid')
-            ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice'))
-            ->getMock();
-        $testObjectStub->expects($this->exactly(count($prices)))
-            ->method('convertPrice')
-            ->will($this->returnArgument(0));
-
-        $reflectionObject = new ReflectionObject($testObjectStub);
-        $reflectionProperty = $reflectionObject->getProperty('_helperFactory');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($testObjectStub, $helperFactory);
-        $reflectionMethod = $reflectionObject->getMethod('_getTierPriceInfo');
-        $reflectionMethod->setAccessible(true);
-
-        $this->assertEquals($expectedResult, $reflectionMethod->invoke($testObjectStub, $prices));
-    }
-
-    /**
-     * Data provider for testGetTierPriceInfo
-     *
-     * @return array
-     */
-    public static function getTierPriceInfoDataProvider()
-    {
-        return array(
-            array(
-                array(
-                    array('price_qty' => 7.00, 'price' => 10.0000)
-                ),
-                array('7 for 10')
-            ),
-            array(
-                array(
-                    array('price_qty' => 5.00, 'price' => 10.0000),
-                    array('price_qty' => 15.00, 'price' => 7.2500)
-                ),
-                array('5 for 10', '15 for 7.25')
-            )
-        );
     }
 }

@@ -24,18 +24,16 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Theme_Service $serviceModel
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_App $app,
         Mage_Core_Model_Theme_Service $serviceModel,
         array $data = array()
     ) {
         $this->_serviceModel = $serviceModel;
-        parent::__construct($context, $app, $data);
+        parent::__construct($context, $data);
     }
 
     /**

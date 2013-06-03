@@ -1849,9 +1849,10 @@ select {
 .cart.summary {
   margin-top: 33px;
   background: @primary1;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
   .summary.title {
     font-family: "benchnine";
     font-size: 24px;
@@ -1937,6 +1938,17 @@ select {
     display: block;
     padding-bottom: 8px;
     text-transform: uppercase;
+  }
+}
+.cart >.summary.fixed,.cart.container >.summary >.container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container {
+  > .summary.bottom {
+    position: absolute;
+    vertical-align: bottom;
+    bottom: 0;
   }
 }
 .cart.table.wrapper.detailed + .cart.summary {
@@ -2081,13 +2093,10 @@ select {
 
 .minicart.wrapper {
   float: right;
-  position: relative;
   z-index: 11;
   .block.minicart {
     .clearfix;
-    top: 100%;
-    right: 0;
-    visibility: hidden;
+    left: -100%;
     position: absolute;
     z-index: 2;
     background: @primary1;
@@ -2098,6 +2107,7 @@ select {
       width: 310px;
       .product.photo + .product.details {
         margin-left: 69px;
+        position: relative;
       }
       .subtotal {
         clear: both;
@@ -2185,7 +2195,8 @@ select {
     position: relative;
     z-index: 11;
     .block.minicart {
-      visibility: visible;
+      left: auto;
+      right: 0;
     }
   }
   .action.close {
@@ -2330,6 +2341,10 @@ select {
   padding: 10px;
   position: relative;
   z-index: 1;
+  .items {
+    overflow: auto;
+    max-height: 360px;
+  }
   .item {
     .borderBox;
     padding: 10px;
@@ -2382,7 +2397,7 @@ select {
     }
     .action.delete {
       position: absolute;
-      margin-left: -5px;
+      margin-left: -10px;
       margin-top: -1.35em;
     }
   }
@@ -2425,7 +2440,6 @@ select {
   color: @primary2;
   margin-top: 23px;
   margin-left: 20px;
-  position: relative;
   display: inline-block;
   padding: 5px 10px;
   border: 1px solid transparent;
@@ -2444,6 +2458,7 @@ select {
   &.active {
     border-color: @primary2;
     border-bottom-color: transparent;
+    position: relative;
     z-index: 3;
     &:after {
       content: "";

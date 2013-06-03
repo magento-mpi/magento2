@@ -270,7 +270,7 @@ Mediabrowser.prototype = {
     },
 
     deleteFolder: function() {
-        var dialogId = 'dialog-message-confirm';
+        var dialogId = 'dialog-message-confirm-mediabrowser-deletefolder';
         jQuery('body').append('<div class="ui-dialog-content ui-widget-content" id="' + dialogId + '"></div>');
         jQuery('#' + dialogId).dialog({
             autoOpen:    false,
@@ -315,7 +315,7 @@ Mediabrowser.prototype = {
         var ids = [];
         ids[0] = value;
         jQuery('#contents').loadingPopup({ timeout: false });
-        var dialogId = 'dialog-message-confirm';
+        var dialogId = 'dialog-message-confirm-mediabrowser-deletefiles';
         jQuery('body').append('<div class="ui-dialog-content ui-widget-content" id="' + dialogId + '"></div>');
         jQuery('#' + dialogId).dialog({
             autoOpen:    false,

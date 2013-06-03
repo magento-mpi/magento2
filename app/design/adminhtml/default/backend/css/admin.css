@@ -522,7 +522,12 @@ button.primary.disabled:hover,
 .notification .action-close:hover,
 .notification .action-close:active,
 .notification .action-close.active,
-.notification .action-close[disabled] {
+.notification .action-close[disabled],
+.adminhtml-sales-order-create-index .page-actions-inner .cancel,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:hover,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel.active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel[disabled] {
     border: 0;
     border-radius: 0;
     background: none;
@@ -2304,13 +2309,6 @@ table tbody tr:nth-child(odd):hover th {
     opacity: .95;
 }
 
-.eq-ie8 .loading-old .loader {
-    bottom: auto;
-    right: auto;
-    margin: auto;
-    left: auto;
-}
-
 .loading-mask img {
     display: none;
 }
@@ -2526,10 +2524,6 @@ table tbody tr:nth-child(odd):hover th {
     padding-top: 36px;
 }
 
-.eq-ie8 .navigation .level-0.item-system > a {
-    padding-top: 0;
-}
-
 .navigation .level-0 > a:before {
     position: absolute;
     left: 0;
@@ -2683,13 +2677,20 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0;
 }
 
+.eq-ie8 .navigation .level-0.item-system > a,
 .eq-ie8 .navigation .level-0.item-system:hover > a,
-.eq-ie8 .navigation .level-0.item-system.hover > a {
+.eq-ie8 .navigation .level-0.item-system.hover > a,
+.eq-ie8 .navigation .level-0.item-stores > a,
+.eq-ie8 .navigation .level-0.item-stores:hover > a,
+.eq-ie8 .navigation .level-0.item-stores.hover > a {
     border-top: 0;
+    padding-top: 0;
 }
 
 .navigation .level-0.item-system:hover > a,
-.navigation .level-0.item-system.hover > a {
+.navigation .level-0.item-system.hover > a,
+.navigation .level-0.item-stores:hover > a,
+.navigation .level-0.item-stores.hover > a {
     background: transparent;
 }
 
@@ -4738,6 +4739,15 @@ tr.dynamic-grid input.input-text {
     table-layout: fixed;
 }
 
+.eq-ie8 #cross_sell_product_grid table.data,
+.eq-ie8 #up_sell_product_grid table.data,
+.eq-ie8 #related_product_grid table.data,
+.eq-ie8 #productGrid_table,
+.eq-ie8 .ui-dialog .data {
+    word-wrap: normal;
+    table-layout: auto;
+}
+
 #cross_sell_product_grid table.data th,
 #up_sell_product_grid table.data th,
 #related_product_grid table.data th,
@@ -5192,19 +5202,6 @@ table .col-draggable .draggable-handle {
     transition: color 150ms linear;
 }
 
-.field-detailed_rating .field-rating .control input[type="radio"]:checked ~ label:before {
-    color: #333;
-}
-
-.field-detailed_rating .field-rating .control label:hover,
-.field-detailed_rating .field-rating .control label:hover ~ label {
-    color: #f30;
-}
-
-.field-detailed_rating .field-rating .control label:before {
-    content: "\2605\0000a0";
-}
-
 /*
     Tree Store Scope
 -------------------------------------- */
@@ -5372,6 +5369,10 @@ table .col-draggable .draggable-handle {
 
 .widget-layout-updates .data-table {
     table-layout: fixed;
+}
+
+.eq-ie8 .widget-layout-updates .data-table {
+    table-layout: auto;
 }
 
 .widget-layout-updates .data-table,
