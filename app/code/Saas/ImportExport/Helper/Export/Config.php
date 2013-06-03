@@ -56,6 +56,17 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Retrieve directory path for export
+     *
+     * @return string
+     */
+    public function getStorageDirectoryPath()
+    {
+        return $this->_dir->getDir('media') . Magento_Filesystem::DIRECTORY_SEPARATOR . 'importexport'
+            . Magento_Filesystem::DIRECTORY_SEPARATOR . 'export';
+    }
+
+    /**
      * Retrieve path for export file
      *
      * @param string $entityType
@@ -63,8 +74,6 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
      */
     public function getStorageFilePath($entityType)
     {
-        return $this->_dir->getDir('media') . Magento_Filesystem::DIRECTORY_SEPARATOR . 'importexport'
-            . Magento_Filesystem::DIRECTORY_SEPARATOR . 'export'
-            . Magento_Filesystem::DIRECTORY_SEPARATOR . $entityType;
+        return $this->getStorageDirectoryPath() . Magento_Filesystem::DIRECTORY_SEPARATOR . $entityType;
     }
 }

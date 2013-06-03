@@ -69,6 +69,14 @@ class Saas_ImportExport_Helper_Export_ConfigTest extends PHPUnit_Framework_TestC
             $this->_helperModel->getStorageFilePath($entityType));
     }
 
+    public function testGetStorageDirectoryPath()
+    {
+        $this->assertEquals($this->_dirModel->getDir('media')
+            . Magento_Filesystem::DIRECTORY_SEPARATOR . 'importexport'
+            . Magento_Filesystem::DIRECTORY_SEPARATOR . 'export',
+            $this->_helperModel->getStorageDirectoryPath());
+    }
+
     /**
      * @return array
      */

@@ -140,7 +140,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     protected function _initFile()
     {
         $exportFile = $this->_stateFlag->getExportFilename();
-        if ($exportFile && $this->_filesystem->isFile($exportFile)) {
+        if ($exportFile && $this->_filesystem->isFile($exportFile, $this->_configHelper->getStorageDirectoryPath())) {
             // Magento_Filesystem currently don't have this functionality
             $fileInfo = pathinfo($exportFile);
             $extension = $fileInfo['extension'];

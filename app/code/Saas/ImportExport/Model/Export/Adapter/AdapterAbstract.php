@@ -67,8 +67,12 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         if ($createPath) {
+            $directory = dirname($destination);
             $this->_filesystem->setIsAllowCreateDirectories(true);
-            $this->_filesystem->ensureDirectoryExists(dirname($destination));
+            // trick for Magento_Filesystem_Exception::isPathInDirectory
+            $this->_filesystem->ensureDirectoryExists($directory, 0777, dirname($directory));
+            $this->_filesystem->setIsAllowCreateDirectories(false);
+            $this->_filesystem->setWorkingDirectory($directory);
         }
         if (!$this->_filesystem->isDirectory(dirname($destination))) {
             throw new Magento_Filesystem_Exception($helper->__('Destination directory is not writable'));
