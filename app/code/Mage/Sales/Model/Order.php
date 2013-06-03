@@ -1398,6 +1398,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $address->setOrder($this)->setParentId($this->getId());
         if (!$address->getId()) {
             $this->getAddressesCollection()->addItem($address);
+            $this->setDataChanges(true);
         }
         return $this;
     }
@@ -1600,6 +1601,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             ->setParentId($this->getId());
         if (!$payment->getId()) {
             $this->getPaymentsCollection()->addItem($payment);
+            $this->setDataChanges(true);
         }
         return $this;
     }
@@ -1694,6 +1696,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $this->setStatus($history->getStatus());
         if (!$history->getId()) {
             $this->getStatusHistoryCollection()->addItem($history);
+            $this->setDataChanges(true);
         }
         return $this;
     }
