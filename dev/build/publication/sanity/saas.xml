@@ -19,7 +19,6 @@
         <word>ukpromerchant</word>
         <!-- Removed modules -->
         <word>Find_Feed</word>
-        <word>Moneybookers</word>
         <word>AdminGws</word>
         <word>CatalogEvent</word>
         <word>CatalogPermissions</word>
@@ -30,6 +29,8 @@
         <word>PricePermissions</word>
         <word>PromotionPermissions</word>
         <word>Enterprise_Reminder</word>
+        <word>Enterprise_Reward</word>
+        <word>reward.points</word>
         <word>Enterprise_Rma</word>
         <word>Enterprise_Tag</word>
         <word>TargetRule</word>
@@ -56,14 +57,11 @@
         <item>
             <!-- MUST be refactored -->
             <word>CustomerSegment</word>
-            <word>Moneybookers</word>
-            <word>GoogleOptimizer</word>
             <path>tmt_templates/mc/en_US/db/empty_data.sql</path>
         </item>
         <item>
             <!-- MUST be refactored -->
             <word>CustomerSegment</word>
-            <word>Moneybookers</word>
             <word>GoogleOptimizer</word>
             <path>tmt_templates/mc/en_US/db/sample_data.sql</path>
         </item>
@@ -143,6 +141,7 @@
             <word>GoogleOptimizer</word>
             <word>TargetRule</word>
             <word>Enterprise_Reminder</word>
+            <word>Enterprise_Reward</word>
             <word>Mage_Ogone</word>
             <word>Enterprise_Checkout</word>
             <word>CustomerSegment</word>
@@ -157,10 +156,6 @@
             <word>TargetRule</word>
             <word>CustomerSegment</word>
             <path>dev/tests/static/testsuite/Php/_files/phpcpd/blacklist</path>
-        </item>
-        <item>
-            <word>GiftWrapping</word>
-            <path>app/code/Enterprise/GiftCardAccount/etc/config.xml</path>
         </item>
         <item>
             <word>{copyright}</word>

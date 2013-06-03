@@ -421,6 +421,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
     {
         $paymentStatus = $this->getIpnFormData('payment_status');
         $message = Mage::helper('Mage_Paypal_Helper_Data')->__('IPN verification "%s".', $paymentStatus);
+        if ($this->getIpnFormData('txn_id')) {
+            $message .= ' ' . Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%s.', $this->getIpnFormData('txn_id'));
+        }
         if ($comment) {
             $message .= ' ' . $comment;
         }

@@ -29,8 +29,8 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $productData['google_experiment_code'] = 'experiment_code';
         $this->productHelper()->addTab('google_experiment')->createProduct($productData);
-
         $this->assertMessagePresent('success', 'success_saved_product');
+
         self::$_productData = $productData;
     }
 
@@ -54,7 +54,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
     {
         // Open product on frontend
         $this->frontend('home');
-        $this->_frontOpenProduct();
+        $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
         $this->assertTrue($this->textIsPresent(self::$_productData['google_experiment_code']),
@@ -81,7 +81,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
 
         // Open product on frontend
         $this->frontend('home');
-        $this->_frontOpenProduct();
+        $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
         $this->assertTrue($this->textIsPresent(self::$_productData['google_experiment_code']),
@@ -102,20 +102,10 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
 
         // Open product on frontend
         $this->frontend('home');
-        $this->_frontOpenProduct();
+        $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
         $this->assertFalse($this->textIsPresent(self::$_productData['google_experiment_code']),
             'Experiment code is not disabled.');
-    }
-
-    /**
-     * Wrapper to helper method
-     * @see https://jira.corp.x.com/browse/MAUTOSEL-536
-     */
-    protected function _frontOpenProduct()
-    {
-        // https://jira.corp.x.com/browse/MAUTOSEL-536
-        $this->productHelper()->frontOpenProduct(self::$_productData['general_name'], false);
     }
 }

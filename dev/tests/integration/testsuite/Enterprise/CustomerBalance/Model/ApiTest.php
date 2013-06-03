@@ -45,9 +45,11 @@ class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCas
      */
     public function testCustomerBalanceBalanceExceptionBalanceNotFound()
     {
-        $this->setExpectedException('SoapFault', 'Balance with requested parameters is not found.');
         $params = array('customerId' => self::$customerNoBalance->getId(), 'websiteId' => 1);
-        Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceBalance', $params);
+        Magento_Test_Helper_Api::callWithException($this, 'enterpriseCustomerbalanceBalance',
+            $params, 'Balance with requested parameters is not found.'
+        );
+
     }
 
     /**
@@ -86,8 +88,10 @@ class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCas
      */
     public function testCustomerBalanceHistoryExceptionHistoryNotFound()
     {
-        $this->setExpectedException('SoapFault', 'History with requested parameters is not found.');
         $params = array('customerId' => self::$customerNoBalance->getId(), 'websiteId' => 1);
-        Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceHistory', $params);
+        Magento_Test_Helper_Api::callWithException($this, 'enterpriseCustomerbalanceHistory',
+            $params, 'History with requested parameters is not found.'
+        );
+
     }
 }

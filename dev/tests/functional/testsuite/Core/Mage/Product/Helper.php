@@ -42,7 +42,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->frontend('product_page', false);
         $this->setCurrentPage($this->getCurrentLocationUimapPage()->getPageId());
         $this->addParameter('productName', $productName);
-        // https://jira.corp.x.com/browse/MAUTOSEL-536
         if ($checkPage) {
             $openedProductName = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'product_name', 'text');
             $this->assertEquals($productName, $openedProductName,

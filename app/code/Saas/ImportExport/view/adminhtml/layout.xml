@@ -23,4 +23,18 @@
             <block type="Saas_ImportExport_Block_Adminhtml_Import_Busy" template="Saas_ImportExport::import/busy.phtml" name="busy" alias="busy"/>
         </reference>
     </adminhtml_import_busy>
+    <adminhtml_import_index>
+        <reference name="content">
+            <block type="Saas_ImportExport_Block_Adminhtml_Import_Edit_Image"
+                   template="Saas_ImportExport::import/form/image.phtml" name="import.form.image"
+                   alias="import_form_image" after="import.form.before"/>
+            <block type="Saas_ImportExport_Block_Adminhtml_Import_Edit" name="import.form.container"/>
+        </reference>
+    </adminhtml_import_index>
+    <adminhtml_import_images_import>
+        <reference name="content">
+            <block type="Mage_ImportExport_Block_Adminhtml_Import_Frame_Result" template="import/frame/result.phtml"
+                   name="import.frame.result" alias="import_frame_result" output="1"/>
+        </reference>
+    </adminhtml_import_images_import>
 </layout>

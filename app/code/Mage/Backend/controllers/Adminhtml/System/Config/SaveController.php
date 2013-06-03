@@ -34,19 +34,23 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     protected $_configModel;
 
     /**
-     * Application model
-     *
-     * @var Mage_Core_Model_App
+     * @var Mage_Core_Model_StoreManagerInterface
      */
-    protected $_app;
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    protected $_cache;
 
     /**
      * @param Mage_Backend_Controller_Context $context
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Core_Model_Config $configModel
      * @param Mage_Backend_Model_Config_Factory $configFactory
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
+     * @param Magento_Cache_FrontendInterface $cache
      * @param string $areaCode
      */
     public function __construct(
@@ -54,14 +58,16 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Core_Model_Config $configModel,
         Mage_Backend_Model_Config_Factory $configFactory,
-        Mage_Core_Model_App $app,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Backend_Model_Auth_StorageInterface $authSession,
+        Magento_Cache_FrontendInterface $cache,
         $areaCode = null
     ) {
         parent::__construct($context, $configStructure, $authSession, $areaCode);
         $this->_configFactory = $configFactory;
-        $this->_app = $app;
+        $this->_storeManager = $storeManager;
         $this->_configModel = $configModel;
+        $this->_cache = $cache;
     }
 
     /**
@@ -97,7 +103,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
                 'website' => $website, 'store' => $store, 'section' => $section
             ));
 
-            $this->_app->reinitStores();
+            $this->_storeManager->reinitStores();
 
             // website and store codes can be used in event implementation, so set them as well
             $this->_eventManager->dispatch("admin_system_config_changed_section_{$section}", array(
@@ -193,8 +199,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
      */
     protected function _saveAdvanced()
     {
-        $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
+        $this->_cache->clean();
     }
-
-
 }
