@@ -29,7 +29,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array('asArray', 'getNode'), array(), '', false);
+        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
         $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_ConfigInterface', array(), array(), '', false);
         $this->_registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', false);
 
@@ -37,7 +37,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_helper = $objectManager->getObject('Mage_GoogleAdwords_Helper_Data', array(
             'config' => $this->_configMock,
             'storeConfig' => $this->_storeConfigMock,
-            'registry' => $this->_registryMock
+            'registry' => $this->_registryMock,
         ));
     }
 
@@ -77,10 +77,11 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetLanguageCodes()
     {
         $languages = array('en', 'ru', 'uk');
+        $configNodeMock = $this->getMock('stdClass', array('asArray'), array(), '', false);
         $this->_configMock->expects($this->once())->method('getNode')
             ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGES)
-            ->will($this->returnSelf());
-        $this->_configMock->expects($this->once())->method('asArray')
+            ->will($this->returnValue($configNodeMock));
+        $configNodeMock->expects($this->once())->method('asArray')
             ->will($this->returnValue($languages));
 
         $this->assertEquals($languages, $this->_helper->getLanguageCodes());
