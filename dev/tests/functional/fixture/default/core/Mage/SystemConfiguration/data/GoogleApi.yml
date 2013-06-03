@@ -5,6 +5,22 @@
 # @license     {license_link}
 #
 ---
+google_analytics_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_google_api
+        configuration:
+            google_analytics:
+                enable_google_analytics: Yes
+
+google_analytics_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_google_api
+        configuration:
+            google_analytics:
+                enable_google_analytics: No
+
 content_experiments_enable:
     configuration_scope: Default Config
     tab_1:
@@ -12,6 +28,7 @@ content_experiments_enable:
         configuration:
             google_analytics:
                 enable_google_analytics: Yes
+                account_number: 123
                 enable_content_experiments: Yes
 
 content_experiments_disable:
@@ -21,3 +38,11 @@ content_experiments_disable:
         configuration:
             google_analytics:
                 enable_content_experiments: No
+
+account_number_delete:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_google_api
+        configuration:
+            google_analytics:
+                account_number: ''

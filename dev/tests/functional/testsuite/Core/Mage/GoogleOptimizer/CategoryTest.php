@@ -30,6 +30,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $categoryData = $this->loadDataSet('Category', 'sub_category_required');
         $categoryData['experiment_code'] = 'experiment_code';
         $this->categoryHelper()->createCategory($categoryData);
+
         self::$_categoryData = $categoryData;
     }
 
@@ -37,8 +38,9 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
     {
         parent::tearDownAfterTestClass();
 
-        // Delete fixture
         $this->loginAdminUser();
+
+        // Delete fixture
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->selectCategory(
             sprintf('%s/%s', self::$_categoryData['parent_category'], self::$_categoryData['name'])
@@ -117,7 +119,6 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $this->assertFalse($this->textIsPresent(self::$_categoryData['experiment_code']),
             'Experiment code is present.');
     }
-
 
     /**
      * @test
