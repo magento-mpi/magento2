@@ -34,7 +34,7 @@ endif; ?>
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-            "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/sales/order/create/region-updater.js') ?>",
+            "<?php echo $this->getViewFileUrl('Mage_Checkout::region-updater.js', array('area'=>'frontend')); ?>",
             function() {
                 $('#order-billing_address_country_id').regionUpdater({
                     regionListId: '#region_id',
