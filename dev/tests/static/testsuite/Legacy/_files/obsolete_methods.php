@@ -270,6 +270,7 @@ return array(
     array('getDebug', 'Mage_Ogone_Model_Api'),
     array('getDebug', 'Mage_Paypal_Model_Api_Abstract'),
     array('getDefaultBasePath', 'Mage_Core_Model_Store'),
+    array('getDeleteUrl', 'Mage_Adminhtml_Block_Catalog_Product_Edit'),
     array('getDirectOutput', 'Mage_Core_Model_Layout'),
     array('getDistroServerVars', 'Mage_Core_Model_Config', 'getDistroBaseUrl'),
     array('getElementClass', 'Mage_Core_Model_Layout_Update'),
