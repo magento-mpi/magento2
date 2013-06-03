@@ -103,7 +103,7 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
 
         $this->_fileFactory = $this->getMock('Mage_Core_Model_Theme_FileFactory', array('create'), array(), '', false);
         $this->_filesystem = $this->getMock(
-            'Magento_Filesystem', array('isDirectory', 'searchKeys', 'copy'),
+            'Magento_Filesystem', array('isDirectory', 'searchKeys', 'copy', 'delete'),
             array($this->getMockForAbstractClass('Magento_Filesystem_AdapterInterface'))
         );
 
@@ -252,18 +252,18 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         $this->_targetTheme
             ->expects($this->once())->method('getCustomizationPath')->will($this->returnValue('target/path'));
 
-        $this->_filesystem
-            ->expects($this->at(0))->method('isDirectory')->with('source/path')->will($this->returnValue(true));
+        $this->_filesystem->expects($this->any())
+            ->method('isDirectory')->will($this->returnValueMap(array(
+                array('source/path', null, true),
+            )));
 
         $this->_filesystem
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('searchKeys')
-            ->with('source/path', '*')
-            ->will($this->returnValue(array(
-                'source/path/file_one.jpg',
-                'source/path/file_two.png',
-            )))
-        ;
+            ->will($this->returnValueMap(array(
+                array('target/path', '*', array()),
+                array('source/path', '*', array('source/path/file_one.jpg', 'source/path/file_two.png'))
+            )));
 
         $expectedCopyEvents = array(
             array('source/path/file_one.jpg', 'target/path/file_one.jpg', 'source/path', 'target/path'),

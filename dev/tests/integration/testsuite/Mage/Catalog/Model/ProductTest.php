@@ -69,7 +69,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRestricted()
     {
-        $this->setExpectedException('Mage_Core_Exception', 'Maximum allowed number of products is reached.');
+        $this->setExpectedException('Mage_Core_Exception', $this->_getCreateRestrictedMessage());
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setName('test')->save();
     }
@@ -80,10 +80,22 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateRestricted()
     {
-        $this->setExpectedException('Mage_Core_Exception', 'Maximum allowed number of products is reached.');
+        $this->setExpectedException('Mage_Core_Exception', $this->_getCreateRestrictedMessage());
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->validate();
+    }
+
+    /**
+     * Return the expected message, used by product limitation
+     *
+     * @return string
+     */
+    protected function _getCreateRestrictedMessage()
+    {
+        /** @var Mage_Catalog_Model_Product_Limitation $limitation */
+        $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
+        return $limitation->getCreateRestrictedMessage();
     }
 
     public function testCleanCache()

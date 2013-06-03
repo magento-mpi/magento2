@@ -51,8 +51,10 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     public function testCreateLimitationReached()
     {
         $formattedData = $this->_prepareProductDataForSoap(require __DIR__ . '/_files/_data/simple_product_data.php');
+        /** @var Mage_Catalog_Model_Product_Limitation $limitation */
+        $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
         Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData,
-            'Maximum allowed number of products is reached.'
+            $limitation->getCreateRestrictedMessage()
         );
     }
 
@@ -331,9 +333,11 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $productData = $productData['create_full']['soap'];
         $productData['set'] = 9999;
 
-        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate',
-            $productData, 'Product attribute set does not exist.'
-        );
+        try {
+            Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
+        } catch (Exception $e) {
+            $this->assertEquals('Product attribute set does not exist.', $e->getMessage(), 'Invalid exception message');
+        }
 
         // find not product (category) attribute set identifier to try other error message
         /** @var $entity Mage_Eav_Model_Entity_Type */
@@ -349,9 +353,16 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $categoryAttrSetId = key($categoryAtrrSets);
 
         $productData['set'] = $categoryAttrSetId;
-        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate',
-            $productData, 'Product attribute set does not belong to catalog product entity type.'
-        );
+
+        try {
+            Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'Product attribute set does not belong to catalog product entity type.',
+                $e->getMessage(),
+                'Invalid exception message'
+            );
+        }
     }
 
     /**

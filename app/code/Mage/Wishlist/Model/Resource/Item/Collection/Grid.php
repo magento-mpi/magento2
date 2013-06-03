@@ -13,6 +13,12 @@
  */
 class Mage_Wishlist_Model_Resource_Item_Collection_Grid extends Mage_Wishlist_Model_Resource_Item_Collection
 {
+    public function __construct($resource = null)
+    {
+        $resource = $resource ?: Mage::getResourceSingleton('Mage_Wishlist_Model_Resource_Item');
+        parent::__construct($resource);
+    }
+
     /**
      * Initialize db select
      *

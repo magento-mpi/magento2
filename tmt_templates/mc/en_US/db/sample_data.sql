@@ -2721,16 +2721,15 @@ CREATE TABLE IF NOT EXISTS `core_layout_update` (
   `xml` text COMMENT 'Xml',
   `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Last Update Timestamp',
-  `is_vde` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Defines whether layout update created via design editor',
   PRIMARY KEY (`layout_update_id`),
   KEY `IDX_CORE_LAYOUT_UPDATE_HANDLE` (`handle`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Updates';
 
 # Dumping data for table core_layout_update: ~2 rows (approximately)
 
-INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`, `is_vde`) VALUES
-	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="f67da881fe40f85289ada1c629b5b4a5" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>615bc143c65af1cc21ae2391432830a6</value></action></block></reference>', 0, NULL, 0),
-	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="a6a20f3c508bf4efa0b27a2a3fe9be24" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>942e542da1a4d789db9b4b02a536ffde</value></action></block></reference>', 1, NULL, 0);
+INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`) VALUES
+	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="f67da881fe40f85289ada1c629b5b4a5" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>615bc143c65af1cc21ae2391432830a6</value></action></block></reference>', 0, NULL),
+	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="a6a20f3c508bf4efa0b27a2a3fe9be24" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>942e542da1a4d789db9b4b02a536ffde</value></action></block></reference>', 1, NULL);
 
 
 
@@ -2760,7 +2759,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('core_setup', '1.6.0.12', '1.6.0.12'),
 	('cron_setup', '1.6.0.0', '1.6.0.0'),
 	('customer_setup', '1.6.2.0.3', '1.6.2.0.3'),
-	('designeditor_setup', '1.0.0.1', '1.0.0.1'),
+	('designeditor_setup', '1.0.0.3', '1.0.0.3'),
 	('directory_setup', '1.6.0.1', '1.6.0.1'),
 	('downloadable_setup', '1.6.0.0.3', '1.6.0.0.3'),
 	('eav_setup', '1.6.0.2', '1.6.0.2'),
@@ -10278,6 +10277,21 @@ CREATE TABLE IF NOT EXISTS `tax_order_aggregated_updated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregated Updated';
 
 # Dumping data for table tax_order_aggregated_updated: ~0 rows (approximately)
+
+
+
+
+# Dumping structure for table vde_theme_change
+CREATE TABLE IF NOT EXISTS `vde_theme_change` (
+  `change_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Theme Change Identifier',
+  `theme_id` INT(10) UNSIGNED NOT NULL COMMENT 'Theme Id',
+  `change_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Change Time',
+  PRIMARY KEY (`change_id`),
+  INDEX `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
+  CONSTRAINT `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Editor Theme Change';
+
+# Dumping data for table vde_theme_change: ~0 rows (approximately)
 
 
 
