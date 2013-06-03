@@ -342,6 +342,6 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
                 break;
         }
 
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($acl);
+        return $this->_authorization->isAllowed($acl);
     }
 }

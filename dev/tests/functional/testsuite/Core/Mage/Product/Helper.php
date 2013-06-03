@@ -18,8 +18,8 @@
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
-    public $productTabs = array('images', 'meta_information', 'prices', 'design', 'autosettings', 'inventory',
-        'websites', 'related', 'up_sells', 'cross_sells', 'custom_options', 'downloadable_information', 'general');
+    public $productTabs = array('images', 'meta_information', 'prices', 'design', 'autosettings', 'websites',
+        'related', 'up_sells', 'cross_sells', 'custom_options', 'downloadable_information', 'general', 'inventory');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *

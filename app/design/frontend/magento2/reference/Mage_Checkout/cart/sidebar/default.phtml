@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -56,9 +56,7 @@
         <?php endif; ?>
 
         <?php if ($_item->getProduct()->isVisibleInSiteVisibility()):?>
-        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="action edit">
-            <span><?php echo $this->__('Edit')?></span>
-        </a>
+        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="action edit"><span><?php echo $this->__('Edit')?></span></a>
         <?php endif ?>
 
 

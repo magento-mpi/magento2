@@ -121,6 +121,6 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Newsletter::subscriber');
+        return $this->_authorization->isAllowed('Mage_Newsletter::subscriber');
     }
 }

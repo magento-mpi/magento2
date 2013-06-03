@@ -146,6 +146,6 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Checkout::checkoutagreement');
+        return $this->_authorization->isAllowed('Mage_Checkout::checkoutagreement');
     }
 }

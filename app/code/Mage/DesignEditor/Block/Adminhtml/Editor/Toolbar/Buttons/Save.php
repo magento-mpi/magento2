@@ -151,11 +151,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
             'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
             'options'        => array(
                 array(
-                    'label'          => $this->__('Save'),
-                    'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
-                    'disabled'       => true
-                ),
-                array(
                     'label'          => $this->__('Save and Assign'),
                     'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData())
                 ),
@@ -172,7 +167,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _getSaveInitData()
     {
-        $message = "You are about to apply current changes for your live store, are you sure want to do this?";
         $data = array(
             'button' => array(
                 'event'     => 'save',
@@ -180,7 +174,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'eventData' => array(
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
-                    'confirm_message' => $this->__($message)
+                    'confirm_message' => null
                 )
             ),
         );

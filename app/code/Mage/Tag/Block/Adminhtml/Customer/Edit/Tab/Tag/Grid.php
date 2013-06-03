@@ -75,7 +75,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Mage_Backend_B
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag Name'),
+            'header' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag'),
             'index'  => 'name',
         ));
 
@@ -93,7 +93,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Mage_Backend_B
         ));
 
         $this->addColumn('product', array(
-            'header'   => Mage::helper('Mage_Tag_Helper_Data')->__('Product Name'),
+            'header'   => Mage::helper('Mage_Tag_Helper_Data')->__('Product'),
             'index'    => 'product',
             'filter'   => false,
             'sortable' => false,

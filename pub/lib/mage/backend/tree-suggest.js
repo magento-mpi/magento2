@@ -48,7 +48,7 @@
                         var o = this.data.ui.hovered || this.data.ui.last_selected || -1;
                         this.select_node(o, true);
                     }
-            }, this));
+                }, this));
             init.call(this);
         },
 
@@ -105,8 +105,8 @@
                 '<ul data-mage-init="{&quot;menu&quot;:[]}">' +
                 '{{each items}}' +
                 '{{if !$data.itemSelected($value)}}<li {{html optionData($value)}}>' +
-                '<a href="#"><span class="category-label">${$value.label}<span>' +
-                '<span class="category-path">${$value.path}<span></a></li>{{/if}}' +
+                '<a href="#"><span class="category-label">${$value.label}</span>' +
+                '<span class="category-path">${$value.path}</span></a></li>{{/if}}' +
                 '{{/each}}</ul>' +
                 '{{/if}}{{else}}<span class="mage-suggest-no-records">${noRecordsText}</span>{{/if}}',
             controls: {
@@ -137,9 +137,18 @@
                     }
                 }
             });
-            this._on({
-                focus: this.search
-            });
+        },
+
+        /**
+         * @override
+         */
+        close: function(e) {
+            var eType = e ? e.type : null;
+            if (eType === 'select_tree_node') {
+                this.element.focus();
+            } else {
+                this._superApply(arguments);
+            }
         },
 
         /**

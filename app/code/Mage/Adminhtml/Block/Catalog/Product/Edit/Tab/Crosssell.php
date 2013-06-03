@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
             'index'     => 'attribute_set_id',
             'type'      => 'options',
             'options'   => $sets,

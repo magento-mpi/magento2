@@ -14,6 +14,21 @@
         <Mage_Core>
             <version>1.6.0.12</version>
             <active>true</active>
+            <system_requirements>
+                <php>
+                    <extensions>
+                        <spl/>
+                        <dom/>
+                        <simplexml/>
+                        <mcrypt/>
+                        <hash/>
+                        <curl/>
+                        <iconv/>
+                        <ctype/>
+                        <gd/>
+                    </extensions>
+                </php>
+            </system_requirements>
         </Mage_Core>
     </modules>
     <global>
@@ -90,15 +105,67 @@
                     </theme_registration_observer>
                 </observers>
             </theme_registration_from_filesystem>
+            <application_process_reinit_config>
+                <observers>
+                    <reinit_config_observer>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>processReinitConfig</method>
+                    </reinit_config_observer>
+                </observers>
+            </application_process_reinit_config>
         </events>
         <di>
             <preferences>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
-                <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
+                <Mage_Core_Model_Event_InvokerInterface>Mage_Core_Model_Event_Invoker_InvokerDefault</Mage_Core_Model_Event_InvokerInterface>
+                <Mage_Core_Model_Store_ConfigInterface>Mage_Core_Model_Store_Config</Mage_Core_Model_Store_ConfigInterface>
+                <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
             </Magento_Data_Structure>
+            <Varien_Data_Collection_Db_FetchStrategy_Cache>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Collection</cache>
+                    <cacheIdPrefix>collection_</cacheIdPrefix>
+                    <cacheLifetime>86400</cacheLifetime>
+                </parameters>
+            </Varien_Data_Collection_Db_FetchStrategy_Cache>
+            <Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Collection</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
+            <Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Collection</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy>
+            <Mage_Core_Model_Resource_Store_Collection_FetchStrategy>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Collection</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Collection_FetchStrategy>
+            <Mage_Core_Model_Resource_Website_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Website_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Website_Collection>
+            <Mage_Core_Model_Resource_Website_Grid_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Website_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Website_Grid_Collection>
+            <Mage_Core_Model_Resource_Store_Group_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Group_Collection>
+            <Mage_Core_Model_Resource_Store_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Store_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Collection>
             <Mage_Core_Model_Store_StorageFactory>
                 <parameters>
                     <config>Mage_Core_Model_Config_Proxy</config>
@@ -110,6 +177,27 @@
             <Mage_Core_Model_Page_Asset_Collection>
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
+            <Mage_Core_Model_Observer>
+                <parameters>
+                    <config>Mage_Core_Model_Config</config>
+                </parameters>
+            </Mage_Core_Model_Observer>
+            <Mage_Core_Model_Layout_Merge>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                </parameters>
+            </Mage_Core_Model_Layout_Merge>
+            <Mage_Core_Model_Resource_Layout_Update>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Layout_Update>
+            <Mage_Core_Model_Theme_Service>
+                <parameters>
+                    <configCache>Mage_Core_Model_Cache_Type_Config</configCache>
+                    <layoutCache>Mage_Core_Model_Cache_Type_Layout</layoutCache>
+                </parameters>
+            </Mage_Core_Model_Theme_Service>
         </di>
     </global>
     <frontend>

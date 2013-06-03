@@ -37,6 +37,7 @@
         <Enterprise_Persistent><active>true</active></Enterprise_Persistent>
         <Enterprise_PricePermissions><active>true</active></Enterprise_PricePermissions>
         <Enterprise_PromotionPermissions><active>true</active></Enterprise_PromotionPermissions>
+        <Enterprise_Queue><active>false</active></Enterprise_Queue>
         <Enterprise_Reminder><active>true</active></Enterprise_Reminder>
         <Enterprise_Reward><active>true</active></Enterprise_Reward>
         <Enterprise_Rma><active>true</active></Enterprise_Rma>

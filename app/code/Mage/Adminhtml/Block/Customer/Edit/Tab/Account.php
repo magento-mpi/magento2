@@ -376,7 +376,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
      */
     protected function _setCustomerWebsiteId(Mage_Customer_Model_Customer $customer)
     {
-        if (Mage::app()->hasSingleStore()) {
+        if (Mage::app()->isSingleStoreMode()) {
             $customer->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
         }
     }

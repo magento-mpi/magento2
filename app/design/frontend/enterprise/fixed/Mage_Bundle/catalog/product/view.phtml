@@ -20,7 +20,7 @@
 $_helper = $this->helper('Mage_Catalog_Helper_Output');
 $_product = $this->getProduct();
 ?>
-<div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
+<div id="messages_product_view"><?php echo $this->getLayout()->renderElement('messages') ?></div>
 <div id="bundle-product-wrapper">
     <div id="bundleProduct">
         <div id="productView" class="product-view">

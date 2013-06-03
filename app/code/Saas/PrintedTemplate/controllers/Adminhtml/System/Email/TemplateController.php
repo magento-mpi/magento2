@@ -28,7 +28,7 @@ class Saas_PrintedTemplate_Adminhtml_System_Email_TemplateController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
+        return $this->_authorization
             ->isAllowed('Saas_PrintedTemplate::printed_template');
     }
 }
