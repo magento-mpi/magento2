@@ -856,7 +856,7 @@
             text-decoration: none;
             > span {
                 font-family: Arial, Helvetica, sans-serif;
-                text-transform: none;
+                text-transform: lowercase;
             }
         }
     }
@@ -878,4 +878,217 @@
 
 .wishlist-index-index .actions .primary {
     text-align: right;
+}
+
+// *
+// *    Mage_Customer - My orders
+// *
+// ----------------------------------------------------------------------------- */
+.order.details {
+    &.view {
+        .clearfix();
+    }
+    &.additional {
+        margin-top: 50px;
+    }
+    .status {
+        float: left;
+        .customFont(18px);
+    }
+    .subtitle.caption,
+    .title {
+        margin-bottom: 20px;
+        strong {
+            .customFont(15px);
+        }
+        .action {
+            margin-left: 10px;
+        }
+    }
+    .order.toolbar {
+        float: right;
+        margin: 4px 0 0;
+        line-height: 1.43;
+        .actions {
+            margin: 0;
+        }
+        .action {
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    }
+    .block.order {
+        float: left;
+        width: 48%;
+        margin-top: 50px;
+        padding-right: 2%;
+        &.billing.address {
+            clear: left;
+        }
+        .content address {
+            font-style: normal;
+        }
+    }
+    .order.info {
+        clear: both;
+        padding: 20px 0;
+        margin: 0;
+        > dt {
+            .customFont(15px);
+        }
+        > dd {
+            margin: 10px 0 0;
+            .items {
+                .clearfix();
+                .item {
+                    float: left;
+                    margin-right: 15px;
+                    a {
+                        .secondaryAction();
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+    .additional.details {
+        .order.comments {
+            margin: 0 0 20px;
+            dt {
+                font-weight: bold;
+                margin: 10px 0 5px;
+            }
+            dd {
+                margin-left: 30px;
+            }
+        }
+        .gift.message {
+            dt {
+                margin: 0 0 5px;
+            }
+            dd {
+                margin: 0 0 20px 30px;
+            }
+        }
+    }
+    &.items {
+        clear: both;
+        margin: 50px 0;
+        .action.show {
+            text-decoration: none;
+            .iconAfter("\e00f", 12px, 'icons');
+            &.expanded:after {
+                content: "\e010";
+            }
+        }
+        .order.data.items {
+            td.col.qty {
+                white-space: nowrap;
+            }
+            .col.discount,
+            .col.rowtotal {
+                text-align: right;
+            }
+            .col.name {
+                width: 190px;
+            }
+            tbody tr:nth-child(odd) td {
+                background: @commonBg;
+            }
+            tbody:nth-child(odd) tr td {
+                background: @primary7;
+            }
+            .option.value {
+                padding-left: 10px;
+            }
+        }
+    }
+}
+
+.gift.message.details {
+    position: relative;
+    .action.close {
+        .iconAfter("\e001", 12px, 'icons');
+        .hideText(12px);
+        position: absolute;
+        top: 0;
+        right: 0;
+        &:hover:after {
+            color: @primary4;
+        }
+    }
+}
+
+.data.table.tracking {
+    margin: 0 0 20px;
+    .label {
+        padding: 0 10px 0 0;
+    }
+}
+
+.shipping-tracking-popup {
+    .action.close {
+        .secondaryAction();
+        text-indent: 0;
+        span {
+            width: auto;
+            text-indent: 0;
+            &:after {
+                content: "";
+                display: none;
+            }
+        }
+    }
+}
+
+// Tooltip popup
+.truncated {
+    position: relative;
+    .truncated_full_value {
+        display: none;
+        background: @optionsBg;
+        margin-top: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        max-width: 400px;
+        min-width: 100px;
+        color: @optionsColor;
+        &.show {
+            display: block;
+            &:before {
+                content: '';
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid @optionsBg;
+                height: 0;
+                width: 0;
+                overflow: hidden;
+                display: block;
+                position: absolute;
+                top: -10px;
+                margin-left: -5px;
+                left: 50%;
+                zoom: 1;
+                z-index: 2;
+            }
+        }
+    }
+}
+
+// Track order popup
+
+.page.tracking {
+    padding: 20px;
+    .actions {
+        .action.close {
+            .primaryAction();
+        }
+    }
+    .subtitle.caption {
+        margin-bottom: 20px;
+        .customFont(15px);
+    }
 }

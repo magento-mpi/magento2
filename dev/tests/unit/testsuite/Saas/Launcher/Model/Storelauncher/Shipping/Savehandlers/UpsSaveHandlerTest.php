@@ -47,6 +47,8 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandlerTest
         $preparedData0['carriers']['ups']['fields']['username']['value'] = 'ups username';
         $preparedData0['carriers']['ups']['fields']['type']['value'] = 'UPS_XML';
         $preparedData0['carriers']['ups']['fields']['active']['value'] = 1;
+        $preparedData0['carriers']['ups']['fields']['is_account_live']['value'] = 1;
+        $preparedData0['carriers']['ups']['fields']['mode_xml']['value'] = 1;
 
         return array(
             array($data0, $preparedData0, array('carriers')),

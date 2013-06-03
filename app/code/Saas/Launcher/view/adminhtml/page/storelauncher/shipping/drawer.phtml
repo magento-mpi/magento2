@@ -281,22 +281,22 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
     <div class="disabled-mask"></div>
 </div>
 <script type="text/javascript">
-    (function ($) {
-        'use strict';
+jQuery(function ($) {
+    'use strict';
 
-        var toggleSection = '.drawer-header-inner .drawer-switcher',
-            toggleCheckbox = toggleSection + ' :checkbox',
-            drawerHeader = $('.drawer-header');
+    var toggleSection = '.drawer-header-inner .drawer-switcher',
+        toggleCheckbox = toggleSection + ' :checkbox',
+        drawerHeader = $('.drawer-header');
 
-        $('.action-save-method').partiallyValidateDrawer({'currentSection': '.shipping-tabs-nav'});
+    $('.action-save-method').partiallyValidateDrawer({'currentSection': '.shipping-tabs-nav'});
 
-        drawerHeader.unbind('change');
-        drawerHeader.on('change', toggleCheckbox, function() {
-            $(toggleSection).toggleStatus('option', {
-                'disabledMessage': '.shipping-disabled',
-                'formsToDisable': ['.shipping-config-form', '.shipping-origin-address-wrapper']
-            });
-            $(toggleSection).toggleStatus();
+    drawerHeader.unbind('change');
+    drawerHeader.on('change', toggleCheckbox, function() {
+        $(toggleSection).toggleStatus('option', {
+            'disabledMessage': '.shipping-disabled',
+            'formsToDisable': ['.shipping-config-form', '.shipping-origin-address-wrapper']
         });
-    })(window.jQuery);
+        $(toggleSection).toggleStatus();
+    });
+});
 </script>

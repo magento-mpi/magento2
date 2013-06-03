@@ -71,6 +71,8 @@
             <action method="setTemplate"><file>Mage_DesignEditor::editor.phtml</file></action>
         </reference>
         <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
             <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
@@ -79,24 +81,22 @@
             <action method="addJs"><file>Mage_Theme::js/custom-js-list.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/vde-frame.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-save.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/image-sizing.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-element.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-uploader.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-init.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/message.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/tools-files.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
                 <block type="Mage_Backend_Block_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
-                    <!-- MAGETWO-7406 - It was asked to hide Page Type navigation menu -->
-                    <!-- block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy" name="design_editor_toolbar_handles_hierarchy" template="Mage_DesignEditor::editor/toolbar/handles_hierarchy.phtml" /-->
-                    <!-- MAGETWO-7406 - It was asked to hide View Options > Highlight Elements -->
-                    <!--block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions" name="design_editor_toolbar_view_options" template="Mage_DesignEditor::editor/toolbar/view_options.phtml" /-->
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml">
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save" />
                     </block>
@@ -132,6 +132,24 @@
             </block>
         </reference>
     </adminhtml_system_design_editor_launch>
+
+    <adminhtml_system_design_editor_files_index>
+        <remove name="footer" />
+        <remove name="head" />
+        <reference name="left">
+            <block name="editor_files.js" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content" template="Mage_DesignEditor::editor/tools/files/js.phtml" />
+            <block name="editor_files.tree" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree" template="Mage_DesignEditor::editor/tools/files/tree.phtml" />
+        </reference>
+        <reference name="content">
+            <block name="editor_files.content" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content" template="Mage_DesignEditor::editor/tools/files/content.phtml">
+                <block name="editor_files.uploader" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Uploader" template="Mage_DesignEditor::editor/tools/files/content/uploader.phtml" />
+            </block>
+        </reference>
+    </adminhtml_system_design_editor_files_index>
+
+    <adminhtml_system_design_editor_files_contents>
+        <block name="editor_files.files" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files" template="Mage_DesignEditor::editor/tools/files/content/files.phtml" output="1" />
+    </adminhtml_system_design_editor_files_contents>
 
     <adminhtml_system_design_editor_preview>
         <update handle="adminhtml_system_design_editor_launch"/>

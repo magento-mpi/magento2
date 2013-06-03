@@ -16,7 +16,7 @@
     width: 100%;
     .borderBox;
     padding: 8px;
-    background: #f00;
+    background: #4d5d64;
     color: #fff;
     top: 0;
     left: 0;
@@ -64,8 +64,12 @@
         content: "\e01c";
         color: @msgOk;
     }
-    a {
+    a,
+    a:visited {
         color: @msgOk;
+    }
+    a:hover {
+        color: darken(@msgOk, 15%);
     }
 }
 
@@ -76,8 +80,12 @@
         content: "\e000";
         color: @msgNote;
     }
-    a {
-        color: @msgNote;
+    a,
+    a:visited {
+        color: @msgNoteText;
+    }
+    a:hover {
+        color: darken(@msgNoteText, 15%);
     }
 }
 
@@ -88,8 +96,12 @@
         content: "\e014";
         color: @msgErr;
     }
-    a {
+    a,
+    a:visited {
         color: @msgErr;
+    }
+    a:hover {
+        color: darken(@msgErr, 15%);
     }
 }
 

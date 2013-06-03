@@ -2725,16 +2725,15 @@ CREATE TABLE IF NOT EXISTS `core_layout_update` (
   `xml` text COMMENT 'Xml',
   `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Last Update Timestamp',
-  `is_vde` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Defines whether layout update created via design editor',
   PRIMARY KEY (`layout_update_id`),
   KEY `IDX_CORE_LAYOUT_UPDATE_HANDLE` (`handle`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Updates';
 
 # Dumping data for table core_layout_update: ~2 rows (approximately)
 
-INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`, `is_vde`) VALUES
-	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="f67da881fe40f85289ada1c629b5b4a5" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>615bc143c65af1cc21ae2391432830a6</value></action></block></reference>', 0, NULL, 0),
-	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="a6a20f3c508bf4efa0b27a2a3fe9be24" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>942e542da1a4d789db9b4b02a536ffde</value></action></block></reference>', 1, NULL, 0);
+INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`) VALUES
+	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="f67da881fe40f85289ada1c629b5b4a5" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>615bc143c65af1cc21ae2391432830a6</value></action></block></reference>', 0, NULL),
+	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="a6a20f3c508bf4efa0b27a2a3fe9be24" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>942e542da1a4d789db9b4b02a536ffde</value></action></block></reference>', 1, NULL);
 
 
 
@@ -2764,7 +2763,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('core_setup', '1.6.0.12', '1.6.0.12'),
 	('cron_setup', '1.6.0.0', '1.6.0.0'),
 	('customer_setup', '1.6.2.0.3', '1.6.2.0.3'),
-	('designeditor_setup', '1.0.0.1', '1.0.0.1'),
+	('designeditor_setup', '1.0.0.3', '1.0.0.3'),
 	('directory_setup', '1.6.0.1', '1.6.0.1'),
 	('downloadable_setup', '1.6.0.0.3', '1.6.0.0.3'),
 	('eav_setup', '1.6.0.2', '1.6.0.2'),
@@ -2902,32 +2901,24 @@ CREATE TABLE IF NOT EXISTS `core_theme` (
 # Dumping data for table core_theme: ~16 rows (approximately)
 
 INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`, `theme_title`, `preview_image`, `magento_version_from`, `magento_version_to`, `is_featured`, `area`, `type`) VALUES
-	(1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(5, NULL, 'default/demo', '2.0.0.0', 'Magento Demo', 'preview_magento_demo.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(6, 5, 'default/blank', '2.0.0.0', 'Magento Blank', 'preview_magento_blank.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(7, 5, 'default/demo_blue', '2.0.0.0', 'Magento Demo Blue', 'preview_magento_demo_blue.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(8, 5, 'default/iphone', '2.0.0.0', 'Magento Iphone', 'preview_magento_iphone.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(9, 5, 'default/modern', '2.0.0.0', 'Magento Modern', 'preview_magento_modern.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(10, NULL, 'enterprise/fixed', '2.0.0.0', 'Magento Fixed Design', 'preview_magento_fixed_design.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(11, 10, 'enterprise/iphone_html5', '2.0.0.0', 'Magento Iphone (HTML5)', 'preview_magento_iphone_html5.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(12, NULL, 'magento2/reference', '1.0.0.0', 'Plushe', 'preview_plushe.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(13, NULL, 'pro/fluid', '2.0.0.0', 'Magento Fluid Design', 'preview_magento_fluid_design.jpeg', '2.0.0.0', '*', 1, 'frontend', 0),
-	(14, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(15, 14, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(16, 14, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(23, 12, 'magento2/modern2', '1.0.0.0', 'Modern 2', 'preview_modern2.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(24, 12, 'magento2/piece-of-cake', '1.0.0.0', 'Piece of Cake', 'preview_piece_of_cake.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(26, 12, 'magento2/upstream', '1.0.0.0', 'Upstream', 'preview_upstream.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(27, 24, 'magento2/electron', '1.0.0.0', 'Electron', 'preview_electron.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(28, 12, 'magento2/hobby', '1.0.0.0', 'Hobby', 'preview_hobby.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(29, 12, 'magento2/plushe-dark', '1.0.0.0', 'Plushe Dark', 'preview_plushe_dark.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(30, 12, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(31, 28, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(32, 23, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(33, 26, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
+  (1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (5, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+  (6, 5, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+  (7, 5, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+  (8, NULL, 'magento2/reference', '1.0.0.0', 'Plushe', 'preview_plushe.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (9, 8, 'magento2/modern2', '1.0.0.0', 'Modern 2', 'preview_modern2.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (10, 8, 'magento2/piece-of-cake', '1.0.0.0', 'Piece of Cake', 'preview_piece_of_cake.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (11, 8, 'magento2/upstream', '1.0.0.0', 'Upstream', 'preview_upstream.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (12, 10, 'magento2/electron', '1.0.0.0', 'Electron', 'preview_electron.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (13, 8, 'magento2/hobby', '1.0.0.0', 'Hobby', 'preview_hobby.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (14, 8, 'magento2/plushe-dark', '1.0.0.0', 'Plushe Dark', 'preview_plushe_dark.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (15, 8, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (16, 13, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (17, 9, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (18, 11, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
 
 
 
@@ -10401,6 +10392,21 @@ CREATE TABLE IF NOT EXISTS `tax_order_aggregated_updated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregated Updated';
 
 # Dumping data for table tax_order_aggregated_updated: ~0 rows (approximately)
+
+
+
+
+# Dumping structure for table vde_theme_change
+CREATE TABLE IF NOT EXISTS `vde_theme_change` (
+  `change_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Theme Change Identifier',
+  `theme_id` INT(10) UNSIGNED NOT NULL COMMENT 'Theme Id',
+  `change_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Change Time',
+  PRIMARY KEY (`change_id`),
+  INDEX `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
+  CONSTRAINT `FK_VDE_THEME_CHANGE_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Editor Theme Change';
+
+# Dumping data for table vde_theme_change: ~0 rows (approximately)
 
 
 

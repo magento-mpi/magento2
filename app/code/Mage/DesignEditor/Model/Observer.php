@@ -36,36 +36,6 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
-     * Clear temporary layout updates and layout links
-     */
-    public function clearLayoutUpdates()
-    {
-        $daysToExpire = $this->_helper->getDaysToExpire();
-
-        // remove expired links
-        /** @var $linkCollection Mage_Core_Model_Resource_Layout_Link_Collection */
-        $linkCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Link_Collection');
-        $linkCollection->addTemporaryFilter(true)
-            ->addUpdatedDaysBeforeFilter($daysToExpire);
-
-        /** @var $layoutLink Mage_Core_Model_Layout_Link */
-        foreach ($linkCollection as $layoutLink) {
-            $layoutLink->delete();
-        }
-
-        // remove expired updates without links
-        /** @var $layoutCollection Mage_Core_Model_Resource_Layout_Update_Collection */
-        $layoutCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Update_Collection');
-        $layoutCollection->addNoLinksFilter()
-            ->addUpdatedDaysBeforeFilter($daysToExpire);
-
-        /** @var $layoutUpdate Mage_Core_Model_Layout_Update */
-        foreach ($layoutCollection as $layoutUpdate) {
-            $layoutUpdate->delete();
-        }
-    }
-
-    /**
      * Remove non-VDE JavaScript assets in design mode
      * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
      *

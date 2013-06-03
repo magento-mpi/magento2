@@ -13,12 +13,12 @@
  * Test class for Mage_Catalog_Block_Product_List_Related.
  *
  * @magentoDataFixture Mage/Catalog/_files/products_related.php
- * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
  */
 class Mage_Catalog_Block_Product_List_RelatedTest extends PHPUnit_Framework_TestCase
 {
     public function testAll()
     {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(2);
         Mage::register('product', $product);

@@ -112,6 +112,13 @@
                 </observers>
             </controller_action_postdispatch_checkout_onepage_saveOrder>
         </events>
+        <di>
+            <Mage_Paypal_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Paypal_Model_Session>
+        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -130,6 +137,13 @@
                 </paypal>
             </updates>
         </layout>
+        <di>
+            <Mage_Paypal_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Paypal_Model_Session>
+        </di>
     </adminhtml>
     <default>
         <paypal>

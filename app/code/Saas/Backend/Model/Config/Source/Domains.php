@@ -14,7 +14,7 @@ class Saas_Backend_Model_Config_Source_Domains
      *
      * @var Saas_Backend_Model_Config_Backend_Domains
      */
-    protected  $_backendModel;
+    protected $_backendModel;
 
     /**
      * Create instance of current class with appropriate parameters
@@ -33,6 +33,6 @@ class Saas_Backend_Model_Config_Source_Domains
      */
     public function toOptionArray()
     {
-       return $this->_backendModel->getAvailableDomains();
+        return $this->_backendModel->getAvailableDomains();
     }
 }

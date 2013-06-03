@@ -14,7 +14,7 @@ class Saas_Search_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_Resou
      *
      * @var Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
-    protected $_productAttributeCollection;
+    protected $_productAttributes;
 
     /**
      * Init search engine
@@ -22,11 +22,11 @@ class Saas_Search_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_Resou
     public function __construct(
         Mage_Core_Model_Resource $resource,
         Mage_CatalogSearch_Model_Resource_Fulltext_Engine $engine,
-        Mage_Catalog_Model_Resource_Product_Attribute_Collection $productAttributeCollection
+        Mage_Catalog_Model_Resource_Product_Attribute_Collection $productAttributes
     ) {
         parent::__construct($resource);
         $this->_engine = $engine;
-        $this->_productAttributeCollection = $productAttributeCollection;
+        $this->_productAttributes = $productAttributes;
     }
 
     /**
@@ -41,11 +41,11 @@ class Saas_Search_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_Resou
             $this->_searchableAttributes = array();
 
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
-                $this->_productAttributeCollection->addToIndexFilter(true);
+                $this->_productAttributes->addToIndexFilter(true);
             } else {
-                $this->_productAttributeCollection->addSearchableAttributeFilter();
+                $this->_productAttributes->addSearchableAttributeFilter();
             }
-            $attributes = $this->_productAttributeCollection->getItems();
+            $attributes = $this->_productAttributes->getItems();
             $entity = $this->getEavConfig()
                 ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
                 ->getEntity();

@@ -61,20 +61,20 @@
 <?php echo $this->getChildHtml('tax-rate-form'); ?>
 
 <script type="text/javascript">
-    (function ($) {
-        'use strict';
+jQuery(function ($) {
+    'use strict';
 
-        var toggleSection = '.drawer-header-inner .drawer-switcher',
-            toggleCheckbox = toggleSection + ' :checkbox',
-            drawerHeader = $('.drawer-header');
+    var toggleSection = '.drawer-header-inner .drawer-switcher',
+        toggleCheckbox = toggleSection + ' :checkbox',
+        drawerHeader = $('.drawer-header');
 
-        drawerHeader.unbind('change');
-        drawerHeader.on('change', toggleCheckbox, function() {
-            $(toggleSection).toggleStatus('option', {
-                'disabledMessage': '.no-tax-info',
-                'formsToDisable': ['.tax-rule-config']
-            });
-            $(toggleSection).toggleStatus();
+    drawerHeader.unbind('change');
+    drawerHeader.on('change', toggleCheckbox, function() {
+        $(toggleSection).toggleStatus('option', {
+            'disabledMessage': '.no-tax-info',
+            'formsToDisable': ['.tax-rule-config']
         });
-    })(window.jQuery);
+        $(toggleSection).toggleStatus();
+    });
+});
 </script>

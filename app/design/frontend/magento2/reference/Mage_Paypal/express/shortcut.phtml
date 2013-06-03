@@ -22,7 +22,7 @@ $labelPosition = ' after';
 }
 ?>
 
-<div data-label="or" class="paypal checkout <?php echo $labelPosition ?>">
+<div data-label="or" class="paypal checkout <?php echo $labelPosition ?> paypal-logo">
     <?php $shortcutHtmlId = $this->getShortcutHtmlId() ?>
     <input type="image" data-action="checkout-form-submit" data-checkout-url="<?php echo $this->getCheckoutUrl()?>"
            src="<?php echo $this->getImageUrl()?>"

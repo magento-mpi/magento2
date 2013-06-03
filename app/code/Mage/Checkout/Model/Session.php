@@ -35,11 +35,13 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_loadInactive = false;
 
     /**
-     * Class constructor. Initialize checkout session namespace
+     * Initialize checkout session namespace
+     *
+     * @param string $sessionName
      */
-    public function __construct()
+    public function __construct($sessionName = null)
     {
-        $this->init('checkout');
+        $this->init('checkout', $sessionName);
     }
 
     /**

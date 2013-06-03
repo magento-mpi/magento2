@@ -158,7 +158,9 @@ class Mage_Theme_Model_Wysiwyg_Storage
     public function createFolder($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            throw new Mage_Core_Exception($this->_helper->__('Invalid folder name.'));
+            throw new Mage_Core_Exception(
+                $this->_helper->__('Use only standard alphanumeric, dashes and underscores.')
+            );
         }
         if (!$this->_filesystem->isWritable($path)) {
             $path = $this->_helper->getStorageRoot();
@@ -253,6 +255,12 @@ class Mage_Theme_Model_Wysiwyg_Storage
             if (self::TYPE_IMAGE == $storageType) {
                 $requestParams['file'] = $fileName;
                 $file['thumbnailParams'] = $requestParams;
+
+                $size = @getimagesize($path);
+                if (is_array($size)) {
+                    $file['width'] = $size[0];
+                    $file['height'] = $size[1];
+                }
             }
             $files[] = $file;
         }

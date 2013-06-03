@@ -10,7 +10,6 @@
 /*global FORM_KEY*/
 (function($) {
     'use strict';
-
     var clearParentCategory = function () {
         $('#new_category_parent').find('option').each(function(){
             $('#new_category_parent-suggest').treeSuggest('removeOption', null, this);
@@ -24,12 +23,14 @@
                 id: 'new_category_parent-suggest',
                 placeholder: $.mage.__('start typing to search category')
             }));
+
             $('#new_category_parent-suggest').mage('treeSuggest', this.options.suggestOptions)
                 .on('suggestbeforeselect', function (event) {
                     clearParentCategory();
                     $(event.target).treeSuggest('close');
                     $('#new_category_name').focus();
                 });
+
 
             $.validator.addMethod('validate-parent-category', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
@@ -57,6 +58,8 @@
                 multiselect: true,
                 resizable: false,
                 open: function() {
+                    // fix for suggest field - overlapping dialog z-index
+                    $('#new_category_parent-suggest').css('z-index', $.ui.dialog.maxZ + 1);
                     var enteredName = $('#category_ids-suggest').val();
                     $('#new_category_name').val(enteredName);
                     if (enteredName === '') {
