@@ -48,6 +48,7 @@ Supported layout update handles (special):
                 <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
                 <action method="addJs"><file>jquery/jquery.validate.js</file></action>
                 <action method="addJs"><file>jquery/jquery.hoverIntent.js</file></action>
+                <action method="addJs"><file>jquery/jquery.animate-enhanced.js</file></action>
                 <action method="addJs"><file>mage/translate.js</file></action>
                 <action method="addJs"><file>mage/backend/bootstrap.js</file></action>
                 <action method="addJs"><file>mage/backend/floating-header.js</file></action>

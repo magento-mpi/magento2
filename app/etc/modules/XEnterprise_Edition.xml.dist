@@ -43,7 +43,7 @@
         <Enterprise_Rma><active>true</active></Enterprise_Rma>
         <Enterprise_SalesArchive><active>true</active></Enterprise_SalesArchive>
         <Enterprise_Search><active>true</active></Enterprise_Search>
-        <Enterprise_Tag><active>true</active></Enterprise_Tag>
+        <Enterprise_Tag><active>false</active></Enterprise_Tag>
         <Enterprise_TargetRule><active>true</active></Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction><active>true</active></Enterprise_WebsiteRestriction>
         <Enterprise_Wishlist><active>true</active></Enterprise_Wishlist>

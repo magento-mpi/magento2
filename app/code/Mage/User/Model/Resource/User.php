@@ -468,6 +468,8 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
      */
     public static function getMessageUserCreationProhibited()
     {
-        return Mage::helper('Mage_User_Helper_Data')->__('You are using the maximum number of admin accounts allowed.');
+        // @codingStandardsIgnoreStart
+        return Mage::helper('Mage_User_Helper_Data')->__('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.');
+        // @codingStandardsIgnoreEnd
     }
 }

@@ -70,6 +70,8 @@ class Mage_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @SuppressWarnings("complexity")
+     *
      * @param array $actionFlags
      * @param string $orderState
      * @param bool $canReviewPayment
