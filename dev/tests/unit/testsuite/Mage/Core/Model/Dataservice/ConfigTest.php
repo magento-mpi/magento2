@@ -19,11 +19,6 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $updatesRootPath = Mage_Core_Model_Dataservice_Config::CONFIG_AREA
-            . '/' . Mage_Core_Model_Dataservice_Config::CONFIG_NODE;
-        $sourcesRoot = new Mage_Core_Model_Config_Element(
-            '<config><first><file>' . self::NAMEPART . '/config.xml</file></first></config>'
-        );
         $this->_reader = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
             ->disableOriginalConstructor()
             ->getMock();
