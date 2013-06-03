@@ -39,6 +39,7 @@ return array(
     array('DEFAULT_CURRENCY', 'Mage_Core_Model_Locale', 'Mage_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
     array('DEFAULT_ERROR_HANDLER', 'Mage_Core_Model_App', 'Mage::DEFAULT_ERROR_HANDLER'),
     array('DEFAULT_LOCALE', 'Mage_Core_Model_Locale', 'Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
+    array('DEFAULT_THEME_NAME', 'Mage_Core_Model_Design_PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Mage_Core_Model_Design_Package'),
     array('DEFAULT_TIMEZONE', 'Mage_Core_Model_Locale', 'Mage::DEFAULT_TIMEZONE'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
@@ -67,6 +68,16 @@ return array(
     array('PATH_PREFIX_CUSTOMIZATION', 'Mage_Core_Model_Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Mage_Core_Model_Theme_Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Mage_Core_Model_Design_PackageInterface'),
+    array('PUBLIC_CACHE_TAG', 'Mage_Core_Model_Design_PackageInterface'),
+    array('PUBLIC_MODULE_DIR', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::PUBLIC_MODULE_DIR'
+    ),
+    array('PUBLIC_THEME_DIR', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::PUBLIC_THEME_DIR'
+    ),
+    array('PUBLIC_VIEW_DIR', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::PUBLIC_VIEW_DIR'
+    ),
     array('REGISTRY_FORM_PARAMS_KEY', null, 'direct value'),
     array('SCOPE_TYPE_GROUP', 'Mage_Core_Model_App', 'Mage_Core_Model_StoreManagerInterface::SCOPE_TYPE_GROUP'),
     array('SCOPE_TYPE_STORE', 'Mage_Core_Model_App', 'Mage_Core_Model_StoreManagerInterface::SCOPE_TYPE_STORE'),
@@ -88,7 +99,9 @@ return array(
         'Mage_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
     ),
     array('XML_PATH_ALLOW_CURRENCIES_INSTALLED', 'Mage_Core_Model_Locale',
-        'Mage_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES_INSTALLED'
+        'Mage_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES_INSTALLED'),
+    array('XML_PATH_ALLOW_DUPLICATION', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
     array('XML_PATH_CACHE_BETA_TYPES'),
@@ -108,6 +121,15 @@ return array(
     array('XML_PATH_SENDING_SET_RETURN_PATH', 'Mage_Newsletter_Model_Subscriber'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Mage_Core_Model_App',
         'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
+    ),
+    array('XML_PATH_STATIC_FILE_SIGNATURE', 'Mage_Core_Helper_Data',
+        'Mage_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
+    ),
+    array('XML_PATH_THEME', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::XML_PATH_THEME'
+    ),
+    array('XML_PATH_THEME_ID', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::XML_PATH_THEME_ID'
     ),
 );
 

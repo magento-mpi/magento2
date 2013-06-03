@@ -26,16 +26,17 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $modulesReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', array());
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', array());
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+        $modulesReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_strategyPool = $this->getMock('Mage_Core_Model_Design_FileResolution_StrategyPool', array(),
             array(), '', false);
         $appState = new Mage_Core_Model_App_State();
         $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
-        $configWriter = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface');
+        $cssHelper = $this->getMock('Mage_Core_Helper_Css', array(), array(), '', false);
 
         $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
-            array($modulesReader, $filesystem, $this->_strategyPool, $appState, $storeManager, $configWriter)
+            array($dirs, $modulesReader, $filesystem, $this->_strategyPool, $appState, $storeManager, $cssHelper)
         );
     }
 

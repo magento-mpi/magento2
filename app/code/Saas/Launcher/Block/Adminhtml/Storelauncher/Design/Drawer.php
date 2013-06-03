@@ -75,7 +75,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
      */
     public function getCurrentThemeId()
     {
-        return $this->getConfigValue(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID,
+        return $this->getConfigValue(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID,
             $this->_getCurrentStoreId());
     }
 
