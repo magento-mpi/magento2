@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_CmsPages
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Helper class
  *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
 {
