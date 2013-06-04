@@ -1,6 +1,6 @@
 <?php
 /**
- * Dataservice factory instantiates the service, calls the methods and retrieves the data from the call.
+ * Dataservice invoker invokes the service, calls the methods and retrieves the data from the call.
  *
  * {license_notice}
  *
@@ -45,7 +45,7 @@ class Mage_Core_Model_Dataservice_Invoker
     }
 
     /**
-     * Init single service call
+     * Call service method and retrieve the data from the call
      *
      * @param $sourceName
      * @return bool|mixed
@@ -54,11 +54,11 @@ class Mage_Core_Model_Dataservice_Invoker
     {
         $classInformation = $this->_config->getClassByAlias($sourceName);
         $instance = $this->_objectManager->get($classInformation['class']);
-        $dataservice = $this->_applyMethod(
+        $serviceData = $this->_applyMethod(
             $instance, $classInformation['retrieveMethod'],
             $classInformation['methodArguments']
         );
-        return $dataservice;
+        return $serviceData;
     }
 
     /**
