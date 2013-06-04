@@ -73,42 +73,4 @@ class Mage_Core_Service_Helper_Filters
         }
         return $schemaErrors;
     }
-
-    /**
-     * @param Varien_Data_Collection $collection
-     * @param array $request
-     */
-    public function applyPaginationToCollection(Varien_Data_Collection $collection, array $request)
-    {
-        // TODO
-    }
-
-    /**
-     * @param Varien_Data_Collection $collection
-     * @param array $request
-     */
-    public function applyFiltersToCollection(Varien_Data_Collection $collection, array $request)
-    {
-        // TODO
-    }
-
-    public function applyAndConditionToCollection($collection, $condition)
-    {
-        // TODO
-    }
-
-    public function applyOrConditionToCollection($collection, $condition)
-    {
-        // TODO
-    }
-
-    public function applyAttributeConditionToCollection($collection, $attribute, $condition)
-    {
-        // TODO
-    }
-
-    public function applyFunctionalConditionToCollection($collection, $method, $arguments)
-    {
-        // TODO
-    }
 }
