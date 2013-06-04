@@ -49,10 +49,10 @@
                 return this.data;
             },
             getPostData: function() {
-                throw Error($.mage.__('The method "getTitle" is not implemented.'));
+                throw Error($.mage.__('The method "getPostData" is not implemented.'));
             },
             setActionData: function() {
-                throw Error($.mage.__('The method "getTitle" is not implemented.'));
+                throw Error($.mage.__('The method "setActionData" is not implemented.'));
             }
         };
     }

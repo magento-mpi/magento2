@@ -95,7 +95,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         $hintMessage =  $this->__('Please enter values for height and width.'
             . ' Use the chain icon if you want height and width to match.'
             . ' Be sure to see how it looks in your store.'
-            . ' You may need to update your custom CSS files.');
+            . ' You may need to update your custom CSS file.');
 
         $form->addField('information_hint', 'note', array(
             'after_element_html' => '<p class="note">' . $hintMessage . '</p>'));
