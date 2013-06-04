@@ -540,6 +540,38 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
                     'valid_value'   => 1,
                     'invalid_value' => 1
                 )
+            ),
+            array(
+                array(
+                    'code'          => 'test7',
+                    'type'          => 'datetime',
+                    'valid_value'   => '2012-02-29',
+                    'invalid_value' => '02/29/2012 11:12:67'
+                )
+            ),
+            array(
+                array(
+                    'code'          => 'test7',
+                    'type'          => 'datetime',
+                    'valid_value'   => '29.02.2012',
+                    'invalid_value' => '11.02.4 11:12:59'
+                )
+            ),
+            array(
+                array(
+                    'code'          => 'test7',
+                    'type'          => 'datetime',
+                    'valid_value'   => '02/29/2012',
+                    'invalid_value' => '2012-13-29 21:12:59'
+                )
+            ),
+            array(
+                array(
+                    'code'          => 'test7',
+                    'type'          => 'datetime',
+                    'valid_value'   => '02/29/2012 11:12:59',
+                    'invalid_value' => '32.12.2012'
+                )
             )
         );
     }

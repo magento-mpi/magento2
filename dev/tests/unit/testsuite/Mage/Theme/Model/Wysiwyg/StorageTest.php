@@ -467,7 +467,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $filesystem = $this->_filesystem;
         $filesystem::staticExpects($this->once())
-            ->method('getAbsolutePath')
+            ->method('normalizePath')
             ->with($imagePath)
             ->will($this->returnValue($imagePath));
 

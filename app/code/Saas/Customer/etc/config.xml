@@ -20,6 +20,9 @@
     </modules>
     <adminhtml>
         <di>
+            <preferences>
+                <Enterprise_Customer_Helper_Data>Saas_Customer_Helper_Data</Enterprise_Customer_Helper_Data>
+            </preferences>
             <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
                     <specificationNames>
