@@ -1,13 +1,13 @@
 <?php
 /**
- * Functional limitation on total number of websites in the system
+ * Functional limitation for number of websites
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Website_Limitation
+class Saas_Limitation_Model_Website_Limitation
 {
     /**
      * XML-node that stores limitation of number of websites in the system
@@ -58,7 +58,7 @@ class Mage_Core_Model_Website_Limitation
     public function getCreateRestrictedMessage()
     {
         // @codingStandardsIgnoreStart
-        return Mage::helper('Mage_Core_Helper_Data')->__('Sorry, but you can\'t add any more websites with this account.');
+        return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, but you can\'t add any more websites with this account.');
         // @codingStandardsIgnoreEnd
     }
 }

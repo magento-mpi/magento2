@@ -21,6 +21,14 @@
     </modules>
     <global>
         <events>
+            <website_save_before>
+                <observers>
+                    <saas_limitation>
+                        <class>Saas_Limitation_Model_Website_Observer</class>
+                        <method>restrictEntityCreation</method>
+                    </saas_limitation>
+                </observers>
+            </website_save_before>
             <store_save_before>
                 <observers>
                     <saas_limitation_store>
@@ -35,6 +43,10 @@
         <events>
             <adminhtml_widget_container_html_before>
                 <observers>
+                    <saas_limitation_website>
+                        <class>Saas_Limitation_Model_Website_Observer</class>
+                        <method>removeCreationButton</method>
+                    </saas_limitation_website>
                     <saas_limitation_store>
                         <class>Saas_Limitation_Model_Store_Observer</class>
                         <method>disableCreationButton</method>

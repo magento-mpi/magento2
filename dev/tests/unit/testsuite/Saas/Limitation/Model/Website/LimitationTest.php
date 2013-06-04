@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Website_LimitationTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Limitation_WebsiteTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param int $fixtureTotalCount
@@ -20,10 +20,10 @@ class Mage_Core_Model_Website_LimitationTest extends PHPUnit_Framework_TestCase
 
         $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
         $config->expects($this->once())->method('getNode')
-            ->with(Mage_Core_Model_Website_Limitation::XML_PATH_NUM_WEBSITES)
+            ->with(Saas_Limitation_Model_Website_Limitation::XML_PATH_NUM_WEBSITES)
             ->will($this->returnValue($fixtureLimitation));
 
-        $model = new Mage_Core_Model_Website_Limitation($resource, $config);
+        $model = new Saas_Limitation_Model_Website_Limitation($resource, $config);
         $this->assertEquals($expectedResult, $model->isCreateRestricted());
     }
 

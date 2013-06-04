@@ -24,29 +24,21 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
     protected $_blockGroup = 'Mage_Adminhtml';
 
     /**
-     * @var Mage_Core_Model_Website_Limitation
-     */
-    protected $_websiteLimitation;
-
-    /**
      * @var Mage_Core_Model_Store_Group_Limitation
      */
     protected $_storeGroupLimitation;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_Website_Limitation $websiteLimitation
      * @param Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_Website_Limitation $websiteLimitation,
         Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_websiteLimitation = $websiteLimitation;
         $this->_storeGroupLimitation = $storeGroupLimitation;
     }
 
@@ -62,10 +54,6 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         /* Update default add button to add website button */
         $this->_updateButton('add', 'label', Mage::helper('Mage_Core_Helper_Data')->__('Create Website'));
         $this->_updateButton('add', 'onclick', "setLocation('" . $this->getUrl('*/*/newWebsite') . "')");
-
-        if ($this->_websiteLimitation->isCreateRestricted()) {
-            $this->_removeButton('add');
-        }
 
         /* Add Store Group button */
         if ($this->_storeGroupLimitation->canCreate()) {
