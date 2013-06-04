@@ -45,7 +45,13 @@ XML;
         $moduleReader = Mage::getObjectManager()->create(
             'Mage_Core_Model_Config_Modules_Reader', array('fileReader' => $fileReader, 'modulesConfig' => $config)
         );
-        $this->_config = new Mage_Core_Model_Dataservice_Config($moduleReader);
+
+
+        $dsConfigReader = Mage::getObjectManager()->
+            create('Mage_Core_Model_Dataservice_Config_Reader',
+                array('moduleReader' => $moduleReader,'dir' => $dirs));
+
+        $this->_config = new Mage_Core_Model_Dataservice_Config($dsConfigReader);
     }
 
     public function testGetClassByAlias()

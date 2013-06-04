@@ -15,35 +15,27 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
     /**
      * The global area in the config
      */
-    const CONFIG_AREA = 'global';
+    //const CONFIG_AREA = 'global';
 
-    /**
-     * The location in xml for the service_calls
-     */
-    const CONFIG_NODE = 'service_calls';
 
-    const FILE_NAME = 'service_calls.xml';
 
     const ELEMENT_CLASS = 'Varien_Simplexml_Element';
-
-    /** @var Mage_Core_Model_Config_Modules_Reader  */
-    protected $_moduleReader;
-
 
     /**
      * @var Varien_Simplexml_Element
      */
     protected $_simpleXml;
 
-
+    /** @var Mage_Core_Dataservice_Config_Reader */
+    protected $_configReader;
 
     /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules_Reader $moduleReader
+        Mage_Core_Model_Dataservice_Config_Reader $configReader
     ) {
-        $this->_moduleReader = $moduleReader;
+        $this->_configReader = $configReader;
     }
 
 
@@ -98,41 +90,11 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
     {
 
         /* Layout update files declared in configuration */
-        $callsStr = $this->_getServiceCallConfig();
+        $callsStr = $this->_configReader->getServiceCallConfig();
 
         $this->_simpleXml = simplexml_load_string($callsStr, self::ELEMENT_CLASS);
         return $this->_simpleXml;
     }
 
-    /**
-     * Reads all service calls files into one XML string with <calls> as the root
-     *
-     * @return string
-     */
-    private function _getServiceCallConfig()
-    {
-        $sourceFiles = $this->_getServiceCallsFiles();
 
-        $callsStr = '';
-        foreach ($sourceFiles as $filename) {
-            $fileStr = file_get_contents($filename);
-
-            /** @var $fileXml Mage_Core_Model_Layout_Element */
-            $fileXml = simplexml_load_string($fileStr, self::ELEMENT_CLASS);
-            $callsStr .= $fileXml->innerXml();
-        }
-        return '<calls>' . $callsStr . '</calls>';
-    }
-
-    /**
-     * Returns array of files that contain service calls config
-     *
-     * @return array of files
-     */
-    private function _getServiceCallsFiles()
-    {
-        $files = $this->_moduleReader
-            ->getModuleConfigurationFiles(self::FILE_NAME);
-        return (array)$files;
-    }
 }

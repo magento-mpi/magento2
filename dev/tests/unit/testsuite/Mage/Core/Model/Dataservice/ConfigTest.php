@@ -14,18 +14,18 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_Dataservice_Config */
     protected $_dataserviceConfig;
 
-    /** @var  Mage_Core_Model_Config_Modules_Reader */
+    /** @var  Mage_Core_Model_Dataservice_Config_Reader */
     private $_reader;
 
     public function setup()
     {
-        $this->_reader = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
+        $this->_reader = $this->getMockBuilder('Mage_Core_Model_Dataservice_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
+        $configXml = file_get_contents(__DIR__ . '/_files/service_calls.xml');
         $this->_reader->expects($this->any())
-            ->method('getModuleConfigurationFiles')
-            ->with('service_calls.xml')
-            ->will($this->returnValue(array(__DIR__ . '/_files/service_calls.xml')));
+            ->method('getServiceCallConfig')
+            ->will($this->returnValue($configXml));
 
         $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($this->_reader);
     }
