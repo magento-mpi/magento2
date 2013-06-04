@@ -82,7 +82,7 @@
             var dialog = $(this.options.dialogSelector).data('dialog');
             dialog.set(
                 'Physical theme is read-only',
-                'You are about to make changes to a theme. Are you sure you want to customize this theme?',
+                'When you edit a theme, we save it as a unique version in "My Customizations".',
                 button
             );
             dialog.open();

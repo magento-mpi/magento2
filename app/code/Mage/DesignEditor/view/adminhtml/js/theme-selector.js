@@ -159,7 +159,7 @@
     $( document ).ready(function( ) {
         var body = $('body');
         body.on('delete', function(event, data) {
-            deleteConfirm($.mage.__('Are you sure you want to do this?'), data.url);
+            deleteConfirm($.mage.__('Are you sure you want to delete this theme?'), data.url);
         });
         body.on('loaded', function() {
             body.trigger('contentUpdated');

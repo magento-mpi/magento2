@@ -124,8 +124,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     protected function _addAssignButtonHtml($themeBlock)
     {
         $themeId = $themeBlock->getTheme()->getId();
-        $message = $this->__('You are about to assign this theme to your live store.'
-             . ' Are you sure you want to do that?');
+        $message = $this->__('You chose a new theme for your live store. Click "Ok" to replace your current theme.');
 
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');

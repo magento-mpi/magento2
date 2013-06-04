@@ -194,7 +194,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $themeService->assignThemeToDefaultScope($themeCustomization->getId());
             }
 
-            $message = $coreHelper->__('You assigned the theme.');
+            $message = $coreHelper->__('You assigned a theme to your live store.');
             $response = array(
                 'success' => $message,
                 'themeId' => $themeCustomization->getId()
@@ -322,7 +322,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $editableTheme->getId()
             );
             $this->_themeContext->copyChanges();
-            $message = $this->_helper->__('You saved changes to the "%s" theme.', $editableTheme->getThemeTitle());
+            $message = $this->_helper->__('You saved updates to this theme.');
             $response = array('message' =>  $message);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
