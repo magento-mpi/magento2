@@ -45,8 +45,6 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
     {
         //Data
         $attributeData = $this->loadDataSet('SystemAttributes', $attributeCode);
-        $productData = $this->loadDataSet('Product', $productType . '_product_required');
-        unset($productData[$uimapName]);
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code' => $attributeData['attribute_code']));
         if ($attributeCode == 'status') {
@@ -56,27 +54,22 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifySystemAttribute($attributeData);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $isSelected = $this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue');
-        $this->assertTrue($isSelected,
-            'Option with value "' . $attributeData['default_value'] . '" is not set as default for attribute');
+        if (isset($attributeData['set_default_value'])) {
+            $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+            //Verifying
+            $this->assertMessagePresent('success', 'success_saved_attribute');
+            $this->addParameter('optionName', $attributeData['set_default_value']);
+            $this->assertTrue($this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue'),
+                'Option with value "' . $attributeData['default_value'] . '" is not set as default for attribute');
+        }
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, $productType);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->selectTypeProduct($productType);
         //Verifying
-        if ($attributeCode == 'custom_design') {
-            $this->productHelper()->openProductTab('design');
-            $this->assertEquals($attributeData['default_control_value'],
-                $this->getControlAttribute('dropdown', $uimapName, 'selectedLabel'),
-                'Incorrect default value for custom design attribute.');
-        } else {
-            $productData[$uimapName] = $attributeData['default_value'];
-        }
-        $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
+        $verifyData[$uimapName] = (isset($attributeData['set_default_value']))
+            ? $attributeData['set_default_value']
+            : $attributeData['default_value'];
+        $this->productHelper()->verifyProductInfo($verifyData);
     }
 
     /**

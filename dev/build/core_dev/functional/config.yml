@@ -55,7 +55,7 @@ framework:
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: false
-    browserTimeoutPeriod: 40
+    browserTimeoutPeriod: 60
 ################################################################################
 #                                                                              #
 #                  Applications for running tests                              #
@@ -67,10 +67,10 @@ applications:
         fallbackOrderHelper: 'Core'
         design_theme: Default/Magento Demo
         ftp: &ftp
-            url: 'localhost'
-            base_dir: ''
-            login: 'admin'
-            password: '123123q'
+            url: '{{selenium_host}}'
+            base_dir: '/'
+            login: 'autotests'
+            password: 'autotests'
         areas:
             admin:
                 url: '{{admin_url}}'
@@ -78,6 +78,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'dashboard'
             frontend:
                 url: '{{url}}'
                 base_page_uimap: 'home_page'
@@ -92,8 +93,8 @@ applications:
                 url: 'https://developer.paypal.com/'
                 base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
-                login: 'ssergunin@ebay.com'
-                password: 'magentoTAF1'
+                login: 'maposov@magento.com'
+                password: 'testPayPal!'
     ee: &ee
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
@@ -106,6 +107,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'dashboard'
             frontend:
                 url: '{{enterprise_url}}'
                 base_page_uimap: 'home_page'
@@ -115,22 +117,8 @@ applications:
     saas: &saas
         fallbackOrderFixture: 'saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
-        application:
-            adminLogin: admin
-            adminPassword: 123123q
-            storeName: Store 1
-            failures:
-                tries: 2
-                sleep: 30
-            basePath: ''
-            # overrideRoot (for our server usage only) is a code root as it's seen by browser machine
-            overrideRoot: 'D:'
-            # overrideDS (for our server usage only) is browser-side directory separator.
-            overrideDS: \
-            # download dir as it's seen by browser. We can use it in download-edit-upload sessions
-            browserDownloadDir: 'var\testdownload'
-            # download dir as it's seen by PHP code
-            downloadDir: 'var\testdownload'
+        design_theme: Enterprise/Plushe
+        ftp: *ftp
         areas:
             admin:
                 url: '{{saas_admin_url}}'
@@ -138,17 +126,21 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'store_launcher'
             frontend:
                 url: '{{saas_url}}'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
-                login: ''
-                password: ''
-                mca_preg_replace:
-                    replace_1:
-                        pattern: '|(?<=sales/billing_agreement/view/agreement/)([0-9]*)|'
-                        replacement: 'any'
-                    replace_2:
-                        pattern: '|(?<=customer/account/login/)([a-zA-Z\d\-\_\.\?\=]+)|'
-                        replacement: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+            tmt:
+                url: '{{tmt_url}}'
+                base_page_uimap: 'home'
+                uimap_path: 'tmt'
+            tmt_api:
+                url: '{{tmt_api_url}}'
+                base_page_uimap: ~
+                uimap_path: ~
+                login: '{{tmt_api_login}}'
+                password: '{{tmt_api_pwd}}'
     default: *{{selenium_testsuite}}

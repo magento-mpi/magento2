@@ -79,6 +79,6 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Newsletter::problem');
+        return $this->_authorization->isAllowed('Mage_Newsletter::problem');
     }
 }

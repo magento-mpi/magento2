@@ -17,7 +17,6 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      * @param int|float $value
      * @param string $expectedResult
      * @dataProvider formatCurrencyProvider
-     * @test
      */
     public function testFormatCurrency($value, $expectedResult)
     {
@@ -51,8 +50,6 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
 
     /**
      * Test format empty currency
-     *
-     * @test
      */
     public function testFormatEmptyCurrency()
     {
@@ -74,7 +71,6 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      * @param int|float $value
      * @param string $expectedResult
      * @dataProvider formatBaseCurrencyProvider
-     * @test
      */
     public function testFormatBaseCurrency($value, $expectedResult)
     {
@@ -107,9 +103,6 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
     }
 
     /**
-     * Test get items
-     *
-     * @test
      * @dataProvider getItemsProvider
      */
     public function testGetItems($valueItems, $expectedCount)

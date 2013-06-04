@@ -13,13 +13,9 @@
  */
 class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser();
-        $this->clearInvalidedCache();
-        $this->navigate('manage_stores');
-        $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
-        $this->assertMessagePresent('success', 'success_saved_store_view');
+        $this->admin('log_in_to_admin');
     }
 
     protected function tearDownAfterTest()
@@ -36,23 +32,22 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessCmsPool()
     {
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+            array('resource_acl' => 'content-elements-polls'));
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
         //Preconditions
         //create specific role with test roleResource
+        $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-                                          array('resource_acl' => 'cms_polls'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
         $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-                                array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-        //Steps
-        //return array $loginData to login in the next step
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
-        return $loginData;
+
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
@@ -66,25 +61,24 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      */
     public function verifyScopeCmsPollOneRoleResource($loginData)
     {
+        $elements = $this->loadDataSet('CmsPollElements', 'manage_cms_poll_elements');
+        $resultElementsArray = array();
         // Verify that navigation menu has only 1 parent element
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('poll_manager');
+        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->getParsedMessages());
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals(2,  $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 2, should be equal');
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
-        $elements = $this->loadDataSet('CmsPollElements', 'manage_cms_poll_elements');
-        $resultElementsArray = array();
         foreach ($elements as $key => $value) {
             $resultElementsArray = array_merge($resultElementsArray, (array_fill_keys(array_keys($value), $key)));
         }
         foreach ($resultElementsArray as $elementName => $elementType) {
             if (!$this->controlIsVisible($elementType, $elementName)) {
-                $this->addVerificationMessage("Element type= '$elementType'
-                                                       name= '$elementName' is not present on the page");
+                $this->addVerificationMessage('Element type="' . $elementType . '" name="' . $elementName
+                    . '" is not present on the page');
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -104,12 +98,11 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      */
     public function createNewPollForOneWebsite($loginData)
     {
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('poll_manager');
         $pollData = $this->loadDataSet('CmsPoll', 'poll_open');
-        $name = $pollData['poll_question'];
-        $searchPollData = $this->loadDataSet('CmsPoll', 'search_poll', array('filter_question' => $name));
+        $searchPollData = $this->loadDataSet('CmsPoll', 'search_poll',
+            array('filter_question' => $pollData['poll_question']));
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->getParsedMessages());
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying

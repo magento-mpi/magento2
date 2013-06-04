@@ -47,12 +47,15 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     /**
      * @magentoConfigFixture limitations/catalog_product 1
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     * @expectedException SoapFault
-     * @expectedExceptionMessage Maximum allowed number of products is reached.
      */
     public function testCreateLimitationReached()
     {
-        $this->_createProductWithApi(require __DIR__ . '/_files/_data/simple_product_data.php');
+        $formattedData = $this->_prepareProductDataForSoap(require __DIR__ . '/_files/_data/simple_product_data.php');
+        /** @var Mage_Catalog_Model_Product_Limitation $limitation */
+        $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
+        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData,
+            $limitation->getCreateRestrictedMessage()
+        );
     }
 
     /**
@@ -199,7 +202,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $data = require __DIR__ . '/_files/ProductData.php';
 
         //generate numeric sku
-        $data['create_with_attributes_soapv2']->sku = rand(1000000, 99999999);
+        $data['create_with_attributes_soapv2']['sku'] = rand(1000000, 99999999);
 
         $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create']);
 

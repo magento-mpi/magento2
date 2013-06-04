@@ -92,7 +92,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
-            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
+            'Attribute Set'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
@@ -127,7 +127,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
-            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
+            'Attribute Set'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
@@ -159,7 +159,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
-            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
+            'Attribute Set'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->productHelper()->openProductTab('meta_information');
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);

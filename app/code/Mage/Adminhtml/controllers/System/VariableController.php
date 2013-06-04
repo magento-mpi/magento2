@@ -184,6 +184,6 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::variable');
+        return $this->_authorization->isAllowed('Mage_Adminhtml::variable');
     }
 }

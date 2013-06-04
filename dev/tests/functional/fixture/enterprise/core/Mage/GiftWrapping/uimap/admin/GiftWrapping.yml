@@ -42,9 +42,7 @@ manage_gift_wrapping:
             confirmation_for_delete: Are you sure you want to delete this gift wrapping?
             massaction_confirmation_for_delete: Are you sure you want to delete the selected gift wrappings?
             confirmation_for_choose_store_view: Please confirm site switching. All data that hasn't been saved will be lost.
-            enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
-            enter_greater_zero: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
-            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
+            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
             success_saved_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'The gift wrapping has been saved.')]
             success_deleted_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'The gift wrapping has been deleted.')]
             success_massaction_update: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %itemCount% record(s) have been updated.')]
@@ -76,8 +74,8 @@ add_gift_wrapping:
                             gift_wrapping_image: //img[@id='image_image']
         buttons:
             back: //button[span='Back']
-            save: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: *giftWrappingMessages
 
 edit_gift_wrapping:
@@ -90,9 +88,9 @@ edit_gift_wrapping:
                     gift_wrapping_info: *giftWrappingInfo
         buttons: &editGiftWrappingButtons
             back: //button[span='Back']
-            save: //button[span='Save']
+            save: //button[@id='save']
             delete: //button[span='Delete']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: *giftWrappingMessages
 
 edit_gift_wrapping_after_save_and_continue:

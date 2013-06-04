@@ -37,12 +37,13 @@ class Enterprise_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user',
             array('role_name' => 'Administrators'));
+        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $this->adminUserHelper()->loginAdmin($userData);
+        $this->adminUserHelper()->loginAdmin($loginData);
         //generate events
         //save
         $tagData = $this->loadDataSet('Tag', 'backend_new_tag');
@@ -86,14 +87,15 @@ class Enterprise_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('admin_action_log_report');
-        $this->assertTrue((bool)$this->search(
-                array(
+        $this->assertNotNull($this->search(array(
                     'action_group' => 'Catalog Tags',
                     'action_username' => $userData['user_name'],
                     'action' => $action,
                     'action_result' => 'Success',
-                    'action_full_name' => $actionFullName), 'all_tags_grid'),
-            "Admin Action Logs does not contain {$action}");
+                    'action_full_name' => $actionFullName), 'action_logs_grid'
+            ),
+            "Admin Action Logs does not contain {$action}"
+        );
     }
 
     public function tagActionsDataProvider()
@@ -106,5 +108,4 @@ class Enterprise_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
             array('Mass Update', 'adminhtml_tag_massStatus')
         );
     }
-
 }

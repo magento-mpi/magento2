@@ -17,13 +17,13 @@ admin_xml_sitemap:
     tab_1:
         tab_name: general_design
         configuration:
-            unknown:
-                edit_custom_instruction_test: test
+            search_engine_robots:
+                edit_custom_instruction: %randomize%_test_edit_custom_instruction
 
 admin_enable_push_to_robots:
     configuration_scope: Default Config
     tab_1:
-        tab_name: catalog_google_sitemap
+        tab_name: catalog_xml_sitemap
         configuration:
             search_engine_submission_settings:
                 enable_submission_to_robots: Yes
@@ -31,7 +31,7 @@ admin_enable_push_to_robots:
 admin_disable_push_to_robots:
     configuration_scope: Default Config
     tab_1:
-        tab_name: catalog_google_sitemap
+        tab_name: catalog_xml_sitemap
         configuration:
             search_engine_submission_settings:
                 enable_submission_to_robots: No

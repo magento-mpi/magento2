@@ -39,19 +39,21 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $simple = $this->productHelper()->createSimpleProduct(true);
         $this->reindexInvalidedData();
         $this->flushCache();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
-        return array('user'     => array('email'    => $userData['email'],
-                                         'password' => $userData['password']),
-                     'simple'   => $simple['simple']['product_name'],
-                     'category' => $simple['category']['path']);
+        return array(
+            'user' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'simple' => $simple['simple']['product_name'],
+            'category' => $simple['category']['path']
+        );
     }
 
     /**
@@ -67,6 +69,10 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function frontendTagVerificationLoggedCustomer($tags, $testData)
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-1299');
+        }
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -90,7 +96,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
             array("'" . $this->generate('string', 4, ':alpha:') . ' ' . $this->generate('string', 7, ':alpha:') . "'"),
             //3 tags = 1 word + 1 phrase with a space + 1 word; enclosed within quotes
             array($this->generate('string', 4, ':alpha:') . ' ' . "'" . $this->generate('string', 4, ':alpha:') . ' '
-                  . $this->generate('string', 7, ':alpha:') . "'" . ' ' . $this->generate('string', 4, ':alpha:'))
+                . $this->generate('string', 7, ':alpha:') . "'" . ' ' . $this->generate('string', 4, ':alpha:'))
         );
     }
 
@@ -132,6 +138,10 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function frontendTagVerificationInCategory($testData)
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-1299');
+        }
         //Data
         $tag = $this->generate('string', 10, ':alpha:');
         $tagToApprove = $this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tag));
@@ -144,7 +154,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'tag_accepted_success');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         $this->tagsHelper()->changeTagsStatus(array($tagToApprove), 'Approved');
         //Verification
         $this->frontend();

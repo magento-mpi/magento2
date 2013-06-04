@@ -341,16 +341,6 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Backup::backup');
-    }
-
-    /**
-     * Retrive adminhtml session model
-     *
-     * @return Mage_Adminhtml_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        return $this->_authorization->isAllowed('Mage_Backup::backup');
     }
 }

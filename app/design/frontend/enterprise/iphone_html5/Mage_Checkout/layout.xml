@@ -58,14 +58,14 @@ Default layout, loads most of the pages
 
                 <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Form Before"/>
 
-                <block type="Enterprise_GiftRegistry_Block_Cart_Link" name="giftregistry.cart.link" template="cart/link.phtml" as="giftregistrylink"/>
-
                 <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.bottom" template="onepage/link.phtml"/>
                 </container>
 
-                <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
-                <container name="checkout.cart.widget" as="checkout_cart_widget" label="Shopping Cart Items After"/>
+                <container name="checkout.cart.extra" label="Shopping Cart Extra Contents">
+                    <container name="checkout.cart.widget" as="checkout_cart_widget" before="-" label="Shopping Cart Items After"/>
+                    <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
+                </container>
 
                 <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
             </block>

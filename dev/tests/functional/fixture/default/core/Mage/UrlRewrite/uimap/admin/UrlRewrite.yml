@@ -45,7 +45,6 @@ url_rewrite_management:
             success_deleted_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been deleted.')]
             id_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'ID Path for Specified Store already exists.')]
             req_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Request Path for Specified Store already exists.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 add_new_urlrewrite_category:
@@ -56,12 +55,12 @@ add_new_urlrewrite_category:
             fieldsets:
                 -
                     category_rewrite:
-                        xpath: //div[@id='base_fieldset']
+                        xpath: //*[@id='base_fieldset']
                         fields:
                             request_path: //input[@id='request_path']
                 -
                     select_category:
-                        xpath: //*[@id='page:main-container']/div/fieldset
+                        xpath: //fieldset[legend/span='Select Category']
                         links:
                             root_category: //ul/div/li/div/a[contains(span,'%rootName%')]
 #                           Don't delete this xpath
@@ -111,7 +110,7 @@ urlrewrite_product_category_selection:
             fieldsets:
                 -
                     product_rewrite:
-                        xpath: //*[@id='page:main-container']/div/fieldset
+                        xpath: //fieldset[legend/span='Select Category']
                         links:
                             root_category: //ul/div/li/div/a[contains(span,'%rootName%')]
                             sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
@@ -127,7 +126,7 @@ urlrewrite_custom:
             fieldsets:
                 -
                     custom_rewrite:
-                        xpath: //div[@id='base_fieldset']
+                        xpath: //*[@id='base_fieldset']
                         dropdowns:
                             request_store: //select[@name='store_id']
                             target-store: //select[@name='target_store_id']

@@ -82,18 +82,15 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
     public function oldPasswordTillResetNew()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $emailData = array('email' => $userData['email']);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $data = array('email' => $userData['email'], 'password' => $userData['password']);
         //Steps
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Steps
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
         $this->frontend('forgot_customer_password');
-        $this->customerHelper()->frontForgotPassword($emailData);
+        $this->customerHelper()->frontForgotPassword(array('email' => $userData['email']));
         $this->addParameter('email', $userData['email']);
         //Verification
         $this->assertMessagePresent('success', 'success_forgot_password');

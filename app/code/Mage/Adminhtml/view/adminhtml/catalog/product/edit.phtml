@@ -21,7 +21,8 @@
                 <span><?php echo $this->getAttributeSetName()?></span>
             </button>
             <ul class="dropdown-menu">
-                <input type="search" id="product-template-suggest" placeholder="start typing to search template"/>
+                <input type="text" id="product-template-suggest" class="search"
+                       placeholder="start typing to search template"/>
             </ul>
         </div>
     </div>
@@ -93,11 +94,6 @@ jQuery(function($) {
         }
     });
     $form.mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
-
-    $('#product_info_tabs').on('tabsbeforeactivate tabscreate', function (event, ui) {
-        var action = $(ui.newPanel || ui.panel).find('#attribute-name-container').length ? 'show' : 'hide';
-        $('#config_super_product, #grouped_product_container')[action]();
-    });
 
     var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
     var availablePlaceholders = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
@@ -186,10 +182,6 @@ jQuery(function($) {
     $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
     $('.widget-button-save .item-default').parent().hide();
-
-    if ($.trim($('#name').val()) == '') {
-        $('#name').focus();
-    }
 
     $('#product-online-switcher')
         .prop('checked', $('#status').val() == '1')

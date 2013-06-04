@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/** @var $this Mage_Selenium_TestCase */
 return array(
     $this->loadDataSet('Customers', 'generic_address', array(
             'city' => 'Chattanooga',

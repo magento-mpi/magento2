@@ -82,8 +82,7 @@ create_tax_rate:
         messages: &newTaxRateMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
             error_delete_tax_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Tax rate cannot be removed. It exists in tax rule')]
-            empty_required_field:  //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.') and not(contains(@style, 'display: none;'))]
-            enter_not_negative_number: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please select one of the above options.')]
+            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
             enter_valid_digits: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please enter a valid number in this field.')]
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
@@ -227,16 +226,15 @@ create_tax_rule:
             save_and_continue_edit: //button[@data-ui-id='content-schedule-block-save-and-continue-button']
         messages: &newTaxRuleMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
-            empty_required_field:  //label[@class='mage-error' and contains(.,'This is a required field.')]
-            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
+            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             tax_class_exists: An error occurred while saving this tax class. A class with the same name already exists.
             confirmation_for_delete_rule: Are you sure you want to do this?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
             confirmation_for_delete_class: Do you really want to delete this tax class?
             used_in_rule_error: You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.
-            used_in_customer_group_error: You cannot delete this tax class as it is used for 1 customer groups.
-            used_in_product_error: You cannot delete this tax class as it is used for 1 products.
+            used_in_customer_group_error: You cannot delete this tax class as it is used for 1 customer group(s).
+            used_in_product_error: You cannot delete this tax class as it is used for 1 product(s).
 
 # Edit Tax Rule page
 edit_tax_rule:

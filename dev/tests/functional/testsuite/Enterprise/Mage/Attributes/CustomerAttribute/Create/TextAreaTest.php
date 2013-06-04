@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer Attributes</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -74,7 +70,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5574
      */
-
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
@@ -93,7 +88,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-5575
      */
-
     public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
         //Data
@@ -102,8 +96,7 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
@@ -128,7 +121,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5576
      */
-
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
         //Data
@@ -160,7 +152,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5577
      */
-
     public function withSpecialCharactersInTitle()
     {
         //Data
@@ -187,7 +178,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5578
      */
-
     public function withLongValues()
     {
         //Data

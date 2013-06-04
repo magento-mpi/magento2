@@ -9,14 +9,9 @@
  * @license     {license_link}
  */
 
-/**
- * Prices Validation on the Backend
- */
 class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCase
 {
-
     public static $customer = array();
-
 
     protected function assertPreConditions()
     {
@@ -30,7 +25,8 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
             $this->navigate('manage_customers');
             $this->customerHelper()->openCustomer(self::$customer);
             $this->addBySkuHelper()->openShoppingCart();
-            $this->addBySkuHelper()->clearShoppingCartAndErrorTable();
+            $this->addBySkuHelper()->removeAllItemsFromShoppingCart();
+            $this->addBySkuHelper()->removeAllItemsFromAttentionTable();
         }
     }
 
@@ -120,7 +116,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_single',
             array('sku' => $product ['general_sku']));
-        $verifyProductData = $this->loadDataSet('AddBySku', 'data_to_check_test_single',
+        $verifyData = $this->loadDataSet('AddBySku', 'data_to_check_test_single',
             array('sku' => $product ['general_sku'], 'product' => $product ['general_name']));
         //Steps
         $this->navigate('manage_customers');
@@ -128,10 +124,10 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->addBySkuHelper()->openShoppingCart();
         $this->clickControl('link', 'href_add_to_cart', false);
         $this->waitForAjax();
-        $this->addBySkuHelper()->addProductShoppingCart($productToAdd);
+        $this->addBySkuHelper()->addProductsBySkuToShoppingCart($productToAdd);
         //Verifying
-        $actualProductData = $this->addBySkuHelper()->getProductInfoInTable();
-        $this->shoppingCartHelper()->compareArrays($actualProductData['product_1'], $verifyProductData['product_1']);
+        $actualData = $this->addBySkuHelper()->getProductInfoInTable();
+        $this->shoppingCartHelper()->compareArrays($actualData['product_1'], $verifyData['product_1']);
     }
 
     /**
@@ -149,23 +145,24 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_multiple_invalid', null,
             array('validSkuProd1' => $product ['general_sku']));
-        $verifyProductData = $this->loadDataSet('AddBySku', 'data_to_check_test_multiple_invalid', null,
-            array('validSku'   => $product ['general_sku'], 'validProduct' => $product ['general_name'],
-                  'invalidSku' => $productToAdd ['product_2'] ['sku']));
+        $verifyData = $this->loadDataSet('AddBySku', 'data_to_check_test_multiple_invalid', null, array(
+            'validSku' => $product ['general_sku'], 'validProduct' => $product ['general_name'],
+            'invalidSku' => $productToAdd ['product_2'] ['sku']
+        ));
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($customer);
         $this->addBySkuHelper()->openShoppingCart();
         $this->clickControl('link', 'href_add_to_cart', false);
         $this->waitForAjax();
-        $this->addBySkuHelper()->addProductShoppingCart($productToAdd);
+        $this->addBySkuHelper()->addProductsBySkuToShoppingCart($productToAdd);
         //Verifying//
-        $actualProductData = $this->addBySkuHelper()->getProductInfoInTable();
-        $errorProductData = $this->addBySkuHelper()->getProductInfoInErrorTable();
+        $actualData = $this->addBySkuHelper()->getProductInfoInTable();
+        $errorProductData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
         $this->shoppingCartHelper()
-            ->compareArrays($actualProductData['product_1'], $verifyProductData['valid_table']['product_1']);
+            ->compareArrays($actualData['product_1'], $verifyData['valid_table']['product_1']);
         $this->shoppingCartHelper()
-            ->compareArrays($errorProductData['product_1'], $verifyProductData['invalid_table']['product_1']);
+            ->compareArrays($errorProductData['product_1'], $verifyData['invalid_table']['product_1']);
     }
 
     /**
@@ -186,10 +183,10 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->addBySkuHelper()->openShoppingCart();
         $this->clickControl('link', 'href_add_to_cart', FALSE);
         $this->waitForAjax();
-        $this->addBySkuHelper()->addProductShoppingCart($productToAdd);
-        $this->addBySkuHelper()->removeAllItemsFromErrorTable();
+        $this->addBySkuHelper()->addProductsBySkuToShoppingCart($productToAdd);
+        $this->addBySkuHelper()->removeAllItemsFromAttentionTable();
         //Verifying
-        $this->addBySkuHelper()->verifyErrorTableIsEmpty();
+        $this->assertTrue($this->addBySkuHelper()->isAttentionTableEmpty());
     }
 
     /**
@@ -204,7 +201,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
     {
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_remove_invalid');
-        $verifyProductData = $this->loadDataSet('AddBySku', 'data_to_check_test_remove_invalid', null,
+        $verifyData = $this->loadDataSet('AddBySku', 'data_to_check_test_remove_invalid', null,
             array(
                 'product_1' => $productToAdd ['product_1']['sku'],
                 'product_2' => $productToAdd ['product_2']['sku'],
@@ -217,18 +214,19 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->addBySkuHelper()->openShoppingCart();
         $this->clickControl('link', 'href_add_to_cart', false);
         $this->waitForAjax();
-        $this->addBySkuHelper()->addProductShoppingCart($productToAdd);
-        $errorProductData = $this->addBySkuHelper()->getProductInfoInErrorTable();
-        $this->shoppingCartHelper()->compareArrays($errorProductData['product_3'], $verifyProductData['product_3']);
-        $this->shoppingCartHelper()->compareArrays($errorProductData['product_2'], $verifyProductData['product_2']);
-        $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyProductData['product_1']);
-        $this->addBySkuHelper()->removeSingleItemsFromErrorTable(3);
-        $errorProductData = $this->addBySkuHelper()->getProductInfoInErrorTable();
-        $this->shoppingCartHelper()->compareArrays($errorProductData['product_2'], $verifyProductData['product_2']);
-        $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyProductData['product_1']);
-        $this->addBySkuHelper()->removeSingleItemsFromErrorTable(2);
-        $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyProductData['product_1']);
-        $this->addBySkuHelper()->removeSingleItemsFromErrorTable(1);
+        $this->addBySkuHelper()->addProductsBySkuToShoppingCart($productToAdd);
+        $errorProductData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
+        $this->shoppingCartHelper()->compareArrays($errorProductData['product_3'], $verifyData['product_3']);
+        $this->shoppingCartHelper()->compareArrays($errorProductData['product_2'], $verifyData['product_2']);
+        $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyData['product_1']);
+        $this->addBySkuHelper()->removeItemsFromAttentionTable(array('sku' => $verifyData['product_3']['sku']));
+        $errorProductData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
+        $this->shoppingCartHelper()->compareArrays($errorProductData['product_2'], $verifyData['product_2']);
+        $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyData['product_1']);
+        $this->addBySkuHelper()->removeItemsFromAttentionTable(array('sku' => $verifyData['product_2']['sku']));
+        $errorProductData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
+        $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyData['product_1']);
+        $this->addBySkuHelper()->removeItemsFromAttentionTable(array('sku' => $verifyData['product_1']['sku']));
         $this->assertFalse($this->controlIsVisible('fieldset', 'shopping_cart_error_table'),
             'Products are not deleted from attention grid');
     }

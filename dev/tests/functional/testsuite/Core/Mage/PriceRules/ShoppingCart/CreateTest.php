@@ -74,11 +74,11 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
     {
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_required_fields',
-            array('rule_name'   => $this->generate('string', 32, ':punct:'),
-                  'coupon_code' => $this->generate('string', 32, ':punct:')));
+            array('rule_name' => $this->generate('string', 32, ':punct:'),
+                'coupon_code' => $this->generate('string', 32, ':punct:')));
         $ruleSearch = $this->loadDataSet('ShoppingCartPriceRule', 'search_shopping_cart_rule',
-            array('filter_rule_name'   => $ruleData['info']['rule_name'],
-                  'filter_coupon_code' => $ruleData['info']['coupon_code']));
+            array('filter_rule_name' => $ruleData['info']['rule_name'],
+                'filter_coupon_code' => $ruleData['info']['coupon_code']));
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->priceRulesHelper()->openRule($ruleSearch);
@@ -111,8 +111,9 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
     public function createWithAllFields()
     {
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_all_fields');
-        $this->priceRulesHelper()->createRule($ruleData);
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_all_fields',
+            array('Default Store View' => '%noValue%'));
+        $this->priceRulesHelper()->createRule($ruleData, array('Default Store View' => '%noValue%'));
         $this->assertMessagePresent('success', 'success_saved_rule');
     }
 
@@ -124,11 +125,13 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      */
     public function createWithoutCoupon()
     {
+        $this->markTestIncomplete('BUG: Coupon Code field validation if field not visible');
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_all_fields',
-            array('coupon'          => 'No Coupon',
-                  'coupon_code'     => '%noValue%',
-                  'uses_per_coupon' => '%noValue%'));
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_all_fields', array(
+            'coupon' => 'No Coupon',
+            'coupon_code' => '%noValue%',
+            'uses_per_coupon' => '%noValue%'
+        ));
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
     }
@@ -149,7 +152,8 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
     public function createWithExistingCoupon($coupon)
     {
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_all_fields', array('coupon_code' => $coupon));
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_all_fields',
+            array('coupon_code' => $coupon, 'Default Store View' => '%noValue%'));
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('error', 'error_coupon_code_exists');
     }

@@ -18,11 +18,6 @@
  */
 class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     *
-     * <p>Log in to Backend.</p>
-     */
     public function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -39,6 +34,8 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
@@ -54,16 +51,16 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3269
+     * @TestlinkId TL-MAGE-3269
      */
     public function amountLessThanGrandTotal($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-7422');
         //Data
         $coupon = $this->loadDataSet('SalesOrder', 'coupon_fixed_amount', array('discount_amount' => 5));
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku,
-                                              'coupon_1'   => $coupon['info']['coupon_code']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'filter_sku' => $simpleSku,
+            'coupon_1' => $coupon['info']['coupon_code']
+        ));
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $this->priceRulesHelper()->createRule($coupon);
@@ -80,16 +77,16 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3268
+     * @TestlinkId TL-MAGE-3268
      */
     public function amountGreaterThanGrandTotal($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-7422');
         //Data
         $coupon = $this->loadDataSet('SalesOrder', 'coupon_fixed_amount', array('discount_amount' => 130));
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku,
-                                              'coupon_1'   => $coupon['info']['coupon_code']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'filter_sku' => $simpleSku,
+            'coupon_1' => $coupon['info']['coupon_code']
+        ));
         unset($orderData['payment_data']);
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
@@ -107,13 +104,13 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3270
+     * @TestlinkId TL-MAGE-3270
      */
     public function wrongCode($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku));
+            array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);

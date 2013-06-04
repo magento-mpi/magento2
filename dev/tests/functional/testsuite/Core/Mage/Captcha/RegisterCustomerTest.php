@@ -28,7 +28,6 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
     public function assertPreConditions()
     {
         $this->logoutCustomer();
-        $this->loginAdminUser();
     }
 
     public function tearDownAfterTestClass()
@@ -47,6 +46,7 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
     public function enableCaptcha()
     {
         //Steps
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/enable_front_register_captcha');
         $this->frontend('register_account');
@@ -112,7 +112,8 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
         $this->fillFieldset($user, 'account_info');
         $this->clickButton('submit', false);
         //Verification
-        $this->assertMessagePresent('validation', 'empty_captcha');
+        $this->addFieldIdToMessage('field', 'captcha');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**

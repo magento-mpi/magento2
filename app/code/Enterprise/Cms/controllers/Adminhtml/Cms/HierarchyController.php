@@ -343,6 +343,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::hierarchy');
+        return $this->_authorization->isAllowed('Enterprise_Cms::hierarchy');
     }
 }

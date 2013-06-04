@@ -20,7 +20,7 @@ log_in_to_admin:
                     log_in:
                         xpath: //div[@class='form-login form-inline']
                         buttons:
-                            login: //button[@title='Log in']
+                            login: //button[@type='submit']
                             captcha_reload: //*[@id='captcha-reload']
                         fields:
                             user_name: //input[@id='username']
@@ -31,7 +31,6 @@ log_in_to_admin:
                         pageelements:
                             captcha: //*[@id='backend_login']
         messages: &loginMessages
-            empty_field: //div/label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             wrong_credentials: //li[normalize-space(@class)='error-msg' and (contains(.,'Invalid User Name or Password.') or contains(.,'Invalid Username or Password.'))]
             access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
             inactive_account: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]

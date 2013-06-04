@@ -18,42 +18,33 @@
  */
 class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
 {
-    public static $captcha = '';
+    public static $captcha = '1111';
 
     public function assertPreConditions()
     {
-        $this->admin('log_in_to_admin', false);
-        if ($this->getCurrentPage() != $this->_pageAfterAdminLogin) {
-            if ($this->controlIsPresent('field', 'captcha')) {
-                $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
-                                   'password'  => $this->getConfigHelper()->getDefaultPassword(),
-                                   'captcha'   => self::$captcha);
-                $this->adminUserHelper()->loginAdmin($loginData);
-                $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getMessagesOnPage());
-            } else {
-                $this->loginAdminUser();
-            }
+        $this->admin('log_in_to_admin');
+        $loginData = array(
+            'user_name' => $this->getConfigHelper()->getDefaultLogin(),
+            'password' => $this->getConfigHelper()->getDefaultPassword()
+        );
+        if ($this->controlIsPresent('field', 'captcha')) {
+            $loginData['captcha'] = self::$captcha;
         }
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getMessagesOnPage());
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
     }
 
-    public function tearDownAfterTestClass()
+    public function tearDownAfterTest()
     {
         $this->admin('log_in_to_admin', false);
-        if ($this->getCurrentPage() != $this->_pageAfterAdminLogin) {
-            if ($this->controlIsPresent('field', 'captcha')) {
-                $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
-                                   'password'  => $this->getConfigHelper()->getDefaultPassword(),
-                                   'captcha'   => self::$captcha);
-                $this->adminUserHelper()->loginAdmin($loginData);
-                $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getMessagesOnPage());
-            } else {
-                $this->loginAdminUser();
-            }
-        }
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
+        $this->logoutAdminUser();
+    }
+
+    public function tearDownAfterTestClass()
+    {
+        $this->assertPreConditions();
     }
 
     /**
@@ -64,10 +55,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
      */
     public function alwaysModeSet()
     {
-        self::$captcha = '1111';
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/choose_login_form');
+        self::$captcha = '1111';
         $this->logoutAdminUser();
         $this->admin('log_in_to_admin');
         $this->assertTrue($this->controlIsVisible('field', 'captcha'), 'There is no "Captcha" field form on the page');
@@ -81,9 +70,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
      */
     public function withZeroNumberUnsuccessfulAttempts()
     {
-        self::$captcha = '1111';
         $this->systemConfigurationHelper()->configure('Captcha/zero_attempts_specified');
-        $this->flushCache();
+        self::$captcha = '1111';
         $this->logoutAdminUser();
         $this->admin('log_in_to_admin');
         $this->assertTrue($this->controlIsVisible('field', 'captcha'), 'There is no "Captcha" field on the page');
@@ -98,8 +86,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
      */
     public function noShowingAfterNumberAttemptsModeSet()
     {
-        self::$captcha = '1111';
         $this->systemConfigurationHelper()->configure('Captcha/admin_captcha_after_attempts_to_login');
+        self::$captcha = '1111';
         $this->logoutAdminUser();
         $this->admin('log_in_to_admin');
         $this->assertFalse($this->controlisVisible('field', 'captcha'), 'There is "Captcha" field on the page');
@@ -113,18 +101,16 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
      */
     public function showingAfterFewAttempts()
     {
-        self::$captcha = '1111';
         //Data
         $incorrectUser = array('user_name' => $this->generate('text', 10), 'password' => 'password');
-        $this->systemConfigurationHelper()->configure('Captcha/admin_captcha_after_attempts_to_login');
         //Steps
+        $this->systemConfigurationHelper()->configure('Captcha/admin_captcha_after_attempts_to_login');
+        self::$captcha = '1111';
         $this->logoutAdminUser();
         $this->admin('log_in_to_admin');
-        $this->fillFieldset($incorrectUser, 'log_in');
-        $this->clickButton('login');
+        $this->adminUserHelper()->loginAdmin($incorrectUser);
         $this->assertFalse($this->controlIsVisible('field', 'captcha'));
-        $this->fillFieldset($incorrectUser, 'log_in');
-        $this->clickButton('login');
+        $this->adminUserHelper()->loginAdmin($incorrectUser);
         $this->assertTrue($this->controlIsVisible('field', 'captcha'));
     }
 
@@ -136,14 +122,18 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
      */
     public function displayingWithEnableCaseSensitive()
     {
-        self::$captcha = 'AAAA';
+        //Data
+        $loginData = array(
+            'user_name' => $this->getConfigHelper()->getDefaultLogin(),
+            'password' => $this->getConfigHelper()->getDefaultPassword(),
+            'captcha' => 'aaaa'
+        );
+        //Steps
         $this->systemConfigurationHelper()->configure('Captcha/case_sensitive_enable');
+        self::$captcha = 'AAAA';
         $this->logoutAdminUser();
         $this->admin('log_in_to_admin');
         $this->assertTrue($this->controlIsPresent('field', 'captcha'), 'Message');
-        $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
-                           'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 'aaaa');
-        //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->assertMessagePresent('error', 'incorrect_captcha');
     }
@@ -156,15 +146,18 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
      */
     public function displayingDisableCaseSensitive()
     {
-        self::$captcha = 'aaaa';
+        //Data
+        $loginData = array(
+            'user_name' => $this->getConfigHelper()->getDefaultLogin(),
+            'password' => $this->getConfigHelper()->getDefaultPassword(),
+            'captcha' => 'aaaa'
+        );
+        //Steps
         $this->systemConfigurationHelper()->configure('Captcha/case_sensitive_disable');
+        self::$captcha = 'aaaa';
         $this->logoutAdminUser();
         $this->admin('log_in_to_admin');
-        if ($this->controlIsPresent('field', 'captcha')) {
-            $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
-                               'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 'aaaa');
-            $this->adminUserHelper()->loginAdmin($loginData);
-            $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
-        }
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getParsedMessages());
     }
 }

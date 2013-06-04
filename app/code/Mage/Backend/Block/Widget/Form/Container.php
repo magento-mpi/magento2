@@ -178,5 +178,4 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
         $this->getChildBlock('form')->setDataObject($object);
         return $this->setData('data_object', $object);
     }
-
 }

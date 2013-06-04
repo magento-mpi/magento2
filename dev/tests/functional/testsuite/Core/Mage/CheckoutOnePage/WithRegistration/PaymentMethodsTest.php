@@ -18,6 +18,8 @@
  */
 class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
+    private static $_paypalAccount;
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -34,13 +36,16 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');
         $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
+        if (isset(self::$_paypalAccount)) {
+            $this->paypalHelper()->paypalDeveloperLogin();
+            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
+        }
     }
 
     /**
      * <p>Creating Simple product</p>
      *
-     * @return string
+     * @return array
      * @test
      */
     public function preconditionsForTests()
@@ -48,6 +53,8 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
@@ -57,7 +64,12 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-        return array('sku' => $simple['general_name'], 'api' => $api, 'visa'=> $accounts['visa']['credit_card']);
+        self::$_paypalAccount = $accountInfo['email'];
+        return array(
+            'sku' => $simple['general_name'],
+            'api' => $api,
+            'visa' => $accounts['visa']['credit_card']
+        );
     }
 
     /**
@@ -93,9 +105,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+        ));
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
         if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
@@ -166,9 +179,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+        ));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {

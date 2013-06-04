@@ -29,7 +29,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->navigate('manage_tax_rule');
     }
@@ -114,21 +113,23 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating a Tax Rule with empty required fields.</p>
      *
-     * @param string $emptyFieldName Name of the field to leave empty
+     * @param string $emptyField Name of the field to leave empty
+     * @param string $fieldType
      * @param array $testData
      *
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
      */
-    public function withEmptyRequiredFields($emptyFieldName, $testData)
+    public function withEmptyRequiredFields($emptyField, $fieldType, $testData)
     {
         //Data
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required',
-            array('tax_rate' => $testData['tax_identifier'], $emptyFieldName => ''));
+            array('tax_rate' => $testData['tax_identifier'], $emptyField => ''));
         //Steps
         $this->taxHelper()->createTaxRule($taxRuleData);
         //Verifying
+        $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -141,12 +142,12 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
-            array('name'),
-            array('customer_tax_class'),
-            array('product_tax_class'),
-            array('tax_rate'),
-            array('priority'),
-            array('sort_order')
+            array('name', 'field'),
+            array('customer_tax_class', 'composite_multiselect'),
+            array('product_tax_class', 'composite_multiselect'),
+            array('tax_rate', 'composite_multiselect'),
+            array('priority', 'field'),
+            array('sort_order', 'field')
         );
     }
 
@@ -211,7 +212,7 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxRule($taxRuleData);
         //Verifying
         $this->addFieldIdToMessage('field', 'priority');
-        $this->assertMessagePresent('error', 'enter_not_negative_number');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
     }
 
     /**
@@ -233,7 +234,7 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxRule($taxRuleData);
         //Verifying
         $this->addFieldIdToMessage('field', 'sort_order');
-        $this->assertMessagePresent('error', 'enter_not_negative_number');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
     }
 
     /**

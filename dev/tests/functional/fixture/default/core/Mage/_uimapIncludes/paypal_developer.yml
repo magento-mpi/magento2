@@ -16,12 +16,10 @@ paypal_developer:
                     general_elements:
                         xpath:
                         pageelements:
-                            navigation_menu: //*[@id='nav-menu']
+                            loadingHolder: //*[@id='loadingImg']
         messages:
-            general_validation: "//*[@id='alert_content']/span[@class='details']"
-            general_success: "//*[@id='alert_content']/span[@class='message']"
-            general_error: "//*[@id='alert_content']/span[@class='error']"
-            success_created_account: "//*[@id='alert_content']/span[@class='message'][text()='You have successfully created a test account. You can view email for this account on the Test Email tab.']"
-            failed_account_creation: "//*[@id='alert_content']/span[@class='error'][text()='The account creation process failed, resulting in an incomplete account profile. Please delete this account and start over']"
-            incorrect_information: "//*[@id='alert_content']/span[@class='error'][text()='Some information is incorrect or missing. Please correct your entries and try again.']"
-            success_created_account_without_card: "//*[@id='alert_content']/span[@class='message'][contains(text(), 'Account Created Successfully but failed to add')]"
+            general_validation: //*[@class='error-input' or @aria-invalid='true' or @class='alert-error']
+            general_success: "//div[@class='alert alert-success']"
+            general_error: "//div[@class='alert alert-failure' or @class='err-msg']"
+            success_created_account: "//div[@class='alert alert-success']/p[text()='You just created a new test account.']"
+            success_deleted_accounts: "//div[@class='alert alert-success']/p[text()='Successfully deleted accounts.']"

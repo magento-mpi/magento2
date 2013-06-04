@@ -54,15 +54,13 @@ manage_products:
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
-            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been deleted.')]
             success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been duplicated.')]
             success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been created.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
             incorrect_sku_length: //*[@class='mage-error' and text()='Maximum length of this field must be equal or less than 64 symbols.']
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
             enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
-            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]
+            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
             enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //*[@class='mage-error' and @for='product_option_%optionId%_type' and contains(., 'Select type of option')]
@@ -70,9 +68,9 @@ manage_products:
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
             success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
             success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]
-            category_name_required: //div[@id='advice-required-entry-new_category_name']
-            parent_name_required: //div[@id='advice-required-entry-new_category_parent']
-            parent_name_existent: //div[@id='advice-validate-parent-category-new_category_parent']
+            category_name_required: //*[@class='mage-error' and @for='new_category_name' and text()='This is a required field.']
+            parent_name_required: //*[@class='mage-error' and @for='new_category_parent' and text()='This is a required field.']
+            parent_name_existent: //*[@class='mage-error' and @for='new_category_parent' and text()='Choose existing category.']
             attribute_set_html: //*[@class='mage-error' and @for='%fieldId%' and contains(., 'HTML tags are not allowed')]
             attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
 
@@ -91,12 +89,12 @@ new_product:
             fieldsets: &new_product_fieldsets
                 -
                     product_information:
-                        xpath: //div[@class='page-actions-inner']
+                        xpath: //div[@class='page-actions']
                         buttons:
                             attribute_set_toggle: //*[@class='action-toggle']
                             attribute_set_toggle_disabled: //*[@class='action-toggle disabled']
                         fields:
-                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@calss, 'mage-suggest-state-loading'))]
+                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@class, 'mage-suggest-state-loading'))]
                         links:
                             attribute_set: //a[@role='menuitem' and text()='%attributeSet%']
                             show_all_attribute_sets: //a[@role='menuitem' and text()='Show all...']
@@ -154,7 +152,7 @@ new_product:
                                         general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
-                                        general_categories: //input[@id='category_ids-suggest'][not(@class='mage-suggest-state-loading')]
+                                        general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
@@ -189,9 +187,8 @@ new_product:
                                         name: //input[@id='new_category_name']
                                         parent_category: //input[@id='new_category_parent-suggest'][not(@class='mage-suggest-state-loading')]
                                     buttons:
-                                        new_category_close: ///a[span='close']
+                                        new_category_close: //a[span='close']
                                         new_category_save: //button[@data-action='save']
-                                        new_category_cancel: //button[@data-action='cancel']
                             -
                                 parent_categories_list:
                                     xpath: //div[div/span='Create Category']//div[@class='mage-suggest-dropdown']
@@ -214,7 +211,7 @@ new_product:
                                         chosen_parent_category_name: /div[text()='%categoryName%']
                             -
                                 product_variations:
-                                    xpath: //div[@id='config_super_product-wrapper']
+                                    xpath: //div[@id='super_config-wrapper']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
                                         attribute_blocks_name: //input[contains(@name,'[label]')]
@@ -280,7 +277,7 @@ new_product:
                                         opened_product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page'][@value='%pageIndex%']
                             -
                                 grouped_associated_products:
-                                    xpath: //*[@id='grouped_product_container']
+                                    xpath: //*[@id='grouped-wrapper']
                                     buttons:
                                         add_products_to_group: //button[@data-role='add-product']
                                         remove_product_from_group: //tr[td[normalize-space(text())='%productSku%']]//button[text()='Delete']
@@ -340,7 +337,7 @@ new_product:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        add_selected_products: //button[span='Add Selected Products']
+                                        add_selected_products: //button[span='Add Selected Products' or span='Add Products']
                                         cancel_select_products: //button[span='Cancel']
                                     links:
                                         close_select_product_grid: //a[span='close']
@@ -360,10 +357,9 @@ new_product:
                                 product_prices:
                                     xpath: //div[*/*/span='Advanced Pricing']
                                     buttons:
-                                        prices_group_add_group_price: //button[span='Add Group Price']
+                                        add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         add_tier_price: //button[span='Add Tier']
-                                        delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
                                     dropdowns:
                                         prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
                                         prices_price_view_bundle: //select[@id='price_view']
@@ -375,10 +371,20 @@ new_product:
                                         prices_special_price_to: //input[@id='special_to_date']
                                         prices_manu_suggested_retail_price: //input[@id='msrp']
                                     pageelements:
-                                        prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
-                                        prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
-                                        prices_tier_price_grid_head: //table[@id="tiers_table"]/thead
-                                        prices_tier_price_grid_table: //table[@id="tiers_table"]/tbody
+                                        prices_group_price_grid_head: //table[@id='group_prices_table']/thead
+                                        prices_group_price_grid_table: //table[@id='group_prices_table']/tbody
+                                        prices_tier_price_grid_head: //table[@id='tiers_table']/thead
+                                        prices_tier_price_grid_table: //table[@id='tiers_table']/tbody
+                            -
+                                group_price_row:
+                                    xpath: //*[@id='group_price_container']/tr
+                                    dropdowns:
+                                        prices_group_price_website: //select[@id='group_price_row_%groupPriceId%_website']
+                                        prices_group_price_customer_group: //select[@id='group_price_row_%groupPriceId%_cust_group']
+                                    fields:
+                                        prices_group_price: //input[@id='group_price_row_%groupPriceId%_price']
+                                    buttons:
+                                        delete_group_price: //button[@id='group_price_row_%groupPriceId%_delete_button']
                             -
                                 tier_price_row:
                                     xpath: //tbody[@id='tier_price_container']/tr
@@ -388,6 +394,9 @@ new_product:
                                     fields:
                                         prices_tier_price_qty: //input[@id='tier_price_row_%tierPriceId%_qty']
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
+                                    buttons:
+                                        delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
+
                             -
                                 recurring_profile:
                                     xpath: //div[*/*/span='Recurring Profile']
@@ -600,25 +609,22 @@ new_product:
                                     buttons:
                                         add_option: //button[@id='add_new_defined_option']
                                         import_options: //button[@id='import_new_defined_option']
-                                        delete_option: //button[@id='product_option_%optionId%_delete']
                                         delete_custom_option: //button[@class='action-delete']
-                                    fields:
-                                        custom_options_titles: //input[@class='required-entry input-text']
-                                    links:
-                                        expand_option: //*[@id='product_options_container_top']//div[@id='option_%optionId%']//strong[@data-toggle='collapse']
-                                        move_option: //div[strong/*[text()='%optionName%']]/*[@class='draggable-handle']
                             -
                                 custom_option_set:
-                                    xpath: //*[@id='product_options_container_top']//fieldset[@class='fieldset']
+                                    xpath: //*[@id='product_options_container_top']/div
                                     buttons:
+                                        delete_option: //button[@id='product_option_%optionId%_delete']
                                         add_row: //button[@id='product_option_%optionId%_add_select_row']
                                         delete_row: //button[@id='product_option_%optionId%_select_%rowId%_delete']
                                     dropdowns:
                                         custom_options_general_input_type: //select[@id='product_option_%optionId%_type']
                                         custom_options_price_type: //select[@id='product_option_%optionId%_price_type' or @id='product_option_%optionId%_select_%rowId%_price_type']
                                     fields:
+                                        custom_options_general_titles: //input[@class='required-entry input-text']
                                         custom_options_general_title: //input[@id='product_option_%optionId%_title']
                                         custom_options_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
+                                        custom_options_titles: //*[@class='required-entry input-text select-type-title']
                                         custom_options_price: //input[@name='product[options][%optionId%][price]' or @id='product_option_%optionId%_select_%rowId%_price']
                                         custom_options_sku: //input[@name='product[options][%optionId%][sku]' or @name='product[options][%optionId%][values][%rowId%][sku]']
                                         custom_options_max_characters: //input[@name='product[options][%optionId%][max_characters]']
@@ -628,9 +634,12 @@ new_product:
                                         custom_options_rows: //tbody[@id='select_option_type_row_%optionId%']/tr
                                     checkboxes:
                                         custom_options_default_value: //input[@id='product_option_%optionId%_title_use_default']
-                                        custom_options_general_is_required: //input[@class='is-required' and @type='checkbox']
+                                        custom_options_general_is_required: //input[@id='product_option_%optionId%_required']
                                     links:
                                         move_custom_option_row: //tr[contains(@id,'product_option_%optionId%_select_%rowId%')]//div[@class='draggable-handle']
+                                        move: //*[@class='draggable-handle' and @value='%productSku%']
+                                        expand_option: //*[@id='product_options_container_top']//div[@id='option_%optionId%']//strong[@data-toggle='collapse']
+                                        move_option: //div[strong/*[text()='%optionName%']]/*[@class='draggable-handle']
                                     pageelements:
                                         custom_option_row: //tr[contains(@id,'product_option_%optionId%')][not(@style)]
                                         custom_option_verify_row: //fieldset[@class='fieldset-alt']
@@ -640,6 +649,9 @@ new_product:
                                     buttons:
                                         close: //*[@id='import-custom-options-close-button']
                                         import: //*[@id='import-custom-options-apply-button']
+                            -
+                                select_product_custom_option_disabled:
+                                    xpath: //*[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ui-dialog-buttons' and contains(@class, 'disabled']
                             -
                                 select_product_custom_option_grid:
                                     xpath: //*[@id='import-container']
@@ -678,7 +690,7 @@ new_product:
                                         opened_downloadable_link: //*[@id='dt-links'][normalize-space(@class)='open']
                             -
                                 downloadable_sample:
-                                    xpath: //*[@id='dd-samples']/div
+                                    xpath: //*[@id='dd-samples']
                                     buttons:
                                         downloadable_sample_add_new_row: //*[@id='dd-samples']/div//button[span='Add New Row']
                                         downloadable_sample_upload_files: //*[@id='dd-samples']/div//button[span='Upload Files']
@@ -696,7 +708,7 @@ new_product:
                                         downloadable_sample_row: //*[@id='sample_items_body']/tr
                             -
                                 downloadable_link:
-                                    xpath: //*[@id='dd-links']/div
+                                    xpath: //*[@id='dd-links']
                                     buttons:
                                         downloadable_link_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
                                         downloadable_link_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
@@ -724,12 +736,10 @@ new_product:
                     user_tab: &userTab
                         xpath: //a[@title='%productTabName%']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
-            save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
-            save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
-            save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
+            back: //div[@class='page-actions']//button[span='Back']
+            save_and_continue_edit: //div[@class='page-actions']//button[@data-ui-id='product-edit-save-split-button']
+            save_split_select: //div[@class='page-actions']//button[@data-ui-id='product-edit-save-split-button-dropdown']
+            save_product_by_action: //div[@class='page-actions']//span[@id='save-split-button-%additionalAction%-button']
         messages: *productMesssages
 
 # Edit Product page
@@ -806,13 +816,10 @@ edit_product:
                 -
                     user_tab: *userTab
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete: //button[span='Delete']
-            save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
-            save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
-            save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
-            save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
+            back: //div[@class='page-actions']//button[span='Back']
+            save_and_continue_edit: //div[@class='page-actions']//*[@data-ui-id='product-edit-save-split-button']
+            save_split_select: //div[@class='page-actions']//*[@data-ui-id='product-edit-save-split-button-dropdown']
+            save_product_by_action: //div[@class='page-actions']//*[@id='save-split-button-%additionalAction%-button']
         messages: *productMesssages
 
 new_product_save_and_continue:
@@ -973,6 +980,5 @@ updating_products:
                                         websites_remove_from_main_website: //input[@id='remove_product_website_1']
         buttons:
             back: //button[span='Back']
-            reset: //button[span='Reset']
             save: //button[@data-ui-id='attribute-save-button']
         messages: *productMesssages

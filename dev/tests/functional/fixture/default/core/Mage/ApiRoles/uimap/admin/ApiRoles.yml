@@ -1,9 +1,9 @@
 #
 # {license_notice}
 #
-# @category    tests
-# @package     selenium
-# @subpackage  uimaps
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
@@ -37,7 +37,6 @@ api_roles_management:
             success_saved_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been saved.')]
             success_deleted_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been deleted.')]
             role_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Role name is already in use')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 new_role:
@@ -61,7 +60,7 @@ new_role:
                         fieldsets:
                             -
                                 roles_resources:
-                                    xpath: //div[@id='page_tabs_resource_section_content']
+                                    xpath: //*[@id='page_tabs_resource_section_content']
                                     dropdowns:
                                         role_access: //select[@name='all']
                                     links:
@@ -96,7 +95,7 @@ edit_role:
                         fieldsets:
                             -
                                 roles_resources:
-                                    xpath: //div[@id='page_tabs_resource_section_content']
+                                    xpath: //*[@id='page_tabs_resource_section_content']
                                     dropdowns:
                                         role_access: //select[@name='all']
                                     links:

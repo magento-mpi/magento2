@@ -18,11 +18,13 @@
  */
 class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     *
-     * <p>Log in to Backend.</p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
     public function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -54,15 +56,15 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3284
+     * @TestlinkId TL-MAGE-3284
      */
     public function giftMessagePerOrder($simpleSku)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'    => $simpleSku,
-                                              'gift_messages' => $this->loadDataSet('SalesOrder',
-                                                                                    'gift_messages_per_order')));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'filter_sku' => $simpleSku,
+            'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')
+        ));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_for_order_enable');
@@ -70,7 +72,8 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
+        $this->addParameter('orderId', $this->defineIdFromUrl());
+        $this->orderHelper()->verifyGiftOptions($orderData['gift_messages']);
     }
 
     /**
@@ -80,15 +83,14 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3283
+     * @TestlinkId TL-MAGE-3283
      */
     public function giftMessageForProduct($simpleSku)
     {
         //Data
         $gift = $this->loadDataSet('SalesOrder', 'gift_messages_individual', array('sku_product' => $simpleSku));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'    => $simpleSku,
-                                              'gift_messages' => $gift));
+            array('filter_sku' => $simpleSku, 'gift_messages' => $gift));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_per_item_enable');
@@ -96,7 +98,8 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
+        $this->addParameter('orderId', $this->defineIdFromUrl());
+        $this->orderHelper()->verifyGiftOptions($orderData['gift_messages']);
     }
 
     /**
@@ -106,15 +109,17 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3285
+     * @TestlinkId TL-MAGE-3285
      */
     public function giftMessagesWithEmptyFields($simpleSku)
     {
         //Data
         $gift = $this->loadDataSet('SalesOrder', 'gift_messages_with_empty_fields',
-                                   array('sku_product' => $simpleSku));
-        $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku'    => $simpleSku,
-                                                                              'gift_messages' => $gift));
+            array('sku_product' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
+            array('filter_sku' => $simpleSku, 'gift_messages' => $gift));
+        $verify = $this->loadDataSet('SalesOrder', 'gift_messages_with_empty_fields_expected',
+            array('sku_product' => $simpleSku));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_enable');
@@ -122,8 +127,6 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderHelper()->verifyGiftMessage($this->loadDataSet('SalesOrder',
-                                                                   'gift_messages_with_empty_fields_expected',
-                                                                   array('sku_product' => $simpleSku)));
+        $this->orderHelper()->verifyGiftOptions($verify);
     }
 }

@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Attributes_CustomerAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer  Attributes</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -100,8 +96,7 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_YesNoTest extends Mage
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }

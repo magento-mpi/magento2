@@ -75,6 +75,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Add Address for customer with one empty required field.</p>
      *
      * @param string $emptyField
+     * @param string $fieldType
      * @param array $searchData
      *
      * @test
@@ -82,25 +83,22 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3604
      */
-    public function withRequiredFieldsEmpty($emptyField, $searchData)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType, $searchData)
     {
-        //Data
-        if ($emptyField != 'country') {
-            $addressData = $this->loadDataSet('Customers', 'generic_address', array($emptyField => ''));
-        } else {
-            $addressData = $this->loadDataSet('Customers', 'generic_address', array($emptyField => '',
-                                                                                    'state'     => '%noValue%'));
+        if ($emptyField == 'state') {
+            $this->markTestIncomplete('BUG: State is not required field');
         }
+        //Data
+        $override = ($emptyField != 'country')
+            ? array($emptyField => '')
+            : array($emptyField => '', 'state' => '%noValue%');
+
+        $addressData = $this->loadDataSet('Customers', 'generic_address', $override);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
-        if ($emptyField != 'country' and $emptyField != 'state') {
-            $fieldType = 'field';
-        } else {
-            $fieldType = 'dropdown';
-        }
         $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -109,14 +107,14 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('first_name'),
-            array('last_name'),
-            array('street_address_line_1'),
-            array('city'),
-            array('country'),
-            array('state'),
-            array('zip_code'),
-            array('telephone')
+            array('first_name', 'field'),
+            array('last_name', 'field'),
+            array('street_address_line_1', 'field'),
+            array('city', 'field'),
+            array('country', 'dropdown'),
+            array('state', 'dropdown'),
+            array('zip_code', 'field'),
+            array('telephone', 'field')
         );
     }
 

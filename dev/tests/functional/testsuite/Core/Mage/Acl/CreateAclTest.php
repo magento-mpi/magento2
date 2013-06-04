@@ -18,19 +18,11 @@
  */
 class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }
 
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
     protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
@@ -67,7 +59,7 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
         //login as admin user with specific(test) role
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage($page);
+        $this->assertTrue($this->checkCurrentPage($page), $this->getParsedMessages());
         //Verifying  count of main menu elements
         $this->assertEquals($menuElementCount, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
@@ -77,9 +69,9 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
     public function roleResourceAccessDataProvider()
     {
         return array(
-            array('external_page_cache', 'access_denied', 0 ,0),
-            array('dashboard', 'access_denied', 0 ,0),
-            array('global_search', 'access_denied', 0 ,1)
+            array('external_page_cache', 'access_denied', 0, 0),
+            array($this->pageAfterAdminLogin, $this->pageAfterAdminLogin, 1, 0),
+            array('global_search', 'access_denied', 0, 1)
         );
     }
 }

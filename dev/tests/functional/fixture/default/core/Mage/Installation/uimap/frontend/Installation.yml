@@ -77,7 +77,6 @@ configuration:
         buttons:
             continue: //button[span='Continue']
         messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             invalid_base_url: //div[@id='advice-validate-url-base_url']
             invalid_admin_path: //div[@id='advice-validate-data-admin_frontname']
             invalid_tables_prefix: //div[@id='advice-validate-data-prefix']
@@ -110,8 +109,6 @@ create_admin_account:
                             encryption_key: //input[@id='encryption_key']
         buttons:
             continue: //button[span='Continue']
-        messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 end_installation:
     mca: install/wizard/end/

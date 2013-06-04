@@ -57,14 +57,18 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openAttribute($searchData)
     {
-        $this->_prepareDataForSearch($searchData);
+        $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
-        $this->assertNotNull($xpathTR, 'Attribute is not found');
+        $this->assertNotNull($xpathTR, 'Attribute is not found with data: ' . print_r($searchData, true));
+        $attributeRowElement = $this->getElement($xpathTR);
+        $attributeUrl = $attributeRowElement->attribute('title');
+        //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Attribute Label');
-        $this->addParameter('elementTitle', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
-        $this->waitForPageToLoad();
+        $cellElement = $this->getChildElement($attributeRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineParameterFromUrl('attribute_id', $attributeUrl));
+        //Open attribute
+        $this->url($attributeUrl);
         $this->validatePage();
     }
 

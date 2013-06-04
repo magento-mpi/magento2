@@ -104,9 +104,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_ShippingMethodsTest extends Mag
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
         $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
         $checkoutData = $this->loadDataSet('OnePageCheckout',
-                                           'with_register_flatrate_checkmoney_' . $shippingDestination,
-                                           array('general_name' => $simpleSku,
-                                                'shipping_data' => $shippingData));
+            'with_register_flatrate_checkmoney_' . $shippingDestination, array(
+                'general_name' => $simpleSku,
+                'shipping_data' => $shippingData
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         if ($shippingOrigin) {

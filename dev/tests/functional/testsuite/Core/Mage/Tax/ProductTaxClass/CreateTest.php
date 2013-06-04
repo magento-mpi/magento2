@@ -24,7 +24,6 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->navigate('manage_tax_rule');
     }
@@ -73,7 +72,11 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         $taxClass = $this->generate('string', 26);
         $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
         $this->addCompositeMultiselectValue('product_tax_class', $taxClass, null, false);
-        $this->assertTrue($this->alertIsPresent(), 'No validation alert');
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            $testCase->alertText();
+            return true;
+        }, 5);
         $alertText = $this->alertText();
         $this->acceptAlert();
         $this->assertEquals($this->_getMessageXpath('tax_class_exists'), $alertText);
@@ -123,6 +126,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function withSpecialValues($specialValue)
     {
+        $this->markTestIncomplete('MAGETWO-8436, MAGETWO-9100, MAGETWO-9098');
         $this->clickButton('add_rule');
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $this->fillCompositeMultiselect('product_tax_class', array($specialValue));

@@ -19,8 +19,8 @@
 class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions</p>
-     * <p>Navigate to Catalog->Manage Products</p>
+     * Preconditions
+     * Navigate to Catalog->Manage Products
      */
     protected function assertPreConditions()
     {
@@ -29,7 +29,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with custom options</p>
+     * Create product with custom options
      *
      * @TestlinkId TL-MAGE-3382
      * @test
@@ -52,7 +52,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with empty required field in custom options</p>
+     * Create product with empty required field in custom options
      *
      * @param $emptyCustomField
      *
@@ -88,7 +88,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with CustomOption: Empty field 'option row Title' if 'Input Type'='Select' type</p>
+     * Create product with CustomOption: Empty field 'option row Title' if 'Input Type'='Select' type
      *
      * @param string $optionDataName
      *
@@ -122,7 +122,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Reorder Custom Option Blocks</p>
+     * Reorder Custom Option Blocks
      *
      * @TestlinkId TL-MAGE-6933
      * @test
@@ -146,7 +146,28 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product custom option: use invalid value for field 'Max Characters'</p>
+     * Reorder rows in Custom Option Block
+     *
+     * @TestlinkId TL-MAGE-6942
+     * @test
+     */
+    public function sortOrderRowsInCustomOptionBlock()
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['custom_options_data'][] = $this->loadDataSet('Product', 'custom_options_dropdown_order_rows');
+        $productSearch = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->verifyProductInfo($productData);
+    }
+
+    /**
+     * Create product custom option: use invalid value for field 'Max Characters'
      *
      * @param $invalidData
      *
@@ -180,7 +201,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with Custom Option: Use special symbols for filling field 'Price'</p>
+     * Create product with Custom Option: Use special symbols for filling field 'Price'
      *
      * @param $optionDataName
      *
@@ -209,7 +230,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with Custom Option: Use text value for filling field 'Price'</p>
+     * Create product with Custom Option: Use text value for filling field 'Price'
      *
      * @param $optionDataName
      *
@@ -254,7 +275,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with Custom Option: Use negative number for filling field 'Price'</p>
+     * Create product with Custom Option: Use negative number for filling field 'Price'
      *
      * @param $optionName
      *
@@ -285,7 +306,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with Custom Option: Use negative number for filling field 'Price'</p>
+     * Create product with Custom Option: Use negative number for filling field 'Price'
      *
      * @param $optionName
      *

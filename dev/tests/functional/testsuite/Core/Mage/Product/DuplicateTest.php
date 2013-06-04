@@ -18,10 +18,13 @@
  */
 class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -79,9 +82,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_3']['admin_option_name'];
 
-        $productData = array('simple'       => $simple,
-                             'downloadable' => $downloadable,
-                             'virtual'      => $virtual);
+        $productData = array('simple' => $simple, 'downloadable' => $downloadable, 'virtual' => $virtual);
         //Steps
         foreach ($productData as $key => $value) {
             $this->productHelper()->createProduct($value, $key);
@@ -89,9 +90,11 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_product');
         }
 
-        return array('related_search_sku'     => $simple['general_sku'],
-                     'up_sells_search_sku'    => $downloadable['general_sku'],
-                     'cross_sells_search_sku' => $virtual['general_sku']);
+        return array(
+            'related_search_sku' => $simple['general_sku'],
+            'up_sells_search_sku' => $downloadable['general_sku'],
+            'cross_sells_search_sku' => $virtual['general_sku']
+        );
     }
 
     /**
@@ -221,8 +224,8 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Data
         $grouped = $this->loadDataSet('Product', 'duplicate_grouped', $assignData,
             array('product_1' => $assignData['related_search_sku'],
-                  'product_2' => $assignData['up_sells_search_sku'],
-                  'product_3' => $assignData['cross_sells_search_sku']));
+                'product_2' => $assignData['up_sells_search_sku'],
+                'product_3' => $assignData['cross_sells_search_sku']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $grouped['general_sku']));
         //Steps
         $this->productHelper()->createProduct($grouped, 'grouped');
@@ -252,9 +255,10 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     public function duplicateBundle($data, $assignData)
     {
         //Data
-        $bundle = $this->loadDataSet('Product', $data, $assignData,
-            array('product_1' => $assignData['related_search_sku'],
-                  'product_2' => $assignData['cross_sells_search_sku']));
+        $bundle = $this->loadDataSet('Product', $data, $assignData, array(
+            'product_1' => $assignData['related_search_sku'],
+            'product_2' => $assignData['cross_sells_search_sku']
+        ));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundle['general_sku']));
         //Steps
         $this->productHelper()->createProduct($bundle, 'bundle');
@@ -293,9 +297,10 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     {
         $this->markTestIncomplete('MAGETWO-4511');
         //Data
-        $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assignData,
-            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
-                  'general_attribute_1' => $attrData['attribute_label']));
+        $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assignData, array(
+            'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+            'general_attribute_1' => $attrData['attribute_label']
+        ));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');

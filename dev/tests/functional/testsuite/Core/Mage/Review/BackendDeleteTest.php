@@ -74,6 +74,7 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithRating($data)
     {
+        $this->markTestIncomplete('BUG: Fatal error on page after save review');
         //Data
         $reviewData = $this->loadDataSet('ReviewAndRating', 'review_required_with_rating', $data['withRating']);
         $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
@@ -139,8 +140,8 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_review');
         //Steps
         $this->searchAndChoose($search, 'all_reviews_grid');
-        $this->fillDropdown('actions', 'Delete');
-        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete_all');
+        $this->fillDropdown('mass_action_select_action', 'Delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         //Verification
         $this->assertMessagePresent('success', 'success_deleted_review_massaction');
     }

@@ -111,6 +111,7 @@ ul.messages li.success-msg li:before {
 .accordion > dt,
 .accordion > dd.open,
 .accordion .collapseable,
+.section-config.active > .collapseable + input + fieldset,
 .accordion .collapseable.open + input + fieldset {
     background: #fff;
     border: 1px solid #eae6e0;
@@ -125,12 +126,13 @@ ul.messages li.success-msg li:before {
 }
 
 .accordion > dt.open,
+.section-config.active > .collapseable,
 .accordion .collapseable.open {
     margin: 0;
     border-bottom: 0;
     border-radius: 5px 5px 0 0;
 }
-
+.section-config.active > .collapseable + input + fieldset,
 .accordion > dt + dd.open,
 .accordion .collapseable.open + input + fieldset {
     padding: 25px 18px 18px;
@@ -139,6 +141,7 @@ ul.messages li.success-msg li:before {
     border-radius: 0 0 5px 5px;
 }
 
+.section-config > .collapseable > a,
 .accordion > dt a,
 .accordion .collapseable > a {
     color: #666;
@@ -151,11 +154,12 @@ ul.messages li.success-msg li:before {
     cursor: pointer;
 }
 
+.section-config.active > .collapseable > a,
 .accordion .collapseable.open a,
 .accordion dt.open a {
     border-bottom: 1px solid #ededed;
 }
-
+.section-config > .collapseable > a:before,
 .accordion > dt a:before,
 .accordion .collapseable > a:before {
     position: absolute;
@@ -170,13 +174,189 @@ ul.messages li.success-msg li:before {
     color: #b2b0ad;
 }
 
+
+.section-config.active > .collapseable > a:before,
 .accordion > dt.open a:before,
 .accordion .collapseable.open a:before {
     content: '\e02c'; /* arrow down icon */
 }
+.section-config > .collapseable > a:hover:before,
 .accordion > dt a:hover:before,
 .accordion .collapseable > a:hover:before {
     color: #7e7e7e;
+}
+
+/* PayPal connected */
+
+.section-config.complex .section-config.with-button {
+    padding:20px 15px;
+    margin:0 -30px 0 -15px;
+    border-bottom:1px solid #eae6e0;
+}
+
+.section-config.complex tr:last-child .section-config.with-button {
+    border-bottom:0;
+}
+
+.section-config.complex .section-config.with-button > .entry-edit-head {
+    padding:0;
+    padding-left:25px;
+    border:0;
+}
+
+.section-config.complex .section-config.with-button.enabled > .entry-edit-head:before {
+    content: "\e01e";
+    color:#fff;
+    background: #65940a;
+    font-family: "MUI-Icons";
+    font-weight: normal;
+    padding:3px;
+    font-size: 10px;
+    width:10px;
+    height:10px;
+    line-height: 10px;
+    overflow: hidden;
+    border-radius: 8px;
+    display: block;
+    float:left;
+    margin-left:-25px;
+    margin-top:0;
+}
+
+.section-config.complex .section-config.with-button > .config {
+    margin:10px -10px;
+    border:1px solid #d1d0ce;
+    border-radius: 5px;
+    padding:5px 0;
+}
+.section-config.complex .section-config.with-button > .config > table > tbody > tr > td {
+    padding:0;
+}
+
+.section-config.complex .section-config.with-button > .config > table > tbody > tr > td > .section-config > .entry-edit-head {
+    border:0;
+    border-radius: 0;
+    margin-bottom:0;
+    padding:5px 10px 2px;
+    border-bottom:1px solid #d1d0ce;
+    background: transparent;
+}
+.section-config.complex .section-config.with-button > .config > table > tbody > tr:last-child > td > .section-config > .entry-edit-head {
+    border:0;
+}
+.section-config.complex .section-config.with-button > .config > table > tbody > tr > td > .section-config > .entry-edit-head a {
+    border-bottom:0;
+}
+
+.section-config.complex .section-config.with-button > .config > table > tbody > tr > td > .section-config > .config {
+    border:0;
+    border-bottom:1px solid #d1d0ce;
+    border-radius: 0;
+    margin:0;
+    padding-bottom:50px;
+}
+.section-config.complex .section-config.with-button > .config > table > tbody > tr:last-child > td > .section-config > .config {
+    border-bottom:0;
+}
+
+.section-config .config h4 {
+    padding-left:25%;
+    font-size: 18px;
+}
+
+.section-config .config td.label label.enabled:before {
+}
+.section-config .config td.label label.enabled:before {
+    content: "\e01e";
+    color:#fff;
+    background: #65940a;
+    font-family: "MUI-Icons";
+    font-weight: normal;
+    padding:3px;
+    font-size: 10px;
+    width:10px;
+    height:10px;
+    line-height: 10px;
+    overflow: hidden;
+    border-radius: 8px;
+    display: block;
+    float:left;
+    margin-right:5px;
+}
+
+.section-config.complex .section-config.with-button > .config:before {
+    content:'';
+    height: 9px;
+    width: 20px;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    zoom: 1;
+    z-index: 2;
+    margin-left: -10px;
+    background: url(../images/subconfig-bg.png) no-repeat 0 0;
+}
+
+.section-config.config-advanced {
+    padding:30px 0 0;
+}
+.section-config.config-advanced > .entry-edit-head {
+    border:0;
+    padding:0;
+    padding-left:25%;
+}
+.section-config.config-advanced > .entry-edit-head a {
+    border:0 !important;
+}
+.section-config.config-advanced > .config {
+    padding-left:0!important;
+    padding-right:0!important;
+    border:0!important;
+    border-radius: 0!important;
+}
+
+.section-config.config-advanced > .entry-edit-head a {
+    margin-left:-22px;
+}
+
+
+.section-config.with-button .config-heading strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom:5px;
+}
+
+.section-config.with-button .config-heading .button-container {
+    margin:15px 0 0;
+}
+.section-config.with-button .button-container {
+    line-height: 28px;
+}
+.section-config.with-button .button-container a {
+    margin-left:20px;
+}
+
+.section-config.with-button .action-configure span {
+    display: block;
+    position: relative;
+    text-align: center;
+}
+.section-config.with-button .action-configure .state-opened {
+    visibility: hidden;
+    height:0;
+    overflow: hidden;
+}
+.section-config.with-button .action-configure.open .state-opened {
+    visibility: visible;
+    height:auto;
+    overflow: auto;
+}
+.section-config.with-button .action-configure.open .state-closed {
+    visibility: hidden;
+    height:0;
+    overflow: hidden;
 }
 
 .accordion > dt + dd {
@@ -194,6 +374,10 @@ ul.messages li.success-msg li:before {
 
 .dashboard-container.col-2-left-layout:before {
     left: 40%;
+}
+
+.dashboard-container #diagram_tab {
+    margin: 20px 20px 0;
 }
 
 /* TODO: arrange configuration tables */
@@ -274,7 +458,59 @@ ul.messages li.success-msg li:before {
 
 .accordion .config .value {
     width: 50%;
+    padding-right:40px;
 }
+
+.accordion .config .value.with-tooltip {
+    padding-top:5px;
+}
+.accordion .config .value.with-tooltip .tooltip {
+    position: relative;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:0;
+    float:right;
+    margin-right:-20px;
+    margin-top:6px;
+}
+.accordion .config .value.with-tooltip .tooltip-content {
+    padding:15px;
+    right:0;
+    margin-left:0;
+    margin-right:-19px;
+    margin-bottom:10px;
+    left:auto;
+    top:auto;
+    bottom:100%;
+    width: 400px;
+    max-width: 400px;
+    line-height: 1.333;
+}
+.accordion .config .value.with-tooltip .tooltip-content:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: auto;
+    bottom:-5px;
+    left:auto;
+    right: 20px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #000;
+    border-bottom:0;
+    opacity: .8;
+}
+
+.accordion .config .value.with-tooltip .help {
+    position: relative;
+    width:auto;
+    margin:0;
+}
+
+
 
 .accordion .config .scope-label {
     color: #999;
@@ -668,7 +904,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add,
 .adminhtml-checkout-agreement-index .page-actions .add,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default,
 .adminhtml-catalog-event-index .page-actions .add,
 .adminhtml-catalog-product-attribute-index .page-actions .add,
 .adminhtml-catalog-product-set-index .page-actions .add,
@@ -741,7 +977,7 @@ th.required:after {
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add,
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add,
 /* catalog */
-.eq-ie8 .adminhtml-catalog-product-index .page-actions .actions-split > .action-default,
+.eq-ie8 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add,
 .eq-ie8 .adminhtml-catalog-product-attribute-index .page-actions .add,
 .eq-ie8 .adminhtml-catalog-product-set-index .page-actions .add,
@@ -798,7 +1034,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
 .adminhtml-checkout-agreement-index .page-actions .add:hover,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default:hover,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default:hover,
 .adminhtml-catalog-event-index .page-actions .add:hover,
 .adminhtml-catalog-product-attribute-index .page-actions .add:hover,
 .adminhtml-catalog-product-set-index .page-actions .add:hover,
@@ -863,7 +1099,7 @@ th.required:after {
 .eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add:hover,
 /* catalog */
-.eq-ie8 .adminhtml-catalog-product-index .page-actions .actions-split > .action-default:hover,
+.eq-ie8 .adminhtml-catalog-product-index .page-actions .btn-round > .action-default:hover,
 .eq-ie8 .adminhtml-catalog-event-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-catalog-product-attribute-index .page-actions .add:hover,
 .eq-ie8 .adminhtml-catalog-product-set-index .page-actions .add:hover,
@@ -920,7 +1156,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add:active,
 .adminhtml-checkout-agreement-index .page-actions .add:active,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default:active,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default:active,
 .adminhtml-catalog-event-index .page-actions .add:active,
 .adminhtml-catalog-product-attribute-index .page-actions .add:active,
 .adminhtml-catalog-product-set-index .page-actions .add:active,
@@ -981,7 +1217,7 @@ th.required:after {
 .adminhtml-giftwrapping-index .page-actions .add > span,
 .adminhtml-checkout-agreement-index .page-actions .add > span,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default > span,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default > span,
 .adminhtml-catalog-event-index .page-actions .add > span,
 .adminhtml-catalog-product-attribute-index .page-actions .add > span,
 .adminhtml-catalog-product-set-index .page-actions .add > span,
@@ -1041,7 +1277,7 @@ th.required:after {
 .adminhtml-rma-item-attribute-index .page-actions .add > span:before,
 .adminhtml-checkout-agreement-index .page-actions .add > span:before,
 /* catalog */
-.adminhtml-catalog-product-index .page-actions .actions-split > .action-default > span:before,
+.adminhtml-catalog-product-index .page-actions .btn-round > .action-default > span:before,
 .adminhtml-catalog-event-index .page-actions .add > span:before,
 .adminhtml-catalog-product-attribute-index .page-actions .add > span:before,
 .adminhtml-catalog-product-set-index .page-actions .add > span:before,
@@ -1106,8 +1342,8 @@ th.required:after {
     overflow: hidden;
 }
 
-.adminhtml-catalog-product-index .actions-split > .action-toggle,
-.adminhtml-catalog-product-index .actions-split > .action-toggle:focus {
+.adminhtml-catalog-product-index .btn-round > .action-toggle,
+.adminhtml-catalog-product-index .btn-round > .action-toggle:focus {
     border: 1px solid #c5c0b9;
     border-radius: 0 20px 20px 0;
     box-shadow: 0 1px 0 0 #f3f2f1, inset 0 1px 0 0 #f4f1ec;
@@ -1126,12 +1362,12 @@ th.required:after {
     background: linear-gradient(to bottom, #f1eee7 0%,#ebe7dc 100%);
 }
 
-.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle,
-.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle:focus {
+.eq-ie8 .adminhtml-catalog-product-index .btn-round > .action-toggle,
+.eq-ie8 .adminhtml-catalog-product-index .btn-round > .action-toggle:focus {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1eee7', endColorstr='#ebe7dc',GradientType=0 );
 }
 
-.adminhtml-catalog-product-index .actions-split > .action-toggle:hover {
+.adminhtml-catalog-product-index .btn-round > .action-toggle:hover {
     margin-left: -6px;
     text-shadow: none;
     background: #dfdbd4;
@@ -1144,11 +1380,11 @@ th.required:after {
     background: linear-gradient(to bottom, #dfdbd4 0%,#d3cdc3 100%);
 }
 
-.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle:hover {
+.eq-ie8 .adminhtml-catalog-product-index .btn-round > .action-toggle:hover {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfdbd4', endColorstr='#d3cdc3',GradientType=0 );
 }
 
-.adminhtml-catalog-product-index .actions-split.active {
+.adminhtml-catalog-product-index .btn-round.active {
     background: #fff;
     padding: 5px 4px 6px 7px;
     margin: -6px -4px -6px -8px;
@@ -1159,8 +1395,8 @@ th.required:after {
     filter: none
 }
 
-.adminhtml-catalog-product-index .actions-split.active > .action-toggle,
-.adminhtml-catalog-product-index .actions-split.active > .action-toggle:hover {
+.adminhtml-catalog-product-index .btn-round.active > .action-toggle,
+.adminhtml-catalog-product-index .btn-round.active > .action-toggle:hover {
     background: transparent;
     border: 0;
     border-radius: 0;
@@ -1169,12 +1405,12 @@ th.required:after {
     padding: 1px 5px 1px 11px;
 }
 
-.eq-ie8 .adminhtml-catalog-product-index .actions-split.active > .action-toggle,
-.eq-ie8 .adminhtml-catalog-product-index .actions-split.active > .action-toggle:hover {
+.eq-ie8 .adminhtml-catalog-product-index .btn-round.active > .action-toggle,
+.eq-ie8 .adminhtml-catalog-product-index .btn-round.active > .action-toggle:hover {
     filter: none;
 }
 
-.adminhtml-catalog-product-index .actions-split.active:before {
+.adminhtml-catalog-product-index .btn-round.active:before {
     position: absolute;
     display: block;
     bottom: -2px;
@@ -1186,7 +1422,7 @@ th.required:after {
     z-index: 5;
 }
 
-.adminhtml-catalog-product-index .actions-split .dropdown-menu {
+.adminhtml-catalog-product-index .btn-round .dropdown-menu {
     margin-top: -4px;
     left: -1px;
     right: auto;
@@ -1200,7 +1436,7 @@ th.required:after {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.adminhtml-catalog-product-index .actions-split.active .dropdown-menu > li > .item {
+.adminhtml-catalog-product-index .btn-round.active .dropdown-menu > li > .item {
     padding: 9px 10px 10px;
 }
 

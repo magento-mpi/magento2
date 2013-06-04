@@ -17,6 +17,7 @@
             <depends>
                 <Mage_Customer/>
                 <Mage_Checkout/>
+                <Enterprise_Checkout/>
             </depends>
         </Enterprise_Reward>
     </modules>

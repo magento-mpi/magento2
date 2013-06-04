@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer Address Attributes</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -52,7 +48,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest ex
      * @depends navigation
      * @TestlinkId TL-MAGE-5543
      */
-
     public function withRequiredFieldsOnly()
     {
         //Data
@@ -75,7 +70,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest ex
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5544
      */
-
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
@@ -94,7 +88,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest ex
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-5545
      */
-
     public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
         //Data
@@ -103,8 +96,7 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest ex
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
@@ -193,12 +185,14 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest ex
     public function withLongValues()
     {
         //Data
-        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_dropdown',
-            array('attribute_code'  => $this->generate('string', 21, ':lower:'),
-                  'attribute_label' => $this->generate('string', 255, ':alnum:')));
-        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
-            array('attribute_code'  => $attrData['properties']['attribute_code'],
-                  'attribute_label' => $attrData['properties']['attribute_label']));
+        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_dropdown', array(
+            'attribute_code' => $this->generate('string', 21, ':lower:'),
+            'admin_title' => $this->generate('string', 255, ':alnum:')
+        ));
+        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data', array(
+            'attribute_code' => $attrData['properties']['attribute_code'],
+            'attribute_label' => $attrData['manage_labels_options']['attribute_label']
+        ));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying

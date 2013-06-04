@@ -11,7 +11,6 @@
 #
 ---
 # Test data for Admin Role
-
 generic_admin_user_role:
     role_info_tab:
         role_name: 'My Test Role %randomize%'
@@ -25,7 +24,8 @@ generic_admin_user_role_acl:
     role_resources_tab:
         role_resources:
             resource_access : Custom
-            resource_acl: Sales
+            resource_acl: sales,products
+            resource_acl_skip: %noValue%
 
 role_users_template: &roleUsersTemplate
     user_id: %noValue%
@@ -34,29 +34,6 @@ role_users_template: &roleUsersTemplate
     last_name: %noValue%
     email: %noValue%
     status: Active
-
-edit_admin_user_role_custom:
-    search_role:
-        id: %noValue%
-        role_name: %roleName%
-    role_info_tab:
-        role_name: 'Edit Role %randomize%'
-    role_resources_tab:
-        role_resources:
-            resource_access : Custom
-            resource_1: Sales/Archive/Orders/Move to Archive
-    role_users_tab:
-        role_users_1: *roleUsersTemplate
-        role_users_2: %noValue%
-
-catalog_sales_role:
-    role_info_tab:
-        role_name: Sales Catalog  %randomize%
-    role_resources_tab:
-        role_resources:
-            resource_access : Custom
-            resource_1: Sales
-            resource_2: Products
 
 edit_admin_user_role_name:
     search_role:
@@ -67,44 +44,5 @@ edit_admin_user_role_name:
     role_resources_tab:
         role_resources:
             resource_access: %noValue%
-            resource_1: %noValue%
-
-delete_admin_user_role:
-    search_role:
-        id: %noValue%
-        role_name: %roleName%
-        role_promotions_catalog_rights:
-            role_info_tab:
-                role_name: 'My Test Role %randomize%'
-            role_resources_tab:
-                role_scopes: %noValue%
-                role_resources:
-                    resource_access : Custom
-                    resource_1: Promotions/Catalog Price Rules
-
-role_promotions_full_rights:
-    role_info_tab:
-        role_name: 'My Test Role %randomize%'
-    role_resources_tab:
-        role_scopes: %noValue%
-        role_resources:
-            resource_access : Custom
-            resource_acl: promotions
-
-role_promotions_catalog_rights:
-    role_info_tab:
-        role_name: 'My Test Role %randomize%'
-    role_resources_tab:
-        role_scopes: %noValue%
-        role_resources:
-            resource_access : Custom
-            resource_acl: catalog_price_full
-
-role_promotions_shopping_cart_rights:
-    role_info_tab:
-        role_name: 'My Test Role %randomize%'
-    role_resources_tab:
-        role_scopes: %noValue%
-        role_resources:
-            resource_access : Custom
-            resource_acl: shopping_cart_full
+            resource_acl: %noValue%
+            resource_acl_skip: %noValue%

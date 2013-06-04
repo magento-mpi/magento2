@@ -292,8 +292,6 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(
-            Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL
-        );
+        return $this->_authorization->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL);
     }
 }

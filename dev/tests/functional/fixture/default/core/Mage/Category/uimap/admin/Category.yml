@@ -28,7 +28,7 @@ manage_categories:
                             expand_all: //a[text()='Expand All']
                 -
                     select_category:
-                        xpath: //div[@class='tree-holder']
+                        xpath: //div[@class='tree-holder']/div
                         links:
                             category_by_name: //span[contains(text(),'%categoryName%')]
                             select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
@@ -131,7 +131,6 @@ manage_categories:
             save_category: //button[@data-ui-id='category-edit-form-save-button']
             delete_category: //button[span='Delete Category']
         messages:
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
             success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been saved.')]
             success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been deleted.')]
             confirm_delete: Are you sure you want to delete this category?

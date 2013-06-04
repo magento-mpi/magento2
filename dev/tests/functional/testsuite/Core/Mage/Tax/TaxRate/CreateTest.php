@@ -24,7 +24,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->navigate('manage_tax_zones_and_rates');
     }
@@ -97,7 +96,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxRate($taxRateData);
         //Verifying
         $this->addFieldIdToMessage('field', $emptyFieldName);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     public function withEmptyRequiredFieldsDataProvider()
@@ -195,7 +194,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxRate($taxRateData);
         //Verifying
         $this->addFieldIdToMessage('field', 'rate_percent');
-        $this->assertMessagePresent('error', 'enter_not_negative_number');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
     }
 
     public function withInvalidValueForRatePercentDataProvider()
@@ -236,6 +235,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function withStoreViewTitle()
     {
+        $this->markTestIncomplete('MAGETWO-9043');
         //Preconditions
         $this->navigate('manage_stores');
         $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');

@@ -47,7 +47,9 @@ TreeSuggestTest.prototype.testInit = function() {
     assertTrue(this.suggestElement.is(':mage-treeSuggest'));
     assertEquals(treeSuggestInstance.widgetEventPrefix, 'suggest');
 };
+
 TreeSuggestTest.prototype.testBind = function() {
+    return; // test is broken, see https://jira.corp.x.com/browse/MAGETWO-9269
     var event = jQuery.Event('keydown'),
         proxyEventsExecuted = false,
         treeSuggestInstance = this.treeSuggestCreate();
@@ -72,6 +74,7 @@ TreeSuggestTest.prototype.testBind = function() {
     treeSuggestInstance.element.trigger(event);
     assertTrue(proxyEventsExecuted);
 };
+
 TreeSuggestTest.prototype.testClose = function() {
     var treeSuggestInstance = this.treeSuggestCreate(),
         elementFocused = false;

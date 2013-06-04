@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_MultipleLineTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer Address Attributes</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -100,8 +96,7 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_MultipleLineTes
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
@@ -220,12 +215,14 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_MultipleLineTes
     public function withLongValues()
     {
         //Data
-        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_multipleline',
-            array('attribute_code'  => $this->generate('string', 21, ':lower:'),
-                  'attribute_label' => $this->generate('string', 255, ':alnum:')));
-        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
-            array('attribute_code'  => $attrData['properties']['attribute_code'],
-                  'attribute_label' => $attrData['properties']['attribute_label']));
+        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_multipleline', array(
+            'attribute_code' => $this->generate('string', 21, ':lower:'),
+            'admin_title' => $this->generate('string', 255, ':alnum:')
+        ));
+        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data', array(
+            'attribute_code' => $attrData['properties']['attribute_code'],
+            'attribute_label' => $attrData['manage_labels_options']['admin_title']
+        ));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying

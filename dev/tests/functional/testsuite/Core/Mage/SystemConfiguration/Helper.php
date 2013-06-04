@@ -32,20 +32,34 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
         }
         foreach ($parameters as $value) {
-            if (!is_array($value)) {
+            if (!is_array($value) || !isset($value['tab_name']) || !isset($value['configuration'])) {
                 continue;
             }
-            $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
-            if (!empty($value['tab_name'])) {
-                $this->openConfigurationTab($value['tab_name']);
-                foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $this->expandFieldSet($fieldsetName);
-                    $this->fillFieldset($fieldsetData, $fieldsetName);
-                }
-                $this->saveForm('save_config');
-                $this->assertMessagePresent('success', 'success_saved_config');
-                $this->verifyConfigurationOptions($settings, $value['tab_name']);
+            $this->openConfigurationTab($value['tab_name']);
+            $possibleLogOut = preg_match('/^advanced_/', $value['tab_name']);
+            foreach ($value['configuration'] as $fieldsetName => $fieldsetData) {
+                $this->expandFieldSet($fieldsetName);
+                $this->fillFieldset($fieldsetData, $fieldsetName);
             }
+            $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+            if ($possibleLogOut) {
+                $waitConditions[] = $this->_getControlXpath('field', 'user_name',
+                    $this->getUimapPage('admin', 'log_in_to_admin'));
+            }
+            $this->clickButton('save_config', false);
+            $this->waitForElementVisible($waitConditions);
+            $this->validatePage();
+            if ($possibleLogOut && $this->getCurrentPage() == 'log_in_to_admin') {
+                if ($this->controlIsVisible('field', 'captcha')) {
+                    return;
+                }
+                $this->loginAdminUser();
+                $this->navigate('system_configuration');
+                $this->openConfigurationTab($value['tab_name']);
+            } else {
+                $this->assertMessagePresent('success', 'success_saved_config');
+            }
+            $this->verifyConfigurationOptions($value['configuration'], $value['tab_name']);
         }
     }
 
@@ -79,8 +93,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             $this->expandFieldSet($fieldsetName);
             $this->verifyForm($fieldsetData, $tab);
         }
-        if ($this->getParsedMessages('verification')) {
-            $messages = $this->getParsedMessages('verification');
+        $messages = $this->getParsedMessages('verification');
+        if ($messages) {
             $this->clearMessages('verification');
             $skipError = preg_quote("' != '**");
             foreach ($messages as $errorMessage) {
@@ -105,6 +119,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $this->defineParameters('tab', $tab, 'href');
         $url = $this->getControlElement('tab', $tab)->attribute('href');
         $this->url($url);
+        $this->validatePage();
     }
 
     /**
@@ -145,22 +160,83 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $this->openConfigurationTab('general_web');
         $this->expandFieldSet('secure');
         $secureBaseUrl = $this->getControlAttribute('field', 'secure_base_url', 'value');
-        $data = array('secure_base_url'             => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
-                      'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
+        $data = array(
+            'secure_base_url' => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
+            'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure))
+        );
         $this->fillFieldset($data, 'secure');
         $this->clickButton('save_config');
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
 
     /**
-     * @param $parameters
+     * PayPal System Configuration
+     *
+     * @param array|string $parameters
+     *
+     * @throws RuntimeException
      */
     public function configurePaypal($parameters)
     {
-        $this->markTestIncomplete('MAGETWO-8455');
-        $this->configure($parameters);
+        $parameters = $this->fixtureDataToArray($parameters);
+        $configuration = (isset($parameters['configuration'])) ? $parameters['configuration'] : array();
+        if (isset($parameters['configuration_scope']) &&
+            $this->controlIsVisible('dropdown', 'current_configuration_scope')
+        ) {
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
+        }
+        $this->openConfigurationTab('sales_payment_methods');
+        $this->disableAllPaypalMethods();
+        foreach ($configuration as &$payment) {
+            if (!isset($payment['payment_name']) || !isset($payment['general_fieldset'])) {
+                throw new RuntimeException('Required parameter "payment_name"(or "general_fieldset") is not set');
+            }
+            $this->disclosePaypalFieldset($payment['general_fieldset']);
+            if ($this->controlIsVisible('button', $payment['payment_name'] . '_configure')) {
+                $this->clickButton($payment['payment_name'] . '_configure', false);
+            }
+            foreach ($payment as &$dataSet) {
+                if (!is_array($dataSet)) {
+                    continue;
+                }
+                $fieldsetName = $this->disclosePaypalFieldset($dataSet['path']);
+                foreach ($dataSet['data'] as $key => $value) {
+                    $dataSet['data'][$payment['payment_name'] . '_' . $key] = $value;
+                    unset($dataSet['data'][$key]);
+                }
+                $this->fillFieldset($dataSet['data'], $fieldsetName);
+            }
+        }
+        $this->saveForm('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
+        foreach ($configuration as $payment) {
+            $this->disclosePaypalFieldset($payment['general_fieldset']);
+            if ($this->controlIsVisible('button', $payment['payment_name'] . '_configure')) {
+                $this->clickButton($payment['payment_name'] . '_configure', false);
+            }
+            foreach ($payment as $dataSet) {
+                if (is_array($dataSet)) {
+                    $this->disclosePaypalFieldset($dataSet['path']);
+                    $this->verifyForm($dataSet['data'], 'sales_payment_methods');
+                }
+            }
+        }
+        $messages = $this->getParsedMessages('verification');
+        if ($messages) {
+            $this->clearMessages('verification');
+            $skipError = preg_quote("' != '**");
+            foreach ($messages as $errorMessage) {
+                if (!preg_match('#' . $skipError . '#i', $errorMessage)) {
+                    $this->addVerificationMessage($errorMessage);
+                }
+            }
+        }
+        $this->assertEmptyVerificationErrors();
     }
 
+    /**
+     * @param string $tabName
+     */
     public function verifyTabFieldsAvailability($tabName)
     {
         $needFieldTypes = array('multiselect', 'dropdown', 'field');
@@ -179,20 +255,69 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
                     $this->addVerificationMessage("Element $fieldName with locator $fieldLocator is not on the page");
                     continue;
                 }
-                if (!$this->elementIsPresent($fieldLocator . $globalView)) {
-                    $locator = $fieldLocator . $globalView;
-                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
-                }
-                if (!$this->elementIsPresent($fieldLocator . $websiteView)) {
-                    $locator = $fieldLocator . $websiteView;
-                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
-                }
-                if (!$this->elementIsPresent($fieldLocator . $storeView)) {
-                    $locator = $fieldLocator . $storeView;
-                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
+                if (!$this->elementIsPresent($fieldLocator . $globalView)
+                    && !$this->elementIsPresent($fieldLocator . $websiteView)
+                    && !$this->elementIsPresent($fieldLocator . $storeView)
+                ) {
+                    $this->addVerificationMessage('Scope label for element "' . $fieldName . '" with locator "'
+                    . $fieldLocator . '" is not on the page');
                 }
             }
         }
         $this->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * Disable all active paypal payment methods
+     *
+     * @return null
+     */
+    public function disableAllPaypalMethods()
+    {
+        if (!$this->controlIsPresent('button', 'active_paypal_method')) {
+            return;
+        }
+        $closePaypalFieldsetButtons = array();
+        foreach ($this->_getActiveTabUimap()->getAllButtons() as $key => $value) {
+            if (preg_match('/_close$/', $key)) {
+                $closePaypalFieldsetButtons[preg_replace('/_close$/', '', $key)] = $value;
+            }
+        }
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+        foreach ($this->getControlElements('button', 'active_paypal_method') as $element) {
+            $idRegExp = preg_quote('@id=\'' . $element->attribute('id'));
+            foreach ($closePaypalFieldsetButtons as $name => $locator) {
+                if (preg_match('/' . $idRegExp . '/', $locator)) {
+                    $this->moveto($element);
+                    $element->click();
+                    if ($this->controlIsEditable('dropdown', $name . '_enable')) {
+                        $this->fillDropdown($name . '_enable', 'No');
+                    }
+                    unset($closePaypalFieldsetButtons[$name]);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Disclose Paypal fieldset
+     *
+     * @param string $path
+     *
+     * @return string Fieldset name for filling in
+     */
+    public function disclosePaypalFieldset($path)
+    {
+        $fullPath = explode('/', $path);
+        $fullPath = array_map('trim', $fullPath);
+        foreach ($fullPath as $node) {
+            $class = $this->getControlAttribute('fieldset', $node, 'class');
+            if (!preg_match('/active/', $class)) {
+                $this->clickControl('link', $node . '_section', false);
+            }
+        }
+
+        return end($fullPath);
     }
 }

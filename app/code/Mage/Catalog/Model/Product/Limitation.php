@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Product_Limitation
      */
     public function isCreateRestricted($num = 1)
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
+        $limit = $this->getLimit();
         if ($limit > 0) {
             return $this->_resource->countAll() + $num > $limit;
         }
@@ -52,17 +52,14 @@ class Mage_Catalog_Model_Product_Limitation
     }
 
     /**
-     * Whether adding new product is restricted
+     * Returns limit for product creation, or NULL if no limit is set
      *
-     * @return bool
+     * @return int|null
      */
-    public function isNewRestricted()
+    public function getLimit()
     {
         $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
-        if ($limit > 0) {
-            return $this->_resource->countAll() + 1 >= $limit;
-        }
-        return false;
+        return $limit ?: null;
     }
 
     /**
@@ -72,6 +69,8 @@ class Mage_Catalog_Model_Product_Limitation
      */
     public function getCreateRestrictedMessage()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Maximum allowed number of products is reached.');
+        // @codingStandardsIgnoreStart
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the products and variations your account allows. To add more, first delete a product or upgrade your service.');
+        // @codingStandardsIgnoreEnd
     }
 }

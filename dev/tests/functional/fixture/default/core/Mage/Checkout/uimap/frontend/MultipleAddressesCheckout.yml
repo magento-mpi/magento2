@@ -31,7 +31,6 @@ checkout_multishipping_login:
                             email: //input[@id='email']
                             password: //input[@id='pass']
         messages: &checkoutMessages
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
             different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
@@ -199,19 +198,19 @@ checkout_multishipping_shipping_methods:
                             product_qty: //tr[.//a[text()='%productName%']]/td/text()
                         checkboxes:
                             add_gift_options: //div[@class='add-gift-message']//p[label='Add gift options']/input
-                            gift_option_for_the_entire_order: //div[not(@class='no-display')]/p[label='Add gift options for the Entire Order']/input
-                            gift_option_for_individual_items: //div[not(@class='no-display')]/p[label='Add gift options for Individual Items']/input
+                            gift_option_for_order: //div[not(@class='no-display')]/p[label='Add gift options for the Entire Order']/input
+                            gift_option_for_item: //div[not(@class='no-display')]/p[label='Add gift options for Individual Items']/input
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//li[contains(label,'%shipMethod%')]//input[not(@checked)]
                             one_method_selected: //dt[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]
                         fields:
                             ship_service_name: //dt[text()='%shipService%']
-                            gift_option_entire_order_from: //div[contains(@id,'gift-messages-for-order-container')]//input[@title='From']
-                            gift_option_entire_order_to: //div[contains(@id,'gift-messages-for-order-container')]//input[@title='To']
-                            gift_option_entire_order_message: //div[contains(@id,'gift-messages-for-order-container')]//textarea[@title='Message']
-                            gift_option_for_individual_items_from: //li[div/h5='%productName%']//input[@title='From']
-                            gift_option_for_individual_items_to: //li[div/h5='%productName%']//input[@title='To']
-                            gift_option_for_individual_items_message: //li[div/h5='%productName%']//textarea[@title='Message']
+                            order_gift_message_from: //div[contains(@id,'gift-messages-for-order-container')]//input[@title='From']
+                            order_gift_message_to: //div[contains(@id,'gift-messages-for-order-container')]//input[@title='To']
+                            order_gift_message: //div[contains(@id,'gift-messages-for-order-container')]//textarea[@title='Message']
+                            item_gift_message_from: //li[div/h5='%productName%']//input[@title='From']
+                            item_gift_message_to: //li[div/h5='%productName%']//input[@title='To']
+                            item_gift_message: //li[div/h5='%productName%']//textarea[@title='Message']
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:

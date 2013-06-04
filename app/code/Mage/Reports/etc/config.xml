@@ -58,6 +58,13 @@
                 </Mage_Reports>
             </modules>
         </translate>
+        <di>
+            <Mage_Reports_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Reports_Model_Session>
+        </di>
     </adminhtml>
     <frontend>
         <translate>
@@ -158,6 +165,13 @@
                 </observers>
             </wishlist_share>
         </events>
+        <di>
+            <Mage_Reports_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Reports_Model_Session>
+        </di>
     </frontend>
     <default>
         <catalog>

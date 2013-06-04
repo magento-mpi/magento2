@@ -41,13 +41,6 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     protected $_locale;
 
     /**
-     * Giftcard custom amount
-     *
-     * @var int
-     */
-    protected $_customGiftcardAmount = false;
-
-    /**
      * Array of allowed giftcard amounts
      *
      * @var array
@@ -396,19 +389,15 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      */
     protected function _getCustomGiftcardAmount($buyRequest)
     {
-        if (false === $this->_customGiftcardAmount) {
-            $customAmount = $buyRequest->getCustomGiftcardAmount();
-
-            $rate = $this->_store->getCurrentCurrencyRate();
-            if ($rate != 1 && $customAmount) {
-                $customAmount = $this->_locale->getNumber($customAmount);
-                if (is_numeric($customAmount) && $customAmount) {
-                    $customAmount = $this->_store->roundPrice($customAmount / $rate);
-                }
+        $customAmount = $buyRequest->getCustomGiftcardAmount();
+        $rate = $this->_store->getCurrentCurrencyRate();
+        if ($rate != 1 && $customAmount) {
+            $customAmount = $this->_locale->getNumber($customAmount);
+            if (is_numeric($customAmount) && $customAmount) {
+                $customAmount = $this->_store->roundPrice($customAmount / $rate);
             }
-            $this->_customGiftcardAmount = $customAmount;
         }
-        return $this->_customGiftcardAmount;
+        return $customAmount;
     }
 
     /**

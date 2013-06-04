@@ -11,17 +11,19 @@
     'use strict';
     $.widget("storeCreation.drawer", {
         options: {
-            drawer: '#drawer',
             drawerHeader: '.drawer-header',
             drawerHeaderInner: '.drawer-header-inner',
             drawerContent: '.drawer-content',
             drawerFooter: '.drawer-footer',
+            drawerDependencies: {},
             btnOpenDrawer: '.action-open-drawer',
             btnCloseDrawer: '.action-close-drawer',
             btnSaveDrawer: '.action-save-settings',
             drawerTopPosition: '.navigation',
-            stickyHeaderClass: 'fixed'
-
+            stickyHeaderClass: 'fixed',
+            behaviorFixSelector: ['#store-launcher-content', '#nav', '#system_messages', '#action-launch-my-store'],
+            urlHash: '',
+            drawerAnimationTime: 1000
         },
 
         _create: function() {
@@ -33,24 +35,23 @@
             this.btnCloseDrawer = $(this.options.btnCloseDrawer);
             this.btnSaveDrawer = $(this.options.btnSaveDrawer);
             this.drawerTopPosition = $(this.options.drawerTopPosition);
-            this._startDrawerClose = false;
             this._bind();
-            this._handleHash();
         },
 
         _bind: function() {
-            $('body')
-                .on('click.openDrawer', this.options.btnOpenDrawer, this._setButtonHandler);
+            $('body').on('click.drawer', this.options.btnOpenDrawer, this._setButtonHandler);
 
-            this.btnCloseDrawer
-                .on('click.closeDrawer', $.proxy(this.drawerClose, this));
+            this.btnCloseDrawer.on('click.drawer', function() {
+                window.location.hash = '';
+            });
 
             this.btnSaveDrawer
-                .on('click.saveSettings', $.proxy(function(e) {
+                .on('click.drawer', $.proxy(function(e) {
                 var elem = $(e.currentTarget),
                     drawerForm = $("#drawer-form"),
                     postData;
 
+                this.element.trigger('drawerBeforeSave');
                 if (!drawerForm.valid()) {
                     return false;
                 }
@@ -70,13 +71,24 @@
                 return true;
             }, this));
 
+            this.options.urlHash = window.location.hash;
             $(window)
                 .scroll($.proxy(this._drawerFixedHeader, this))
-                .hashchange($.proxy(this._handleHash, this))
+                .hashchange($.proxy(this.handleHash, this))
                 .resize($.proxy(function(){
                 delay && clearTimeout(delay);
                 var delay = setTimeout($.proxy(this._drawerMinHeight, this), 100);
             }, this));
+        },
+
+        _switchPageFocus: function(tabindex) {
+            $.each(this.options.behaviorFixSelector, function() {
+                $.each($(this).find('a,:input'), function() {
+                    if (this.type != 'hidden') {
+                        $(this).attr('tabindex', tabindex);
+                    }
+                });
+            });
         },
 
         _drawerMinHeight: function() {
@@ -105,11 +117,7 @@
          */
         _handleLaunchStoreButton: function() {
             var launchStoreButton = $('.action-launch-store');
-            if (this._isPageComplete()) {
-                launchStoreButton.prop("disabled", false);
-            } else {
-                launchStoreButton.prop("disabled", true);
-            }
+            launchStoreButton.prop('disabled', !this._isPageComplete());
         },
 
         _drawerFixedHeader: function() {
@@ -123,47 +131,39 @@
             }
         },
 
-        drawerOpen: function(tileCode) {
+        _drawerOpen: function() {
             var elem = this.element,
                 headerHeight = this.drawerTopPosition.offset().top,
                 bodyHeight = $('body').outerHeight() + 500;
 
+            this._switchPageFocus(-1);
+            elem.trigger('drawerRefresh');
             this._drawerMinHeight();
             window.scrollTo(0, 0);
-            this._startDrawerClose = false;
 
             elem
                 .css('top', bodyHeight)
                 .show()
                 .animate({
                     top: headerHeight
-                }, 1000, 'easeOutExpo', $.proxy(function() {
-                this._drawerFixedHeader();
-                this.drawerFooter.animate({
-                    bottom: 0
-                }, 100);
+                }, this.options.drawerAnimationTime, 'easeOutExpo', $.proxy(function() {
+                    this._drawerFixedHeader();
+                    this.drawerFooter.animate({
+                        bottom: 0
+                    }, 100);
             }, this));
         },
 
-        drawerClose: function() {
-            if (this._startDrawerClose) {
-                return;
-            }
-            this._startDrawerClose = true;
-
-            window.location.hash = '';
-
+        _drawerClose: function() {
             var elem = this.element,
                 drawerFooter = this.drawerFooter,
                 drawerFooterHeight = drawerFooter.height(),
-                bodyHeight = $('body').outerHeight(),
-                drawerSwitcher = this.drawerHeaderInner.find('.drawer-switcher');
+                bodyHeight = $('body').outerHeight();
 
+            this._switchPageFocus(0);
+            elem.trigger('drawerClose');
             var hideDrawer = function() {
-                elem.hide()
-                    .trigger('drawerHidden');
-
-                drawerSwitcher ? drawerSwitcher.remove() : '';
+                elem.hide();
             };
 
             drawerFooter.animate({
@@ -178,30 +178,71 @@
                 elem.removeClass(this.options.stickyHeaderClass)
                     .animate({
                         top: bodyHeight
-                    }, 1000, hideDrawer);
+                    }, this.options.drawerAnimationTime, hideDrawer);
             } else {
                 var deltaTop = $(window).scrollTop();
                 elem.animate({
                     top: deltaTop + bodyHeight
-                }, 1000, hideDrawer);
+                }, this.options.drawerAnimationTime, hideDrawer);
             }
+        },
+
+        setDependencies: function(tileCode, dependencies) {
+            this.options.drawerDependencies[tileCode] = dependencies;
+        },
+
+        _drawerPreLoad: function(dataLoadUrl, dataSaveUrl, tileCode) {
+            var dependencies = this.options.drawerDependencies[tileCode];
+            var callbackHandler = $.proxy(function() {
+                    return this._drawerLoad(dataLoadUrl, dataSaveUrl, tileCode);
+                }, this);
+            if (typeof dependencies !== 'undefined') {
+                var clonedDependencies = dependencies.slice(0);
+                clonedDependencies.push(callbackHandler);
+                head.js.apply(head.js, clonedDependencies);
+            } else {
+                callbackHandler();
+            }
+        },
+
+        _drawerLoad: function(dataLoadUrl, dataSaveUrl, tileCode) {
+            var postData = {
+                    tileCode: tileCode
+                },
+                ajaxOptions = {
+                    type: 'POST',
+                    showLoader: true,
+                    data: postData,
+                    dataType: 'json',
+                    url: dataLoadUrl,
+                    success: $.proxy(this._drawerAfterLoad, this),
+                    error: this._ajaxFailure
+                };
+
+            $.ajax(ajaxOptions);
+
+            this.btnSaveDrawer
+                .attr('tile-code', tileCode)
+                .attr('data-save-url', dataSaveUrl);
         },
 
         _drawerAfterLoad: function(result, status) {
             if (result.success) {
                 $('.title', this.drawerHeader).text(result.tile_header);
-                this.drawerOpen(result.tile_code);
-                $('.drawer-content-inner', this.drawerContent).html(result.tile_content);
+                this._drawerOpen();
+                $('.drawer-content-inner', this.drawerContent).html(result.tile_content).trigger('contentUpdated');
                 var drawerSwitcher = $('.drawer-content-inner').find('.drawer-switcher');
                 if (drawerSwitcher.length) {
                     var drawerSwitcherCopy = drawerSwitcher.clone(),
                         drawerSwitcherCheckbox = drawerSwitcherCopy.find(':checkbox'),
                         drawerSwitcherLabel = drawerSwitcherCopy.find('.switcher-label'),
-                        drawerSwitcherId = drawerSwitcherCheckbox.prop('id').replace('', 'copy-');
+                        drawerSwitcherId = drawerSwitcherCheckbox.prop('id').replace('', 'copy-'),
+                        formValidation = drawerSwitcher.data('form-validation');
 
                     drawerSwitcherLabel.prop('for', drawerSwitcherId);
                     drawerSwitcherCheckbox.prop('id', drawerSwitcherId);
                     this.drawerHeaderInner.append(drawerSwitcherCopy);
+                    drawerSwitcherCopy.toggleStatus({'needValidate': formValidation});
                 }
             } else if (result && result.error_message) {
                 alert(result.error_message);
@@ -214,7 +255,6 @@
                 $('#tile-' + result.tile_code).before(result.tile_content).remove();
                 this._handleLaunchStoreButton();
                 window.location.hash = '';
-                this.drawerClose();
             } else if (result && result.error_message) {
                 alert(result.error_message);
             }
@@ -225,32 +265,33 @@
             window.location.hash = hashString.replace('tile-', '');
         },
 
-        _handleHash: function() {
-            if (window.location.hash == '') {
-                this.drawerClose();
+        handleHash: function() {
+            if (window.location.hash == '' || window.location.hash == '#') {
+                this._drawerClose();
+                this.options.urlHash = '';
                 return;
             }
-            var hashString = window.location.hash.replace('#', ''),
-                elem = $('#tile-' + hashString).find(this.options.btnOpenDrawer),
-                tileCode = elem.attr('data-drawer').replace('open-drawer-', ''),
-                postData = {
-                    tileCode: tileCode
-                },
-                ajaxOptions = {
-                    type: 'POST',
-                    showLoader: true,
-                    data: postData,
-                    dataType: 'json',
-                    url: elem.attr('data-load-url'),
-                    success: $.proxy(this._drawerAfterLoad, this),
-                    error: this._ajaxFailure
-                };
+            if ($.inArray(this.options.urlHash, ['', '#']) == -1) {
+                this._drawerClose();
+                setTimeout($.proxy(this._handleHash, this), this.options.drawerAnimationTime + 100);
+                return;
+            }
+            this._handleHash();
+        },
 
-            $.ajax(ajaxOptions);
+        _handleHash: function() {
+            this.options.urlHash = window.location.hash;
+            var tileCode = window.location.hash.replace('#', ''),
+                tile = $('#tile-' + tileCode),
+                elem = tile.find(this.options.btnOpenDrawer);
 
-            this.btnSaveDrawer
-                .attr('tile-code', tileCode)
-                .attr('data-save-url', elem.attr('data-save-url'));
+            if (elem.length == 0) {
+                window.location.hash = '';
+                return;
+            } else if (elem.length > 1) {
+                elem = elem.eq(tile.hasClass('tile-complete') ? 1 : 0);
+            }
+            this._drawerPreLoad(elem.attr('data-load-url'), elem.attr('data-save-url'), tileCode);
         },
 
         _ajaxFailure: function() {
@@ -327,15 +368,26 @@
             drawerForm: '#drawer-form'
         },
 
-        _create: function() {
+        _init: function() {
             this.drawerForm = $(this.options.drawerForm);
             this.disabledMessage = $(this.options.disabledMessage);
-            this.element.on('change.drawerStatus', $.proxy(this._toggleStatus, this));
             this._toggleStatus();
         },
 
+        destroy: function(e) {
+            e.preventDefault();
+            this.element.remove();
+        },
+
+        _create: function() {
+            this.element.on('change.drawerStatus', $.proxy(this._toggleStatus, this));
+            this._on('body', {
+                'drawerRefresh.drawer': 'destroy'
+            });
+        },
+
         _toggleStatus: function() {
-            var elem = this.element,
+            var elem = this.element.find(':checkbox'),
                 elemId = elem.prop('id').replace('copy-','');
 
             if (elem.is(':checked')) {

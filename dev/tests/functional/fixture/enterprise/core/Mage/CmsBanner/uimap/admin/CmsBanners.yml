@@ -42,7 +42,6 @@ manage_cms_banners:
             success_saved_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been saved.')]
             success_deleted_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been deleted.')]
             empty_content_field: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify default content for at least one store view.')]
-            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_mass_delete: Are you sure you want to delete these banners?
 
@@ -74,11 +73,11 @@ create_cms_banner:
                         fieldsets:
                             -
                                 default_content:
-                                    xpath: //div[@id='banner_content_default_fieldset']
+                                    xpath: //fieldset[legend/span='Default Content']
                                     fields:
                                         content_area: "//textarea[@id='banner_content_store_default_content' and not(contains(@style,'display: none;'))]"
                                     checkboxes:
-                                        no_default_content: "//td[.//label[contains(.,'No Default Content')]]/input[@type='checkbox']"
+                                        no_default_content: "//div[label/label='No Default Content']/input[@type='checkbox']"
                                     buttons: &insertButtons
                                         insert_widget: //button[span='Insert Widget...']
                                         insert_image: //button[span='Insert Image...']
@@ -113,10 +112,9 @@ create_cms_banner:
                                     pageelements:
                                         chosen_option: "//label[@class='widget-option-label'  and not(contains(@style,'display: none;'))]"
                                         chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
-
                             -
                                 select_page:
-                                    xpath: "//div[@id='widget-chooser' and //div[text()='Select Page...']]"
+                                    xpath: //*[div/span[text()='Select Page...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -134,7 +132,7 @@ create_cms_banner:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_block:
-                                    xpath: "//div[@id='widget-chooser' and //div[text()='Select Block...']]"
+                                    xpath: //*[div/span[text()='Select Block...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -151,7 +149,7 @@ create_cms_banner:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_category:
-                                    xpath: "//div[@id='widget-chooser' and //div[text()='Select Category...']]"
+                                    xpath: //*[div/span[text()='Select Category...']]
                                     links:
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
@@ -160,7 +158,7 @@ create_cms_banner:
                                         close_category_insertion: //div[@id='widget-chooser_close']
                             -
                                 select_product:
-                                    xpath: "//div[@id='widget-chooser' and //div[text()='Select Product...']]"
+                                    xpath: //*[div/span[text()='Select Product...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='entity_id']\
@@ -180,11 +178,11 @@ create_cms_banner:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 variable_insertion:
-                                    xpath: //div[@id='variables-chooser' and //div[text()='Insert Variable...']]
+                                    xpath: //div[div/span='Insert Variable...']
                                     links:
                                         variable: //a[text()='%variableName%']
                                     buttons:
-                                        close_variable_insertion: //div[@id='variables-chooser_close']
+                                        close_variable_insertion: //a[span='close']
                             -
                                 specific_content:
                                     xpath: //fieldset[@id='banner_content_scopes_fieldset']
@@ -199,7 +197,7 @@ create_cms_banner:
                         fieldsets:
                             -
                                 related_shopping_cart_price_rules:
-                                    xpath: //div[@class='entry-edit'][./div/h4='Related Shopping Cart Price Rules']
+                                    xpath: //fieldset[legend/span='Related Shopping Cart Price Rules']
                                     buttons:
                                         search: //div[@id='related_salesrule_grid']//button[span='Search']
                                         reset_filter: //div[@id='related_salesrule_grid']//button[span='Reset Filter']
@@ -215,7 +213,7 @@ create_cms_banner:
                                         related_shopping_cart_date_expire_to: //input[@name='salesrule_to_date[to]']
                             -
                                 related_catalog_price_rules:
-                                    xpath: //div[@class='entry-edit'][./div/h4='Related Catalog Price Rules']
+                                    xpath: //fieldset[legend/span='Related Catalog Price Rules']
                                     buttons:
                                         search: //div[@id='related_catalogrule_grid']//button[span='Search']
                                         reset_filter: //div[@id='related_catalogrule_grid']//button[span='Reset Filter']
@@ -232,8 +230,8 @@ create_cms_banner:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_banner: //button[span='Save Banner']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_banner: //button[@title='Save Banner']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
         messages: *bannerMessages
 
 edit_cms_banner:
@@ -244,8 +242,8 @@ edit_cms_banner:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_banner: //button[span='Save Banner']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_banner: //button[@title='Save Banner']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
             delete_banner: //button[span='Delete Banner']
         messages: *bannerMessages
 
@@ -257,7 +255,7 @@ error_banner_page:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_banner: //button[span='Save Banner']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_banner: //button[@title='Save Banner']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
             delete_banner: //button[span='Delete Banner']
         messages: *bannerMessages

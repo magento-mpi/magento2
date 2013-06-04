@@ -17,18 +17,15 @@
         <label for="use-reward-points"><?php echo Mage::helper('Enterprise_Reward_Helper_Data')->__('Use my reward points, %s available', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($this->getPointsBalance(), $this->getCurrencyAmount())); ?></label>
     </dt>
 </dl>
-<script type="text/javascript">
-    (function($) {
+    <script type="text/javascript">
         head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_Reward::checkout/js/customerrewards.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_Checkout::js/checkout-balance.js') ?>",
             function() {
-                $('#multishipping-billing-form').customerReqards({
-                    rewardPointsSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
-                    baseRewardCurrencyAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>,
-                    balance: <?php echo (float)$this->getCurrencyAmount(); ?>,
-                    quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>
+                jQuery('#use-reward-points').checkoutBalance({
+                    amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
+                    usedAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>,
+                    balance: <?php echo (float)$this->getCurrencyAmount(); ?>
                 });
             });
-    })(jQuery);
-</script>
+    </script>
 <?php endif; ?>

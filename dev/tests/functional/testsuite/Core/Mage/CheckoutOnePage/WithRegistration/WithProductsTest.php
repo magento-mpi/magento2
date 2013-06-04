@@ -18,11 +18,19 @@
  */
 class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_Selenium_TestCase
 {
+    public function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     /**
      * <p>Creating Simple and Virtual products</p>
      *
      * @return array
      * @test
+     * @skipTearDown
      */
     public function preconditionsForTests()
     {
@@ -39,8 +47,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('simple'  => $simple['general_name'],
-                     'virtual' => $virtual['general_name']);
+        return array(
+            'simple' => $simple['general_name'],
+            'virtual' => $virtual['general_name']
+        );
     }
 
     /**
@@ -73,10 +83,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
     public function withSimpleProduct($data)
     {
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
-                                           array('general_name' => $data['simple']));
+            array('general_name' => $data['simple']));
         //Steps
-        $this->logoutCustomer();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -110,10 +119,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_virtual',
-                                           array('general_name' => $data['virtual']));
+            array('general_name' => $data['virtual']));
         //Steps
-        $this->logoutCustomer();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');

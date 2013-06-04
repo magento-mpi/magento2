@@ -13,15 +13,17 @@
         options : {
             method: '',
             frameUrl: '',
+            reviewUrl: '',
             iframeContainerSelector: '[data-container="iframe"]',
             bodySelector: '[data-container="body"]',
             pmtsBtnsContainerSelector: '#payment-buttons-container',
-            reloadSelector: '.pbridge-reload'
+            reloadSelector: '.pbridge-reload',
+            payNowSelector: '[data-action="pbridge-pay-now"]'
         },
 
         _create : function() {
             this.element
-                .on('reloadPbridgeIframe', $.proxy(function(event, data) { this.reloadIframe(data); }, this))
+                .on('reloadPbridgeIframe', $.proxy(function(event, data) { this._reloadIframe(data); }, this))
                 .find('span.pbridge-reload a').on('click', $.proxy(function () {
                     var data = {};
                     data.method = this.options.method;
@@ -30,7 +32,13 @@
 
                     return false;
                 }, this));
-            this.element.closest('[data-container="body"]').on('reloadIframe', $.proxy(this._reloadIframe,this));
+            $('#opc-review').on('reloadIframe', $.proxy(this._reloadIframe,this));
+            $('#opc-review').on('contentUpdated', $.proxy(function(e) {
+                $(e.target).find(this.options.payNowSelector).off('click').on('click', $.proxy(function() {
+                    this._loadReviewIframe();
+                    return false;
+                }, this));
+            }, this));
         },
 
         /**
@@ -38,7 +46,7 @@
          * @param data
          */
         _reloadIframe: function(data) {
-            if (!data) {
+            if (!data.method || !data.frameUrl) {
                 data = {
                     method: this.options.method,
                     frameUrl: this.options.frameUrl
@@ -58,14 +66,13 @@
                 success: function(response) {
                     this.element.find(this.options.iframeContainerSelector).html(response);
                     this.element.trigger('gotoSection', 'payment').trigger('contentUpdate');
-                    this._toggleContinueButton(this.element.parents('ol'));
                     this.element.find(this.options.reloadSelector).find('a').show();
                 }
             });
         },
 
         /**
-         *
+         * Keep this code, refer to https://jira.corp.x.com/browse/MAGETWO-7539 for details
          * @param target
          * @return {*}
          * @private
@@ -86,28 +93,42 @@
                 }
                 continueButton.show();
             }
+        },
+
+        _loadReviewIframe: function() {
+            $.ajax({
+                url: this.options.reviewUrl,
+                type: 'post',
+                context: this,
+                async: false,
+                beforeSend: function() {this.element.trigger('showAjaxLoader');},
+                complete: function() {this.element.trigger('hideAjaxLoader');},
+                data:{method_code: this.options.method, data: {is_review_iframe: 1}},
+                success: function(response) {
+                    $('#opc-review #review_iframe_container').html(response);
+                    $('#opc-review #iframe-warning').show();
+                    $('#opc-review #btn-pay-now').hide();
+                }
+            });
         }
 
-        /**
-         *
-         */
-        /*
+        /*// leave commented code unchanged, refer to https://jira.corp.x.com/browse/MAGETWO-7539 for details
          preLoadReviewIframe: function() {
          if (review.agreementsForm) {
-         checkout.setLoadWaiting('review');
-         var params = Form.serialize(payment.form) + '&' + Form.serialize(review.agreementsForm);
-         var request = new Ajax.Request(
-         _getAgreementValidationUrl(),
-         {
-         method: 'post',
-         parameters: params,
-         onComplete: review.onComplete,
-         onSuccess: _validateAgreements,
-         onFailure: checkout.ajaxFailure.bind(checkout)
-         }
-         );
+            checkout.setLoadWaiting('review');
+            var params = Form.serialize(payment.form) + '&' + Form.serialize(review.agreementsForm);
+            var request = new Ajax.Request(
+                _getAgreementValidationUrl(),
+                {
+                method: 'post',
+                parameters: params,
+                onComplete: review.onComplete,
+                onSuccess: _validateAgreements,
+                onFailure: checkout.ajaxFailure.bind(checkout)
+                }
+            );
          } else {
-         _loadReviewIframe();
+            _loadReviewIframe();
          }
          },
          */

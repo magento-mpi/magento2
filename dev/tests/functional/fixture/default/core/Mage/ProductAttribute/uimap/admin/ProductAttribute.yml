@@ -20,7 +20,7 @@ manage_attributes:
             fieldsets:
                 -
                     attributes_grid:
-                        xpath:  //div[@id='attributeGrid']
+                        xpath: //div[@id='attributeGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -40,12 +40,11 @@ manage_attributes:
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &productAttributeMessages
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             attribute_used_in_configurable: //li[normalize-space(@class)='error-msg' and contains(.,'This attribute is used in configurable products.')]
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been deleted.')]
             exists_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Attribute with the same code already exists.' and not(contains(@style,'display: none;'))]
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been saved.')]
-            wrong_length_attribute_code:  //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
+            wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
             invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
             error_invalid_position: //*[@class='mage-error' and @for='position' and text()='Please enter only digits.' and not(contains(@style,'display: none;'))]
             delete_confirm_message: Are you sure you want to do this?

@@ -18,18 +18,26 @@
  */
 class Enterprise_Mage_ImportExport_Customer_Finance_EmptyValuesTest extends Mage_Selenium_TestCase
 {
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('import');
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
     /**
      * Empty values for existing attributes in csv for Customer Finances
      *
@@ -110,15 +118,14 @@ class Enterprise_Mage_ImportExport_Customer_Finance_EmptyValuesTest extends Mage
         $this->assertEquals('0', $this->customerHelper()->getRewardPointsBalance(),
             'Adding customer reward points balance is failed');
     }
+
     public function importData()
     {
         return array(
-            array(
-                array(
-                    $this->loadDataSet('ImportExport', 'generic_finance_csv'),
-                    $this->loadDataSet('ImportExport', 'generic_finance_csv')
-                )
-            )
+            array(array(
+                $this->loadDataSet('ImportExport', 'generic_finance_csv'),
+                $this->loadDataSet('ImportExport', 'generic_finance_csv')
+            ))
         );
     }
 }

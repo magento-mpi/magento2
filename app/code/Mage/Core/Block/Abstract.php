@@ -105,6 +105,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_frontController;
 
     /**
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
      * @param Mage_Core_Block_Context $context
      * @param array $data
      */

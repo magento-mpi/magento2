@@ -23,7 +23,7 @@ onepage_checkout:
                         buttons:
                             checkout_method_continue: //button[span='Continue']
                             login: //button[span='Login']
-                            captcha_reload_user_login: //li[@id='captcha-image-box-user_login']/div/img[@id='captcha-reload']
+                            captcha_reload_user_login: //li[@id='captcha-container-user_login']//img[@class='captcha-reload']
                         fields:
                             email_address: //input[@id='login-email']
                             password: //input[@id='login-password']
@@ -34,14 +34,14 @@ onepage_checkout:
                         links:
                             forgot_password: //a[text()='Forgot your password?']
                         pageelements:
-                            captcha_user_login: //*[@id='user_login']
+                            captcha_user_login: //li[@id='captcha-container-user_login']//img[@class='captcha-img']
                 -
                     billing_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
                         buttons:
                             billing_information_continue: //button[span='Continue']
-                            captcha_reload_register_during_checkout: //li[@id='captcha-image-box-register_during_checkout']/div/img[@id='captcha-reload']
-                            captcha_reload_guest_checkout: //li[@id='captcha-image-box-guest_checkout']/div/img[@id='captcha-reload']
+                            captcha_reload_register_during_checkout: //li[@id='captcha-container-register_during_checkout']//img[@class='captcha-reload']
+                            captcha_reload_guest_checkout: //li[@id='captcha-container-guest_checkout']//img[@class='captcha-reload']
                         dropdowns:
                             billing_address_choice: //select[@id='billing-address-select']
                             billing_state: //select[@id='billing:region_id']
@@ -70,8 +70,8 @@ onepage_checkout:
                             ship_to_different_address: //input[@id='billing:use_for_shipping_no']
                         required: [billing_first_name, billing_last_name, billing_email, billing_street_address_1, billing_city, billing_region, billing_country, billing_zip_code, billing_telephone]
                         pageelements:
-                            captcha_guest_checkout: //*[@id='guest_checkout']
-                            captcha_register_during_checkout: //*[@id='register_during_checkout']
+                            captcha_guest_checkout: //li[@id='captcha-container-guest_checkout']//img[@class='captcha-img']
+                            captcha_register_during_checkout: //li[@id='captcha-container-register_during_checkout']//img[@class='captcha-reload']
                 -
                     shipping_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping']
@@ -104,20 +104,20 @@ onepage_checkout:
                         buttons:
                             shipping_method_continue: //button[span='Continue']
                         checkboxes:
-                            add_gift_options: //*[label='Add gift options.']/input
-                            gift_option_for_the_entire_order: //input[@id='allow_gift_messages_for_order']
-                            gift_option_for_individual_items: //input[@id='allow_gift_messages_for_items']
+                            add_gift_options: //*[label='Add gift options']/input
+                            gift_option_for_order: //input[@id='allow_gift_messages_for_order']
+                            gift_option_for_item: //input[@id='allow_gift_messages_for_items']
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
                             one_method_selected: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and ../following-sibling::*[contains(text(),'%shipMethod%')]]
                         fields:
                             ship_service_name: //dt[text()='%shipService%']
-                            gift_option_entire_order_from: //input[[@id='gift-message-whole-from']
-                            gift_option_entire_order_to: //input[@id='gift-message-whole-to']
-                            gift_option_entire_order_message: //input[@id='gift-message-whole-message']
-                            gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
-                            gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]]//input[@title='To']
-                            gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
+                            order_gift_message_from: //input[[@id='gift-message-whole-from']
+                            order_gift_message_to: //input[@id='gift-message-whole-to']
+                            order_gift_message: //input[@id='gift-message-whole-message']
+                            item_gift_message_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
+                            item_gift_message_to: //div[h5[contains(.,'%productName%')]]//input[@title='To']
+                            item_gift_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
                         links:
                             back: //p[@class='back-link']/a[@href]
                 -
@@ -138,7 +138,7 @@ onepage_checkout:
                             expiration_month: //select[@id='%paymentId%_expiration']
                             expiration_year: //select[@id='%paymentId%_expiration_yr']
                         links:
-                            back: //p[@class='back-link']/a[@href]
+                            back: //*[@id='payment-buttons-container']//a[contains(text(),'Back')]
                         required: [card_type, card_number, expiration_month, expiration_year, card_verification_number, name_on_card]
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
@@ -166,7 +166,7 @@ onepage_checkout:
                             price_totals_line_index: //table[@id='checkout-review-table']/tfoot/descendant::tr[%index%]
                             price_totals_line_index_name: //table[@id='checkout-review-table']/tfoot/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //table[@id='checkout-review-table']/tfoot/descendant::tr[%index%]/*[2]
-                            product_line:  //table[@id='checkout-review-table']/tbody/tr
+                            product_line: //table[@id='checkout-review-table']/tbody/tr
                             agreement_content: //li[p/input/@id='agreement-%termsId%']//div[@class='agreement-content']
                             agreement_checkbox_text: //p[input/@id='agreement-%termsId%']/label
                         fields:
@@ -219,7 +219,6 @@ onepage_checkout:
         links:
             order_number: //a[contains(@href, '/sales/order/view/order_id/')]
         messages: &checkoutMessages
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
             different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
@@ -240,8 +239,6 @@ onepage_checkout:
             payment_alert: Please specify payment method.
             success_checkout: //h1[contains(.,'Your order has been received')]
             zero_payment: //dt[contains(label,'No Payment Information Required')]
-            empty_captcha_user_login: //*[@id='advice-required-entry-captcha_user_login']
-            empty_captcha_guest_checkout: //*[@id='advice-required-entry-captcha_guest_checkout']
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
             captcha_alert: Incorrect CAPTCHA.
 

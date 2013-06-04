@@ -83,9 +83,8 @@ class Core_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
         $this->newsletterHelper()->createNewsletterTemplate($templateData);
 
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 

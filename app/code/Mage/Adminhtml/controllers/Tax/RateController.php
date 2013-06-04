@@ -184,6 +184,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 ->assign('header', Mage::helper('Mage_Tax_Helper_Data')->__('Edit Tax Rate'))
                 ->assign('form',
                     $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rate_Form', 'tax_rate_form')
+                        ->setShowLegend(true)
                 )
             )
             ->renderLayout();
@@ -400,21 +401,21 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'importExport':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
+                return $this->_authorization->isAllowed('Mage_Tax::import_export');
                 break;
 
             case 'index':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
+                return $this->_authorization->isAllowed('Mage_Tax::manage_tax');
                 break;
 
             case 'importPost':
             case 'exportPost':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax')
-                    || Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
+                return $this->_authorization->isAllowed('Mage_Tax::manage_tax')
+                    || $this->_authorization->isAllowed('Mage_Tax::import_export');
                 break;
 
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
+                return $this->_authorization->isAllowed('Mage_Tax::manage_tax');
                 break;
         }
 

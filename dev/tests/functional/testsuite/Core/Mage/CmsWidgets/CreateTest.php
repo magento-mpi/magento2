@@ -23,6 +23,14 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_cms_widgets');
+        $this->cmsWidgetsHelper()->deleteAllWidgets();
+        $this->flushCache();
+    }
+
     /**
      * @return array
      *
@@ -35,28 +43,39 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
         $productData = $this->productHelper()->createConfigurableProduct(true);
         $categoryPath = $productData['category']['path'];
-        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', array('general_categories' => $categoryPath),
-            array('add_product_1' => $productData['simple']['product_sku'],
-                  'add_product_2' => $productData['virtual']['product_sku']));
-        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', array('general_categories' => $categoryPath),
-            array('associated_1' => $productData['simple']['product_sku'],
-                  'associated_2' => $productData['virtual']['product_sku'],
-                  'associated_3' => $productData['downloadable']['product_sku']));
-        $this->productHelper()->createProduct($bundle, 'bundle');
-        $this->assertMessagePresent('success', 'success_saved_product');
+        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order',
+            array('general_categories' => $categoryPath),
+            array(
+                'add_product_1' => $productData['simple']['product_sku'],
+                'add_product_2' => $productData['virtual']['product_sku']
+            )
+        );
+        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order',
+            array('general_categories' => $categoryPath),
+            array(
+                'associated_1' => $productData['simple']['product_sku'],
+                'associated_2' => $productData['virtual']['product_sku'],
+                'associated_3' => $productData['downloadable']['product_sku']
+            )
+        );
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($bundle, 'bundle');
+        $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('anchor'     => $category['parent_category'] . '/' . $category['name'],
-                     'not_anchor' => $productData['category']['path'],
-                     'product_3'  => $productData['configurable']['product_sku'],
-                     'product_6'  => $productData['downloadable']['product_sku'],
-                     'product_1'  => $productData['simple']['product_sku'],
-                     'product_4'  => $productData['virtual']['product_sku'], 'product_2'  => $grouped['general_sku'],
-                     'product_5'  => $bundle['general_sku']
-
+        return array(
+            'anchor' => $category['parent_category'] . '/' . $category['name'],
+            'not_anchor' => $productData['category']['path'],
+            'product_1' => $productData['simple']['product_sku'],
+            'product_2' => $grouped['general_sku'],
+            'product_3' => $productData['configurable']['product_sku'],
+            'product_4' => $productData['virtual']['product_sku'],
+            'product_5' => $bundle['general_sku'],
+            'product_6' => $productData['downloadable']['product_sku']
         );
     }
 

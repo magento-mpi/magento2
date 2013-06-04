@@ -251,7 +251,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($attributeSetData['attributeSetName'],
-            $this->productHelper()->getProductDataFromGrid($search, 'Attrib. Set Name'),
+            $this->productHelper()->getProductDataFromGrid($search, 'Attribute Set'),
             'Product has been saved with incorrect attribute set.'
         );
     }

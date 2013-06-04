@@ -26,17 +26,15 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
     public function createCmsBanner($pageData)
     {
         $pageData = $this->fixtureDataToArray($pageData);
-        $bannerProperties = (isset($pageData['banner_properties'])) ? $pageData['banner_properties'] : array();
-        $content = (isset($pageData['content'])) ? $pageData['content'] : array();
-        $relatedPromotions = (isset($pageData['related_promotions'])) ? $pageData['related_promotions'] : array();
         $this->clickButton('add_new_banner');
-        $this->fillTab($bannerProperties, 'banner_properties');
-
-        if ($content) {
-            $this->fillContent($content);
+        if (isset($pageData['banner_properties'])) {
+            $this->fillTab($pageData['banner_properties'], 'banner_properties');
         }
-        if ($relatedPromotions) {
-            $this->fillRelatedPromotions($relatedPromotions);
+        if (isset($pageData['content'])) {
+            $this->fillContent($pageData['content']);
+        }
+        if (isset($pageData['related_promotions'])) {
+            $this->fillRelatedPromotions($pageData['related_promotions']);
         }
         $this->saveForm('save_banner');
     }
@@ -51,7 +49,7 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
         $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
         $variableData = (isset($content['variable_data'])) ? $content['variable_data'] : array();
 
-        $this->fillTab($content, 'content');
+        $this->fillForm($content, 'content');
         foreach ($widgetsData as $widget) {
             $button = array_key_exists('no_default_content', $content) ? 'insert_widget_content' : 'insert_widget';
             $this->cmsPagesHelper()->insertWidget($widget, $button);
@@ -79,17 +77,23 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open CMS Banner
      *
-     * @param array $searchPage
+     * @param array $searchData
      */
-    public function openCmsBanner(array $searchPage)
+    public function openCmsBanner(array $searchData)
     {
-        $xpathTR = $this->search($searchPage, 'cms_banners_grid');
-        $this->assertNotEquals(null, $xpathTR, 'CMS Banner is not found');
-        $cellId = $this->getColumnIdByName('Banner Name');
-        $this->addParameter('bannerName', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
-        $this->waitForPageToLoad();
+        //Search banner
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $bannerLocator = $this->search($searchData, 'cms_banners_grid');
+        $this->assertNotNull($bannerLocator, 'Cms Banner is not found with data: ' . print_r($searchData, true));
+        $bannerRowElement = $this->getElement($bannerLocator);
+        $bannerUrl = $bannerRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Banner');
+        $cellElement = $this->getChildElement($bannerRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($bannerUrl));
+        //Open banner
+        $this->url($bannerUrl);
         $this->validatePage();
     }
 

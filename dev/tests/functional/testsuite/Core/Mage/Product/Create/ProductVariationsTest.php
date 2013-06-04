@@ -16,10 +16,6 @@
  */
 class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog - Manage Products</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -82,8 +78,11 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             )
         );
         $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => array($attributeThird['attribute_code'], $attributeForth['attribute_code'],
-                $xssAttribute['attribute_code'], $specialCharacters['attribute_code'])));
+            array('Product Details' => array(
+                $attributeThird['attribute_code'], $attributeForth['attribute_code'],
+                $xssAttribute['attribute_code'], $specialCharacters['attribute_code']
+            ))
+        );
         //Steps (attributes)
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attributeThird);
@@ -162,16 +161,14 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $verifySimple = $configurable;
         unset($verifySimple['general_configurable_attributes']);
         unset($verifySimple['general_configurable_variations']);
-        $verifySimple = array_replace($verifySimple,
-            array(
-                'general_name'       => $associated['associated_name'],
-                'general_sku'        => $associated['associated_sku'],
-                'general_weight'     => $associated['associated_weight'],
-                'inventory_quantity' => $associated['associated_quantity'],
-                'autosettings_visibility' => 'Not Visible Individually',
-                'product_online_status' => 'Enabled'
-            )
-        );
+        $verifySimple = array_replace($verifySimple, array(
+            'general_name' => $associated['associated_name'],
+            'general_sku' => $associated['associated_sku'],
+            'general_weight' => $associated['associated_weight'],
+            'inventory_quantity' => $associated['associated_quantity'],
+            'autosettings_visibility' => 'Not Visible Individually',
+            'product_online_status' => 'Enabled'
+        ));
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $configurable['general_sku']));
         $searchSimple = $this->loadDataSet('Product', 'product_search',
@@ -221,15 +218,13 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         unset($verifyVirtual['general_configurable_attributes']);
         unset($verifyVirtual['general_configurable_variations']);
         unset($verifyVirtual['general_weight']);
-        $verifyVirtual = array_replace($verifyVirtual,
-            array(
-                'general_name' => $associated['associated_name'],
-                'general_sku' => $associated['associated_sku'],
-                'inventory_quantity' => $associated['associated_quantity'],
-                'autosettings_visibility' => 'Not Visible Individually',
-                'product_online_status' => 'Enabled',
-            )
-        );
+        $verifyVirtual = array_replace($verifyVirtual, array(
+            'general_name' => $associated['associated_name'],
+            'general_sku' => $associated['associated_sku'],
+            'inventory_quantity' => $associated['associated_quantity'],
+            'autosettings_visibility' => 'Not Visible Individually',
+            'product_online_status' => 'Enabled',
+        ));
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $configurable['general_sku']));
         $searchVirtual = $this->loadDataSet('Product', 'product_search',
@@ -537,8 +532,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         );
         unset($configurable['general_configurable_variations']);
         //Data for verification
-        $newOption = array('option_4' => array('admin_option_name' => 'Option_Admin_'
-            . $this->generate('string', 5, ':alnum:')));
+        $newOption = array('option_4' => array(
+            'admin_option_name' => 'Option_Admin_' . $this->generate('string', 5, ':alnum:')
+        ));
         $newOptionTitle = $newOption['option_4']['admin_option_name'];
         //Preconditions. Create product
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -761,6 +757,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function withFilledAttributeLabelField($value, $attributeData)
     {
+        $this->markTestIncomplete('MAGETWO-8681');
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
@@ -803,7 +800,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function withEmptyAttributeLabelField($attributeData)
     {
-        $this->markTestIncomplete('MAGETWO-8681');
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
@@ -867,14 +863,12 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $newOptionTitle);
         $this->clickButton('generate_product_variations', false);
         $this->pleaseWait();
-        $this->waitUntil(
-            function ($testCase) {
-                /** @var Mage_Selenium_TestCase $testCase */
-                if ($testCase->getControlCount('pageelement', 'variation_line') == 2) {
-                    return true;
-                }
-            }, $this->_browserTimeout
-        );
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            if ($testCase->getControlCount('pageelement', 'variation_line') == 2) {
+                return true;
+            }
+        });
         $this->addParameter('productSku', $associated['general_sku']);
         $this->addParameter('attributeSearch', "td='$assignOptionTitle'");
         $this->assertTrue($this->controlIsVisible('checkbox', 'assigned_product'),
