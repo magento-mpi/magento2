@@ -125,7 +125,6 @@
                 </acl>
             </services>
         </areas>
-        <api_version>V1</api_version>
     </global>
     <frontend>
         <di>
@@ -410,4 +409,10 @@
             </core_clean_cache>
         </jobs>
     </crontab>
+
+    <default>
+        <service>
+            <schema>default</schema>
+        </service>
+    </default>
 </config>

@@ -56,26 +56,22 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /**
      * Perform rendering of action results.
      *
-     * @param string $httpMethod
      * @param array|null $outputData
      */
-    public function prepareResponse($httpMethod, $outputData = null)
+    public function prepareResponse($outputData = null)
     {
-        // TODO: Implement filtration of item and collection responses
-        switch ($httpMethod) {
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_POST:
+        switch (strtoupper($this->_request->getHttpMethod())) {
+            // TODO: Introduce constants instead of literals
+            case 'CREATE':
                 /** @var $createdItem Mage_Core_Model_Abstract */
-                $createdItem = $outputData;
-                $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
+                $this->_response->setHeader('Location', $this->_getCreatedItemLocation($outputData));
                 break;
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET:
-                // TODO: Implement fields filtration
-                $filteredData = $outputData;
-                $this->_render($filteredData);
+            case 'GET':
+                $this->_render($outputData);
                 break;
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_PUT:
+            case 'PUT':
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE:
+            case 'DELETE':
                 break;
         }
         $this->_renderMessages();
@@ -103,10 +99,10 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
             'Mage_Webapi_Controller_Router_Route',
             $this->_applicationConfig->getAreaFrontName() . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE
         );
-        $serviceName = $this->_request->getServiceName();
+        $resourceName = $this->_request->getResourceName();
         $routeToItem = $this->_routeFactory->createRoute(
             'Zend_Controller_Router_Route',
-            $this->_apiConfig->getRestRouteToItem($serviceName)
+            $this->_apiConfig->getRestRouteToItem($resourceName)
         );
         $chain = $apiTypeRoute->chain($routeToItem);
         $params = array(

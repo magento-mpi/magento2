@@ -25,7 +25,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Identify resources that should be used for API configuration generation.
+     * Identify versions of resources that should be used for API configuration generation.
      *
      * @return array
      * @throws Mage_Webapi_Exception When GET parameters are invalid

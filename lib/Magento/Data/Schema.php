@@ -13,8 +13,10 @@ class Magento_Data_Schema extends Varien_Object
         if (is_array($schema)) {
             $this->setData($schema);
         } elseif (is_string($schema)) {
-            // @todo load schema file by file name reference
-            throw new Exception('Need to be implemented: load schema file by file name reference in ' . __METHOD__);
+            if (is_file($schema)) {
+                include $schema;
+                $this->setData($schema);
+            }
         }
     }
 

@@ -28,13 +28,13 @@
                 <front_controller>Mage_Webapi_Controller_Front</front_controller>
                 <!--TODO: Utilize base action controller from config, not constant-->
                 <base_controller>Mage_Webapi_Controller_ActionAbstract</base_controller>
-                <!--<acl>-->
-                    <!--<policy>Magento_Authorization_Policy_Acl</policy>-->
-                    <!--<resourceLoader>Mage_Webapi_Model_Authorization_Loader_Resource</resourceLoader>-->
-                    <!--<roleLoader>Mage_Webapi_Model_Authorization_Loader_Role</roleLoader>-->
-                    <!--<ruleLoader>Mage_Webapi_Model_Authorization_Loader_Rule</ruleLoader>-->
-                    <!--<roleLocator>Mage_Webapi_Model_Authorization_RoleLocator</roleLocator>-->
-                <!--</acl>-->
+                <acl>
+                    <policy>Magento_Authorization_Policy_Acl</policy>
+                    <resourceLoader>Mage_Webapi_Model_Authorization_Loader_Resource</resourceLoader>
+                    <roleLoader>Mage_Webapi_Model_Authorization_Loader_Role</roleLoader>
+                    <ruleLoader>Mage_Webapi_Model_Authorization_Loader_Rule</ruleLoader>
+                    <roleLocator>Mage_Webapi_Model_Authorization_RoleLocator</roleLocator>
+                </acl>
             </webapi>
         </areas>
         <resources>
@@ -150,25 +150,4 @@
             </updates>
         </layout>
     </adminhtml>
-    <!--TODO: Change to webapi-->
-    <global>
-        <events>
-            <core_service_config_reader_reflect_method_data>
-                <observers>
-                    <webapi_config_reflector_rest_add_method_reflection_data>
-                        <class>Mage_Webapi_Model_Config_Reader_Reflector_Rest</class>
-                        <method>addMethodReflectionData</method>
-                    </webapi_config_reflector_rest_add_method_reflection_data>
-                </observers>
-            </core_service_config_reader_reflect_method_data>
-            <core_service_config_reader_reflect_class_data_after>
-                <observers>
-                    <webapi_config_reflector_rest_add_postreflection_data>
-                        <class>Mage_Webapi_Model_Config_Reader_Reflector_Rest</class>
-                        <method>addPostReflectionData</method>
-                    </webapi_config_reflector_rest_add_postreflection_data>
-                </observers>
-            </core_service_config_reader_reflect_class_data_after>
-        </events>
-    </global>
 </config>

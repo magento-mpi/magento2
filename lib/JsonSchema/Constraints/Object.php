@@ -44,6 +44,7 @@ class Object extends Constraint
     {
         $matches = array();
         foreach ($patternProperties as $pregex => $schema) {
+            // Validate the pattern before using it to test for matches
             if (@preg_match('/'. $pregex . '/', '') === false) {
                 $this->addError($path, 'The pattern "' . $pregex . '" is invalid');
                 continue;
@@ -59,8 +60,10 @@ class Object extends Constraint
     }
 
     /**
+     * Validates the element properties
+     *
      * @param \stdClass $element          Element to validate
-     * @param array     $matches          Matches of patternProperties
+     * @param array     $matches          Matches from patternProperties (if any)
      * @param \stdClass $objectDefinition Object definition
      * @param string    $path             Path to test?
      * @param mixed     $additionalProp   Additional properties
@@ -90,8 +93,7 @@ class Object extends Constraint
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError(
-                    $path, "the presence of the property " . $i . " requires that " . $require . " also be present");
+                $this->addError($path, "the presence of the property " . $i . " requires that " . $require . " also be present");
             }
 
             //normal property verification
