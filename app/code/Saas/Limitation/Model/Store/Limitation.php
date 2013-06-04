@@ -10,19 +10,19 @@
 class Saas_Limitation_Model_Store_Limitation
 {
     /**
+     * XML-node that stores limitation of number of stores in the system
+     */
+    const XML_PATH_NUM_STORES = 'limitations/store';
+
+    /**
      * @var Mage_Core_Model_Resource_Store
      */
     private $_resource;
 
     /**
-     * @var int
+     * @var Mage_Core_Model_Config
      */
-    private $_allowedQty = 0;
-
-    /**
-     * @var bool
-     */
-    private $_isRestricted = false;
+    private $_config;
 
     /**
      * Determine restriction
@@ -33,25 +33,21 @@ class Saas_Limitation_Model_Store_Limitation
     public function __construct(Mage_Core_Model_Resource_Store $resource, Mage_Core_Model_Config $config)
     {
         $this->_resource = $resource;
-        $allowedQty = (string)$config->getNode('limitations/store');
-        if ('' === $allowedQty) {
-            return;
-        }
-        $this->_allowedQty = (int)$allowedQty;
-        $this->_isRestricted = true;
+        $this->_config = $config;
     }
 
     /**
-     * Whether it is permitted to create new items
+     * Whether adding new entity is restricted
      *
      * @return bool
      */
-    public function canCreate()
+    public function isCreateRestricted()
     {
-        if ($this->_isRestricted) {
-            return $this->_resource->countAll() < $this->_allowedQty;
+        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_STORES);
+        if ($limit > 0) {
+            return $this->_resource->countAll() >= $limit;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -59,7 +55,7 @@ class Saas_Limitation_Model_Store_Limitation
      *
      * @return string
      */
-    public static function getCreateRestrictionMessage()
+    public function getCreateRestrictedMessage()
     {
         // @codingStandardsIgnoreStart
         return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');

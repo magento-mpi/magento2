@@ -8,40 +8,37 @@
 class Saas_Limitation_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $totalCount
-     * @param string|int $configuredCount
-     * @param bool $expected
-     * @dataProvider canCreateDataProvider
+     * @param int $fixtureTotalCount
+     * @param string|int $fixtureLimitation
+     * @param bool $expectedResult
+     * @dataProvider isCreateRestrictedDataProvider
      */
-    public function testCanCreate($totalCount, $configuredCount, $expected)
+    public function testIsCreateRestricted($fixtureTotalCount, $fixtureLimitation, $expectedResult)
     {
         $resource = $this->getMock('Mage_Core_Model_Resource_Store', array('countAll'), array(), '', false);
-        if ($totalCount) {
-            $resource->expects($this->once())->method('countAll')->will($this->returnValue($totalCount));
-        }
+        $resource->expects($this->any())->method('countAll')->will($this->returnValue($fixtureTotalCount));
+
         $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
         $config->expects($this->any())->method('getNode')
-            ->with('limitations/store')
-            ->will($this->returnValue($configuredCount));
-        $model = new Saas_Limitation_Model_Store_Limitation($resource, $config);
-        $this->assertEquals($expected, $model->canCreate());
+            ->with(Saas_Limitation_Model_Store_Limitation::XML_PATH_NUM_STORES)
+            ->will($this->returnValue($fixtureLimitation));
 
-        // verify that resource model is invoked only when needed (see expectation "once" above)
-        new Saas_Limitation_Model_Store_Limitation($resource, $config);
+        $model = new Saas_Limitation_Model_Store_Limitation($resource, $config);
+        $this->assertEquals($expectedResult, $model->isCreateRestricted());
     }
 
     /**
      * @return array
      */
-    public function canCreateDataProvider()
+    public function isCreateRestrictedDataProvider()
     {
         return array(
-            'no limit'       => array(0, '', true),
+            'no limit'       => array(0, '', false),
             'negative limit' => array(2, -1, false),
             'zero limit'     => array(2, 0, false),
-            'count > limit'  => array(2, 1, false),
-            'count = limit'  => array(2, 2, false),
-            'count < limit'  => array(2, 3, true),
+            'count > limit'  => array(2, 1, true),
+            'count = limit'  => array(2, 2, true),
+            'count < limit'  => array(2, 3, false),
         );
     }
 }

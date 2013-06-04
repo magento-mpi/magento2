@@ -47,8 +47,8 @@ class Saas_Limitation_Model_Observer
     {
         /** @var Mage_Core_Model_Abstract $model */
         $model = $observer->getEvent()->getData('store');
-        if ($model->isObjectNew() && !$this->_storeLimitation->canCreate()) {
-            $message = $this->_storeLimitation->getCreateRestrictionMessage();
+        if ($model->isObjectNew() && $this->_storeLimitation->isCreateRestricted()) {
+            $message = $this->_storeLimitation->getCreateRestrictedMessage();
             $exception = new Mage_Core_Exception($message);
             $exception->addMessage(new Mage_Core_Model_Message_Error($message));
             throw $exception;
@@ -65,7 +65,7 @@ class Saas_Limitation_Model_Observer
         /** @var Mage_Backend_Block_Widget_Container $block */
         $block = $observer->getEvent()->getData('block');
         if ($block instanceof Mage_Adminhtml_Block_System_Store_Store) {
-            if (!$this->_storeLimitation->canCreate()) {
+            if ($this->_storeLimitation->isCreateRestricted()) {
                 $block->updateButton('add_store', 'disabled', true);
             }
         }
@@ -80,8 +80,8 @@ class Saas_Limitation_Model_Observer
     public function displayNotification(Varien_Event_Observer $observer)
     {
         if ($this->_getControllerAction() == 'Mage_Adminhtml/system_store/index') {
-            if (!$this->_storeLimitation->canCreate()) {
-                $this->_session->addNotice($this->_storeLimitation->getCreateRestrictionMessage());
+            if ($this->_storeLimitation->isCreateRestricted()) {
+                $this->_session->addNotice($this->_storeLimitation->getCreateRestrictedMessage());
             }
         }
     }
