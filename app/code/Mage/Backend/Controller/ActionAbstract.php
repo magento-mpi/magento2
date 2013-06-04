@@ -50,11 +50,6 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected $_session;
 
     /**
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
-    /**
      * @var Mage_Core_Model_Authorization
      */
     protected $_authorization;
@@ -75,7 +70,6 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         parent::__construct($context, $areaCode);
         $this->_helper = $context->getHelper();
         $this->_session = $context->getSession();
-        $this->_eventManager = $context->getEventManager();
         $this->_authorization = $context->getAuthorization();
         $this->_translator = $context->getTranslator();
     }

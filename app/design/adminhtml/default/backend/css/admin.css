@@ -5202,10 +5202,6 @@ table .col-draggable .draggable-handle {
     transition: color 150ms linear;
 }
 
-.field-detailed_rating .field-rating .control label:before {
-    content: "\2605\0000a0";
-}
-
 /*
     Tree Store Scope
 -------------------------------------- */

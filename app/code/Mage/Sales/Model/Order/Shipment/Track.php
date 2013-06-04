@@ -21,7 +21,6 @@
  * @method Mage_Sales_Model_Order_Shipment_Track setQty(float $value)
  * @method int getOrderId()
  * @method Mage_Sales_Model_Order_Shipment_Track setOrderId(int $value)
- * @method string getNumber()
  * @method string getDescription()
  * @method Mage_Sales_Model_Order_Shipment_Track setDescription(string $value)
  * @method string getTitle()

@@ -44,6 +44,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewFileUrlProductionMode($themeModel)
     {
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
         $moduleReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
 
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
@@ -62,11 +63,12 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             false);
         $appState = new Mage_Core_Model_App_State(Mage_Core_Model_App_State::MODE_PRODUCTION);
         $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
+        $cssHelper = $this->getMock('Mage_Core_Helper_Css', array(), array(), '', false);
 
         // Create model to be tested
         $expected = 'http://example.com/public_dir/a/t/m/file.js';
         $model = $this->getMock('Mage_Core_Model_Design_Package', array('getPublicDir', 'getPublicFileUrl'),
-            array($moduleReader, $filesystem, $resolutionPool, $appState, $storeManager));
+            array($dirs, $moduleReader, $filesystem, $resolutionPool, $appState, $storeManager, $cssHelper));
         $model->expects($this->once())
             ->method('getPublicDir')
             ->will($this->returnValue('public_dir'));
@@ -116,40 +118,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             'virtual theme' => array(
                 $virtualTheme
             ),
-        );
-    }
-
-
-    /**
-     * @param string $mode
-     * @param bool $expected
-     * @dataProvider isMergingViewFilesAllowedDataProvider
-     */
-    public function testIsMergingViewFilesAllowed($mode, $expected)
-    {
-        $moduleReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $appState = new Mage_Core_Model_App_State($mode);
-        $resolutionPool = $this->getMock('Mage_Core_Model_Design_FileResolution_StrategyPool', array(), array(), '',
-            false);
-        $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
-
-        $model = new Mage_Core_Model_Design_Package(
-            $moduleReader, $filesystem, $resolutionPool, $appState, $storeManager
-        );
-        $actual = $model->isMergingViewFilesAllowed();
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return array
-     */
-    public static function isMergingViewFilesAllowedDataProvider()
-    {
-        return array(
-            'default mode' => array(Mage_Core_Model_App_State::MODE_DEFAULT, true),
-            'production mode' => array(Mage_Core_Model_App_State::MODE_PRODUCTION, false),
-            'developer mode' => array(Mage_Core_Model_App_State::MODE_DEVELOPER, true),
         );
     }
 }

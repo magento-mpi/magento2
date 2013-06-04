@@ -70,8 +70,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Subcategory'),
             'onclick'   => "addNew('".$addUrl."', false)",
             'class'     => 'add',
-            'id'            => 'add_subcategory_button',
-            'style'     => $this->canAddSubCategory() ? '' : 'display: none;'
+            'id'        => 'add_subcategory_button',
+            'disabled'  => !$this->canAddSubCategory(),
         ));
 
         $this->addChild('add_root_button', 'Mage_Adminhtml_Block_Widget_Button', array(
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             'onclick'   => "addNew('".$addUrl."', true)",
             'class'     => 'add',
             'id'        => 'add_root_category_button',
-            'style'     => $this->canAddRootCategory() ? '' : 'display: none;'
+            'disabled'  => !$this->canAddRootCategory(),
         ));
 
         $this->setChild('store_switcher',
@@ -267,11 +267,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             '<script type="text/javascript">'
             . $javascriptVarName . ' = ' . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($categories) . ';'
             . ($this->canAddSubCategory()
-                ? '$("add_subcategory_button").show();'
-                : '$("add_subcategory_button").hide();')
+                ? '$("add_subcategory_button").enable();'
+                : '$("add_subcategory_button").disable();')
             . ($this->canAddRootCategory()
-                ? '$("add_root_category_button").show();'
-                : '$("add_root_category_button").hide();')
+                ? '$("add_root_category_button").enable();'
+                : '$("add_root_category_button").disable();')
             . '</script>';
     }
 

@@ -18,6 +18,37 @@
 class Enterprise_Customer_Helper_Customer extends Enterprise_Eav_Helper_Data
 {
     /**
+     * Data helper
+     *
+     * @var Enterprise_Customer_Helper_Data $_dataHelper
+     */
+    protected $_dataHelper;
+
+    /**
+     * Input validator
+     *
+     * @var Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $_inputValidator
+     */
+    protected $_inputValidator;
+
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Helper_Context $context
+     * @param Enterprise_Customer_Helper_Data $dataHelper
+     * @param Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
+     */
+    public function __construct(
+        Mage_Core_Helper_Context $context,
+        Enterprise_Customer_Helper_Data $dataHelper,
+        Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
+    ) {
+        parent::__construct($context);
+        $this->_dataHelper = $dataHelper;
+        $this->_inputValidator = $inputValidator;
+    }
+
+    /**
      * Default attribute entity type code
      *
      * @return string
@@ -36,21 +67,44 @@ class Enterprise_Customer_Helper_Customer extends Enterprise_Eav_Helper_Data
     {
         return array(
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer Checkout Register'),
+                'label' => $this->_dataHelper->__('Customer Checkout Register'),
                 'value' => 'checkout_register'
             ),
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer Registration'),
+                'label' => $this->_dataHelper->__('Customer Registration'),
                 'value' => 'customer_account_create'
             ),
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer Account Edit'),
+                'label' => $this->_dataHelper->__('Customer Account Edit'),
                 'value' => 'customer_account_edit'
             ),
             array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('Admin Checkout'),
+                'label' => $this->_dataHelper->__('Admin Checkout'),
                 'value' => 'adminhtml_checkout'
             ),
         );
+    }
+
+    /**
+     * Filter post data
+     *
+     * @param array $data
+     * @throws Mage_Core_Exception
+     * @return array
+     */
+    public function filterPostData($data)
+    {
+        $data = parent::filterPostData($data);
+
+        //validate frontend_input
+        if (isset($data['frontend_input'])) {
+            $this->_inputValidator->setHaystack(
+                array_keys($this->_dataHelper->getAttributeInputTypes())
+            );
+            if (!$this->_inputValidator->isValid($data['frontend_input'])) {
+                throw new Mage_Core_Exception($this->stripTags(implode(' ', $this->_inputValidator->getMessages())));
+            }
+        }
+        return $data;
     }
 }
