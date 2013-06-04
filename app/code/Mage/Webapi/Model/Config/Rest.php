@@ -144,14 +144,14 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
         $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
             . '/:' . Mage_Webapi_Controller_Front::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath
-            . '/' . Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']
+            . '/' . Mage_Webapi_Config::VERSION_NUMBER_PREFIX . $routeData['version']
             . $routeData['routePath'];
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
         $route->setServiceId($routeData['serviceId'])
             ->setHttpMethod($routeData['httpMethod'])
             ->setServiceMethod($routeData['serviceMethod'])
-            ->setServiceVersion(Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']);
+            ->setServiceVersion(Mage_Webapi_Config::VERSION_NUMBER_PREFIX . $routeData['version']);
         return $route;
     }
 }

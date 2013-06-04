@@ -53,8 +53,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     protected $_requestHeaders = array(self::HEADER_SECURITY);
 
-    /** @var Mage_Core_Service_Factory */
-    protected $_serviceFactory;
+    /** @var Magento_ObjectManager */
+    protected $_objectManager;
 
     /** @var Mage_Webapi_Config */
     protected $_newApiConfig;
@@ -69,7 +69,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
-     * @param Mage_Core_Service_Factory $serviceFactory
+     * @param Magento_ObjectManager $objectManager
      * @param Mage_Webapi_Config $newApiConfig
      */
     public function __construct(
@@ -80,7 +80,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
-        Mage_Core_Service_Factory $serviceFactory,
+        Magento_ObjectManager $objectManager,
         Mage_Webapi_Config $newApiConfig
     ) {
         $this->_apiConfig = $apiConfig;
@@ -90,7 +90,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
-        $this->_serviceFactory = $serviceFactory;
+        $this->_objectManager = $objectManager;
         $this->_newApiConfig = $newApiConfig;
     }
 
@@ -126,12 +126,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 
                 $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation);
                 $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation);
-                $service = $this->_serviceFactory->createServiceInstance(
-                    $serviceId,
-                    $serviceMethod,
-                    'V1' // TODO: Service version is hardcoded for now
-                );
-                $outputData = $service->$serviceMethod($arguments);
+                $service = $this->_objectManager->get($serviceId);
+                   $outputData = $service->$serviceMethod($arguments);
                 if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
                     $outputData = $outputData->getData();
                 }
