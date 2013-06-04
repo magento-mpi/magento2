@@ -21,6 +21,7 @@ content_experiments_disable:
         configuration:
             google_analytics:
                 enable_content_experiments: No
+
 google_adwords_enable:
     configuration_scope: Default Config
     tab_1:
@@ -34,4 +35,3 @@ google_adwords_enable:
                 conversion_color: FFFFFF
                 conversion_language: English / English (en)
                 conversion_value_type: Constant
-

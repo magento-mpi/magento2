@@ -11,7 +11,7 @@
 class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var \Zend_Locale
+     * @var Zend_Locale
      */
     protected $_locale;
 
