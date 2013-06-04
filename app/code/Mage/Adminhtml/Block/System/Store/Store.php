@@ -34,28 +34,20 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
     protected $_storeGroupLimitation;
 
     /**
-     * @var Mage_Core_Model_Store_Limitation
-     */
-    protected $_storeLimitation;
-
-    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_Website_Limitation $websiteLimitation
      * @param Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation
-     * @param Mage_Core_Model_Store_Limitation $storeLimitation
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Website_Limitation $websiteLimitation,
         Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation,
-        Mage_Core_Model_Store_Limitation $storeLimitation,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_websiteLimitation = $websiteLimitation;
         $this->_storeGroupLimitation = $storeGroupLimitation;
-        $this->_storeLimitation = $storeLimitation;
     }
 
     protected function _construct()
@@ -85,15 +77,11 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         }
 
         /* Add Store button */
-        $storeButtonData = array(
+        $this->_addButton('add_store', array(
             'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create Store View'),
             'onclick' => 'setLocation(\'' . $this->getUrl('*/*/newStore') . '\')',
             'class'   => 'add',
-        );
-        if (!$this->_storeLimitation->canCreate()) {
-            $storeButtonData['disabled'] = true;
-        }
-        $this->_addButton('add_store', $storeButtonData);
+        ));
 
         return parent::_prepareLayout();
     }

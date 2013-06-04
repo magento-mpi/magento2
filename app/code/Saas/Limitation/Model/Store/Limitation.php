@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Store_Limitation
+class Saas_Limitation_Model_Store_Limitation
 {
     /**
      * @var Mage_Core_Model_Resource_Store
@@ -62,7 +62,7 @@ class Mage_Core_Model_Store_Limitation
     public static function getCreateRestrictionMessage()
     {
         // @codingStandardsIgnoreStart
-        return Mage::helper('Mage_Core_Helper_Data')->__('Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
+        return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
         // @codingStandardsIgnoreEnd
     }
 }

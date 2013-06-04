@@ -19,4 +19,36 @@
             </depends>
         </Saas_Limitation>
     </modules>
+    <global>
+        <events>
+            <store_save_before>
+                <observers>
+                    <saas_limitation>
+                        <class>Saas_Limitation_Model_Observer</class>
+                        <method>restrictStoreCreation</method>
+                    </saas_limitation>
+                </observers>
+            </store_save_before>
+        </events>
+    </global>
+    <adminhtml>
+        <events>
+            <adminhtml_widget_container_html_before>
+                <observers>
+                    <saas_limitation>
+                        <class>Saas_Limitation_Model_Observer</class>
+                        <method>updateGridButtons</method>
+                    </saas_limitation>
+                </observers>
+            </adminhtml_widget_container_html_before>
+            <controller_action_predispatch>
+                <observers>
+                    <saas_limitation>
+                        <class>Saas_Limitation_Model_Observer</class>
+                        <method>displayNotification</method>
+                    </saas_limitation>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+    </adminhtml>
 </config>

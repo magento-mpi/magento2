@@ -314,7 +314,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
         $validator = Mage::getObjectManager()->get('Magento_Validator_Composite_VarienObject');
 
         if ($this->isObjectNew()) {
-            /** @var $limitation Mage_Core_Model_Store_Limitation */
+            /** @var $limitation Mage_Core_Model_Store_Group_Limitation */
             $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Group_Limitation');
             $storeSavingAllowance = new Zend_Validate_Callback(array($limitation, 'canCreate'));
             $storeSavingAllowance->setMessage(

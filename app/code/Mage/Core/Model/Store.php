@@ -300,17 +300,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         );
         $validator->addRule($storeCodeRule, 'code');
 
-        if ($this->isObjectNew()) {
-            /** @var $limitation Mage_Core_Model_Store_Limitation */
-            $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Limitation');
-            $storeSavingAllowance = new Zend_Validate_Callback(array($limitation, 'canCreate'));
-            $storeSavingAllowance->setMessage(
-                $limitation->getCreateRestrictionMessage(), Zend_Validate_Callback::INVALID_VALUE
-            );
-
-            $validator->addRule($storeSavingAllowance);
-        }
-
         return $validator;
     }
 

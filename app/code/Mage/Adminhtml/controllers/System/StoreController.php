@@ -17,7 +17,6 @@
  */
 class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Action
 {
-
     /**
      * Init actions
      *
@@ -37,13 +36,6 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     public function indexAction()
     {
         $this->_title($this->__('Stores'));
-
-        /** @var $storeLimitation Mage_Core_Model_Store_Limitation */
-        $storeLimitation = $this->_objectManager->get('Mage_Core_Model_Store_Limitation');
-        if (!$storeLimitation->canCreate()) {
-            $this->_getSession()->addNotice($storeLimitation->getCreateRestrictionMessage());
-        }
-
         $this->_initAction()
             ->renderLayout();
     }

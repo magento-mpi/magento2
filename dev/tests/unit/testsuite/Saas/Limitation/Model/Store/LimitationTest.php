@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $totalCount
@@ -23,11 +23,11 @@ class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
         $config->expects($this->any())->method('getNode')
             ->with('limitations/store')
             ->will($this->returnValue($configuredCount));
-        $model = new Mage_Core_Model_Store_Limitation($resource, $config);
+        $model = new Saas_Limitation_Model_Store_Limitation($resource, $config);
         $this->assertEquals($expected, $model->canCreate());
 
         // verify that resource model is invoked only when needed (see expectation "once" above)
-        new Mage_Core_Model_Store_Limitation($resource, $config);
+        new Saas_Limitation_Model_Store_Limitation($resource, $config);
     }
 
     /**
