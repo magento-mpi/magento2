@@ -39,7 +39,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             'name'     => $uploaderId,
             'title'    => $uploaderTitle,
             'label'    => null,
-            'value'    => $uploaderData['value'] == $uploaderData['default'] ? '' : $uploaderData['value'],
+            'value'    => $uploaderData['value'],
         ));
 
         $checkboxTitle = $this->_escape(sprintf('%s {%s: %s}',

@@ -25,8 +25,13 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage
      */
     protected function _render($data)
     {
-        //TODO What if image file does not exists?
+        $override = "none";
 
-        return "{$data['selector']} { {$data['attribute']}: url('{$data['value']}'); }";
+        if (!empty($data['value']))
+        {
+            $override = "url('{$data['value']}')";
+        }
+
+        return "{$data['selector']} { {$data['attribute']}: " . $override . "; }";
     }
 }
