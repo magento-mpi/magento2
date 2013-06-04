@@ -46,3 +46,17 @@ account_number_delete:
         configuration:
             google_analytics:
                 account_number: ''
+
+google_adwords_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_google_api
+        configuration:
+            google_adwords:
+                enable_google_adwords: Yes
+                conversion_id: 123456789
+                conversion_label: Some Label
+                conversion_format: 2
+                conversion_color: FFFFFF
+                conversion_language: English / English (en)
+                conversion_value_type: Constant
