@@ -19,7 +19,7 @@
 </dl>
     <script type="text/javascript">
         head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_Checkout::js/checkout-balance.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_Reward::js/checkout-balance.js') ?>",
             function() {
                 jQuery('#use-reward-points').checkoutBalance({
                     amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
