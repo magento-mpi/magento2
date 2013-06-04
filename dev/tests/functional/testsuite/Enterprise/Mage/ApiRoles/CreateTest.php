@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -131,7 +131,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->clickButton('save');
         //Open created role from the role grid
-        $userSearch = array('filter_role_name' => $fieldData['role_name']);
+        $userSearch =array('filter_role_name' => $fieldData['role_name']);
         $this->searchAndOpen($userSearch, 'api_roles_grid');
         //Click Delete API Role button
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
