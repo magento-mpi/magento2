@@ -91,7 +91,13 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
             // $this->_authorization->checkResourceAcl($route->getServiceName(), $method);
 
             $inputData = $this->_restPresentation->fetchRequestData($serviceInstance, $method);
-            $outputData = call_user_func_array(array($serviceInstance, $method), $inputData);
+
+            try {
+                $outputData = call_user_func_array(array($serviceInstance, $method), $inputData);
+            } catch (Mage_Service_ResourceNotFoundException $e) {
+            } catch (Mage_Service_Exception $e) {
+            } catch (Exception $e) {
+            }
             $this->_restPresentation->prepareResponse($this->_request->getHttpMethod(), $outputData);
         } catch (Exception $e) {
             $this->_response->setException($e);
