@@ -61,6 +61,35 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     }
 
     /**
+     * Retrieve options attributes html
+     *
+     * @param string $key
+     * @param array $option
+     * @return string
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    public function getOptionAttributesHtml($key, $option)
+    {
+        $disabled = isset($option['disabled']) && $option['disabled'] ? 'disabled' : '';
+        $title = isset($option['title']) ? $option['title'] : $option['label'];
+
+        $classes = array();
+        $classes[] = 'vde_cell_list_item';
+        if (!empty($option['default'])) {
+            $classes[] = 'checked';
+        }
+        if ($disabled) {
+            $classes[] = $disabled;
+        }
+
+        $attributes = $this->_prepareOptionAttributes($option, $title, $classes, $disabled);
+        $html = $this->_getAttributesString($attributes);
+        $html .= $this->getUiId(isset($option['id']) ? $option['id'] : 'item' . '-' . $key);
+
+        return $html;
+    }
+
+    /**
      * Whether button is disabled
      *
      * @return mixed
@@ -143,8 +172,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 'event'     => 'revert-to-last',
                 'target'    => 'body',
                 'eventData' => array(
-                    'url'             => $this->getRevertUrl('last_saved'),
-                    'confirm_message' => $message
+                    'url'     => $this->getRevertUrl('last_saved'),
+                    'confirm' => array('title' => $this->__('Revert Layout to Last Saved'), 'message' => $message),
                 )
             )
         );
@@ -164,8 +193,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 'event'     => 'revert-to-default',
                 'target'    => 'body',
                 'eventData' => array(
-                    'url'             => $this->getRevertUrl('physical'),
-                    'confirm_message' => $message
+                    'url'     => $this->getRevertUrl('physical'),
+                    'confirm' => array('title' => $this->__('Revert Layout to Default'), 'message' => $message)
                 )
             )
         );

@@ -14,9 +14,11 @@
      */
     $.widget('vde.vde-edit-button', $.ui.button, {
         options: {
-            dialogSelector:  '#dialog-message-confirm',
+            dialogSelector:  '#dialog-message-confirm-revert',
+            dialog: undefined,
             eventData: {
-                url: undefined
+                url: undefined,
+                confirm: undefined
             }
         },
 
@@ -47,11 +49,12 @@
                 return false;
             }
             var dialog = this._getDialog();
-            if (this.options.eventData.confirm_message && dialog) {
+            if (this.options.eventData.confirm && dialog) {
                 this._showConfirmMessage(dialog, $.proxy(this._sendRevertRequest, this));
             } else {
                 this._sendRevertRequest();
             }
+            return false;
         },
 
         /**
@@ -65,8 +68,9 @@
                 click: callback,
                 'class': 'primary'
             };
-            if (this.options.eventData.confirm_message) {
-                dialog.text.set(this.options.eventData.confirm_message);
+            if (this.options.eventData.confirm) {
+                dialog.title.set(this.options.eventData.confirm.title);
+                dialog.text.set(this.options.eventData.confirm.message);
                 dialog.setButtons(buttons);
                 dialog.open();
             }
@@ -110,7 +114,15 @@
          * @private
          */
         _getDialog: function() {
-            return $(this.options.dialogSelector);
+            if (!this.options.dialog) {
+                this.options.dialog = $(this.options.dialogSelector).dialog({
+                    autoOpen:    false,
+                    modal:       true,
+                    width:       570,
+                    dialogClass: 'vde-dialog'
+                });
+            }
+            return this.options.dialog;
         }
     });
 })(jQuery);

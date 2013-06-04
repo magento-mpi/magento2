@@ -99,7 +99,7 @@
             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
                 <block type="Mage_Backend_Block_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml">
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit" name="design_editor_toolbar_buttons_edit" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit" name="design_editor_toolbar_buttons_edit" template="Mage_DesignEditor::editor/toolbar/buttons/edit.phtml" />
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save" />
                     </block>
                 </block>

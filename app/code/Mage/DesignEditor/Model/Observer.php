@@ -106,7 +106,7 @@ class Mage_DesignEditor_Model_Observer
     public function saveChangeTime($event)
     {
         /** @var $theme Mage_Core_Model_Theme|null */
-        $theme = $event->getData('theme');
+        $theme = $event->getTheme() ?: $event->getDataObject()->getTheme();
         /** @var $change Mage_DesignEditor_Model_Theme_Change */
         $change = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
         if ($theme && $theme->getId()) {

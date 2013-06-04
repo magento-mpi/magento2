@@ -51,6 +51,14 @@
                     </copy_theme_change_time>
                 </observers>
             </theme_copy_after>
+            <theme_file_save_after>
+                <observers>
+                    <theme_file_save>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>saveChangeTime</method>
+                    </theme_file_save>
+                </observers>
+            </theme_file_save_after>
         </events>
         <di>
             <Mage_DesignEditor_Model_Resource_Layout_Update>

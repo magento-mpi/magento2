@@ -1721,9 +1721,14 @@
     font-weight: normal;
 }
 
+.vde_toolbar_cell_content .vde_cell_list_item.disabled {
+    color: #c6c6c6;
+    cursor: default;
+}
+
 #vde_toolbar_row .vde_toolbar_cell_content,
-#vde_toolbar_row .vde_toolbar_cell_content * {
-    color: #f0efe9;
+#vde_toolbar_row .vde_toolbar_cell_content {
+    color: #676056;
 }
 
 #vde_toolbar_row .switcher-label:after {
@@ -1736,7 +1741,7 @@
     position: absolute;
     top: 2.5em;
     left: 0;
-    background: #494949;
+    background: #fff;
     padding: .5em 0;
     z-index: 190;
     min-width: 20em;
@@ -1769,7 +1774,7 @@
 }
 
 .vde_toolbar_cell_content .vde_cell_list_item:hover, #vde_handles_tree .jstree-clicked, #vde_handles_tree .jstree-hovered {
-    background-color: #7b7b7b;
+    background-color: #f5f2ea;
 }
 
 .vde_toolbar_cell_content .checked {
