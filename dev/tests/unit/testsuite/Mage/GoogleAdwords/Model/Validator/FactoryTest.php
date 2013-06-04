@@ -42,11 +42,13 @@ class Mage_GoogleAdwords_Model_Validator_ColorFactoryTest extends PHPUnit_Framew
     {
         $this->_helperMock = $this->getMock('Mage_GoogleAdwords_Helper_Data', array(), array(), '', false);
         $this->_helperMock->expects($this->any())->method('__')->with($this->isType('string'))
-            ->will($this->returnCallback(function () {
-                $args = func_get_args();
-                $translated = array_shift($args);
-                return vsprintf($translated, $args);
-            }));
+            ->will($this->returnCallback(
+                function () {
+                    $args = func_get_args();
+                    $translated = array_shift($args);
+                    return vsprintf($translated, $args);
+                }
+            ));
 
         $this->_validatorBuilderFactoryMock = $this->getMock('Magento_Validator_BuilderFactory', array('create'),
             array(), '', false);

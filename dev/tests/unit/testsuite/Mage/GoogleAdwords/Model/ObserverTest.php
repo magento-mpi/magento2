@@ -74,9 +74,11 @@ class Mage_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_helperMock->expects($this->once())->method('isGoogleAdwordsActive')
             ->will($this->returnValue($isActive));
         $this->_helperMock->expects($this->any())->method('isDynamicConversionValue')
-            ->will($this->returnCallback(function () use ($isDynamic) {
-                return $isDynamic;
-            }));
+            ->will($this->returnCallback(
+                function () use ($isDynamic) {
+                    return $isDynamic;
+                }
+            ));
 
         $this->_eventMock->expects($this->never())->method('getOrderIds');
         $this->assertSame($this->_model, $this->_model->setConversionValue($this->_eventObserverMock));
