@@ -57,7 +57,9 @@ try {
     $generator = new Generator_CopyRule($filesystem, $themes, $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
 
+    $cssHelper = new Mage_Core_Helper_Css($filesystem, $dirs);
     $deployment = new Generator_ThemeDeployment(
+        $cssHelper,
         $config->getDestinationDir(),
         __DIR__ . '/config/permitted.php',
         __DIR__ . '/config/forbidden.php',

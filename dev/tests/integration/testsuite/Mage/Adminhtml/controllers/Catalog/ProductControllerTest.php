@@ -189,8 +189,15 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
             '"Save & New" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-duplicate-button', 1, $body,
             '"Save & Duplicate" button isn\'t present on Edit Product page');
-        $this->assertNotContains('Maximum allowed number of categories is reached.', $body,
+        $this->assertNotContains('Sorry, you are using all the categories your account allows.'
+            . ' To add more, first delete a category or upgrade your service.', $body,
             'New category creation should not be restricted on Edit Product page');
+        $pattern = '/<button[^>]*New\sCategory[^>]*>/';
+        preg_match($pattern, $body, $matches);
+        $this->assertNotEmpty($matches[0]);
+        $btnRoot = $matches[0];
+        $this->assertNotContains('disabled="disabled"', $btnRoot,
+            '"New Category" button should be enabled on New Product page, if the limit is not reached');
     }
 
     /**
@@ -209,8 +216,15 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
             '"Save & New" button should not be present on Edit Product page, if the limit is reached');
         $this->assertSelectCount('#save-split-button-duplicate-button', 0, $body,
             '"Save & Duplicate" should not be present on Edit Product page, if the limit is reached');
-        $this->assertContains('Maximum allowed number of categories is reached.', $body,
+        $this->assertContains('Sorry, you are using all the categories your account allows.'
+            . ' To add more, first delete a category or upgrade your service.', $body,
             'New category creation should be restricted on Edit Product page, if the limit is reached');
+        $pattern = '/<button[^>]*New\sCategory[^>]*>/';
+        preg_match($pattern, $body, $matches);
+        $this->assertNotEmpty($matches[0]);
+        $btnRoot = $matches[0];
+        $this->assertContains('disabled="disabled"', $btnRoot,
+            '"New Category" button should be disabled on New Product page, if the limit is reached');
     }
 
     /**
@@ -237,8 +251,15 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     {
         $this->dispatch('backend/admin/catalog_product/edit/id/1');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of categories is reached.', $body,
+        $this->assertNotContains('Sorry, you are using all the categories your account allows.'
+            . ' To add more, first delete a category or upgrade your service.', $body,
             'New category creation should not be restricted on Edit Product page');
+        $pattern = '/<button[^>]*New\sCategory[^>]*>/';
+        preg_match($pattern, $body, $matches);
+        $this->assertNotEmpty($matches[0]);
+        $btnRoot = $matches[0];
+        $this->assertNotContains('disabled="disabled"', $btnRoot,
+            '"New Category" button should be enabled on New Product page, if the limit is not reached');
     }
 
     /**

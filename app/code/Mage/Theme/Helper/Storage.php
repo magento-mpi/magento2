@@ -226,7 +226,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
                 if ($this->_filesystem->isDirectory($path)
                     && $this->_filesystem->isPathInDirectory($path, $currentPath)
                 ) {
-                    $currentPath = $this->_filesystem->getAbsolutePath($path);
+                    $currentPath = $this->_filesystem->normalizePath($path);
                 }
             }
             $this->_currentPath = $currentPath;

@@ -125,6 +125,12 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
      *
      * @dataProvider isAttributeValidDataProvider
      * @covers Mage_ImportExport_Model_Import_Entity_Abstract::isAttributeValid
+     *
+     * @param string $attrCode
+     * @param array $attrParams
+     * @param array $rowData
+     * @param int $rowNum
+     * @param bool $expectedResult
      */
     public function testIsAttributeValid($attrCode, array $attrParams, array $rowData, $rowNum, $expectedResult)
     {

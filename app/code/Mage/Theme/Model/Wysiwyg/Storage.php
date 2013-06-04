@@ -202,16 +202,16 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $file = $this->_helper->urlDecode($file);
         $path = $this->_helper->getSession()->getStoragePath();
 
-        $_filePath = $this->_filesystem->getAbsolutePath($path . Magento_Filesystem::DIRECTORY_SEPARATOR . $file);
-        $_thumbnailPath = $this->_helper->getThumbnailDirectory($_filePath)
+        $filePath = $this->_filesystem->normalizePath($path . '/' . $file);
+        $thumbnailPath = $this->_helper->getThumbnailDirectory($filePath)
             . Magento_Filesystem::DIRECTORY_SEPARATOR
             . $file;
 
-        if ($this->_filesystem->isPathInDirectory($_filePath, $path)
-            && $this->_filesystem->isPathInDirectory($_filePath, $this->_helper->getStorageRoot())
+        if ($this->_filesystem->isPathInDirectory($filePath, $path)
+            && $this->_filesystem->isPathInDirectory($filePath, $this->_helper->getStorageRoot())
         ) {
-            $this->_filesystem->delete($_filePath);
-            $this->_filesystem->delete($_thumbnailPath);
+            $this->_filesystem->delete($filePath);
+            $this->_filesystem->delete($thumbnailPath);
         }
         return $this;
     }
