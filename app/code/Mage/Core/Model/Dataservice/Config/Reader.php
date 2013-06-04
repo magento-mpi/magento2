@@ -33,7 +33,7 @@ class Mage_Core_Model_Dataservice_Config_Reader
     }
 
     /**
-     * Reads all service calls files into one XML string with <calls> as the root
+     * Reads all service calls files into one XML string with <service_calls> as the root
      *
      * @return string
      */
