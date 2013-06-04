@@ -46,10 +46,12 @@ class Magento_Test_Helper_Memory
     public function getRealMemoryUsage()
     {
         $pid = getmypid();
-        if (self::isWindowsOs()) {
-            $result = $this->getWinProcessMemoryUsage($pid);
-        } else {
-            $result = $this->getUnixProcessMemoryUsage($pid);
+        try {
+            // try to use the Unix command line
+            $result = $this->_getUnixProcessMemoryUsage($pid);
+        } catch (Magento_Exception $e) {
+            // fall back to the Windows command line
+            $result = $this->_getWinProcessMemoryUsage($pid);
         }
         return $result;
     }
@@ -57,25 +59,15 @@ class Magento_Test_Helper_Memory
     /**
      * Retrieve the current process' memory usage using Unix command line interface
      *
-     * @link http://linux.die.net/man/1/top
+     * @link http://linux.die.net/man/1/ps
      * @param int $pid
      * @return int Memory usage in bytes
      */
-    public function getUnixProcessMemoryUsage($pid)
+    protected function _getUnixProcessMemoryUsage($pid)
     {
-        $output = $this->_shell->execute('top -p %s -n 1 -b | grep PID -A 1', array($pid));
-
-        $output = preg_split('/\n+/', $output, -1, PREG_SPLIT_NO_EMPTY);
-        $keys = preg_split('/\s+/', $output[0], -1, PREG_SPLIT_NO_EMPTY);
-        $values = preg_split('/\s+/', $output[1], -1, PREG_SPLIT_NO_EMPTY);
-        $stats = array_combine($keys, $values);
-
-        $result = $stats['RES']; // resident set size, the non-swapped physical memory
-
-        if (is_numeric($result)) {
-            $result .= 'k'; // kilobytes by default
-        }
-
+        // RSS - resident set size, the non-swapped physical memory
+        $output = $this->_shell->execute('ps --pid %s --format rss --no-headers', array($pid));
+        $result = $output . 'k'; // kilobytes
         return self::convertToBytes($result);
     }
 
@@ -86,7 +78,7 @@ class Magento_Test_Helper_Memory
      * @param int $pid
      * @return int Memory usage in bytes
      */
-    public function getWinProcessMemoryUsage($pid)
+    protected function _getWinProcessMemoryUsage($pid)
     {
         $output = $this->_shell->execute('tasklist /fi %s /fo CSV /nh', array("PID eq $pid"));
 
@@ -99,17 +91,6 @@ class Magento_Test_Helper_Memory
         $result = $stats[4];
 
         return self::convertToBytes($result);
-    }
-
-    /**
-     * Whether the operating system belongs to the Windows family
-     *
-     * @link http://php.net/manual/en/function.php-uname.php
-     * @return bool
-     */
-    public static function isWindowsOs()
-    {
-        return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
     }
 
     /**

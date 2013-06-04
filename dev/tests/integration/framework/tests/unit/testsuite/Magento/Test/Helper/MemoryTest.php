@@ -17,39 +17,34 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
         $this->_shell = $this->getMock('Magento_Shell', array('execute'), array(), '', false);
     }
 
-    public function testGetRealMemoryUsage()
+    public function testGetRealMemoryUsageUnix()
     {
-        /** @var $mock PHPUnit_Framework_MockObject_MockObject|Magento_Test_Helper_Memory */
-        $mock = $this->getMock(
-            'Magento_Test_Helper_Memory',
-            array('getUnixProcessMemoryUsage', 'getWinProcessMemoryUsage'),
-            array($this->_shell)
-        );
-        $mock->expects($this->any())->method('getUnixProcessMemoryUsage')->will($this->returnValue('gizmo'));
-        $mock->expects($this->any())->method('getWinProcessMemoryUsage')->will($this->returnValue('gizmo'));
-        $this->assertEquals('gizmo', $mock->getRealMemoryUsage());
-    }
-
-    public function testGetUnixProcessMemoryUsage()
-    {
-        $unixFixture = '  PID USER    PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND'
-            . "\n" . '12345 root    20   0  215m  36m  10m S   98  0.5   0:32.96 php';
-        $this->_shell->expects($this->once())->method('execute')->will($this->returnValue($unixFixture));
         $object = new Magento_Test_Helper_Memory($this->_shell);
-        $this->assertEquals('37748736', $object->getUnixProcessMemoryUsage(0));
+        $this->_shell
+            ->expects($this->once())
+            ->method('execute')
+            ->with($this->stringStartsWith('ps'))
+            ->will($this->returnValue('26321'))
+        ;
+        $this->assertEquals(26952704, $object->getRealMemoryUsage());
     }
 
-    public function testGetWinProcessMemoryUsage()
+    public function testGetRealMemoryUsageWin()
     {
-        $winFixture = '"php.exe","12345","N/A","0","26,321 K"';
-        $this->_shell->expects($this->once())->method('execute')->will($this->returnValue($winFixture));
+        $this->_shell
+            ->expects($this->at(0))
+            ->method('execute')
+            ->with($this->stringStartsWith('ps'))
+            ->will($this->throwException(new Magento_Exception('command not found')))
+        ;
+        $this->_shell
+            ->expects($this->at(1))
+            ->method('execute')
+            ->with($this->stringStartsWith('tasklist'))
+            ->will($this->returnValue('"php.exe","12345","N/A","0","26,321 K"'))
+        ;
         $object = new Magento_Test_Helper_Memory($this->_shell);
-        $this->assertEquals('26952704', $object->getWinProcessMemoryUsage(0));
-    }
-
-    public function testIsWindowsOs()
-    {
-        $this->assertInternalType('boolean', Magento_Test_Helper_Memory::isWindowsOs());
+        $this->assertEquals(26952704, $object->getRealMemoryUsage());
     }
 
     /**
