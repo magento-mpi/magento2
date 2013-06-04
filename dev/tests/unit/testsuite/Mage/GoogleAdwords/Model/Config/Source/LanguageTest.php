@@ -4,6 +4,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framework_TestCase
 {

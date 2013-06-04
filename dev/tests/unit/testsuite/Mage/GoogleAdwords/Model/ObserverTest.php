@@ -74,9 +74,9 @@ class Mage_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_helperMock->expects($this->once())->method('isGoogleAdwordsActive')
             ->will($this->returnValue($isActive));
         $this->_helperMock->expects($this->any())->method('isDynamicConversionValue')
-                ->will($this->returnCallback(function () use ($isDynamic) {
-                    return $isDynamic;
-                }));
+            ->will($this->returnCallback(function () use ($isDynamic) {
+                return $isDynamic;
+            }));
 
         $this->_eventMock->expects($this->never())->method('getOrderIds');
         $this->assertSame($this->_model, $this->_model->setConversionValue($this->_eventObserverMock));
@@ -122,9 +122,6 @@ class Mage_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $iteratorMock = $this->getMock('Iterator');
         $this->_collectionMock->expects($this->any())->method('getIterator')->will($this->returnValue($iteratorMock));
-//        $modelMock = $this->getMock('Mage_Sales_Model_Order', array(), array(), '', false);
-//        $this->_collectionMock->expects($this->once())->method('getItems')
-//            ->will($this->returnValueMap(array($modelMock, $modelMock)));
         $this->_collectionMock->expects($this->once())->method('addFieldToFilter')
             ->with('entity_id', array('in' => $ordersIds));
         $this->_registryMock->expects($this->once())->method('register')

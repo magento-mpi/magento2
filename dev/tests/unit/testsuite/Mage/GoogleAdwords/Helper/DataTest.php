@@ -12,7 +12,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_configMock;
 
-   /**
+    /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configNodeMock;
