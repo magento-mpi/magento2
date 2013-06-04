@@ -128,7 +128,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function testWriteException()
     {
-        $this->_adapter->write('?.?', 'any contents');
+        $this->_adapter->write("forbidden-symbol\0", 'any contents');
     }
 
     public function testDeleteNotExists()
