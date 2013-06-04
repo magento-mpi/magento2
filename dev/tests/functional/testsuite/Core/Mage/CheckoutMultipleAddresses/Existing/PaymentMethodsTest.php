@@ -18,6 +18,8 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
+    private static $_paypalAccount;
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -34,8 +36,10 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
+        if (isset(self::$_paypalAccount)) {
+            $this->paypalHelper()->paypalDeveloperLogin();
+            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
+        }
     }
 
     /**
@@ -59,6 +63,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
+        self::$_paypalAccount = $accountInfo['email'];
 
         return array(
             'products' => array(

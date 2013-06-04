@@ -245,7 +245,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
-        $this->assertFalse($this->controlIsVisible('fieldset', 'categories_menu'),
+        $this->assertFalse($this->controlIsVisible('pageelement', 'categories_menu'),
             'Navigation menu should be absent');
     }
 
@@ -270,7 +270,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->clearInvalidedCache();
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->assertTrue($this->controlIsVisible('fieldset', 'categories_menu'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'categories_menu'),
             'Navigation menu must be present');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $url = $this->url();

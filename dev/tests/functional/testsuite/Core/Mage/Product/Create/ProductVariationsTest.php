@@ -732,7 +732,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function withFilledAttributeLabelField($value, $attributeData)
     {
-        $this->markTestIncomplete('BUG: Attribute name is not change on frontend');
+        $this->markTestIncomplete('MAGETWO-8681');
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
             'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
@@ -773,7 +773,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function withEmptyAttributeLabelField($attributeData)
     {
-        $this->markTestIncomplete('MAGETWO-8681');
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', null, array(
             'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],

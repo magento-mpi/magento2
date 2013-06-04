@@ -287,14 +287,15 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->addParameter('elementTitle', $title);
         //Form category xpath
-        $link = "//ul[@id='nav']";
+        $link = $this->_getControlXpath('pageelement', 'categories_menu');
         foreach ($nodes as $node) {
-            $link = $link . '//li[contains(a/span,"' . $node . '")]';
+            $this->addParameter('catName', $node);
+            $link = $link . $this->_getControlXpath('pageelement', 'category_container');
         }
-        $link = $link . '/a';
+        $link = $link . $this->_getControlXpath('button', 'category_button');
         $availableElement = $this->elementIsPresent($link);
         if (!$availableElement) {
-            $this->fail('"' . $categoryPath . '" category page could not be opened');
+            $this->fail('"' . $categoryPath . '" category page could not be opened with locator ' . $link);
         }
         //Determine category mca parameters
         $mca = $this->getMcaFromUrl($availableElement->attribute('href'));

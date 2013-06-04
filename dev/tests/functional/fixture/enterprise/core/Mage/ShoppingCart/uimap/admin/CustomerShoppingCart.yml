@@ -19,54 +19,45 @@ customer_shopping_cart:
         form:
             fieldsets:
                 -
-                    add_to_shopping_cart:
-                        xpath: //*[@id='dd-sku.accordion']
-                        links:
-                            href_add_to_cart: //preceding-sibling::dt[a='Add to Shopping Cart by SKU']//a
-                        fields:
-                            sku: //*[@id='sku_%itemId%']
-                            sku_qty: //*[@id='sku_qty_%itemId%']
-                            sku_upload: //*[@id='sku_upload']
-                        pageelements:
-                            note_csv: //*[@class='note']
-                        buttons:
-                            add_row: //button[@data-ui-id='sku-accordion-addbutton']
-                            remove_row: //tr[%del_row%]//button[@data-ui-id='sku-accordion-deletebutton']
-                            reset_file: //button[@class='button btn-reset']
-                -
-                    shopping_cart_items_head:
-                        xpath: //*[@id='page:main-container']/div[4]/div
-                -
                     shopping_cart_items:
                         xpath: //*[@id='order-items_grid']
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
                             product_table_tfoot: //table[@class='data order-tables']/tfoot
-                            product_line: //table[@class='data order-tables']/tbody
+                            product_line: //table[@class='data order-tables']/tbody/tr
                             no_items: //*[@class='empty-text a-center']
                         dropdowns:
                             grid_massaction_select: //tr[%rowNumber%]//select
                         buttons:
                             configure_order_item: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
                 -
-                    sku_error_table:
-                        xpath: //*[@id='checkout_errors']//*[@id='sku_errors_table']
+                    add_to_cart_by_sku:
+                        xpath: //*[@id='dd-sku.accordion']
+                        links:
+                            add_to_cart_by_sku_link: //preceding-sibling::dt[a='Add to Shopping Cart by SKU']//a
                         fields:
-                            qty: //tr[%rowIndex%]//*[@name='qty']
+                            sku: //tr[%number%]//input[@name='sku']
+                            qty: //tr[%number%]//input[@name='qty']
+                            sku_upload: //*[@id='sku_upload']
+                        pageelements:
+                            note_csv: //*[@class='note']
+                            table_lines: //table/tbody/tr
                         buttons:
-                            remove_item: //tr[%rowIndex%]//button[@class='scalable delete']
-                            configure_item: //*[@id='sku_%sku%']//*[@class='sku-configure-button']/button
+                            add_row: //button[@data-ui-id='sku-accordion-addbutton']
+                            remove_row: //tr[%del_row%]//button[@data-ui-id='sku-accordion-deletebutton']
+                            reset_file: //button[@class='button btn-reset']
                 -
-                    shopping_cart_error_table:
+                    products_requiring_attention:
                         xpath: //*[@id='checkout_errors']
                         buttons:
                             remove_all: //button[@title='Remove All']
                             add_to_cart_from_error: //button[@title='Add to Shopping Cart']
+                            configure_item: //*[@id='sku_%sku%']//button[@title='Configure']
+                            remove_item: //tr[%rowIndex%]//button[@title='Remove']
                         pageelements:
                             price_in_error_table: //tr[%rowIndex]//*[@class='price']
-                            error_table_grid: //table[@id='sku_errors_table']/tbody/tr
-                            error_table_head: //*[@id='sku_errors_table']/thead
-                            error_table_line: //*[@id='sku_errors_table']/tbody/tr
+                            error_table_head: //table[@id='sku_errors_table']/thead
+                            error_table_line: //table[@id='sku_errors_table']/tbody/tr
                 -
                     product_composite_configure_form:
                         xpath: //div[div/h4[contains(text(),'Configure Product')]]
@@ -91,10 +82,6 @@ customer_shopping_cart:
                         buttons:
                             ok: //button[contains(span, 'OK')]
                             cancel: //button[span[contains(text(),'Cancel')]]
-        links:
-            expand_add_to_shopping_cart_by_sku: //dt[@id='dt-sku.accordion']//a[text()='Add to Shopping Cart by SKU']
-        pageelements:
-            opened_add_to_shopping_cart_by_sku: //dt[@id='dt-sku.accordion' and @class='open']
         buttons:
             add_selected_products_to_shopping_cart: //button[span='Add Selected Product(s) to Shopping Cart']
             clear_shop_cart: //button[@title='Clear Shopping Cart']
@@ -114,7 +101,6 @@ customer_shopping_cart:
             error_product_require_attention: //*[@class='icon-head'][contains(.,'%lastRow% product(s) require attention')]
             disabled_product: //div[@class='notice']/div[contains(.,'Disabled products cannot be added.')]
             required_attention_product: //div[@class="entry-edit-head sku-errors"]//*[contains(.,'%number% product(s) require attention')]
-            sku_not_found: //div[@class='notice']/div[contains(.,'SKU not found in catalog.')]
             requested_qty: //div[@class='notice']/div[contains(.,'Please enter a valid number in the "Qty" field.')]
             qty_not_available: //div[@class='notice']/div[contains(.,'The requested quantity')]
             max_qty: //div[@class='error']/div[contains(.,'The maximum quantity allowed for purchase is 5.')]

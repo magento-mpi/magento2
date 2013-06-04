@@ -465,6 +465,12 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             $param = $this->getAddressId($address, $actualAddresses);
             if (is_null($param)) {
                 $this->clickButton('add_new_address');
+                try {
+                    $this->assertTrue($this->checkCurrentPage('checkout_multishipping_create_billing_address'),
+                        $this->getParsedMessages());
+                } catch (Exception $e) {
+                    $this->markTestIncomplete('BUG: Add Billing Address button is not work');
+                }
                 $this->fillFieldset($address, 'create_billing_address');
                 $this->saveForm('save_address');
                 $this->assertMessagePresent('success', 'success_saved_address');
@@ -539,7 +545,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         }
         //Data
         $payment = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
-        $shippings = (isset($checkout['shipping_data']))  ? $checkout['shipping_data'] : array();
+        $shippings = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
         $verifyPrices = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
         $paymentName = (isset($payment['payment']['payment_method'])) ? $payment['payment']['payment_method'] : array();
         $billing = array_key_exists('billing_address', $payment) ? $payment['billing_address'] : array();

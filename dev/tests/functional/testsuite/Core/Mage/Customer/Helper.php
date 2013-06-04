@@ -225,7 +225,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->setCurrentPage($this->_findCurrentPageFromUrl());
         if ($validateLogin) {
-            $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+            try {
+                $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+            } catch (Exception $e) {
+                $this->markTestIncomplete('MAGETWO-10194');
+            }
         }
     }
 

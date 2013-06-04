@@ -1057,7 +1057,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createNewCategory($categoryPath, $nameIsSet = false)
     {
-        $this->markTestIncomplete('MAGETWO-8857');
         $explodeCategoryPath = explode('/', $categoryPath);
         $categoryName = array_pop($explodeCategoryPath);
         $parentPath = implode('/', $explodeCategoryPath);
@@ -1248,10 +1247,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $titleElement = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
         $this->focusOnElement($titleElement);
         $titleElement->value($attributeTitle);
-        $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
-        if (!$this->controlIsVisible(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
-            $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
-        }
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+        $this->waitForControlVisible(self::FIELD_TYPE_LINK, 'configurable_attribute_select', 10);
         $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select')->click();
         $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
     }

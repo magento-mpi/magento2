@@ -23,6 +23,14 @@ class Enterprise_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_cms_widgets');
+        $this->cmsWidgetsHelper()->deleteAllWidgets();
+        $this->flushCache();
+    }
+
     /**
      * @return array
      * @test

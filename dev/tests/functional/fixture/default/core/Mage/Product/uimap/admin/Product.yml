@@ -64,12 +64,13 @@ manage_products:
             enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //*[@class='mage-error' and @for='product_option_%optionId%_type' and contains(., 'Select type of option')]
+            confirmation_for_delete: Are you sure?
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
             success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
             success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]
-            category_name_required: //div[@id='advice-required-entry-new_category_name']
-            parent_name_required: //div[@id='advice-required-entry-new_category_parent']
-            parent_name_existent: //div[@id='advice-validate-parent-category-new_category_parent']
+            category_name_required: //*[@class='mage-error' and @for='new_category_name' and text()='This is a required field.']
+            parent_name_required: //*[@class='mage-error' and @for='new_category_parent' and text()='This is a required field.']
+            parent_name_existent: //*[@class='mage-error' and @for='new_category_parent' and text()='Choose existing category.']
             attribute_set_html: //*[@class='mage-error' and @for='%fieldId%' and contains(., 'HTML tags are not allowed')]
             attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
 
@@ -186,9 +187,8 @@ new_product:
                                         name: //input[@id='new_category_name']
                                         parent_category: //input[@id='new_category_parent-suggest'][not(@class='mage-suggest-state-loading')]
                                     buttons:
-                                        new_category_close: ///a[span='close']
+                                        new_category_close: //a[span='close']
                                         new_category_save: //button[@data-action='save']
-                                        new_category_cancel: //button[@data-action='cancel']
                             -
                                 parent_categories_list:
                                     xpath: //div[div/span='Create Category']//div[@class='mage-suggest-dropdown']
@@ -211,7 +211,7 @@ new_product:
                                         chosen_parent_category_name: /div[text()='%categoryName%']
                             -
                                 product_variations:
-                                    xpath: //div[@id='config_super_product-wrapper']
+                                    xpath: //div[@id='super_config-wrapper']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
                                         attribute_blocks_name: //input[contains(@name,'[label]')]
@@ -277,9 +277,9 @@ new_product:
                                         opened_product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page'][@value='%pageIndex%']
                             -
                                 grouped_associated_products:
-                                    xpath: //*[@id='grouped_product_container']
+                                    xpath: //*[@id='grouped-wrapper']
                                     buttons:
-                                        add_products_to_group: //button[@data-role='add-product' or @id='grouped-add-products']
+                                        add_products_to_group: //button[@data-role='add-product']
                                         remove_product_from_group: //tr[td[normalize-space(text())='%productSku%']]//button[text()='Delete']
                                     fields:
                                         associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//td[@data-column='qty']/input

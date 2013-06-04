@@ -89,8 +89,6 @@ configuration_menu_default:
         order_rss: ~
     catalog_email_to_a_friend:
         email_templates: ~
-    social_facebook:
-        facebook_config: ~
     customers_newsletter:
         subscription_options: ~
     customers_customer_configuration:
@@ -170,27 +168,6 @@ configuration_menu_default:
         ogone: ~
     sales_payment_services:
         3d_secure_credit_card_validation: ~
-    sales_moneybookers:
-        moneybookers_settings: ~
-        all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international: ~
-        lastschrift_elv_powered_by_moneybookers_germany: ~
-        giropay_powered_by_moneybookers_germany: ~
-        sofortüberweisung_powered_by_moneybookers_germany: ~
-        laser_powered_by_moneybookers_ireland: ~
-        maestro_powered_by_moneybookers_united_kingdom_austria_spain: ~
-        carte_bleue_powered_by_moneybookers_france: ~
-        dankort_powered_by_moneybookers_denmark: ~
-        postepay_powered_by_moneybookers_italy: ~
-        cartasi_powered_by_moneybookers_italy: ~
-        enets_powered_by_moneybookers_singapore: ~
-        nordea_solo_powered_by_moneybookers_sweden: ~
-        nordea_solo_powered_by_moneybookers_finland: ~
-        ideal_powered_by_moneybookers_netherlands: ~
-        eps_online_überweisung_powered_by_moneybookers_austria: ~
-        poli_powered_by_moneybookers_australia: ~
-        przelewy24_powered_by_moneybookers_poland: ~
-        moneybookers_ewallet: ~
-        online_bank_transfer_powered_by_moneybookers: ~    
     advanced_admin:
         admin_user_emails: ~
         startup_page: ~
@@ -287,8 +264,6 @@ configuration_menu_website:
         order_rss: ~
     catalog_email_to_a_friend:
         email_templates: ~
-    social_facebook:
-        facebook_config: ~
     customers_newsletter:
         subscription_options: ~
     customers_customer_configuration:
@@ -363,27 +338,6 @@ configuration_menu_website:
         ogone: ~
     sales_payment_services:
         3d_secure_credit_card_validation: ~
-    sales_moneybookers:
-        moneybookers_settings: ~
-        all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international: ~
-        lastschrift_elv_powered_by_moneybookers_germany: ~
-        giropay_powered_by_moneybookers_germany: ~
-        sofortüberweisung_powered_by_moneybookers_germany: ~
-        laser_powered_by_moneybookers_ireland: ~
-        maestro_powered_by_moneybookers_united_kingdom_austria_spain: ~
-        carte_bleue_powered_by_moneybookers_france: ~
-        dankort_powered_by_moneybookers_denmark: ~
-        postepay_powered_by_moneybookers_italy: ~
-        cartasi_powered_by_moneybookers_italy: ~
-        enets_powered_by_moneybookers_singapore: ~
-        nordea_solo_powered_by_moneybookers_sweden: ~
-        nordea_solo_powered_by_moneybookers_finland: ~
-        ideal_powered_by_moneybookers_netherlands: ~
-        eps_online_überweisung_powered_by_moneybookers_austria: ~
-        poli_powered_by_moneybookers_australia: ~
-        przelewy24_powered_by_moneybookers_poland: ~
-        moneybookers_ewallet: ~
-        online_bank_transfer_powered_by_moneybookers: ~   
     advanced_system:
         mail_sending_settings: ~
     advanced_advanced:

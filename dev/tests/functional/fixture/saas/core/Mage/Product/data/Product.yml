@@ -242,7 +242,7 @@ simple_product_with_param_for_configurable:
     general_description: %noValue%
     general_dropdown_goext: goext
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
 

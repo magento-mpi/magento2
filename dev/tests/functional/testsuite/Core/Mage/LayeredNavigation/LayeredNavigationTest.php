@@ -82,17 +82,21 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
             $this->productHelper()->createProduct($product);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
+        $this->flushCache();
+        $this->reindexInvalidedData();
 
-        return array('simpleAnchor'          => $simpleWithAttributes['general_name'],
-                     'simpleNonAnchor'       => $simpleWithoutAttrs['general_name'],
-                     'multiselectOptionName' => $multiSelect['option_2']['store_view_titles']['Default Store View'],
-                     'dropdownOptionName'    => $dropDown['option_1']['store_view_titles']['Default Store View'],
-                     'multiselectCode'       => $multiSelect['attribute_code'],
-                     'dropdownCode'          => $dropDown['attribute_code'],
-                     'priceCode'             => $price['attribute_code'],
-                     'anchorCategory'        => $anchorCategory['name'],
-                     'anchorSubCategory'     => $anchorSubCategory['name'],
-                     'nonAnchorCategory'     => $nonAnchorCategory['name']);
+        return array(
+            'simpleAnchor' => $simpleWithAttributes['general_name'],
+            'simpleNonAnchor' => $simpleWithoutAttrs['general_name'],
+            'multiselectOptionName' => $multiSelect['option_2']['store_view_titles']['Default Store View'],
+            'dropdownOptionName' => $dropDown['option_1']['store_view_titles']['Default Store View'],
+            'multiselectCode' => $multiSelect['attribute_code'],
+            'dropdownCode' => $dropDown['attribute_code'],
+            'priceCode' => $price['attribute_code'],
+            'anchorCategory' => $anchorCategory['name'],
+            'anchorSubCategory' => $anchorSubCategory['name'],
+            'nonAnchorCategory' => $nonAnchorCategory['name']
+        );
     }
 
     /**

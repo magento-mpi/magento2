@@ -75,9 +75,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->searchAndChoose($search, 'product_grid');
-
         $this->addParameter('qtyDeletedProducts', 1);
         $this->runMassAction('Delete');
         //Verifying
@@ -150,9 +148,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->searchAndChoose($search, 'product_grid');
-
         $this->addParameter('qtyDeletedProducts', 1);
         $this->runMassAction('Delete');
         //Verifying

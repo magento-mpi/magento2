@@ -270,7 +270,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         try {
             return parent::__call($command, $arguments);
         } catch (PHPUnit_Extensions_Selenium2TestCase_NoSeleniumException $e) {
-            $this->markTestSkipped($e->getMessage());
+            $this->markTestIncomplete($e->getMessage());
         }
     }
 
@@ -371,6 +371,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
         } elseif (is_null($this->getExpectedException())) {
             $this->assertEmptyVerificationErrors();
+        } else {
+            $this->clearMessages();
         }
 
         $annotations = $this->getAnnotations();
@@ -2635,8 +2637,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeout;
         }
         if (is_array($locator)) {
-            $output = "\nNone of the elements(or alert) are not present on the page. \nLocators: \n" . implode("\n",
-                $locator);
+            $output = "\nNone of the elements(or alert) are not present on the page. \nLocators: \n"
+                . implode("\n", $locator);
             $locator = self::combineLocatorsToOne($locator);
         } else {
             $output = "\nElement(or alert) is not present on the page. \nLocator: " . $locator;
@@ -3829,15 +3831,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function closeSystemMessagesDialog()
     {
-        try {
-            if ($this->getArea() == 'admin' &&
-                $this->controlIsEditable(self::UIMAP_TYPE_FIELDSET, 'system_messages_list')
-            ) {
-                $this->clickControl('button', 'close_messages_list', false);
-                $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
-            }
-        } catch (Exception $e) {
-            //@TODO remove try{} catch () {} after fix MAGETWO-8740
+        if ($this->getArea() == 'admin' &&
+            $this->controlIsEditable(self::UIMAP_TYPE_FIELDSET, 'system_messages_list')
+        ) {
+            $this->clickControl('button', 'close_messages_list', false);
+            $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
         }
     }
 
@@ -4093,7 +4091,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         try {
             $elements = $this->elements($this->using($locatorType)->value($locator));
         } catch (PHPUnit_Extensions_Selenium2TestCase_NoSeleniumException $e) {
-            $this->markTestSkipped($e->getMessage());
+            $this->markTestIncomplete($e->getMessage());
         }
         if (empty($elements) && $failIfEmpty) {
             $this->assertEmptyPageErrors();

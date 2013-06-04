@@ -63,8 +63,8 @@ framework:
 ################################################################################
 applications:
     ce: &ce
-        fallbackOrderFixture: 'community1701, default'
-        fallbackOrderHelper: 'Community1701, Core'
+        fallbackOrderFixture: 'default'
+        fallbackOrderHelper: 'Core'
         design_theme: Default/Magento Demo
         ftp: &ftp
             url: '{{selenium_host}}'
@@ -96,8 +96,8 @@ applications:
                 login: 'maposov@magento.com'
                 password: 'testPayPal!'
     ee: &ee
-        fallbackOrderFixture: 'enterprise, enterprise11201, community1701, default'
-        fallbackOrderHelper: 'Enterprise, Community1701, Core'
+        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderHelper: 'Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:

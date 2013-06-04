@@ -9,6 +9,28 @@
 #
 ---
 # System attribute options
+custom_design:
+    attribute_code: custom_design
+    admin_title: Custom Design
+    option_1:
+        admin_option_name: '-- Please Select --'
+    option_2:
+        admin_option_name: Magento Blank
+    option_3:
+        admin_option_name: Magento Demo
+    option_4:
+        admin_option_name: Magento Demo Blue
+    option_5:
+        admin_option_name: Magento Fixed Design
+    option_6:
+        admin_option_name: Magento Iphone
+    option_7:
+        admin_option_name: Magento Iphone (HTML5)
+    option_8:
+        admin_option_name: Magento Modern
+    default_value: '-- Please Select --'
+    set_default_value: Magento Fixed Design
+
 allow_open_amount:
     attribute_code: allow_open_amount
     admin_title: Allow Open Amount

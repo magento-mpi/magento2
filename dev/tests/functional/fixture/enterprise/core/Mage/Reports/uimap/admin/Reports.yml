@@ -25,7 +25,7 @@ reports_invitations_general:
                             export: //button[span='Export']
                         dropdowns: &reportInvitationsDropdowns
                             show_by: //select[@name='report_period']
-                            export_to: "//div[contains(text(),'Export to:')]/select"
+                            export_to: "//div[contains(label,'Export to:')]//select"
                         fields: &reportInvitationsFields
                             filter_from: //input[@name='report_from']
                             filter_to: //input[@name='report_to']

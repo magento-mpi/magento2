@@ -59,7 +59,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
      */
     public function validationResultBlock()
     {
-        //$this->markTestIncomplete('MAGETWO-3858');
         //Precondition
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers');

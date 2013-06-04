@@ -22,7 +22,7 @@ simple_product_for_prices_validation_1:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 simple_product_for_prices_validation_2:
@@ -38,7 +38,7 @@ simple_product_for_prices_validation_2:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 simple_product_for_prices_validation_3:
@@ -54,7 +54,7 @@ simple_product_for_prices_validation_3:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 customer_account_for_prices_validation:
@@ -5977,7 +5977,7 @@ simple_product_for_prices_validation_front_1:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     websites: Main Website
@@ -5995,7 +5995,7 @@ simple_product_for_prices_validation_front_2:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 3
     websites: Main Website
@@ -6013,7 +6013,7 @@ simple_product_for_prices_validation_front_3:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 5
     websites: Main Website
@@ -7714,7 +7714,7 @@ simple_product_for_price_rules_validation_front:
     general_sku: simple_sku_price_rule_validation_%randomize%
     general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     general_qty: 120
     general_stock_availability: In Stock
     general_price: 120

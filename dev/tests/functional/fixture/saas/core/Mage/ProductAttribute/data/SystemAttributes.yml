@@ -13,7 +13,7 @@ custom_design:
     attribute_code: custom_design
     admin_title: Custom Design
     option_1:
-        admin_option_name: -- Please Select --
+        admin_option_name: '-- Please Select --'
     option_2:
         admin_option_name: Electron
     option_3:
@@ -36,8 +36,8 @@ custom_design:
         admin_option_name: Umecha
     option_12:
         admin_option_name: Upstream
-    default_value: -- Please Select --
-    default_control_value: -- Please Select --
+    default_value: '-- Please Select --'
+    set_default_value: Plushe
 
 system_attributes:
     attribute_0:

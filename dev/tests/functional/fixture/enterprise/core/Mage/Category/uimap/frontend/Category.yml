@@ -18,16 +18,18 @@ category_page_before_reindex:
                         xpath: //div[@class='category-view']
                 -
                     add_by_sku:
-                        xpath: //div[@class='widget widget-addbysku']
+                        xpath: //div[div/strong/span='Order by SKU']
                         fields:
-                            sku: //tr[%number%]//input[contains(@name, '[sku]')]
-                            qty: //tr[%number%]//input[contains(@name, '[qty]')]
+                            sku: //tr[%number%]//input[contains(@name,'[sku]')]
+                            qty: //tr[%number%]//input[contains(@name,'[qty]')]
                         buttons:
                             add_to_cart_by_sku: //button[span='Add to Cart']
                             add_row: //span[@title='Add Row']
                             remove_row: //tr[%rowIndex%]//*[@class='btn-remove']
                         links:
                             sku_link: //p[@class='link-widget-sku']/a
+                        pageelements:
+                            table_lines: //table/tbody/tr
                 -
                     unit_price:
                         pageelements:

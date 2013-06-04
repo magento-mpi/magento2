@@ -43,8 +43,11 @@ frontend_header:
                             contact_us: //a[@title='Contact Us']
                             select_store: //ul[@id='select-store']/li//a[text()='%store%']
                 -
-                    categories_menu:
-                        xpath: //ul[@id='nav']
+                    categories:
+                        xpath:
+                        pageelements:
+                            category_container: //li[normalize-space(a/span)='%catName%']
+                            categories_menu: //ul[@id='nav']
                         buttons:
                             category_button: //a[span='%catName%']
                 -

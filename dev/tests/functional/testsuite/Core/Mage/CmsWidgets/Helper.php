@@ -173,4 +173,34 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
         $this->openWidget($searchWidget);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
+
+    /**
+     * Delete All Widgets
+     */
+    public function deleteAllWidgets()
+    {
+        $this->clickButton('reset_filter');
+        $cellId = $this->getColumnIdByName('Widget Instance');
+        $widgetUrl = array();
+        do {
+            $isNextPage = $this->controlIsVisible('link', 'next_page');
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+            foreach ($this->getControlElements('pageelement', 'cms_table_line', null, false) as $element) {
+                $title = trim($this->getChildElement($element, 'td[' . $cellId . ']')->text());
+                $widgetUrl[$title] = trim($element->attribute('title'));
+            }
+            if ($isNextPage) {
+                $this->clickControl('link', 'next_page', false);
+                $this->waitForPageToLoad();
+            }
+        } while ($isNextPage);
+        foreach ($widgetUrl as $title => $url) {
+            $this->url($url);
+            $this->pleaseWait();
+            $this->addParameter('elementTitle', $title);
+            $this->addParameter('id', $this->defineIdFromUrl($url));
+            $this->validatePage('edit_cms_widget');
+            $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+        }
+    }
 }

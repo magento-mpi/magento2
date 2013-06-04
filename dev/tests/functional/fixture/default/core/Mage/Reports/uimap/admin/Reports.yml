@@ -221,10 +221,10 @@ report_tag_customer:
                     report_tag_grid:
                         xpath: //div[@id='grid']
                         links:
-                            id: //a[span='ID']
-                            first_name: //a[span='First Name']
-                            last_name: //a[span='Last Name']
-                            total_tags: //a[span='Total Tags']
+                            id: //a[label='ID']
+                            first_name: //a[label='First Name']
+                            last_name: //a[label='Last Name']
+                            total_tags: //a[label='Total Tags']
                             action: //th[span='Action']
                             show_tags: //a[text()='Show Tags' and parent::td[preceding-sibling::td[contains(.,'%firstName%')] and preceding-sibling::td[contains(.,'%lastName%')]]]
                         dropdowns:
@@ -262,10 +262,10 @@ report_tag_product:
                     report_tag_grid:
                         xpath: //div[@id='gridProducts']
                         links:
-                            id: //a[span='ID']
-                            product_name: //a[span='Product']
-                            unique_tags_number: //a[span='Unique Tags']
-                            total_tags_number: //a[span='Total Tags']
+                            id: //a[label='ID']
+                            product_name: //a[label='Product']
+                            unique_tags_number: //a[label='Unique Tags']
+                            total_tags_number: //a[label='Total Tags']
                             action: //th[span='Action']
                             show_tags: //a[text()='Show Tags' and parent::td[preceding-sibling::td[contains(.,'%productName%')]]]
                         dropdowns:
@@ -303,8 +303,8 @@ report_tag_popular:
                     report_tag_grid:
                         xpath: //div[@id='grid']
                         links:
-                            tag_name: //a[span='Tag']
-                            popularity: //a[span='Popularity']
+                            tag_name: //a[label='Tag']
+                            popularity: //a[label='Popularity']
                             action: //th[span='Action']
                             show_details: //a[text()='Show Details' and parent::td[preceding-sibling::td[contains(.,'%tagName%')]]]
                         dropdowns:

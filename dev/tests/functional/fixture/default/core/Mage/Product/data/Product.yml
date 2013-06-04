@@ -492,7 +492,7 @@ simple_product_visible:
     general_weight: 1.14
     general_categories: Default Category
     general_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     autosettings_short_description: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
@@ -644,7 +644,7 @@ virtual_product_required:
     general_stock_availability: %noValue%
     general_description: %noValue%
     prices_special_price: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     autosettings_short_description: %noValue%
     custom_options_data: %noValue%
 
@@ -660,7 +660,7 @@ virtual_product_visible:
     general_stock_availability: In Stock
     general_categories: Default Category
     general_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     autosettings_short_description: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
@@ -837,7 +837,7 @@ dynamic_bundle_visible:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items:
         item_1: %noValue%
@@ -857,7 +857,7 @@ fixed_bundle_visible:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items:
         item_1: %noValue%
@@ -1089,7 +1089,7 @@ grouped_product_required:
     general_name: Grouped Product Required(%randomize%)
     general_sku: grouped_sku.req_%randomize%
     general_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     autosettings_short_description: %noValue%
     general_grouped_data: *associatedProductsGroupedData
     custom_options_data: %noValue%
@@ -1103,7 +1103,7 @@ grouped_product_visible:
     general_stock_availability: In Stock
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_grouped_data: *associatedProductsGroupedData
 
@@ -1202,7 +1202,7 @@ configurable_product_required:
     general_weight: 0.1
     general_description: %noValue%
     prices_special_price: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     autosettings_short_description: %noValue%
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations: *associatedProductsConfigurableData
@@ -1221,7 +1221,7 @@ configurable_product_visible:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations: *associatedProductsConfigurableData
@@ -1333,7 +1333,7 @@ downloadable_product_required:
     general_stock_availability: %noValue%
     general_description: %noValue%
     prices_special_price: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     autosettings_short_description: %noValue%
     downloadable_information_data: *downloadableData
     custom_options_data: %noValue%
@@ -1351,7 +1351,7 @@ downloadable_product_visible:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     downloadable_information_data: *downloadableData
 
@@ -1473,7 +1473,7 @@ frontend_simple_product_details_validation:
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     websites: Main Website
@@ -1495,7 +1495,7 @@ frontend_virtual_product_details_validation:
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     websites: Main Website
@@ -1518,7 +1518,7 @@ simple_product_related: &simple_product_related
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 virtual_product_related: &virtual_product_related
@@ -1533,7 +1533,7 @@ virtual_product_related: &virtual_product_related
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 downloadable_product_related: &downloadable_product_related
@@ -1548,7 +1548,7 @@ downloadable_product_related: &downloadable_product_related
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     downloadable_information_data:
         downloadable_samples_title: Samples Title
@@ -1585,7 +1585,7 @@ bundle_product_related: &bundle_product_related
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items:
         ship_bundle_items: Separately
@@ -1614,7 +1614,7 @@ configurable_product_related: &configurable_product_related
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations: *associatedProductsConfigurableData
@@ -1628,7 +1628,7 @@ grouped_product_related: &grouped_product_related
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_grouped_data:
         associated_grouped_1:
@@ -1855,7 +1855,7 @@ simple_multi_checkout_options:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: *customOptionsData
 
@@ -1875,7 +1875,7 @@ virtual_multi_checkout_options:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: *customOptionsData
 
@@ -1895,7 +1895,7 @@ downloadable_multi_checkout:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     downloadable_information_data:
         downloadable_samples_title: Samples Title
@@ -1930,7 +1930,7 @@ downloadable_product_visible_multi_checkout:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     downloadable_information_data:
         downloadable_samples_title: Samples Title
@@ -1965,7 +1965,7 @@ downloadable_multi_checkout_options_no_links:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: *customOptionsData
     downloadable_information_data:
@@ -1989,7 +1989,7 @@ downloadable_multi_checkout_no_links:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     downloadable_information_data:
             downloadable_samples_title: Samples Title
@@ -2012,7 +2012,7 @@ downloadable_multi_checkout_options_links:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: *customOptionsData
     downloadable_information_data: *downloadableData
@@ -2030,7 +2030,7 @@ grouped_multi_checkout_options:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_grouped_data: *associatedProductsGroupedData
 
@@ -2100,7 +2100,7 @@ fixed_bundle_multi_checkout:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items: *bundleDataMultiCheckout
 
@@ -2115,7 +2115,7 @@ dynamic_bundle_multi_checkout:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items: *bundleDataMultiCheckout
 
@@ -2134,7 +2134,7 @@ fixed_bundle_multi_checkout_options:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: *customOptionsData
     general_bundle_items: *bundleDataMultiCheckout
@@ -2150,7 +2150,7 @@ dynamic_bundle_multi_checkout_options:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: *customOptionsData
     general_bundle_items: *bundleDataMultiCheckout
@@ -2171,7 +2171,7 @@ configurable_multi_checkout:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations:
@@ -2191,7 +2191,7 @@ configurable_multi_checkout_options:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: *customOptionsData
     general_configurable_attributes: *general_configurable_attributes
@@ -2310,7 +2310,7 @@ simple_product_zero_price:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
 
@@ -2327,7 +2327,7 @@ simple_product_wcod:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
 
@@ -2348,7 +2348,7 @@ simple_product_sync_inventory:
     inventory_qty: %noValue%
     inventory_stock_availability: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
 
@@ -2363,7 +2363,7 @@ bundle_product_visible:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items:
         item_1: %noValue%
@@ -2403,7 +2403,7 @@ advanced_search_product:
     autosettings_short_description: %noValue%
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_notify_for_qty_below_default: No
@@ -2424,7 +2424,7 @@ compare_simple_product:
     general_description: %noValue%
     prices_special_price: 2000
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 compare_virtual_product:
@@ -2445,5 +2445,5 @@ compare_virtual_product:
             prices_tier_price_qty: 5
             prices_tier_price_price: 70
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website

@@ -32,7 +32,10 @@ manage_cms_widgets:
                             filter_title: //input[@name='title']
                             filter_sort_order: //input[@name='sort_order']
                         pageelements:
-                            widget_grid_head: //div[@id='widgetInstanceGrid']//thead/tr[@class='headings']
+                            widget_grid_head: //thead/tr[@class='headings']
+                            cms_table_line: //table[@id='widgetInstanceGrid_table']/tbody/tr
+                        links:
+                            next_page: //a[text()='Next page']
         buttons:
             add_new_widget_instance: //button[span='Add New Widget Instance']
         messages: &cmsWidgetMessages

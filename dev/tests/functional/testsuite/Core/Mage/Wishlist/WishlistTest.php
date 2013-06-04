@@ -464,14 +464,13 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      * <p>Shares My Wishlist with invalid email(s) provided</p>
      *
      * @param string $emails
-     * @param string $errorMessage
      * @param array $testData
      *
      * @test
      * @dataProvider withInvalidEmailDataProvider
      * @depends preconditionsForTests
      */
-    public function withInvalidEmail($emails, $errorMessage, $testData)
+    public function withInvalidEmail($emails, $testData)
     {
         //Setup
         $shareData = $this->loadDataSet('Wishlist', 'share_data', array('emails' => $emails));
@@ -480,18 +479,14 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'successfully_added_product');
         $this->wishlistHelper()->frontShareWishlist($shareData);
         //Verify
-        if ($errorMessage == 'invalid_emails') {
-            $this->assertMessagePresent('validation', $errorMessage);
-        } else {
-            $this->assertMessagePresent('error', $errorMessage);
-        }
+        $this->assertMessagePresent('error', 'invalid_emails');
     }
 
     public function withInvalidEmailDataProvider()
     {
         return array(
-            array('email@@unknown-domain.com', 'invalid_emails_js'),
-            array('.email@unknown-domain.com', 'invalid_emails')
+            array('email@@unknown-domain.com'),
+            array('.email@unknown-domain.com')
         );
     }
 
