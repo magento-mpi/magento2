@@ -45,7 +45,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
             $collection = $service->getPhysicalThemes($page, $pageSize);
-            $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
+
+            /** @var $availbleThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */
+            $availbleThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
+            $availbleThemeBlock->setCollection($collection)->setNextPage(++$page);
+            $availbleThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
+
             $response = array('content' => $this->getLayout()->getOutput());
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
@@ -86,7 +91,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
             $storeViewBlock->setData(array(
-                'theme_id' => $editableTheme->getId()
+                'actionOnAssign' => 'none',
+                'theme_id'       => $launchedTheme->getId()
             ));
 
             $this->renderLayout();
@@ -145,6 +151,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 'message' => $message,
                 'themeId' => $themeCustomization->getId()
             );
+            $message2 = $coreHelper->__('You assigned the theme.');
+            $this->_getSession()->addSuccess($message2);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array(
@@ -481,16 +489,18 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$this->_isFirstEntrance()) {
                 /** @var $themeService Mage_Core_Model_Theme_Service */
                 $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-                $this->getLayout()->getBlock('assigned.theme.list')->setCollection(
-                    $themeService->getAssignedThemeCustomizations()
-                );
-                $this->getLayout()->getBlock('unassigned.theme.list')->setCollection(
-                    $themeService->getUnassignedThemeCustomizations()
-                );
+
+                /** @var $assignedThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned */
+                $assignedThemeBlock = $this->getLayout()->getBlock('assigned.theme.list');
+                $assignedThemeBlock->setCollection($themeService->getAssignedThemeCustomizations());
+
+                /** @var $unassignedThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned */
+                $unassignedThemeBlock = $this->getLayout()->getBlock('unassigned.theme.list');
+                $unassignedThemeBlock->setCollection($themeService->getUnassignedThemeCustomizations());
             }
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
-            $storeViewBlock->setData('redirectOnAssign', true);
+            $storeViewBlock->setData('actionOnAssign', 'refresh');
             $this->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));

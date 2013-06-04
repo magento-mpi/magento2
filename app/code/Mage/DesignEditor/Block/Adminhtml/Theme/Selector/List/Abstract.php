@@ -12,7 +12,11 @@
  * Abstract theme list
  *
  * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
- * @method Mage_Core_Block_Template setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ * @method bool|null getIsFirstEntrance()
+ * @codingStandardsIgnoreStar
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract|Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setIsFirstEntrance(bool $flag)
+ * @codingStandardsIgnoreEnd
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -92,8 +96,16 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
+        if ($this->getIsFirstEntrance()) {
+            // @codingStandardsIgnoreStart
+            $message = $this->__('You chose a theme for your new store. Click "Ok" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
+            // @codingStandardsIgnoreEnd
+        } else {
+            // @codingStandardsIgnoreStart
+            $message = $this->__('You chose a new theme for your live store. Click "Ok" to replace your current theme.');
+            // @codingStandardsIgnoreEnd
+        }
         $themeId = $themeBlock->getTheme()->getId();
-        $message = $this->__('You are about to apply this theme for your live store, are you really want to do this?');
 
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');

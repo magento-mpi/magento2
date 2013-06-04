@@ -14,7 +14,7 @@
      * @const
      * @type {string}
      */
-    var BUTTON_ASSIGN = 'Assign';
+    var BUTTON_ASSIGN = 'OK';
 
     /**
      * Dialog button title
@@ -48,21 +48,21 @@
      */
     $.widget('vde.themeAssign', {
         options: {
-            assignEvent:           'assign',
-            assignConfirmEvent:    'assign-confirm',
-            loadEvent:             'loaded',
-            beforeShowStoresEvent: 'show-stores-before',
-            dialogSelectorMS:      '#dialog-message-assign',
-            dialogSelector:        '#dialog-message-confirm',
-            closePopupBtn:         '[class^="action-close"]',
-            assignUrl:             null,
-            afterAssignUrl:        null,
-            storesByThemes:        [],
-            hasMultipleStores:     null,
-            redirectOnAssign:      false,
-            openNewOnAssign:       true,
-            refreshOnAssign:       true,
-            afterAssignMode:       'navigation'
+            assignEvent:            'assign',
+            assignConfirmEvent:     'assign-confirm',
+            loadEvent:              'loaded',
+            beforeShowStoresEvent:  'show-stores-before',
+            dialogSelectorMS:       '#dialog-message-assign',
+            dialogSelector:         '#dialog-message-confirm',
+            closePopupBtn:          '[class^="action-close"]',
+            assignUrl:              null,
+            afterAssignRedirectUrl: null,
+            storesByThemes:         [],
+            hasMultipleStores:      null,
+            actionOnAssign:         'none',     // 'refresh', 'redirect'
+            afterAssignOpen:        true,
+            afterAssignOpenUrl:     null,
+            afterAssignOpenStyle:   'js'        // 'link'
         },
 
         /**
@@ -114,7 +114,7 @@
 
             var dialog = data.dialog = this._getDialog().data('dialog');    //@TODO WHY we need to keep dialog object?
             dialog.messages.clear();
-            dialog.title.set($.mage.__('Assign theme to your live store-view:'));
+            dialog.title.set($.mage.__('Assign to a Store View'));
             if (data.confirm_message) {
                 dialog.text.set(data.confirm_message);
             }
@@ -139,16 +139,18 @@
         _onAssignConfirm: function(event, data) {
             var themeId = data.theme_id;
             var stores = null;
+            var dialog = this._getDialog().data('dialog');
+
             if (this.options.hasMultipleStores) {
                 stores = this._getStoresFromCheckboxes();
                 if (!this._isStoreChanged(themeId, stores)) {
-                    var dialog = this._getDialog().data('dialog');
                     dialog.messages.set($.mage.__('No stores were reassigned.'), 'info');
                     return;
                 }
             }
 
             this._sendAssignRequest(themeId, stores, data.isSaveAndAssign);
+            dialog.close();
         },
 
         /**
@@ -256,6 +258,7 @@
                 url:  this.options.assignUrl,
                 data: data,
                 dataType: 'json',
+                showLoader: true,
                 success: $.proxy(function(response) {
                     this.assignThemeSuccess(response, stores, themeId, isSaveAndAssign);
                 }, this),
@@ -280,44 +283,93 @@
          * @param {boolean} isSaveAndAssign
          */
         assignThemeSuccess: function(response, stores, themeId, isSaveAndAssign) {
+            var url;
+            var defaultStore = 0;
+            var store = stores ? stores[0] : defaultStore;
             var dialog = this._getDialog().data('dialog');
             var messageType = response.error ? 'error' : 'success';
 
             if (isSaveAndAssign) {
                 dialog.messages.add(response.message, messageType);
             } else {
-                dialog.messages.set(response.message, messageType);
+                //dialog.messages.set(response.message, messageType);
             }
 
-            if (!response.error) {
-                this._setAssignedStores(themeId, stores);
-                if (this.options.redirectOnAssign && this.options.afterAssignUrl != null) {
-                    var defaultStore = 0;
-                    var url = [
-                        this.options.afterAssignUrl + 'store_id',
-                        stores ? stores[0] : defaultStore,
-                        'theme_id',
-                        response.themeId,
-                        'mode',
-                        this.options.afterAssignMode
-                    ].join('/');
+            if (response.error) {
+                return;
+            }
 
+            this._setAssignedStores(themeId, stores);
+            var o = this.options;
+            switch (o.actionOnAssign) {
+                case 'redirect':
+                    if (o.afterAssignRedirectUrl != null) {
+                        url = this._buildUrl(o.afterAssignRedirectUrl, store, response.themeId);
+                        document.location = url;
+                        setTimeout(function(){$('body').loader()}, 500);
+
+                    }
+                    break;
+
+                case 'refresh':
+                    document.location.reload();
+                    setTimeout(function(){$('body').loader()}, 500);
+                    break;
+
+                default:
+                    // do nothing
+                    break;
+            }
+
+            if (!o.afterAssignOpen || o.afterAssignOpenUrl == null) {
+                return;
+            }
+
+            url = this._buildUrl(o.afterAssignOpenUrl, store, response.themeId);
+            switch (o.afterAssignOpenStyle) {
+                case 'js':
+                    window.open(url);
+                    break;
+
+                case 'link':
                     dialog.removeButton(BUTTON_ASSIGN);
                     dialog.text.clear();
                     dialog.addButton({
                         text: BUTTON_EDIT,
                         click: $.proxy(function() {
-                            if (this.options.openNewOnAssign) {
-                                window.open(url);
-                            } else {
-                                document.location = url;
-                            }
+                            alert('Not implemented');
                         }, this),
                         'class': 'primary'
 
                     }, 0);
-                }
+                    break;
+
+                default:
+                    throw Error('Invalid value of option "afterAssignOpenStyle"="'
+                        + o.afterAssignOpenStyle + '"'
+                    );
+                    break;
             }
+        },
+
+        /**
+         * Build URL that contains store_id and theme_id
+         *
+         * @param {string} base
+         * @param {number} themeId
+         * @param {number} storeId
+         * @returns {string}
+         * @private
+         */
+        _buildUrl: function(base, storeId, themeId) {
+            var url = [
+                base + 'store_id',
+                storeId,
+                'theme_id',
+                themeId
+            ].join('/');
+
+            return url;
         },
 
         /**
