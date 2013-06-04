@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Service_Helper_Filters extends Mage_Core_Service_Helper_Abstract
+class Mage_Core_Service_Helper_Filters
 {
     /**
      * @var \stdClass
@@ -74,60 +74,41 @@ class Mage_Core_Service_Helper_Filters extends Mage_Core_Service_Helper_Abstract
         return $schemaErrors;
     }
 
-    public function applyPaginationToCollection($collection, $request)
+    /**
+     * @param Varien_Data_Collection $collection
+     * @param array $request
+     */
+    public function applyPaginationToCollection(Varien_Data_Collection $collection, array $request)
     {
-        $limit = $request->getLimit();
-        if ($limit) {
-            $collection->setPageSize($limit);
-        }
-
-        $offset = $request->getOffset();
-        if ($offset) {
-            $collection->setCurPage($offset);
-        }
+        // TODO
     }
 
-    public function applyFiltersToCollection($collection, $request)
+    /**
+     * @param Varien_Data_Collection $collection
+     * @param array $request
+     */
+    public function applyFiltersToCollection(Varien_Data_Collection $collection, array $request)
     {
-        $filters = $request->getFilters();
-        if ($filters) {
-            foreach ($filters as $key => $condition) {
-                switch ($key) {
-                    case '$and':
-                        $this->applyAndConditionToCollection($collection, $condition);
-                        break;
-                    case '$or':
-                        $this->applyOrConditionToCollection($collection, $condition);
-                        break;
-                    case '$func':
-                        $this->applyFunctionalConditionToCollection($collection, $key, $condition);
-                        break;
-                    default:
-                        $this->applyAttributeConditionToCollection($collection, $key, $condition);
-                }
-            }
-        }
+        // TODO
     }
 
     public function applyAndConditionToCollection($collection, $condition)
     {
-        foreach ($condition as $attribute => $_condition) {
-            $collection->addAttributeToFilter($attribute, $_condition);
-        }
+        // TODO
     }
 
     public function applyOrConditionToCollection($collection, $condition)
     {
-        //
+        // TODO
     }
 
     public function applyAttributeConditionToCollection($collection, $attribute, $condition)
     {
-        $collection->addAttributeToFilter($attribute, $condition);
+        // TODO
     }
 
     public function applyFunctionalConditionToCollection($collection, $method, $arguments)
     {
-        $collection->$method($arguments);
+        // TODO
     }
 }

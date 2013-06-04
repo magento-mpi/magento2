@@ -11,38 +11,38 @@
 /**
  *
  */
-class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
+class Mage_Catalog_Service_Product
 {
     const ERROR_INTERNAL_LOAD   = '01';
     const ERROR_INTERNAL_SAVE   = '02';
     const ERROR_INTERNAL_DELETE = '03';
 
     /**
-     * @var $_serviceID string
+     * @var Mage_Core_Service_Helper_Array
      */
-    protected $_serviceID = 'Mage_Catalog_Service_Product';
+    protected $_arrayHelper = null;
 
     /**
-     * @var $_serviceVersion string
+     * @param Mage_Core_Service_Helper_Array $helper
      */
-    protected $_serviceVersion = '1';
+    public function __constructor(Mage_Core_Service_Helper_Array $helper)
+    {
+        $this->_arrayHelper = $helper;
+    }
 
     /**
      * Return resource object or resource object data.
      *
-     * @param mixed $request
+     * @param array $request
      * @throws Mage_Core_Service_Exception
-     * @return Varien_Object | array
+     * @return array
      */
-    public function item($request)
+    public function item(array $request)
     {
-        $request = $this->_prepareRequest('item', $request);
-
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
 
-        // `set` methods are creating troubles
-        foreach ($request->getData() as $k => $v) {
+        foreach ($request as $k => $v) {
             $product->setDataUsingMethod($k, $v);
         }
 
@@ -67,7 +67,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
             }
         }
 
-        $result = $this->_prepareModel('item', $product, $request);
+        $result = $this->_arrayHelper->modelToArray($product, $request);
 
         return $result;
     }
@@ -75,14 +75,12 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
     /**
      * Return collection of products.
      *
-     * @param mixed $request
+     * @param array $request
      * @throws Mage_Core_Service_Exception
-     * @return Magento_Data_Collection | array
+     * @return array
      */
-    public function items($request)
+    public function items(array $request)
     {
-        $request = $this->_prepareRequest('items', $request);
-
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
 
@@ -101,24 +99,24 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
             throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_LOAD);
         }
 
-        $result = $this->_prepareCollection('items', $collection, $request);
+        $result = $this->_arrayHelper->collectionToArray($collection, $request);
 
         return $result;
     }
 
     /**
-     * @param mixed $request
+     * @param array $request
      * @throws Mage_Core_Service_Exception
-     * @return Varien_Object | array
+     * @return array
      */
-    public function create($request)
+    public function create(array $request)
     {
-        $request = $this->_prepareRequest('create', $request);
-
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
 
-        $product->setData($request->getData());
+        foreach ($request as $k => $v) {
+            $product->setDataUsingMethod($k, $v);
+        }
 
         try {
             $product->save();
@@ -129,25 +127,30 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
             throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_SAVE);
         }
 
-        $result = $this->prepareModel('item', $product, $request);
+        $result = $this->_arrayHelper->modelToArray($product, $request);
 
         return $result;
     }
 
     /**
-     * @param mixed $request
+     * @param array $request
      * @throws Mage_Core_Service_Exception
-     * @return Varien_Object | array
+     * @return array
      */
-    public function update($request)
+    public function update(array $request)
     {
-        $request = $this->_prepareRequest('update', $request);
-        $data    = $this->item($request);
+        $data = $this->item($request);
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->setData($data);
-        $product->addData($request->getData());
+
+        foreach ($data as $k => $v) {
+            $product->setDataUsingMethod($k, $v);
+        }
+
+        foreach ($request as $k => $v) {
+            $product->setDataUsingMethod($k, $v);
+        }
 
         try {
             $product->save();
@@ -158,7 +161,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
             throw new Mage_Core_Service_Exception($message, self::ERROR_INTERNAL_SAVE);
         }
 
-        $result = $this->prepareModel(get_class($this), 'item', $product, $request);
+        $result = $this->_arrayHelper->modelToArray($product, $request);
 
         return $result;
     }
