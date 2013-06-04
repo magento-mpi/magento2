@@ -48,9 +48,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /** @var Mage_Core_Model_CacheInterface */
     protected $_cache;
 
-    /** @var Mage_Core_Service_Manager */
-    protected $_serviceManager;
-
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
@@ -59,7 +56,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Service_Manager $serviceManager
      *
      * @throws InvalidArgumentException
      */
@@ -68,15 +64,13 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Service_Manager $serviceManager
+        Mage_Core_Model_CacheInterface $cache
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
-        $this->_serviceManager = $serviceManager;
     }
 
     /**
@@ -89,6 +83,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     public function handle($requestedResources, $endpointUrl)
     {
+        throw new LogicException("SOAP API can be enabled only when request-response schemas are available.");
         /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedResources);
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));

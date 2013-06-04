@@ -14,6 +14,7 @@ class Mage_Webapi_Config
 {
     const CACHE_ID = 'webapi';
     const KEY_OPERATIONS = 'operations';
+    const VERSION_NUMBER_PREFIX = 'V';
 
     /**
      * @var Mage_Core_Model_Config
@@ -359,7 +360,7 @@ class Mage_Webapi_Config
         $route->setServiceId($routeData['serviceId'])
             ->setHttpMethod($routeData['httpMethod'])
             ->setServiceMethod($routeData['serviceMethod'])
-            ->setServiceVersion(Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']);
+            ->setServiceVersion(self::VERSION_NUMBER_PREFIX . $routeData['version']);
         return $route;
     }
 
