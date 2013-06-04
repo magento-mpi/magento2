@@ -100,7 +100,8 @@ class Magento_Test_Application
                 Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
                 Mage_Core_Model_Dir::VAR_DIR     => $installDir,
                 Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
-                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/static",
+                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/pub_static",
+                Mage_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
             ),
             Mage::PARAM_MODE => $appMode
         );
