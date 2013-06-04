@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Module enforces limitations on the number of entities of certain types that can be created in the system
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Limitation>
+            <version>1.0.0.0</version>
+            <active>false</active>
+            <depends>
+                <Mage_Core/>
+            </depends>
+        </Saas_Limitation>
+    </modules>
+</config>

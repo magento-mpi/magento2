@@ -41,6 +41,7 @@
         <Saas_Index><active>true</active></Saas_Index>
         <Saas_JobNotification><active>true</active></Saas_JobNotification>
         <Saas_Launcher><active>true</active></Saas_Launcher>
+        <Saas_Limitation><active>true</active></Saas_Limitation>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
         <Saas_Page><active>true</active></Saas_Page>
         <Saas_PageCache><active>true</active></Saas_PageCache>
