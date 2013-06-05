@@ -211,57 +211,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Get layout xml
-     */
-    public function getLayoutUpdateAction()
-    {
-        $historyData = Mage::app()->getRequest()->getPost('historyData');
-        if (!$historyData) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::ERROR => array($this->__('The post data is invalid.')))
-            ));
-            return;
-        }
-
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-
-        try {
-            $layoutUpdate = $this->_compactHistory($historyData);
-            $response = array(Mage_Core_Model_Message::SUCCESS => array($layoutUpdate));
-        } catch (Mage_Core_Exception $e) {
-            $response = array(Mage_Core_Model_Message::ERROR => array($e->getMessage()));
-        }
-        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
-    }
-
-    /**
-     * Save temporary layout update
-     */
-    public function saveTemporaryLayoutUpdateAction()
-    {
-        $themeId = (int)$this->_getSession()->getData('theme_id');
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-        try {
-            $theme = $this->_loadThemeById($themeId);
-            if ($this->getRequest()->has('layoutUpdate')) {
-                $this->_saveLayoutUpdate(
-                    $this->getRequest()->getParam('layoutUpdate'),
-                    $this->getRequest()->getParam('handle'),
-                    $theme->getId(),
-                    true
-                );
-            }
-            $response = array('success' => $this->__('We saved the layout.'));
-        } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => $this->__('The layout is not saved.'));
-        }
-        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
-    }
-
-    /**
      * Display available theme list. Only when no customized themes
      */
     public function firstEntranceAction()
