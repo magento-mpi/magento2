@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 
+/*jshint jquery:true*/
 (function($) {
     /**
      * Widget theme save
@@ -182,9 +183,16 @@
             return $(this.options.dialogSelector).data('dialog');
         },
 
+        /**
+         * Prepare post data
+         *
+         * @param {Object} items
+         * @returns {Object}
+         * @private
+         */
         _preparePostItems: function(items) {
             var postData = {};
-            $.each(items, function(index, item){
+            $.each(items, function(index, item) {
                 postData[index] = item.getPostData();
             });
             return postData;

@@ -13,22 +13,20 @@
  */
 class Mage_DesignEditor_Model_State
 {
-    /**#@+
+    /**
      * Name of layout classes that will be used as main layout
      */
     const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
-    /**#@-*/
 
     /**
      * Url model classes that will be used instead of Mage_Core_Model_Url in navigation vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
 
-    /**#@+
+    /**
      * Import behaviors
      */
     const MODE_NAVIGATION = 'navigation';
-    /**#@-*/
 
     /**#@+
      * Session keys
