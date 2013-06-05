@@ -13,7 +13,6 @@
     <modules>
         <Mage_Core>
             <version>1.6.0.12</version>
-            <current_api_version>1</current_api_version>
             <active>true</active>
         </Mage_Core>
     </modules>
@@ -126,7 +125,6 @@
                 </acl>
             </services>
         </areas>
-        <current_api_version>1</current_api_version>
     </global>
     <frontend>
         <di>
@@ -411,4 +409,10 @@
             </core_clean_cache>
         </jobs>
     </crontab>
+
+    <default>
+        <service>
+            <schema>default</schema>
+        </service>
+    </default>
 </config>

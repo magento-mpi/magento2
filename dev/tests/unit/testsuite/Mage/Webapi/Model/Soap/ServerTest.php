@@ -91,39 +91,6 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test generateUri method with default parameter.
-     */
-    public function testGenerateUriDefault()
-    {
-        $this->_storeMock->expects($this->once())->method('getBaseUrl')->will(
-            $this->returnValue('http://magento.com/')
-        );
-        $this->_requestMock->expects($this->once())->method('getRequestedResources')->will(
-            $this->returnValue(array('res' => 'v1'))
-        );
-        $actualResult = $this->_soapServer->generateUri();
-        $expectedResult = 'http://magento.com/' . self::WEBAPI_AREA_FRONT_NAME . '/soap?resources%5Bres%5D=v1';
-        $this->assertEquals($expectedResult, $actualResult, 'URI generation with default parameter is invalid.');
-    }
-
-    /**
-     * Test generateUri method.
-     *
-     * @dataProvider providerForGenerateUriTest
-     */
-    public function testGenerateUri($isWsdl, $resources, $expectedUri, $assertMessage)
-    {
-        $this->_storeMock->expects($this->once())->method('getBaseUrl')->will(
-            $this->returnValue('http://magento.com/')
-        );
-        $this->_requestMock->expects($this->once())->method('getRequestedResources')->will(
-            $this->returnValue($resources)
-        );
-        $actualUri = $this->_soapServer->generateUri($isWsdl);
-        $this->assertEquals($expectedUri, $actualUri, $assertMessage);
-    }
-
-    /**
      * Test getEndpointUri method.
      */
     public function testGetEndpointUri()
@@ -159,34 +126,5 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         /** Assert that mocked fault toXml method will be executed once. */
         $apiFault->expects($this->once())->method('toXml');
         $this->_soapServer->fault($apiFault);
-    }
-
-    /**
-     * Data provider for generateUri test.
-     */
-    public function providerForGenerateUriTest()
-    {
-        $webapiFrontName = self::WEBAPI_AREA_FRONT_NAME;
-        return array(
-            //Each array contains isWsdl flag, resources, expected URI and assert message.
-            'Several resources' => array(
-                false,
-                array('customer' => 'v1', 'product' => 'v2'),
-                "http://magento.com/$webapiFrontName/soap?resources%5Bcustomer%5D=v1&resources%5Bproduct%5D=v2",
-                'URI generation with several resources is invalid.'
-            ),
-            'Several resources with WSDL' => array(
-                true,
-                array('customer' => 'v1', 'product' => 'v2'),
-                "http://magento.com/$webapiFrontName/soap?resources%5Bcustomer%5D=v1&resources%5Bproduct%5D=v2&wsdl=1",
-                'URI generation with several resources and WSDL is invalid.'
-            ),
-            'Empty resources list' => array(
-                true,
-                array(),
-                "http://magento.com/$webapiFrontName/soap?wsdl=1",
-                'URI generation without resources is invalid.'
-            ),
-        );
     }
 }

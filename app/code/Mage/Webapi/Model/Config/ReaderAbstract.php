@@ -17,7 +17,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     /**
      * Pattern for API action controllers class name.
      */
-    const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Controller_Webapi(_.*)+$/';
+    const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Service(_.*)+$/';
 
     /**
      * @var Zend\Code\Scanner\DirectoryScanner
