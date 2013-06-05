@@ -52,7 +52,7 @@
             dialog.text.set(this.options.confirmMessage);
             dialog.title.set(this.options.title);
             var buttons = data.confirm_buttons || [{
-                text: 'Got it',
+                text: $.mage.__('Got it'),
                 id: this._getButtonHtmlId(),
                 'class': 'primary',
                 click: function() {}
@@ -74,12 +74,26 @@
          * @protected
          */
         _wrapButton: function() {
-            var link = $("<a></a>");
+            var link = $('<a></a>');
             link.attr({
                 'target': '_blank',
                 'href': [this.options.launchUrl + 'theme_id', this.themeId].join('/')
             });
+            link.on('click', $.proxy(this._reloadPage, this));
             $('#' + this._getButtonHtmlId()).wrap(link);
+        },
+
+        /**
+         * @param event
+         * @protected
+         */
+        _reloadPage: function(event) {
+            event.preventDefault();
+            event.returnValue = false;
+            var childWin = window.open([this.options.launchUrl + 'theme_id', this.themeId].join('/'));
+            $(childWin.document).ready(function() {
+                window.location.reload();
+            });
         }
     });
 })(jQuery);

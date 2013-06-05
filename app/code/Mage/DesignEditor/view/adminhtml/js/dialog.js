@@ -119,7 +119,7 @@
             }
 
             if (buttons.length<=1) {
-                buttons.push({
+                buttons.unshift({
                     text: $.mage.__('Cancel'),
                     click: function() {
                         $(this).dialog('close');
