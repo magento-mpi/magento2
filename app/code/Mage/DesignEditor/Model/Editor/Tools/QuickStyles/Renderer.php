@@ -53,8 +53,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer
     protected function _rendererCssRecursively($data, &$content)
     {
         // Override the parent's default value for this specific component.
-        $backgroundImageComponent = $data['attribute'] === 'background-image' && $data['type'] === 'image-uploader'
-            && $data['selector'] === '.header';
+        $backgroundImageComponent = !empty($data['attribute']) && $data['attribute'] === 'background-image' &&
+            !empty($data['type']) && $data['type'] === 'image-uploader' &&
+            !empty($data['selector']) && $data['selector'] === '.header';
 
         if (isset($data['components'])) {
             foreach ($data['components'] as $component) {
