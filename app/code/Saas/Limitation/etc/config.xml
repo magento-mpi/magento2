@@ -23,10 +23,10 @@
         <events>
             <store_save_before>
                 <observers>
-                    <saas_limitation>
-                        <class>Saas_Limitation_Model_Observer</class>
-                        <method>restrictStoreCreation</method>
-                    </saas_limitation>
+                    <saas_limitation_store>
+                        <class>Saas_Limitation_Model_Store_Observer</class>
+                        <method>restrictEntityCreation</method>
+                    </saas_limitation_store>
                 </observers>
             </store_save_before>
         </events>
@@ -35,20 +35,20 @@
         <events>
             <adminhtml_widget_container_html_before>
                 <observers>
-                    <saas_limitation>
-                        <class>Saas_Limitation_Model_Observer</class>
-                        <method>updateGridButtons</method>
-                    </saas_limitation>
+                    <saas_limitation_store>
+                        <class>Saas_Limitation_Model_Store_Observer</class>
+                        <method>disableCreationButton</method>
+                    </saas_limitation_store>
                 </observers>
             </adminhtml_widget_container_html_before>
-            <controller_action_predispatch>
+            <controller_action_predispatch_adminhtml_system_store_index>
                 <observers>
-                    <saas_limitation>
-                        <class>Saas_Limitation_Model_Observer</class>
+                    <saas_limitation_store>
+                        <class>Saas_Limitation_Model_Store_Observer</class>
                         <method>displayNotification</method>
-                    </saas_limitation>
+                    </saas_limitation_store>
                 </observers>
-            </controller_action_predispatch>
+            </controller_action_predispatch_adminhtml_system_store_index>
         </events>
     </adminhtml>
 </config>
