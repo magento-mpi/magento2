@@ -68,12 +68,11 @@
                 click: callback,
                 'class': 'primary'
             };
-            if (this.options.eventData.confirm) {
-                dialog.title.set(this.options.eventData.confirm.title);
-                dialog.text.set(this.options.eventData.confirm.message);
-                dialog.setButtons(buttons);
-                dialog.open();
-            }
+
+            dialog.title.set(this.options.eventData.confirm.title);
+            dialog.text.set(this.options.eventData.confirm.message);
+            dialog.setButtons(buttons);
+            dialog.open();
         },
 
         /**
