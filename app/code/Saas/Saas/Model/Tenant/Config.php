@@ -157,15 +157,18 @@ class Saas_Saas_Model_Tenant_Config
     public function getApplicationParams()
     {
         $varDirWorkaround = $this->_config->getNode('global/web/dir/media');
+        $viewCacheDir = "{$this->_mediaDir}/view_cache";
         return array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::MEDIA => "{$this->_rootDir}/{$this->_mediaDir}",
                 Mage_Core_Model_Dir::STATIC_VIEW => "{$this->_rootDir}/skin",
                 Mage_Core_Model_Dir::VAR_DIR => "{$this->_rootDir}/var/{$varDirWorkaround}",
+                Mage_Core_Model_Dir::PUB_VIEW_CACHE => "{$this->_rootDir}/$viewCacheDir",
             ),
             Mage::PARAM_APP_URIS => array(
                 Mage_Core_Model_Dir::MEDIA => $this->_mediaDir,
                 Mage_Core_Model_Dir::STATIC_VIEW => $this->_staticDir,
+                Mage_Core_Model_Dir::PUB_VIEW_CACHE => $viewCacheDir,
             ),
             Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
             'status' => $this->_status,

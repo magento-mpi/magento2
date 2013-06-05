@@ -163,17 +163,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $themeService->assignThemeToDefaultScope($themeCustomization->getId());
             }
 
-            $message = $coreHelper->__('Theme successfully assigned');
+            $message = $coreHelper->__('Theme "%s" successfully assigned', $theme->getThemeTitle());
             $response = array(
-                'success' => $message,
+                'message' => $message,
                 'themeId' => $themeCustomization->getId()
             );
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => $message)));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => $this->_helper->__('Theme is not assigned'))
-            ));
             $response = array(
                 'error'   => true,
                 'message' => $this->_helper->__('Theme is not assigned')

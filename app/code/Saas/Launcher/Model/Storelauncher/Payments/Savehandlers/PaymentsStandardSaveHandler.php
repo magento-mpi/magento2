@@ -25,7 +25,7 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSa
      */
     public function getRelatedConfigSections()
     {
-        return array('paypal');
+        return array('payment');
     }
 
     /**
@@ -38,18 +38,23 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSa
     public function prepareData(array $data)
     {
         $preparedData = array();
-        if (!isset($data['groups']['account']['fields']['business_account']['value'])) {
+        if (!isset($data['groups']['paypal_group_all_in_one']['groups']
+            ['wps_us']['groups']['wps_required_settings']['fields']['business_account']['value'])
+        ) {
             throw new Saas_Launcher_Exception('Email address is required.');
         }
-        $accountEmail = trim($data['groups']['account']['fields']['business_account']['value']);
+        $accountEmail = trim($data['groups']['paypal_group_all_in_one']['groups']
+            ['wps_us']['groups']['wps_required_settings']['fields']['business_account']['value']);
 
         if (!Zend_Validate::is($accountEmail, 'EmailAddress')) {
             throw new Saas_Launcher_Exception('Email address must have correct format.');
         }
 
-        $preparedData['paypal']['account']['fields']['business_account']['value'] = $accountEmail;
+        $preparedData['payment']['paypal_group_all_in_one']['groups']
+            ['wps_us']['groups']['wps_required_settings']['fields']['business_account']['value'] = $accountEmail;
         // enable PayPal Payments Standard
-        $preparedData['paypal']['global']['fields']['wps']['value'] = 1;
+        $preparedData['payment']['paypal_group_all_in_one']['groups']
+            ['wps_us']['groups']['wps_required_settings']['fields']['enable_wps']['value'] = 1;
         return $preparedData;
     }
 }

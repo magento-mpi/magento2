@@ -122,6 +122,8 @@
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
                 <Mage_Core_Model_Store_ConfigInterface>Mage_Core_Model_Store_Config</Mage_Core_Model_Store_ConfigInterface>
                 <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
+                <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
+                <Mage_Core_Model_Page_Asset_MergeStrategyInterface>Mage_Core_Model_Page_Asset_MergeStrategy_Direct</Mage_Core_Model_Page_Asset_MergeStrategyInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
@@ -316,6 +318,8 @@
             </log>
             <js>
                 <merge_files>0</merge_files>
+                <minify_files>0</minify_files>
+                <minify_adapter>Magento_Code_Minifier_Adapter_Js_Jsmin</minify_adapter>
             </js>
         </dev>
         <system>

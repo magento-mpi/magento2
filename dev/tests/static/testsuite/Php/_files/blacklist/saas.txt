@@ -1,4 +1,4 @@
-# A list similar to "common.txt", but distinguishes items that belong to Magento Go Edition
+# A list similar to "common.txt", but distinguishes items that belong to Magento Saas Edition
 # These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/saas.txt
 # This file will not be published, too
 #

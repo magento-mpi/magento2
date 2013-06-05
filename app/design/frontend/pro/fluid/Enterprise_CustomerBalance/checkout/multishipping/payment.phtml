@@ -18,7 +18,7 @@
     </div>
     <script type="text/javascript">
         head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_Checkout::js/checkout-balance.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/checkout-balance.js') ?>",
             function() {
                 jQuery('#use-customer-balance').checkoutBalance({
                     amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,

@@ -1,4 +1,4 @@
-# Files or directories that are part of Magento Go Edition and may be not included in other edition
+# Files or directories that are part of Magento Saas Edition and may be not included in other edition
 # See also common.txt and dev_build.txt for items that are not part of any edition
 #
 saas
