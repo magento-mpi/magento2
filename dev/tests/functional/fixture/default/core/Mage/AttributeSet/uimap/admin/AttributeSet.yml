@@ -14,7 +14,7 @@
 manage_attribute_sets:
     mca: catalog_product_set/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_set/')]
-    title: Manage Attribute Sets / Attributes / Stores / Magento Admin
+    title: Product Templates / Attributes / Stores / Magento Admin
     uimap:
         form: &searchAttributeSetsGrid
             fieldsets:
@@ -62,7 +62,7 @@ add_new_attribute_set:
 
 edit_attribute_set:
     mca: catalog_product_set/edit/id/%id%/
-    title: %elementTitle% / Manage Attribute Sets / Attributes / Stores / Magento Admin
+    title: %elementTitle% / Product Templates / Attributes / Stores / Magento Admin
     uimap:
         form: &editAttributeSet
             fieldsets:
