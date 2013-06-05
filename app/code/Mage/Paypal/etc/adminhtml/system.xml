@@ -1343,7 +1343,7 @@
                             <requires>
                                 <group id="payflow_link_payflow_link"/>
                             </requires>
-                            <frontend_class>paypal-enabler paypal-ec-pe paypal-ec-payflowlink</frontend_class>
+                            <frontend_class>paypal-enabler paypal-ec-pe paypal-payflowlink</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
@@ -1353,9 +1353,7 @@
                             <frontend_class>paypal-ec-payflow-enabler</frontend_class>
                             <attribute type="shared">1</attribute>
                             <requires>
-                                <field id="business_account"/>
                                 <field id="enable_payflow_link"/>
-                                <group id="payflow_link_payflow_link"/>
                             </requires>
                         </field>
                     </group>

@@ -35,8 +35,8 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     "ecMissed": false,
                     sharePayflowEnabling: function(enabler, isEvent) {
 
-                        var ecPayflowLink = (!!$$(".paypal-ec-payflowlink")[0]) ? $$(".paypal-ec-payflowlink")[0].value : 0;
-                        var ecPayflowEnabler = (ecPayflowLink) ? $$(".paypal-ec-payflow-enabler")[1] : $$(".paypal-ec-payflow-enabler")[0];
+                        var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0];
+                        var ecPayflowEnabler = isPayflowLinkEnabled ? $$(".paypal-ec-payflow-enabler")[1] : $$(".paypal-ec-payflow-enabler")[0];
                         if (typeof ecPayflowEnabler == "undefined") {
                             return;
                         }
@@ -61,7 +61,9 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                         }
 
                         var ecEnabler = $$(".paypal-ec-enabler")[0];
-                        if (ecPayflowEnabler.value != enabler.value && (isEvent || enabler.value == 1)) {
+                        if (ecPayflowEnabler.value != enabler.value
+                            && (isEvent || enabler.value == 1 && !isPayflowLinkEnabled)
+                        ) {
                             ecPayflowEnabler.value = enabler.value;
                             fireEvent(ecPayflowEnabler, "change");
                             if (ecPayflowEnabler.value == 1) {
@@ -272,10 +274,10 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
 
                 // initially uncheck payflow
-                var ecPayflowLink = (!!$$(".paypal-ec-payflowlink")[0]) ? $$(".paypal-ec-payflowlink")[0].value : 0;
-                var ecPayflowEnabler = (ecPayflowLink) ? $$(".paypal-ec-payflow-enabler")[1] : $$(".paypal-ec-payflow-enabler")[0];
+                var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0];
+                var ecPayflowEnabler = isPayflowLinkEnabled ? $$(".paypal-ec-payflow-enabler")[1] : $$(".paypal-ec-payflow-enabler")[0];
                 if (typeof ecPayflowEnabler != "undefined") {
-                    if (ecPayflowEnabler.value == 1) {
+                    if (ecPayflowEnabler.value == 1 && !isPayflowLinkEnabled) {
                         ecPayflowEnabler.value = 0;
                         fireEvent(ecPayflowEnabler, "change");
                     }
@@ -305,7 +307,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
 
                 $$(".requires").each(function(dependent) {
                     var $dependent = $(dependent);
-                    if ($dependent.hasClassName("paypal-ec-enabler")) {
+                    if ($dependent.hasClassName("paypal-ec-enabler") || $dependent.hasClassName("paypal-ec-payflow-enabler")) {
                         $dependent.requiresObj.callback = function(required) {
                             if ($(required).hasClassName("paypal-enabler") && required.value == 0) {
                                 $dependent.disable();
@@ -318,8 +320,8 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
 
                 configForm.on(\'afterValidate\', function() {
-                    var ecPayflowLink = (!!$$(".paypal-ec-payflowlink")[0]) ? $$(".paypal-ec-payflowlink")[0].value : 0;
-                    var ecPayflowEnabler = (ecPayflowLink) ? $$(".paypal-ec-payflow-enabler")[1] : $$(".paypal-ec-payflow-enabler")[0];
+                    var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0];
+                    var ecPayflowEnabler = isPayflowLinkEnabled ? $$(".paypal-ec-payflow-enabler")[1] : $$(".paypal-ec-payflow-enabler")[0];
                     if (typeof ecPayflowEnabler == "undefined") {
                         return;
                     }
