@@ -19,17 +19,6 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
         $this->assertSelectCount('#permissionsUserGrid_table', 1, $response);
     }
 
-    /**
-     * @magentoConfigFixture limitations/admin_account 1
-     */
-    public function testIndexActionLimitedUsers()
-    {
-        $this->dispatch('backend/admin/user/index');
-        $response = $this->getResponse()->getBody();
-        $this->assertSelectRegExp('#add.disabled', '/Add New User/', 1, $response);
-        $this->assertContains(Mage_User_Model_Resource_User::getMessageUserCreationProhibited(), $response);
-    }
-
     public function testSaveActionNoData()
     {
         $this->dispatch('backend/admin/user/save');
@@ -81,22 +70,6 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
             'password_confirmation' => 'password_with_1_number',
         ));
         $this->dispatch('backend/admin/user/save');
-    }
-
-    /**
-     * @magentoDbIsolation enabled
-     * @magentoConfigFixture limitations/admin_account 1
-     */
-    public function testSaveActionLimitedUsers()
-    {
-        $this->_createNew();
-        $this->assertSessionMessages(
-            // @codingStandardsIgnoreStart
-            $this->equalTo(array('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.')),
-            // @codingStandardsIgnoreEnd
-            Mage_Core_Model_Message::ERROR
-        );
-        $this->assertRedirect($this->stringContains('backend/admin/user/edit/'));
     }
 
     public function testRoleGridAction()

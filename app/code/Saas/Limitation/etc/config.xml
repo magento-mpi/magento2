@@ -45,6 +45,14 @@
                     </saas_limitation_store>
                 </observers>
             </store_save_before>
+            <admin_user_save_before>
+                <observers>
+                    <saas_limitation_user>
+                        <class>Saas_Limitation_Model_User_Observer</class>
+                        <method>restrictEntityCreation</method>
+                    </saas_limitation_user>
+                </observers>
+            </admin_user_save_before>
         </events>
     </global>
     <adminhtml>
@@ -59,6 +67,10 @@
                         <class>Saas_Limitation_Model_Store_Observer</class>
                         <method>disableCreationButton</method>
                     </saas_limitation_store>
+                    <saas_limitation_user>
+                        <class>Saas_Limitation_Model_User_Observer</class>
+                        <method>disableCreationButton</method>
+                    </saas_limitation_user>
                     <saas_limitation_store_group>
                         <class>Saas_Limitation_Model_Store_Group_Observer</class>
                         <method>removeCreationButton</method>
@@ -73,6 +85,14 @@
                     </saas_limitation_store>
                 </observers>
             </controller_action_predispatch_adminhtml_system_store_index>
+            <controller_action_predispatch_adminhtml_user_index>
+                <observers>
+                    <saas_limitation_user>
+                        <class>Saas_Limitation_Model_User_Observer</class>
+                        <method>displayNotification</method>
+                    </saas_limitation_user>
+                </observers>
+            </controller_action_predispatch_adminhtml_user_index>
         </events>
     </adminhtml>
 </config>
