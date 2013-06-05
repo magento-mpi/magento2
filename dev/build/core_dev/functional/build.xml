@@ -149,7 +149,7 @@
         </replace>
     </target>
 
-    <!-- @TODO Eliminate code duplication when build for Go Edition will be created and common parts of code will be clear -->
+    <!-- @TODO Eliminate code duplication when build for Saas Edition will be created and common parts of code will be clear -->
     <target name="run-ee" description="Deploy multiple Magento Enterprise instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')

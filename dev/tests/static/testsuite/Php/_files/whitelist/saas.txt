@@ -1,4 +1,4 @@
-# A list similar to "common.txt", but distinguishes items that belong to Magento Go Edition
+# A list similar to "common.txt", but distinguishes items that belong to Magento Saas Edition
 # These items and this file are not published in Magento CE and EE
 #
 saas

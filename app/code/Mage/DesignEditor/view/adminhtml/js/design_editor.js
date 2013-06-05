@@ -8,6 +8,21 @@
  */
 
 (function($) {
+    /**
+     * Dialog button title
+     *
+     * @const
+     * @type {string}
+     */
+    var BUTTON_SAVE = 'Save';
+
+    /**
+     * Dialog button title
+     *
+     * @const
+     * @type {string}
+     */
+    var BUTTON_SAVE_AND_ASSIGN = 'Save and Assign';
 
     /**
      * Widget block
@@ -86,24 +101,8 @@
          * @protected
          */
         _onSwitchMode: function(event, data) {
-            data.next_action = this.options.continueSwitchModeEvent;
-            data.alert_message = "To switch to the Navigation mode, please save or revert your current text edits."
-            $('[data-frame="editor"]').trigger('modeChange', data);
-
-            if (data.is_being_edited) {
-                // Stop the toggle of the switcher.
-                $('[data-switcher="vde"]').prop('checked', false);
-            }
-        },
-
-        /**
-         * Switch mode event handler.
-         * Passed inline translation validation.  Continue on with switching modes.
-         * @protected
-         */
-        _continueSwitchMode: function(event, data) {
             if ('save_changes_url' in data) {
-                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url);
+                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url)
             } else {
                 document.location = data.mode_url;
             }
@@ -143,7 +142,7 @@
                     'Save changes:',
                     eventData.confirm_message,
                     {
-                        text: 'Save',
+                        text: BUTTON_SAVE,
                         click: function() {
                             $('body').trigger(saveConfirmEvent, eventData);
                         },
@@ -183,42 +182,37 @@
                 }
             }
 
+            var dialog;
+            if (eventData.dialog) {
+                dialog = eventData.dialog;
+            } else {
+                dialog = this._getDialog();
+                dialog.title.set('Save changes:');
+            }
             $.ajax({
                 type: 'POST',
                 url:  eventData.save_url,
                 data: data,
                 dataType: 'json',
                 success: $.proxy(function(response) {
-                    var dialog, message;
-                    if (eventData.dialog) {
-                        dialog = eventData.dialog;
-                    } else {
-                        dialog = this._getDialog();
-                        dialog.title.set('Save changes:');
-                    }
-                    if (response.error) {
-                        message = [
-                            '<div class="message-success">',
-                            $.mage.__('Error') + ': "' + response.message + '".',
-                            '</div>'
-                        ];
-                    } else {
-                        message = [
-                            '<div class="message-success">',
-                            response.message,
-                            '</div>'
-                        ];
-                    }
+                    var type = response.error ? 'error' : 'success';
                     if (dialog.isOpen()) {
-                        dialog.messages.add(message.join(''));
+                        dialog.messages.add(response.message, type);
                     } else {
-                        dialog.messages.set(message.join(''));
+                        dialog.messages.set(response.message, type);
                         dialog.setButtons();
                         dialog.open();
                     }
                 }, this),
                 error: function() {
                     alert($.mage.__('Sorry, there was an unknown error.'));
+                    if (dialog.isOpen()) {
+                        dialog.messages.add(message, 'error');
+                    } else {
+                        dialog.messages.set(message, 'error');
+                        dialog.setButtons();
+                        dialog.open();
+                    }
                 }
             });
         },
@@ -231,23 +225,13 @@
          * @private
          */
         _onSaveAndAssign: function(event, eventData) {
-            var saveAndAssignConfirmEvent = this.options.saveAndAssignConfirmEvent;
-            eventData.confirm_buttons = [
-                {
-                    text: $.mage.__('Save'),
-                    click: function() {
-                        $('body').trigger(saveAndAssignConfirmEvent, eventData);
-                    },
-                    'class': 'primary'
-                },
-                {
-                    text: $.mage.__('Close'),
-                    click: function() {
-                        $(this).dialog('close');
-                    },
-                    'class': 'action-close'
-                }
-            ];
+            eventData.confirm_buttons = [{
+                text: BUTTON_SAVE,
+                click: $.proxy(function() {
+                    $('body').trigger(this.options.saveAndAssignConfirmEvent, eventData);
+                }, this),
+                'class': 'primary'
+            }];
             $(event.target).trigger('assign', eventData);
         },
 
@@ -267,8 +251,11 @@
             // and to not miss this 'confirm_message' for next calls of _onSaveAndAssign
             var tempData = jQuery.extend({}, eventData);
             tempData.confirm_message = null;
-            $('body').trigger(this.options.saveConfirmEvent, tempData);
-            $('body').trigger('assign-confirm', tempData);
+            tempData.isSaveAndAssign = true;
+
+            var bodyElement = $('body');
+            bodyElement.trigger(this.options.saveConfirmEvent, tempData);
+            bodyElement.trigger('assign-confirm', tempData);
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {

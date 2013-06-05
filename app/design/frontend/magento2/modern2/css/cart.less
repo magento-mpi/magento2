@@ -593,16 +593,13 @@
 
 .minicart.wrapper {
     display: inline-block;
-    position: relative;
     z-index: 11;
     .block.minicart {
         .commonPopup();
-        top: 100%;
-        left: -88px;
+        left: -100%;
         margin-top: 15px;
         width: 308px;
         .clearfix;
-        visibility: hidden;
         position: absolute;
         z-index: 2;
         > .content {
@@ -660,7 +657,8 @@
         position: relative;
         z-index: 11;
         .block.minicart {
-            visibility: visible;
+            left: auto;
+            right: -150px;
         }
     }
     .action.close {
@@ -767,6 +765,8 @@
     .minilist.items {
         margin: 0;
         position: relative;
+        overflow: auto;
+        max-height: 510px;
     }
     .item {
         .clearfix;

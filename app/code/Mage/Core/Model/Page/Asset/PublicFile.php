@@ -11,7 +11,7 @@
 /**
  * Page asset representing a local file that already has public access
  */
-class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asset_AssetInterface
+class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asset_LocalInterface
 {
     /**
      * @var Mage_Core_Model_Design_PackageInterface
@@ -54,5 +54,13 @@ class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asse
     public function getContentType()
     {
         return $this->_contentType;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSourceFile()
+    {
+        return $this->_file;
     }
 }

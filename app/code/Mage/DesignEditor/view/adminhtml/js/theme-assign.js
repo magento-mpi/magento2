@@ -8,46 +8,77 @@
  */
 /*jshint jquery:true*/
 (function($) {
+    /**
+     * Dialog button title
+     *
+     * @const
+     * @type {string}
+     */
+    var BUTTON_ASSIGN = 'Assign';
+
+    /**
+     * Dialog button title
+     *
+     * @const
+     * @type {string}
+     */
+    var BUTTON_EDIT = 'Edit';
+
+    //TODO since we can't convert data to JSON string we use magic numbers DEFAULT_STORE and EMPTY_STORES
+
+    /**
+     * Magic number to send via AJAX request to notify that theme should be assigned to default store
+     *
+     * @const
+     * @type {number}
+     */
+    var DEFAULT_STORE = -1;
+
+    /**
+     * Magic number to send via AJAX request to notify that theme should be unassigned from every store
+     *
+     * @const
+     * @type {number}
+     */
+    var EMPTY_STORES = -2;
+
     'use strict';
     /**
      * VDE assign theme widget
      */
     $.widget('vde.themeAssign', {
         options: {
-            assignEvent:        'assign',
-            assignConfirmEvent: 'assign-confirm',
-            loadEvent:          'loaded',
-            dialogSelector:     '#dialog-message-assign',
-            dialogSelectorSsm:  '#dialog-message-confirm',
-            closePopupBtn:      '[class^="action-close"]',
-            assignUrl:          null,
-            afterAssignUrl:     null,
-            storesByThemes:     [],
-            isMultipleStoreViewMode: null,
-            redirectOnAssign:   false,
-            openNewOnAssign:    true,
-            refreshOnAssign:    true,
-            afterAssignMode:    'navigation'
+            assignEvent:           'assign',
+            assignConfirmEvent:    'assign-confirm',
+            loadEvent:             'loaded',
+            beforeShowStoresEvent: 'show-stores-before',
+            dialogSelectorMS:      '#dialog-message-assign',
+            dialogSelector:        '#dialog-message-confirm',
+            closePopupBtn:         '[class^="action-close"]',
+            assignUrl:             null,
+            afterAssignUrl:        null,
+            storesByThemes:        [],
+            hasMultipleStores:     null,
+            redirectOnAssign:      false,
+            openNewOnAssign:       true,
+            refreshOnAssign:       true,
+            afterAssignMode:       'navigation'
         },
-
-        /**
-         * Identifier of a theme currently processed
-         */
-        themeId: null,          //@TODO try to remove usage of themeId by passing it to method directly as param
 
         /**
          * List of themes and stores that assigned to them
          *
-         * @type {Array.<number>}
+         * @type {Object.<number, Array>}
+         * @private
          */
-        storesByThemes: [],
+        _storesByThemes: [],
 
         /**
          * Form creation
          * @protected
          */
         _create: function() {
-            this.storesByThemes = this.options.storesByThemes;
+            this._setAssignedStores(this.options.storesByThemes);
             this._bind();
         },
 
@@ -62,35 +93,36 @@
             this.element.on(this.options.loadEvent, $.proxy(function() {
                 this.element.trigger('contentUpdated');
             }, this));
+            this.element.on(this.options.beforeShowStoresEvent, $.proxy(this._onBeforeShowStoresEvent, this));
+            //@TODO Remake bindings above to this._on()
         },
 
         /**
          * Handler for 'assign' event
          *
-         * @param event
-         * @param data
+         * This event can be triggered from different locations:
+         *  - Store Designer
+         *  - VDE
+         *  - VDE when trying to perform save-and-assign
+         *
+         * @param {Object.<string>} event
+         * @param {Object.<string>} data
          * @private
          */
         _onAssign: function(event, data) {
-            this.themeId = data.theme_id;
-            if (this.options.isMultipleStoreViewMode) {
-                var stores = this.storesByThemes[data.theme_id] || [];
-                this._setCheckboxes(stores);
-            }
+            this.element.trigger(this.options.beforeShowStoresEvent, {theme_id: data.theme_id});
 
-            var assignConfirmEvent = this.options.assignConfirmEvent;
-
-            var dialog = data.dialog = this._getDialog().data('dialog');
+            var dialog = data.dialog = this._getDialog().data('dialog');    //@TODO WHY we need to keep dialog object?
             dialog.messages.clear();
             dialog.title.set($.mage.__('Assign theme to your live store-view:'));
             if (data.confirm_message) {
                 dialog.text.set(data.confirm_message);
             }
             var buttons = data.confirm_buttons || {
-                text: 'Assign',
-                click: function() {
-                    $('body').trigger(assignConfirmEvent);
-                },
+                text: BUTTON_ASSIGN,
+                click: $.proxy(function() {
+                    $('body').trigger(this.options.assignConfirmEvent, {theme_id: data.theme_id});
+                }, this),
                 'class': 'primary'
             };
             dialog.setButtons(buttons);
@@ -100,24 +132,207 @@
         /**
          * Handler for 'assign-confirm' event
          *
+         * @param {Object.<string>} event
+         * @param {Object.<string>} data
          * @private
          */
-        _onAssignConfirm: function() {
-            var stores = this._getCheckboxes();
-            var dialog = this._getDialog();
-
-            if (this.options.isMultipleStoreViewMode && !this._isStoreChanged(this.themeId, stores)) {
-                var message = [
-                    '<div class="message message-error">',
-                    $.mage.__('You assigned a theme to your store.'),
-                    '</div>'
-                ].join('');
-                dialog.find('.messages').html(message);
-                return;
+        _onAssignConfirm: function(event, data) {
+            var themeId = data.theme_id;
+            var stores = null;
+            if (this.options.hasMultipleStores) {
+                stores = this._getStoresFromCheckboxes();
+                if (!this._isStoreChanged(themeId, stores)) {
+                    var dialog = this._getDialog().data('dialog');
+                    dialog.messages.set($.mage.__('No stores were reassigned.'), 'info');
+                    return;
+                }
             }
 
-            this.sendAssignRequest(this.themeId, stores);
-            this.themeId = null;
+            this._sendAssignRequest(themeId, stores, data.isSaveAndAssign);
+        },
+
+        /**
+         * Handler for show-stores-before event
+         *
+         * @param {Object.<string>} event
+         * @param {Object.<string>} data
+         * @private
+         */
+        _onBeforeShowStoresEvent: function(event, data) {
+            if (this.options.hasMultipleStores) {
+                this._setThemeStoresToCheckboxes(data.theme_id);
+            }
+        },
+
+        /**
+         * Get stores that given theme is assigned to
+         *
+         * @param {number} theme
+         * @returns {Array}
+         * @private
+         */
+        _getAssignedStores: function(theme) {
+            return this._storesByThemes[theme] || [];
+        },
+
+        /**
+         * Setter for internal list of stores that themes assigned to
+         *
+         * @param {number|Object.<number, Array>} theme
+         * @param {Array} stores
+         * @private
+         */
+        _setAssignedStores: function(theme, stores) {
+            if (arguments.length == 1) {
+                this._storesByThemes = arguments[0];
+            } else {
+                this._storesByThemes[theme] = stores;
+            }
+        },
+
+        /**
+         * Get list of checked store-view identifiers
+         *
+         * This function only has sense when this.options.hasMultipleStores=true
+         *
+         * @returns {Array.<number>}
+         * @private
+         */
+        _getStoresFromCheckboxes: function () {
+            return this._getCheckboxes();
+        },
+
+        /**
+         * Set checkboxes so they match stores that have given theme assigned
+         *
+         * @param {number} themeId
+         * @private
+         */
+        _setThemeStoresToCheckboxes: function (themeId) {
+            this._setCheckboxes(this._getAssignedStores(themeId));
+        },
+
+        /**
+         * Check if the stores changed
+         *
+         * @param {number} themeId
+         * @param {Array.<number>} storesToAssign
+         * @protected
+         */
+        _isStoreChanged: function(themeId, storesToAssign) {
+            var assignedStores = this._getAssignedStores(themeId);
+            return !(storesToAssign.length === assignedStores.length &&
+                $(storesToAssign).not(assignedStores).length === 0);
+        },
+
+        /**
+         * Send AJAX request to assign theme to store-views
+         *
+         * @param {number} themeId
+         * @param {Array.<number>|null} stores
+         * @param {boolean} isSaveAndAssign
+         * @public
+         */
+        _sendAssignRequest: function(themeId, stores, isSaveAndAssign) {
+            if (!this.options.assignUrl) {
+                throw Error($.mage.__('The URL to assign stores is not defined.'));
+            }
+
+            var data = {
+                theme_id: themeId
+            };
+            if (stores === null) {
+                data.stores = DEFAULT_STORE;
+            } else if (stores.length === 0) {
+                data.stores = EMPTY_STORES;
+            } else {
+                data.stores = stores;
+            }
+
+            // This is backend page standard messages container.
+            $('#messages').html('');
+            $.ajax({
+                type: 'POST',
+                url:  this.options.assignUrl,
+                data: data,
+                dataType: 'json',
+                success: $.proxy(function(response) {
+                    this.assignThemeSuccess(response, stores, themeId, isSaveAndAssign);
+                }, this),
+                error: function() {
+                    var dialog = this._getDialog().data('dialog');
+                    var message = $.mage.__('Sorry, there was an unknown error.');
+                    if (isSaveAndAssign) {
+                        dialog.messages.add(message, 'error');
+                    } else {
+                        dialog.messages.set(message, 'error');
+                    }
+                }
+            });
+        },
+
+        /**
+         * Assign Save Theme AJAX call Success handler
+         *
+         * @param {Object} response
+         * @param {Array} stores
+         * @param {number} themeId
+         * @param {boolean} isSaveAndAssign
+         */
+        assignThemeSuccess: function(response, stores, themeId, isSaveAndAssign) {
+            var dialog = this._getDialog().data('dialog');
+            var messageType = response.error ? 'error' : 'success';
+
+            if (isSaveAndAssign) {
+                dialog.messages.add(response.message, messageType);
+            } else {
+                dialog.messages.set(response.message, messageType);
+            }
+
+            if (!response.error) {
+                this._setAssignedStores(themeId, stores);
+                if (this.options.redirectOnAssign && this.options.afterAssignUrl != null) {
+                    var defaultStore = 0;
+                    var url = [
+                        this.options.afterAssignUrl + 'store_id',
+                        stores ? stores[0] : defaultStore,
+                        'theme_id',
+                        response.themeId,
+                        'mode',
+                        this.options.afterAssignMode
+                    ].join('/');
+
+                    dialog.removeButton(BUTTON_ASSIGN);
+                    dialog.text.clear();
+                    dialog.addButton({
+                        text: BUTTON_EDIT,
+                        click: $.proxy(function() {
+                            if (this.options.openNewOnAssign) {
+                                window.open(url);
+                            } else {
+                                document.location = url;
+                            }
+                        }, this),
+                        'class': 'primary'
+
+                    }, 0);
+                }
+            }
+        },
+
+        /**
+         * Prepare items for post request
+         *
+         * @param {Object} items
+         * @return {Object}
+         * @private
+         */
+        _preparePostItems: function(items) {
+            var postData = {};
+            $.each(items, function(index, item){
+                postData[index] = item.getPostData();
+            });
+            return postData;
         },
 
         /**
@@ -136,112 +351,6 @@
             });
 
             return stores;
-        },
-
-        /**
-         * Check if the stores changed
-         * @protected
-         */
-        _isStoreChanged: function(themeId, storesToAssign) {
-            var assignedStores = this.options.storesByThemes[themeId] || [] ;
-            return !(storesToAssign.length === assignedStores.length &&
-                $(storesToAssign).not(assignedStores).length === 0);
-        },
-
-        /**
-         * Send AJAX request to assign theme to store-views
-         * @public
-         */
-        sendAssignRequest: function(themeId, stores) {
-            if (!this.options.assignUrl) {
-                throw Error($.mage.__('The URL to assign stores is not defined.'));
-            }
-
-            var data = {
-                theme_id: themeId,
-                stores:   stores
-            };
-            //TODO since we can't convert data to JSON string we use magic numbers
-            var DEFAULT_STORE = '-1';
-            var EMPTY_STORES = '-2';
-            if (data.stores === null) {
-                data.stores = DEFAULT_STORE;
-            } else if (data.stores.length === 0) {
-                data.stores = EMPTY_STORES;
-            }
-
-            $('#messages').html('');
-            $.ajax({
-                type: 'POST',
-                url:  this.options.assignUrl,
-                data: data,
-                dataType: 'json',
-                success: $.proxy(function(response) {
-                    this.assignThemeSuccess(response, stores, themeId);
-                }, this),
-                error: function() {
-                    alert($.mage.__('Sorry, there was an unknown error.'));
-                }
-            });
-        },
-
-        /**
-         * Assign Save Theme AJAX call Success handler
-         *
-         * @param response
-         * @param stores
-         * @param themeId
-         */
-        assignThemeSuccess: function(response, stores, themeId) {
-            var message;
-            var dialog = this._getDialog();
-            if (response.error) {
-                message = [
-                    '<div class="message message-error">',
-                    $.mage.__('Error'), ': "', response.message, '".',
-                    '</div>'
-                ];
-            } else {
-                this.storesByThemes[themeId] = stores;
-                message = [
-                    '<div class="message-success">',
-                    response.success,
-                    '</div>'
-                ];
-                if (this.options.redirectOnAssign && this.options.afterAssignUrl != null) {
-                    var defaultStore = 0;
-                    var url = [
-                        this.options.afterAssignUrl + 'store_id',
-                        stores ? stores[0] : defaultStore,
-                        'theme_id',
-                        response.themeId,
-                        'mode',
-                        this.options.afterAssignMode
-                    ].join('/');
-
-                    if (this.options.openNewOnAssign) {
-                        window.open(url);
-                    } else {
-                        document.location = url;
-                    }
-                }
-            }
-            dialog.data('dialog').messages.add(message.join(''));
-        },
-
-        /**
-         * Prepare items for post request
-         *
-         * @param items
-         * @return {Object}
-         * @private
-         */
-        _preparePostItems: function(items) {
-            var postData = {};
-            $.each(items, function(index, item){
-                postData[index] = item.getPostData();
-            });
-            return postData;
         },
 
         /**
@@ -267,8 +376,8 @@
          * @private
          */
         _getDialog: function() {
-            var selector = this.options.isMultipleStoreViewMode
-                ? this.options.dialogSelector : this.options.dialogSelectorSsm;
+            var selector = this.options.hasMultipleStores
+                ? this.options.dialogSelectorMS : this.options.dialogSelector;
             return $(selector);
         }
     });

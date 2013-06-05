@@ -133,9 +133,17 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
         /** Capture invoice data via API. */
         $invoiceBefore = $this->_getFixtureInvoice();
         $this->assertTrue($invoiceBefore->canCapture(), "Invoice fixture cannot be captured.");
-        Magento_Test_Helper_Api::callWithException($this, 'salesOrderInvoiceCapture',
-            array($invoiceBefore->getIncrementId()), 'Invalid vendor account'
-        );
+        try {
+            $invoiceBefore->capture();
+        } catch (Exception $e) {
+            $expectedFaultMessage = $e->getMessage();
+            /**
+             * To avoid complicated environment emulation for online payment,
+             * we can check if proper error message from payment gateway was received or not.
+             */
+            $this->setExpectedException('SoapFault', $expectedFaultMessage);
+        }
+        Magento_Test_Helper_Api::call($this, 'salesOrderInvoiceCapture', array($invoiceBefore->getIncrementId()));
     }
 
     /**
@@ -148,12 +156,21 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
         /** Prepare data. Make invoice voidable. */
         $invoiceBefore = $this->_getFixtureInvoice();
         $invoiceBefore->setState(Mage_Sales_Model_Order_Invoice::STATE_PAID)->setCanVoidFlag(true)->save();
-
-        /** Capture invoice data via API. */
+        /** Check if invoice can be voided via API. */
         $this->assertTrue($invoiceBefore->canVoid(), "Invoice fixture cannot be voided.");
-        Magento_Test_Helper_Api::callWithException($this, 'salesOrderInvoiceVoid',
-            array($invoiceBefore->getIncrementId()), 'Invalid vendor account'
-        );
+
+        try {
+            $invoiceBefore->void();
+        } catch (Exception $e) {
+            $expectedFaultMessage = $e->getMessage();
+            /**
+             * To avoid complicated environment emulation for online voiding,
+             * we can check if proper error message from payment gateway was received or not.
+             */
+            $this->setExpectedException('SoapFault', $expectedFaultMessage);
+        }
+
+        Magento_Test_Helper_Api::call($this, 'salesOrderInvoiceVoid', array($invoiceBefore->getIncrementId()));
     }
 
     /**

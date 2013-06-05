@@ -71,6 +71,7 @@
                     alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
+            $('.vde-tools-content').trigger('resize.vdeToolsResize');
         },
 
         _updateCustomCss: function()
@@ -89,6 +90,8 @@
             if (!$.trim($(this.customCssCode).val())) {
                 this.fileRowInfo.addClass('no-display');
             } else {
+                this.btnCssUpdate.prop('disabled', false);
+                this.btnUpdateDownload.add(this.btnCssDelete).fadeIn();
                 this.fileRowInfo.removeClass('no-display');
             }
         }
