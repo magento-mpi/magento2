@@ -799,6 +799,23 @@ a:visited:hover {
   display: inline-block;
 }
 /* Switchers */
+.t1 {
+  position: relative;
+  overflow: hidden;
+}
+.t1:before {
+  content: '';
+  display: block !important;
+  position: absolute !important;
+  border: 1px dotted red !important;
+  padding: 0px !important;
+  left: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  z-index: 5 !important;
+}
 .switcher {
   display: inline-block;
   text-align: left;
@@ -1881,22 +1898,6 @@ div.mage-error {
   border-right: 0;
   border-color: #464646;
 }
-.block.search input::-webkit-input-placeholder {
-  color: #333333;
-}
-.block.search input:-moz-placeholder {
-  /* Firefox 18- */
-
-  color: #333333;
-}
-.block.search input::-moz-placeholder {
-  /* Firefox 19+ */
-
-  color: #333333;
-}
-.block.search input:-ms-input-placeholder {
-  color: #333333;
-}
 .block.search input:focus {
   border-color: #464646;
 }
@@ -2094,7 +2095,7 @@ div.mage-error {
   display: block;
   letter-spacing: normal;
   word-spacing: normal;
-  color: #55c2e6;
+  color: #35c8f4;
 }
 .opc.loading .active {
   position: relative;
@@ -2441,9 +2442,10 @@ div.mage-error {
 .cart.summary {
   margin-top: 33px;
   background: #5e5e5e;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left: 10px;
 }
 .cart.summary .summary.title {
   font-size: 20px;
@@ -2541,6 +2543,16 @@ div.mage-error {
 .cart.summary .block .action.check span:active,
 .cart.summary .block .action.check span:hover {
   color: #35c8f4;
+}
+.cart > .summary.fixed,
+.cart.container > .summary > .container.fixed {
+  position: fixed;
+  top: 0;
+}
+.cart.container > .summary.bottom {
+  position: absolute;
+  vertical-align: bottom;
+  bottom: 0;
 }
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 54px;
@@ -2808,15 +2820,12 @@ div.mage-error {
 .minicart.wrapper {
   float: right;
   margin-right: 40px;
-  position: relative;
   z-index: 11;
 }
 .minicart.wrapper .block.minicart {
-  top: 100%;
+  left: -100%;
   margin-top: 15px;
   *zoom: 1;
-  right: -20px;
-  visibility: hidden;
   position: absolute;
   z-index: 2;
   background: #5e5e5e;
@@ -2954,7 +2963,8 @@ div.mage-error {
   opacity: 0.01;
 }
 .minicart.wrapper.active .block.minicart {
-  visibility: visible;
+  left: auto;
+  right: -20px;
 }
 .minicart.wrapper .action.previous,
 .minicart.wrapper .action.next {
@@ -3211,20 +3221,21 @@ div.mage-error {
 }
 .block.minicart .products.minilist.animation {
   position: relative;
+  /*&:after {
+                content: 'moving';
+                position: absolute;
+                z-index: 999;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background: #fff;
+                opacity: 0.01;
+            }*/
+
 }
 .block.minicart .products.minilist.animation .items-wrapper {
   overflow: hidden;
-}
-.block.minicart .products.minilist.animation:after {
-  content: 'moving';
-  position: absolute;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: #fff;
-  opacity: 0.01;
 }
 .block.minicart .products.minilist.animation .item {
   visibility: visible;
@@ -3310,6 +3321,17 @@ div.mage-error {
   margin-left: -5px;
   margin-top: -1.35em;
   bottom: 0;
+}
+.eq-ie8 .block.minicart .products.minilist .action.delete,
+.eq-ie8 .block.minicart .products.minilist .action.edit {
+  visibility: hidden;
+}
+.eq-ie8 .block.minicart .products.minilist .shown .action.delete,
+.eq-ie8 .block.minicart .products.minilist .shown .action.edit {
+  visibility: visible;
+}
+.eq-ie8 .block.minicart .products.minilist .item:before {
+  border-left: 0;
 }
 .action.delete {
   display: inline-block;
@@ -3571,22 +3593,6 @@ div.mage-error {
 }
 .block.newsletter input[type="text"] {
   width: 100%;
-}
-.block.newsletter input[type="text"]::-webkit-input-placeholder {
-  color: #333333;
-}
-.block.newsletter input[type="text"]:-moz-placeholder {
-  /* Firefox 18- */
-
-  color: #333333;
-}
-.block.newsletter input[type="text"]::-moz-placeholder {
-  /* Firefox 19+ */
-
-  color: #333333;
-}
-.block.newsletter input[type="text"]:-ms-input-placeholder {
-  color: #333333;
 }
 .footer .block.newsletter {
   width: 310px;
@@ -7543,7 +7549,7 @@ img[align="right"] {
   padding: 10px 0 0;
   letter-spacing: normal;
   word-spacing: normal;
-  color: #55c2e6 !important;
+  color: #35c8f4;
 }
 .form.send.friend .fieldset.recipients .fields {
   *zoom: 1;

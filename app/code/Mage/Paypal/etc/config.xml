@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Paypal>
-            <version>1.6.0.2</version>
+            <version>1.6.0.3</version>
             <active>true</active>
             <depends>
                 <Mage_Paygate/>
@@ -245,6 +245,7 @@
                 <pwd backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
                 <group>paypal</group>
                 <title>Credit Card</title>
+                <partner>PayPal</partner>
                 <csc_required>1</csc_required>
                 <csc_editable>1</csc_editable>
                 <url_method>GET</url_method>

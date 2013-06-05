@@ -321,7 +321,7 @@
                     } else {
                         allowedProducts = options[i].products.slice(0);
                     }
-                    if (allowedProducts.size() > 0) {
+                    if (allowedProducts.length > 0) {
                         options[i].allowedProducts = allowedProducts;
                         element.options[index] = new Option(this._getOptionLabel(options[i], options[i].price), options[i].id);
                         if (typeof options[i].price !== 'undefined') {

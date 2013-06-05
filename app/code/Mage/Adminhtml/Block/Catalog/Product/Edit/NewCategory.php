@@ -18,26 +18,15 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Limitations model
-     *
-     * @var Mage_Catalog_Model_Category_Limitation $_limitation
-     */
-
-    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param array $data
-     * @param Mage_Catalog_Model_Category_Limitation $limitation
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        array $data = array(),
-        Mage_Catalog_Model_Category_Limitation $limitation = null
+        array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->setUseContainer(true);
-        $this->_limitation = !is_null($limitation)
-            ? $limitation
-            : Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
     }
 
 
@@ -91,7 +80,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
     {
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
-        $widgetUrl = $coreHelper->jsonEncode($this->getViewFileUrl('Mage_Catalog::js/new-category-dialog.js'));
         $widgetOptions = $coreHelper->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
@@ -105,31 +93,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
         return <<<HTML
 <script>
     jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
-        head.js($widgetUrl, function () {
-            $('#new-category').mage('newCategoryDialog', $widgetOptions);
-        });
+        $('#new-category').mage('newCategoryDialog', $widgetOptions);
     });
 </script>
 HTML;
-    }
-
-    /**
-     * Is create new category restricted
-     *
-     * @return bool
-     */
-    public function isCreateRestricted()
-    {
-        return $this->_limitation->isCreateRestricted();
-    }
-
-    /**
-     * Get restricted message for categories
-     *
-     * @return string
-     */
-    public function getRestrictedMessage()
-    {
-        return $this->_limitation->getCreateRestrictedMessage();
     }
 }

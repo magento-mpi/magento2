@@ -49,11 +49,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
      */
     public function getTabs()
     {
-        $isDisabled = $this->getMode() == Mage_DesignEditor_Model_State::MODE_NAVIGATION;
         return array(
             array(
                 'is_hidden'     => false,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-quick-styles',
                 'label'         => $this->__('Quick Styles'),
                 'content_block' => 'design_editor_tools_quick-styles',
@@ -61,7 +60,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
             ),
             array(
                 'is_hidden'     => true,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-block',
                 'label'         => $this->__('Block'),
                 'content_block' => 'design_editor_tools_block',
@@ -69,7 +68,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
             ),
             array(
                 'is_hidden'     => true,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-settings',
                 'label'         => $this->__('Settings'),
                 'content_block' => 'design_editor_tools_settings',
@@ -77,7 +76,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
             ),
             array(
                 'is_hidden'     => false,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-code',
                 'label'         => $this->__('Advanced'),
                 'content_block' => 'design_editor_tools_code',

@@ -206,7 +206,7 @@ class Mage_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         try {
             $this->_model->save();
         } catch (Mage_Core_Exception $exception) {
-            $expectedErrorMessage = 'You are using the maximum number of Websites allowed.';
+            $expectedErrorMessage = 'Sorry, but you can\'t add any more websites with this account.';
             $this->assertEquals($expectedErrorMessage, $exception->getMessage());
             $exceptionMessages = $exception->getMessages();
             $this->assertCount(1, $exceptionMessages);

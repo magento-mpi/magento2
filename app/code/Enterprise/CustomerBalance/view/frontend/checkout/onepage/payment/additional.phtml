@@ -32,9 +32,9 @@
 <script type="text/javascript">
     (function($) {
         head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/customer-balance.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/checkout-balance.js') ?>",
             function() {
-                $('#use-customer-balance').customerBalance({
+                $('#use-customer-balance').checkoutBalance({
                     balance: <?php echo (float)$this->getBalance(); ?>,
                     amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
                     usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>

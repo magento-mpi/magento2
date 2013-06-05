@@ -903,6 +903,28 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
+     * Retrieve headers for request.
+     *
+     * @return array
+     */
+    protected function _getHeaderListForRequest()
+    {
+        return array();
+    }
+
+    /**
+     * Additional response processing.
+     *
+     * @param  array $response
+     *
+     * @return array
+     */
+    protected function _postProcessResponse($response)
+    {
+        return $response;
+    }
+
+    /**
      * Do the API call
      *
      * @param string $methodName
@@ -935,7 +957,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 $config['ssl_cert'] = $this->getApiCertificate();
             }
             $http->setConfig($config);
-            $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));
+            $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', $this->_getHeaderListForRequest(),
+                $this->_buildQuery($request));
             $response = $http->read();
         } catch (Exception $e) {
             $debugData['http_error'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
@@ -949,6 +972,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 
         $debugData['response'] = $response;
         $this->_debug($debugData);
+
+        $response = $this->_postProcessResponse($response);
 
         // handle transport error
         if ($http->getErrno()) {
