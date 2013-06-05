@@ -26,6 +26,7 @@ class Mage_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
     public function testGetHeaderExists($header)
     {
         $response = new Mage_Core_Controller_Response_Http();
+        $response->headersSentThrowsException = false;
         $response->setHeader($header['name'], $header['value'], $header['replace']);
         $this->assertEquals($header, $response->getHeader($header['name']));
     }
@@ -62,6 +63,7 @@ class Mage_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
     public function testGetHeaderNotExists()
     {
         $response = new Mage_Core_Controller_Response_Http();
+        $response->headersSentThrowsException = false;
         $response->setHeader('Name', 'value', true);
         $this->assertFalse($response->getHeader('Wrong name'));
     }

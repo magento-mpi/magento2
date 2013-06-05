@@ -44,6 +44,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoControllerTest extends PHPUnit_Framew
         $this->_responseMock = $this->getMock('Mage_Core_Controller_Response_Http',
             array('setRedirect'), array(), '', false
         );
+        $this->_responseMock->headersSentThrowsException = false;
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
             array('addError', 'setFormData'), array(), '', false);
@@ -61,7 +62,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoControllerTest extends PHPUnit_Framew
             'objectManager' => $this->_objectManager,
         );
 
-        $this->_controller = $helper->getObject('Mage_Adminhtml_Sales_Order_CreditmemoController', $arguments);
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+
+        $this->_controller = $helper->getObject('Mage_Adminhtml_Sales_Order_CreditmemoController',
+            array('context' => $context));
     }
 
     /**
