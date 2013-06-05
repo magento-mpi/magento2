@@ -60,9 +60,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             'resetpasswordpost',
             'confirm',
             'confirmation',
-            'createpassword'
+            'createpassword',
         );
-        $pattern = '/^(' . implode('|', $openActions) . ')/i';
+        $pattern = '/^(' . implode('|', $openActions) . ')$/i';
 
         if (!preg_match($pattern, $action)) {
             if (!$this->_getSession()->authenticate($this)) {
@@ -607,8 +607,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createPasswordAction()
     {
-        $resetPasswordLinkToken = (string) $this->getRequest()->getQuery('token');
-        $customerId = (int) $this->getRequest()->getQuery('id');
+        $resetPasswordLinkToken = (string) $this->getRequest()->getParam('token');
+        $customerId = (int) $this->getRequest()->getParam('id');
         try {
             $this->_validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken);
             $this->loadLayout();

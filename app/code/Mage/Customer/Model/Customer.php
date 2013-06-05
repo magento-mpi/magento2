@@ -106,7 +106,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     private static $_isConfirmationRequired;
 
-    /** @var Mage_Customer_Model_Sender */
+    /** @var Mage_Core_Model_Sender */
     protected $_sender;
 
     /** @var Mage_Core_Model_StoreManager */
@@ -116,7 +116,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     protected $_config;
 
     /**
-     * @param Mage_Customer_Model_Sender $sender
+     * @param Mage_Core_Model_Sender $sender
      * @param Mage_Core_Model_StoreManager $storeManager
      * @param Mage_Eav_Model_Config $config
      * @param Mage_Core_Model_Context $context
@@ -125,7 +125,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
-        Mage_Customer_Model_Sender $sender,
+        Mage_Core_Model_Sender $sender,
         Mage_Core_Model_StoreManager $storeManager,
         Mage_Eav_Model_Config $config,
         Mage_Core_Model_Context $context,

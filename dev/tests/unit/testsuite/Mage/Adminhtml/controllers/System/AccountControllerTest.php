@@ -21,7 +21,7 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
     /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Controller_Response_Http */
     protected $_responseMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_ObjectManager */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_ObjectManager_ObjectManager */
     protected $_objectManagerMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Model_Session */
@@ -49,13 +49,13 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
     {
         $this->_requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
             ->disableOriginalConstructor()
-            ->setMethods(array())
+            ->setMethods(array('getOriginalPathInfo'))
             ->getMock();
         $this->_responseMock = $this->getMockBuilder('Mage_Core_Controller_Response_Http')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager_ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'create'))
             ->getMock();
@@ -78,7 +78,7 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
 
         $this->_authSessionMock = $this->getMockBuilder('Mage_Backend_Model_Auth_Session')
             ->disableOriginalConstructor()
-            ->setMethods(array())
+            ->setMethods(array('getUser'))
             ->getMock();
 
         $this->_userMock = $this->getMockBuilder('Mage_User_Model_User')
@@ -98,7 +98,7 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
 
         $this->_translatorMock = $this->getMockBuilder('Mage_Core_Model_Translate')
             ->disableOriginalConstructor()
-            ->setMethods(array('_getTranslatedString'))
+            ->setMethods(array('_canUseCache'))
             ->getMock();
 
         $arguments = array(
@@ -132,6 +132,10 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
             'email' => 'test@example.com'
         );
 
+        $testedMessage = 'The account has been saved.';
+
+        $this->_authSessionMock->expects($this->any())->method('getUser')->will($this->returnValue($this->_userMock));
+
         $this->_userMock->expects($this->any())->method('load')->will($this->returnSelf());
         $this->_validatorMock->expects($this->once())
             ->method('isValid')
@@ -156,18 +160,15 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
             ->with($this->equalTo('Mage_Backend_Model_Locale_Manager'))
             ->will($this->returnValue($this->_managerMock));
 
-        $this->_authSessionMock->setUser($this->_userMock);
         $this->_userMock->setUserId($userId);
 
         $this->_userMock->expects($this->once())->method('save');
         $this->_userMock->expects($this->once())->method('sendPasswordResetNotificationEmail');
 
-        $this->_translatorMock->expects($this->once())
-            ->method('_getTranslatedString')
-            ->with($this->equalTo('The account has been saved.'))
-            ->will($this->returnValue('The account has been saved.'));
-
         $this->_requestMock->setParams($requestParams);
 
+        $this->_sessionMock->expects($this->once())->method('addSuccess')->with($this->equalTo($testedMessage));
+
+        $this->_controller->saveAction();
     }
 }

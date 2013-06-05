@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for customer service layer Mage_Customer_Model_Sender
+ * Unit test for customer service layer Mage_Core_Model_Sender
  *
  * {license_notice}
  *
@@ -9,13 +9,12 @@
  */
 
 /**
- * Test class for Mage_Customer_Model_Sender
+ * Test class for Mage_Core_Model_Sender
  */
-class Mage_Customer_Model_SenderTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
 {
-
     /**
-     * @var Mage_Customer_Model_Sender
+     * @var Mage_Core_Model_Sender
      */
     protected $_model;
 
@@ -46,7 +45,7 @@ class Mage_Customer_Model_SenderTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('addTo'))
             ->getMock();
 
-        $this->_model = new Mage_Customer_Model_Sender($this->_mailerMock, $this->_emailInfoMock, $this->_storeMock);
+        $this->_model = new Mage_Core_Model_Sender($this->_mailerMock, $this->_emailInfoMock, $this->_storeMock);
     }
 
     public function testSend()

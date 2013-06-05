@@ -91,12 +91,24 @@ class Mage_User_Model_User
      */
     protected $_mailer;
 
+    /** @var Mage_Core_Model_Sender */
+    protected $_sender;
+
+    /**
+     * @param Mage_Core_Model_Sender $sender
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
     public function __construct(
+        Mage_Core_Model_Sender $sender,
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        array $data = array())
-    {
+        array $data = array()
+    ) {
+        $this->_sender = $sender;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -377,18 +389,14 @@ class Mage_User_Model_User
      */
     public function sendPasswordResetNotificationEmail()
     {
-        $mailer = $this->_getMailer();
-        $emailInfo->addTo($this->getEmail(), $this->getName());
-        $mailer->addEmailInfo($emailInfo);
-
-        // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY));
-        $mailer->setStoreId(0);
-        $mailer->setTemplateId(Mage::getStoreConfig(self::XML_PATH_RESET_PASSWORD_TEMPLATE));
-        $mailer->setTemplateParams(array(
-            'user' => $this
-        ));
-        $mailer->send();
+        $this->_sender->send(
+            $this->getEmail(),
+            $this->getName(),
+            self::XML_PATH_RESET_PASSWORD_TEMPLATE,
+            self::XML_PATH_FORGOT_EMAIL_IDENTITY,
+            array('user' => $this),
+            0
+        );
         return $this;
     }
 

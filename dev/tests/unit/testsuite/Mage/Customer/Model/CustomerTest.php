@@ -19,7 +19,7 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_Website|PHPUnit_Framework_MockObject_MockObject */
     protected $_website;
 
-    /** @var Mage_Customer_Model_Sender|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Core_Model_Sender|PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
     /** @var Mage_Core_Model_StoreManager|PHPUnit_Framework_MockObject_MockObject */
@@ -49,7 +49,7 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getStoreIds'))
             ->getMock();
-        $this->_senderMock = $this->getMockBuilder('Mage_Customer_Model_Sender')
+        $this->_senderMock = $this->getMockBuilder('Mage_Core_Model_Sender')
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
