@@ -235,7 +235,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
         $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
         try {
-            $editableTheme = $themeContext->getStagingTheme();
             $themeContext->copyChanges();
             $message = $this->_helper->__('You saved updates to this theme.');
             $response = array('message' =>  $message);
