@@ -54,7 +54,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $themeCss->saveData($editableTheme);
             $response = array(
                 'success' => true,
-                'message' => $this->__('You saved the custom.css files.'),
+                'message' => $this->__('You saved the custom.css file.'),
                 'content' => $cssFileContent
             );
         } catch (Mage_Core_Exception $e) {
@@ -82,12 +82,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $editableTheme->setCustomization($themeCss)->save();
             $response = array(
                 'success' => true,
-                'message' => $this->__('You saved the custom.css files.')
+                'message' => $this->__('You saved the custom.css file.')
             );
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $this->__('We can\'t save the custom css.'));
+            $response = array('error' => true, 'message' => $this->__('We can\'t save the custom css file.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
