@@ -32,8 +32,29 @@
         </xs:annotation>
 
         <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="arg" type="typeArg" />
+            </xs:sequence>
             <xs:attributeGroup ref="serviceCallAttributeGroup"/>
         </xs:complexType>
     </xs:element>
+
+    <xs:simpleType name="typeArgRestriction">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\{\{.*\}\}" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="typeArg">
+        <xs:annotation>
+            <xs:documentation>
+                Dynamic values which are evaluated at the time of service calls construction or method invocation enclosed with {{ }}.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="typeArgRestriction">
+                <xs:attribute type="xs:string" name="name" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
 
 </xs:schema>

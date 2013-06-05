@@ -1,10 +1,9 @@
 <?php
 /**
+ * Tests that existing service_calls.xml files are valid to schema.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,19 +11,14 @@
 class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Configuration acl file list
-     *
-     * @var array
-     */
-    protected $_fileList = array();
-
-    /**
      * Path to schema file
      *
      * @var string
      */
     protected $_schemaFile;
 
+    /** @var  Mage_Core_Model_Dataservice_Config_Reader */
+    protected $_reader;
 
     /**
      * @var Magento_Test_ObjectManager
@@ -34,9 +28,8 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
     public function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $reader = $this->_objectManager->get('Mage_Core_Model_Dataservice_Config_Reader');
-        $this->_schemaFile = $reader->getSchemaFile();
-        $this->_prepareFileList();
+        $this->_reader = $this->_objectManager->get('Mage_Core_Model_Dataservice_Config_Reader');
+        $this->_schemaFile = $this->_reader->getSchemaFile();
     }
 
     protected function tearDown()
@@ -45,17 +38,8 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * Prepare file list of ACL resources
-     */
-    protected function _prepareFileList()
-    {
-        if (empty($this->_fileList)) {
-            $this->_fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
-        }
-    }
-
-    /**
-     * Test each acl configuration file
+     * Test individual service_calls configuration files
+     *
      * @param string $file
      * @dataProvider serviceCallsConfigFileDataProvider
      */
@@ -71,34 +55,32 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
     }
 
     /**
+     * Find all service_calls.xml files
+     *
      * @return array
      */
     public function serviceCallsConfigFileDataProvider()
     {
-        $this->_prepareFileList();
+        $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
         $dataProviderResult = array();
-        foreach ($this->_fileList as $file) {
+        foreach ($fileList as $file) {
             $dataProviderResult[$file] = array($file);
         }
         return $dataProviderResult;
     }
 
-//    /**
-//     * Test merged ACL configuration
-//     */
-//    public function testMergedConfiguration()
-//    {
-//        /** @var $dom Magento_Acl_Config_Reader **/
-//        $dom = Mage::getModel('Magento_Acl_Config_Reader', array('configFiles' => $this->_fileList))
-//            ->getAclResources();
-//
-//        $domConfig = new Magento_Acl_Config_Reader_Dom($dom->saveXML());
-//        $errors = array();
-//        $result = $domConfig->validate($this->_schemaFile, $errors);
-//        $message = "Invalid merged ACL config\n";
-//        foreach ($errors as $error) {
-//            $message .= "{$error->message} Line: {$error->line}\n";
-//        }
-//        $this->assertTrue($result, $message);
-//    }
+    /**
+     * Test merged service_calls configuration for conformance to schema.
+     */
+    public function testMergedConfiguration()
+    {
+        $dom = $this->_reader->getServiceCallConfig();
+        $domConfig = new Magento_Config_Dom($dom);
+        $result = $domConfig->validate($this->_schemaFile, $errors);
+        $message = "Invalid merged service_calls config\n";
+        foreach ($errors as $error) {
+            $message .= "$error\n";
+        }
+        $this->assertTrue($result, $message);
+    }
 }
