@@ -79,7 +79,8 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         try {
             $this->_config = $this->_configFactory->create(
                 Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
-                $data['theme']
+                $data['theme'],
+                $data['parent_theme']
             );
         } catch (Magento_Exception $e) {
             $isFilePresent = false;
