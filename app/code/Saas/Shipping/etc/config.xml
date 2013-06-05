@@ -13,7 +13,7 @@
     <modules>
         <Saas_Shipping>
             <version>0.0.0.1</version>
-            <active>true</active>
+            <active>false</active>
             <depends>
                 <Mage_Shipping/>
             </depends>
