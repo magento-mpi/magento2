@@ -269,9 +269,6 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      */
     public function createConditionSql($field, $operator, $value)
     {
-        $sqlOperator = $this->getSqlOperator($operator);
-        $condition = '';
-
         if (!is_array($value)) {
             $prepareValues = explode(',', $value);
             if (count($prepareValues) <= 1) {
@@ -283,6 +280,16 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
                 }
             }
         }
+
+        /*
+         * substitute "equal" operator with "is one of" if compared value is not single
+         */
+        if (count($value) != 1 and in_array($operator, array('==', '!='))) {
+            $operator = $operator == '==' ? '()' : '!()';
+        }
+        $sqlOperator = $this->getSqlOperator($operator);
+        $condition = '';
+
         switch ($operator) {
             case '{}':
             case '!{}':
