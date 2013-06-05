@@ -53,7 +53,7 @@ manage_customers:
             success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the customer.')]
             success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the customer.')]
             customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid')]
-            no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='We couldn\'t  find any records.']
+            no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='We couldn't  find any records.']
             password_too_short: //label[(@for)='_accountpassword' and contains(., 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.')]
             invalid_email: //label[(@for)='_accountemail' and contains(., 'Please enter a valid email address (for example, johndoe@domain.com.).')]
             confirmation_for_delete: Are you sure you want to do this?
