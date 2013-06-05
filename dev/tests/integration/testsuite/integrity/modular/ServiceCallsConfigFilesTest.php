@@ -75,7 +75,7 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
     public function testMergedConfiguration()
     {
         $dom = $this->_reader->getServiceCallConfig();
-        $domConfig = new Magento_Config_Dom($dom);
+        $domConfig = new Magento_Config_Dom($dom->getXmlString());
         $result = $domConfig->validate($this->_schemaFile, $errors);
         $message = "Invalid merged service_calls config\n";
         foreach ($errors as $error) {
