@@ -260,14 +260,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $themeCopy->getThemeImage()->createPreviewImageCopy();
             $themeCopy->save();
             $copyService->copy($theme, $themeCopy);
-            $response = array('success' => true, 'theme_id' => $themeCopy->getId());
+            $this->_getSession()->addSuccess(
+                $this->__('You saved a duplicate copy of this theme in “My Customizations.”')
+            );
         } catch (Mage_Core_Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => true, 'message' => $this->__('Theme cannot be duplicated'));
+            $this->_getSession()->addError($this->__('Theme cannot be duplicated'));
         }
-        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
+        $this->_redirectUrl($this->_getRefererUrl());
     }
 
     /**

@@ -71,26 +71,16 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     {
         $themeId = $themeBlock->getTheme()->getId();
 
-        /** @var $duplicateButton Mage_Backend_Block_Widget_Button */
-        $duplicateButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-        $duplicateButton->setData(array(
-            'label'          => $this->__('Duplicate'),
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array(
-                        'event'     => 'duplicate-theme',
-                        'target'    => 'body',
-                        'eventData' => array(
-                            'theme_id' => $themeId,
-                            'url'      => $this->getUrl('*/*/duplicate', array('theme_id' => $themeId))
-                        )
-                    ),
-                ),
-            ),
-            'class'   => 'action-duplicate'
+        /** @var $assignButton Mage_Backend_Block_Widget_Button */
+        $assignButton = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Adminhtml_Theme_Button');
+        $assignButton->setData(array(
+            'title' => $this->__('Duplicate'),
+            'label' => $this->__('Duplicate'),
+            'class'   => 'action-duplicate',
+            'href'   => $this->getUrl('*/*/duplicate', array('theme_id' => $themeId))
         ));
 
-        $themeBlock->addButton($duplicateButton);
+        $themeBlock->addButton($assignButton);
         return $this;
     }
 
