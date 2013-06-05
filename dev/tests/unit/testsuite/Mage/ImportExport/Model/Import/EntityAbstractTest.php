@@ -559,7 +559,8 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      * @param null $options
      * @return array
      */
-    protected function _getDataSet($code, $type, $validValue, $invalidValue, $isUnique = null, $options = null) {
+    protected function _getDataSet($code, $type, $validValue, $invalidValue, $isUnique = null, $options = null)
+    {
         $dataSet = array(
             'code'          => $code,
             'type'          => $type,

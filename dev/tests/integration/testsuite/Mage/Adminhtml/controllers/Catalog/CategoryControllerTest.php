@@ -292,7 +292,8 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
     {
         $this->dispatch('backend/admin/catalog_category/index');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of categories is reached.', $body);
+        $this->assertNotContains('Sorry, you are using all the categories your account '
+            . 'allows. To add more, first delete a category or upgrade your service.', $body);
 
         $pattern = '/<button[^>]*add_root_category_button[^>]*>/';
         preg_match($pattern, $body, $matches);

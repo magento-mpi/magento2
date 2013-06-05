@@ -383,7 +383,9 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRestricted()
     {
-        $this->setExpectedException('Mage_Core_Exception', 'Maximum allowed number of categories is reached.');
+        $this->setExpectedException('Mage_Core_Exception', 'Sorry, you are using all the categories your account '
+            . 'allows. To add more, first delete a category or upgrade your service.'
+        );
         /** @var $product Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setName('test')->save();
