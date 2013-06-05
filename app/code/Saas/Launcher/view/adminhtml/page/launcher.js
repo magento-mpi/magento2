@@ -345,7 +345,6 @@
                                 insertValidationMessage(result.message,'success');
                                 this.currentSection.find('.active').addClass('configured');
                             }
-                            this.element.trigger('afterValidate');
                         } else {
                             if (result && result.error_message) {
                                 insertValidationMessage(result.error_message,'error');
