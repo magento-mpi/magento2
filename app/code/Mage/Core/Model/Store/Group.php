@@ -304,30 +304,6 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Validation rules for store group (Store in backend)
-     *
-     * @return Zend_Validate_Interface|null
-     */
-    protected function _getValidationRulesBeforeSave()
-    {
-        /** @var $validator Magento_Validator_Composite_VarienObject */
-        $validator = Mage::getObjectManager()->get('Magento_Validator_Composite_VarienObject');
-
-        if ($this->isObjectNew()) {
-            /** @var $limitation Mage_Core_Model_Store_Group_Limitation */
-            $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Group_Limitation');
-            $storeSavingAllowance = new Zend_Validate_Callback(array($limitation, 'canCreate'));
-            $storeSavingAllowance->setMessage(
-                $limitation->getCreateRestrictionMessage(), Zend_Validate_Callback::INVALID_VALUE
-            );
-
-            $validator->addRule($storeSavingAllowance);
-        }
-
-        return $validator;
-    }
-
-    /**
      * Get/Set isReadOnly flag
      *
      * @param bool $value

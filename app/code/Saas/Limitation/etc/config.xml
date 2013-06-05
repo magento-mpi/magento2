@@ -29,6 +29,14 @@
                     </saas_limitation_website>
                 </observers>
             </website_save_before>
+            <store_group_save_before>
+                <observers>
+                    <saas_limitation_store_group>
+                        <class>Saas_Limitation_Model_Store_Group_Observer</class>
+                        <method>restrictEntityCreation</method>
+                    </saas_limitation_store_group>
+                </observers>
+            </store_group_save_before>
             <store_save_before>
                 <observers>
                     <saas_limitation_store>
@@ -51,6 +59,10 @@
                         <class>Saas_Limitation_Model_Store_Observer</class>
                         <method>disableCreationButton</method>
                     </saas_limitation_store>
+                    <saas_limitation_store_group>
+                        <class>Saas_Limitation_Model_Store_Group_Observer</class>
+                        <method>removeCreationButton</method>
+                    </saas_limitation_store_group>
                 </observers>
             </adminhtml_widget_container_html_before>
             <controller_action_predispatch_adminhtml_system_store_index>

@@ -29,4 +29,15 @@ class Saas_Limitation_Mage_Adminhtml_System_StoreControllerTest extends Mage_Bac
         $this->assertContains('Sorry, you are using all the store views your account allows. '
             . 'To add more, first delete a store view or upgrade your service.', $response);
     }
+
+    /**
+     * @magentoConfigFixture limitations/store_group 1
+     */
+    public function testIndexActionStoreGroupRestricted()
+    {
+        $this->dispatch('backend/admin/system_store/index');
+        $response = $this->getResponse()->getBody();
+        $this->assertSelectCount('#add_group', 0, $response);
+        $this->assertNotContains('You are using the maximum number of stores allowed.', $response);
+    }
 }

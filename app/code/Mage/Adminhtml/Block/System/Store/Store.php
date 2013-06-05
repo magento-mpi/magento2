@@ -23,25 +23,6 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
      */
     protected $_blockGroup = 'Mage_Adminhtml';
 
-    /**
-     * @var Mage_Core_Model_Store_Group_Limitation
-     */
-    protected $_storeGroupLimitation;
-
-    /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation
-     * @param array $data
-     */
-    public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation,
-        array $data = array()
-    ) {
-        parent::__construct($context, $data);
-        $this->_storeGroupLimitation = $storeGroupLimitation;
-    }
-
     protected function _construct()
     {
         $this->_controller  = 'system_store';
@@ -56,13 +37,11 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         $this->_updateButton('add', 'onclick', "setLocation('" . $this->getUrl('*/*/newWebsite') . "')");
 
         /* Add Store Group button */
-        if ($this->_storeGroupLimitation->canCreate()) {
-            $this->_addButton('add_group', array(
-                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create Store'),
-                'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newGroup') .'\')',
-                'class'     => 'add',
-            ));
-        }
+        $this->_addButton('add_group', array(
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create Store'),
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newGroup') .'\')',
+            'class'     => 'add',
+        ));
 
         /* Add Store button */
         $this->_addButton('add_store', array(
