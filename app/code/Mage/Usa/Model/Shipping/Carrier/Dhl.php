@@ -78,6 +78,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     protected $_defaultGatewayUrl = 'https://eCommerce.airborne.com/ApiLandingTest.asp';
 
     /**
+     * Factory for Mage_Usa_Model_Simplexml_Element
+     *
+     * @var Mage_Usa_Model_Simplexml_ElementFactory
+     */
+    protected $_simpleXmlElementFactory;
+
+    /**
      * Container types that could be customized
      *
      * @var array
@@ -97,6 +104,16 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     const ADDITIONAL_PROTECTION_ROUNDING_FLOOR = 0;
     const ADDITIONAL_PROTECTION_ROUNDING_CEIL = 1;
     const ADDITIONAL_PROTECTION_ROUNDING_ROUND = 2;
+
+    /**
+     * Dhl constructor
+     *
+     * @param Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     */
+    public function __construct(Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
+    {
+        $this->simpleXmlElementFactory = $simpleXmlElementFactory;
+    }
 
     /**
      * Collect and get rates
@@ -457,7 +474,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawRequest;
 
-        $xml = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>');
+        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 
@@ -1027,7 +1044,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawTrackRequest;
 
-        $xml = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>');
+        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 
