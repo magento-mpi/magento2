@@ -80,7 +80,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function archiveAction()
     {
-        $this->_title($this->__('Archive'));
+        $this->_title($this->__('Admin Actions Archive'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging_backups');

@@ -123,7 +123,7 @@
                     <frontend_class>validate-number</frontend_class>
                 </field>
             </group>
-            <group id="pbridge_authorizenet" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="pbridge_authorizenet" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="34" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Authorize.net (Payment Bridge only)</label>
                 <comment>
                     <![CDATA[<a href="http://celinks.magento.com/authorize_netRegistration" target="_blank">Click here to sign up for an Authorize.net account</a>]]>
