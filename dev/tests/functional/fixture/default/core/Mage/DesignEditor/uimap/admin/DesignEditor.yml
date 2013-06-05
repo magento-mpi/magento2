@@ -24,7 +24,6 @@ design_editor_selector:
                                 available_themes_content:
                                     xpath: //div[@id='theme_selector_tabs_available_themes_content']
                                     pageelements:
-                                        header_available_themes: //h3[contains(.,'Choose a theme to start with')]
                                         theme_list: //div[@class='infinite_scroll']
                                         theme_list_elements: //div[@class='infinite_scroll']/ul/li
                                         thumbnail: //li[@id='%themeId%']//div[@class='theme-content']
