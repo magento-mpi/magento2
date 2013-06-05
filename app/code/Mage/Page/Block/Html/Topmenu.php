@@ -30,16 +30,6 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
     public function _construct()
     {
         $this->_menu = new Varien_Data_Tree_Node(array(), 'root', new Varien_Data_Tree());
-
-        // enabling the cache for this topmenu to not expire until changes made in admin area
-        // this is to prevent the menu from being rebuild every request and to prevent new categories from showing up
-        // immediately
-        $this->addData(array(
-            'cache_lifetime'    => false,
-            'cache_tags'        => array(
-                Mage_Core_Model_Store_Group::CACHE_TAG
-            ),
-        ));
     }
 
     /**
