@@ -23,10 +23,10 @@
         <events>
             <website_save_before>
                 <observers>
-                    <saas_limitation>
+                    <saas_limitation_website>
                         <class>Saas_Limitation_Model_Website_Observer</class>
                         <method>restrictEntityCreation</method>
-                    </saas_limitation>
+                    </saas_limitation_website>
                 </observers>
             </website_save_before>
             <store_save_before>
