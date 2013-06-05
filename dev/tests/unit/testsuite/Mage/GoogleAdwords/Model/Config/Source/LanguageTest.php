@@ -4,6 +4,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framework_TestCase
 {
@@ -68,9 +69,11 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
         $this->_helperMock->expects($this->once())->method('getLanguageCodes')
             ->will($this->returnValue($languageCodes));
         $this->_helperMock->expects($this->atLeastOnce())->method('convertLanguageCodeToLocaleCode')
-            ->will($this->returnCallback(function ($languageCode) use ($languagesToLocalesMap) {
-                return $languagesToLocalesMap[$languageCode];
-            }));
+            ->will($this->returnCallback(
+                function ($languageCode) use ($languagesToLocalesMap) {
+                    return $languagesToLocalesMap[$languageCode];
+                }
+            ));
 
         $localeMock = $this->_localeMock;
         $localeMock::staticExpects($this->at(0))->method('getTranslation')

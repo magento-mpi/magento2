@@ -6,6 +6,7 @@
  *
  * @copyright {copyright}
  * @license {license_link}
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class Mage_GoogleAdwords_Model_Config_Backend_ConversionAbstract extends Mage_Core_Model_Config_Data
 {

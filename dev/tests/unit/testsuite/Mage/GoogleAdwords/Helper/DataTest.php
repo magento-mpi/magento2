@@ -12,7 +12,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_configMock;
 
-   /**
+    /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configNodeMock;
@@ -73,9 +73,11 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($isActive));
         $this->_storeConfigMock->expects($this->any())->method('getConfig')
             ->with($this->isType('string'))
-            ->will($this->returnCallback(function () use ($returnConfigValue) {
-                return $returnConfigValue;
-            }));
+            ->will($this->returnCallback(
+                function () use ($returnConfigValue) {
+                    return $returnConfigValue;
+                }
+            ));
 
         $this->assertEquals($returnValue, $this->_helper->isGoogleAdwordsActive());
     }
