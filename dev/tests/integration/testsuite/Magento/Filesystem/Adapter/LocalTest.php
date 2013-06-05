@@ -91,7 +91,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Unable to read file contents
+     * @expectedExceptionMessage Failed to read contents of non-existing-file.txt
      */
     public function testReadException()
     {
@@ -122,13 +122,13 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Unable to write file contents
-     */
     public function testWriteException()
     {
-        $this->_adapter->write("forbidden-symbol\0", 'any contents');
+        $filename = "forbidden-symbol\0";
+        $this->setExpectedException('Magento_Filesystem_Exception',
+            sprintf('Failed to write contents to %s', $filename));
+
+        $this->_adapter->write($filename, 'any contents');
     }
 
     public function testDeleteNotExists()
@@ -193,11 +193,11 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Unable to get file hash
+     * @expectedExceptionMessage Failed to get hash of non-existing-file.txt
      */
     public function testGetFileMd5Exception()
     {
-        $this->_adapter->getFileMd5($this->_getFixturesPath() . 'invalid.csv');
+        $this->_adapter->getFileMd5('non-existing-file.txt');
     }
 
     public function testIsFile()
@@ -250,7 +250,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Unable to rename file
+     * @expectedExceptionMessage Failed to rename non-existing-file.txt to any-new-file.txt
      */
     public function testRenameException()
     {
@@ -331,7 +331,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Unable to copy file
+     * @expectedExceptionMessage Failed to copy non-existing-file.txt to any-new-file.txt
      */
     public function testCopyException()
     {
@@ -349,7 +349,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Failed to get modification time non-existing-file.txt
+     * @expectedExceptionMessage Failed to get modification time of non-existing-file.txt
      */
     public function testGetMTimeException()
     {
@@ -383,7 +383,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Failed to get file size non-existing-file.txt
+     * @expectedExceptionMessage Failed to get file size of non-existing-file.txt
      */
     public function testGetFileSizeException()
     {
@@ -472,13 +472,11 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException Magento_Filesystem_Exception
-     * @expectedExceptionMessage Unable to resolve the file pattern
-     */
     public function testSearchKeysException()
     {
         $pattern = str_repeat('1', 20000); // Overflow the glob() length limit (Win - 260b, Linux - 1k-8k)
+        $this->setExpectedException('Magento_Filesystem_Exception',
+            sprintf('Failed to resolve the file pattern %s', $pattern));
         $this->_adapter->searchKeys($pattern);
     }
 }

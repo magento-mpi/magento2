@@ -33,7 +33,8 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @file_get_contents($key);
         if (false === $result) {
-            throw new Magento_Filesystem_Exception('Unable to read file contents');
+            $message = sprintf('Failed to read contents of %s', $key);
+            throw new Magento_Filesystem_Exception($message);
         }
         return $result;
     }
@@ -50,7 +51,8 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @file_put_contents($key, $content);
         if (false === $result) {
-            throw new Magento_Filesystem_Exception('Unable to write file contents');
+            $message = sprintf('Failed to write contents to %s', $key);
+            throw new Magento_Filesystem_Exception($message);
         }
         return true;
     }
@@ -67,7 +69,8 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @rename($source, $target);
         if (!$result) {
-            throw new Magento_Filesystem_Exception('Unable to rename file');
+            $message = sprintf('Failed to rename %s to %s', $source, $target);
+            throw new Magento_Filesystem_Exception($message);
         }
         return true;
     }
@@ -84,7 +87,8 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @copy($source, $target);
         if (!$result) {
-            throw new Magento_Filesystem_Exception('Unable to copy file');
+            $message = sprintf('Failed to copy %s to %s', $source, $target);
+            throw new Magento_Filesystem_Exception($message);
         }
         return true;
     }
@@ -100,7 +104,8 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $hash = @md5_file($key);
         if (false === $hash) {
-            throw new Magento_Filesystem_Exception('Unable to get file hash');
+            $message = sprintf('Failed to get hash of %s', $key);
+            throw new Magento_Filesystem_Exception($message);
         }
         return $hash;
     }
@@ -226,7 +231,8 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @glob($pattern);
         if (false === $result) {
-            throw new Magento_Filesystem_Exception('Unable to resolve the file pattern');
+            $message = sprintf('Failed to resolve the file pattern %s', $pattern);
+            throw new Magento_Filesystem_Exception($message);
         }
         return $result;
     }
@@ -319,7 +325,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $mtime = @filemtime($key);
         if (false === $mtime) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to get modification time %s', $key));
+            throw new Magento_Filesystem_Exception(sprintf('Failed to get modification time of %s', $key));
         }
         return $mtime;
     }
@@ -335,7 +341,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $size = @filesize($key);
         if (false === $size) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to get file size %s', $key));
+            throw new Magento_Filesystem_Exception(sprintf('Failed to get file size of %s', $key));
         }
         return $size;
     }
