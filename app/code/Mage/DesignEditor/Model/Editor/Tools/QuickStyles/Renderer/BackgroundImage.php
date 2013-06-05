@@ -27,8 +27,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage
     {
         $override = "none";
 
-        if (!empty($data['value']))
-        {
+        if (!empty($data['value'])) {
             $override = "url('{$data['value']}')";
         }
 
