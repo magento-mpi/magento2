@@ -39,7 +39,7 @@ log_in_to_admin:
             wrong_email: //li[normalize-space(@class)='error-msg' and contains(.,'Cannot find the email address.')]
             password_sent: //li[normalize-space(@class)='success-msg' and contains(.,'A new password was sent to your email address. Please check your email and click Back to Login.')]
             retrieve_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
-            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
             forgot_password_invalid_email: //div/label[@class='mage-error' and text()='Please enter a valid email address (for example, johndoe@domain.com.).']
             success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
 

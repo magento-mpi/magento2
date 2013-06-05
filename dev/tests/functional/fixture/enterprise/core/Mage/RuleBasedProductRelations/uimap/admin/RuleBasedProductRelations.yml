@@ -39,8 +39,8 @@ manage_product_rules:
         buttons:
             add_rule: //button[span='Add Rule']
         messages:
-            success_create_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
-            success_delete_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
+            success_create_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rule.')]
+            success_delete_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rule.')]
 
 #Create Product Rules page
 create_product_rule:

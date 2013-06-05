@@ -242,8 +242,8 @@ onepage_checkout:
             zero_payment: //dt[contains(label,'No Payment Information Required')]
             empty_captcha_user_login: //*[@id='advice-required-entry-captcha_user_login']
             empty_captcha_guest_checkout: //*[@id='advice-required-entry-captcha_guest_checkout']
-            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
-            captcha_alert: Incorrect CAPTCHA.
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
+            captcha_alert: Incorrect CAPTCHA
 
 onepage_checkout_success:
     mca: checkout/onepage/success/

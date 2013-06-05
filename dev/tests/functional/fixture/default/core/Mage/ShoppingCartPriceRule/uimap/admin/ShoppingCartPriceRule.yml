@@ -42,8 +42,8 @@ manage_shopping_cart_price_rules:
         buttons:
             add_new_rule: //button[span='Add New Rule']
         messages: &ruleMessages
-            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
-            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
+            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rule.')]
+            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rule.')]
             error_coupon_code_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Coupon with the same code already exists.')]
             empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             enter_valid_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"

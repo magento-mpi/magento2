@@ -65,7 +65,7 @@ my_wishlist:
             required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
             specify_product_config_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product's option(s).")]
             specify_product_link: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify product link(s).")]
-            specify_product_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please select options for product.")]
+            specify_product_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please select options for the product.")]
             specify_product_quantity: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the quantity of product(s).")]
             specify_product_required_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product's required option(s).")]
         links:

@@ -40,8 +40,8 @@ manage_rma_items_attribute:
         buttons:
             add_new_attribute: //button[span='Add New Attribute']
         messages:
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The RMA item attribute has been saved.')]
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The RMA item attribute has been deleted.')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the RMA item attribute.')]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the RMA attribute.')]
 
 #New RMA Item Attribute page
 new_rma_item_attribute:
