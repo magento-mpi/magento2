@@ -33,6 +33,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $productAttributes = $this->loadDataSet('ProductAttribute', 'product_attributes_for_changing_template');
         $productAttributes['assignedAttribute'] = $this->loadDataSet('ProductAttribute',
             'product_attribute_dropdown_with_options');
+        $assignedCode = $productAttributes['assignedAttribute']['advanced_attribute_properties']['attribute_code'];
         $groupName = $this->generate('string', 5, ':lower:') . '_test_group';
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
         $attributeCodes = array();
@@ -42,9 +43,10 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
             $this->productAttributeHelper()->createAttribute($attribute);
             $this->assertMessagePresent('success', 'success_saved_attribute');
             if ($name == 'assignedAttribute') {
-                $attributeSet['associated_attributes']['Product Details'] = $attribute['attribute_code'];
+                $attributeSet['associated_attributes']['Product Details'] =
+                    $attribute['advanced_attribute_properties']['attribute_code'];
             } else {
-                $attributeCodes[] = $attribute['attribute_code'];
+                $attributeCodes[] = $attribute['advanced_attribute_properties']['attribute_code'];
             }
         }
         //Create attribute set
@@ -55,7 +57,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
 
         return array(
             'attributeSetName' => $attributeSet['set_name'],
-            'assignedAttribute' => $productAttributes['assignedAttribute']['attribute_code'],
+            'assignedAttribute' => $assignedCode,
             'tabName' => $groupName,
             'attributeCodes' => $attributeCodes,
         );
@@ -270,7 +272,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Data
         $product = $this->loadDataSet('Product', 'simple_product_required',
             array('product_attribute_set' => $attributeSetData['attributeSetName']));
-        $attribute = array('values_required' => 'Yes');
+        $attribute = array('attribute_properties' => array('values_required' => 'Yes'));
         //Preconditions
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->editAttribute($attributeSetData['assignedAttribute'], $attribute);

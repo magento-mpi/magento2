@@ -2406,7 +2406,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         //Create product
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $attrCode = $attrData['attribute_code'];
+        $attrCode = $attrData['advanced_attribute_properties']['attribute_code'];
         $storeViewOptionsNames = array(
             $attrData['option_1']['store_view_titles']['Default Store View'],
             $attrData['option_2']['store_view_titles']['Default Store View'],
@@ -2423,7 +2423,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_categories' => $returnCategory['path']),
             array(
-                 'general_attribute_1' => $attrData['attribute_label'],
+                 'general_attribute_1' => $attrData['attribute_properties']['attribute_label'],
                  'associated_3'        => $download['general_sku'],
                  'var1_attr_value1'    => $adminOptionsNames[0],
                  'var1_attr_value2'    => $adminOptionsNames[1],
@@ -2474,11 +2474,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'option_front' => $storeViewOptionsNames[2]
             ),
             'configurableOption' => array(
-                'title' => $attrData['attribute_label'],
+                'title' => $attrData['attribute_properties']['attribute_label'],
                 'custom_option_dropdown' => $storeViewOptionsNames[0]
             ),
             'attribute'          => array(
-                'title'       => $attrData['attribute_label'],
+                'title'       => $attrData['attribute_properties']['attribute_label'],
                 'title_front' => $attrData['store_view_titles']['Default Store View'],
                 'code'        => $attrCode
             ),

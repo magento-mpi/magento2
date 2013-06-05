@@ -45,9 +45,9 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
     {
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $attrCode = $attrData['attribute_code'];
+        $attrCode = $attrData['advanced_attribute_properties']['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['advanced_attribute_properties']['attribute_code']));
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
@@ -62,7 +62,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
             ));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order', null,
             array(
-                'general_attribute_1' => $attrData['attribute_label'],
+                'general_attribute_1' => $attrData['attribute_properties']['attribute_label'],
                 'associated_3' => $download['general_sku'],
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
@@ -114,7 +114,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
             'configurable_sku' => $configurable['general_sku'],
             'grouped_name' => $grouped['general_name'],
             'grouped_sku' => $grouped['general_sku'],
-            'title' => $attrData['attribute_label']
+            'title' => $attrData['attribute_properties']['attribute_label']
         );
     }
 

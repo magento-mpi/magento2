@@ -109,7 +109,7 @@ class Enterprise_Mage_Rma_FrontendCreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @depends preconditionsForTests
-     * @depends enableRMA
+     * @depends enableRma
      * @test
      * @TestlinkId TL-MAGE-6008
      */
@@ -140,7 +140,7 @@ class Enterprise_Mage_Rma_FrontendCreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @depends preconditionsForTests
-     * @depends enableRMA
+     * @depends enableRma
      * @test
      * @TestlinkId TL-MAGE-6009
      */
@@ -172,7 +172,7 @@ class Enterprise_Mage_Rma_FrontendCreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @depends preconditionsForTests
-     * @depends enableRMA
+     * @depends enableRma
      * @test
      * @TestlinkId TL-MAGE-6010
      */
@@ -206,7 +206,7 @@ class Enterprise_Mage_Rma_FrontendCreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @depends preconditionsForTests
-     * @depends enableRMA
+     * @depends enableRma
      * @test
      * @TestlinkId TL-MAGE-6011
      */
@@ -245,7 +245,7 @@ class Enterprise_Mage_Rma_FrontendCreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @depends preconditionsForTests
-     * @depends enableRMA
+     * @depends enableRma
      * @test
      * @TestlinkId TL-MAGE-6012
      */
@@ -287,7 +287,7 @@ class Enterprise_Mage_Rma_FrontendCreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @depends preconditionsForTests
-     * @depends enableRMA
+     * @depends enableRma
      * @test
      * @TestlinkId TL-MAGE-6053
      */

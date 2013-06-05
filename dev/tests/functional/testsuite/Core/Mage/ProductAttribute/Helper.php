@@ -67,23 +67,31 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $this->setCurrentPage('new_product_attribute_from_product_page');
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'attribute_properties');
 
-        //Dirty hack (waiting for UI redesign MAGETWO-10046)
-        $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'frontend_properties_section', false);
-        $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'manage_titles_section', false);
-        $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'advanced_attribute_properties_section', false);
-
-        $this->fillForm($attrData);
+        $this->fillForm($attrData['attribute_properties']);
         $this->fillManageOptions($attrData);
+        if (isset($attrData['advanced_attribute_properties'])) {
+            if (!$this->isControlExpanded(self::FIELD_TYPE_PAGEELEMENT, 'advanced_attribute_properties_section')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'advanced_attribute_properties_section', false);
+            }
+            $this->fillForm($attrData['advanced_attribute_properties']);
+        }
         if (isset($attrData['store_view_titles'])) {
+            if (!$this->isControlExpanded(self::FIELD_TYPE_PAGEELEMENT, 'manage_titles_section')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'manage_titles_section', false);
+            }
             $this->storeViewTitles($attrData);
         }
         if (isset($attrData['frontend_properties'])) {
+            if (!$this->isControlExpanded(self::FIELD_TYPE_PAGEELEMENT, 'frontend_properties_section')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'frontend_properties_section', false);
+            }
             $this->fillForm($attrData['frontend_properties']);
         }
 
         $waitCondition = $this->getBasicXpathMessagesExcludeCurrent(array('error', 'validation'));
-        if (isset($attrData['attribute_code'])) {
-            $this->addParameter('elementId', 'attribute-' . $attrData['attribute_code'] . '-container');
+        if (isset($attrData['advanced_attribute_properties']['attribute_code'])) {
+            $this->addParameter('elementId',
+                'attribute-' . $attrData['advanced_attribute_properties']['attribute_code'] . '-container');
             $waitCondition[] = $this->_getControlXpath('pageelement', 'element_by_id');
         }
         $this->clickButton($saveButton, false);
@@ -129,11 +137,16 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillAttributeTabs(array $attributeData)
     {
-        if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties')) {
-            $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties', false);
+        if (isset($attributeData['attribute_properties'])) {
+            $this->fillTab($attributeData['attribute_properties'], 'properties', false);
         }
-        $this->fillTab($attributeData, 'properties', false);
         $this->fillManageOptions($attributeData);
+        if (isset($attributeData['advanced_attribute_properties'])) {
+            if(!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties')) {
+                $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties', false);
+            }
+            $this->fillTab($attributeData['advanced_attribute_properties'], 'properties', false);
+        }
         if (isset($attributeData['store_view_titles'])) {
             $this->openTab('manage_labels_options');
             $this->storeViewTitles($attributeData);
@@ -234,7 +247,6 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyAttribute($attrData)
     {
-        $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->getParsedMessages());
         if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties')) {
             $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties', false);
         }
@@ -335,9 +347,10 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function processAttributeValue(array $attributeData, $isCheck = true)
     {
         $options = array();
-        $this->openTab('manage_labels_options');
+        $this->openTab('properties');
         if ($isCheck) {
-            $optionCount = $this->getControlCount('pageelement', 'option_line');
+            $optionLines = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'manage_options_option');
+            $optionCount = count($optionLines);
             $identifier = 0;
             foreach ($attributeData as $key => $value) {
                 if ($this->_hasOptions($key, $value, $optionCount)) {
@@ -348,7 +361,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
             }
             $locator = "//input[@class='input-text required-option' and @disabled='disabled']";
             /** @var PHPUnit_Extensions_Selenium2TestCase_Element $optionLine */
-            foreach ($this->getControlElements('pageelement', 'option_line') as $key => $optionLine) {
+            foreach ($optionLines as $key => $optionLine) {
                 $admin = $this->getChildElement($optionLine, $locator);
                 $currentValue = trim($admin->value());
                 if (!isset($options[$key]) || !isset($options[$key]['admin_option_name'])) {
@@ -363,6 +376,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
             }
             if (isset($attributeData['default_value'])) {
                 $this->addParameter('optionName', $attributeData['default_value']);
+                $this->fillCheckbox('default_value_by_option_name', 'Yes');
                 if (!$this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue')) {
                     $this->addVerificationMessage($attributeData['default_value'] . ' is not set as default value');
                 }

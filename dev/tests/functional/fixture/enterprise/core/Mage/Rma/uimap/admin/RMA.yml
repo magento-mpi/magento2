@@ -87,7 +87,7 @@ new_rma_item_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
+                                    xpath: //*[@id='manage-titles-wrapper']
                                     fields:
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                             -

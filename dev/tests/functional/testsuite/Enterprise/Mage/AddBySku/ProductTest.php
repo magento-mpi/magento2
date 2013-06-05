@@ -76,7 +76,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $attrCode = $attrData['attribute_code'];
+        $attrCode = $attrData['advanced_attribute_properties']['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('Product Details' => $attrCode));
         //Steps
@@ -123,13 +123,14 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
      */
     protected function _createSimpleProduct($customOptionsReq, $customOptionsNReq, $website, $category, $attrData)
     {
+        $attributeCode = $attrData['advanced_attribute_properties']['attribute_code'];
         $simpleProducts = array();
         $simpleProducts['simple'] = $this->loadDataSet('Product', 'simple_sku');
-        $simpleProducts['simple']['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+        $simpleProducts['simple']['general_user_attr']['dropdown'][$attributeCode] =
             $attrData['option_1']['admin_option_name'];
         $simpleProducts['simpleWithBackorders'] = $this->loadDataSet('Product', 'simple_sku',
             array('inventory_backorders_default' => 'No', 'inventory_backorders' => 'Allow Qty Below 0'));
-        $simpleProducts['simpleWithBackorders']['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+        $simpleProducts['simpleWithBackorders']['general_user_attr']['dropdown'][$attributeCode] =
             $attrData['option_2']['admin_option_name'];
         $simpleProducts['simpleDisabled'] = $this->loadDataSet('Product', 'simple_sku',
             array('product_online_status' => 'Disabled'));
@@ -274,7 +275,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $configurable = $this->loadDataSet('Product', 'configurable_product_required', null,
             array(
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
-                'general_attribute_1' => $attrData['attribute_label']
+                'general_attribute_1' => $attrData['attribute_properties']['attribute_label']
             )
         );
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -327,7 +328,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             'Options' => array(
                 'option_1' => array(
                     'parameters' => array(
-                        'title' => $attrData['attribute_label']),
+                        'title' => $attrData['attribute_properties']['attribute_label']),
                     'options_to_choose' => array(
                         'custom_option_dropdown' => $attrData['option_1']['store_view_titles']['Default Store View']
                     )
@@ -335,7 +336,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             ),
             'Options_backend' => array(
                 'option_1' => array(
-                    'title' => $attrData['attribute_label'],
+                    'title' => $attrData['attribute_properties']['attribute_label'],
                     'field_dropdown' => array(
                         'fieldType' => 'dropdown',
                         'fieldsValue' => $attrData['option_1']['admin_option_name']

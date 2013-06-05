@@ -49,7 +49,7 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
         //Data. Creating attribute for Configurable product
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['advanced_attribute_properties']['attribute_code']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -62,7 +62,8 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
         $this->saveForm('save_attribute_set');
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $processedGroupNames['general_configurable_attribute_title'] = $attrData['attribute_label'];
+        $processedGroupNames['general_configurable_attribute_title'] =
+            $attrData['attribute_properties']['attribute_label'];
         $processedGroupNames['attribute_option_name'] = $attrData['option_1']['admin_option_name'];
 
         return $processedGroupNames;

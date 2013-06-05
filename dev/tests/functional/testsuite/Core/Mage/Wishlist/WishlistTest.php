@@ -41,9 +41,9 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $attrCode = $attrData['attribute_code'];
+        $attrCode = $attrData['advanced_attribute_properties']['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['advanced_attribute_properties']['attribute_code']));
         $productCat = array('general_categories' => $catPath);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
@@ -58,7 +58,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_categories' => $catPath),
             array(
-                'general_attribute_1' => $attrData['attribute_label'],
+                'general_attribute_1' => $attrData['attribute_properties']['attribute_label'],
                 'associated_3' => $download['general_sku'],
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
@@ -126,7 +126,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
                 'downloadable_opt' => $downloadWithOption['general_name']
             ),
             'configurableOption' => array(
-                'title' => $attrData['attribute_label'],
+                'title' => $attrData['attribute_properties']['attribute_label'],
                 'custom_option_dropdown' => $configurOptName
             ),
             'groupedOption' => array(
@@ -146,7 +146,8 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
             ),
             'withCustomOption' => $simpleWithCO['general_name'],
             'catName' => $category['name'],
-            'catPath' => $catPath);
+            'catPath' => $catPath
+        );
     }
 
     /**

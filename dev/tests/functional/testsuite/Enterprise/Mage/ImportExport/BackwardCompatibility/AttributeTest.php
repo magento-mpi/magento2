@@ -21,7 +21,6 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->navigate('export');
     }
 
     /**
@@ -47,10 +46,10 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Steps 6-7
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying
-        $this->importExportHelper()->customerFilterAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code']));
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code']),
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
@@ -74,13 +73,16 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         $this->navigate('manage_customer_attributes');
         //Step 2
         $this->attributesHelper()->openAttribute(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
-        );
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
         //Step 3
-        $attrData['manage_labels_options']['attribute_label'] = 'Text_Field_Admin_'
+        $attrData['attribute_properties']['attribute_label'] = 'Text_Field_Admin_'
             . $this->generate('string', 5, ':lower:');
         $this->attributesHelper()->fillTabs(
-            array('manage_labels_options' => $attrData['manage_labels_options'])
+            array(
+                 'attribute_properties' => array(
+                     'attribute_label' => $attrData['attribute_properties']['attribute_label']
+                 )
+            )
         );
         //Step 4
         $this->attributesHelper()->saveForm('save_attribute');
@@ -92,11 +94,11 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Verifying
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
-                'attribute_label' => $attrData['manage_labels_options']['attribute_label']
+                'attribute_label' => $attrData['attribute_properties']['attribute_label']
             )
         );
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code']),
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
@@ -120,7 +122,7 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         $this->navigate('manage_customer_attributes');
         //Step 2
         $this->attributesHelper()->openAttribute(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
+            array('attribute_code'=>$attrData['attribute_properties']['attribute_code'])
         );
         //Step 3
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
@@ -130,11 +132,10 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Steps 5
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying
-        $this->importExportHelper()->customerFilterAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
-        );
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code']),
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNull($isFound, 'Attribute was found after deleting');
@@ -162,11 +163,10 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Step 6
         $this->importExportHelper()->chooseExportOptions('Products');
         //Verifying
-        $this->importExportHelper()->customerFilterAttributes(
-            array('attribute_code' => $attrData['attribute_code'])
-        );
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['attribute_code']),
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']));
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
@@ -174,12 +174,17 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         $this->navigate('manage_attributes');
         //Step 8
         $this->productAttributeHelper()->openAttribute(
-            array('attribute_code' => $attrData['attribute_code'])
+            array('attribute_code'=>$attrData['advanced_attribute_properties']['attribute_code'])
         );
         //Step 9
-        $attrData['properties']['attribute_label'] = 'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
+        $attrData['attribute_properties']['attribute_label'] = 'Text_Field_Admin_'
+            . $this->generate('string', 5, ':lower:');
         $this->attributesHelper()->fillTabs(
-            array('manage_labels_options' => $attrData['manage_labels_options'])
+            array(
+                 'attribute_properties' => array(
+                     'attribute_label' => $attrData['attribute_properties']['attribute_label']
+                 )
+            )
         );
         //Step 10
         $this->attributesHelper()->saveForm('save_attribute');
@@ -190,14 +195,10 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         $this->importExportHelper()->chooseExportOptions('Products');
         //Verifying
         $this->ImportExportHelper()->customerFilterAttributes(
-            array(
-                'attribute_label' => $attrData['manage_labels_options']['attribute_label'],
-            )
+            array('attribute_label' => $attrData['attribute_properties']['attribute_label'])
         );
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_label' => $attrData['manage_labels_options']['attribute_label'],
-            ),
+            array('attribute_label' => $attrData['attribute_properties']['attribute_label']),
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
@@ -205,8 +206,7 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         $this->navigate('manage_attributes');
         //Step 14
         $this->productAttributeHelper()->openAttribute(
-            array('attribute_code' => $attrData['attribute_code'])
-        );
+            array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']));
         //Step 15
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         $this->assertMessagePresent('success', 'success_deleted_attribute');
@@ -217,11 +217,11 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Verifying
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
-                'attribute_label' => $attrData['manage_labels_options']['attribute_label'],
+                'attribute_label' => $attrData['attribute_properties']['attribute_label'],
             )
         );
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['attribute_code']),
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNull($isFound, 'Attribute was found after deletion');

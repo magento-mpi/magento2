@@ -25,15 +25,17 @@ attribute_search_data:
 # Test Datasets for Add New TextField type Product Attribute
 product_attribute_textfield: &productAttributeTextfield
 # Attribute Properties:
-    attribute_label: Text_Field_Admin_%randomize%
-    catalog_input_type_for_store_owner: Text Field
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Text_Field_Admin_%randomize%
+        catalog_input_type_for_store_owner: Text Field
+        values_required: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_textfield_%randomize%
-    scope: %noValue%
-    default_text_field_value: %noValue%
-    unique_value: %noValue%
-    input_validation_for_store_owner: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_textfield_%randomize%
+        scope: %noValue%
+        default_text_field_value: %noValue%
+        unique_value: %noValue%
+        input_validation_for_store_owner: %noValue%
 # Manage Labels:
     store_view_titles:
         Default Store View: Text_Field_StoreView
@@ -51,14 +53,16 @@ product_attribute_textfield: &productAttributeTextfield
 # Test Datasets for Add New TextArea type Product Attribute
 product_attribute_textarea: &productAttributeTextarea
 # Attribute Properties:
-    attribute_label: Text_Area_Admin_%randomize%
-    catalog_input_type_for_store_owner: Text Area
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Text_Area_Admin_%randomize%
+        catalog_input_type_for_store_owner: Text Area
+        values_required: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_textarea_%randomize%
-    scope: %noValue%
-    default_text_area_value: %noValue%
-    unique_value: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_textarea_%randomize%
+        scope: %noValue%
+        default_text_area_value: %noValue%
+        unique_value: %noValue%
 # Manage Labels:
     store_view_titles:
         Default Store View: Text_Area_StoreView
@@ -76,14 +80,16 @@ product_attribute_textarea: &productAttributeTextarea
 # Test Datasets for Add New Date type Product Attribute
 product_attribute_date: &productAttributeDate
 # Attribute Properties:
-    attribute_label: Date_Admin_%randomize%
-    catalog_input_type_for_store_owner: Date
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Date_Admin_%randomize%
+        catalog_input_type_for_store_owner: Date
+        values_required: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_date_%randomize%
-    scope: %noValue%
-    default_date_value: %noValue%
-    unique_value: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_date_%randomize%
+        scope: %noValue%
+        default_date_value: %noValue%
+        unique_value: %noValue%
 # Manage Labels:
     store_view_titles:
         Default Store View: Date_Store_View
@@ -100,14 +106,16 @@ product_attribute_date: &productAttributeDate
 # Test Datasets for Add New Yes/No type Product Attribute
 product_attribute_yesno: &productAttributeYesno
 # Attribute Properties:
-    attribute_label: Yes/No_Admin_%randomize%
-    catalog_input_type_for_store_owner: Yes/No
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Yes/No_Admin_%randomize%
+        catalog_input_type_for_store_owner: Yes/No
+        values_required: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_yesno_%randomize%
-    scope: %noValue%
-    default_yesno_value: %noValue%
-    unique_value: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_yesno_%randomize%
+        scope: %noValue%
+        default_yesno_value: %noValue%
+        unique_value: %noValue%
 # Manage Labels:
     store_view_titles:
         Default Store View: Yes/No_StoreView
@@ -124,13 +132,15 @@ product_attribute_yesno: &productAttributeYesno
 # Test Datasets for Add New MultipleSelect type Product Attribute
 product_attribute_multiselect: &productAttributeMultiselect
 # Attribute Properties:
-    attribute_label: Multiple_Select_Admin_%randomize%
-    catalog_input_type_for_store_owner: Multiple Select
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Multiple_Select_Admin_%randomize%
+        catalog_input_type_for_store_owner: Multiple Select
+        values_required: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_multiselect_%randomize%
-    scope: %noValue%
-    unique_value: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_multiselect_%randomize%
+        scope: %noValue%
+        unique_value: %noValue%
 # Frontend Properties:
     frontend_properties:
         use_in_quick_search: Yes
@@ -145,9 +155,10 @@ product_attribute_multiselect: &productAttributeMultiselect
 
 product_attribute_multiselect_with_options: &productAttributeMultiselectWithOptions
 # Attribute Properties:
-    attribute_label: Multiple_Select_%randomize%
-    catalog_input_type_for_store_owner: Multiple Select
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Multiple_Select_%randomize%
+        catalog_input_type_for_store_owner: Multiple Select
+        values_required: %noValue%
 # Manage Options
     option_1:
         is_default: No
@@ -171,9 +182,10 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
             Default Store View: MultipleSelect_3_StoreView
         delete_option: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_multiselect_%randomize%
-    scope: %noValue%
-    unique_value: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_multiselect_%randomize%
+        scope: %noValue%
+        unique_value: %noValue%
 # Manage Labels:
     store_view_titles:
         Default Store View: Multiple_Select_Storeview
@@ -192,14 +204,16 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
 # Test Datasets for Add New Dropdown type Product Attribute
 product_attribute_dropdown: &productAttributeDropdown
 # Attribute Properties:
-    attribute_label: Dropdown_Admin_%randomize%
-    catalog_input_type_for_store_owner: Dropdown
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Dropdown_Admin_%randomize%
+        catalog_input_type_for_store_owner: Dropdown
+        values_required: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_dropdown_%randomize%
-    scope: Store View
-    unique_value: %noValue%
-    use_to_create_configurable_product: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_dropdown_%randomize%
+        scope: Store View
+        unique_value: %noValue%
+        use_to_create_configurable_product: %noValue%
 # Frontend Properties:
     frontend_properties:
         use_in_quick_search: Yes
@@ -215,9 +229,10 @@ product_attribute_dropdown: &productAttributeDropdown
 
 product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
 # Attribute Properties:
-    attribute_label: Dropdown_Admin_%randomize%
-    catalog_input_type_for_store_owner: Dropdown
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Dropdown_Admin_%randomize%
+        catalog_input_type_for_store_owner: Dropdown
+        values_required: %noValue%
 # Manage Options
     option_1:
         is_default: No
@@ -241,10 +256,11 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
             Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_dropdown_%randomize%
-    scope: Global
-    unique_value: %noValue%
-    use_to_create_configurable_product: Yes
+    advanced_attribute_properties:
+        attribute_code: attr_dropdown_%randomize%
+        scope: Global
+        unique_value: %noValue%
+        use_to_create_configurable_product: Yes
 # Manage Label
     store_view_titles:
         Default Store View: Dropdown_StoreView
@@ -264,13 +280,15 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
 # Test Datasets for Add New Price type Product Attribute
 product_attribute_price: &productAttributePrice
 # Attribute Properties:
-    attribute_label: Price_Admin_%randomize%
-    catalog_input_type_for_store_owner: Price
-    values_required: %noValue%
+    attribute_properties:
+        attribute_label: Price_Admin_%randomize%
+        catalog_input_type_for_store_owner: Price
+        values_required: %noValue%
 # Advanced Attribute Properties:
-    attribute_code: attr_price_%randomize%
-    default_price_value: %noValue%
-    unique_value: %noValue%
+    advanced_attribute_properties:
+        attribute_code: attr_price_%randomize%
+        default_price_value: %noValue%
+        unique_value: %noValue%
 # Manage Labels:
     store_view_titles:
         Default Store View: Price_StoreView
@@ -290,10 +308,12 @@ product_attribute_price: &productAttributePrice
 # Test Datasets for Add New FixedProductTax type Product Attribute
 product_attribute_fpt: &productAttributeFpt
 # Attribute Properties:
-    attribute_label: Fixed_Product_Tax_Admin_%randomize%
-    catalog_input_type_for_store_owner: Fixed Product Tax
+    attribute_properties:
+        attribute_label: Fixed_Product_Tax_Admin_%randomize%
+        catalog_input_type_for_store_owner: Fixed Product Tax
 # Advanced Attribute Properties:
-    attribute_code: attr_fpt_code_%randomize%
+    advanced_attribute_properties:
+        attribute_code: attr_fpt_code_%randomize%
 # Manage Labels:
     store_view_titles:
         Default Store View: Fixed_Product_Tax_Storeview

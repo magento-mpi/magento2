@@ -157,10 +157,10 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_textarea',
             array('attribute_label' => $this->generate('string', 32, ':punct:')));
-        $attrData['properties']['attribute_label'] = preg_replace('/<|>/', '',
-            $attrData['properties']['attribute_label']);
+        $attrData['attribute_properties']['attribute_label'] =
+            preg_replace('/<|>/', '', $attrData['attribute_properties']['attribute_label']);
         $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
-            array('attribute_code' => $attrData['properties']['attribute_code']));
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
@@ -185,8 +185,8 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_TextAreaTest extends M
             array('attribute_code'  => $this->generate('string', 21, ':lower:'),
                   'attribute_label' => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
-            array('attribute_code'  => $attrData['properties']['attribute_code'],
-                  'attribute_label' => $attrData['properties']['attribute_label']));
+            array('attribute_code'  => $attrData['attribute_properties']['attribute_code'],
+                  'attribute_label' => $attrData['attribute_properties']['attribute_label']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying

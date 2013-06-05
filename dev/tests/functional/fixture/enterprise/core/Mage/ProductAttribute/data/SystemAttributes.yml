@@ -10,8 +10,10 @@
 ---
 # System attribute options
 custom_design:
-    attribute_code: custom_design
-    admin_title: Custom Design
+    attribute_properties:
+        admin_title: Custom Design
+    advanced_attribute_properties:
+        attribute_code: custom_design
     option_1:
         admin_option_name: '-- Please Select --'
     option_2:
@@ -32,8 +34,10 @@ custom_design:
     set_default_value: Magento Fixed Design
 
 allow_open_amount:
-    attribute_code: allow_open_amount
-    attribute_label: Allow Open Amount
+    attribute_properties:
+        attribute_label: Allow Open Amount
+    advanced_attribute_properties:
+        attribute_code: allow_open_amount
     option_1:
         admin_option_name: No
     option_2:
@@ -42,8 +46,10 @@ allow_open_amount:
     set_default_value: Yes
 
 gift_wrapping_available:
-    attribute_code: gift_wrapping_available
-    attribute_label: Allow Gift Wrapping
+    attribute_properties:
+        attribute_label: Allow Gift Wrapping
+    advanced_attribute_properties:
+        attribute_code: gift_wrapping_available
     option_1:
         admin_option_name: Yes
     option_2:
@@ -52,8 +58,10 @@ gift_wrapping_available:
     set_default_value: Yes
 
 is_returnable:
-    attribute_code: is_returnable
-    attribute_label: Enable RMA
+    attribute_properties:
+        attribute_label: Enable RMA
+    advanced_attribute_properties:
+        attribute_code: is_returnable
     option_1:
         admin_option_name: Yes
     option_2:

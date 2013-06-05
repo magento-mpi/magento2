@@ -22,8 +22,8 @@ orders_and_returns:
                         fields:
                             order_id: //*[@id='oar-order-id']
                             billing_last_name: //*[@id='oar-billing-lastname']
-                            email: //*[@id='oar_email']
-                            zip: //*[@id='oar_zip']
+                            email: //*[@id='oar-email']
+                            zip: //*[@id='oar-zip']
                         dropdowns:
                             search_type_id: //*[@id='quick-search-type-id']
                         buttons:

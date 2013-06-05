@@ -82,9 +82,10 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
+        $this->attributesHelper()->openAttribute(
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
         //Verifying
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 
     /**
@@ -102,9 +103,10 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
+        $this->attributesHelper()->openAttribute(
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
         //Verifying
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 
     /**
