@@ -12,6 +12,8 @@ class Saas_Mage_Category_Helper extends Core_Mage_Category_Helper
     /**
      * OpenCategory
      *
+     * WARNING: ONLY for visible(in menu) categories
+     *
      * @param string $categoryPath
      */
     public function frontOpenCategory($categoryPath)
