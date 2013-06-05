@@ -207,7 +207,7 @@ create_order_for_new_customer_sku:
             sku_not_found: //*[@class='notice']//div[contains(.,'SKU not found in catalog.')]
             specify_option: //*[@class='notice']//div[contains(.,"Please specify the product's options.")]
             required_attention_product: //*[@class='icon-head'][contains(.,'%number% product(s) require attention.')]
-            disabled_product: //*[@class='error']//div[contains(.,'This product is currently disabled.')]
+            disabled_product: //*[@class='error']//div[contains(.,'This product is disabled.')]
             out_of_stock: //*[@class='error']//div[contains(.,'This product is out of stock.')]
             qty_increment: //*[@class='error' and contains(.,'You can buy this product only in increments of %qty%.')]
             qty_not_available: //*[@class='notice' and contains(.,'We don't have as many "%productName%" as you requested.')]
