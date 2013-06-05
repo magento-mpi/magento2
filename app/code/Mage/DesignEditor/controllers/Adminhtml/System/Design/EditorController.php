@@ -219,14 +219,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Simple Theme preview
-     */
-    public function previewAction()
-    {
-        $this->launchAction();
-    }
-
-    /**
      * Apply changes from 'staging' theme to 'virtual' theme
      */
     public function saveAction()
