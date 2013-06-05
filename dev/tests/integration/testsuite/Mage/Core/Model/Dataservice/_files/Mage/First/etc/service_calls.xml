@@ -8,7 +8,7 @@
  */
 -->
 <service_calls>
-        <service_call name="first_name" service="first_service" method="first_method">
+        <service_call name="alias" service="first_service" method="first_method">
             <arg name="first_arg">first_value</arg>
             <arg name="first_arg_two">first_value_two</arg>
         </service_call>

@@ -20,9 +20,12 @@ class Mage_Core_Model_Dataservice_Config_ReaderTest extends PHPUnit_Framework_Te
     /** @var PHPUnit_Framework_MockObject_MockObject  */
     private $_cacheTypes;
 
+    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    private $_configLoader;
+
     public function setup()
     {
-        $this->_modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
+        $this->_modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Loader_Modules_File')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -30,8 +33,22 @@ class Mage_Core_Model_Dataservice_Config_ReaderTest extends PHPUnit_Framework_Te
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_configReader =
-            new Mage_Core_Model_Dataservice_Config_Reader($this->_modulesReaderMock, $this->_cacheTypes);
+        $this->_configLoader = $this->getMockBuilder('Mage_Core_Model_Dataservice_Config_Loader')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $config = $this->getMockBuilder('Mage_Core_Model_Config_Base')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_configLoader->expects($this->any())
+            ->method('getModulesConfig')
+            ->will($this->returnValue($config));
+
+        $this->_configReader = new Mage_Core_Model_Dataservice_Config_Reader(
+                $this->_modulesReaderMock,
+                $this->_cacheTypes,
+                $this->_configLoader
+            );
     }
 
     public function testGetServiceCallConfigCaching()

@@ -16,24 +16,31 @@ class Mage_Core_Model_Dataservice_Config_Reader
 
     const ELEMENT_CLASS = 'Varien_Simplexml_Element';
 
-    /** @var Mage_Core_Model_Config_Modules_Reader  */
-    protected $_moduleReader;
+    /** @var Mage_Core_Model_Config_Loader_Modules_File  */
+    protected $_fileReader;
 
     /** @var Mage_Core_Model_Cache_Type_Config  */
     protected $_configCacheType;
+
+    /** @var Mage_Core_Model_Dataservice_Config_Loader  */
+    protected $_configLoader;
 
     /** @var Varien_Simplexml_Config config being cached in memory*/
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Dataservice_Config_Loader $configLoader
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules_Reader $moduleReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType
+        Mage_Core_Model_Config_Loader_Modules_File $fileReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_Dataservice_Config_Loader $configLoader
     ) {
-        $this->_moduleReader = $moduleReader;
+        $this->_fileReader = $fileReader;
         $this->_configCacheType = $configCacheType;
+        $this->_configLoader = $configLoader;
         $this->_config = null;
     }
 
@@ -85,8 +92,9 @@ class Mage_Core_Model_Dataservice_Config_Reader
      */
     private function _getServiceCallsFiles()
     {
-        $files = $this->_moduleReader
-            ->getModuleConfigurationFiles(self::FILE_NAME);
+        $modulesConfig = $this->_configLoader->getModulesConfig();
+        $files = $this->_fileReader
+            ->getConfigurationFiles($modulesConfig, self::FILE_NAME);
         return (array)$files;
     }
 
@@ -95,6 +103,6 @@ class Mage_Core_Model_Dataservice_Config_Reader
      */
     public function getSchemaFile()
     {
-        return $this->_moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'service_calls.xsd';
+        return $this->_fileReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'service_calls.xsd';
     }
 }

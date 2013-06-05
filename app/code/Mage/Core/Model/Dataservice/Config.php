@@ -49,7 +49,7 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
         }
 
         /** @var Mage_Core_Model_Config_Element $node */
-        $node = current($nodes);
+        $node = end($nodes);
 
         $methodArguments = array();
         /** @var Mage_Core_Model_Config_Element $child */
