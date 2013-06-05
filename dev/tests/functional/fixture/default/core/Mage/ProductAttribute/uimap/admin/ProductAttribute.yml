@@ -42,9 +42,9 @@ manage_attributes:
         messages: &productAttributeMessages
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             attribute_used_in_configurable: //li[normalize-space(@class)='error-msg' and contains(.,'This attribute is used in configurable products.')]
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been deleted.')]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the product attribute.')]
             exists_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='An attribute with this code already exists.' and not(contains(@style,'display: none;'))]
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been saved.')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the product attribute.')]
             wrong_length_attribute_code:  //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
             invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
             error_invalid_position: //*[@class='mage-error' and @for='position' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]

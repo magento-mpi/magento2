@@ -33,12 +33,12 @@ manage_attribute_sets:
         buttons:
             add_new_set: //button[span='Add New Set' or span='Add New']
         messages: &messages
-            success_attribute_set_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The attribute set has been saved.')]
+            success_attribute_set_saved: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the attribute set.')]
             success_attribute_set_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The attribute set has been removed.')]
-            error_attribute_set_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
+            error_attribute_set_exist: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute set with the "%attributeSetName%" name already exists.')]
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
-            confirmation_for_delete: All products of this set will be deleted! Are you sure you want to delete this attribute set?
-            remove_system_attribute: You cannot remove system attribute from this set.
+            confirmation_for_delete: You are about to delete all products in this set. Are you sure you want to delete this attribute set?
+            remove_system_attribute: You cannot remove system attributes from this set.
             delete_group: This group contains system attributes. Please move system attributes to another group and try again
 
 add_new_attribute_set:

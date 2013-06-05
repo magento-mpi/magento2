@@ -2692,7 +2692,7 @@ system_configuration:
                                 paypal_solutions:
                                     xpath: //div[@class='paypal-payment-notice']
                                     links:
-                                        go_to_paypal_solutions: //a[text()='View PayPal solutions.']
+                                        go_to_paypal_solutions: //a[text()='View PayPal solutions']
                             -
                                 saved_cc:
                                     xpath: //fieldset[@id='payment_ccsave']

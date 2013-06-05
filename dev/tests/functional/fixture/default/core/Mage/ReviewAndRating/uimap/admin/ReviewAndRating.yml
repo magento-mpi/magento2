@@ -127,8 +127,8 @@ manage_all_reviews:
         buttons:
             add_new_review: //button[span='Add New Review']
         messages: &reviewMessages
-            success_saved_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been saved.')]
-            success_deleted_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been deleted')]
+            success_saved_review: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the review.')]
+            success_deleted_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been deleted.')]
             success_deleted_review_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'record(s) have been deleted.')]
             confirmation_for_delete_all: Are you sure?
             confirmation_for_delete: Are you sure you want to do this?

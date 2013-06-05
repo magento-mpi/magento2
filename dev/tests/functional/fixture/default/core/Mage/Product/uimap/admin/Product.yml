@@ -54,10 +54,10 @@ manage_products:
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedProducts% record(s) have been deleted.')]
-            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been deleted.')]
-            success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been duplicated.')]
-            success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been created.')]
-            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]
+            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the product.')]
+            success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'You duplicated the product.')]
+            success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'You created the product.')]
+            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the product.')]
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
             incorrect_sku_length: //*[@class='mage-error' and text()='Maximum length of this field must be equal or less than 64 symbols.']
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
@@ -68,13 +68,13 @@ manage_products:
             select_type_of_option: //*[@class='mage-error' and @for='product_option_%optionId%_type' and contains(., 'Select type of option')]
             confirmation_for_delete: Are you sure?
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
-            success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'TA total of %qtyUpdatedProducts% record(s) have been updated.')]
+            success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyUpdatedProducts% record(s) have been updated.')]
             success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyUpdatedAtrProducts% record(s) were updated')]
             category_name_required: //div[@id='advice-required-entry-new_category_name']
             parent_name_required: //div[@id='advice-required-entry-new_category_parent']
             parent_name_existent: //div[@id='advice-validate-parent-category-new_category_parent']
             attribute_set_html: //*[@class='mage-error' and @for='%fieldId%' and contains(., 'HTML tags are not allowed')]
-            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
+            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute set with the "%attributeSetName%" name already exists.')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/

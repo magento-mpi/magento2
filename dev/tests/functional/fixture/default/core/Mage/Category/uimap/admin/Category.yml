@@ -132,8 +132,8 @@ manage_categories:
             delete_category: //button[span='Delete Category']
         messages:
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
-            success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been saved.')]
-            success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been deleted.')]
+            success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the category.')]
+            success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the category.')]
             confirm_delete: Are you sure you want to delete this category?
 
 edit_manage_categories:

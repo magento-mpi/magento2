@@ -46,8 +46,8 @@ all_tags:
             add_new_tag: //button[span='Add New Tag']
         messages: &tagsMesssages
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
-            success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the tag.')]
-            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the tag.')]
+            success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
+            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedTags% record(s) have been deleted.')]
             error_deleted_tag_has_no_permissions: //li[normalize-space(@class)='error-msg' and contains(.,'Not enough permissions to delete this item.')]
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedTags% record(s) have been updated.')]
