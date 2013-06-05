@@ -27,6 +27,7 @@ class Mage_Checkout_CartControllerTest extends PHPUnit_Framework_TestCase
         $responseMock = $this->getMock('Mage_Core_Controller_Response_Http',
             array('setRedirect'), array(), '', false
         );
+        $responseMock->headersSentThrowsException = false;
         $responseMock->expects($this->once())
             ->method('setRedirect')
             ->with('http://some-url/index.php/checkout/cart/')
