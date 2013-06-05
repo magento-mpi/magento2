@@ -69,6 +69,37 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     }
 
     /**
+     * Get edit button
+     *
+     * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
+     * @return $this
+     */
+    protected function _addEditButtonHtml($themeBlock)
+    {
+        $themeId = $themeBlock->getTheme()->getId();
+
+        /** @var $assignButton Mage_Backend_Block_Widget_Button */
+        $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $assignButton->setData(array(
+            'label' => $this->__('Edit'),
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'themeEdit',
+                        'target' => 'body',
+                        'eventData' => array(
+                            'theme_id' => $themeId
+                        )
+                    ),
+                ),
+            ),
+            'class' => 'action-edit',
+        ));
+
+        $themeBlock->addButton($assignButton);
+    }
+
+    /**
      * Add theme buttons
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock

@@ -74,19 +74,6 @@
             saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>',
             downloadCustomCssUrl: '<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'
         });
-        $(document).ready(function() {
-            var eventData = {
-                elements: {
-                    focus: [
-                        '#vde-tab-custom .action-update',
-                        '#custom_code',
-                        //'#css_file_uploader'        //doesn't works in Chrome
-                    ],
-                    click: ['#css_file_uploader']   //works in Chrome and FF
-                }
-            };
-            $('body').trigger('registerElements', eventData);
-        });
 
         $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
             dataType: 'json',

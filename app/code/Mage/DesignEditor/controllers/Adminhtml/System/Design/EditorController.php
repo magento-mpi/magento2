@@ -66,26 +66,27 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $themeContext->setEditableThemeId($themeId);
         $mode = (string)$this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_NAVIGATION);
         try {
-            $lunchedTheme = $themeContext->getEditableTheme();
-            // We can run design editor with physical theme, but we cannot edit it through fronted
-            $editableTheme = $lunchedTheme->isPhysical() ? $lunchedTheme : $themeContext->getStagingTheme();
+            $launchedTheme = $themeContext->getEditableTheme();
+            if ($launchedTheme->isPhysical()) {
+                $lunchedTheme = $this->_getThemeCustomization($launchedTheme);
+                $this->_redirect($this->getUrl('*/*/*', array('theme_id' => $lunchedTheme->getId())));
+                return;
+            }
+            $editableTheme = $themeContext->getStagingTheme();
 
             $this->_eventManager->dispatch('design_editor_activate');
 
             $this->_setTitle();
             $this->loadLayout();
 
-            $this->_configureToolbarBlocks($lunchedTheme, $editableTheme, $mode); //top panel
+            $this->_configureToolbarBlocks($launchedTheme, $editableTheme, $mode); //top panel
             $this->_configureToolsBlocks($editableTheme, $mode); //bottom panel
             $this->_configureEditorBlock($editableTheme); //editor container
 
-            $redirectOnAssign = $lunchedTheme->isPhysical();
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
             $storeViewBlock->setData(array(
-                'redirectOnAssign' => $redirectOnAssign,
-                'openNewOnAssign'  => false,
-                'theme_id'         => $lunchedTheme->getId()
+                'theme_id' => $editableTheme->getId()
             ));
 
             $this->renderLayout();
@@ -98,33 +99,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         }
-    }
-
-    /**
-     * Create virtual theme action
-     */
-    public function createVirtualThemeAction()
-    {
-        $themeId = (int)$this->getRequest()->getParam('theme_id', false);
-        try {
-            $theme = $this->_loadThemeById($themeId);
-            if (!$theme->isPhysical()) {
-                throw new Mage_Core_Exception($this->__('Theme "%s" cannot be editable.', $theme->getThemeTitle()));
-            }
-            $virtualTheme = $this->_getThemeCustomization($theme);
-            $response = array(
-                'error'         => false,
-                'redirect_url'  => $this->getUrl('*/*/launch', array('theme_id' => $virtualTheme->getId()))
-            );
-        } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addException($e, $e->getMessage());
-            $response = array('error' => true, 'message' => $e->getMessage());
-        } catch (Exception $e) {
-            $errorMessage = $this->__('Unknown error.');
-            $this->_getSession()->addException($e, $errorMessage);
-            $response = array('error' => true, 'message' => $errorMessage);
-        }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**

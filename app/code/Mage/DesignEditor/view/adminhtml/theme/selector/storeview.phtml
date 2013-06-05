@@ -43,14 +43,9 @@
     </form>
 </div>
 
-<div id="dialog-message-confirm">
-    <div class="dialog-message-confirm messages"></div>
-    <p class="confirm_message"></p>
-</div>
-
 <script type="text/javascript">
     (function ($) {
-        $( document ).ready(function() {
+        $(document).ready(function() {
             $('body').themeAssign(<?php echo $this->getOptionsJson(); ?>);
             var options = {
                 autoOpen:    false,
@@ -59,7 +54,6 @@
                 dialogClass: 'vde-dialog'
             };
             $('#dialog-message-assign').dialog(options);
-            $('#dialog-message-confirm').dialog(options);
         });
     })(jQuery);
 </script>

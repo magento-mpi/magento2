@@ -26,18 +26,5 @@
             maxSizeValue: <?php echo Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator::MAX_SIZE_VALUE ?>,
             messagesContainer: '#vde-tab-imagesizing-messages-placeholder'
         });
-        $(document).ready(function() {
-            var eventData = {
-                elements: {
-                    focus: ['#product_image_sizing_form input[id!="add_white_borders"]'],
-                    click: [
-                        '#product_image_sizing_form .action-connect',
-                        '#add_white_borders'                    //works in Chrome and FF
-                    ],
-                    mousedown: ['#product_image_sizing_form button', '#product_image_sizing_form select']
-                }
-            };
-            $('body').trigger('registerElements', eventData);
-        });
     })(jQuery);
 </script>
