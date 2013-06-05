@@ -564,6 +564,7 @@ return array(
     array('Mage_Core_Model_Session_Abstract_Varien'),
     array('Mage_Core_Model_Session_Abstract_Zend'),
     array('Mage_Core_Model_Store_Group_Limitation'),
+    array('Mage_Core_Model_Store_Limitation'),
     array('Mage_Core_Model_Layout_Data', 'Mage_Core_Model_Layout_Update'),
     array('Mage_Core_Model_Theme_Customization_Link'),
     array('Mage_Customer_Block_Account'),
