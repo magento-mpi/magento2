@@ -13,7 +13,7 @@
 manage_categories:
     mca: catalog_category/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_category/')]
-    title: Categories / Manage Categories / Inventory / Products / Magento Admin
+    title: Categories / Categories / Inventory / Products / Magento Admin
     uimap: &categoryUimap
         form:
             fieldsets:
@@ -139,11 +139,11 @@ manage_categories:
 edit_manage_categories:
     mca: catalog_category/edit/store/0/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
-    title: Categories / Manage Categories / Inventory / Products / Magento Admin
+    title: Categories / Categories / Inventory / Products / Magento Admin
     uimap: *categoryUimap
 
 edit_category:
     mca: catalog_category/edit/store/0/id/%id%/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
-    title: %elementTitle% / Manage Categories / Inventory / Products / Magento Admin
+    title: %elementTitle% / Categories / Inventory / Products / Magento Admin
     uimap: *categoryUimap
