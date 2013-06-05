@@ -21,6 +21,18 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
 <?xml version="1.0"?>
 <config>
     <modules>
+        <Mage_Conflict>
+            <version>1.6.0.0.23</version>
+            <active>true</active>
+            <depends/>
+        </Mage_Conflict>
+        <Mage_Last>
+            <version>1.6.0.0.23</version>
+            <active>true</active>
+            <depends>
+                <Mage_Test/>
+            </depends>
+        </Mage_Last>
         <Mage_Test>
             <version>1.6.0.0.23</version>
             <active>true</active>
@@ -49,16 +61,39 @@ XML;
 
         $dsConfigReader = Mage::getObjectManager()->
             create('Mage_Core_Model_Dataservice_Config_Reader',
-                array('moduleReader' => $moduleReader,'dir' => $dirs));
+                array('moduleReader' => $moduleReader));
 
         $this->_config = new Mage_Core_Model_Dataservice_Config($dsConfigReader);
     }
 
-    public function testGetClassByAlias()
+    public function testGetClassByAliasOverride()
     {
         $classInfo = $this->_config->getClassByAlias('alias');
-        $this->assertEquals('some_class_name', $classInfo['class']);
-        $this->assertEquals('some_method_name', $classInfo['retrieveMethod']);
-        $this->assertEquals(array('some_arg_name' => 'some_arg_value'), $classInfo['methodArguments']);
+        $this->assertEquals('last_service', $classInfo['class']);
+        $this->assertEquals('last_method', $classInfo['retrieveMethod']);
+        $this->assertEquals(
+            array(
+                'last_arg' => 'last_value',
+                'last_arg_two' => 'last_value_two',
+            ),
+            $classInfo['methodArguments']
+        );
+    }
+
+    /**
+     * @expectedException Mage_Core_Exception
+     */
+    public function testGetClassByAlias()
+    {
+        $classInfo = $this->_config->getClassByAlias('first_name');
+        $this->assertEquals('first_service', $classInfo['class']);
+        $this->assertEquals('first_method', $classInfo['retrieveMethod']);
+        $this->assertEquals(
+            array(
+                'first_arg' => 'first_value',
+                'first_arg_two' => 'first_value_two',
+            ),
+            $classInfo['methodArguments']
+        );
     }
 }

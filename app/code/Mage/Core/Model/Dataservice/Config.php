@@ -21,12 +21,7 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
 
     const ELEMENT_CLASS = 'Varien_Simplexml_Element';
 
-    /**
-     * @var Varien_Simplexml_Element
-     */
-    protected $_simpleXml;
-
-    /** @var Mage_Core_Dataservice_Config_Reader */
+    /** @var Mage_Core_Model_Dataservice_Config_Reader */
     protected $_configReader;
 
     /**
@@ -46,13 +41,10 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
      */
     public function getClassByAlias($alias)
     {
-        if ($this->_simpleXml === null) {
-            $this->_simpleXml = $this->_loadServiceCallsIntoXmlElement();
-        }
+        $serviceCallConfig = $this->_configReader->getServiceCallConfig();
+        $nodes = $serviceCallConfig->getXpath("//service_call[@name='" . $alias . "']");
 
-        $nodes = $this->_simpleXml->xpath("//service_call[@name='" . $alias . "']");
-
-        if (count($nodes) == 0) {
+        if (!$nodes || count($nodes) == 0) {
             throw new Mage_Core_Exception('Service call with name "' . $alias . '" doesn\'t exist');
         }
 
@@ -61,10 +53,8 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
 
         $methodArguments = array();
         /** @var Mage_Core_Model_Config_Element $child */
-        foreach ($node[0] as $child) {
-            if ($child->getName() == 'arg') {
-                $methodArguments[$child->getAttribute('name')] = (string)$child;
-            }
+        foreach ($node as $child) {
+            $methodArguments[$child->getAttribute('name')] = (string)$child;
         }
 
         $result = array(
@@ -80,21 +70,4 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
 
         return $result;
     }
-
-    /**
-     * Loads the service calls config from all the service_calls.xml files
-     *
-     * @return SimpleXMLElement
-     */
-    private function _loadServiceCallsIntoXmlElement()
-    {
-
-        /* Layout update files declared in configuration */
-        $callsStr = $this->_configReader->getServiceCallConfig();
-
-        $this->_simpleXml = simplexml_load_string($callsStr, self::ELEMENT_CLASS);
-        return $this->_simpleXml;
-    }
-
-
 }

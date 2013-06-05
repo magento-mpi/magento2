@@ -23,9 +23,10 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $configXml = file_get_contents(__DIR__ . '/_files/service_calls.xml');
+        $config = new Varien_Simplexml_Config($configXml);
         $this->_reader->expects($this->any())
             ->method('getServiceCallConfig')
-            ->will($this->returnValue($configXml));
+            ->will($this->returnValue($config));
 
         $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($this->_reader);
     }

@@ -12,47 +12,50 @@ class Mage_Core_Model_Dataservice_Config_ReaderTest extends PHPUnit_Framework_Te
     const NAMEPART = 'NAMEPART';
 
     /** @var Mage_Core_Model_Dataservice_Config_Reader */
-    protected $_configReader;
+    private $_configReader;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_modulesReaderMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    private $_dirMock;
+    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    private $_cacheTypes;
 
     public function setup()
     {
         $this->_modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_modulesReaderMock->expects($this->any())
-            ->method('getModuleConfigurationFiles')
-            ->with('service_calls.xml')
-            ->will($this->returnValue(array(__DIR__ . '/../_files/service_calls.xml',
-                                            __DIR__ . '/../_files/second_service_calls.xml')));
 
-        $this->_dirMock = $this->getMockBuilder('Mage_Core_Model_Dir')
+        $this->_cacheTypes = $this->getMockBuilder('Mage_Core_Model_Cache_Type_Config')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_configReader =
-            new Mage_Core_Model_Dataservice_Config_Reader($this->_modulesReaderMock, $this->_dirMock);
+            new Mage_Core_Model_Dataservice_Config_Reader($this->_modulesReaderMock, $this->_cacheTypes);
     }
 
-    public function testGetServiceCallConfig()
+    public function testGetServiceCallConfigCaching()
     {
+        $this->_cacheTypes->expects($this->any())
+            ->method('load')
+            ->will($this->returnValue(false));
+
         $result = $this->_configReader->getServiceCallConfig();
         $this->assertNotNull($result);
-        $this->assertContains('name="alias"', $result, 'Does not contain call from service_calls.xml');
-        $this->assertContains('name="another_alias"', $result, 'Does not contain call from service_calls.xml');
+
+        $secondResult = $this->_configReader->getServiceCallConfig();
+        $this->assertEquals($result, $secondResult);
     }
 
     public function testGetSchemaFile()
     {
-        $appDir = '/some/directory';
-        $this->_dirMock->expects($this->any())->method('getDir')->will($this->returnValue($appDir));
+        $etcDir = str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Mage/Core/etc');
+        $expectedDir = str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Mage/Core/etc/service_calls.xsd');
+        $this->_modulesReaderMock->expects($this->any())->method('getModuleDir')
+            ->with('etc', 'Mage_Core')
+            ->will($this->returnValue($etcDir));
         $result = $this->_configReader->getSchemaFile();
         $this->assertNotNull($result);
-        $this->assertEquals($appDir .'/code/Mage/Core/etc/service_calls.xsd', $result, 'returned schema file is wrong');
+        $this->assertEquals($expectedDir, $result, 'returned schema file is wrong');
     }
 }
