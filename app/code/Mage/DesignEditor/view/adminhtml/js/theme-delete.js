@@ -57,11 +57,20 @@
          */
         _showConfirmMessage: function(dialogElement, callback) {
             var dialog = dialogElement.data('dialog');
-            var buttons = {
-                text: $.mage.__('Yes'),
-                click: callback,
-                'class': 'primary'
-            };
+            var buttons = [
+                {
+                    text: $.mage.__('No'),
+                    click: function() {
+                        $(this).dialog('close');
+                    },
+                    'class': 'action-close'
+                },
+                {
+                    text: $.mage.__('Yes'),
+                    click: callback,
+                    'class': 'primary'
+                }
+            ];
 
             dialog.title.set(this.options.eventData.title);
             dialog.text.set(this.options.eventData.confirm_message);
