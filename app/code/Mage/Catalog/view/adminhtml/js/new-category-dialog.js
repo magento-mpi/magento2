@@ -68,7 +68,6 @@
                 },
                 close: function() {
                     $('#new_category_name, #new_category_parent-suggest').val('');
-                    clearParentCategory();
                     var validationOptions = newCategoryForm.validation('option');
                     validationOptions.unhighlight($('#new_category_parent-suggest').get(0),
                         validationOptions.errorClass, validationOptions.validClass || '');
@@ -112,6 +111,7 @@
                                         });
                                         $('#new_category_name, #new_category_parent-suggest').val('');
                                         $('#category_ids-suggest').val('');
+                                        clearParentCategory();
                                         widget.element.dialog('close');
                                     } else {
                                         $('#new_category_messages').html(data.messages);
