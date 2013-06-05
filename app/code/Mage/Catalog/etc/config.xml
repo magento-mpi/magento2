@@ -302,11 +302,6 @@
                     <attributeLabelCache>Mage_Core_Model_Cache_Type_Translate</attributeLabelCache>
                 </parameters>
             </Mage_Catalog_Model_Product_Attribute_Api_V2>
-            <Mage_Catalog_Model_Resource_Category_Collection>
-                <parameters>
-                    <fetchStrategy>Varien_Data_Collection_Db_FetchStrategy_Cache</fetchStrategy>
-                </parameters>
-            </Mage_Catalog_Model_Resource_Category_Collection>
         </di>
     </global>
     <adminhtml>
