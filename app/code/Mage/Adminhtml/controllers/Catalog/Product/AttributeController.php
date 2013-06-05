@@ -60,6 +60,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                     Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Attributes'))
             ;
         }
+        $this->_setActiveMenu('Mage_Catalog::catalog_attributes_attributes');
         return $this;
     }
 
@@ -67,7 +68,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute'))
-            ->_setActiveMenu('Mage_Catalog::catalog_attributes_attributes')
             ->renderLayout();
     }
 
@@ -115,7 +115,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
         $this->_initAction();
 
-        $this->_setActiveMenu('Mage_Catalog::catalog_attributes_attributes');
         $this->_title($id ? $model->getName() : $this->__('New Attribute'));
 
         $item = $id ? Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute')
