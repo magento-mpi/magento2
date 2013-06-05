@@ -129,28 +129,6 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     }
 
     /**
-     * Get preview button
-     *
-     * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return $this
-     */
-    protected function _addPreviewButtonHtml($themeBlock)
-    {
-        /** @var $previewButton Mage_Backend_Block_Widget_Button */
-        $previewButton = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Adminhtml_Theme_Button');
-        $previewButton->setData(array(
-            'id'     => 'theme-preview-' . $themeBlock->getTheme()->getId(),
-            'label'  => $this->__('Preview Theme'),
-            'class'  => 'action-theme-preview',
-            'href'   => $this->_getPreviewUrl($themeBlock->getTheme()->getId()),
-            'target' => '_blank'
-        ));
-
-        $themeBlock->addButton($previewButton);
-        return $this;
-    }
-
-    /**
      * Get edit button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
