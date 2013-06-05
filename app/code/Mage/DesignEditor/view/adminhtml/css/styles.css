@@ -412,7 +412,9 @@
 .theme-data .action-edit,
 .theme-data .action-delete,
 .theme-data .action-edit:active,
-.theme-data .action-delete:active {
+.theme-data .action-delete:active,
+.theme-data .action-edit:hover,
+.theme-data .action-delete:hover {
     background: none;
     border: none;
     text-decoration: none;
@@ -422,6 +424,7 @@
     font-size: 16px;
     vertical-align: middle;
     padding: 5px;
+    filter: none;
 }
 
 .theme-data .action-edit:before,
@@ -458,21 +461,6 @@
     margin-bottom: 30px;
     border-bottom: 1px solid #ededed;
     padding-bottom: 8px;
-}
-
-.themes-customizations .action-theme-assign {
-    background: #dbd6ce;
-    color: #322e2a;
-}
-
-.themes-customizations .action-theme-assign:hover {
-    background: #cac2b5;
-    color: #322e2a;
-    text-shadow: none;
-}
-
-.themes-customizations .action-theme-assign:active {
-    box-shadow: 0 1px 5px #aaa59b inset;
 }
 
 /*
@@ -532,12 +520,21 @@
 .theme-assigned-data .action-edit {
     background: #f47b20;
     color: #fff;
+    border-color: transparent;
 }
 
 .theme-assigned-data .action-edit:hover {
     background: #e2701a;
     color: #fff;
     text-shadow: 0 -1px 2px #955326;
+}
+
+.eq-ie8 .theme-assigned-data .action-edit,
+.eq-ie8 .theme-assigned-data .action-edit:hover,
+.eq-ie8 .theme-assigned-data .action-edit:active,
+.eq-ie8 .theme-assigned-data .action-edit:focus,
+.eq-ie8 .theme-assigned-data .action-edit[disabled] {
+    filter: none;
 }
 
 .theme-assigned-data .action-edit:active {
