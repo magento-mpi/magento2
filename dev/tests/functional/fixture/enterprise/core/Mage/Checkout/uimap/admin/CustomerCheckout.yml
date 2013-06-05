@@ -14,7 +14,7 @@
 # 'Shopping Cart' page
 customer_shopping_cart:
     mca: checkout/index/store/%store%/customer/%customer%/
-    title: Shopping Cart / %elementTitle% / Manage Customers / Customers / Magento Admin
+    title: Shopping Cart / %elementTitle% / Customers / Customers / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -100,20 +100,20 @@ customer_shopping_cart:
             clear_shop_cart: //button[@title='Clear Shopping Cart']
             update_items_and_qty: //button[contains(@title,"Update Items and Qty's")]
         messages:
-            confirmation_to_clear_shopping_cart: Are you sure you want to delete all items from shopping cart?
-            confirmation_to_required_sku: Choose some products to add to shopping cart.
+            confirmation_to_clear_shopping_cart: Are you sure you want to clear your shopping cart?
+            confirmation_to_required_sku: Choose  products to add to shopping cart.
             qty_increment: //*[@class='error' and contains(.,'This product is available for purchase in increments of %qty% only.')]
             qty_not_available: //*[@class='notice' and contains(.,'The requested quantity for "%productName%" is not available.')]
             max_qty: //*[@class='error' and contains(.,'The maximum quantity allowed for purchase is %qty%.')]
             min_qty: //*[@class='error' and contains(.,'The minimum quantity allowed for purchase is %qty%.')]
-            out_of_stock: //*[@class='error' and contains(.,'This product is currently out of stock.')]
+            out_of_stock: //*[@class='error' and contains(.,'This product is out of stock.')]
             sku_assigned_another_website: //*[@class='notice']//div[contains(.,'The product is assigned to another website.')]
             sku_not_found: //*[@class='notice']//div[contains(.,'SKU not found in catalog.')]
             qty_sku_invalid_number: //*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
             specify_options: //*[@class='notice']//div[contains(.,"Please specify the product's options.")]
-            error_product_require_attention: //*[@class='icon-head'][contains(.,'%lastRow% product(s) require attention')]
-            disabled_product: //div[@class='notice']/div[contains(.,'Disabled products cannot be added.')]
-            required_attention_product: //div[@class="entry-edit-head sku-errors"]//*[contains(.,'%number% product(s) require attention')]
+            error_product_require_attention: //*[@class='icon-head'][contains(.,'%lastRow% product(s) require attention.')]
+            disabled_product: //div[@class='notice']/div[contains(.,'You can add only enabled products.')]
+            required_attention_product: //div[@class="entry-edit-head sku-errors"]//*[contains(.,'%number% product(s) require attention.')]
             sku_not_found: //div[@class='notice']/div[contains(.,'SKU not found in catalog.')]
             requested_qty: //div[@class='notice']/div[contains(.,'Please enter a valid number in the "Qty" field.')]
             qty_not_available: //div[@class='notice']/div[contains(.,'The requested quantity')]

@@ -15,7 +15,7 @@
 manage_gift_registry:
     mca: giftregistry/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftregistry')]
-    title: Manage Gift Registry Types / Other Settings / Stores / Magento Admin
+    title: Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             fieldsets:
@@ -39,13 +39,13 @@ manage_gift_registry:
         buttons:
             add_new_gift_registry_type: //button[span='Add Gift Registry Type']
         messages: &giftRegistryMessages
-            success_saved_gift_registry: //li[normalize-space(@class)='success-msg' and contains(.,'The gift registry type has been saved.')]
-            success_deleted_gift_registry: //li[normalize-space(@class)='success-msg' and contains(.,'The gift registry type has been deleted.')]
+            success_saved_gift_registry: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the gift registry type.')]
+            success_deleted_gift_registry: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the gift registry type.')]
 
 # 'New Gift Registry' page
 new_gift_registry:
     mca: giftregistry/new/
-    title: New Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
+    title: New Gift Registry Type / Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             tabs:
@@ -99,7 +99,7 @@ new_gift_registry:
             save_gift_registry: //button[@id='save']
             save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: &newGiftRegistryMessages
-            confirmation_for_delete: Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?
+            confirmation_for_delete: If you delete this gift registry type, you also delete customer registries that use this type. Do you want to continue?
             empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             incorrect_attributes_code: "//div[@id='advice-attribute-code-%fieldId%' and not(contains(@style,'display: none;'))]"
             empty_option: //div[@id='advice-required-option-select-rows-validation_1_result']
@@ -109,7 +109,7 @@ new_gift_registry:
 # 'Edit Gift Registry' page
 edit_gift_registry:
     mca: giftregistry/edit/id/%id%/
-    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
+    title: '%elementLabel%' Gift Registry Type / Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: *giftRegistryForm
         buttons:

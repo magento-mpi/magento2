@@ -46,8 +46,8 @@ newsletter_subscribers:
                         pageelements:
                             poll_grid_head: //div[@id='subscriberGrid']//thead/tr[@class='headings']
         messages: &subscribersMesssages
-            success_update: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyOfRecords% record(s) were updated')]
-            success_delete: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyOfRecords% record(s) were deleted')]
+            success_update: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyOfRecords% record(s) were updated')]
+            success_delete: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyOfRecords% record(s) were deleted')]
             select_items_to_action: Please select items.
 
 # Newsletter Templates Manager page
@@ -112,7 +112,7 @@ newsletter_template_new:
 
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
-            invalid_email: //label[@class='mage-error' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
+            invalid_email: //label[@class='mage-error' and contains(.,'Please enter a valid email address (for example, johndoe@domain.com.).')]
 
 # Newsletter edit template page
 edit_news_template:
@@ -186,7 +186,7 @@ newsletter_queue_edit:
 newsletter_problem_reports:
     mca: newsletter_problem/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_problem/')]
-    title: Newsletter Problems / Marketing / Reports / Magento Admin
+    title: Newsletter Problems Report / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

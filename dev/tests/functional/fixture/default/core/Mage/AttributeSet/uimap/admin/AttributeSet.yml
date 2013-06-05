@@ -43,7 +43,7 @@ manage_attribute_sets:
 
 add_new_attribute_set:
     mca: catalog_product_set/add/
-    title: New Set / Attributes / Stores / Magento Admin
+    title: New Product Template / Attributes / Stores / Magento Admin
     uimap:
         form: &addNewAttributeSet
             fieldsets:

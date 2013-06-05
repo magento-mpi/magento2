@@ -12,7 +12,7 @@
 manage_cms_pages:
     mca: cms_page/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_page/')]
-    title: Manage Content / Elements / Content / Magento Admin
+    title: Pages / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:

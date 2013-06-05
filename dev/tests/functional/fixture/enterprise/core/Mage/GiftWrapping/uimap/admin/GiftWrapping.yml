@@ -11,7 +11,7 @@
 manage_gift_wrapping:
     mca: giftwrapping/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftwrapping/')]
-    title: Manage Gift Wrapping / Other Settings / Stores / Magento Admin
+    title: Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -47,12 +47,12 @@ manage_gift_wrapping:
             empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             success_saved_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'The gift wrapping has been saved.')]
             success_deleted_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'The gift wrapping has been deleted.')]
-            success_massaction_update: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %itemCount% record(s) have been updated.')]
-            success_massaction_delete: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %itemCount% record(s) have been deleted.')]
+            success_massaction_update: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %itemCount% record(s) have been updated.')]
+            success_massaction_delete: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %itemCount% record(s) have been deleted.')]
 
 add_gift_wrapping:
     mca: giftwrapping/new/
-    title: New Gift Wrapping / Manage Gift Wrapping / Other Settings / Stores / Magento Admin
+    title: New Gift Wrapping / Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -82,7 +82,7 @@ add_gift_wrapping:
 
 edit_gift_wrapping:
     mca: giftwrapping/edit/id/%id%/
-    title: Edit Gift Wrapping "%elementTitle%" / Manage Gift Wrapping / Other Settings / Stores / Magento Admin
+    title: "%elementTitle%" / Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form: &editGiftWrappingForm
             fieldsets:
@@ -97,7 +97,7 @@ edit_gift_wrapping:
 
 edit_gift_wrapping_after_save_and_continue:
     mca: giftwrapping/edit/id/%id%/store/%store%/
-    title: Edit Gift Wrapping "%elementTitle%" / Manage Gift Wrapping / Other Settings / Stores / Magento Admin
+    title: "%elementTitle%" / Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form: *editGiftWrappingForm
         buttons: *editGiftWrappingButtons

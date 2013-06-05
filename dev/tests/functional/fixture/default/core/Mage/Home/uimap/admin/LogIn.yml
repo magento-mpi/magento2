@@ -32,15 +32,15 @@ log_in_to_admin:
                             captcha: //*[@id='backend_login']
         messages: &loginMessages
             empty_field: //div/label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
-            wrong_credentials: //li[normalize-space(@class)='error-msg' and (contains(.,'Invalid User Name or Password.') or contains(.,'Invalid Username or Password.'))]
-            access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
-            inactive_account: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
+            wrong_credentials: //li[normalize-space(@class)='error-msg' and (contains(.,'Please correct the user name or password.') or contains(.,'Invalid Username or Password.'))]
+            access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Please correct the user name or password.')]
+            inactive_account: //li[normalize-space(@class)='error-msg' and contains(.,'Please correct the user name or password.')]
             account_locked: //li[normalize-space(@class)='error-msg' and contains(.,'This account is locked.')]
             wrong_email: //li[normalize-space(@class)='error-msg' and contains(.,'Cannot find the email address.')]
             password_sent: //li[normalize-space(@class)='success-msg' and contains(.,'A new password was sent to your email address. Please check your email and click Back to Login.')]
             retrieve_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
-            forgot_password_invalid_email: //div/label[@class='mage-error' and text()='Please enter a valid email address. For example johndoe@domain.com.']
+            forgot_password_invalid_email: //div/label[@class='mage-error' and text()='Please enter a valid email address (for example, johndoe@domain.com.).']
             success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
 
 log_in_admin_page:

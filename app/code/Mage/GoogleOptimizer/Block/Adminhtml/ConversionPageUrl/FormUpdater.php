@@ -8,7 +8,7 @@
 class Mage_GoogleOptimizer_Block_Adminhtml_ConversionPageUrl_FormUpdater
 {
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 

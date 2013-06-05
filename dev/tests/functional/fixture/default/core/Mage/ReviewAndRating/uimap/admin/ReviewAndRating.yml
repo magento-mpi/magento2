@@ -12,7 +12,7 @@
 manage_ratings:
     mca: rating/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rating/index/')]
-    title: Manage Ratings / Attributes / Stores / Magento Admin
+    title: Ratings / Attributes / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -35,15 +35,15 @@ manage_ratings:
         buttons:
             add_new_rating: //button[span='Add New Rating']
         messages: &ratingMessages
-            success_saved_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been saved.')]
-            success_deleted_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been deleted.')]
+            success_saved_rating: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rating.')]
+            success_deleted_rating: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rating.')]
             empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This is a required field.')]
             existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 new_rating:
     mca: rating/new/
-    title: New Rating / Manage Ratings / Attributes / Stores / Magento Admin
+    title: New Rating / Ratings / Attributes / Stores / Magento Admin
     uimap: &newRating
         form: &new_rating-form
             tabs:
@@ -72,12 +72,12 @@ new_rating:
 
 new_edit_rating:
     mca: rating/edit/
-    title: New Rating / Manage Ratings / Attributes / Stores / Magento Admin
+    title: New Rating / Ratings / Attributes / Stores / Magento Admin
     uimap: *newRating
 
 edit_rating:
     mca: rating/edit/id/%id%/
-    title: %elementTitle% / Manage Ratings / Attributes / Stores / Magento Admin
+    title: %elementTitle% / Ratings / Attributes / Stores / Magento Admin
     uimap:
         form: *new_rating-form
         buttons:
@@ -90,7 +90,7 @@ edit_rating:
 manage_all_reviews:
     mca: catalog_product_review/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/index/')]
-    title: All Reviews / Customer Reviews / User Content / Marketing / Magento Admin
+    title: Reviews / Customer Reviews / User Content / Marketing / Magento Admin
     uimap:
         form: &manageReviews
             fieldsets:

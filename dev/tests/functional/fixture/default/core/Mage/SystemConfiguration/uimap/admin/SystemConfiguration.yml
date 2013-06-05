@@ -76,7 +76,7 @@ system_configuration:
                                     buttons:
                                         validate_vat_number: //button[@id='general_store_information_validate_vat_number']
                                         vat_number_is_valid: //button[span='VAT Number is Valid']
-                                        vat_number_is_invalid: //button[span='VAT Number is Invalid']
+                                        vat_number_is_invalid: //button[span='Please correct the VAT number.']
                                     links:
                                         store_information_link: //parent::div//a[@id='general_store_information-head']
                                     dropdowns:
@@ -3416,7 +3416,7 @@ system_configuration:
         buttons:
             save_config: //button[@data-ui-id='content-schedule-block-save-button']
         messages:
-            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
+            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the configuration.')]
             validation_for_field_code_length: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_length']
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 

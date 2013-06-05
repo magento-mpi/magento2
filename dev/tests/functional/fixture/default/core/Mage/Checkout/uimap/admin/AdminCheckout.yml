@@ -59,37 +59,37 @@ manage_sales_orders:
             create_new_order: //button[span='Create New Order']
         messages: &orderMessages
             #success
-            success_created_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been created.')]
+            success_created_order: //li[normalize-space(@class)='success-msg' and contains(.,'You created the order.')]
             success_creating_invoice: //li[normalize-space(@class)='success-msg' and contains(.,'The invoice has been created.')]
             success_creating_shipment: //li[normalize-space(@class)='success-msg' and contains(.,'The shipment has been created.')]
-            success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.,'The credit memo has been created.')]
-            success_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been cancelled.')]
-            success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been put on hold.')]
-            success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been released from holding status.')]
+            success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.,'You created the credit memo.')]
+            success_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'You canceled the order.')]
+            success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'You put the order on hold.')]
+            success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'You released the order from holding status.')]
             success_massaction_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been put on hold.')]
             success_massaction_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been released from holding status.')]
             success_massaction_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been canceled.')]
             success_voided_order: //li[normalize-space(@class)='success-msg' and contains(.,'The payment has been voided.')]
             success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'The coupon code has been accepted.')]
             #error
-            ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
-            failed_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'The order(s) cannot be canceled')]
+            ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is not available. To use this shipping method, please contact us.']
+            failed_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot cancel the order(s).')]
             failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were put on hold.')]
             failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were released from holding status.')]
-            failed_massaction_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'The order(s) cannot be canceled')]
-            failed_massaction_cancel_different_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) cannot be canceled')]
+            failed_massaction_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot cancel the order(s).')]
+            failed_massaction_cancel_different_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) cannot be canceled.')]
             failed_massaction_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not put on hold.')]
             failed_massaction_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not released from holding status.')]
-            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
+            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'The coupon code "%code%" is not valid.')]
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             empty_required_field_cc_number: //*[@class='mage-error' and @for='ccsave_cc_number' and contains(.,'Please enter a valid credit card number.')]
-            shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
+            shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify a shipping method.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
-            empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not available.')]
+            empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'The payment method you requested is not available.')]
             invalid_cvv: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a valid credit card verification number.')]
-            invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect credit card expiration date.')]
+            invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'We found an incorrect credit card expiration date.')]
             out_of_stock_product: //div[@id='order-items_grid']//div[text()='This product is currently out of stock.']
             requested_quantity_not_available: //div[@id='order-items_grid']//div[text()='The requested quantity for "%productTitle%" is not available.']
             min_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The minimum quantity allowed for purchase is %qty%.']
@@ -100,21 +100,21 @@ manage_sales_orders:
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
             hostname_not_valid: //li[normalize-space(@class)='error-msg' and contains(.,'appears to be a local network name but local network names are not allowed')]
-            not_valid_email: //*[text()='Please enter a valid email address. For example johndoe@domain.com.']
+            not_valid_email: //*[text()='Please enter a valid email address (for example, johndoe@domain.com.).']
             order_id: //h1[@class='title']
             #confirmation
-            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
-            confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
+            confirmation_to_procced:This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you want to continue?
+            confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead.
             confirmation_for_cancel: Are you sure you want to cancel this order?
             confirmation_to_void: Are you sure you want to void the payment?
-            confirmation_to_send_email: Are you sure you want to send order email to customer?
+            confirmation_to_send_email: Are you sure you want to send an order email to customer?
             #not verified
             authorizenet_online_invoice_error: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
             invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"
-            failed_print_packingslips: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
-            failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
-            failed_print_invoices: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
-            failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
+            failed_print_packingslips: //li[normalize-space(@class)='error-msg' and contains(.,'We can\'t find any printable documents related to the orders you selected.')]
+            failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.,'We can\'t find any printable documents related to the orders you selected.')]
+            failed_print_invoices: //li[normalize-space(@class)='error-msg' and contains(.,'We can\'t find any printable documents related to the orders you selected.')]
+            failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.,'We can\'t find any printable documents related to the orders you selected.')]
             zero_payment: //dt[contains(label,'No Payment Information Required')]
             the_same_group: The VAT ID is valid. The current Customer Group will be used.
             valid_domestic_group_message: "Based on the VAT ID, the customer would belong to the Customer Group %newCustomerGroup%.\nThe customer is currently assigned to Customer Group %currentCustomerGroup%. Would you like to change the Customer Group for this order?"

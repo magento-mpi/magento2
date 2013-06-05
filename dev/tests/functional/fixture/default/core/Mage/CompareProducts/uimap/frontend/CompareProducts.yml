@@ -22,7 +22,7 @@ compare_products:
                             add_to_cart: //td[h2='%productName%']//button[span='Add to Cart']
                         links:
                             product_title: //a[text()='%productName%']
-                            add_to_whishlist: //td[h2='%productName%']//a[text()='Add to Wishlist']
+                            add_to_whishlist: //td[h2='%productName%']//a[text()='Add to Wish List']
                             remove_item: //td[%columnIndex%]/a[@title='Remove This Item']
                         pageelements:
                             compare_products_row: /*/tr

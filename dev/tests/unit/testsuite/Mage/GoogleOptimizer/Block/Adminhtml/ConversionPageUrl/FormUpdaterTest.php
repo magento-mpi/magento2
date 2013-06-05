@@ -34,7 +34,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_ConversionPageUrl_FormUpdaterTest ext
 
     public function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManagerInterface', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManagerInterface');
         $this->_helperMock = $this->getMock('Mage_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_fieldset = $this->getMock('Varien_Data_Form_Element_Fieldset', array(), array(), '', false);
         $this->_model = new Mage_GoogleOptimizer_Block_Adminhtml_ConversionPageUrl_FormUpdater(
