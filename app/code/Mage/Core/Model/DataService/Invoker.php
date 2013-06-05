@@ -1,17 +1,17 @@
 <?php
 /**
- * Dataservice invoker invokes the service, calls the methods and retrieves the data from the call.
+ * DataService invoker invokes the service, calls the methods and retrieves the data from the call.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Invoker
+class Mage_Core_Model_DataService_Invoker
 {
     const DATASERVICE_PATH_SEPARATOR = '.';
     /**
-     * @var Mage_Core_Model_Dataservice_Config_Interface
+     * @var Mage_Core_Model_DataService_ConfigInterface
      */
     protected $_config;
 
@@ -20,23 +20,23 @@ class Mage_Core_Model_Dataservice_Invoker
      */
     protected $_objectManager;
 
-    /** @var Mage_Core_Model_Dataservice_Path_Composite */
+    /** @var Mage_Core_Model_DataService_Path_Composite */
     protected $_composite;
 
-    /** @var Mage_Core_Model_Dataservice_Path_Navigator */
+    /** @var Mage_Core_Model_DataService_Path_Navigator */
     protected $_pathNavigator;
 
     /**
-     * @param Mage_Core_Model_Dataservice_Config_Interface $config
+     * @param Mage_Core_Model_DataService_ConfigInterface $config
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Dataservice_Path_Composite $composite
-     * @param Mage_Core_Model_Dataservice_Path_Navigator $pathNavigator
+     * @param Mage_Core_Model_DataService_Path_Composite $composite
+     * @param Mage_Core_Model_DataService_Path_Navigator $pathNavigator
      */
     public function __construct(
-        Mage_Core_Model_Dataservice_Config_Interface $config,
+        Mage_Core_Model_DataService_ConfigInterface $config,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Dataservice_Path_Composite $composite,
-        Mage_Core_Model_Dataservice_Path_Navigator $pathNavigator
+        Mage_Core_Model_DataService_Path_Composite $composite,
+        Mage_Core_Model_DataService_Path_Navigator $pathNavigator
     ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;

@@ -8,10 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Dataservice_Config
+     * @var Mage_Core_Model_DataService_Config
      */
     protected $_config;
 
@@ -25,18 +25,18 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Config_Loader_Modules_File', array('dirs' => $dirs)
         );
         $configLoader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Dataservice_Config_Loader', array('dirs' => $dirs, 'fileReader' => $fileReader)
+            'Mage_Core_Model_DataService_Config_Loader', array('dirs' => $dirs, 'fileReader' => $fileReader)
         );
 
 
         $dsConfigReader = Mage::getObjectManager()->
-            create('Mage_Core_Model_Dataservice_Config_Reader',
+            create('Mage_Core_Model_DataService_Config_Reader',
                 array(
                     'fileReader' => $fileReader,
                     'configLoader' => $configLoader,
                 ));
 
-        $this->_config = new Mage_Core_Model_Dataservice_Config($dsConfigReader);
+        $this->_config = new Mage_Core_Model_DataService_Config($dsConfigReader);
     }
 
     public function testGetClassByAliasOverride()

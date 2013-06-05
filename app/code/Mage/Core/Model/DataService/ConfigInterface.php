@@ -1,13 +1,13 @@
 <?php
 /**
- * Dataservice config interface.
+ * DataService config interface.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Core_Model_Dataservice_Config_Interface
+interface Mage_Core_Model_DataService_ConfigInterface
 {
     /**
      * @param $alias

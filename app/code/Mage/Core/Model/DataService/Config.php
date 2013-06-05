@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_Config_Interface
+class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_ConfigInterface
 {
     /**
      * The global area in the config
@@ -21,14 +21,14 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
 
     const ELEMENT_CLASS = 'Varien_Simplexml_Element';
 
-    /** @var Mage_Core_Model_Dataservice_Config_Reader */
+    /** @var Mage_Core_Model_DataService_Config_Reader */
     protected $_configReader;
 
     /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
-        Mage_Core_Model_Dataservice_Config_Reader $configReader
+        Mage_Core_Model_DataService_Config_Reader $configReader
     ) {
         $this->_configReader = $configReader;
     }

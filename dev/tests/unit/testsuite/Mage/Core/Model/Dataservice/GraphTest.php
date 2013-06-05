@@ -1,13 +1,13 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Invoker
+ * Test class for Mage_Core_Model_DataService_Invoker
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
 {
     const TEST_CLASS_NAME = 'TEST_CLASS_NAME';
 
@@ -17,28 +17,28 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
 
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
 
-    /** @var Mage_Core_Model_Dataservice_Graph */
+    /** @var Mage_Core_Model_DataService_Graph */
     protected $_graph;
 
-    protected $_dataserviceMock;
+    protected $_dataServiceMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Invoker */
+    /** @var  Mage_Core_Model_DataService_Invoker */
     protected $_factoryMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Repository */
+    /** @var  Mage_Core_Model_DataService_Repository */
     protected $_repositoryMock;
 
     public function retrieveMethod()
     {
-        return $this->_dataserviceMock;
+        return $this->_dataServiceMock;
     }
 
     public function setup()
     {
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_Dataservice_Invoker', array(), array(), "", false);
-        $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
-        $this->_graph = new Mage_Core_Model_Dataservice_Graph($this->_factoryMock, $this->_repositoryMock);
-        $this->_dataserviceMock = (object)array();
+        $this->_factoryMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
+        $this->_repositoryMock = $this->getMock('Mage_Core_Model_DataService_Repository', array(), array(), "", false);
+        $this->_graph = new Mage_Core_Model_DataService_Graph($this->_factoryMock, $this->_repositoryMock);
+        $this->_dataServiceMock = (object)array();
     }
 
     public function testInit()
@@ -50,16 +50,16 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         );
         $namespaceConfig
             = array('namespaces' => array(self::TEST_NAMESPACE =>
-                                          Mage_Core_Model_Dataservice_GraphTest::TEST_NAMESPACE_ALIAS));
+                                          Mage_Core_Model_DataService_GraphTest::TEST_NAMESPACE_ALIAS));
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
         $this->_factoryMock->expects($this->once())->method('getServiceData')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($this->_dataserviceMock));
+        )->will($this->returnValue($this->_dataServiceMock));
         $this->_repositoryMock->expects($this->once())->method("add")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME),
-            $this->equalTo($this->_dataserviceMock)
+            $this->equalTo($this->_dataServiceMock)
         );
         $this->_graph->init(
             array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
@@ -78,10 +78,10 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         )->will($this->returnValue(null));
         $this->_factoryMock->expects($this->any())->method('getServiceData')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($this->_dataserviceMock));
+        )->will($this->returnValue($this->_dataServiceMock));
         $this->_repositoryMock->expects($this->any())->method("add")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME),
-            $this->equalTo($this->_dataserviceMock)
+            $this->equalTo($this->_dataServiceMock)
         );
         $this->_graph->init(
             array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
@@ -90,24 +90,24 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $this->_dataserviceMock = (object)array();
+        $this->_dataServiceMock = (object)array();
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($this->_dataserviceMock));
+        )->will($this->returnValue($this->_dataServiceMock));
         $this->assertEquals(
-            $this->_dataserviceMock,
+            $this->_dataServiceMock,
             $this->_graph->get(self::TEST_DATA_SERVICE_NAME)
         );
     }
 
     public function testGetChild()
     {
-        $this->_dataserviceMock = (object)array();
+        $this->_dataServiceMock = (object)array();
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($this->_dataserviceMock));
+        )->will($this->returnValue($this->_dataServiceMock));
         $this->assertEquals(
-            $this->_dataserviceMock,
+            $this->_dataServiceMock,
             $this->_graph->getChildNode(self::TEST_DATA_SERVICE_NAME)
         );
     }

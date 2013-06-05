@@ -167,14 +167,14 @@
                     </handlers>
                 </parameters>
             </Magento_Http_Handler_Composite>
-            <Mage_Core_Model_Dataservice_Path_Composite>
+            <Mage_Core_Model_DataService_Path_Composite>
                 <parameters>
                     <items>
-                        <data>Mage_Core_Model_Dataservice_Repository</data>
-                        <request>Mage_Core_Model_Dataservice_Request</request>
+                        <data>Mage_Core_Model_DataService_Repository</data>
+                        <request>Mage_Core_Model_DataService_Request</request>
                     </items>
                 </parameters>
-            </Mage_Core_Model_Dataservice_Path_Composite>
+            </Mage_Core_Model_DataService_Path_Composite>
             <Mage_Core_Helper_Url>
                 <parameters>
                     <translate>Mage_Core_Model_Translate_Proxy</translate>

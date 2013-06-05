@@ -1,6 +1,6 @@
 <?php
 /**
- * Dataservice Repository
+ * DataService Repository
  *
  * Stores the data and allows to retrieve for service calls.  Assigns namespaces and aliases to the service calls data.
  *
@@ -9,12 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataservice_Path_NodeInterface
+class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataService_Path_NodeInterface
 {
     /**
-     * @var array of Mage_Core_Model_Dataservice_Path_NodeInterface
+     * @var array of Mage_Core_Model_DataService_Path_NodeInterface
      */
-    protected $_dataservices = array();
+    protected $_dataServices = array();
 
     /**
      * @var array
@@ -50,24 +50,24 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
         if (!isset($this->_namespaces[$namespace])) {
             return array();
         }
-        $dataservices = array();
-        $dataservicesNames = $this->_namespaces[$namespace];
-        foreach ($dataservicesNames as $name => $nameInNamespace) {
-            $dataservices[$nameInNamespace] = $this->get($name);
+        $dataServices = array();
+        $dataServicesNames = $this->_namespaces[$namespace];
+        foreach ($dataServicesNames as $name => $nameInNamespace) {
+            $dataServices[$nameInNamespace] = $this->get($name);
         }
-        return $dataservices;
+        return $dataServices;
     }
 
     /**
      * Add new service data.
      *
      * @param string $name
-     * @param Mage_Core_Model_Dataservice_Path_Node $dataservice
+     * @param Mage_Core_Model_DataService_Path_Node $dataService
      * @return $this
      */
-    public function add($name, $dataservice)
+    public function add($name, $dataService)
     {
-        $this->_dataservices[$name] = $dataservice;
+        $this->_dataServices[$name] = $dataService;
         return $this;
     }
 
@@ -75,22 +75,22 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
      * Get service data by name.
      *
      * @param string $name
-     * @return Mage_Core_Model_Dataservice_Path_NodeInterface
+     * @return Mage_Core_Model_DataService_Path_NodeInterface
      */
     public function get($name)
     {
-        if (!isset($this->_dataservices[$name])) {
+        if (!isset($this->_dataServices[$name])) {
             return null;
         }
-        return $this->_dataservices[$name];
+        return $this->_dataServices[$name];
     }
 
     /**
      * Return a child path node that corresponds to the input path element.  This can be used to walk the
-     * dataservice graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
+     * data service graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Mage_Core_Model_Dataservice_Path_NodeInterface|mixed|null the child node, or mixed if this is a leaf node
+     * @return Mage_Core_Model_DataService_Path_NodeInterface|mixed|null the child node, or mixed if this is a leaf node
      */
     public function getChildNode($pathElement)
     {

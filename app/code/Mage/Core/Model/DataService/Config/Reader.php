@@ -1,13 +1,13 @@
 <?php
 /**
- * Dataservice config reader.
+ * DataService config reader.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Config_Reader
+class Mage_Core_Model_DataService_Config_Reader
 {
 
     const FILE_NAME = 'service_calls.xml';
@@ -22,7 +22,7 @@ class Mage_Core_Model_Dataservice_Config_Reader
     /** @var Mage_Core_Model_Cache_Type_Config  */
     protected $_configCacheType;
 
-    /** @var Mage_Core_Model_Dataservice_Config_Loader  */
+    /** @var Mage_Core_Model_DataService_Config_Loader  */
     protected $_configLoader;
 
     /** @var Varien_Simplexml_Config config being cached in memory*/
@@ -31,12 +31,12 @@ class Mage_Core_Model_Dataservice_Config_Reader
     /**
      * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_Dataservice_Config_Loader $configLoader
+     * @param Mage_Core_Model_DataService_Config_Loader $configLoader
      */
     public function __construct(
         Mage_Core_Model_Config_Loader_Modules_File $fileReader,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Dataservice_Config_Loader $configLoader
+        Mage_Core_Model_DataService_Config_Loader $configLoader
     ) {
         $this->_fileReader = $fileReader;
         $this->_configCacheType = $configCacheType;

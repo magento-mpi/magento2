@@ -1,13 +1,13 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Invoker
+ * Test class for Mage_Core_Model_DataService_Invoker
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
 {
     const TEST_CLASS_NAME = 'TEST_CLASS_NAME';
 
@@ -17,45 +17,45 @@ class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
 
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
 
-    /** @var Mage_Core_Model_Dataservice_Invoker */
+    /** @var Mage_Core_Model_DataService_Invoker */
     protected $_invoker;
 
-    /** @var Mage_Core_Model_Dataservice_Config_Interface */
+    /** @var Mage_Core_Model_DataService_ConfigInterface */
     protected $_configMock;
 
     /** @var  Magento_ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Path_Composite */
+    /** @var  Mage_Core_Model_DataService_Path_Composite */
     protected $_compositeMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Path_Navigator */
+    /** @var  Mage_Core_Model_DataService_Path_Navigator */
     protected $_pathNavigatorMock;
 
-    protected $_dataserviceMock;
+    protected $_dataServiceMock;
 
     public function retrieveMethod()
     {
-        return $this->_dataserviceMock;
+        return $this->_dataServiceMock;
     }
 
     public function setup()
     {
         $this->_configMock = $this->getMock(
-            'Mage_Core_Model_Dataservice_Config_Interface', array(), array(), "", false
+            'Mage_Core_Model_DataService_ConfigInterface', array(), array(), "", false
         );
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), "", false);
         $this->_compositeMock = $this->getMock(
-            'Mage_Core_Model_Dataservice_Path_Composite', array(), array(), "", false
+            'Mage_Core_Model_DataService_Path_Composite', array(), array(), "", false
         );
-        $this->_pathNavigatorMock = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Navigator')
+        $this->_pathNavigatorMock = $this->getMockBuilder('Mage_Core_Model_DataService_Path_Navigator')
             ->disableOriginalConstructor()->getMock();
-        $this->_invoker = new Mage_Core_Model_Dataservice_Invoker(
+        $this->_invoker = new Mage_Core_Model_DataService_Invoker(
             $this->_configMock,
             $this->_objectManagerMock,
             $this->_compositeMock,
             $this->_pathNavigatorMock);
-        $this->_dataserviceMock = (object)array();
+        $this->_dataServiceMock = (object)array();
     }
 
     public function testGetServiceData()
@@ -74,7 +74,7 @@ class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo(self::TEST_CLASS_NAME))
             ->will($this->returnValue($this));
         $this->assertSame(
-            $this->_dataserviceMock,
+            $this->_dataServiceMock,
             $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME));
     }
 
@@ -95,7 +95,7 @@ class Mage_Core_Model_Dataservice_InvokerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this));
 
         $this->assertSame(
-            $this->_dataserviceMock,
+            $this->_dataServiceMock,
             $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME));
     }
 }

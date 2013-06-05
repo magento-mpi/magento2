@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Mage_Core_Dataservice_Model_ServiceCallsConfigTest extends PHPUnit_Framework_TestCase
+class Integrity_Mage_Core_DataService_Model_ServiceCallsConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile

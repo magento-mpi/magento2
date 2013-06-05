@@ -1,13 +1,13 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Path_Composite
+ * Test class for Mage_Core_Model_DataService_Path_Composite
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framework_TestCase
 {
     const RETURN_VALUE = 'RETURN_VALUE';
 
@@ -17,7 +17,7 @@ class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_T
 
     const ITEM_THREE = 'ITEM_THREE';
 
-    /** @var Mage_Core_Model_Dataservice_Path_Composite */
+    /** @var Mage_Core_Model_DataService_Path_Composite */
     protected $_composite;
 
     protected $_map;
@@ -36,7 +36,7 @@ class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_T
                         (self::ITEM_TWO)   => (self::ITEM_TWO),
                         (self::ITEM_THREE) => (self::ITEM_THREE));
         $this->_composite
-            = new Mage_Core_Model_Dataservice_Path_Composite($objectManagerMock, $vector);
+            = new Mage_Core_Model_DataService_Path_Composite($objectManagerMock, $vector);
     }
 
     /**

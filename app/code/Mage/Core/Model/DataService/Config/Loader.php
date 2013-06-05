@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Config_Loader extends Mage_Core_Model_Config_Loader_Modules
+class Mage_Core_Model_DataService_Config_Loader extends Mage_Core_Model_Config_Loader_Modules
 {
 
     /**

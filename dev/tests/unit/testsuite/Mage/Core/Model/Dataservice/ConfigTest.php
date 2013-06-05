@@ -1,25 +1,25 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Config
+ * Test class for Mage_Core_Model_DataService_Config
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 {
     const NAMEPART = 'NAMEPART';
 
-    /** @var Mage_Core_Model_Dataservice_Config */
-    protected $_dataserviceConfig;
+    /** @var Mage_Core_Model_DataService_Config */
+    protected $_dataServiceConfig;
 
-    /** @var  Mage_Core_Model_Dataservice_Config_Reader */
+    /** @var  Mage_Core_Model_DataService_Config_Reader */
     private $_reader;
 
     public function setup()
     {
-        $this->_reader = $this->getMockBuilder('Mage_Core_Model_Dataservice_Config_Reader')
+        $this->_reader = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $configXml = file_get_contents(__DIR__ . '/_files/service_calls.xml');
@@ -28,13 +28,13 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('getServiceCallConfig')
             ->will($this->returnValue($config));
 
-        $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($this->_reader);
+        $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config($this->_reader);
     }
 
     public function testGetClassByAlias()
     {
         // result should match the config.xml file
-        $result = $this->_dataserviceConfig->getClassByAlias('alias');
+        $result = $this->_dataServiceConfig->getClassByAlias('alias');
         $this->assertNotNull($result);
         $this->assertEquals('some_class_name', $result['class']);
         $this->assertEquals('some_method_name', $result['retrieveMethod']);
@@ -47,7 +47,7 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetClassByAliasNotFound()
     {
-        $this->_dataserviceConfig->getClassByAlias('none');
+        $this->_dataServiceConfig->getClassByAlias('none');
     }
 
     /**
@@ -56,7 +56,7 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetClassByAliasInvalidCall()
     {
-        $this->_dataserviceConfig->getClassByAlias('missing_service');
+        $this->_dataServiceConfig->getClassByAlias('missing_service');
     }
 
 }

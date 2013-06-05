@@ -1,17 +1,17 @@
 <?php
 /**
- * Test class for Mage_Core_Model_Dataservice_Config_Reader
+ * Test class for Mage_Core_Model_DataService_Config_Reader
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Config_ReaderTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_TestCase
 {
     const NAMEPART = 'NAMEPART';
 
-    /** @var Mage_Core_Model_Dataservice_Config_Reader */
+    /** @var Mage_Core_Model_DataService_Config_Reader */
     private $_configReader;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
@@ -33,7 +33,7 @@ class Mage_Core_Model_Dataservice_Config_ReaderTest extends PHPUnit_Framework_Te
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_configLoader = $this->getMockBuilder('Mage_Core_Model_Dataservice_Config_Loader')
+        $this->_configLoader = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Loader')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -44,7 +44,7 @@ class Mage_Core_Model_Dataservice_Config_ReaderTest extends PHPUnit_Framework_Te
             ->method('getModulesConfig')
             ->will($this->returnValue($config));
 
-        $this->_configReader = new Mage_Core_Model_Dataservice_Config_Reader(
+        $this->_configReader = new Mage_Core_Model_DataService_Config_Reader(
                 $this->_modulesReaderMock,
                 $this->_cacheTypes,
                 $this->_configLoader
