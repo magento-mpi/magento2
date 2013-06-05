@@ -81,7 +81,6 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyAttribute(array $attributeData)
     {
-        $this->assertTrue($this->verifyForm($attributeData, 'properties'), $this->getParsedMessages());
         $this->verifyForm($attributeData, 'properties');
         if (isset($attributeData['manage_labels_options'])) {
             $this->openTab('manage_labels_options');

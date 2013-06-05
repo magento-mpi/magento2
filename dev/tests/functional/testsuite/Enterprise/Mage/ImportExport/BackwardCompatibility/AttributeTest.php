@@ -46,9 +46,9 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Steps 6-7
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
@@ -92,12 +92,12 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Steps 6-7
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array(
                 'attribute_label' => $attrData['attribute_properties']['attribute_label']
             )
         );
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
@@ -132,9 +132,9 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Steps 5
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
@@ -163,9 +163,9 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Step 6
         $this->importExportHelper()->chooseExportOptions('Products');
         //Verifying
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']));
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
@@ -194,10 +194,10 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Steps 12
         $this->importExportHelper()->chooseExportOptions('Products');
         //Verifying
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array('attribute_label' => $attrData['attribute_properties']['attribute_label'])
         );
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_label' => $attrData['attribute_properties']['attribute_label']),
             'grid_and_filter'
         );
@@ -215,12 +215,12 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Steps 17
         $this->importExportHelper()->chooseExportOptions('Products');
         //Verifying
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array(
                 'attribute_label' => $attrData['attribute_properties']['attribute_label'],
             )
         );
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']),
             'grid_and_filter'
         );

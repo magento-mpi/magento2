@@ -44,11 +44,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 4
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code'])
         );
         //Step 5
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
@@ -85,11 +85,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 4
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code'])
         );
         //Step 5
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
@@ -122,11 +122,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 5
-        $this->ImportExportHelper()->customerFilterAttributes(
+        $this->importExportHelper()->customerFilterAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code'])
         );
         //Step 6
-        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+        $isFound = $this->importExportHelper()->customerSearchAttributes(
             array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
@@ -161,7 +161,7 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step3
-        $this->ImportExportHelper()->setFilter(
+        $this->importExportHelper()->setFilter(
             array(
                  $attrData['attribute_properties']['attribute_code'] =>
                     $userData[$attrData['attribute_properties']['attribute_code']]
