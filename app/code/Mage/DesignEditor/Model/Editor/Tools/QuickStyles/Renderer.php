@@ -58,6 +58,10 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer
             }
         } elseif (!empty($data['value']) && $data['value'] != $data['default'] && !empty($data['attribute'])) {
             $content .= $this->_quickStyleFactory->get($data['attribute'])->toCss($data) . "\n";
+        } elseif (empty($data['value']) && $data['attribute'] === 'background-image' && $data['type'] === 'image-uploader'
+                && $data['selector'] === '.header') {
+            // Override the parent's default value for this specific component.
+            $content .= $this->_quickStyleFactory->get($data['attribute'])->toCss($data) . "\n";
         }
         return $this;
     }
