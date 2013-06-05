@@ -33,8 +33,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @file_get_contents($key);
         if (false === $result) {
-            $message = sprintf('Failed to read contents of %s', $key);
-            throw new Magento_Filesystem_Exception($message);
+            throw new Magento_Filesystem_Exception("Failed to read contents of '{$key}'");
         }
         return $result;
     }
@@ -51,8 +50,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @file_put_contents($key, $content);
         if (false === $result) {
-            $message = sprintf('Failed to write contents to %s', $key);
-            throw new Magento_Filesystem_Exception($message);
+            throw new Magento_Filesystem_Exception("Failed to write contents to '{$key}'");
         }
         return true;
     }
@@ -69,8 +67,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @rename($source, $target);
         if (!$result) {
-            $message = sprintf('Failed to rename %s to %s', $source, $target);
-            throw new Magento_Filesystem_Exception($message);
+            throw new Magento_Filesystem_Exception("Failed to rename '{$source}' to '{$target}'");
         }
         return true;
     }
@@ -87,8 +84,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @copy($source, $target);
         if (!$result) {
-            $message = sprintf('Failed to copy %s to %s', $source, $target);
-            throw new Magento_Filesystem_Exception($message);
+            throw new Magento_Filesystem_Exception("Failed to copy '{$source}' to '{$target}'");
         }
         return true;
     }
@@ -104,8 +100,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $hash = @md5_file($key);
         if (false === $hash) {
-            $message = sprintf('Failed to get hash of %s', $key);
-            throw new Magento_Filesystem_Exception($message);
+            throw new Magento_Filesystem_Exception("Failed to get hash of '{$key}'");
         }
         return $hash;
     }
@@ -124,7 +119,7 @@ class Magento_Filesystem_Adapter_Local implements
 
         if (is_file($key) || is_link($key)) {
             if (true !== @unlink($key)) {
-                throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $key));
+                throw new Magento_Filesystem_Exception("Failed to remove file '{$key}'");
             }
             return;
         }
@@ -132,7 +127,7 @@ class Magento_Filesystem_Adapter_Local implements
         $this->_deleteNestedKeys($key);
 
         if (true !== @rmdir($key)) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $key));
+            throw new Magento_Filesystem_Exception("Failed to remove directory '{$key}'");
         }
     }
 
@@ -147,17 +142,17 @@ class Magento_Filesystem_Adapter_Local implements
         foreach ($this->getNestedKeys($key) as $nestedKey) {
             if (is_dir($nestedKey) && !is_link($nestedKey)) {
                 if (true !== @rmdir($nestedKey)) {
-                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $nestedKey));
+                    throw new Magento_Filesystem_Exception("Failed to remove directory '{$nestedKey}'");
                 }
             } else {
                 // https://bugs.php.net/bug.php?id=52176
                 if (defined('PHP_WINDOWS_VERSION_MAJOR') && is_dir($nestedKey)) {
                     if (true !== @rmdir($nestedKey)) {
-                        throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
+                        throw new Magento_Filesystem_Exception("Failed to remove file '{$nestedKey}'");
                     }
                 } else {
                     if (true !== @unlink($nestedKey)) {
-                        throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
+                        throw new Magento_Filesystem_Exception("Failed to remove file '{$nestedKey}'");
                     }
                 }
             }
@@ -175,13 +170,13 @@ class Magento_Filesystem_Adapter_Local implements
     public function changePermissions($key, $permissions, $recursively)
     {
         if (!@chmod($key, $permissions)) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $key));
+            throw new Magento_Filesystem_Exception("Failed to change mode of '{$key}'");
         }
 
         if (is_dir($key) && $recursively) {
             foreach ($this->getNestedKeys($key) as $nestedKey) {
                 if (!@chmod($nestedKey, $permissions)) {
-                    throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $nestedKey));
+                    throw new Magento_Filesystem_Exception("Failed to change mode of '{$nestedKey}'");
                 }
             }
         }
@@ -199,7 +194,7 @@ class Magento_Filesystem_Adapter_Local implements
         $result = array();
 
         if (!is_dir($key)) {
-            throw new Magento_Filesystem_Exception(sprintf('The directory "%s" does not exist.', $key));
+            throw new Magento_Filesystem_Exception("The directory '{$key}' does not exist.");
         }
 
         try {
@@ -231,8 +226,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $result = @glob($pattern);
         if (false === $result) {
-            $message = sprintf('Failed to resolve the file pattern %s', $pattern);
-            throw new Magento_Filesystem_Exception($message);
+            throw new Magento_Filesystem_Exception("Failed to resolve the file pattern '{$pattern}'");
         }
         return $result;
     }
@@ -291,7 +285,7 @@ class Magento_Filesystem_Adapter_Local implements
     public function createDirectory($key, $mode)
     {
         if (!@mkdir($key, $mode, true)) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to create %s', $key));
+            throw new Magento_Filesystem_Exception("Failed to create '{$key}'");
         }
     }
 
@@ -310,7 +304,7 @@ class Magento_Filesystem_Adapter_Local implements
             $success = @touch($key, $fileModificationTime);
         }
         if (!$success) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to touch %s', $key));
+            throw new Magento_Filesystem_Exception("Failed to touch '{$key}'");
         }
     }
 
@@ -325,7 +319,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $mtime = @filemtime($key);
         if (false === $mtime) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to get modification time of %s', $key));
+            throw new Magento_Filesystem_Exception("Failed to get modification time of '{$key}'");
         }
         return $mtime;
     }
@@ -341,7 +335,7 @@ class Magento_Filesystem_Adapter_Local implements
     {
         $size = @filesize($key);
         if (false === $size) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to get file size of %s', $key));
+            throw new Magento_Filesystem_Exception("Failed to get file size of '{$key}'");
         }
         return $size;
     }
