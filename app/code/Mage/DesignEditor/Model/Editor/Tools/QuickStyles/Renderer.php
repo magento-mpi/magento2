@@ -69,7 +69,8 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer
      * @param array $data
      * @return bool
      */
-    protected function _isBackgroundImage($data) {
+    protected function _isBackgroundImage($data)
+    {
         return (!empty($data['attribute']) && $data['attribute'] === 'background-image' &&
             !empty($data['type']) && $data['type'] === 'image-uploader' &&
             !empty($data['selector']) && $data['selector'] === '.header');
