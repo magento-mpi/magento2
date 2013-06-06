@@ -12,8 +12,17 @@
  */
 class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_ConfigInterface
 {
-    /** @var Mage_Core_Model_DataService_Config_Reader */
+    const ELEMENT_CLASS = 'Varien_Simplexml_Element';
+
+    /**
+     * @var Mage_Core_Model_DataService_Config_Reader
+     */
     protected $_configReader;
+
+    /**
+     * @var array $_serviceCallNodes
+     */
+    protected $_finalServiceCallNodes;
 
     /**
      * @param Mage_Core_Model_DataService_Config_Reader $configReader
@@ -22,6 +31,23 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
         Mage_Core_Model_DataService_Config_Reader $configReader
     ) {
         $this->_configReader = $configReader;
+
+        /**
+         * @var array $serviceCallNodes
+         */
+        $serviceCallNodes
+            = $this->_configReader
+            ->getServiceCallConfig()
+            ->getXpath('/service_calls/service_call');
+
+        $this->_finalServiceCallNodes = array();
+
+        /**
+         * @var  Varien_Simplexml_Element $node
+         */
+        foreach ($serviceCallNodes as $node) {
+            $this->_finalServiceCallNodes[$node->getAttribute('name')] = $node;
+        }
     }
 
 
@@ -32,18 +58,23 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
      */
     public function getClassByAlias($alias)
     {
-        $serviceCallConfig = $this->_configReader->getServiceCallConfig();
-        $nodes = $serviceCallConfig->getXpath("/service_calls/service_call[@name='" . $alias . "']");
-
-        if (!$nodes || count($nodes) == 0) {
+        if (!isset($this->_finalServiceCallNodes[$alias])) {
             throw new InvalidArgumentException('Service call with name "' . $alias . '" doesn\'t exist');
         }
 
-        /** @var Mage_Core_Model_Config_Element $node */
-        $node = end($nodes);
+        /**
+         * @var Mage_Core_Model_Config_Element $node
+         */
+        $node = $this->_finalServiceCallNodes[$alias];
 
+        /**
+         * @var array $methodArguments
+         */
         $methodArguments = array();
-        /** @var Mage_Core_Model_Config_Element $child */
+
+        /**
+         * @var Mage_Core_Model_Config_Element $child
+         */
         foreach ($node as $child) {
             $methodArguments[$child->getAttribute('name')] = (string)$child;
         }
