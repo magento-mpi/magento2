@@ -18,7 +18,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     public function setup()
     {
         $dirs = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Dir', array('baseDir' => array(__DIR__ . '/_files'),
+            'Mage_Core_Model_Dir', array('baseDir' => array(BP),
                                          'dirs'    => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'),)
         );
         $fileReader = Mage::getObjectManager()->create(
@@ -27,7 +27,6 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $configLoader = Mage::getObjectManager()->create(
             'Mage_Core_Model_DataService_Config_Loader', array('dirs' => $dirs, 'fileReader' => $fileReader)
         );
-
 
         $dsConfigReader = Mage::getObjectManager()->
             create('Mage_Core_Model_DataService_Config_Reader',

@@ -12,20 +12,11 @@
  */
 class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_ConfigInterface
 {
-    /**
-     * The global area in the config
-     */
-    //const CONFIG_AREA = 'global';
-
-
-
-    const ELEMENT_CLASS = 'Varien_Simplexml_Element';
-
     /** @var Mage_Core_Model_DataService_Config_Reader */
     protected $_configReader;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Mage_Core_Model_DataService_Config_Reader $configReader
      */
     public function __construct(
         Mage_Core_Model_DataService_Config_Reader $configReader
