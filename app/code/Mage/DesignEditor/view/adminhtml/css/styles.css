@@ -1537,17 +1537,7 @@
 #vde_toolbar_row .vde_toolbar_row_inner .logo {
     margin-top: 6px;
     width: 160px;
-}
-
-#vde_toolbar_row .vde_toolbar_row_inner .logo span:before {
-    content: 'Store Designer';
-    font-family: 'CallunaSans';
-    font-size: 18px;
-    font-weight: 700;
-    white-space: nowrap;
-    top: auto;
-    line-height: 25px;
-    letter-spacing: -0.1em;
+    background: url(Mage_DesignEditor::images/logo-store-designer.png) no-repeat;
 }
 
 #vde_toolbar_row .vde_toolbar_cell {
