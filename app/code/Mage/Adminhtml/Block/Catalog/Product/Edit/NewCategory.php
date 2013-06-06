@@ -18,15 +18,25 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * Category factory model
+     *
+     * @var Mage_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+    
+    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param array $data
+     * @param Mage_Catalog_Model_CategoryFactory $categoryFactory
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        array $data = array()
+        array $data = array(),
+        Mage_Catalog_Model_CategoryFactory $categoryFactory
     ) {
         parent::__construct($context, $data);
         $this->setUseContainer(true);
+        $this->_categoryFactory = $categoryFactory;
     }
 
 
@@ -71,15 +81,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
      */
     protected function _getParentCategoryOptions()
     {
-        $items = Mage::getModel('Mage_Catalog_Model_Category')
+        $items = $this->_categoryFactory->create()
             ->getCollection()
             ->addAttributeToSelect('name')
+            ->addAttributeToSort('entity_id', 'ASC')
             ->setPageSize(3)
             ->load()
             ->getItems();
 
         return count($items) === 2
-            ? array($items[2]->getName())
+            ? array($items[2]->getEntityId() => $items[2]->getName())
             : array();
     }
 
