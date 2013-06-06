@@ -13,10 +13,9 @@
  *
  * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  * @method bool|null getIsFirstEntrance()
- * @codingStandardsIgnoreStar
- * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract|Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
+ *     setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setIsFirstEntrance(bool $flag)
- * @codingStandardsIgnoreEnd
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
