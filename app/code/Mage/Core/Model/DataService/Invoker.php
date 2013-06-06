@@ -23,25 +23,19 @@ class Mage_Core_Model_DataService_Invoker
     /** @var Mage_Core_Model_DataService_Path_Composite */
     protected $_composite;
 
-    /** @var Mage_Core_Model_DataService_Path_Navigator */
-    protected $_pathNavigator;
-
     /**
      * @param Mage_Core_Model_DataService_ConfigInterface $config
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_DataService_Path_Composite $composite
-     * @param Mage_Core_Model_DataService_Path_Navigator $pathNavigator
      */
     public function __construct(
         Mage_Core_Model_DataService_ConfigInterface $config,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_DataService_Path_Composite $composite,
-        Mage_Core_Model_DataService_Path_Navigator $pathNavigator
+        Mage_Core_Model_DataService_Path_Composite $composite
     ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_composite = $composite;
-        $this->_pathNavigator = $pathNavigator;
     }
 
     /**
@@ -92,7 +86,7 @@ class Mage_Core_Model_DataService_Invoker
         foreach ($argumentsList as $name => $value) {
             // convert from '{parent.child}' format to array('parent', 'child') format
             $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($value, '{}'));
-            $result[$name] = $this->_pathNavigator->search($this->_composite, $pathArray);
+            $result[$name] = Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
         }
         return $result;
     }

@@ -12,7 +12,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class  Mage_Core_Model_DataService_Path_Navigator
+class Mage_Core_Model_DataService_Path_Navigator
 {
     /**
      * Searches a root node using a given path for a specific child node.
@@ -22,7 +22,7 @@ class  Mage_Core_Model_DataService_Path_Navigator
      * @param array $path path to use for searching.
      * @return mixed
      */
-    public function search($root, array $path)
+    static public function search($root, array $path)
     {
         $pathElement = array_shift($path);
 
@@ -39,6 +39,6 @@ class  Mage_Core_Model_DataService_Path_Navigator
             return $childElement;
         }
 
-        return $this->search($childElement, $path);
+        return self::search($childElement, $path);
     }
 }
