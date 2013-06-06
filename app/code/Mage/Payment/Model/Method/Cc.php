@@ -142,7 +142,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         }
 
         if ($ccType != 'SS' && !$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
-            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Incorrect credit card expiration date.');
+            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('We found an incorrect credit card expiration date.');
         }
 
         if ($errorMsg) {
