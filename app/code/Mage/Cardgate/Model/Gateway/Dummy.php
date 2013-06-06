@@ -18,7 +18,7 @@ class Mage_Cardgate_Model_Gateway_Dummy extends Mage_Cardgate_Model_Gateway_Cred
     /**
      * Rewrite to make Dummy method always unavailable
      *
-     * @param Mage_Sales_Model_Quote
+     * @param Mage_Sales_Model_Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)

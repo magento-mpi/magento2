@@ -57,7 +57,7 @@
             <modules>
                 <Mage_Cardgate>
                     <files>
-                        <default>Cardgate_Cgp.csv</default>
+                        <default>Mage_Cardgate.csv</default>
                     </files>
                 </Mage_Cardgate>
             </modules>
@@ -76,7 +76,7 @@
             <modules>
                 <Mage_Cardgate>
                     <files>
-                        <default>Cardgate_Cgp.csv</default>
+                        <default>Mage_Cardgate.csv</default>
                     </files>
                 </Mage_Cardgate>
             </modules>

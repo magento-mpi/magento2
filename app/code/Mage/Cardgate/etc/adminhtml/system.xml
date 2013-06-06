@@ -36,12 +36,12 @@
                     <label>Transaction ID prefix</label>
                     <comment>Optional. Recommended assign once and avoid changes in future.</comment>
                 </field>
-                <field id="lang" translate="label source_model" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="lang" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Gateway language</label>
                     <comment>Setting a default language interface of the gateway.</comment>
                     <source_model>Mage_Cardgate_Model_System_Config_Source_Languages</source_model>
                 </field>
-                <field id="debug" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="debug" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Debug</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                 </field>

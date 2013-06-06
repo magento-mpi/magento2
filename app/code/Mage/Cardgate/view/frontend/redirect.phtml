@@ -10,6 +10,6 @@
 
 /** @var Mage_Cardgate_Block_Redirect $this */
 ?>
-<?php echo Mage::helper('Mage_Cardgate')->__('You will be redirected to CardGatePlus to finish your payment.'); ?>
+<?php echo $this->__('You will be redirected to CardGatePlus to finish your payment.'); ?>
 <?php echo $this->getForm(); ?>
 <script type="text/javascript">document.getElementById("cardgateplus_checkout").submit();</script>

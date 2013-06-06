@@ -24,6 +24,8 @@ class Mage_Cardgate_Model_System_Config_Source_PaymentAction
 
     /**
      * Constructor
+     *
+     * @param Mage_Cardgate_Helper_Data $helper
      */
     public function __construct(Mage_Cardgate_Helper_Data $helper)
     {

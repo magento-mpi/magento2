@@ -30,6 +30,8 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
     protected $_formFactory;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Block_Template_Context $context
      * @param Varien_Data_FormFactory $formFactory
      * @param array $data

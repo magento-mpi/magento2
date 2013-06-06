@@ -29,5 +29,10 @@ class Mage_Cardgate_Model_Gateway_Creditcard extends Mage_Cardgate_Model_Gateway
      */
     protected $_model = 'creditcard';
 
+    /**
+     * Cardgate Form Block class name
+     *
+     * @var string
+     */
     protected $_formBlockType = 'Mage_Cardgate_Block_Form_Creditcard';
 }

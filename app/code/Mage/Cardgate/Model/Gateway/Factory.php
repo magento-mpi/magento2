@@ -29,7 +29,7 @@ class Mage_Cardgate_Model_Gateway_Factory
     /**
      * Create gateway object
      *
-     * @param $modelName
+     * @param string $modelName
      * @throws InvalidArgumentException
      * @return Mage_Cardgate_Model_Gateway_Abstract
      */

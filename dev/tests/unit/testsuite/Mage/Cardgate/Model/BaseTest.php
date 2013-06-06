@@ -55,6 +55,11 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
     protected $_helperMock;
 
     /**
+     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_filesystemMock;
+
+    /**
      * Set up model
      * @var array $config
      */
@@ -68,6 +73,7 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Resource_Transaction_Factory', array('create'), array(), '', false);
         $this->_orderFactoryMock = $this->getMock('Mage_Sales_Model_OrderFactory', array('create'), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Cardgate_Helper_Data', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
 
         $this->_storeConfigMock->expects($this->once())->method('getConfig')->with($this->equalTo('payment/cardgate'))
             ->will($this->returnValue($config));
@@ -82,7 +88,8 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
             $this->_loggerMock,
             $this->_resourceTransactionFactoryMock,
             $this->_orderFactoryMock,
-            $this->_helperMock
+            $this->_helperMock,
+            $this->_filesystemMock
         );
     }
 

@@ -30,6 +30,8 @@ class Mage_Cardgate_Block_Form_Creditcard extends Mage_Payment_Block_Form
     protected $_paymentConfig;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Payment_Model_Config $paymentConfig
      * @param array $data

@@ -65,6 +65,20 @@ class Mage_Cardgate_Model_Base extends Varien_Object
     protected $_helper;
 
     /**
+     * Filesystem
+     *
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * Filesystem
+     *
+     * @var string
+     */
+    protected $_lockDir;
+
+    /**
      * Callback Data
      *
      * @var array
@@ -94,6 +108,16 @@ class Mage_Cardgate_Model_Base extends Varien_Object
 
     /**
      * Constructor
+     *
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Dir $dir
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Core_Model_Resource_Transaction_Factory $resourceTransactionFactory
+     * @param Mage_Sales_Model_OrderFactory $orderFactory
+     * @param Mage_Cardgate_Helper_Data $helper
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Store_Config $storeConfig,
@@ -103,6 +127,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         Mage_Core_Model_Resource_Transaction_Factory $resourceTransactionFactory,
         Mage_Sales_Model_OrderFactory $orderFactory,
         Mage_Cardgate_Helper_Data $helper,
+        Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -114,11 +139,13 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         $this->_resourceTransactionFactory = $resourceTransactionFactory;
         $this->_orderFactory = $orderFactory;
         $this->_helper = $helper;
+        $this->_filesystem = $filesystem;
 
         $this->_config = $this->_storeConfig->getConfig('payment/cardgate');
         if ($this->getConfigData('debug')) {
             $this->_logger->addStreamLog('cardgate', $this->_logFileName);
         }
+        $this->_lockDir = $this->_dir->getDir(Mage_Core_Model_Dir::VAR_DIR) . DS . 'locks';
     }
 
     /**
@@ -152,14 +179,16 @@ class Mage_Cardgate_Model_Base extends Varien_Object
      * Get callback data
      *
      * @param string $field
-     * @return string
+     * @return string|null
      */
     public function getCallbackData($field = null)
     {
         if ($field === null) {
             return $this->_callback;
+        } elseif (isset($this->_callback[$field])) {
+            return $this->_callback[$field];
         } else {
-            return @$this->_callback[$field];
+            return null;
         }
     }
 
@@ -203,15 +232,18 @@ class Mage_Cardgate_Model_Base extends Varien_Object
      */
     public function lock()
     {
-        $varDir = $this->_dir->getDir(Mage_Core_Model_Dir::VAR_DIR);
-        $lockFilename = $varDir . DS . $this->getCallbackData('ref') . '.lock';
-        $fp = @fopen($lockFilename, 'x');
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->ensureDirectoryExists($this->_lockDir);
+        $this->_filesystem->setWorkingDirectory($this->_lockDir);
 
-        if ($fp) {
+        $lockFilename = $this->getCallbackData('ref') . '.lock';
+
+        if (!$this->_filesystem->isFile($lockFilename)) {
             $this->_isLocked = true;
             $pid = getmypid();
             $now = date('Y-m-d H:i:s');
-            fwrite($fp, "Locked by $pid at $now\n");
+            $this->_filesystem->write($lockFilename, "Locked by $pid at $now\n");
+            $this->_filesystem->changePermissions($lockFilename, 0644);
         }
 
         return $this;
@@ -225,9 +257,11 @@ class Mage_Cardgate_Model_Base extends Varien_Object
     public function unlock()
     {
         $this->_isLocked = false;
-        $varDir = $this->_dir->getDir(Mage_Core_Model_Dir::VAR_DIR);
-        $lockFilename = $varDir . DS . $this->getCallbackData('ref') . '.lock';
-        @unlink($lockFilename);
+        $lockFilename = $this->getCallbackData('ref') . '.lock';
+
+        if ($this->_filesystem->isFile($lockFilename)) {
+            $this->_filesystem->delete($lockFilename);
+        }
 
         return $this;
     }
@@ -296,6 +330,33 @@ class Mage_Cardgate_Model_Base extends Varien_Object
     }
 
     /**
+     * Check whether the order can be updated
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return bool
+     */
+    protected function _isOrderUpdatable(Mage_Sales_Model_Order $order)
+    {
+        // Update only certain states
+        $canUpdate = false;
+        if ($order->getState() == Mage_Sales_Model_Order::STATE_NEW ||
+            $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT ||
+            $order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING ||
+            $order->getState() == Mage_Sales_Model_Order::STATE_CANCELED) {
+            $canUpdate = true;
+        }
+
+        // Don't update order status if the payment is complete
+        foreach ($order->getStatusHistoryCollection(true) as $_item) {
+            if ($_item->getComment() == $this->_helper->__("Payment complete.")) {
+                $canUpdate = false;
+            }
+        }
+
+        return $canUpdate;
+    }
+
+    /**
      * Process callback for all transactions
      *
      * @throws RuntimeException
@@ -358,27 +419,13 @@ class Mage_Cardgate_Model_Base extends Varien_Object
                 break;
         }
 
-        // Update only certain states
-        $canUpdate = false;
-        if ($order->getState() == Mage_Sales_Model_Order::STATE_NEW ||
-            $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT ||
-            $order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING ||
-            $order->getState() == Mage_Sales_Model_Order::STATE_CANCELED) {
-            $canUpdate = true;
-        }
-
-        // Don't update order status if the payment is complete
-        foreach ($order->getStatusHistoryCollection(true) as $_item) {
-            if ($_item->getComment() == $this->_helper->__("Payment complete.")) {
-                $canUpdate = false;
-            }
-        }
-
         // Lock
         $this->lock();
 
         // Update the status if changed
-        if ($canUpdate && (($newState != $order->getState()) || ($newStatus != $order->getStatus())) ){
+        if ($this->_isOrderUpdatable($order) &&
+            (($newState != $order->getState()) || ($newStatus != $order->getStatus()))
+        ) {
             // Create an invoice when the payment is completed
             if ($complete && !$canceled && $autocreateInvoice) {
                 $this->_createInvoice($order);

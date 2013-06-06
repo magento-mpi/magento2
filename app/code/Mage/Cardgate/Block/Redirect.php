@@ -39,6 +39,8 @@ class Mage_Cardgate_Block_Redirect extends Mage_Core_Block_Template
     protected $_formFactory;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_Cardgate_Model_Gateway_Factory $gatewayFactory

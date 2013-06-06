@@ -85,6 +85,11 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      */
     protected $_url = 'https://gateway.cardgateplus.com/';
 
+    /**
+     * Codes of supported currencies
+     *
+     * @var array
+     */
     protected $_supportedCurrencies = array(
         'EUR', 'USD', 'JPY', 'BGN', 'CZK',
         'DKK', 'GBP', 'HUF', 'LTL', 'LVL',
@@ -107,6 +112,16 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
 
+    /**
+     * Constructor
+     *
+     * @param Mage_Checkout_Model_Session $checkoutSession
+     * @param Mage_Sales_Model_OrderFactory $orderFactory
+     * @param Mage_Core_Model_Url $urlGenerator
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Cardgate_Model_Base $base
+     * @param Mage_Cardgate_Helper_Data $helper
+     */
     public function __construct(
         Mage_Checkout_Model_Session $checkoutSession,
         Mage_Sales_Model_OrderFactory $orderFactory,
@@ -166,7 +181,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      */
     public function setSortOrder($order)
     {
-        $this->sort_order = $this->getConfigData('sort_order');
+        parent::setSortOrder($this->getConfigData('sort_order'));
     }
 
     /**
@@ -177,9 +192,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      */
     function getModelUrl($url)
     {
-        $params = array(
-            '_secure' => true
-        );
+        $params = array('_secure' => true);
         if (!empty($this->_model)) {
             $params['model'] = $this->_model;
         }
@@ -199,10 +212,8 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
     /**
      * Retrieve config value for store by path
      *
-     * @param $field
-     * @param null $storeId
-     * @internal param string $path
-     * @internal param mixed $store
+     * @param string $field
+     * @param int|string|null|Mage_Core_Model_Store $storeId
      * @return mixed
      */
     public function getConfigData($field, $storeId = null)

@@ -60,6 +60,8 @@ class Mage_Cardgate_CardgateController extends Mage_Core_Controller_Front_Action
     protected $_gatewayModel;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param Mage_Cardgate_Model_Base $base
      * @param Mage_Cardgate_Model_BaseFactory $baseFactory
@@ -112,6 +114,7 @@ class Mage_Cardgate_CardgateController extends Mage_Core_Controller_Front_Action
     /**
      * Check if within the URL in model param
      * if not, return default gateway model
+     *
      * @return string|null
      */
     protected function getGatewayModel()
