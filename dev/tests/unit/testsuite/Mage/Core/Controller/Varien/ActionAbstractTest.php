@@ -40,6 +40,7 @@ class Mage_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_T
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'), array(), '', false
         );
         $this->_response = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
+        $this->_response->headersSentThrowsException = false;
         $this->_actionAbstract = new Mage_Core_Controller_Varien_Action_Forward($this->_request, $this->_response,
             'Area'
         );
@@ -90,6 +91,7 @@ class Mage_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_T
     {
         $request = new Mage_Core_Controller_Request_Http();
         $response = new Mage_Core_Controller_Response_Http();
+        $response->headersSentThrowsException = false;
         $action = new Mage_Core_Controller_Varien_Action_Forward($request, $response, 'Area');
 
         $headers = array(

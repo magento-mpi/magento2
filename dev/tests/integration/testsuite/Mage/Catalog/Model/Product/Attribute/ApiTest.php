@@ -74,26 +74,26 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCreate()
     {
-        $attributeCode = 'test_attribute';
+        $attributeCode = "test_attribute";
         $dataToCreate = array(
-            'attribute_code' => $attributeCode,
-            'frontend_input' => 'text',
-            'scope' => 'store',
-            'default_value' => '1',
-            'is_unique' => 0,
-            'is_required' => 0,
-            'apply_to' => array('simple'),
-            'is_configurable' => 0,
-            'is_searchable' => 0,
-            'is_visible_in_advanced_search' => 0,
-            'is_comparable' => 0,
-            'is_used_for_promo_rules' => 0,
-            'is_visible_on_front' => 0,
-            'used_in_product_listing' => 0,
-            'frontend_label' => array(
+            "attribute_code" => $attributeCode,
+            "frontend_input" => "text",
+            "scope" => "store",
+            "default_value" => "1",
+            "is_unique" => 0,
+            "is_required" => 0,
+            "apply_to" => array("simple"),
+            "is_configurable" => 0,
+            "is_searchable" => 0,
+            "is_visible_in_advanced_search" => 0,
+            "is_comparable" => 0,
+            "is_used_for_promo_rules" => 0,
+            "is_visible_on_front" => 0,
+            "used_in_product_listing" => 0,
+            "frontend_label" => array(
                 array(
-                    'store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID,
-                    'label' => 'Fixture String',
+                    "store_id" => "0",
+                    "label" => "some label",
                 )
             )
         );
@@ -110,45 +110,6 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Test cleaning attribute label cache during attribute creation
-     *
-     * @magentoDataFixture Mage/Core/_files/db_translate.php
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
-     * @magentoAppIsolation enabled
-     */
-    public function testCreateCleanAttributeLabelCache()
-    {
-        // ensure string translation is cached
-        $this->_translate('Fixture String');
-        /** @var Mage_Core_Model_Resource_Translate_String $translateString */
-        $translateString = Mage::getModel('Mage_Core_Model_Resource_Translate_String');
-        $translateString->saveTranslate('Fixture String', 'New Db Translation');
-        $this->assertEquals(
-            'Fixture Db Translation', $this->_translate('Fixture String'), 'Translation is expected to be cached'
-        );
-
-        $this->testCreate();
-
-        $this->assertEquals(
-            'New Db Translation', $this->_translate('Fixture String'), 'Translation cache is expected to be flushed'
-        );
-    }
-
-    /**
-     * Return translation for a string literal
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function _translate($string)
-    {
-        /** @var Mage_Core_Model_Translate $translate */
-        $translate = Mage::getModel('Mage_Core_Model_Translate');
-        $translate->init(Mage_Core_Model_App_Area::AREA_FRONTEND, null);
-        return $translate->translate(array($string));
-    }
-
-    /**
      * Test attribute update.
      *
      * @magentoDataFixture Mage/Catalog/Model/Product/Attribute/_files/select_attribute.php
@@ -157,21 +118,21 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
     {
         $attributeCode = 'select_attribute';
         $dataToUpdate = array(
-            'scope' => 'global',
-            'default_value' => '2',
-            'is_unique' => 1,
-            'is_required' => 1,
-            'apply_to' => array('simple', 'configurable'),
-            'is_configurable' => 1,
-            'is_searchable' => 1,
-            'is_visible_in_advanced_search' => 1,
-            'is_comparable' => 1,
-            'is_visible_on_front' => 1,
-            'used_in_product_listing' => 1,
-            'frontend_label' => array(
+            "scope" => "global",
+            "default_value" => "2",
+            "is_unique" => 1,
+            "is_required" => 1,
+            "apply_to" => array("simple", "configurable"),
+            "is_configurable" => 1,
+            "is_searchable" => 1,
+            "is_visible_in_advanced_search" => 1,
+            "is_comparable" => 1,
+            "is_visible_on_front" => 1,
+            "used_in_product_listing" => 1,
+            "frontend_label" => array(
                 array(
-                    'store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID,
-                    'label' => 'Fixture String'
+                    "store_id" => "0",
+                    "label" => "Label Updated"
                 )
             )
         );
@@ -187,32 +148,6 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
         $this->assertTrue($result, 'Attribute update was not successful.');
 
         $this->_verifyAttribute($attributeCode, $dataToUpdate);
-    }
-
-    /**
-     * Test cleaning attribute label cache during attribute creation
-     *
-     * @magentoDataFixture Mage/Core/_files/db_translate.php
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
-     * @magentoDataFixture Mage/Catalog/Model/Product/Attribute/_files/select_attribute.php
-     * @magentoAppIsolation enabled
-     */
-    public function testUpdateCleanAttributeLabelCache()
-    {
-        // ensure string translation is cached
-        $this->_translate('Fixture String');
-        /** @var Mage_Core_Model_Resource_Translate_String $translateString */
-        $translateString = Mage::getModel('Mage_Core_Model_Resource_Translate_String');
-        $translateString->saveTranslate('Fixture String', 'New Db Translation');
-        $this->assertEquals(
-            'Fixture Db Translation', $this->_translate('Fixture String'), 'Translation is expected to be cached'
-        );
-
-        $this->testUpdate();
-
-        $this->assertEquals(
-            'New Db Translation', $this->_translate('Fixture String'), 'Translation cache is expected to be flushed'
-        );
     }
 
     /**

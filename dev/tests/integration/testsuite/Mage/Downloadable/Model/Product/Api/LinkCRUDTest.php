@@ -7,16 +7,16 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_Catalog_Model_Product_Api_DownloadableLinkCRUDTest extends PHPUnit_Framework_TestCase
+class Mage_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test downloadable link create
      *
-     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/LinkCRUD.php
+     * @magentoDataFixture Mage/Downloadable/_files/LinkCRUD.php
      */
     public function testDownloadableLinkCreate()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/LinkCRUD.xml');
+        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/../../../_files/_data/xml/LinkCRUD.xml');
         $items = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->items);
 
         $productId = Mage::registry('productData')->getId();
@@ -24,7 +24,9 @@ class Mage_Catalog_Model_Product_Api_DownloadableLinkCRUDTest extends PHPUnit_Fr
         foreach ($items as $item) {
             foreach ($item as $key => $value) {
                 if ($value['type'] == 'file') {
-                    $filePath = dirname(__FILE__) . '/_files/_data/files/' . $value['file']['filename'];
+                    $filePath = dirname(__FILE__) . '/../../../../Catalog/Model/Product/Api/_files/_data/files/'
+                              . $value['file']['filename'];
+                    echo $filePath . "\n";
                     $value['file'] = array(
                         'name' => str_replace('/', '_', $value['file']['filename']),
                         'base64_content' => base64_encode(file_get_contents($filePath)),
@@ -32,7 +34,9 @@ class Mage_Catalog_Model_Product_Api_DownloadableLinkCRUDTest extends PHPUnit_Fr
                     );
                 }
                 if ($key == 'link' && $value['sample']['type'] == 'file') {
-                    $filePath = dirname(__FILE__) . '/_files/_data/files/' . $value['sample']['file']['filename'];
+                    $filePath = dirname(__FILE__) . '/../../../../Catalog/Model/Product/Api/_files/_data/files/'
+                              . $value['sample']['file']['filename'];
+                    echo $filePath . "\n";
                     $value['sample']['file'] = array(
                         'name' => str_replace('/', '_', $value['sample']['file']['filename']),
                         'base64_content' => base64_encode(file_get_contents($filePath))
@@ -56,7 +60,7 @@ class Mage_Catalog_Model_Product_Api_DownloadableLinkCRUDTest extends PHPUnit_Fr
     /**
      * Test get downloadable link items
      *
-     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/DownloadableWithLinks.php
+     * @magentoDataFixture Mage/Downloadable/_files/WithLinks.php
      */
     public function testDownloadableLinkItems()
     {
@@ -87,7 +91,7 @@ class Mage_Catalog_Model_Product_Api_DownloadableLinkCRUDTest extends PHPUnit_Fr
     /**
      * Remove downloadable link
      *
-     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/DownloadableWithLinks.php
+     * @magentoDataFixture Mage/Downloadable/_files/WithLinks.php
      */
     public function testDownloadableLinkRemove()
     {
