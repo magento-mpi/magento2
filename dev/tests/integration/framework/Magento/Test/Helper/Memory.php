@@ -47,11 +47,12 @@ class Magento_Test_Helper_Memory
     {
         $pid = getmypid();
         try {
-            // try to use the Unix command line
-            $result = $this->_getUnixProcessMemoryUsage($pid);
-        } catch (Magento_Exception $e) {
-            // fall back to the Windows command line
+            // try to use the Windows command line
+            // some ports of Unix commands on Windows, such as MinGW, have limited capabilities and cannot be used
             $result = $this->_getWinProcessMemoryUsage($pid);
+        } catch (Magento_Exception $e) {
+            // fall back to the Unix command line
+            $result = $this->_getUnixProcessMemoryUsage($pid);
         }
         return $result;
     }
@@ -80,7 +81,7 @@ class Magento_Test_Helper_Memory
      */
     protected function _getWinProcessMemoryUsage($pid)
     {
-        $output = $this->_shell->execute('tasklist /fi %s /fo CSV /nh', array("PID eq $pid"));
+        $output = $this->_shell->execute('tasklist.exe /fi %s /fo CSV /nh', array("PID eq $pid"));
 
         /** @link http://www.php.net/manual/en/wrappers.data.php */
         $csvStream = 'data://text/plain;base64,' . base64_encode($output);

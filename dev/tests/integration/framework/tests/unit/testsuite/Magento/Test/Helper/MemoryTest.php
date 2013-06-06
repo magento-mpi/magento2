@@ -21,9 +21,15 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     {
         $object = new Magento_Test_Helper_Memory($this->_shell);
         $this->_shell
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('execute')
-            ->with($this->stringStartsWith('ps'))
+            ->with($this->stringStartsWith('tasklist.exe '))
+            ->will($this->throwException(new Magento_Exception('command not found')))
+        ;
+        $this->_shell
+            ->expects($this->at(1))
+            ->method('execute')
+            ->with($this->stringStartsWith('ps '))
             ->will($this->returnValue('26321'))
         ;
         $this->assertEquals(26952704, $object->getRealMemoryUsage());
@@ -32,15 +38,9 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     public function testGetRealMemoryUsageWin()
     {
         $this->_shell
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('execute')
-            ->with($this->stringStartsWith('ps'))
-            ->will($this->throwException(new Magento_Exception('command not found')))
-        ;
-        $this->_shell
-            ->expects($this->at(1))
-            ->method('execute')
-            ->with($this->stringStartsWith('tasklist'))
+            ->with($this->stringStartsWith('tasklist.exe '))
             ->will($this->returnValue('"php.exe","12345","N/A","0","26,321 K"'))
         ;
         $object = new Magento_Test_Helper_Memory($this->_shell);
