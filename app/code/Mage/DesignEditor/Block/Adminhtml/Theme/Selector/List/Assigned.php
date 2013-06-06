@@ -42,7 +42,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned
      */
     public function getTabTitle()
     {
-        return $this->__('Themes Assigned to Store Views');
+        return $this->__('Themes Assigned to Store View');
     }
 
     /**
