@@ -79,8 +79,9 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         );
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
         $this->_storeManagerMock = $this->getMockForAbstractClass(
-            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('reinitStores')
+            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array()
         );
+        $this->_storeManagerMock->expects($this->once())->method('reinitStores');
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
             array('addSuccess', 'addException'), array(), '', false, false
@@ -145,11 +146,11 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $this->_sessionMock->expects($this->once())->method('addSuccess')->with('You saved the configuration.');
 
         $this->_eventManagerMock->expects($this->exactly(3))->method('dispatch');
-        $this->_eventManagerMock->expects($this->at(0))->method('dispatch')->with('application_process_reinit_config');
-        $this->_eventManagerMock->expects($this->at(1))->method('dispatch')
+        $this->_eventManagerMock->expects($this->at(0))->method('dispatch')
             ->with('admin_system_config_section_save_after');
-        $this->_eventManagerMock->expects($this->at(2))->method('dispatch')
+        $this->_eventManagerMock->expects($this->at(1))->method('dispatch')
             ->with('admin_system_config_changed_section_test_section');
+        $this->_eventManagerMock->expects($this->at(2))->method('dispatch')->with('application_process_reinit_config');
 
         $groups = array('some_key' => 'some_value');
         $requestParamMap = array(
@@ -187,7 +188,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $backendConfigMock = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false, false);
         $backendConfigMock->expects($this->never())->method('save');
         $this->_configMock->expects($this->never())->method('reinit');
-        $this->_eventManagerMock->expects($this->never())->method('dispatch');
+        $this->_eventManagerMock->expects($this->once())->method('dispatch')->with('application_process_reinit_config');
         $this->_sessionMock->expects($this->never())->method('addSuccess');
         $this->_sessionMock->expects($this->once())->method('addException');
 

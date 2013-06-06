@@ -96,14 +96,9 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
             $configModel = $this->_configFactory->create(array('data' => $configData));
             $configModel->save();
 
-            // re-init configuration
-            $this->_eventManager->dispatch('application_process_reinit_config');
-
             $this->_eventManager->dispatch('admin_system_config_section_save_after', array(
                 'website' => $website, 'store' => $store, 'section' => $section
             ));
-
-            $this->_storeManager->reinitStores();
 
             // website and store codes can be used in event implementation, so set them as well
             $this->_eventManager->dispatch("admin_system_config_changed_section_{$section}", array(
@@ -119,6 +114,10 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
             $this->_session->addException($e,
                 $this->_getHelper()->__('An error occurred while saving this configuration:') . ' ' . $e->getMessage());
         }
+
+        // re-init configuration
+        $this->_eventManager->dispatch('application_process_reinit_config');
+        $this->_storeManager->reinitStores();
 
         $this->_saveState($this->getRequest()->getPost('config_state'));
         $this->_redirect('*/system_config/edit', array('_current' => array('section', 'website', 'store')));
