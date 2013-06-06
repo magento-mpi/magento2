@@ -26,8 +26,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
     
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param array $data
      * @param Mage_Catalog_Model_CategoryFactory $categoryFactory
+     * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
