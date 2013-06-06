@@ -1223,7 +1223,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com ship-val-req'
             . ($originRegion ? '_' . $originRegion : '') . '.xsd" />';
-        $xml = new Mage_Usa_Model_Simplexml_Element($xmlStr);
+        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
 
         $nodeRequest = $xml->addChild('Request', '', '');
         $nodeServiceHeader = $nodeRequest->addChild('ServiceHeader');
@@ -1506,7 +1506,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
 
-        $xml = new Mage_Usa_Model_Simplexml_Element($xmlStr);
+        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
 
         $requestNode = $xml->addChild('Request', '', '');
         $serviceHeaderNode = $requestNode->addChild('ServiceHeader', '', '');
