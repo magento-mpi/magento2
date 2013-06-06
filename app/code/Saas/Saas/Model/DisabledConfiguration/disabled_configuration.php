@@ -104,8 +104,7 @@ return array(
     'carriers/dhl/debug',
     'carriers/dhlint/debug',
 
-    'payment/pbridge/debug',
-    'payment/pbridge_authorizenet/debug',
+    'payment/pbridge/pbridge/debug',
     'payment/authorizenet/debug',
 
     'payment_services/centinel/debug',
@@ -124,17 +123,20 @@ return array(
     'google/googleshopping/debug',
 
     'payment/authorizenet/currency',
-    'payment/cc/active',
     'payment/ccsave/active',
 
     'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/debug',
-    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/verify_peer',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/'
+        . 'verify_peer',
 
     'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug',
-    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer',
+    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/'
+        . 'verify_peer',
 
-    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug',
-    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/'
+        . 'billing_agreement/debug',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/'
+        . 'billing_agreement/verify_peer',
 
     'payment/paypal_payments/wpp/wpp_settings/wpp_settings_advanced/debug',
     'payment/paypal_payments/wpp/wpp_settings/wpp_settings_advanced/verify_peer',
@@ -145,7 +147,8 @@ return array(
     'payment/paypal_payments/paypal_verisign/settings_paypal_payflow/settings_paypal_payflow_advanced/debug',
     'payment/paypal_payments/paypal_verisign/settings_paypal_payflow/settings_paypal_payflow_advanced/verify_peer',
 
-    'payment/paypal_payments/paypal_verisign/paypal_payflow_express_checkout/paypal_payflow_express_checkout_advanced/debug',
+    'payment/paypal_payments/paypal_verisign/paypal_payflow_express_checkout/'
+        . 'paypal_payflow_express_checkout_advanced/debug',
 
     'payment/paypal_payments/payflow_link/settings_payflow_link/settings_payflow_link_advanced/debug',
     'payment/paypal_payments/payflow_link/settings_payflow_link/settings_payflow_link_advanced/verify_peer',

@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Saas
+ * @package     Saas_Paypal
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 $installer = $this;
 

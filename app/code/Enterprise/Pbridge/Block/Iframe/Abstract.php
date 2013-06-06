@@ -174,7 +174,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     }
 
     /**
-     * Returns merged css url of saas for pbridge
+     * Returns merged css url for pbridge
      *
      * @return string
      */

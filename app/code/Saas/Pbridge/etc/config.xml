@@ -13,8 +13,7 @@
     <modules>
         <Saas_Pbridge>
             <version>1.8.0.0.0</version>
-            <active>true</active>
-            <codePool>core</codePool>
+            <active>false</active>
             <depends>
                 <Enterprise_Pbridge/>
                 <Saas_Paypal/>

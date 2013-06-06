@@ -4,8 +4,8 @@
  *
  * @category    Saas
  * @package     Saas_Paypal
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 
@@ -66,7 +66,9 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
                 $$(".pp-method-express button.button").each(function(ecButton){
                     var ecEnabler = $$(".paypal-ec-enabler")[0];
                     var ecBoardingEnabler = $$(".paypal-ec-boarding-enabler")[0];
-                    if (typeof ecButton == "undefined" || (typeof ecEnabler != "undefined" && typeof ecBoardingEnabler != "undefined")) {
+                    if (typeof ecButton == "undefined" ||
+                        (typeof ecEnabler != "undefined" && typeof ecBoardingEnabler != "undefined")
+                    ) {
                         return;
                     }
                     var $ecButton = $(ecButton);

@@ -1,8 +1,14 @@
 <?php
 /**
- * Payment module base helper
+ * {license_notice}
  *
- * @author  Magento Core Team <core@magentocommerce.com>
+ * @category    Saas
+ * @package     Saas_Payment
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * Payment module base helper
  */
 class Saas_Payment_Helper_Data extends Mage_Payment_Helper_Data
 {
@@ -25,6 +31,7 @@ class Saas_Payment_Helper_Data extends Mage_Payment_Helper_Data
      * @param bool $sorted
      * @param bool $asLabelValue
      * @param bool $withGroups
+     * @param mixed $store
      * @return array
      */
     public function getPaymentMethodList($sorted = true, $asLabelValue = false, $withGroups = false, $store = null)

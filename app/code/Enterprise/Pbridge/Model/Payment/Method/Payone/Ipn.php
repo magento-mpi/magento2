@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento Enterprise Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 /**
@@ -91,7 +75,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
 
-        $url = rtrim(Mage::helper('enterprise_pbridge')->getBridgeBaseUrl(), '/') . '/ipn.php?action=PayoneIpn';
+        $url = rtrim(Mage::helper('Enterprise_Pbridge_Helper_Data')->getBridgeBaseUrl(), '/') . '/ipn.php?action=PayoneIpn';
 
         try {
             $http = new Varien_Http_Adapter_Curl();
@@ -104,7 +88,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
         }
 
         if ($error = $http->getError()) {
-            $this->_notifyAdmin(Mage::helper('enterprise_pbridge')->__('IPN postback HTTP error: %s', $error));
+            $this->_notifyAdmin(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('IPN postback HTTP error: %s', $error));
             $http->close();
 
             return;
@@ -117,7 +101,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
             $this->processIpnVerified();
         } else {
             // TODO: possible PCI compliance issue - the $sReq may contain data that is supposed to be encrypted
-            $this->_notifyAdmin(Mage::helper('enterprise_pbridge')->__('IPN postback Validation error: %s', $sReq));
+            $this->_notifyAdmin(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('IPN postback Validation error: %s', $sReq));
         }
     }
 
@@ -132,11 +116,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->getIpnFormData('order_id');
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('Mage_Sales_Model_Order');
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws Exception intentionally, because cannot be logged to order comments
-                throw new Exception(Mage::helper('enterprise_pbridge')->__('Wrong Order ID (%s) specified.', $id));
+                throw new Exception(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Wrong Order ID (%s) specified.', $id));
             }
             $this->_order = $order;
         }
@@ -166,7 +150,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
                     break;
             }
         } catch (Mage_Core_Exception $e) {
-            $history = $this->_createIpnComment(Mage::helper('enterprise_pbridge')->__('Note: %s', $e->getMessage()))
+            $history = $this->_createIpnComment(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Note: %s', $e->getMessage()))
                 ->save();
             $this->_notifyAdmin($history->getComment(), $e);
         }
@@ -182,7 +166,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
         if ($order->getStatus() != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
             return false;
         }
-        $comment = Mage::helper('enterprise_pbridge')->__('3D secure authentication passed.');
+        $comment = Mage::helper('Enterprise_Pbridge_Helper_Data')->__('3D secure authentication passed.');
         $order->getPayment()
             ->setPreparedMessage($this->_createIpnComment($comment, false))
             ->setTransactionId($this->getIpnFormData('transaction_id'))
@@ -220,7 +204,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
         // notify customer
         if ($invoice = $payment->getCreatedInvoice()) {
             $order->sendNewOrderEmail()->addStatusHistoryComment(
-                Mage::helper('enterprise_pbridge')->__('Notified customer about invoice #%s.', $invoice->getIncrementId())
+                Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Notified customer about invoice #%s.', $invoice->getIncrementId())
             )
             ->setIsCustomerNotified(true)
             ->save();
@@ -251,7 +235,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Ipn
     protected function _createIpnComment($comment = '', $addToHistory = true)
     {
         $paymentStatus = $this->getIpnFormData('txaction');
-        $message = Mage::helper('enterprise_pbridge')->__('IPN verification "%s".', $paymentStatus);
+        $message = Mage::helper('Enterprise_Pbridge_Helper_Data')->__('IPN verification "%s".', $paymentStatus);
         if ($comment) {
             $message .= ' ' . $comment;
         }
