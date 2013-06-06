@@ -9,7 +9,6 @@
  */
 class Mage_Core_Model_DataService_Config_Loader extends Mage_Core_Model_Config_Loader_Modules
 {
-
     /**
      * Returns sorted modules config
      *
@@ -17,7 +16,7 @@ class Mage_Core_Model_DataService_Config_Loader extends Mage_Core_Model_Config_L
      */
     public function getModulesConfig()
     {
-        $config = new Mage_Core_Model_Config_Base('<config><modules></modules></config>');
+        $config = $this->_prototypeFactory->create('<config><modules></modules></config>');
 
         $this->_loadDeclaredModules($config);
 
