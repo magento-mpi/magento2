@@ -44,7 +44,7 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
             ->method('getModulesConfig')
             ->will($this->returnValue($config));
 
-        $this->_configReader = new Mage_Core_Model_DataService_Config_Reader_Stub(
+        $this->_configReader = new Mage_Core_Model_DataService_Config_Reader(
                 $this->_modulesReaderMock,
                 $this->_cacheTypes,
                 $this->_configLoader
@@ -74,13 +74,5 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
         $result = $this->_configReader->getSchemaFile();
         $this->assertNotNull($result);
         $this->assertEquals($expectedDir, $result, 'returned schema file is wrong');
-    }
-}
-
-class Mage_Core_Model_DataService_Config_Reader_Stub extends Mage_Core_Model_Dataservice_Config_Reader
-{
-    protected function _isRuntimeValidated()
-    {
-        return false;
     }
 }
