@@ -33,7 +33,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     public function getClassByAlias($alias)
     {
         $serviceCallConfig = $this->_configReader->getServiceCallConfig();
-        $nodes = $serviceCallConfig->getXpath("//service_call[@name='" . $alias . "']");
+        $nodes = $serviceCallConfig->getXpath("/service_calls/service_call[@name='" . $alias . "']");
 
         if (!$nodes || count($nodes) == 0) {
             throw new InvalidArgumentException('Service call with name "' . $alias . '" doesn\'t exist');
