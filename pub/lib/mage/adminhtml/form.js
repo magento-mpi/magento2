@@ -415,11 +415,12 @@ FormElementDependenceController.prototype = {
         }
 
         // toggle target row
-        var headElement = $(idTo + '-head');
+        var headElement = $(idTo + '-head'),
+            inputs = $(idTo).up(this._config.levels_up).select('input', 'select', 'td');
         if (shouldShowUp) {
             var currentConfig = this._config;
-            if ($(idTo).select('input', 'select', 'td')) {
-                $(idTo).select('input', 'select', 'td').each(function (item) {
+            if (inputs) {
+                inputs.each(function (item) {
                     // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
                     if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)
                         && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
@@ -443,8 +444,8 @@ FormElementDependenceController.prototype = {
                 }
             }
         } else {
-            if ($(idTo).select('input', 'select', 'td')) {
-                $(idTo).select('input', 'select', 'td').each(function (item){
+            if (inputs) {
+                inputs.each(function (item){
                     // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
                     if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
                         item.disabled = true;
