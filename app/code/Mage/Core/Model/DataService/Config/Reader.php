@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_DataService_Config_Reader
+class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstract
 {
 
     /**
@@ -19,11 +19,6 @@ class Mage_Core_Model_DataService_Config_Reader
      * service calls cache name
      */
     const CONFIG_CACHE_NAME = 'service_calls_config';
-
-    /**
-     * Class name used to load xml elements
-     */
-    const ELEMENT_CLASS = 'Varien_Simplexml_Element';
 
     /** @var Mage_Core_Model_Config_Loader_Modules_File  */
     protected $_fileReader;
@@ -83,15 +78,7 @@ class Mage_Core_Model_DataService_Config_Reader
     {
         $sourceFiles = $this->_getServiceCallsFiles();
 
-        $callsStr = '';
-        foreach ($sourceFiles as $filename) {
-            $fileStr = file_get_contents($filename);
-
-            /** @var $fileXml Mage_Core_Model_Layout_Element */
-            $fileXml = simplexml_load_string($fileStr, self::ELEMENT_CLASS);
-            $callsStr .= $fileXml->innerXml();
-        }
-        return '<?xml version="1.0"?><service_calls>' . $callsStr . '</service_calls>';
+        return $this->_merge($sourceFiles)->saveXML();
     }
 
     /**
@@ -109,9 +96,58 @@ class Mage_Core_Model_DataService_Config_Reader
 
     /**
      * Returns the schema for the service_calls.xml
+     *
+     * @return string path to schema file
      */
     public function getSchemaFile()
     {
         return $this->_fileReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'service_calls.xsd';
+    }
+
+    /**
+     * Extract configuration data from the DOM structure
+     *
+     * @param DOMDocument $dom
+     * @return array
+     */
+    protected function _extractData(DOMDocument $dom)
+    {
+        return array();
+    }
+
+    /**
+     * Get XML-contents, initial for merging
+     *
+     * @return string
+     */
+    protected function _getInitialXml()
+    {
+        return '<?xml version="1.0"?><service_calls></service_calls>';
+    }
+
+    /**
+     * Get list of paths to identifiable nodes
+     *
+     * @return array
+     */
+    protected function _getIdAttributes()
+    {
+        return array(
+            '/service_calls/service_call/arg' => 'name',
+            '/service_calls/service_call' => 'name',
+        );
+    }
+
+    /**
+     * Get if xml files must be runtime validated
+     *
+     * Will always return false since we have integrity tests for this, and it would cause problems for our
+     * integration testing.
+     *
+     * @return boolean
+     */
+    protected function _isRuntimeValidated()
+    {
+        return false;
     }
 }

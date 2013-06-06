@@ -55,7 +55,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException UnexpectedValueException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage
      */
     public function testGetClassByAliasInvalidCall()
