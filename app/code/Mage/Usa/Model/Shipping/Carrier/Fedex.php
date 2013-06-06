@@ -111,7 +111,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     public function __construct(Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
     {
-        $this->simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         parent::__construct();
         $wsdlBasePath = Mage::getModuleDir('etc', 'Mage_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';

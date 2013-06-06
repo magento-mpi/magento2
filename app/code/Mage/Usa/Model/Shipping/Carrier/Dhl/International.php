@@ -152,7 +152,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
     public function __construct(Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
     {
-        $this->simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }

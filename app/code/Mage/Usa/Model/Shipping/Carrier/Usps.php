@@ -119,7 +119,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      */
     public function __construct(Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
     {
-        $this->simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
     }
 
     /**
