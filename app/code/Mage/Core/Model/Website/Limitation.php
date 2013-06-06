@@ -57,6 +57,8 @@ class Mage_Core_Model_Website_Limitation
      */
     public function getCreateRestrictedMessage()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->__('You are using the maximum number of Websites allowed.');
+        // @codingStandardsIgnoreStart
+        return Mage::helper('Mage_Core_Helper_Data')->__('Sorry, but you can\'t add any more websites with this account.');
+        // @codingStandardsIgnoreEnd
     }
 }

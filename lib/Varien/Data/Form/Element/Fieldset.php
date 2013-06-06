@@ -161,7 +161,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         $elements = array();
         foreach ($this->getElements() as $element) {
             if ($element->getType() == 'fieldset' && !$element->isAdvanced()) {
-                $elements [] = $element;
+                $elements[] = $element;
             }
         }
         return $elements;

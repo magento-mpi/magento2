@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuration file used by licence-tool.php script to prepare Magento Go Edition
+ * Configuration file used by licence-tool.php script to prepare Magento Saas Edition
  *
  * {license_notice}
  *

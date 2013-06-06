@@ -585,8 +585,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
                 break;
             case 'datetime':
                 $value = trim($rowData[$attributeCode]);
-                $valid = strtotime($value) !== false
-                    || preg_match('/^\d{2}.\d{2}.\d{2,4}(?:\s+\d{1,2}.\d{1,2}(?:.\d{1,2})?)?$/', $value);
+                $valid = strtotime($value) !== false;
                 break;
             case 'text':
                 $value = $this->_stringHelper->cleanString($rowData[$attributeCode]);

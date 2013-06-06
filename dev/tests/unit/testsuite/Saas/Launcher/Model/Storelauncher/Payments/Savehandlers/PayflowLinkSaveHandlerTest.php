@@ -35,20 +35,27 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowLinkSaveHan
     public function prepareDataValidInputDataProvider()
     {
         $data0 = array();
-        $data0['groups']['payflow_link']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data0['groups']['payflow_link']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data0['groups']['payflow_link']['fields']['user']['value'] = 'user ';
-        $data0['groups']['payflow_link']['fields']['pwd']['value'] = 'password ';
+        $data0['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields']
+        = array(
+            'partner' => array('value' => 'PayPal Partner '),
+            'vendor' => array('value' => 'PayPal Vendor '),
+            'user' => array('value' => 'user '),
+            'pwd' => array('value' => 'password '),
+        );
 
+
+        $preparedFields['partner']['value'] = 'PayPal Partner';
+        $preparedFields['vendor']['value'] = 'PayPal Vendor';
+        $preparedFields['user']['value'] = 'user';
+        $preparedFields['pwd']['value'] = 'password';
         $preparedData0 = array();
-        $preparedData0['paypal']['payflow_link']['fields']['partner']['value'] = 'PayPal Partner';
-        $preparedData0['paypal']['payflow_link']['fields']['vendor']['value'] = 'PayPal Vendor';
-        $preparedData0['paypal']['payflow_link']['fields']['user']['value'] = 'user';
-        $preparedData0['paypal']['payflow_link']['fields']['pwd']['value'] = 'password';
-        $preparedData0['paypal']['global']['fields']['payflow_link']['value'] = 1;
-
+        $preparedData0['payment']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields'] = $preparedFields;
+        $preparedData0['payment']['paypal_payment_gateways']['groups']['payflow_link_us']['groups']
+            ['payflow_link_required']['fields']['enable_payflow_link']['value'] = 1;
         return array(
-            array($data0, $preparedData0, array('paypal')),
+            array($data0, $preparedData0, array('payment')),
         );
     }
 
@@ -60,22 +67,30 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowLinkSaveHan
     public function prepareDataInvalidInputDataProvider()
     {
         $validData = array();
-        $validData['groups']['payflow_link']['fields']['partner']['value'] = 'PayPal Partner ';
-        $validData['groups']['payflow_link']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $validData['groups']['payflow_link']['fields']['user']['value'] = 'user ';
-        $validData['groups']['payflow_link']['fields']['pwd']['value'] = 'password ';
+        $validData['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields']
+        = array(
+            'partner' => array('value' => 'PayPal Partner '),
+            'vendor' => array('value' => 'PayPal Vendor '),
+            'user' => array('value' => 'user '),
+            'pwd' => array('value' => 'password '),
+        );
 
         $data0 = $validData;
-        unset($data0['groups']['payflow_link']['fields']['partner']);
+        unset($data0['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields']['partner']);
 
         $data1 = $validData;
-        unset($data1['groups']['payflow_link']['fields']['vendor']);
+        unset($data1['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields']['vendor']);
 
         $data2 = $validData;
-        unset($data2['groups']['payflow_link']['fields']['user']);
+        unset($data2['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields']['user']);
 
         $data3 = $validData;
-        unset($data3['groups']['payflow_link']['fields']['pwd']);
+        unset($data3['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields']['pwd']);
 
         return array(
             array($data0),

@@ -547,8 +547,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
                 break;
             case 'datetime':
                 $val   = trim($rowData[$attrCode]);
-                $valid = strtotime($val) !== false
-                    || preg_match('/^\d{2}.\d{2}.\d{2,4}(?:\s+\d{1,2}.\d{1,2}(?:.\d{1,2})?)?$/', $val);
+                $valid = strtotime($val) !== false;
                 break;
             case 'text':
                 $val   = Mage::helper('Mage_Core_Helper_String')->cleanString($rowData[$attrCode]);

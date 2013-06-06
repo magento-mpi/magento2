@@ -2099,6 +2099,7 @@ select {
       width: 310px;
       .product.photo + .product.details {
         margin-left: 69px;
+        position: relative;
       }
       .subtotal {
         clear: both;
@@ -2333,6 +2334,10 @@ select {
   padding: 10px;
   position: relative;
   z-index: 1;
+  .items {
+    max-height: 360px;
+    overflow: auto;
+  }
   .item {
     .borderBox;
     padding: 10px;
@@ -2388,7 +2393,7 @@ select {
     }
     .action.delete {
       position: absolute;
-      margin-left: -5px;
+      margin-left: -10px;
       margin-top: -1.35em;
     }
   }

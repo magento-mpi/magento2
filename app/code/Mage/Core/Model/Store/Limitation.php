@@ -61,6 +61,8 @@ class Mage_Core_Model_Store_Limitation
      */
     public static function getCreateRestrictionMessage()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->__('You are using the maximum number of store views allowed.');
+        // @codingStandardsIgnoreStart
+        return Mage::helper('Mage_Core_Helper_Data')->__('Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
+        // @codingStandardsIgnoreEnd
     }
 }

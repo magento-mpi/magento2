@@ -392,6 +392,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
+        /** @var $mailer Mage_Core_Model_Email_Template_Mailer */
         $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
         if ($notifyCustomer) {
             $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');

@@ -26,7 +26,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
     {
         $this->dispatch('backend/admin/user/index');
         $response = $this->getResponse()->getBody();
-        $this->assertNotContains('Add New User', $response);
+        $this->assertSelectRegExp('#add.disabled', '/Add New User/', 1, $response);
         $this->assertContains(Mage_User_Model_Resource_User::getMessageUserCreationProhibited(), $response);
     }
 
@@ -91,7 +91,9 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
     {
         $this->_createNew();
         $this->assertSessionMessages(
-            $this->equalTo(array('You are using the maximum number of admin accounts allowed.')),
+            // @codingStandardsIgnoreStart
+            $this->equalTo(array('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.')),
+            // @codingStandardsIgnoreEnd
             Mage_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/edit/'));
