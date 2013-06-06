@@ -20,8 +20,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function indexAction()
     {
-        if (!$this->_resolveForwarding())
-        {
+        if (!$this->_resolveForwarding()) {
             $this->_renderStoreDesigner();
         }
     }
@@ -46,10 +45,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
             $collection = $service->getPhysicalThemes($page, $pageSize);
 
-            /** @var $availbleThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */
-            $availbleThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
-            $availbleThemeBlock->setCollection($collection)->setNextPage(++$page);
-            $availbleThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
+            /** @var $availableThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */
+            $availableThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
+            $availableThemeBlock->setCollection($collection)->setNextPage(++$page);
+            $availableThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
 
             $response = array('content' => $this->getLayout()->getOutput());
         } catch (Exception $e) {

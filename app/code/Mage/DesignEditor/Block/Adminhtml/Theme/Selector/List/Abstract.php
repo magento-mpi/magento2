@@ -97,13 +97,12 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     protected function _addAssignButtonHtml($themeBlock)
     {
         if ($this->getIsFirstEntrance()) {
-            // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a theme for your new store. Click "Ok" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
-            // @codingStandardsIgnoreEnd
+            $message = $this->__('You chose a theme for your new store.')
+                . ' ' . $this->__('Click "Ok" to go live.') . ' '
+                . $this->__('You can always modify or switch themes in "My Customizations" and "Available Themes."');
         } else {
-            // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a new theme for your live store. Click "Ok" to replace your current theme.');
-            // @codingStandardsIgnoreEnd
+            $message = $this->__('You chose a new theme for your live store.')
+                . ' ' .  $this->__('Click "Ok" to replace your current theme.');
         }
         $themeId = $themeBlock->getTheme()->getId();
 
