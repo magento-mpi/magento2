@@ -28,8 +28,6 @@
          */
         _create: function() {
             this._bind();
-            $(this.options.dialogSelector).on('dialogopen', $.proxy(this._wrapButton, this));
-
         },
 
         /**
@@ -53,34 +51,12 @@
             dialog.title.set(this.options.title);
             var buttons = data.confirm_buttons || [{
                 text: $.mage.__('Got it'),
-                id: this._getButtonHtmlId(),
                 'class': 'primary',
-                click: function() {}
+                click: $.proxy(this._reloadPage, this)
             }];
 
             dialog.setButtons(buttons);
             dialog.open();
-        },
-
-        /**
-         * @returns string
-         * @protected
-         */
-        _getButtonHtmlId: function() {
-            return 'get-it-theme-' + this.themeId;
-        },
-
-        /**
-         * @protected
-         */
-        _wrapButton: function() {
-            var link = $('<a></a>');
-            link.attr({
-                'target': '_blank',
-                'href': '#'
-            });
-            link.on('click', $.proxy(this._reloadPage, this));
-            $('#' + this._getButtonHtmlId()).wrap(link);
         },
 
         /**
