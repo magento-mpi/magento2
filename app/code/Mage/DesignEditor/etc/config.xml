@@ -116,14 +116,6 @@
                     </vde_editor>
                 </observers>
             </controller_action_layout_generate_blocks_after>
-            <translate_initialization_before>
-                <observers>
-                    <initialize_translation>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>initializeTranslation</method>
-                    </initialize_translation>
-                </observers>
-            </translate_initialization_before>
         </events>
     </vde>
     <admin>

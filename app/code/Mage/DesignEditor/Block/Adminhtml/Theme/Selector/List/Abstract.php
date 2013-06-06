@@ -13,10 +13,9 @@
  *
  * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  * @method bool|null getIsFirstEntrance()
- * @codingStandardsIgnoreStar
- * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract|Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
+ *     setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setIsFirstEntrance(bool $flag)
- * @codingStandardsIgnoreEnd
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -97,13 +96,12 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     protected function _addAssignButtonHtml($themeBlock)
     {
         if ($this->getIsFirstEntrance()) {
-            // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a theme for your new store. Click "Ok" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
-            // @codingStandardsIgnoreEnd
+            $message = $this->__('You chose a theme for your new store.')
+                . ' ' . $this->__('Click "Ok" to go live.') . ' '
+                . $this->__('You can always modify or switch themes in "My Customizations" and "Available Themes."');
         } else {
-            // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a new theme for your live store. Click "Ok" to replace your current theme.');
-            // @codingStandardsIgnoreEnd
+            $message = $this->__('You chose a new theme for your live store.')
+                . ' ' .  $this->__('Click "Ok" to replace your current theme.');
         }
         $themeId = $themeBlock->getTheme()->getId();
 

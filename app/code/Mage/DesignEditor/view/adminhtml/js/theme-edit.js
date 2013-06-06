@@ -28,8 +28,6 @@
          */
         _create: function() {
             this._bind();
-            $(this.options.dialogSelector).on('dialogopen', $.proxy(this._wrapButton, this));
-
         },
 
         /**
@@ -53,34 +51,12 @@
             dialog.title.set(this.options.title);
             var buttons = data.confirm_buttons || [{
                 text: $.mage.__('Got it'),
-                id: this._getButtonHtmlId(),
                 'class': 'primary',
-                click: function() {}
+                click: $.proxy(this._reloadPage, this)
             }];
 
             dialog.setButtons(buttons);
             dialog.open();
-        },
-
-        /**
-         * @returns string
-         * @protected
-         */
-        _getButtonHtmlId: function() {
-            return 'get-it-theme-' + this.themeId;
-        },
-
-        /**
-         * @protected
-         */
-        _wrapButton: function() {
-            var link = $('<a></a>');
-            link.attr({
-                'target': '_blank',
-                'href': [this.options.launchUrl + 'theme_id', this.themeId].join('/')
-            });
-            link.on('click', $.proxy(this._reloadPage, this));
-            $('#' + this._getButtonHtmlId()).wrap(link);
         },
 
         /**
@@ -90,10 +66,25 @@
         _reloadPage: function(event) {
             event.preventDefault();
             event.returnValue = false;
-            var childWin = window.open([this.options.launchUrl + 'theme_id', this.themeId].join('/'));
-            $(childWin.document).ready(function() {
+            var childWindow = window.open([this.options.launchUrl + 'theme_id', this.themeId].join('/'));
+            if ($.browser.msie) {
+                $(childWindow.document).ready($.proxy(this._doReload, this, childWindow));
+            } else {
+                $(childWindow).load($.proxy(this._doReload, this, childWindow));
+            }
+
+        },
+
+        /**
+         * @param childWindow
+         * @private
+         */
+        _doReload: function(childWindow) {
+            if (childWindow.document.readyState === "complete") {
                 window.location.reload();
-            });
+            } else {
+                setTimeout($.proxy(this._doReload, this, childWindow), 1000);
+            }
         }
     });
 })(jQuery);

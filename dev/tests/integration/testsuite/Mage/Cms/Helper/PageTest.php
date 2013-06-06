@@ -17,19 +17,20 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
      */
     public function testRenderPage()
     {
-        $this->markTestIncomplete(
-            'Test should be updated after Mage_Core_Controller_Varien_Action constructor changes. See MAGETWO-10548'
+        $arguments = array(
+            'request' => new Magento_Test_Request(),
+            'response' => new Magento_Test_Response()
         );
+        $context = Mage::getModel('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $page = Mage::getSingleton('Mage_Cms_Model_Page');
         $page->load('page_design_modern', 'identifier'); // fixture
-        /** @var $helper Mage_Cms_Helper_Page */
-        $helper = Mage::helper('Mage_Cms_Helper_Page');
-        $result = $helper->renderPage(
+        /** @var $pageHelper Mage_Cms_Helper_Page */
+        $pageHelper = Mage::helper('Mage_Cms_Helper_Page');
+        $result = $pageHelper->renderPage(
             Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
                 array(
-                    'request' => new Magento_Test_Request(),
-                    'response' => new Magento_Test_Response(),
+                    'context' => $context,
                     'areaCode' => 'frontend'
                 )
             ),
