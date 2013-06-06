@@ -24,7 +24,7 @@
         <div id="affected-attribute-set-current-container">
             <label>
                 <input type="radio" name="affected-attribute-set" value="current" checked="checked" />
-                <?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Add configurable attributes to the current set ("%s")', $this->getLayout()->getBlock('product_edit')->getAttributeSetName())?>
+                <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Add configurable attributes to the current set ("%s")', $this->getLayout()->getBlock('product_edit')->getAttributeSetName())?></span>
             </label>
         </div>
         <div id="affected-attribute-set-new-container">

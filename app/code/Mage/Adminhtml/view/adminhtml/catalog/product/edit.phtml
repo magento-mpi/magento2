@@ -194,6 +194,7 @@ jQuery(function($) {
     $form.on('changeAttributeSet', function(event, data) {
         if (data.label) {
             $('#product-template-suggest-container .action-toggle>span').text(data.label);
+            $('#affected-attribute-set-current-container span').text($.mage.__('Add configurable attributes to the current set ("' + data.label + '")'));
         }
         $('#product-template-suggest').suggest('option', "currentlySelected", data.id).val('');
 
