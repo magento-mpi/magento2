@@ -12,7 +12,7 @@ class Saas_Mage_Sitemap_GoogleVerificationCodeTest extends Saas_Mage_TestCase
         $this->loginAdminUser();
 
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->openConfigurationTab('catalog_google_sitemap');
+        $this->systemConfigurationHelper()->openConfigurationTab('catalog_xml_sitemap');
         $this->systemConfigurationHelper()->expandFieldSet('generation_settings');
     }
 
