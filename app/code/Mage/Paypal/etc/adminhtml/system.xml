@@ -1187,13 +1187,6 @@
                     <group id="paypal_payflow_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="enable_express_pe" type="select" showInDefault="1" showInWebsite="1">
-                            <config_path>payment/paypaluk_express/active</config_path>
-                            <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Field_Hidden</frontend_model>
-                            <frontend_class>paypal-ec-payflow-enabler</frontend_class>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <attribute type="shared">1</attribute>
-                        </field>
                         <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/paypaluk_express/title</config_path>
@@ -1351,7 +1344,6 @@
                             <config_path>payment/paypaluk_express/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <frontend_class>paypal-ec-payflow-enabler</frontend_class>
-                            <attribute type="shared">1</attribute>
                             <requires>
                                 <field id="enable_payflow_link"/>
                             </requires>
