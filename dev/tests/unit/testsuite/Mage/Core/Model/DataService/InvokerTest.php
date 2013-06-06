@@ -48,13 +48,10 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         $this->_compositeMock = $this->getMock(
             'Mage_Core_Model_DataService_Path_Composite', array(), array(), "", false
         );
-        $this->_pathNavigatorMock = $this->getMockBuilder('Mage_Core_Model_DataService_Path_Navigator')
-            ->disableOriginalConstructor()->getMock();
         $this->_invoker = new Mage_Core_Model_DataService_Invoker(
             $this->_configMock,
             $this->_objectManagerMock,
-            $this->_compositeMock,
-            $this->_pathNavigatorMock);
+            $this->_compositeMock);
         $this->_dataServiceMock = (object)array();
     }
 

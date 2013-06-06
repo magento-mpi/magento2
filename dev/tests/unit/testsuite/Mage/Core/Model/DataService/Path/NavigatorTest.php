@@ -9,17 +9,13 @@
  */
 class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_DataService_Path_Navigator */
-    protected $_navigator;
-
     /** @var PHPUnit_Framework_MockObject_MockObject  Mage_Core_Model_DataService_Path_NodeInterface */
     private $_rootNode;
 
-    public function setup()
-    {
-        $this->_navigator = new Mage_Core_Model_DataService_Path_Navigator();
-    }
-
+    /**
+     * test static search method
+     * @return null
+     */
     public function testSearch()
     {
         $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
@@ -37,7 +33,7 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
             ->with('leaf')
             ->will($this->returnValue($leaf));
 
-        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
+        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'branch.leaf'));
 
         $this->assertEquals($leaf, $nodeFound);
     }
@@ -54,7 +50,7 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
             ->with('branch')
             ->will($this->returnValue($branch));
 
-        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
+        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'branch.leaf'));
 
         $this->assertEquals($leaf, $nodeFound);
     }
@@ -69,7 +65,7 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
             ->with('branch')
             ->will($this->returnValue($branch));
 
-        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
+        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'branch.leaf'));
 
         $this->assertEquals(null, $nodeFound);
     }
