@@ -42,7 +42,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Service call with name
      */
     public function testGetClassByAliasNotFound()
@@ -51,7 +51,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage
      */
     public function testGetClassByAliasInvalidCall()

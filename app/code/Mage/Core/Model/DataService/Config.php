@@ -28,7 +28,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     /**
      * @param $alias
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws InvalidArgumentException
      */
     public function getClassByAlias($alias)
     {
@@ -36,7 +36,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
         $nodes = $serviceCallConfig->getXpath("//service_call[@name='" . $alias . "']");
 
         if (!$nodes || count($nodes) == 0) {
-            throw new Mage_Core_Exception('Service call with name "' . $alias . '" doesn\'t exist');
+            throw new InvalidArgumentException('Service call with name "' . $alias . '" doesn\'t exist');
         }
 
         /** @var Mage_Core_Model_Config_Element $node */
@@ -55,7 +55,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
         );
 
         if (!$result['class']) {
-            throw new Mage_Core_Exception('Invalid Service call ' . $alias
+            throw new InvalidArgumentException('Invalid Service call ' . $alias
                 . ', service type must be defined in the "service" attribute');
         }
 
