@@ -2,9 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
+ * Verify loading of data services configuration.
+ *
+ * Include verification of overriding service call alias with different classes.
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,6 +16,9 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_config;
 
+    /**
+     * Prepare object manager with objects to read config files.
+     */
     public function setup()
     {
         $dirs = Mage::getObjectManager()->create(
@@ -39,6 +43,9 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_config = new Mage_Core_Model_DataService_Config($dsConfigReader);
     }
 
+    /**
+     * Test that class was overridden.
+     */
     public function testGetClassByAliasOverride()
     {
         $classInfo = $this->_config->getClassByAlias('alias');

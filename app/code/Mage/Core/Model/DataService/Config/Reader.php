@@ -10,10 +10,19 @@
 class Mage_Core_Model_DataService_Config_Reader
 {
 
+    /**
+     * service calls xml file name
+     */
     const FILE_NAME = 'service_calls.xml';
 
+    /**
+     * service calls cache name
+     */
     const CONFIG_CACHE_NAME = 'service_calls_config';
 
+    /**
+     * Class name used to load xml elements
+     */
     const ELEMENT_CLASS = 'Varien_Simplexml_Element';
 
     /** @var Mage_Core_Model_Config_Loader_Modules_File  */

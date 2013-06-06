@@ -10,8 +10,14 @@
 class Mage_Core_Model_DataService_RequestTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * Test data for params
+     */
     const SOME_INTERESTING_PARAMS = 'Some interesting params.';
 
+    /**
+     * Test getting the child node
+     */
     public function testGetChild()
     {
         $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')->disableOriginalConstructor()
@@ -25,6 +31,9 @@ class Mage_Core_Model_DataService_RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(self::SOME_INTERESTING_PARAMS, $requestVisitor->getChildNode('params'));
     }
 
+    /**
+     * Test getting a child node that does not exist.
+     */
     public function testNotFound()
     {
         $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')->disableOriginalConstructor()

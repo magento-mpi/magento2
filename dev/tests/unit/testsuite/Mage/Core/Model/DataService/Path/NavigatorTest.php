@@ -38,6 +38,9 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
         $this->assertEquals($leaf, $nodeFound);
     }
 
+    /**
+     * Test searching of path
+     */
     public function testSearchOfArray()
     {
         $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
@@ -55,6 +58,9 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
         $this->assertEquals($leaf, $nodeFound);
     }
 
+    /**
+     * Try to find a node in an empty array
+     */
     public function testSearchOfEmptyArray()
     {
         $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')

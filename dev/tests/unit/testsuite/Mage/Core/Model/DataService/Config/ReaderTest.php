@@ -9,8 +9,6 @@
  */
 class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_TestCase
 {
-    const NAMEPART = 'NAMEPART';
-
     /** @var Mage_Core_Model_DataService_Config_Reader */
     private $_configReader;
 
@@ -23,6 +21,9 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
     /** @var PHPUnit_Framework_MockObject_MockObject  */
     private $_configLoader;
 
+    /**
+     * Prepare object manager with mocks of objects required by config reader.
+     */
     public function setup()
     {
         $this->_modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Loader_Modules_File')
@@ -51,6 +52,9 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
             );
     }
 
+    /**
+     * Verify caching of config
+     */
     public function testGetServiceCallConfigCaching()
     {
         $this->_cacheTypes->expects($this->any())
@@ -64,6 +68,9 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
         $this->assertEquals($result, $secondResult);
     }
 
+    /**
+     * Verify correct schema file is returned.
+     */
     public function testGetSchemaFile()
     {
         $etcDir = str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Mage/Core/etc');

@@ -9,17 +9,21 @@
  */
 class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Fake info for service and classes.
+     */
     const TEST_CLASS_NAME = 'TEST_CLASS_NAME';
-
     const TEST_DATA_SERVICE_NAME = 'TEST_DATA_SERVICE_NAME';
-
     const TEST_NAMESPACE = 'TEST_NAMESPACE';
-
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
+    /**#@-*/
 
     /** @var Mage_Core_Model_DataService_Graph */
     protected $_graph;
 
+    /**
+     * @var data service
+     */
     protected $_dataServiceMock;
 
     /** @var  Mage_Core_Model_DataService_Invoker */
@@ -28,11 +32,17 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     /** @var  Mage_Core_Model_DataService_Repository */
     protected $_repositoryMock;
 
+    /**
+     * @return mixed
+     */
     public function retrieveMethod()
     {
         return $this->_dataServiceMock;
     }
 
+    /**
+     * Create mocks and Graph object to test
+     */
     public function setup()
     {
         $this->_factoryMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
@@ -41,6 +51,9 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         $this->_dataServiceMock = (object)array();
     }
 
+    /**
+     * Verify the init method
+     */
     public function testInit()
     {
         $this->_repositoryMock->expects($this->once())->method('addNameInNamespace')->with(
@@ -88,6 +101,9 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Verify the mock object is returned
+     */
     public function testGet()
     {
         $this->_dataServiceMock = (object)array();
@@ -100,6 +116,9 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Verify correct mock returned for child node
+     */
     public function testGetChild()
     {
         $this->_dataServiceMock = (object)array();
@@ -112,6 +131,9 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Verify correct service name is returned for namespace
+     */
     public function testGetByNamespace()
     {
         $this->_repositoryMock->expects($this->once())->method('getByNamespace')->with(

@@ -43,6 +43,8 @@ class Integrity_Mage_Core_DataService_Model_ServiceCallsConfigTest extends PHPUn
     }
 
     /**
+     * Get all the service_calls.xml files
+     *
      * @return array
      */
     public function xmlDataProvider()

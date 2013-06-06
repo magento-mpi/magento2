@@ -13,8 +13,14 @@
  */
 class Mage_Core_Model_DataService_Request implements Mage_Core_Model_DataService_Path_NodeInterface
 {
+    /**
+     * @var Mage_Core_Controller_Request_Http
+     */
     protected $_request;
 
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     */
     public function __construct(Mage_Core_Controller_Request_Http $request)
     {
         $this->_request = $request;

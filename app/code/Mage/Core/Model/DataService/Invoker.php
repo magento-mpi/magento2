@@ -9,7 +9,11 @@
  */
 class Mage_Core_Model_DataService_Invoker
 {
+    /**
+     * separates data structure hierarchy
+     */
     const DATASERVICE_PATH_SEPARATOR = '.';
+
     /**
      * @var Mage_Core_Model_DataService_ConfigInterface
      */

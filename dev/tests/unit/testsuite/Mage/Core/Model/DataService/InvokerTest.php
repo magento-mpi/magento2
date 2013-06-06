@@ -9,13 +9,14 @@
  */
 class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Fake info for service and classes.
+     */
     const TEST_CLASS_NAME = 'TEST_CLASS_NAME';
-
     const TEST_DATA_SERVICE_NAME = 'TEST_DATA_SERVICE_NAME';
-
     const TEST_NAMESPACE = 'TEST_NAMESPACE';
-
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
+    /**#@-*/
 
     /** @var Mage_Core_Model_DataService_Invoker */
     protected $_invoker;
@@ -32,13 +33,23 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
     /** @var  Mage_Core_Model_DataService_Path_Navigator */
     protected $_pathNavigatorMock;
 
+    /**
+     * Empty data service object
+     */
     protected $_dataServiceMock;
 
+    /**
+     * get the data service mock
+     * @return mixed
+     */
     public function retrieveMethod()
     {
         return $this->_dataServiceMock;
     }
 
+    /**
+     * Create the Invoker to test and mock the objects it depends on.
+     */
     public function setup()
     {
         $this->_configMock = $this->getMock(
@@ -55,6 +66,9 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         $this->_dataServiceMock = (object)array();
     }
 
+    /**
+     * Verify getServiceData returns mocked service class info
+     */
     public function testGetServiceData()
     {
         $classInformation = array(
@@ -75,6 +89,9 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
             $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME));
     }
 
+    /**
+     * Verify getServiceData works with 'args'
+     */
     public function testGetServiceDataWithArguments()
     {
         $classInformation = array(

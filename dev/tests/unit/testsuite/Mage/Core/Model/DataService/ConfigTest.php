@@ -9,14 +9,15 @@
  */
 class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    const NAMEPART = 'NAMEPART';
-
     /** @var Mage_Core_Model_DataService_Config */
     protected $_dataServiceConfig;
 
     /** @var  Mage_Core_Model_DataService_Config_Reader */
     private $_reader;
 
+    /**
+     * Create Config object to test and mock the reader it is dependant on.
+     */
     public function setup()
     {
         $this->_reader = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
@@ -31,6 +32,9 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config($this->_reader);
     }
 
+    /**
+     * Make sure the class info for alias is correct
+     */
     public function testGetClassByAlias()
     {
         // result should match the config.xml file
@@ -42,7 +46,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Service call with name
      */
     public function testGetClassByAliasNotFound()
@@ -51,7 +55,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException UnexpectedValueException
      * @expectedExceptionMessage
      */
     public function testGetClassByAliasInvalidCall()

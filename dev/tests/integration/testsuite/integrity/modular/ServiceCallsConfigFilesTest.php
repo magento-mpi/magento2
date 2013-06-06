@@ -25,6 +25,9 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
      */
     protected $_objectManager;
 
+    /**
+     * Create a config reader and put it in the object manager and schema file information
+     */
     public function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
@@ -32,6 +35,9 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
         $this->_schemaFile = $this->_reader->getSchemaFile();
     }
 
+    /**
+     * Delete the config reader from the object manager
+     */
     protected function tearDown()
     {
         $this->_objectManager->removeSharedInstance('Mage_Core_Model_DataService_Config_Reader');
