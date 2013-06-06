@@ -25,10 +25,10 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     protected $_configReader;
 
     /**
-     * @param Mage_Core_Model_DataService_Config_Loader $moduleReader
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
-        Mage_Core_Model_DataService_Config_Loader $configReader
+        Mage_Core_Model_DataService_Config_Reader $configReader
     ) {
         $this->_configReader = $configReader;
     }
