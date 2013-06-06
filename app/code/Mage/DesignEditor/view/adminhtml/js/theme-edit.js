@@ -77,7 +77,7 @@
             var link = $('<a></a>');
             link.attr({
                 'target': '_blank',
-                'href': [this.options.launchUrl + 'theme_id', this.themeId].join('/')
+                'href': '#'
             });
             link.on('click', $.proxy(this._reloadPage, this));
             $('#' + this._getButtonHtmlId()).wrap(link);
@@ -90,10 +90,25 @@
         _reloadPage: function(event) {
             event.preventDefault();
             event.returnValue = false;
-            var childWin = window.open([this.options.launchUrl + 'theme_id', this.themeId].join('/'));
-            $(childWin.document).ready(function() {
+            var childWindow = window.open([this.options.launchUrl + 'theme_id', this.themeId].join('/'));
+            if ($.browser.msie) {
+                $(childWindow.document).ready($.proxy(this._doReload, this, childWindow));
+            } else {
+                $(childWindow).load($.proxy(this._doReload, this, childWindow));
+            }
+
+        },
+
+        /**
+         * @param childWindow
+         * @private
+         */
+        _doReload: function(childWindow) {
+            if (childWindow.document.readyState === "complete") {
                 window.location.reload();
-            });
+            } else {
+                setTimeout($.proxy(this._doReload, this, childWindow), 1000);
+            }
         }
     });
 })(jQuery);
