@@ -14,8 +14,6 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
 
     const CONFIG_CACHE_NAME = 'service_calls_config';
 
-    const ELEMENT_CLASS = 'Varien_Simplexml_Element';
-
     /** @var Mage_Core_Model_Config_Loader_Modules_File  */
     protected $_fileReader;
 
@@ -92,6 +90,8 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
 
     /**
      * Returns the schema for the service_calls.xml
+     *
+     * @return string path to schema file
      */
     public function getSchemaFile()
     {
