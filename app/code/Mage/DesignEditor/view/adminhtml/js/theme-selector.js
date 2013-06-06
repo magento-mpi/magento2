@@ -161,6 +161,11 @@
         body.on('loaded', function() {
             body.trigger('contentUpdated');
         });
+        $('.action-duplicate').on('click', function() {
+            $('body').loadingPopup({
+                timeout: false
+            });
+        });
     });
 
 })(jQuery);
