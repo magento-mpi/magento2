@@ -24,19 +24,20 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $fileReader = Mage::getObjectManager()->create(
             'Mage_Core_Model_Config_Loader_Modules_File', array('dirs' => $dirs)
         );
+        /** @var Mage_Core_Model_DataService_Config_Loader $configLoader */
         $configLoader = Mage::getObjectManager()->create(
             'Mage_Core_Model_DataService_Config_Loader', array('dirs' => $dirs, 'fileReader' => $fileReader)
         );
 
-
-        $dsConfigReader = Mage::getObjectManager()->
+        /** @var Mage_Core_Model_DataService_Config_Reader $dsConfigReader */
+        /*$dsConfigReader = Mage::getObjectManager()->
             create('Mage_Core_Model_DataService_Config_Reader',
                 array(
-                    'fileReader' => $fileReader,
+                    'fileReader' => $configLoader,
                     'configLoader' => $configLoader,
-                ));
+                ));*/
 
-        $this->_config = new Mage_Core_Model_DataService_Config($dsConfigReader);
+        $this->_config = new Mage_Core_Model_DataService_Config($configLoader);
     }
 
     public function testGetClassByAliasOverride()
