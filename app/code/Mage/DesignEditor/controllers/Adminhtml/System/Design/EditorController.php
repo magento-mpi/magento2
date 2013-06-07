@@ -144,14 +144,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if ($storeManager->isSingleStoreMode()) {
                 $themeService->assignThemeToDefaultScope($themeCustomization->getId());
             }
-
-            $message = $coreHelper->__('Theme "%s" successfully assigned', $theme->getThemeTitle());
             $response = array(
-                'message' => $message,
+                'message' => $this->__('Theme "%s" successfully assigned', $theme->getThemeTitle()),
                 'themeId' => $themeCustomization->getId()
             );
-            $message2 = $coreHelper->__('You assigned the theme.');
-            $this->_getSession()->addSuccess($message2);
+            $successMessage = $theme->isPhysical()
+                ? $this->__('You assigned the theme.')
+                : $this->__('You assigned a new theme to your store view');
+            $this->_getSession()->addSuccess($successMessage);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array(
