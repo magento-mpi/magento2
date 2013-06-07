@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Product
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Helper class
  *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
@@ -28,8 +19,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Open product on FrontEnd by product name
      *
      * @param string $productName
+     * @param bool $checkPage
+     * @see https://jira.corp.x.com/browse/MAUTOSEL-536
      */
-    public function frontOpenProduct($productName)
+    public function frontOpenProduct($productName, $checkPage = true)
     {
         if (!is_string($productName)) {
             $this->fail('Wrong data to open a product');
@@ -40,9 +33,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->frontend('product_page', false);
         $this->setCurrentPage($this->getCurrentLocationUimapPage()->getPageId());
         $this->addParameter('productName', $productName);
-        $openedProductName = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'product_name', 'text');
-        $this->assertEquals($productName, $openedProductName,
-            "Product with name '$openedProductName' is opened, but should be '$productName'");
+        if ($checkPage) {
+            $openedProductName = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'product_name', 'text');
+            $this->assertEquals($productName, $openedProductName,
+                "Product with name '$openedProductName' is opened, but should be '$productName'");
+        }
     }
 
     /**
@@ -2822,5 +2817,18 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             ),
             'category' => $returnCategory
         );
+    }
+
+    /**
+     * Add new tab
+     *
+     * @param string $tabName
+     * @return Core_Mage_Product_Helper
+     */
+    public function addTab($tabName)
+    {
+        array_push($this->productTabs, $tabName);
+
+        return $this;
     }
 }

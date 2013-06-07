@@ -57,7 +57,6 @@
         <item>
             <!-- MUST be refactored -->
             <word>CustomerSegment</word>
-            <word>GoogleOptimizer</word>
             <path>tmt_templates/mc/en_US/db/empty_data.sql</path>
         </item>
         <item>

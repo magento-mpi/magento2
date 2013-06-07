@@ -21,7 +21,6 @@ app/code/Enterprise/Tag
 app/code/Enterprise/TargetRule
 app/code/Enterprise/Wishlist
 app/code/Mage/Authorizenet
-app/code/Mage/GoogleOptimizer
 app/code/Mage/Ogone
 app/code/Mage/PageCache
 app/design/frontend/default/iphone/Mage_Downloadable
