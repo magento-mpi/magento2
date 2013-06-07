@@ -125,13 +125,13 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Sender $sender,
-        Mage_Core_Model_StoreManager $storeManager,
-        Mage_Eav_Model_Config $config,
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
+        array $data = array(),
+        Mage_Core_Model_Sender $sender,
+        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Eav_Model_Config $config
     ) {
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;

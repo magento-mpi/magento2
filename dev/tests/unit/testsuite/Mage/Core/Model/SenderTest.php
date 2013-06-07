@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for customer service layer Mage_Core_Model_Sender
+ * Unit test for Mage_Core_Model_Sender
  *
  * {license_notice}
  *
