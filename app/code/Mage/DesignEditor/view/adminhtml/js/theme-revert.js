@@ -103,12 +103,12 @@
          * @private
          */
         _enableButton: function() {
+            this.element.removeAttr('disabled');
             this.element.removeClass('disabled');
         },
 
         /**
          * Get dialog element
-         *
          * @returns {*|HTMLElement}
          * @private
          */

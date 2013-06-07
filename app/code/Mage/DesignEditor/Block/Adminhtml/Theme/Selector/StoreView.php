@@ -187,7 +187,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $options['assignUrl']         = $this->getUrl('*/*/assignThemeToStore', array(
             'theme_id' => $this->getThemeId()
         ));
-        $options['afterAssignRedirectUrl']    = $this->getUrl('*/*/launch');
+        $options['afterAssignUrl']    = $this->getUrl('*/*/index');
         $options['hasMultipleStores'] = $this->_hasMultipleStores();
 
         $options['actionOnAssign']   = $this->getData('actionOnAssign');

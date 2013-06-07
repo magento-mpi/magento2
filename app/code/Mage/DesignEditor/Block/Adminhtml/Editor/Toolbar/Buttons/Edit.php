@@ -161,11 +161,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($this->_themeContext->getEditableTheme()->getId());
 
-        $message = '';
-        if ($sourceChange->getId()) {
-            $message = $this->__('Are you sure you want to revert changes to last saved (%s)?',
-                $this->_dateModel->date('d-m-Y H:i', $sourceChange->getChangeTime()));
-        }
+        $message = $this->__('Are you sure you want to revert changes to last saved (%s)?',
+            $this->_dateModel->date('d-m-Y H:i', $sourceChange->getChangeTime()));
 
         $data = array(
             'vde-edit-button' => array(
