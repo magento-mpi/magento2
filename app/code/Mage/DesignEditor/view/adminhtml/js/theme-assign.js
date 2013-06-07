@@ -230,7 +230,7 @@
         options: {
             beforeShowStoresEvent: 'show-stores-before',
             dialogSelectorMS:      '#dialog-message-assign',
-            dialogSelector:        '#dialog-message-confirm',
+            dialogSelector:        '#dialog-message-assign-single',
             closePopupBtn:         '[class^="action-close"]',
             assignUrl:             null,
             afterAssignUrl:        null,
