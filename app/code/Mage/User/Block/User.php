@@ -47,15 +47,4 @@ class Mage_User_Block_User extends Mage_Backend_Block_Widget_Grid_Container
         parent::_construct();
         $this->_addNewButton();
     }
-
-    /**
-     * Prepare output HTML
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        Mage::dispatchEvent('permissions_user_html_before', array('block' => $this));
-        return parent::_toHtml();
-    }
 }
