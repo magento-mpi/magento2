@@ -13,9 +13,8 @@
 
     <target name="copy-test-modules">
         <copy todir="${mage.code.dir}" overwrite="true">
-            <fileset dir=".">
+            <fileset dir="${basedir}/">
                 <include name="TestModule*/**" />
-                <excludesfile name="build.xml" />
             </fileset>
         </copy>
     </target>
