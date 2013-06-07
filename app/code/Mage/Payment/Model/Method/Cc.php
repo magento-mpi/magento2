@@ -111,7 +111,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
                     // American Express
                     'AE'  => '/^3[47][0-9]{13}$/',
                     // Discovery
-                    'DI'  => '/^6011[0-9]{12}$/',
+                    'DI'  => '/^6(011|4[4-9][0-9]|5[0-9]{2})[0-9]{12}$/',
                     // JCB
                     'JCB' => '/^(3[0-9]{15}|(2131|1800)[0-9]{11})$/'
                 );

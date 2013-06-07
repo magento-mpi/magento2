@@ -15,8 +15,6 @@
         <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add a Product') ?></h2>
         <?php  echo $this->getGeneralTabContent();?>
         <?php echo $this->getChildBlock('wysiwyg-editor')->toHtml();?>
-        <!-- Field below used by TypeSwitcher to hide unneeded attributes for Simple product -->
-        <input type="hidden" value="simple" name="type_id" id="type_id" />
         <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
     </div>
     <div class="import-products">

@@ -81,6 +81,13 @@
                 $(this).css('top', 'auto');
             });
 
+            this.panelTab.on('click.tab.data-api', $.proxy(this._onPanelTabClick, self));
+
+            $('body')
+                .on('addMessage clearMessages', $.proxy(function() {
+                    this.resizableArea.trigger('resize.vdeToolsResize');
+                }, this));
+
             this.panelTab.on('shown', function () {
                 if (self.panel.hasClass(self.options.openedPanelClass)) {
                     self._recalcDataHeight(self.options.panelDefaultHeight);
@@ -107,6 +114,22 @@
             this.btnCloseMsg.live('click.hideVDEMessage', $.proxy(function(e) {
                 $(e.target).parents('.vde-message')[0].remove();
             }, this));
+        },
+        /**
+         * Panel tab click event handler.
+         * Fire an event to determine if inline translation text is being edited.
+         * @protected
+         */
+        _onPanelTabClick: function(event) {
+            var data = {
+                next_action: this.options.panelTab,
+                alert_message: "To switch modes, please save or revert your current text edits."
+            };
+            $('[data-frame="editor"]').trigger('modeChange', data);
+
+            if (data.is_being_edited) {
+                event.stopPropagation();
+            }
         },
         /**
          * Toggle hasScroll class if scroll is necessary
@@ -145,6 +168,8 @@
 
             elem.height(height - this.panelHeaderHeight);
             this._toggleClassIfScrollBarExist(elem);
+
+            this._getActiveResizableAreaInner().scrollTop(0);
         },
         /**
          * Open/Reopen panel
@@ -158,6 +183,7 @@
                     height: this.options.panelDefaultHeight - this.panelHeaderHeight
                 }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
                     this.resizableArea.trigger('resize.vdeToolsResize');
+                    $(window).trigger('resize');
                 }, this));
             }
         },
@@ -172,6 +198,7 @@
                 height: 0
             }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
                 this.mainTabs.removeClass(this.options.activeTabClass);
+                $(window).trigger('resize');
             }, this));
         }
     });

@@ -20,7 +20,7 @@ system_configuration:
             fieldsets:
                 -
                     current_configuration_scope:
-                        xpath: //div[@class="store-switcher"]
+                        xpath: "//div[label='Current Configuration Scope:']"
                         dropdowns:
                             current_configuration_scope: //select[@id='store_switcher']
                         links:
@@ -812,7 +812,7 @@ system_configuration:
                                         add_minimum_qty: //button[span='Add Minimum Qty']
                                         delete: //tr[@id='%rowId%']//button[span='Delete']
                 -
-                    catalog_google_sitemap:
+                    catalog_xml_sitemap:
                         xpath: //a[contains(@href, 'edit/section/sitemap/')]
                         fieldsets:
                             -
@@ -2062,10 +2062,26 @@ system_configuration:
                                     fields:
                                         account_number: //input[@name='groups[analytics][fields][account][value]']
                                     dropdowns:
-                                        enable: //select[@name='groups[analytics][fields][active][value]']
+                                        enable_google_analytics: //select[@name='groups[analytics][fields][active][value]']
+                                        enable_content_experiments: //select[@name='groups[analytics][fields][experiments][value]']
                                     checkboxes:
                                         account_number_use_default: //input[@name='groups[analytics][fields][account][inherit]']
                                         enable_use_default: //input[@name='groups[analytics][fields][active][inherit]']
+                            -
+                                google_adwords:
+                                    xpath: //fieldset[@id='google_adwords']
+                                    links:
+                                        google_adwords_link: //parent::div//a[@id='google_adwords-head']
+                                    fields:
+                                        conversion_id: //input[@name='groups[adwords][fields][conversion_id][value]']
+                                        conversion_format: //input[@name='groups[adwords][fields][conversion_format][value]']
+                                        conversion_color: //input[@name='groups[adwords][fields][conversion_color][value]']
+                                        conversion_label: //input[@name='groups[adwords][fields][conversion_label][value]']
+                                        conversion_value: //input[@name='groups[adwords][fields][conversion_value][value]']
+                                    dropdowns:
+                                        enable_google_adwords: //select[@name='groups[adwords][fields][active][value]']
+                                        conversion_value_type: //select[@name='groups[adwords][fields][conversion_value_type][value]']
+                                        conversion_language: //select[@name='groups[adwords][fields][conversion_language][value]']
                             -
                                 google_shopping:
                                     xpath: //fieldset[@id='google_googleshopping']
@@ -2992,384 +3008,6 @@ system_configuration:
                                         test_mode_use_default: //input[@name='groups[centinel][fields][test_mode][inherit]']
                                         debug_mode_use_default: //input[@name='groups[centinel][fields][debug][inherit]']
                 -
-                    sales_moneybookers:
-                        xpath: //a[contains(@href, 'edit/section/moneybookers/')]
-                        fieldsets:
-                            -
-                                moneybookers_settings:
-                                    xpath: //fieldset[@id='moneybookers_settings']
-                                    links:
-                                        moneybookers_settings_link: //parent::div//a[@id='moneybookers_settings-head']
-                                    fields:
-                                        email_address_of_your_moneybookers_account: //input[@name='groups[settings][fields][moneybookers_email][value]']
-                                        customer_id: //input[@name='groups[settings][fields][customer_id][value]']
-                                        secret_word: //input[@name='groups[settings][fields][secret_key][value]']
-                                    buttons:
-                                        validate_email: //button[span='Validate Email']
-                                    checkboxes:
-                                        email_address_of_your_moneybookers_account_use_default: //input[@name='groups[settings][fields][moneybookers_email][inherit]']
-                            -
-                                all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_acc']
-                                    links:
-                                        all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international_link: //parent::div//a[@id='moneybookers_moneybookers_acc-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_acc][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_acc][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_acc][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_acc][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_acc][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_acc][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_acc][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_acc][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_acc][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_acc][fields][specificcountry][inherit]']
-                            -
-                                lastschrift_elv_powered_by_moneybookers_germany:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_did']
-                                    links:
-                                        lastschrift_elv_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_did-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_did][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_did][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_did][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_did][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_did][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_did][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_did][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_did][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_did][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_did][fields][specificcountry][inherit]']
-                            -
-                                giropay_powered_by_moneybookers_germany:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_gir']
-                                    links:
-                                        giropay_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_gir-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_gir][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_gir][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_gir][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_gir][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_gir][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_gir][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_gir][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_gir][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_gir][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_gir][fields][specificcountry][inherit]']
-                            -
-                                sofortüberweisung_powered_by_moneybookers_germany:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_sft']
-                                    links:
-                                        sofortüberweisung_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_sft-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_sft][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_sft][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_sft][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_sft][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_sft][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_sft][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_sft][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_sft][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_sft][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_sft][fields][specificcountry][inherit]']
-                            -
-                                laser_powered_by_moneybookers_ireland:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_lsr']
-                                    links:
-                                        laser_powered_by_moneybookers_ireland_link: //parent::div//a[@id='moneybookers_moneybookers_lsr-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_lsr][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_lsr][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_lsr][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_lsr][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_lsr][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_lsr][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_lsr][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_lsr][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_lsr][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_lsr][fields][specificcountry][inherit]']
-                            -
-                                maestro_powered_by_moneybookers_united_kingdom_austria_spain:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_mae']
-                                    links:
-                                        maestro_powered_by_moneybookers_united_kingdom_austria_spain_link: //parent::div//a[@id='moneybookers_moneybookers_mae-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_mae][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_mae][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_mae][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_mae][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_mae][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_mae][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_mae][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_mae][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_mae][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_mae][fields][specificcountry][inherit]']
-                            -
-                                carte_bleue_powered_by_moneybookers_france:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_gcb']
-                                    links:
-                                        carte_bleue_powered_by_moneybookers_france_link: //parent::div//a[@id='moneybookers_moneybookers_gcb-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_gcb][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_gcb][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_gcb][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_gcb][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_gcb][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_gcb][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_gcb][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_gcb][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_gcb][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_gcb][fields][specificcountry][inherit]']
-                            -
-                                dankort_powered_by_moneybookers_denmark:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_dnk']
-                                    links:
-                                        dankort_powered_by_moneybookers_denmark_link: //parent::div//a[@id='moneybookers_moneybookers_dnk-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_dnk][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_dnk][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_dnk][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_dnk][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_dnk][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_dnk][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_dnk][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_dnk][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_dnk][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_dnk][fields][specificcountry][inherit]']
-                            -
-                                postepay_powered_by_moneybookers_italy:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_psp']
-                                    links:
-                                        postepay_powered_by_moneybookers_italy_link: //parent::div//a[@id='moneybookers_moneybookers_psp-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_psp][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_psp][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_psp][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_psp][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_psp][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_psp][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_psp][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_psp][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_psp][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_psp][fields][specificcountry][inherit]']
-                            -
-                                cartasi_powered_by_moneybookers_italy:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_csi']
-                                    links:
-                                        cartasi_powered_by_moneybookers_italy_link: //parent::div//a[@id='moneybookers_moneybookers_csi-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_csi][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_csi][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_csi][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_csi][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_csi][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_csi][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_csi][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_csi][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_csi][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_csi][fields][specificcountry][inherit]']
-                            -
-                                enets_powered_by_moneybookers_singapore:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_ent']
-                                    links:
-                                        enets_powered_by_moneybookers_singapore_link: //parent::div//a[@id='moneybookers_moneybookers_ent-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_ent][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_ent][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_ent][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_ent][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_ent][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_ent][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_ent][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_ent][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_ent][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_ent][fields][specificcountry][inherit]']
-                            -
-                                nordea_solo_powered_by_moneybookers_sweden:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_ebt']
-                                    links:
-                                        nordea_solo_powered_by_moneybookers_sweden_link: //parent::div//a[@id='moneybookers_moneybookers_ebt-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_ebt][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_ebt][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_ebt][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_ebt][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_ebt][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_ebt][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_ebt][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_ebt][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_ebt][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_ebt][fields][specificcountry][inherit]']
-                            -
-                                nordea_solo_powered_by_moneybookers_finland:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_so2']
-                                    links:
-                                        nordea_solo_powered_by_moneybookers_finland_link: //parent::div//a[@id='moneybookers_moneybookers_so2-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_so2][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_so2][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_so2][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_so2][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_so2][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_so2][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_so2][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_so2][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_so2][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_so2][fields][specificcountry][inherit]']
-                            -
-                                ideal_powered_by_moneybookers_netherlands:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_idl']
-                                    links:
-                                        ideal_powered_by_moneybookers_netherlands_link: //parent::div//a[@id='moneybookers_moneybookers_idl-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_idl][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_idl][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_idl][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_idl][fields][active][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_idl][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_idl][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_idl][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_idl][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_idl][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_idl][fields][specificcountry][inherit]']
-                            -
-                                eps_online_überweisung_powered_by_moneybookers_austria:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_npy']
-                                    links:
-                                        eps_online_überweisung_powered_by_moneybookers_austria_link: //parent::div//a[@id='moneybookers_moneybookers_npy-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_npy][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_npy][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_npy][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_npy][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_npy][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_npy][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_npy][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_npy][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_npy][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_npy][fields][specificcountry][inherit]']
-                            -
-                                poli_powered_by_moneybookers_australia:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_pli']
-                                    links:
-                                        poli_powered_by_moneybookers_australia_link: //parent::div//a[@id='moneybookers_moneybookers_pli-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_pli][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_pli][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_pli][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_pli][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_pli][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_pli][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_pli][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_pli][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_pli][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_pli][fields][specificcountry][inherit]']
-                            -
-                                przelewy24_powered_by_moneybookers_poland:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_pwy']
-                                    links:
-                                        przelewy24_powered_by_moneybookers_poland_link: //parent::div//a[@id='moneybookers_moneybookers_pwy-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_pwy][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_pwy][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_pwy][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_pwy][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_pwy][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_pwy][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_pwy][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_pwy][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_pwy][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_pwy][fields][specificcountry][inherit]']
-                            -
-                                moneybookers_ewallet:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_wlt']
-                                    links:
-                                        moneybookers_ewallet_link: //parent::div//a[@id='moneybookers_moneybookers_wlt-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_wlt][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_wlt][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_wlt][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_wlt][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_wlt][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_wlt][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_wlt][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_wlt][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_wlt][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_wlt][fields][specificcountry][inherit]']
-                            -
-                                online_bank_transfer_powered_by_moneybookers:
-                                    xpath: //fieldset[@id='moneybookers_moneybookers_obt']
-                                    links:
-                                        online_bank_transfer_powered_by_moneybookers_link: //parent::div//a[@id='moneybookers_moneybookers_obt-head']
-                                    fields:
-                                        sort_order: //input[@name='groups[moneybookers_obt][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_obt][fields][title][value]']
-                                    dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_obt][fields][active][value]']
-                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_obt][fields][allowspecific][value]']
-                                    multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_obt][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        sort_order_use_default: //input[@name='groups[moneybookers_obt][fields][sort_order][inherit]']
-                                        title_use_default: //input[@name='groups[moneybookers_obt][fields][title][inherit]']
-                                        enabled_use_default: //input[@name='groups[moneybookers_obt][fields][active][inherit]']
-                                        payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_obt][fields][allowspecific][inherit]']
-                                        payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_obt][fields][specificcountry][inherit]']
-                -
                     services_magento_web_api:
                         xpath: //a[contains(@href, 'edit/section/webapi/')]
                         fieldsets:
@@ -3639,7 +3277,6 @@ system_configuration:
                                         mage_weee: //select[@name='groups[modules_disable_output][fields][Mage_Weee][value]']
                                         mage_widget: //select[@name='groups[modules_disable_output][fields][Mage_Widget][value]']
                                         mage_wishlist: //select[@name='groups[modules_disable_output][fields][Mage_Wishlist][value]']
-                                        phoenix_moneybookers: //select[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][value]']
                                     checkboxes:
                                         mage_adminnotification_use_default: //input[@name='groups[modules_disable_output][fields][Mage_AdminNotification][inherit]']
                                         mage_api_use_default: //input[@id='Mage_Api_inherit']
@@ -3703,7 +3340,6 @@ system_configuration:
                                         mage_weee_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Weee][inherit]']
                                         mage_widget_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Widget][inherit]']
                                         mage_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Wishlist][inherit]']
-                                        phoenix_moneybookers_use_default: //input[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][inherit]']
                 -
                     advanced_developer:
                         xpath: //a[contains(@href, 'edit/section/dev/')]
@@ -3797,6 +3433,8 @@ system_configuration:
             save_config: //button[@data-ui-id='content-schedule-block-save-button']
         messages:
             success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
+            error_save_google_adwords_color: //li[normalize-space(@class)='error-msg' and contains(.,'Conversion Color value is not valid "%color%". Please set hexadecimal 6-digit value.')]
+            error_save_google_adwords_conversion_id: //li[normalize-space(@class)='error-msg' and contains(.,'Conversion Id value is not valid "%conversionId%". Conversion Id should be an integer.')]
             validation_for_field_code_length: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_length']
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 

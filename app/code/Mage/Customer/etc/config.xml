@@ -114,6 +114,13 @@
                 </Mage_Customer>
             </modules>
         </translate>
+        <di>
+            <Mage_Customer_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Customer_Model_Session>
+        </di>
     </adminhtml>
     <frontend>
         <secure_url>
@@ -154,6 +161,13 @@
                 </customer>
             </updates>
         </layout>
+        <di>
+            <Mage_Customer_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Customer_Model_Session>
+        </di>
     </frontend>
     <default>
         <customer>

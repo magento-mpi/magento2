@@ -76,7 +76,7 @@
 
     $.widget('mage.globalNavigation', {
         options: {
-            menuCategory: '.level-0.parent',
+            menuCategory: '.level-0',
             menuLinks: 'a',
             itemsConfig: null,
             hoverIntentConfig: {
@@ -97,18 +97,7 @@
                 .hoverIntent($.extend({}, this.options.hoverIntentConfig, {
                     over: !config.open ? this._hoverEffects : $.noop,
                     out: !config.close ? this._leaveEffects : $.noop
-                }))
-                .on('click', function() {
-                    $(this)
-                        .addClass('recent')
-                        .siblings('.level-0')
-                        .removeClass('recent');
-                    /*                    $(this)
-                     .siblings('.level-0')
-                     .removeClass('hover')
-                     .find('> .submenu')
-                     .hide();*/
-                });
+                }));
             if (config.open) {
                 category.on(config.open, this._hoverEffects);
             }
@@ -143,6 +132,10 @@
         },
 
         _hoverEffects: function (e) {
+            $(this)
+                .addClass('hover recent')
+                .siblings('.level-0').removeClass('recent hover');
+
             var targetSubmenu = $(e.target).closest('.submenu');
             if(targetSubmenu.length && targetSubmenu.is(':visible')) {
                 return;
@@ -150,12 +143,6 @@
             var availableWidth = parseInt($(this).parent().css('width')) - $(this).position().left,
                 submenu = $('> .submenu', this),
                 colsWidth = 0;
-
-            $(this)
-                .addClass('hover')
-/*                .siblings('.level-0.parent')
-                .find('> .submenu').hide()*/
-                ;
 
             submenu.show();
 
@@ -381,6 +368,13 @@
         });
     };
 
+    var toggleColorPickerPosition = function () {
+        var colorPicker = $('.farbtastic:visible'),
+            colorPickerWidth = 350;
+
+        colorPicker.offset() && colorPicker.toggleClass('vertical', parseInt(colorPicker.offset().left, 10) + colorPickerWidth > $(window).width());
+    };
+
     $(document).ready(function() {
         $('.header-panel .search').globalSearch();
         $('.navigation').globalNavigation({
@@ -419,6 +413,15 @@
                 updateColorPickerValues();
             }
         });
+        $(window)
+            .on('resize.vdeColorPicker', function () {
+                this.vdeColorPickerTimeoutId && clearTimeout(this.vdeColorPickerTimeoutId);
+
+                this.vdeColorPickerTimeoutId = setTimeout(function() {
+                    toggleColorPickerPosition();
+                }, 500);
+            });
+
         $('.color-box')
             .on('click.showColorPicker', function() {
                 updateColorPickerValues();  // Update values is other color picker is not closed yet
@@ -426,6 +429,7 @@
                     .addClass('active')
                     .siblings('input').end()
                     .find('.farbtastic').show();
+                toggleColorPickerPosition();
             });
         switcherForIe8();
     });

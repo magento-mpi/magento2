@@ -264,11 +264,11 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
             }
 
             try {
-                Mage::dispatchEvent('enterprise_customer_attribute_before_save', array(
+                $this->_eventManager->dispatch('enterprise_customer_attribute_before_save', array(
                     'attribute' => $attributeObject
                 ));
                 $attributeObject->save();
-                Mage::dispatchEvent('enterprise_customer_attribute_save', array(
+                $this->_eventManager->dispatch('enterprise_customer_attribute_save', array(
                     'attribute' => $attributeObject
                 ));
 
@@ -323,7 +323,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
             }
             try {
                 $attributeObject->delete();
-                Mage::dispatchEvent('enterprise_customer_attribute_delete', array(
+                $this->_eventManager->dispatch('enterprise_customer_attribute_delete', array(
                     'attribute' => $attributeObject
                 ));
 
@@ -356,7 +356,6 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed('Enterprise_Customer::customer_attributes');
+        return $this->_authorization->isAllowed('Enterprise_Customer::customer_attributes');
     }
 }

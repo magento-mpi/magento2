@@ -288,12 +288,12 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * Publication of CSS files located in the module
      *
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @dataProvider publishCssFileFromModuleDataProvider
      */
     public function testPublishCssFileFromModule(
         $cssViewFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_model->getViewFileUrl($cssViewFile, $designParams);
 
         $expectedCssFile = $this->_model->getPublicDir() . '/' . $expectedCssFile;
@@ -323,24 +323,24 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         return array(
             'frontend' => array(
-                'widgets.css',
+                'product/product.css',
                 array(
-                    'area'    => 'frontend',
+                    'area'    => 'adminhtml',
                     'package' => 'default',
-                    'theme'   => 'default',
+                    'theme'   => 'backend',
                     'locale'  => 'en_US',
-                    'module'  => 'Mage_Reports',
+                    'module'  => 'Mage_Catalog',
                 ),
-                'frontend/default/default/en_US/Mage_Reports/widgets.css',
+                'adminhtml/default/backend/en_US/Mage_Catalog/product/product.css',
                 array(
-                    'url(../Mage_Catalog/images/i_block-list.gif)',
+                    'url(../../Mage_Backend/images/gallery-image-base-label.png)',
                 ),
                 array(
-                    'frontend/default/default/en_US/Mage_Catalog/images/i_block-list.gif',
+                    'adminhtml/default/backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
                 ),
             ),
             'adminhtml' => array(
-                'Mage_Paypal::boxes.css',
+                'Mage_Paypal::styles.css',
                 array(
                     'area'    => 'adminhtml',
                     'package' => 'package',
@@ -348,14 +348,14 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                     'locale'  => 'en_US',
                     'module'  => false,
                 ),
-                'adminhtml/package/test/en_US/Mage_Paypal/boxes.css',
+                'adminhtml/package/test/en_US/Mage_Paypal/styles.css',
                 array(
-                    'url(logo.gif)',
-                    'url(section.png)',
+                    'url(images/paypal-logo.png)',
+                    'url(images/pp-allinone.png)',
                 ),
                 array(
-                    'adminhtml/package/test/en_US/Mage_Paypal/logo.gif',
-                    'adminhtml/package/test/en_US/Mage_Paypal/section.png',
+                    'adminhtml/package/test/en_US/Mage_Paypal/images/paypal-logo.png',
+                    'adminhtml/package/test/en_US/Mage_Paypal/images/pp-allinone.png',
                 ),
             ),
         );
@@ -556,5 +556,40 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
 
         $this->_model->setDesignTheme(Mage::getModel('Mage_Core_Model_Theme'));
+    }
+
+    /**
+     * Publication of view files in development mode
+     *
+     * @param string $file
+     * @param $designParams
+     * @param string $expectedFile
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
+     * @dataProvider publishViewFileDataProvider
+     */
+    public function testGetViewFilePublicPath($file, $designParams, $expectedFile)
+    {
+        $this->_initTestTheme();
+
+        $expectedFile = $this->_model->getPublicDir() . '/' . $expectedFile;
+
+        $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
+        $this->_model->getViewFilePublicPath($file, $designParams);
+        $this->assertFileExists($expectedFile);
+    }
+
+    public function testGetViewFilePublicPathExistingFile()
+    {
+        $filePath = 'mage/mage.js';
+        $expectedFile = Mage::getSingleton('Mage_Core_Model_Dir')->getDir(Mage_Core_Model_Dir::PUB_LIB) . '/'
+            . $filePath;
+        $this->assertFileExists($expectedFile, 'Please verify existence of public library file');
+
+        $actualFile = $this->_model->getViewFilePublicPath($filePath);
+        $this->assertFileEquals($expectedFile, $actualFile);
+
+        // Nothing must have been published
+        $this->assertEmpty(glob($this->_model->getPublicDir() . '/*'));
     }
 }

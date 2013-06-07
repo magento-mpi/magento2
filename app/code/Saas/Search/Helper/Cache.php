@@ -10,18 +10,23 @@
 class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
 {
     /**
+     * Path to config search data
+     */
+    const XML_SEARCH_CONFIG_DATA_PATH = 'default/catalog/search/';
+
+    /**
      * Instance of search engine client
      *
-     * @var Saas_Search_Model_Adapter_HttpStream|Saas_Search_Model_Adapter_PhpExtension
+     * @var Saas_Search_Model_Client_Balancer_HttpStream|Saas_Search_Model_Client_Balancer_PhpExtension
      */
     protected $_client;
 
     /**
-     * Registry model
+     * Metadata model
      *
-     * @var Mage_Core_Model_Registry
+     * @var Enterprise_PageCache_Model_Metadata
      */
-    protected $_registryManager;
+    protected $_metadata;
 
     /**
      * Logger
@@ -32,54 +37,57 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
 
     /**
      * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Registry $registry
-     * @param Enterprise_Search_Model_AdapterInterface $client
      * @param Mage_Core_Model_Config_Primary $config
+     * @param Enterprise_PageCache_Model_Metadata $metadata
+     * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
      * @param Mage_Core_Model_Logger $logger
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Mage_Core_Model_Config_Primary $config,
-        Mage_Core_Model_Registry $registry,
-        Enterprise_Search_Model_AdapterInterface $client,
+        Enterprise_PageCache_Model_Metadata $metadata,
+        Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
         Mage_Core_Model_Logger $logger
     ) {
         parent::__construct($context, $config);
         $this->_log = $logger;
-        $this->_registryManager = $registry;
-        $this->_client = $client;
+        $this->_metadata = $metadata;
+        $this->_client = $clientFactory->createClient($this->getSolrServers());
     }
+
     /**
      * Retrieve information from search engine configuration not used store config
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param  string $field
      * @param  int $storeId
-     * @return string|int
      * @return Mage_Core_Model_Config_Element
      */
     public function getSearchConfigData($field, $storeId = null)
     {
-        $path = 'catalog/search/' . $field;
-        return $this->_config->getNode($path, 'default');
+        $path = self::XML_SEARCH_CONFIG_DATA_PATH . $field;
+        return $this->_config->getNode($path);
     }
 
     /**
      * Shows whether replication completed or not
      *
-     * @param  string $indexVersion Index version from cache
      * @return bool
      */
-    public function isReplicationCompleted($indexVersion)
+    public function isReplicationCompleted()
     {
         try {
-            $engineIndexVersion = (string)$this->_client->getIndexVersion();
+            $indexVersion = $this->_metadata->getMetadata('search_engine_index_version');
+            $engineIndexVersion = $this->_client->getIndexVersion();
             if ($engineIndexVersion) {
-                $this->_registryManager->register('search_engine_index_version', $engineIndexVersion);
+                $this->_metadata->setMetadata('search_engine_index_version', $engineIndexVersion);
+                $this->_metadata->saveMetadata();
             }
             return ($indexVersion < $engineIndexVersion);
         } catch (Exception $e) {
             $this->_log->logException($e);
         }
-        return true;
+        return false;
     }
 }

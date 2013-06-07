@@ -1,23 +1,4 @@
 # special case for Saas edition in build mode: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
+# requires gearman extension, CI environment is not ready yet
 app/code/Enterprise/Queue/etc/config.xml
-app/code/Saas/Search/etc/config.xml
-dev/tests/integration/testsuite/Enterprise/Checkout/controllers/CartControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/WeightTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/Model/Sales/Order/CreateTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/CacheControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterQueueControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterTemplateControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/System/DesignControllerTest.php
-dev/tests/integration/testsuite/Mage/Backend/controllers/Adminhtml/System/ConfigControllerTest.php
-dev/tests/integration/testsuite/Mage/Backend/Block/System/Config/FormTest.php
-dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
-dev/tests/integration/testsuite/Mage/Catalog/Model/Product/Api*
-dev/tests/integration/testsuite/Mage/Catalog/Model/Product/Option/Api*
-dev/tests/integration/testsuite/Mage/Catalog/Model/Product/TypeTest.php
-dev/tests/integration/testsuite/Mage/Checkout/controllers/CartControllerTest.php
-dev/tests/integration/testsuite/Mage/Checkout/Model/Cart/Api*
-dev/tests/integration/testsuite/Mage/Sales/Model/Order/Api*
-dev/tests/integration/testsuite/Mage/Sales/Model/Order/Creditmemo/Api*
-dev/tests/integration/testsuite/Mage/Sales/Model/Order/Invoice/Api*
-dev/tests/integration/testsuite/Mage/Sales/Model/Order/Shipment/Api*

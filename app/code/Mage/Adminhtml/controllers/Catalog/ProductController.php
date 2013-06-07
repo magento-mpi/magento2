@@ -162,11 +162,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function indexAction()
     {
         $this->_title($this->__('Manage Products'));
-        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
+        $this->_addProductLimitationMassage();
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_products');
         $this->renderLayout();
@@ -181,6 +177,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_forward('noroute');
             return;
         }
+
+        $this->_addProductLimitationMassage();
+        $this->_addGroupLimitationMessage();
+
         $product = $this->_initProduct();
 
         $productData = $this->getRequest()->getPost('product');
@@ -191,7 +191,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $this->_title($this->__('New Product'));
 
-        Mage::dispatchEvent('catalog_product_new_action', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
         if ($this->getRequest()->getParam('popup')) {
             $this->loadLayout('popup');
@@ -225,11 +225,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function editAction()
     {
-        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
+        $this->_addProductLimitationMassage();
+        $this->_addGroupLimitationMessage();
 
         $productId  = (int) $this->getRequest()->getParam('id');
         $product = $this->_initProduct();
@@ -242,7 +239,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $this->_title($product->getName());
 
-        Mage::dispatchEvent('catalog_product_edit_action', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_product_edit_action', array('product' => $product));
 
         $_additionalLayoutPart = '';
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
@@ -530,8 +527,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $resource->getAttribute('custom_design_from')
                 ->setMaxValue($product->getCustomDesignTo());
 
-            if ($products = $this->getRequest()->getPost('variations-matrix')) {
-                $validationResult = $this->_validateProductVariations($product, $products);
+            $variationProducts = (array)$this->getRequest()->getPost('variations-matrix');
+            if ($variationProducts) {
+                $validationResult = $this->_validateProductVariations($product, $variationProducts);
                 if (!empty($validationResult)) {
                     $response->setError(true)
                         ->setMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('Some product variations fields are not valid.'))
@@ -539,6 +537,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 }
             }
             $product->validate();
+
+            /* Verify limitation */
+            $numProductsToCreate = $product->getId() ? 0 : 1;
+            $numProductsToCreate += count($variationProducts);
+            $limitation = $this->_getLimitation();
+            if ($limitation->isCreateRestricted($numProductsToCreate)) {
+                $message = Mage::helper('Mage_Catalog_Helper_Data')->__('We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.');
+                $message = sprintf($message, $numProductsToCreate, $limitation->getLimit());
+                throw new Mage_Catalog_Exception($message);
+            }
+
             /**
              * @todo implement full validation process with errors returning which are ignoring now
              */
@@ -582,6 +591,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $validationResult = array();
         foreach ($products as $productData) {
+            /** @var Mage_Catalog_Model_Product $product */
             $product = $this->_objectManager->create('Mage_Catalog_Model_Product');
             $product->setData('_edit_mode', true);
             if ($storeId = $this->getRequest()->getParam('store')) {
@@ -594,14 +604,29 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
                 ->jsonDecode($productData['configurable_attribute']);
             $configurableAttribute = implode('-', $configurableAttribute);
-            foreach ($product->validate() as $attributeCode => $result) {
-                if (is_string($result)) {
-                    $validationResult['variations-matrix-' . $configurableAttribute . '-' . $attributeCode] = $result;
+
+            $errorAttributes = $product->validate();
+            if (is_array($errorAttributes)) {
+                foreach ($errorAttributes as $attributeCode => $result) {
+                    if (is_string($result)) {
+                        $key = 'variations-matrix-' . $configurableAttribute . '-' . $attributeCode;
+                        $validationResult[$key] = $result;
+                    }
                 }
             }
         }
 
         return $validationResult;
+    }
+
+    /**
+     * Return product limitation model
+     *
+     * @return Mage_Catalog_Model_Product_Limitation
+     */
+    protected function _getLimitation()
+    {
+        return $this->_objectManager->get('Mage_Catalog_Model_Product_Limitation');
     }
 
     /**
@@ -717,7 +742,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             && !$product->getOptionsReadonly()
         );
 
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'catalog_product_prepare_save',
             array('product' => $product, 'request' => $this->getRequest())
         );
@@ -760,7 +785,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_filterStockData($data['product']['stock_data']);
 
             $product = $this->_initProductSave($this->_initProduct());
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'catalog_product_transition_product_type',
                 array('product' => $product, 'request' => $this->getRequest())
             );
@@ -796,6 +821,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             ->escapeHtml($product->getName()),
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
+                }
+                if ($redirectBack === 'new' || $redirectBack === 'duplicate') {
+                    $limitation = $this->_getLimitation();
+                    if ($limitation->isCreateRestricted()) {
+                        $redirectBack = true;
+                        $this->_getSession()->addError($this->__("You can't create new product."));
+                    }
                 }
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
@@ -997,7 +1029,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::products');
+        return $this->_authorization->isAllowed('Mage_Catalog::products');
     }
 
     /**
@@ -1048,5 +1080,30 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->getLayout()->createBlock('Mage_Catalog_Block_Product_TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
+    }
+
+    /**
+     * In case of fully used limit on products - display message about this.
+     */
+    protected function _addProductLimitationMassage()
+    {
+
+        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
+    }
+
+    /**
+     * In case of fully used limit on groups - display message about this.
+     */
+    protected function _addGroupLimitationMessage()
+    {
+        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
     }
 }

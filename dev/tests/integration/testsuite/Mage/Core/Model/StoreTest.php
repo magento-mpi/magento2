@@ -125,6 +125,10 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             array(Mage_Core_Model_Store::URL_TYPE_STATIC, false, true,  'http://localhost/pub/static/'),
             array(Mage_Core_Model_Store::URL_TYPE_STATIC, true,  false, 'http://localhost/pub/static/'),
             array(Mage_Core_Model_Store::URL_TYPE_STATIC, true,  true,  'http://localhost/pub/static/'),
+            array(Mage_Core_Model_Store::URL_TYPE_CACHE, false, false, 'http://localhost/pub/cache/'),
+            array(Mage_Core_Model_Store::URL_TYPE_CACHE, false, true,  'http://localhost/pub/cache/'),
+            array(Mage_Core_Model_Store::URL_TYPE_CACHE, true,  false, 'http://localhost/pub/cache/'),
+            array(Mage_Core_Model_Store::URL_TYPE_CACHE, true,  true,  'http://localhost/pub/cache/'),
             array(Mage_Core_Model_Store::URL_TYPE_LIB, false, false, 'http://localhost/pub/lib/'),
             array(Mage_Core_Model_Store::URL_TYPE_LIB, false, true,  'http://localhost/pub/lib/'),
             array(Mage_Core_Model_Store::URL_TYPE_LIB, true,  false, 'http://localhost/pub/lib/'),
@@ -307,11 +311,12 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture limitations/store 1
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
-     * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage You are using the maximum number of store views allowed.
      */
     public function testSaveValidationLimitation()
     {
+        // @codingStandardsIgnoreStart
+        $this->setExpectedException('Mage_Core_Exception', 'Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
+        // @codingStandardsIgnoreEnd
         $this->_model->setData(
             array(
                 'code'          => 'test',

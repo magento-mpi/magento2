@@ -25,7 +25,7 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHand
      */
     public function getRelatedConfigSections()
     {
-        return array('paypal');
+        return array('payment');
     }
 
     /**
@@ -38,30 +38,36 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHand
     public function prepareData(array $data)
     {
         $preparedData = array();
-        if (empty($data['groups']['verisign']['fields']['partner']['value'])) {
+        if (isset($data['groups']['paypal_payment_gateways']['groups']['paypal_verisign_with_express_checkout_us']
+            ['groups']['paypal_payflow_required']['groups']['paypal_payflow_api_settings']['fields'])
+        ) {
+            $fields = $data['groups']['paypal_payment_gateways']['groups']['paypal_verisign_with_express_checkout_us']
+                ['groups']['paypal_payflow_required']['groups']['paypal_payflow_api_settings']['fields'];
+        }
+
+        if (empty($fields['partner']['value'])) {
             throw new Saas_Launcher_Exception('Partner field is required.');
         }
-        if (empty($data['groups']['verisign']['fields']['vendor']['value'])) {
+        if (empty($fields['vendor']['value'])) {
             throw new Saas_Launcher_Exception('Vendor field is required.');
         }
-        if (empty($data['groups']['verisign']['fields']['user']['value'])) {
+        if (empty($fields['user']['value'])) {
             throw new Saas_Launcher_Exception('User field is required.');
         }
-        if (empty($data['groups']['verisign']['fields']['pwd']['value'])) {
+        if (empty($fields['pwd']['value'])) {
             throw new Saas_Launcher_Exception('Password field is required.');
         }
 
-        $preparedData['paypal']['verisign']['fields']['partner']['value'] =
-            trim($data['groups']['verisign']['fields']['partner']['value']);
-        $preparedData['paypal']['verisign']['fields']['vendor']['value'] =
-            trim($data['groups']['verisign']['fields']['vendor']['value']);
-        $preparedData['paypal']['verisign']['fields']['user']['value'] =
-            trim($data['groups']['verisign']['fields']['user']['value']);
-        $preparedData['paypal']['verisign']['fields']['pwd']['value'] =
-            trim($data['groups']['verisign']['fields']['pwd']['value']);
+        $preparedFields['partner']['value'] = trim($fields['partner']['value']);
+        $preparedFields['vendor']['value'] = trim($fields['vendor']['value']);
+        $preparedFields['user']['value'] = trim($fields['user']['value']);
+        $preparedFields['pwd']['value'] = trim($fields['pwd']['value']);
+        $preparedData['payment']['paypal_payment_gateways']['groups']['paypal_verisign_with_express_checkout_us']
+            ['groups']['paypal_payflow_required']['groups']['paypal_payflow_api_settings']['fields'] = $preparedFields;
 
         // enable PayPal Payflow Pro
-        $preparedData['paypal']['global']['fields']['verisign']['value'] = 1;
+        $preparedData['payment']['paypal_payments']['groups']['paypal_verisign']
+            ['groups']['paypal_payflow_required']['fields']['enable_paypal_payflow']['value'] = 1;
         return $preparedData;
     }
 }

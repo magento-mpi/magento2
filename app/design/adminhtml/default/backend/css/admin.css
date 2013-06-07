@@ -291,11 +291,6 @@ button.primary.disabled:hover,
 .action-manage-images:active,
 .action-manage-images.active,
 .action-manage-images[disabled],
-.notification-entry-dialog .action-cancel,
-.notification-entry-dialog .action-cancel:hover,
-.notification-entry-dialog .action-cancel:active,
-.notification-entry-dialog .action-cancel.active,
-.notification-entry-dialog .action-cancel[disabled],
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
@@ -361,6 +356,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .eq-ie8 .customer-current-activity .action-refresh,
@@ -399,11 +395,7 @@ button.primary.disabled:hover,
 .eq-ie8 .fieldset-wrapper-title .action-add,
 .eq-ie8 .fieldset-wrapper-title .action-add:hover,
 .eq-ie8 .fieldset-wrapper-title .action-add:active,
-.eq-ie8 .fieldset-wrapper-title .action-add.active,
-.eq-ie8 .custom-file > .action-add,
-.eq-ie8 .custom-file > .action-add:hover,
-.eq-ie8 .custom-file > .action-add:active,
-.eq-ie8 .custom-file > .action-add.active,
+.eq-ie8 .fieldset-wrapper-title .action-add.active
 .eq-ie8 .vde-tools-header .action-close,
 .eq-ie8 .vde-tools-header .action-close:hover,
 .eq-ie8 .vde-tools-header .action-close:active,
@@ -442,13 +434,13 @@ button.primary.disabled:hover,
     filter: none;
 }
 
-.data-table .action-.delete:disabled,
-.data-table .action-delete:disabled,
-#product-variations-matrix .action-choose:disabled,
-.image-panel .action-close:disabled,
-.image-panel-controls .action-remove:disabled,
-.suggest-expandable .action-show-all:disabled,
-.fieldset-wrapper-title .action-add:disabled,
+.data-table .action-.delete[disabled],
+.data-table .action-delete[disabled],
+#product-variations-matrix .action-choose[disabled],
+.image-panel .action-close[disabled],
+.image-panel-controls .action-remove[disabled],
+.suggest-expandable .action-show-all[disabled],
+.fieldset-wrapper-title .action-add[disabled],
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
@@ -478,6 +470,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .fade.critical-notification {
@@ -529,7 +522,12 @@ button.primary.disabled:hover,
 .notification .action-close:hover,
 .notification .action-close:active,
 .notification .action-close.active,
-.notification .action-close[disabled] {
+.notification .action-close[disabled],
+.adminhtml-sales-order-create-index .page-actions-inner .cancel,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:hover,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel.active,
+.adminhtml-sales-order-create-index .page-actions-inner .cancel[disabled] {
     border: 0;
     border-radius: 0;
     background: none;
@@ -537,13 +535,29 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .vde-image-sizing .action-connect,
 .vde-image-sizing .action-connect:hover,
 .vde-image-sizing .action-connect:active,
 .vde-image-sizing .action-connect.active,
-.vde-image-sizing .action-connect:disabled {
+.vde-image-sizing .action-connect[disabled],
+.vde-tab-data .action-download,
+.vde-tab-data .action-download:hover,
+.vde-tab-data .action-download:active,
+.vde-tab-data .action-download.active,
+.vde-tab-data .action-download[disabled],
+.vde-tab-data .action-delete,
+.vde-tab-data .action-delete:hover,
+.vde-tab-data .action-delete:active,
+.vde-tab-data .action-delete.active,
+.vde-tab-data .action-delete[disabled],
+.vde-tab-data .action-edit,
+.vde-tab-data .action-edit:hover,
+.vde-tab-data .action-edit:active,
+.vde-tab-data .action-edit.active,
+.vde-tab-data .action-edit[disabled] {
     border: none;
     border-radius: 0;
     background: none;
@@ -551,24 +565,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
-}
-
-/*
-    Actions as links
--------------------------------------- */
-.notification-entry-dialog .action-cancel {
-    background: none;
-    border: none;
-    color: #6d665e;
-    font-weight: normal;
-    font-size: 12px;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.notification-entry-dialog .action-cancel:hover {
-    color: #000;
-    border-bottom-color: #000;
+    filter: none;
 }
 
 /*
@@ -870,6 +867,8 @@ button.primary.disabled:hover,
     top: auto;
     max-height: 300px;
     overflow: auto;
+    width: 100%;
+    float: left;
 }
 
 .suggest-expandable .mage-suggest-dropdown ul {
@@ -2310,13 +2309,6 @@ table tbody tr:nth-child(odd):hover th {
     opacity: .95;
 }
 
-.eq-ie8 .loading-old .loader {
-    bottom: auto;
-    right: auto;
-    margin: auto;
-    left: auto;
-}
-
 .loading-mask img {
     display: none;
 }
@@ -2500,11 +2492,13 @@ table tbody tr:nth-child(odd):hover th {
 
 /*.navigation .level-0:hover > a,
 .eq-ie8 .navigation .level-0:hover > a,*/
-.navigation .level-0.hover.recent > a,
-.navigation .level-0 > a:focus {
+.navigation .level-0.hover.recent > a {
     background: #fff;
     color: #676056;
     text-shadow: 0 1px 3px #c1bfbb;
+}
+.navigation .level-0 > a:focus {
+    outline: none;
 }
 
 .navigation .level-0 > .submenu {
@@ -2528,10 +2522,6 @@ table tbody tr:nth-child(odd):hover th {
 .eq-ie8 .navigation .level-0.hover > a {
     border-top: 1px solid #46433d;
     padding-top: 36px;
-}
-
-.eq-ie8 .navigation .level-0.item-system > a {
-    padding-top: 0;
 }
 
 .navigation .level-0 > a:before {
@@ -2687,13 +2677,20 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0;
 }
 
+.eq-ie8 .navigation .level-0.item-system > a,
 .eq-ie8 .navigation .level-0.item-system:hover > a,
-.eq-ie8 .navigation .level-0.item-system.hover > a {
+.eq-ie8 .navigation .level-0.item-system.hover > a,
+.eq-ie8 .navigation .level-0.item-stores > a,
+.eq-ie8 .navigation .level-0.item-stores:hover > a,
+.eq-ie8 .navigation .level-0.item-stores.hover > a {
     border-top: 0;
+    padding-top: 0;
 }
 
 .navigation .level-0.item-system:hover > a,
-.navigation .level-0.item-system.hover > a {
+.navigation .level-0.item-system.hover > a,
+.navigation .level-0.item-stores:hover > a,
+.navigation .level-0.item-stores.hover > a {
     background: transparent;
 }
 
@@ -2767,6 +2764,16 @@ table tbody tr:nth-child(odd):hover th {
     color: #f2ebde;
     height: 1.333em;
 }
+
+.navigation .level-0.item-system:hover > a span,
+.navigation .level-0.item-stores:hover > a span {
+    background: #31302B;
+}
+.navigation .level-0.item-system:hover > a span:after,
+.navigation .level-0.item-stores:hover > a span:after {
+    color: #58534a;
+}
+
 
 .no-js .navigation .level-0.item-system:hover > a span,
 .navigation .level-0.item-system.hover > a span,
@@ -4380,7 +4387,7 @@ table tbody tr:nth-child(odd):hover th {
     border-color: transparent;
 }
 
-.grid tr.headings th a span {
+.grid tr.headings th a label {
     display: block;
     padding-right: 20px;
 }
@@ -4730,6 +4737,15 @@ tr.dynamic-grid input.input-text {
 .ui-dialog .data {
     word-wrap: break-word;
     table-layout: fixed;
+}
+
+.eq-ie8 #cross_sell_product_grid table.data,
+.eq-ie8 #up_sell_product_grid table.data,
+.eq-ie8 #related_product_grid table.data,
+.eq-ie8 #productGrid_table,
+.eq-ie8 .ui-dialog .data {
+    word-wrap: normal;
+    table-layout: auto;
 }
 
 #cross_sell_product_grid table.data th,
@@ -5186,19 +5202,6 @@ table .col-draggable .draggable-handle {
     transition: color 150ms linear;
 }
 
-.field-detailed_rating .field-rating .control input[type="radio"]:checked ~ label:before {
-    color: #333;
-}
-
-.field-detailed_rating .field-rating .control label:hover,
-.field-detailed_rating .field-rating .control label:hover ~ label {
-    color: #f30;
-}
-
-.field-detailed_rating .field-rating .control label:before {
-    content: "\2605\0000a0";
-}
-
 /*
     Tree Store Scope
 -------------------------------------- */
@@ -5366,6 +5369,10 @@ table .col-draggable .draggable-handle {
 
 .widget-layout-updates .data-table {
     table-layout: fixed;
+}
+
+.eq-ie8 .widget-layout-updates .data-table {
+    table-layout: auto;
 }
 
 .widget-layout-updates .data-table,
@@ -5541,11 +5548,9 @@ table .col-draggable .draggable-handle {
 
 .message-system .message-system-short .error a:before,
 .message-system-list li.error:before {
-    content: '!';
-    font-family: inherit;
-    color: #fff;
-    background: #c00815;
-    border-radius: 8px;
+    content: "\e086";
+    font-family: 'MUI-Icons';
+    color: #c00815;
 }
 
 .ui-dialog .message-system-list {

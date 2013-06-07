@@ -38,15 +38,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 'value' => 'price',
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Price')
             ),
-            array(
-                'value' => 'media_image',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Media Image')
-            )
         );
-        if ($attributeObject->getFrontendInput() == 'gallery') {
+        $additionalReadOnlyTypes = array(
+            'media_image' => Mage::helper('Mage_Catalog_Helper_Data')->__('Media Image'),
+            'gallery'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Gallery')
+        );
+        if (isset($additionalReadOnlyTypes[$attributeObject->getFrontendInput()])) {
             $additionalTypes[] = array(
-                'value' => 'gallery',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Gallery')
+                'value' => $attributeObject->getFrontendInput(),
+                'label' => $additionalReadOnlyTypes[$attributeObject->getFrontendInput()]
             );
         }
 

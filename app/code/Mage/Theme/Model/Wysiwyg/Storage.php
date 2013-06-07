@@ -61,21 +61,29 @@ class Mage_Theme_Model_Wysiwyg_Storage
     protected $_objectManager;
 
     /**
+     * @var Mage_Core_Model_Image_AdapterFactory
+     */
+    protected $_imageFactory;
+
+    /**
      * Initialize dependencies
      *
      * @param Magento_Filesystem $filesystem
      * @param Mage_Theme_Helper_Storage $helper
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Theme_Helper_Storage $helper,
-        Magento_ObjectManager $objectManager
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Image_AdapterFactory $imageFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
+        $this->_imageFactory = $imageFactory;
     }
 
     /**
@@ -130,8 +138,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $thumbnailPath = $thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
         try {
             $this->_filesystem->ensureDirectoryExists($thumbnailDir);
-            $adapter = $this->_objectManager->get('Mage_Core_Helper_Data')->getImageAdapterType();
-            $image = $this->_objectManager->get('Varien_Image_Adapter')->factory($adapter);
+            $image = $this->_imageFactory->create();
             $image->open($source);
             $image->keepAspectRatio(true);
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
@@ -158,7 +165,9 @@ class Mage_Theme_Model_Wysiwyg_Storage
     public function createFolder($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            throw new Mage_Core_Exception($this->_helper->__('Invalid folder name.'));
+            throw new Mage_Core_Exception(
+                $this->_helper->__('Use only standard alphanumeric, dashes and underscores.')
+            );
         }
         if (!$this->_filesystem->isWritable($path)) {
             $path = $this->_helper->getStorageRoot();
@@ -193,16 +202,16 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $file = $this->_helper->urlDecode($file);
         $path = $this->_helper->getSession()->getStoragePath();
 
-        $_filePath = $this->_filesystem->getAbsolutePath($path . Magento_Filesystem::DIRECTORY_SEPARATOR . $file);
-        $_thumbnailPath = $this->_helper->getThumbnailDirectory($_filePath)
+        $filePath = $this->_filesystem->normalizePath($path . '/' . $file);
+        $thumbnailPath = $this->_helper->getThumbnailDirectory($filePath)
             . Magento_Filesystem::DIRECTORY_SEPARATOR
             . $file;
 
-        if ($this->_filesystem->isPathInDirectory($_filePath, $path)
-            && $this->_filesystem->isPathInDirectory($_filePath, $this->_helper->getStorageRoot())
+        if ($this->_filesystem->isPathInDirectory($filePath, $path)
+            && $this->_filesystem->isPathInDirectory($filePath, $this->_helper->getStorageRoot())
         ) {
-            $this->_filesystem->delete($_filePath);
-            $this->_filesystem->delete($_thumbnailPath);
+            $this->_filesystem->delete($filePath);
+            $this->_filesystem->delete($thumbnailPath);
         }
         return $this;
     }
@@ -253,6 +262,12 @@ class Mage_Theme_Model_Wysiwyg_Storage
             if (self::TYPE_IMAGE == $storageType) {
                 $requestParams['file'] = $fileName;
                 $file['thumbnailParams'] = $requestParams;
+
+                $size = @getimagesize($path);
+                if (is_array($size)) {
+                    $file['width'] = $size[0];
+                    $file['height'] = $size[1];
+                }
             }
             $files[] = $file;
         }

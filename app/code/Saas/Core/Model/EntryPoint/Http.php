@@ -28,7 +28,7 @@ class Saas_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
     /**
      * Run http application
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         try {
             $request = $this->_objectManager->get('Mage_Core_Controller_Request_Http');

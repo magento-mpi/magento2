@@ -120,6 +120,24 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
     }
 
     /**
+     * Get customers collection
+     *
+     * @return Enterprise_ImportExport_Model_Resource_Customer_Collection
+     */
+    protected function _getEntityCollection()
+    {
+        return $this->_customerCollection;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _getHeaderColumns()
+    {
+        return array_merge($this->getPermanentAttributes(), $this->_getEntityAttributes());
+    }
+
+    /**
      * Get list of permanent attributes
      *
      * @return array
@@ -136,13 +154,11 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
      */
     public function export()
     {
-        $permanentAttributes = $this->getPermanentAttributes();
-        $validAttributeCodes = $this->_getEntityAttributes();
         $writer = $this->getWriter();
 
         // create export file
-        $writer->setHeaderCols(array_merge($permanentAttributes, $validAttributeCodes));
-        $this->_exportCollectionByPages($this->_customerCollection);
+        $writer->setHeaderCols($this->_getHeaderColumns());
+        $this->_exportCollectionByPages($this->_getEntityCollection());
 
         return $writer->getContents();
     }
@@ -187,15 +203,15 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
     {
         //  push filters from post into export customer model
         $this->_customerEntity->setParameters($parameters);
-        $this->_customerCollection = $this->_customerEntity->filterEntityCollection($this->_customerCollection);
+        $this->_customerEntity->filterEntityCollection($this->_getEntityCollection());
 
         // join with finance data tables
         if ($this->_moduleHelper->isRewardPointsEnabled()) {
-            $this->_customerCollection->joinWithRewardPoints();
+            $this->_getEntityCollection()->joinWithRewardPoints();
         }
 
         if ($this->_moduleHelper->isCustomerBalanceEnabled()) {
-            $this->_customerCollection->joinWithCustomerBalance();
+            $this->_getEntityCollection()->joinWithCustomerBalance();
         }
 
         return parent::setParameters($parameters);

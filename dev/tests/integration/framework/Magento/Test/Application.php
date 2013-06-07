@@ -100,7 +100,8 @@ class Magento_Test_Application
                 Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
                 Mage_Core_Model_Dir::VAR_DIR     => $installDir,
                 Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
-                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/static",
+                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/pub_static",
+                Mage_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
             ),
             Mage::PARAM_MODE => $appMode
         );
@@ -161,15 +162,21 @@ class Magento_Test_Application
             $objectManager = new Magento_Test_ObjectManager($definitionDecorator, $config);
             Mage::setObjectManager($objectManager);
         } else {
-            $config->configure(Mage::getObjectManager());
-            Mage::getObjectManager()->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
-            Mage::getObjectManager()->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
+            $objectManager = Mage::getObjectManager();
+            $config->configure($objectManager);
+            $objectManager->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
+            $objectManager->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
         }
 
-        Mage::getObjectManager()->get('Mage_Core_Model_Resource')
+        $objectManager->get('Mage_Core_Model_Resource')
             ->setResourceConfig(Mage::getObjectManager()->get('Mage_Core_Model_Config_Resource'));
-        Mage::getObjectManager()->get('Mage_Core_Model_Resource')
+        $objectManager->get('Mage_Core_Model_Resource')
             ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface'));
+
+        /** @var Mage_Core_Model_Dir_Verification $verification */
+        $verification = $objectManager->get('Mage_Core_Model_Dir_Verification');
+        $verification->createAndVerifyDirectories();
+
         Mage::getConfig(); // Loading full config to initialize global application area
     }
 

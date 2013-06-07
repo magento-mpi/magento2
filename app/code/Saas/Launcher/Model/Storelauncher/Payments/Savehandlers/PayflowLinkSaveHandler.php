@@ -25,7 +25,7 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowLinkSaveHan
      */
     public function getRelatedConfigSections()
     {
-        return array('paypal');
+        return array('payment');
     }
 
     /**
@@ -38,30 +38,36 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowLinkSaveHan
     public function prepareData(array $data)
     {
         $preparedData = array();
-        if (empty($data['groups']['payflow_link']['fields']['partner']['value'])) {
+        if (isset($data['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields'])
+        ) {
+            $fields = $data['groups']['paypal_payment_gateways']['groups']['payflow_link_us']
+                ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields'];
+        }
+
+        if (empty($fields['partner']['value'])) {
             throw new Saas_Launcher_Exception('Partner field is required.');
         }
-        if (empty($data['groups']['payflow_link']['fields']['vendor']['value'])) {
+        if (empty($fields['vendor']['value'])) {
             throw new Saas_Launcher_Exception('Vendor field is required.');
         }
-        if (empty($data['groups']['payflow_link']['fields']['user']['value'])) {
+        if (empty($fields['user']['value'])) {
             throw new Saas_Launcher_Exception('User field is required.');
         }
-        if (empty($data['groups']['payflow_link']['fields']['pwd']['value'])) {
+        if (empty($fields['pwd']['value'])) {
             throw new Saas_Launcher_Exception('Password field is required.');
         }
 
-        $preparedData['paypal']['payflow_link']['fields']['partner']['value'] =
-            trim($data['groups']['payflow_link']['fields']['partner']['value']);
-        $preparedData['paypal']['payflow_link']['fields']['vendor']['value'] =
-            trim($data['groups']['payflow_link']['fields']['vendor']['value']);
-        $preparedData['paypal']['payflow_link']['fields']['user']['value'] =
-            trim($data['groups']['payflow_link']['fields']['user']['value']);
-        $preparedData['paypal']['payflow_link']['fields']['pwd']['value'] =
-            trim($data['groups']['payflow_link']['fields']['pwd']['value']);
+        $preparedFields['partner']['value'] = trim($fields['partner']['value']);
+        $preparedFields['vendor']['value'] = trim($fields['vendor']['value']);
+        $preparedFields['user']['value'] = trim($fields['user']['value']);
+        $preparedFields['pwd']['value'] = trim($fields['pwd']['value']);
+        $preparedData['payment']['paypal_payment_gateways']['groups']['payflow_link_us']
+            ['groups']['payflow_link_required']['groups']['payflow_link_payflow_link']['fields'] = $preparedFields;
 
         // enable PayPal Payflow Link
-        $preparedData['paypal']['global']['fields']['payflow_link']['value'] = 1;
+        $preparedData['payment']['paypal_payment_gateways']['groups']['payflow_link_us']['groups']
+            ['payflow_link_required']['fields']['enable_payflow_link']['value'] = 1;
         return $preparedData;
     }
 }

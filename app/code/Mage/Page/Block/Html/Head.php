@@ -50,6 +50,11 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     private $_assetMergeService;
 
     /**
+     * @var Mage_Core_Model_Page_Asset_MinifyService
+     */
+    private $_assetMinifyService;
+
+    /**
      * @var Mage_Page_Model_Asset_GroupedCollection
      */
     private $_pageAssets;
@@ -59,11 +64,13 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Page $page,
         Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
+        Mage_Core_Model_Page_Asset_MinifyService $assetMinifyService,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
+        $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $page->getAssets();
     }
 
@@ -173,6 +180,81 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
+     * Add Meta element to HEAD entity
+     *
+     * @param string|array $metaData
+     * @param string $content
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addMetaTag($metaData, $content = null)
+    {
+        $this->_initMetaTags();
+        if (!is_array($metaData)) {
+            $metaData = array('name' => $metaData, 'content' => $content);
+        }
+        if (!empty($metaData['name']) && !empty($metaData['content'])) {
+             $this->_data['meta_tag'][] = $metaData;
+        }
+        return $this;
+    }
+
+    /**
+     * Create empy array form meta tags
+     *
+     * @return $this
+     */
+    protected function _initMetaTags()
+    {
+        if (!isset($this->_data['meta_tag'])) {
+            $this->_data['meta_tag'] = array();
+        }
+        return $this;
+    }
+
+    /**
+     * Get default Meta elements
+     *
+     * @return array
+     */
+    public function getDefaultMetaTags()
+    {
+        return array(
+            array('name' => 'description', 'content' => $this->getDescription()),
+            array('name' => 'keywords', 'content' => $this->getKeywords()),
+            array('name' => 'robots', 'content' => $this->getRobots()),
+        );
+    }
+
+    /**
+     * Get Meta elements
+     *
+     * @return array
+     */
+    public function getMetaTags()
+    {
+        $this->_initMetaTags();
+        return array_merge($this->getDefaultMetaTags(), $this->_data['meta_tag']);
+    }
+
+    /**
+     * Get meta tags as html
+     *
+     * @return string
+     */
+    public function getMetaTagHtml()
+    {
+        $metaTags = array();
+        foreach ($this->getMetaTags() as $metaTag) {
+            $metaTags[] = sprintf(
+                '<meta name="%s" content="%s"/>',
+                $metaTag['name'],
+                htmlspecialchars($metaTag['content'])
+            );
+        }
+        return implode("\n", $metaTags);
+    }
+
+    /**
      * Remove Item from HEAD entity
      *
      * @param string $type
@@ -206,6 +288,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             }
 
             $groupAssets = $group->getAll();
+            $groupAssets = $this->_assetMinifyService->getAssets($groupAssets);
             if ($canMerge && count($groupAssets) > 1) {
                 $groupAssets = $this->_assetMergeService->getMergedAssets($groupAssets, $contentType);
             }
@@ -237,10 +320,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      * Render HTML tags referencing corresponding URLs
      *
      * @param string $template
-     * @param array $assets
+     * @param array|Iterator $assets
      * @return string
      */
-    protected function _renderHtml($template, array $assets)
+    protected function _renderHtml($template, $assets)
     {
         $result = '';
         try {

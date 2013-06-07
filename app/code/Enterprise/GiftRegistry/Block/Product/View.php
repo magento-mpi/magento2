@@ -9,34 +9,49 @@
  */
 
 /**
- * Front end helper block to show giftregistry mark
+ * Front end helper block to show GiftRegistry mark
  */
 class Enterprise_GiftRegistry_Block_Product_View extends Mage_Catalog_Block_Product_View
 {
     /**
-     * Giftregistry param flag value in url option params
+     * GiftRegistry param flag value in url option params
      * @var string
      */
     const FLAG = 'giftregistry';
 
     /**
-     * Prepare layout
+     * Set template to specified block
      *
-     * @return Enterprise_GiftRegistry_Block_Product_View
+     * @param string $blockName
+     * @param string $template
+     * @throws LogicException
      */
-    protected function _prepareLayout()
+    public function setGiftRegistryTemplate($blockName, $template)
     {
-        $block = $this->getLayout()->getBlock('customize.button');
-        if ($block && $this->_isGiftRegistryRedirect()) {
-            $block->setTemplate('Enterprise_GiftRegistry::product/customize.phtml');
+        $block = $this->getLayout()->getBlock($blockName);
+        if (!$block) {
+            throw new LogicException("Could not find block '$blockName'");
         }
+        if ($this->_isGiftRegistryRedirect()) {
+            $block->setTemplate($template);
+        }
+    }
 
-        $block = $this->getLayout()->getBlock('product.info.addtocart');
-        if ($block && $this->_isGiftRegistryRedirect()) {
-            $block->setTemplate('Enterprise_GiftRegistry::product/addtocart.phtml');
+    /**
+     * Set GiftRegistry URL for the template
+     *
+     * @param string $blockName
+     * @throws LogicException
+     */
+    public function setGiftRegistryUrl($blockName)
+    {
+        $block = $this->getLayout()->getBlock($blockName);
+        if (!$block) {
+            throw new LogicException("Could not find block '$blockName'");
+        }
+        if ($this->_isGiftRegistryRedirect()) {
             $block->setAddToGiftregistryUrl($this->getAddToGiftregistryUrl());
         }
-        return parent::_prepareLayout();
     }
 
     /**

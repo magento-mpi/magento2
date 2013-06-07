@@ -45,29 +45,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         }
         //Back to main window
         $this->window('');
-        //Delete virtual themes
-        $this->themeHelper()->deleteAllVirtualThemes();
-    }
-
-    /**
-     * <p>Test theme infinity scroll on page with available themes</p>
-     * @test
-     */
-    public function openAvailableThemePage()
-    {
-        //Data
-        $this->themeHelper()->deleteAllVirtualThemes();
-        //Steps
-        $this->navigate('design_editor_selector');
-        $this->waitForAjax();
-        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'));
-
-        $xpath = $this->_getControlXpath('pageelement', 'theme_list_elements');
-        $this->waitForElementOrAlert($xpath);
-        $defaultElementsCount = $this->getControlCount('pageelement', 'theme_list_elements');
-
-        /** Check that theme list loaded */
-        $this->assertGreaterThan(0, $defaultElementsCount);
     }
 
     /**
@@ -76,24 +53,23 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function themeControls()
     {
-        //Data
-        $this->themeHelper()->deleteAllVirtualThemes();
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
-        $this->addParameter('id', $themeId);
-        //Steps
-        $this->navigate('design_editor_selector');
-        $this->waitForAjax();
-
         /**
          * Available theme list(on first entrance)
          */
-        $this->assertTrue($this->controlIsPresent('button', 'preview_demo_button'),
-            'Preview button is not exists');
+        $this->navigate('design_editor_selector');
+        $this->openTab('available_themes');
+        $this->waitForAjax();
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
         $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
             'Assign button is not exists');
 
-        $themeData = $this->themeHelper()->createTheme();
-        $themeId = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
         $this->addParameter('id', $themeId);
         /**
          * My customization theme
@@ -102,48 +78,89 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
 
         $this->assertTrue($this->controlIsPresent('button', 'preview_theme_button'),
             'Preview button is not exists');
-        $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'assign_customization_button'),
             'Assign button is not exists');
-        $this->assertTrue($this->controlIsPresent('button', 'edit_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'edit_customization_button'),
             'Edit button is not exists');
         $this->assertTrue($this->controlIsPresent('button', 'delete_theme_button'),
             'Delete button is not exists');
+//        $this->assertTrue($this->controlIsPresent('button', 'duplicate_theme'), //Commented due to bug MAGETWO-9692
+//            'Duplicate button is not exists');
 
         /**
          * Available theme list
          */
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
-        $this->addParameter('id', $themeId);
-        $this->navigate('design_editor_selector');
         $this->clickControl('link', 'available_themes_tab', false);
         $this->waitForAjax();
 
-        $this->assertTrue($this->controlIsPresent('button', 'preview_demo_button'),
-            'Preview button is not exists');
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
+        $this->designEditorHelper()->mouseOver('thumbnail');
+
         $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
             'Assign button is not exists');
-        $this->assertTrue($this->controlIsPresent('button', 'edit_theme_button'),
+        $this->assertTrue($this->controlIsPresent('link', 'edit_theme'),
             'Edit button is not exists');
+
+        return $themeId;
     }
 
     /**
      * <p>Test theme selector page when customized themes present and has preview button</p>
+     * @TestlinkId TL-MAGE-6482
      * @test
      */
-    public function previewCustomizedTheme()
+    public function previewAssignedCustomizedTheme()
     {
         //Data
-        $themeData = $this->themeHelper()->createTheme();
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
-        $this->addParameter('id', $themeData['id']);
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
         //Steps
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
+        $this->openTab('my_customization');
+        $this->addParameter('id', $themeId);
+        $this->clickButton('preview_theme_button');
+        sleep(2);
+        $this->_windowId = $this->selectLastWindow();
+        $this->addParameter('id', $themeId);
+        //Verify
+        $this->validatePage('preview_theme_in_navigation');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'),
+            'Theme is not opened in navigation mode');
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
+        $this->validatePage('design_editor_selector');
+    }
+
+    /**
+     * Preview not assigned customized theme
+     *
+     * @test
+     */
+    public function previewNotAssignedCustomizedTheme()
+    {
+        //Data
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
+        //Steps
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $this->openTab('my_customization');
+        $this->addParameter('id', $themeId);
+        $this->designEditorHelper()->focusOnThemeElement('button', 'preview_theme_button');
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('preview_theme_button');
         $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
         //Verify
         $this->validatePage('preview_theme_in_navigation');
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'),
@@ -156,58 +173,127 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test unassigned theme deleting</p>
+     * @TestlinkId TL-MAGE-6922
      * @test
      */
     public function deleteUnassignedTheme()
     {
         //Steps
-        $themeData = $this->themeHelper()->createTheme();
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
-        $this->addParameter('id', $themeData['id']);
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $assignedThemeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
         $this->navigate('design_editor_selector');
         //Verify
+        $this->addParameter('id', $assignedThemeId);
         $this->assertTrue($this->controlIsPresent('button', 'delete_theme_button'),
             'Delete button is not exists');
-        $this->designEditorHelper()->deleteTheme($themeData);
+        $this->designEditorHelper()->deleteTheme();
+    }
+
+    /**
+     * Rename theme
+     * @TestlinkId TL-MAGE-6545
+     * @test
+     */
+    public function renameTheme()
+    {
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->addParameter('id', $themeId);
+        $this->clickControl('pageelement', 'edit_theme_name');
+        $uimapPage = $this->getUimapPage('admin', 'design_editor_selector');
+        $locator = $this->_getControlXpath('field', 'theme_name', $uimapPage);
+        $this->fillField('theme_name', 'renamed_theme', $locator);
+        $this->addParameter('id', $themeId);
+        $this->clickButton('save_rename_theme');
+        $this->assertTrue($this->textIsPresent('renamed_theme'));
     }
 
     /**
      * Duplicate theme
+     * @TestlinkId TL-MAGE-6939
      * @test
      */
-    public function duplicateTheme()
+    public function duplicateAssignedTheme($newName = 'renamed_for_duplicate')
     {
-        $this->markTestIncomplete('Functionality is not yet implemented');
+//        $this->markTestIncomplete('MAGETWO-9692');
         //Steps
-        $themeData = $this->themeHelper()->createTheme();
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
-        $this->addParameter('id', $themeData['id']);
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->addParameter('id', $themeId);
+        $this->navigate('design_editor_selector');
+        $this->clickControl('pageelement', 'edit_theme_name');
+        $uimapPage = $this->getUimapPage('admin', 'design_editor_selector');
+        $locator = $this->_getControlXpath('field', 'theme_name', $uimapPage);
+        $this->fillField('theme_name', $newName, $locator);
+        $this->addParameter('id', $themeId);
+        $this->clickButton('save_rename_theme');
+        //Verify
+        $this->assertTrue($this->controlIsPresent('button', 'duplicate_theme'),
+            'Duplicate button is not exists');
+        $this->clickButton('duplicate_theme');
+        $themeTitle = "Copy of [$newName]";
+        $this->assertTrue($this->textIsPresent($themeTitle));
+        $this->addParameter('themeTitle', $themeTitle);
+        $this->clickButtonAndConfirm('delete_customization_button', 'confirmation_for_delete');
+        $this->assertMessagePresent('success', 'success_deleted_theme');
+    }
+
+    /**
+     * Duplicate theme
+     * @TestlinkId TL-MAGE-6940
+     * @test
+     */
+    public function duplicateCustomization($newName = 'renamed_for_duplicate')
+    {
+        //Steps
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->clickControl('pageelement', 'edit_theme_name');
+        $uimapPage = $this->getUimapPage('admin', 'design_editor_selector');
+        $locator = $this->_getControlXpath('field', 'theme_name', $uimapPage);
+        $this->fillField('theme_name', $newName, $locator);
+        $this->addParameter('id', $themeId);
+        $this->clickButton('save_rename_theme');
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->addParameter('id', $themeId);
         $this->navigate('design_editor_selector');
         //Verify
         $this->assertTrue($this->controlIsPresent('button', 'duplicate_theme'),
             'Duplicate button is not exists');
-//        $this->clickButton('duplicate_theme');
+        $this->clickButton('duplicate_theme');
+        $themeTitle = "Copy of [$newName]";
+        $this->assertTrue($this->textIsPresent($themeTitle));
+        $this->addParameter('themeTitle', $themeTitle);
+        $this->clickButtonAndConfirm('delete_customization_button', 'confirmation_for_delete');
+        $this->assertMessagePresent('success', 'success_deleted_theme');
     }
 
     /**
-     * Check Mode switcher button
-     *
+     * !!!!Mode switcher will be changed to Layout toggle!!!!
+     * Check Mode switcher button and Theme preview button.
+     * @TestlinkId TL-MAGE-6482
      * @test
      */
     public function checkModeSwitcher()
     {
         //Data
-        $themeData = $this->loadDataSet('Theme', 'all_fields');
-        $this->themeHelper()->createTheme($themeData);
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
         //Steps
         $this->navigate('design_editor_selector');
-        $this->waitForPageToLoad();
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id',  $themeId);
+        $this->designEditorHelper()->focusOnThemeElement('button', 'preview_theme_button');
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('preview_theme_button');
         $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id',  $themeId);
         $this->validatePage('preview_theme_in_navigation');
         //Verify
         $this->assertTrue($this->controlIsPresent('pageelement', 'mode_switcher'));
@@ -225,7 +311,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Functionality changed. Will be created improvement. Test should be refactored.
      * <p>Assign theme from navigation mode</p>
      * Present one store view only
      * @test
@@ -233,155 +318,226 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     public function assignThemeFromNavigationMode()
     {
         //Data
-        $themeData = $this->loadDataSet('Theme', 'all_fields');
-        $this->themeHelper()->createTheme($themeData);
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
+
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
         //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('preview_theme_button');
+        sleep(2);
         $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
         $this->validatePage('preview_theme_in_navigation');
         $this->clickButton('select');
-        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign_to_default', false);
+        $this->clickButton('save_and_assign');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'assign_theme_confirmation');
+        $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'confirmation_for_assign_to_default'));
+        $this->clickButton('save', false);
+        $this->assertMessagePresent('success', 'assign_success');
+        $this->clickButton('close', false);
         //Verify
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
         $this->navigate('design_editor_selector');
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
-        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
+        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View');
         $this->elementIsPresent($xpathAssignedStoreviews);
     }
 
     /**
+     * !!!!Should be refactored according new Layout mode toggle functionality!!!
      * <p>Assign physical theme from navigation mode</p>
      * Present one store view only
-     * @test
+     * @TestlinkId TL-MAGE-6547
+     * @TestlinkId TL-MAGE-6883
+     * @t est
      */
-    public function assignPhysicalThemeFromNavigationMode()
+    public function assignPhysicalThemeFromNavigationMode($themeTitle = 'Plushe')
     {
+        $this->markTestIncomplete('MAGETWO-9010');
         //Data
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle('Magento Fixed Design');
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
         //Steps
         $this->navigate('design_editor_selector');
+        $this->openTab('available_themes');
         $this->waitForAjax();
-        $this->addParameter('id', $themeData['id']);
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->waitForAjax();
-        $this->clickButton('preview_demo_button');
+        $this->addParameter('themeTitle', $themeTitle);
+        $this->designEditorHelper()->focusOnThemeElement('link', 'edit_theme');
+        $this->designEditorHelper()->mouseOver('thumbnail');
+        $this->clickControl('link', 'edit_theme');
         $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
+        $this->addParameter('id', $themeId);
+        $this->validatePage('preview_theme_in_design');
+        $this->designEditorHelper()->selectModeSwitcher('Disabled');
         $this->validatePage('preview_theme_in_navigation');
-        $this->clickControlAndConfirm('pageelement', 'assign', 'confirmation_for_assign_to_default_in_nm');
-        $this->validatePage('assigned_theme_default_in_design');
+        $this->addParameter('id', $themeId);
+        $this->clickControlAndConfirm('pageelement', 'assign', 'confirmation_for_assign_to_default_in_nm', false);
+        $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
+        $this->addParameter('id', $themeId);
+        $this->validatePage('assigned_theme_default_in_navigation');
         //Verify
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
         $this->navigate('design_editor_selector');
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
-        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
+        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View');
+        $this->elementIsPresent($xpathAssignedStoreviews);
+    }
+
+    /**
+     * <p>Assign physical theme from design mode</p>
+     * Present one store view only
+     * @t est
+     */
+    public function assignPhysicalThemeFromDesignMode($themeTitle = 'Plushe')
+    {
+        //Data
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        //Steps
+        $this->navigate('design_editor_selector');
+        $this->openTab('available_themes');
+        $this->waitForAjax();
+        $this->addParameter('themeTitle', $themeTitle);
+        $this->designEditorHelper()->focusOnThemeElement('link', 'edit_theme');
+        $this->designEditorHelper()->mouseOver('thumbnail');
+        $this->clickControl('link', 'edit_theme');
+        sleep(2);
+        $this->_windowId = $this->selectLastWindow();
+        $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
+        $this->addParameter('id', $themeId);
+        $this->validatePage('preview_theme_in_design');
+        $this->addParameter('id', $themeId);
+        $this->clickButton('select');
+        $this->clickButton('save_and_assign');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'assign_theme_confirmation');
+        $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'confirmation_for_assign_to_default'));
+        $this->clickButton('save', false);
+        $this->assertMessagePresent('success', 'assign_success');
+        $this->clickButton('close', false);
+        //Verify
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
+        $this->validatePage('design_editor_selector');
+        $this->addParameter('id', $themeId);
+        $this->navigate('design_editor_selector');
+        $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
+        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View');
         $this->elementIsPresent($xpathAssignedStoreviews);
     }
 
     /**
      * <p>Assign theme from design mode</p>
      * Present one store view only
+     * @TestlinkId TL-MAGE-6548
+     * @TestlinkId TL-MAGE-6909
+     * @TestlinkId TL-MAGE-6920
      * @test
      */
     public function assignThemeFromDesignMode()
     {
         //Data
-        $themeData = $this->loadDataSet('Theme', 'all_fields');
-        $this->themeHelper()->createTheme($themeData);
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
+
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
         //Steps
         $this->navigate('design_editor_selector');
-        $this->waitForPageToLoad();
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
+        $this->designEditorHelper()->focusOnThemeElement('button', 'edit_customization_button');
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->clickButton('edit_theme_button');
+        $this->clickButton('edit_customization_button');
+        sleep(2);
         $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
+        $this->addParameter('id', $themeId);
         $this->validatePage('preview_theme_in_design');
         $this->clickButton('select');
-        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign_to_default_in_dm');
+        $this->clickButton('save_and_assign');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'assign_theme_confirmation');
+        $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'confirmation_for_assign_to_default'));
+        $this->clickButton('save', false);
+        $this->assertMessagePresent('success', 'assign_success');
+        $this->clickButton('close', false);
         //Verify
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
+        $this->navigate('design_editor_selector');
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
-        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
+        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View');
         $this->elementIsPresent($xpathAssignedStoreviews);
-        $this->addParameter('id', $themeData['id']);
-        $this->validatePage('design_editor_selector');
     }
 
     /**
-     * <p>Test theme selector page when customized themes present and has preview button</p>
-     *
+     * <p>Assign theme from My Customization tab</p>
+     * @TestlinkId TL-MAGE-6491
      * @test
      */
     public function assignThemeFromCustomizeTab()
     {
         //Data
-        $themeData = $this->loadDataSet('Theme', 'all_fields');
-        $this->themeHelper()->createTheme($themeData);
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
+        $this->navigate('design_editor_selector');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        $this->navigate('design_editor_selector');
+        $this->designEditorHelper()->assignFromAvailableThemeTab();
+
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
         //Steps
         $this->navigate('design_editor_selector');
-        $this->waitForPageToLoad();
-        $this->addParameter('id', $themeData['id']);
-        $this->clickButtonAndConfirm('assign_theme_button', 'confirmation_for_assign_to_default');
+        $this->addParameter('id', $themeId);
+        $this->clickButtonAndConfirm('assign_customization_button', 'confirmation_for_assign_to_default');
         $this->_windowId = $this->selectLastWindow();
-        $this->validatePage('assigned_theme_default_in_design');
+        $this->validatePage('assigned_theme_default_in_navigation');
         //Verify
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
+        $this->navigate('design_editor_selector');
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
-        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
+        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View');
         $this->elementIsPresent($xpathAssignedStoreviews);
     }
 
     /**
-     * Check Quick Styles attributes
+     * <p>Check Quick Styles attributes</p>
+     * @TestlinkId TL-MAGE-6478
      * @test
      */
     public function openAndCheckQuickStylesAttributes()
     {
         //Data
-        $themeData = $this->loadDataSet('Theme', 'all_fields');
-        $this->themeHelper()->createTheme($themeData);
-        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
-        //Steps
         $this->navigate('design_editor_selector');
-        $this->clickControl('link', 'customized_themes_tab');
-        $this->addParameter('id', $themeData['id']);
-        $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->clickButton('edit_theme_button');
+        $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
+        //Steps
+        $this->addParameter('id', $themeId);
+        $this->clickControl('link', 'edit_theme');
         $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->addParameter('id', $themeId);
         $this->validatePage('preview_theme_in_design');
         $this->clickControl('link', 'quick_styles_doc');
         //Verify
@@ -469,7 +625,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * @param $linkName
      * @param $fileName
      * @dataProvider allThemeCss
-     * @test
+     * @t est
      */
     public function downloadCss($fileName, $linkName)
     {

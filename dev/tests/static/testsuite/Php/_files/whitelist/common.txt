@@ -10,6 +10,7 @@ app/code/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/Mage/Adminhtml/Model/Observer.php
 app/code/Mage/Adminhtml/Block/Urlrewrite
 app/code/Mage/Adminhtml/Block/Page/System/Config/Robots/Reset.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Button/Add.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/Mage/Adminhtml/Block/System/Store/Edit
@@ -37,6 +38,7 @@ app/code/Mage/Core/Controller/Varien/Action/Forward.php
 app/code/Mage/Core/Controller/Varien/DispatchableInterface.php
 app/code/Mage/Core/Controller/Varien/Router/Abstract.php
 app/code/Mage/Core/data
+app/code/Mage/Core/Helper/Css.php
 app/code/Mage/Core/Model/Abstract.php
 app/code/Mage/Core/Model/Config
 app/code/Mage/Core/Model/Cache
@@ -44,8 +46,10 @@ app/code/Mage/Core/Model/Design.php
 app/code/Mage/Core/Model/Design/FileResolution
 app/code/Mage/Core/Model/Design/Fallback
 app/code/Mage/Core/Model/Design/Source/Design.php
+app/code/Mage/Core/Model/Dir
 app/code/Mage/Core/Model/Dir.php
 app/code/Mage/Core/Model/EntryPoint
+app/code/Mage/Core/Model/EntryPointAbstract.php
 app/code/Mage/Core/Model/Layout.php
 app/code/Mage/Core/Model/Layout/Factory.php
 app/code/Mage/Core/Model/Layout/Update.php
@@ -75,10 +79,15 @@ app/code/Mage/ImportExport/Model/Resource/Customer/Storage.php
 app/code/Mage/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
 app/code/Mage/ImportExport/controllers/Adminhtml/ImportController.php
 app/code/Mage/Index/Model/Indexer/Abstract.php
+app/code/Mage/Index/Model/EntryPoint/Shell.php
+app/code/Mage/Index/Model/EntryPoint/Indexer.php
 app/code/Mage/Index/Model/Shell.php
+app/code/Mage/Install/Model/EntryPoint
+app/code/Mage/Log/Model/EntryPoint
 app/code/Mage/Log/Model/Resource/Helper
 app/code/Mage/Log/Model/Resource/Shell.php
 app/code/Mage/Log/Model/Shell.php
+app/code/Mage/Log/Model/Shell
 app/code/Mage/Page/Helper/Robots.php
 app/code/Mage/Page/Model/Asset
 app/code/Mage/Reports/Block/Adminhtml/Customer

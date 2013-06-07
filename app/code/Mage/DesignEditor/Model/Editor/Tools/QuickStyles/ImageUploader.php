@@ -138,12 +138,12 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
     public function removeFile($file)
     {
         $path = $this->getStoragePath();
-        $_filePath = $this->_filesystem->getAbsolutePath($path . Magento_Filesystem::DIRECTORY_SEPARATOR . $file);
+        $filePath = $this->_filesystem->normalizePath($path . '/' . $file);
 
-        if ($this->_filesystem->isPathInDirectory($_filePath, $path)
-            && $this->_filesystem->isPathInDirectory($_filePath, $this->getStoragePath())
+        if ($this->_filesystem->isPathInDirectory($filePath, $path)
+            && $this->_filesystem->isPathInDirectory($filePath, $this->getStoragePath())
         ) {
-            $this->_filesystem->delete($_filePath);
+            $this->_filesystem->delete($filePath);
         }
 
         return $this;

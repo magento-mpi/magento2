@@ -26,7 +26,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
     /**
      *  Get order
      *
-     *  @return	  Mage_Sales_Model_Order
+     *  @return	Mage_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -37,7 +37,6 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
 
     /**
      * Send expire header to ajax response
-     *
      */
     protected function _expireAjax()
     {
@@ -59,7 +58,6 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
 
     /**
      * When a customer chooses Paypal on Checkout/Payment page
-     *
      */
     public function redirectAction()
     {
@@ -75,13 +73,21 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
+
         $session = Mage::getSingleton('Mage_Checkout_Model_Session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         if ($session->getLastRealOrderId()) {
             $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
+                $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+                    'paypal_payment_cancel',
+                    array(
+                        'order' => $order,
+                        'quote' => $session->getQuote()
+                ));
                 $order->cancel()->save();
             }
+            Mage::helper('Mage_Paypal_Helper_Checkout')->restoreQuote();
         }
         $this->_redirect('checkout/cart');
     }

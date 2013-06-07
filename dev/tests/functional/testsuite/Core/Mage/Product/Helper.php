@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Product
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Helper class
  *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
@@ -28,8 +19,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Open product on FrontEnd by product name
      *
      * @param string $productName
+     * @param bool $checkPage
+     * @see https://jira.corp.x.com/browse/MAUTOSEL-536
      */
-    public function frontOpenProduct($productName)
+    public function frontOpenProduct($productName, $checkPage = true)
     {
         if (!is_string($productName)) {
             $this->fail('Wrong data to open a product');
@@ -40,9 +33,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->frontend('product_page', false);
         $this->setCurrentPage($this->getCurrentLocationUimapPage()->getPageId());
         $this->addParameter('productName', $productName);
-        $openedProductName = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'product_name', 'text');
-        $this->assertEquals($productName, $openedProductName,
-            "Product with name '$openedProductName' is opened, but should be '$productName'");
+        if ($checkPage) {
+            $openedProductName = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'product_name', 'text');
+            $this->assertEquals($productName, $openedProductName,
+                "Product with name '$openedProductName' is opened, but should be '$productName'");
+        }
     }
 
     /**
@@ -568,6 +563,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
         $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
         $this->waitForControlVisible('button', 'save_split_select');
+        $this->execute(array('script' => "window.scrollTo(0, 0);", 'args' => array()));
+        $this->waitForControlStopsMoving('button', 'save_split_select');
         $this->clickButton('save_split_select', false);
         $this->addParameter('additionalAction', $additionalAction);
         $this->waitForControlVisible('button', 'save_product_by_action');
@@ -691,7 +688,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->clickButton('attribute_set_toggle', false);
         $attributeSetField = $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
-        $attributeSetField->value(' '); // @TODO replace to '$attributeSetField->click();' after fix MAGETWO-8635
+        $attributeSetField->click();
         $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
         $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
         $this->addParameter('attributeSet', $newAttributeSet);
@@ -866,7 +863,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->openProductTab('general');
         $this->fillUserAttributesOnTab($generalTab, 'general');
         if (isset($generalTab['general_categories'])) {
-            $this->selectProductCategories($generalTab['general_categories']);
+            $categories = $generalTab['general_categories'];
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
@@ -890,6 +887,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_grouped_data']);
         }
         $this->fillTab($generalTab, 'general');
+        if (isset($categories)) {
+            $this->selectProductCategories($categories);
+        }
         if (isset($attributeTitle)) {
             $this->fillConfigurableSettings($attributeTitle);
         }
@@ -959,7 +959,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $selectedQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
         $this->clickControl(self::FIELD_TYPE_INPUT, 'general_categories', false);
-        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories');
+        $this->waitUntil(function ($testCase) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                $class = $testCase->getControlAttribute('field', 'general_categories', 'class');
+                if (strpos($class, 'mage-suggest-state-loading') === false) {
+                    return true;
+                }
+            }, 40000
+        );
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         $toSelect = '';
         foreach ($categoryData as $categoryPath) {
@@ -1592,8 +1599,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $locationBeforeMove = $attributeBlock2->location();
                 $attempts = 2;
                 while ($attempts > 0) {
+                    $this->focusOnElement($attributeBlock2);
                     $this->moveto($attributeBlock1);
                     $this->buttondown();
+                    $this->focusOnElement($attributeBlock2);
                     $this->moveto($attributeBlock2);
                     $this->buttonup();
                     $locationAfterMove = $attributeBlock2->location();
@@ -1601,7 +1610,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     if ($locationBeforeMove['y'] != $locationAfterMove['y']) {
                         break;
                     } elseif ($attempts <= 0) {
-                        $this->fail('Block position was not changed.');
+                        $this->skipTestWithScreenshot('Block position was not changed.');
                     }
                 }
                 $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
@@ -1899,6 +1908,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->openProductTab($type);
         $this->addParameter('tableXpath', $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, $type));
         if (!$this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
+            $this->execute(array('script' => "window.scrollTo(0, 0);", 'args' => array()));
             $this->fillCheckbox($type . '_select_all', 'No');
             if ($saveChanges) {
                 $this->saveProduct('continueEdit');
@@ -2807,5 +2817,18 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             ),
             'category' => $returnCategory
         );
+    }
+
+    /**
+     * Add new tab
+     *
+     * @param string $tabName
+     * @return Core_Mage_Product_Helper
+     */
+    public function addTab($tabName)
+    {
+        array_push($this->productTabs, $tabName);
+
+        return $this;
     }
 }

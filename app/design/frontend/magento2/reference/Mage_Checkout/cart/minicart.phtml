@@ -42,7 +42,7 @@
         <div class="content">
             <?php $_items = $this->getRecentItems() ?>
             <?php if (count($_items)): ?>
-                <strong class="subtitle"><?php echo $this->__('Recently added items') ?></strong>
+                <strong class="subtitle"><?php echo $this->__('Recently added item(s)') ?></strong>
                 <div data-action="scroll" class="products minilist">
                     <ol id="mini-cart" class="minilist items">
                         <?php foreach ($_items as $_item): ?>
@@ -191,7 +191,7 @@
     <script type="text/javascript">
         (function($) {
             head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/sidebar.js') ?>",
-                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/checkout-topcart.js') ?>", function() {
+                "<?php echo $this->getViewFileUrl('js/checkout-topcart.js') ?>", function() {
                     $('#mini-cart').sidebar({
                         checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
                         checkoutButton: '#top-cart-btn-checkout',

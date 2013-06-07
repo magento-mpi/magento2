@@ -260,7 +260,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $this->_validateCustomer($customer, $address);
 
             $customer->save()->setOrigData();
-            Mage::dispatchEvent('customer_register_success',
+            $this->_eventManager->dispatch('customer_register_success',
                 array('account_controller' => $this, 'customer' => $customer)
             );
 
