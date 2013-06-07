@@ -1,282 +1,219 @@
 /**
  * {license_notice}
  *
- * @category    webapi
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint browser:true jquery:true*/
-(function($) {
+/* jshint jquery: true */
+(function($){
     "use strict";
 
     /**
-     * This js client gives developers seamless access to API Services
-     * by abstracting api calling details
+     * Webapi object constructor
+     *
+     * @param {string}           baseUrl Base URL
+     * @param {Object|undefined} args    Arguments for constructor, see "options" variable
+     * @returns {{method: Object, call: Function}}
      */
-    $.widget('mage.webapi', {
-
-        // API instance properties
-        resource: {
-            //Available resource URIs
+    $.mage.webapi = function(baseUrl, args) {
+        /**
+         * Resource-related parameters. Further extended by other domain objects like Product, etc.
+         *
+         * @const
+         * @type {{uri: {base: string}}}
+         */
+        this.resource = {
             uri: {
-                base: '/webapi/rest/',
-                products: '/catalogProducts/',
-                customers: '/customers/'
-            },
-
-            //Allowed HTTP actions
-            method: {
-                //list: 'GET', //Will be replaced by search/filter
-                create: 'POST',
-                update: 'PUT',
-                get: 'GET',
-                delete: 'DELETE'
+                base: '' // Initialized below
             }
-        },
-
-        responseType: {
-            json: 'application/json',
-            xml: 'application/xml'
-        },
+        };
 
         /**
-         * options with default values for setting up the API widget
+         *
+         *
+         * @const
+         * @type {{create: string, update: string, get: string, delete: string}}
          */
-        options: {
-            timeout: 3000, // TODO:Default 3s, needs to be verified
-            token: null, // may be deprecated
-            responseType: 'application/json' // response type set by user. Defaulted to json
-        },
+        this.method = {
+            create:   'POST',
+            update:   'PUT',
+            'get':    'GET',
+            'delete': 'DELETE'
+        };
 
-        /**
-         * Initialized when the webapi instance is created
-         * @private
-         */
-        _create: function() {
-            // TODO: Add tasks on instance creation. eg clean up cache
-        },
+        var validMethods = [this.method.create, this.method.update, this.method.get, this.method['delete']];
 
-        /**
-         * Can be used to track access to the widget instance
-         * @private
-         */
-        _init: function() {
-        },
+        var options = {
+            /**
+             * Timeout for AJAX request
+             */
+            timeout: 5000,
+            /**
+             * Success AJAX call function handler
+             */
+            success: null,
+            /**
+             * Failed AJAX call function handler
+             */
+            error: null
+        };
 
-        /**
-         * Helper function to construct URIs
-         * This is a very simple version of constructing URIs. It will evolve for complex Service access
-         * like search/filtering
-         * @private
-         * @param resourceURI
-         * @param method
-         * @param version
-         * @param data
-         * @return {String}
-         */
-        _getURL: function(resourceURI, method, version, data) {
-            var uri = version ? version + resourceURI : resourceURI;
-            if (data && method !== this.resource.method.create && method !== this.resource.method.update) {
-                uri += data;
+        // Check whether passed options comply with what we allow
+        if (args && typeof args === 'object') {
+            for (var option in args) {
+                if (args.hasOwnProperty(option) && options.hasOwnProperty(option)) {
+                    options[option] = args[option];
+                } else {
+                    throw 'No such option: ' + option;
+                }
             }
-            return this.resource.uri.base + uri;
-        },
+        }
+
+        if (!(baseUrl && typeof baseUrl === 'string')) {
+            throw 'String baseUrl parameter required';
+        }
+
+        this.resource.uri.base = baseUrl;
 
         /**
-         * Helper function to get Accept header value
-         * @private
-         * @param headerObj
-         * @return {Object} - returning accept header value
+         * Makes an API request
+         *
+         * @param {string}           resourceUri Resource URI request to be sent to, e.g. '/v1/products/'
+         * @param {string}           method      Request method, e.g. GET, POST, etc.
+         * @param {*}                data        Payload to be sent to the server
+         * @param {string|undefined} version     Optional: API version, e.g. 'v1' (if not specified
+         *                                       using URI)
+         * @returns {jqXHR}
          */
-        _getAcceptHeaderValue: function() {
-            return this.options.responseType in this.responseType ? this.responseType[this.options.responseType] : this.responseType.json;
-        },
+        this.call = function(resourceUri, method, data, version) {
+            /**
+             * Helper function to validate request method
+             *
+             * @param {string} method
+             * @returns {string}
+             */
+            function validateMethod(method) {
+                if (validMethods.indexOf(method) === -1) {
+                    throw 'Method name is not valid: ' + method;
+                }
 
-        /**
-         * TODO / TBD : May not be required. Web clients may purely depend on cookie based authentication
-         * @private
-         * @param headerObj
-         */
-        _setAuthHeaders: function(headerObj) {
-
-        },
-
-        /**
-         * Generic public api to request resources from the Magento Web Services
-         * @public
-         * @param {String} resURI - Should be one of $.mage.webapi.resource.uri
-         * @param {String} method - Should be one of $.mage.webapi.resource.method
-         * @param {String|Object} data - optional - Object or String depending on api operation
-         * @param {Object} reqObj - optional - Below is the object and allowed properties
-         *                              {
-         "version":1, //version of the api
-         "successCallback": successCallBackFunction,
-         "errorCallBack": errorCallBackFunction
-         };
-         */
-        call: function(resURI, method, data, reqObj) {
-            if (!reqObj) {
-                return;
+                return method;
             }
 
-            var url = this._getURL(resURI, method, reqObj.version, data);
+            var that = this;
 
-            //No data necessary if its part of the uri
-            data = url.indexOf(data) > -1 ? null : data;
+            /**
+             * Helper function to construct URIs
+             *
+             * @param {string}           resourceUri Resource URI request to be sent to, e.g. '/v1/products/'
+             * @param {string}           method      Request method, e.g. GET, POST, etc.
+             * @param {*}                data        Payload to be sent to the server
+             * @param {string|undefined} version     Optional: API version, e.g. 'v1'
+             *
+             * @returns {string}
+             */
+            function getUrl(resourceUri, method, data, version) {
+                function ensureForwardSlash(str) {
+                    return str[0] === '/' ? str : '/' + str;
+                }
 
-            this._poster(url, method, data, reqObj.successCallback, reqObj.errorCallBack);
-        },
+                var resourceUrl = '';
 
-        /**
-         * Utility for processing and sending webapi resource request
-         * @private
-         * @param url
-         * @param method
-         * @param data
-         * @param successCallback
-         * @param errorCallback
-         * @private
-         */
-        _poster: function(url, method, data, successCallback, errorCallBack) {
-            $.ajax({
-                url: url,
-                type: method, //HTTP Method
+                if (version) {
+                    resourceUrl = version + ensureForwardSlash(resourceUri);
+                }
+
+                if (data && [that.method.get, that.method['delete']].indexOf(method) !== -1) {
+                    // Append data for GET and DELETE request methods as it's simple ID (usually int)
+                    resourceUrl += data;
+                }
+
+                resourceUrl = that.resource.uri.base + ensureForwardSlash(resourceUrl);
+
+                return resourceUrl;
+            }
+
+            return $.ajax({
+                url: getUrl(resourceUri, method, data, version),
+                type: validateMethod(method),
                 data: data,
-                dataType: "text", // Setting this as text to give a plaintext response back. The client can process it as per his needs
-                timeout: this.options.timeout,
-                context: this,
-                beforeSend: function(request) {
-                    request.setRequestHeader('Accept', this._getAcceptHeaderValue());
-                    this.element.trigger("webapi.beforeSend");
+                dataType: 'text',
+                timeout: options.timeout,
+                processData: false, // Otherwise jQuery will try to append 'data' to query URL
+                cache: false, // Disable browser cache for GET requests
+
+                beforeSend: function (request) {
+                    request.setRequestHeader('Accept', 'application/json');
                 },
-                success: function(response) {
+
+                success: function (response) {
                     if (response) {
-                        this.element.trigger("webapi.success");
-                        if (successCallback) {
-                            successCallback.call(this, response);
+                        if (typeof options.success === 'function') {
+                            options.success(response);
                         }
                     }
                 },
 
-                error: function(xhr, error) {
-                    this.element.trigger("webapi.error");
-                    if (errorCallBack) {
-                        errorCallBack.call(this,xhr, error);
+                error: function (xhr, error) {
+                    if (typeof options.error === 'function') {
+                        options.error(xhr, error);
                     }
-                },
-
-                complete: function() {
-                    this.element.trigger("webapi.complete");
                 }
             });
-        }
+        };
 
-    });
+        return this;
+    };
+
+    $.mage.webapi.prototype.constructor = $.mage.webapi;
 
     /**
-     * Extending the core api widget to provide resource friendly access functions
+     * Syntax sugar over call(). Example usage: $.mage.webapi.Product('v1').get({...})
+     *
+     * @param {string} version API version (e.g. 'v1')
+     * @returns {{get: Function, create: Function}}
      */
-    $.widget('mage.webapi', $.mage.webapi, {
+    $.mage.webapi.prototype.Product = function(version) {
+        if (!(typeof version === 'string' && /v\d+/.test(version))) {
+            throw 'Incorrect version format: ' + version;
+        }
 
-        _create: function() {
-            this._super();
-            // Set the context of the widget instantiated by the caller.
-            this.Product.context = this;
-        },
+        var that = this; // Points to $.mage.webapi
+        that.resource.uri.products = '/products/';
 
-        /**
-         * Providing the <Service>.operationName() APIs within a widget paradigm
-         */
-        Product: {
-
-            context: undefined,
-
-            resource: $.mage.webapi.prototype.resource,
-
-            callApi: $.mage.webapi.prototype.call,
+        return {
+            /**
+             * Retrieves information about specific product
+             *
+             * @param productId Product ID
+             * @returns {jqXHR}
+             */
+            get: function(productId) {
+                return that.call(that.resource.uri.products, that.method.get, productId, version);
+            },
 
             /**
-             * API to access
-             * @public
-             * @param {String|Object} data - optional - Object or String depending on Service operation
-             * @param {Object} reqObj - optional - Below is the object and allowed properties
-             *                              {
-             "version":1, //version of the api
-             "successCallback": successCallBackFunction,
-             "errorCallBack": errorCallBackFunction
-             };
+             * Create a new product
+             *
+             * @param productData Example product data:
+             *                    productData = {
+             *                        "type_id": "simple",
+             *                        "attribute_set_id": 4,
+             *                        "sku": "1234567890",
+             *                        "weight": 1,
+             *                        "status": 1,
+             *                        "visibility": 4,
+             *                        "name": "Simple Product",
+             *                        "description": "Simple Description",
+             *                        "short_description": "Simple Short Description",
+             *                        "price": 99.95,
+             *                        "tax_class_id": 0
+             *                    };
+             * @returns {jqXHR}
              */
-            get: function(data, reqObj) {
-                if (this.context) {
-                    this.callApi.call(this.context, this.resource.uri.products, this.resource.method.get, data, reqObj);
-                }
-            },
-
-            create: function(data, reqObj) {
-                if (this.context) {
-                    this.callApi.call(this.context, this.resource.uri.products, this._resource().method.create, data, reqObj);
-                }
-            },
-
-            update: function() {
-                //TO implement
+            create: function(productData) {
+                return that.call(that.resource.uri.products, that.method.create, productData, version);
             }
-        },
-
-        Customer: {
-
-            create: function(reqObj) {
-                this.call(this._resource().uri.customers, this._resource().method.get, 1, reqObj);
-            },
-
-            update: function() {
-                //TO implement
-            }
-        }
-
-    });
-
-    /**
-     *
-     * Below is an example on how to instantiate the js API widget to invoke Webapi services
-     *
-     */
-
-    var successCallBack = function(response) {
-        console.log(response);
+        };
     };
-
-    var errorCallBack = function(xhr, error) {
-        console.log("Error! Response:" + xhr.responseText);
-    };
-
-    var productRequest = {
-        "version": 1,
-        "successCallback": successCallBack,
-        "errorCallBack": errorCallBack
-    };
-
-    /**
-     * Instantiate the webapi
-     */
-    var API = $.mage.webapi({
-        timeout: 5000
-        //responseType: 'xml' //default is json
-    });
-
-    /**
-     * Access using the resource specific API
-     * Usage : apiInstance.<Service>.<operation>( [data],[requestOptions] )
-     */
-    API.Product.get(1, productRequest);
-
-    //OR
-
-    /**
-     * Access using the generic API function
-     * Usage : apiInstance.call('resource', 'operation', [data], [requestOptions])
-     */
-    API.call(API.resource.uri.products, API.resource.method.get, 1, productRequest);
-
 })(jQuery);
