@@ -529,6 +529,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 /** @var $unassignedThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned */
                 $unassignedThemeBlock = $this->getLayout()->getBlock('unassigned.theme.list');
                 $unassignedThemeBlock->setCollection($themeService->getUnassignedThemeCustomizations());
+                $unassignedThemeBlock->setHasThemeAssigned($this->_hasThemeAssigned());
             }
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
