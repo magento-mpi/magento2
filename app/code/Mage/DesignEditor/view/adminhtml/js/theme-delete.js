@@ -52,7 +52,7 @@
         },
 
         /**
-         * Show confirmation message if it was assigned
+         * Show confirmation message before theme delete
          * @protected
          */
         _showConfirmMessage: function(dialogElement, callback) {
