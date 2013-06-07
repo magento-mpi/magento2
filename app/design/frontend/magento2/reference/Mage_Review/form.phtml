@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="field text required">
-            <label for="review_field" class="label"><?php echo $this->__('Review') ?></label>
+            <label for="review_field" class="label"><span><?php echo $this->__('Review') ?></span></label>
             <div class="control">
                 <textarea name="detail" id="review_field" cols="5" rows="3" data-validate="{required:true}"><?php echo $this->escapeHtml($data->getDetail()) ?></textarea>
             </div>

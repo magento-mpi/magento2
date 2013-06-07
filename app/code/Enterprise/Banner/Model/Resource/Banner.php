@@ -40,25 +40,18 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     protected $_contentsTable;
 
     /**
-     * Customer segment relation table name
-     *
-     * @var string
-     */
-    protected $_customerSegmentTable;
-
-    /**
      * Define if joining related sales rule to banner is already preformed
      *
      * @var bool
      */
-    protected $_isSalesRuleRelatedToBanner       = false;
+    protected $_isSalesRuleJoined       = false;
 
     /**
      * Define if joining related catalog rule to banner is already preformed
      *
      * @var bool
      */
-    protected $_isCatalogRuleRelatedToBanner     = false;
+    protected $_isCatalogRuleJoined     = false;
 
     /**
      * Whether to filter banners by specified types
@@ -66,6 +59,31 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      * @var array
      */
     protected $_bannerTypesFilter                = array();
+
+    /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    private $_eventManager;
+
+    /**
+     * @var Enterprise_Banner_Model_Config
+     */
+    private $_bannerConfig;
+
+    /**
+     * @param Mage_Core_Model_Resource $resource
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Enterprise_Banner_Model_Config $bannerConfig
+     */
+    public function __construct(
+        Mage_Core_Model_Resource $resource,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Enterprise_Banner_Model_Config $bannerConfig
+    ) {
+        parent::__construct($resource);
+        $this->_eventManager = $eventManager;
+        $this->_bannerConfig = $bannerConfig;
+    }
 
     /**
      * Initialize banner resource model
@@ -77,7 +95,6 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $this->_salesRuleTable       = $this->getTable('enterprise_banner_salesrule');
         $this->_catalogRuleTable     = $this->getTable('enterprise_banner_catalogrule');
         $this->_contentsTable        = $this->getTable('enterprise_banner_content');
-        $this->_customerSegmentTable = $this->getTable('enterprise_banner_customersegment');
     }
 
     /**
@@ -88,7 +105,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function filterByTypes($types = array())
     {
-        $this->_bannerTypesFilter = Mage::getSingleton('Enterprise_Banner_Model_Config')->explodeTypes($types);
+        $this->_bannerTypesFilter = $this->_bannerConfig->explodeTypes($types);
         return $this;
     }
 
@@ -102,7 +119,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function saveStoreContents($bannerId, $contents, $notuse = array())
     {
-        $deleteContentsByStores = array();
+        $deleteByStores = array();
         if (!is_array($notuse)) {
             $notuse = array();
         }
@@ -116,13 +133,13 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
                     array('banner_content')
                 );
             } else {
-                $deleteContentsByStores[] = $storeId;
+                $deleteByStores[] = $storeId;
             }
         }
-        if (!empty($deleteContentsByStores) || !empty($notuse)) {
+        if (!empty($deleteByStores) || !empty($notuse)) {
             $condition = array(
                 'banner_id = ?'   => $bannerId,
-                'store_id IN (?)' => array_merge($deleteContentsByStores, array_keys($notuse)),
+                'store_id IN (?)' => array_merge($deleteByStores, array_keys($notuse)),
             );
             $adapter->delete($this->_contentsTable, $condition);
         }
@@ -205,46 +222,32 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      *
      * @param int $bannerId
      * @param int $storeId
-     * @param array $segmentIds
      * @return string
      */
-    public function getStoreContent($bannerId, $storeId, $segmentIds = array())
+    public function getStoreContent($bannerId, $storeId)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from(array('main' => $this->_contentsTable), 'banner_content')
-            ->where('main.banner_id=?', $bannerId)
-            ->where('main.store_id IN(?)', array($storeId, 0))
-            ->order('main.store_id DESC');
-        $select->joinLeft(
-            array('banner_segments' => $this->getTable('enterprise_banner_customersegment')),
-            'main.banner_id = banner_segments.banner_id',
-            array()
-        );
-        if (empty($segmentIds)) {
-            $select->where('banner_segments.segment_id IS NULL');
-        } else {
-            $select->joinLeft(
-                array('customer_segments' => $this->getTable('enterprise_customersegment_segment')),
-                'customer_segments.segment_id = banner_segments.segment_id',
-                array()
-            );
-            $condition = 'banner_segments.segment_id IS NULL OR '
-                . '(banner_segments.segment_id IN (?) AND customer_segments.is_active = 1)';
-            $select->where($condition, $segmentIds);
-        }
+            ->from(array('main_table' => $this->_contentsTable), 'banner_content')
+            ->where('main_table.banner_id = ?', $bannerId)
+            ->where('main_table.store_id IN (?)', array($storeId, 0))
+            ->order('main_table.store_id DESC');
 
         if ($this->_bannerTypesFilter) {
             $select->joinInner(
-                array('b' => $this->getTable('enterprise_banner')),
-                'main.banner_id = b.banner_id'
+                array('banner' => $this->getTable('enterprise_banner')),
+                'main_table.banner_id = banner.banner_id'
             );
             $filter = array();
             foreach ($this->_bannerTypesFilter as $type) {
-                $filter[] = $adapter->prepareSqlCondition('b.types', array('finset' => $type));
+                $filter[] = $adapter->prepareSqlCondition('banner.types', array('finset' => $type));
             }
             $select->where(implode(' OR ', $filter));
         }
+
+        $this->_eventManager->dispatch('enterprise_banner_resource_banner_content_select_init', array(
+            'select' => $select,
+        ));
 
         return $adapter->fetchOne($select);
     }
@@ -261,14 +264,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $select = $adapter->select()
             ->from($this->_salesRuleTable, array())
             ->where('banner_id = ?', $bannerId);
-            if (!$this->_isSalesRuleRelatedToBanner) {
-                $select->join(
-                    array('rules' => $this->getTable('salesrule')),
-                    $this->_salesRuleTable . '.rule_id = rules.rule_id',
-                    array('rule_id')
-                );
-                $this->_isSalesRuleRelatedToBanner = true;
-            }
+        if (!$this->_isSalesRuleJoined) {
+            $select->join(
+                array('rules' => $this->getTable('salesrule')),
+                $this->_salesRuleTable . '.rule_id = rules.rule_id',
+                array('rule_id')
+            );
+            $this->_isSalesRuleJoined = true;
+        }
         $rules = $adapter->fetchCol($select);
         return $rules;
     }
@@ -285,14 +288,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $select = $adapter->select()
             ->from($this->_catalogRuleTable, array())
             ->where('banner_id = ?', $bannerId);
-            if (!$this->_isCatalogRuleRelatedToBanner) {
-                $select->join(
-                    array('rules' => $this->getTable('catalogrule')),
-                    $this->_catalogRuleTable . '.rule_id = rules.rule_id',
-                    array('rule_id')
-                );
-                $this->_isCatalogRuleRelatedToBanner = true;
-            }
+        if (!$this->_isCatalogRuleJoined) {
+            $select->join(
+                array('rules' => $this->getTable('catalogrule')),
+                $this->_catalogRuleTable . '.rule_id = rules.rule_id',
+                array('rule_id')
+            );
+            $this->_isCatalogRuleJoined = true;
+        }
 
         $rules = $adapter->fetchCol($select);
         return $rules;
@@ -408,36 +411,32 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      *
      * @param array $bannerIds
      * @param int $storeId
-     * @param array $segmentIds
      * @return array
      */
-    public function getBannersContent($bannerIds, $storeId, $segmentIds = array())
+    public function getBannersContent(array $bannerIds, $storeId)
     {
-        $content = array();
-        foreach ($bannerIds as $_id) {
-            $_content = $this->getStoreContent($_id, $storeId, $segmentIds);
-            if (!empty($_content)) {
-                $content[$_id] = $_content;
+        $result = array();
+        foreach ($bannerIds as $bannerId) {
+            $bannerContent = $this->getStoreContent($bannerId, $storeId);
+            if (!empty($bannerContent)) {
+                $result[$bannerId] = $bannerContent;
             }
         }
-        return $content;
+        return $result;
     }
 
     /**
      * Get banners IDs that related to sales rule and satisfy conditions
      *
-     * @param array $matchedCustomerSegments
-     * @param array $aplliedRules
+     * @param array $appliedRules
      * @return array
      */
-    public function getSalesRuleRelatedBannerIds($matchedCustomerSegments, $aplliedRules)
+    public function getSalesRuleRelatedBannerIds(array $appliedRules)
     {
-        $adapter = $this->_getReadAdapter();
+        /** @var Enterprise_Banner_Model_Resource_Salesrule_Collection $collection */
         $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Salesrule_Collection');
-        $collection->resetColumns()
-               ->addBannersFilter($aplliedRules, true)
-               ->addCustomerSegmentFilter($matchedCustomerSegments);
-        return $adapter->fetchCol($collection->getSelect());
+        $collection->addRuleIdsFilter($appliedRules);
+        return $collection->getColumnValues('banner_id');
     }
 
     /**
@@ -445,73 +444,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      *
      * @param int $websiteId
      * @param int $customerGroupId
-     * @param array $matchedCustomerSegments
      * @return array
      */
-    public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId, $matchedCustomerSegments)
+    public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId)
     {
-        $adapter = $this->_getReadAdapter();
+        /** @var Enterprise_Banner_Model_Resource_Catalogrule_Collection $collection */
         $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Catalogrule_Collection');
-        $collection->resetSelect()
-               ->addAppliedRuleFilter($websiteId, $customerGroupId)
-               ->addBannersFilter(true)
-               ->addCustomerSegmentFilter($matchedCustomerSegments);
-        return $adapter->fetchCol($collection->getSelect());
-    }
-
-    /**
-     * Bind banner to customer segments
-     *
-     * @param int $bannerId
-     * @param array $segments
-     * @return Enterprise_Banner_Model_Resource_Banner
-     */
-    public function saveCustomerSegments($bannerId, $segments)
-    {
-        if (is_string($segments)) {
-            $segments = array();
-        }
-        $adapter = $this->_getWriteAdapter();
-        foreach ($segments as $segmentId) {
-            $adapter->insertOnDuplicate(
-                $this->_customerSegmentTable,
-                array('banner_id' => $bannerId, 'segment_id' => $segmentId),
-                array('banner_id')
-            );
-        }
-
-        if (empty($segments)) {
-            $segments = array(0);
-        }
-
-        $adapter->delete($this->_customerSegmentTable,
-            array('banner_id = ?' => $bannerId, 'segment_id NOT IN (?)' => $segments)
-        );
-        return $this;
-    }
-
-    /**
-     * Add customer segment ids to banner data, cast banner types to array
-     *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
-     */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
-    {
-        $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->_customerSegmentTable)
-            ->where('banner_id = ?', $object->getId());
-
-        if ($data = $read->fetchAll($select)) {
-            $segmentsArray = array();
-            foreach ($data as $row) {
-                $segmentsArray[] = $row['segment_id'];
-            }
-            $object->setData('customer_segment_ids', $segmentsArray);
-        }
-
-        return parent::_afterLoad($object);
+        $collection->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId);
+        return $collection->getColumnValues('banner_id');
     }
 
     /**

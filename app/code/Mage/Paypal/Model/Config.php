@@ -465,60 +465,81 @@ class Mage_Paypal_Model_Config
     public function getCountryMethods($countryCode = null)
     {
         $countryMethods = array(
-            'US' => array(
-                self::METHOD_WPS,
-                self::METHOD_WPP_DIRECT,
-                self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_WPP_PE_DIRECT,
-                self::METHOD_WPP_PE_EXPRESS,
-                self::METHOD_PAYFLOWPRO,
-                self::METHOD_PAYFLOWLINK,
-                self::METHOD_PAYFLOWADVANCED,
-            ),
-            'CA' => array(
-                self::METHOD_WPS,
-                self::METHOD_WPP_DIRECT,
-                self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_PAYFLOWPRO,
-                self::METHOD_PAYFLOWLINK,
-            ),
-            'GB' => array(
-                self::METHOD_WPS,
-                self::METHOD_WPP_DIRECT,
-                self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_WPP_PE_DIRECT,
-                self::METHOD_WPP_PE_EXPRESS,
-                self::METHOD_HOSTEDPRO,
-            ),
-            'AU' => array(
-                self::METHOD_WPS,
-                self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_PAYFLOWPRO,
-                self::METHOD_HOSTEDPRO,
-            ),
-            'NZ' => array(
-                self::METHOD_WPS,
-                self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_PAYFLOWPRO,
-                self::METHOD_HOSTEDPRO,
-            ),
-            'DE' => array(
-                self::METHOD_WPS,
-                self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_HOSTEDPRO,
-            ),
             'other' => array(
                 self::METHOD_WPS,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT,
+            ),
+            'US' => array(
+                self::METHOD_PAYFLOWADVANCED,
+                self::METHOD_WPP_DIRECT,
+                self::METHOD_WPS,
+                self::METHOD_PAYFLOWPRO,
+                self::METHOD_PAYFLOWLINK,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+                self::METHOD_WPP_PE_EXPRESS,
+            ),
+            'CA' => array(
+                self::METHOD_WPP_DIRECT,
+                self::METHOD_WPS,
+                self::METHOD_PAYFLOWPRO,
+                self::METHOD_PAYFLOWLINK,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
+            'GB' => array(
+                self::METHOD_WPP_DIRECT,
+                self::METHOD_WPS,
+                self::METHOD_WPP_PE_DIRECT,
                 self::METHOD_HOSTEDPRO,
-            )
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+                self::METHOD_WPP_PE_EXPRESS,
+            ),
+            'AU' => array(
+                self::METHOD_WPS,
+                self::METHOD_PAYFLOWPRO,
+                self::METHOD_HOSTEDPRO,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
+            'NZ' => array(
+                self::METHOD_WPS,
+                self::METHOD_PAYFLOWPRO,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
+            'JP' => array(
+                self::METHOD_WPS,
+                self::METHOD_HOSTEDPRO,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
+            'FR' => array(
+                self::METHOD_WPS,
+                self::METHOD_HOSTEDPRO,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
+            'IT' => array(
+                self::METHOD_WPS,
+                self::METHOD_HOSTEDPRO,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
+            'ES' => array(
+                self::METHOD_WPS,
+                self::METHOD_HOSTEDPRO,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
+            'HK' => array(
+                self::METHOD_WPS,
+                self::METHOD_HOSTEDPRO,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+            ),
         );
         if ($countryCode === null) {
             return $countryMethods;
@@ -592,7 +613,7 @@ class Mage_Paypal_Model_Config
      */
     public function getPaypalUrl(array $params = array())
     {
-        return sprintf('https://www.%spaypal.com/webscr%s',
+        return sprintf('https://www.%spaypal.com/cgi-bin/webscr%s',
             $this->sandboxFlag ? 'sandbox.' : '',
             $params ? '?' . http_build_query($params) : ''
         );
@@ -1128,6 +1149,8 @@ class Mage_Paypal_Model_Config
                     break;
                 case self::METHOD_WPP_PE_EXPRESS:
                 case self::METHOD_WPP_PE_DIRECT:
+                case self::METHOD_PAYFLOWADVANCED:
+                case self::METHOD_PAYFLOWLINK:
                     $path = $this->_mapWpukFieldset($fieldName);
                     break;
             }
@@ -1264,6 +1287,10 @@ class Mage_Paypal_Model_Config
         if ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS
             && !$this->isMethodAvailable(self::METHOD_WPP_PE_DIRECT)) {
             $pathPrefix = 'payment/verisign';
+        } elseif ($this->_methodCode == self::METHOD_PAYFLOWADVANCED
+            || $this->_methodCode == self::METHOD_PAYFLOWLINK
+        ) {
+            $pathPrefix = 'payment/' . $this->_methodCode;
         }
         switch ($fieldName) {
             case 'partner':
@@ -1341,6 +1368,7 @@ class Mage_Paypal_Model_Config
             case 'cctypes':
             case 'sort_order':
             case 'debug':
+            case 'verify_peer':
                 return "payment/{$this->_methodCode}/{$fieldName}";
             default:
                 return null;

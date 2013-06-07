@@ -78,6 +78,6 @@ class Mage_CurrencySymbol_Adminhtml_System_CurrencysymbolController extends Mage
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_CurrencySymbol::symbols');
+        return $this->_authorization->isAllowed('Mage_CurrencySymbol::symbols');
     }
 }

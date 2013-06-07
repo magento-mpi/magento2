@@ -21,20 +21,10 @@ $magentoOslAfl = array(
 $magentoAfl = $magentoOslAfl;
 unset($magentoAfl['php']);
 
-$phoenixOsl = array(
-    'xml'   => 'Phoenix',
-    'phtml' => 'Phoenix',
-    'php'   => 'Phoenix',
-    'css'   => 'Phoenix',
-    'js'    => 'Phoenix',
-    'less'  => 'Phoenix',
-);
-
 $config = array(
     ''    => array('php' => 'OSL', '_recursive' => false),
     'app' => array('php' => 'OSL', '_recursive' => false),
     'app/code/Find'         => $magentoOslAfl,
-    'app/code/Phoenix'      => $phoenixOsl,
     'app/code/Social'       => $magentoOslAfl,
     'app/code/Enterprise'   => $magentoOslAfl,
     'app/code/Mage'         => $magentoOslAfl,
@@ -44,6 +34,7 @@ $config = array(
     'app/etc'               => array('xml' => 'AFL'),
     'dev'                   => array_merge($magentoOslAfl, array('sql' => 'OSL', 'html' => 'AFL')),
     'downloader'            => $magentoOslAfl,
+    'errors'                => $magentoOslAfl,
     'lib/flex'              => array('xml' => 'AFL', 'flex' => 'AFL'),
     'lib/Mage'              => $magentoOslAfl,
     'lib/Magento'           => $magentoOslAfl,

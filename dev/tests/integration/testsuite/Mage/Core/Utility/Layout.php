@@ -33,7 +33,12 @@ class Mage_Core_Utility_Layout
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
         $layoutUpdate = $this->_testCase->getMock(
-            'Mage_Core_Model_Layout_Merge', array('getFileLayoutUpdatesXml')
+            'Mage_Core_Model_Layout_Merge',
+            array('getFileLayoutUpdatesXml'),
+            array(
+                Mage::getObjectManager()->get('Mage_Core_Model_Design_Package'),
+                $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface'),
+            )
         );
 
         $reflector = new ReflectionProperty(get_class($layoutUpdate), '_elementClass');

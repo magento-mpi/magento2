@@ -143,13 +143,15 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     }
 
     /**
-     * Remove all merged js/css files
+     * Publish file (if needed) and return its public path
      *
-     * @return bool
+     * @param string $file
+     * @param array $params
+     * @return string
      */
-    public function cleanMergedJsCss()
+    public function getViewFilePublicPath($file, array $params = array())
     {
-        return $this->_getInstance()->cleanMergedJsCss();
+        return $this->_getInstance()->getViewFilePublicPath($file, $params);
     }
 
     /**
@@ -186,29 +188,6 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     public function getPublicDir()
     {
         return $this->_getInstance()->getPublicDir();
-    }
-
-    /**
-     * Return whether view files merging is allowed or not
-     *
-     * @return bool
-     */
-    public function isMergingViewFilesAllowed()
-    {
-        return $this->_getInstance()->isMergingViewFilesAllowed();
-    }
-
-    /**
-     * Merge files, located under the same folder, into one and return file name of merged file
-     *
-     * @param array $files list of names relative to the same folder
-     * @param string $contentType
-     * @return string
-     * @throws Magento_Exception if not existing file requested for merge
-     */
-    public function mergeFiles($files, $contentType)
-    {
-        return $this->_getInstance()->mergeFiles($files, $contentType);
     }
 
     /**

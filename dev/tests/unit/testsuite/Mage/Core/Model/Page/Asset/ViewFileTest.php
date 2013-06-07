@@ -55,6 +55,13 @@ class Mage_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
 
     public function testGetSourceFile()
     {
-        $this->assertEquals('test/script.js', $this->_object->getSourceFile());
+        $sourcePath = '/source_dir/test/script.js';
+        $this->_designPackage
+            ->expects($this->once())
+            ->method('getViewFilePublicPath')
+            ->with('test/script.js')
+            ->will($this->returnValue($sourcePath))
+        ;
+        $this->assertEquals($sourcePath, $this->_object->getSourceFile());
     }
 }

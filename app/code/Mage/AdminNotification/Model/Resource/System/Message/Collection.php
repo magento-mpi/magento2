@@ -24,13 +24,17 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     protected $_countBySeverity = array();
 
     /**
+     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_AdminNotification_Model_System_MessageList $messageList
-     * @param mixed $resource
+     * @param Mage_Core_Model_Resource_Db_Abstract $resource
      */
-    public function __construct(Mage_AdminNotification_Model_System_MessageList $messageList, $resource = null)
-    {
+    public function __construct(
+        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Mage_AdminNotification_Model_System_MessageList $messageList,
+        Mage_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
         $this->_messageList = $messageList;
-        parent::__construct($resource);
+        parent::__construct($fetchStrategy, $resource);
     }
 
     /**

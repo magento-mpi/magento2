@@ -115,13 +115,13 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
         switch ($this->getRequest()->getActionName()) {
             case 'index':
             case 'details':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Paypal::paypal_settlement_reports_view');
+                return $this->_authorization->isAllowed('Mage_Paypal::paypal_settlement_reports_view');
                 break;
             case 'fetch':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Paypal::fetch');
+                return $this->_authorization->isAllowed('Mage_Paypal::fetch');
                 break;
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Paypal::paypal_settlement_reports');
+                return $this->_authorization->isAllowed('Mage_Paypal::paypal_settlement_reports');
                 break;
         }
     }

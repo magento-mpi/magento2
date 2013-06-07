@@ -41,8 +41,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetWinProcessMemoryUsage()
     {
-        $winFixture = '"Image Name","PID","Session Name","Session#","Mem Usage"'
-            . "\r\n" . '"php.exe","12345","N/A","0","26,321 K"';
+        $winFixture = '"php.exe","12345","N/A","0","26,321 K"';
         $this->_shell->expects($this->once())->method('execute')->will($this->returnValue($winFixture));
         $object = new Magento_Test_Helper_Memory($this->_shell);
         $this->assertEquals('26952704', $object->getWinProcessMemoryUsage(0));
@@ -56,9 +55,9 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $number
      * @param string $expected
-     * @dataProvider convertToBytes32DataProvider
+     * @dataProvider convertToBytesDataProvider
      */
-    public function testConvertToBytes32($number, $expected)
+    public function testConvertToBytes($number, $expected)
     {
         $this->assertEquals($expected, Magento_Test_Helper_Memory::convertToBytes($number));
     }
@@ -66,13 +65,41 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function convertToBytes32DataProvider()
+    public function convertToBytesDataProvider()
     {
         return array(
-            array('1B', '1'),
-            array('3K', '3072'),
-            array('2M', '2097152'),
-            array('1G', '1073741824'),
+            'B'               => array('1B', '1'),
+            'KB'              => array('3K', '3072'),
+            'MB'              => array('2M', '2097152'),
+            'GB'              => array('1G', '1073741824'),
+            'regular spaces'  => array('1 234 K', '1263616'),
+            'no-break spaces' => array("1\xA0234\xA0K", '1263616'),
+            'tab'             => array("1\x09234\x09K", '1263616'),
+            'coma'            => array('1,234K', '1263616'),
+            // following is also correct, accepting that "." is thousands separator
+            'dot'             => array('1.234 K', '1263616'),
+        );
+    }
+
+    /**
+     * @param string $number
+     * @dataProvider convertToBytesBadFormatDataProvider
+     * @expectedException InvalidArgumentException
+     */
+    public function testConvertToBytesBadFormat($number)
+    {
+        Magento_Test_Helper_Memory::convertToBytes($number);
+    }
+
+    /**
+     * @return array
+     */
+    public function convertToBytesBadFormatDataProvider()
+    {
+        return array(
+            'more than one unit of measure' => array('1234KB'),
+            'unknown unit of measure' => array('1234Z'),
+            'non-integer value' => array('1,234.56 K'),
         );
     }
 
@@ -84,7 +111,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     public function testConvertToBytes64($number, $expected)
     {
         if (PHP_INT_SIZE <= 4) {
-            $this->markTestSkipped("A 64-bit system is required to perform this test.");
+            $this->markTestSkipped('A 64-bit system is required to perform this test.');
         }
         $this->assertEquals($expected, Magento_Test_Helper_Memory::convertToBytes($number));
     }
@@ -115,7 +142,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     public function testConvertToBytesOutOfBounds()
     {
         if (PHP_INT_SIZE > 4) {
-            $this->markTestSkipped("A 32-bit system is required to perform this test.");
+            $this->markTestSkipped('A 32-bit system is required to perform this test.');
         }
         Magento_Test_Helper_Memory::convertToBytes('2P');
     }

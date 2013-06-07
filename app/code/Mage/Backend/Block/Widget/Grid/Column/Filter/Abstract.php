@@ -65,9 +65,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Backend
      */
     protected function _getHtmlId()
     {
-        return $this->getColumn()->getGrid()->getId() . '_'
-            . $this->getColumn()->getGrid()->getVarNameFilter() . '_'
-            . $this->getColumn()->getId();
+        return $this->getColumn()->getHtmlId();
     }
 
     /**

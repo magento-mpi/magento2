@@ -21,12 +21,8 @@ class Mage_AdminNotification_Block_Inbox extends Mage_Backend_Block_Widget_Grid_
 
     protected function _prepareLayout()
     {
+        parent::_prepareLayout();
         $this->_removeButton('add');
-        $this->setChild(
-            'grid',
-            $this->getLayout()->createBlock('Mage_AdminNotification_Block_Grid', 'notification.grid')
-                ->setSaveParametersInSession(true)
-        );
         return $this;
     }
 }

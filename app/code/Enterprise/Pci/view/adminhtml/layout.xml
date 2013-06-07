@@ -97,7 +97,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="lock_expires">
                         <arguments>
-                            <header translate="true" module="Enterprise_Pci">Locked until</header>
+                            <header translate="true" module="Enterprise_Pci">Unlocked</header>
                             <type>datetime</type>
                             <filter>0</filter>
                             <id>lock_expires</id>

@@ -29,6 +29,27 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
      */
     protected $_template = 'catalog/category/edit/form.phtml';
 
+    /**
+     * Categories limitation
+     *
+     * @var Mage_Catalog_Model_Category_Limitation
+     */
+    protected $_limitation;
+
+    /**
+     * Controls class dependencies.
+     *
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     * @param Mage_Catalog_Model_Category_Limitation $limitation
+     */
+    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array(),
+                                Mage_Catalog_Model_Category_Limitation $limitation = null)
+    {
+        parent::__construct($context, $data);
+        $this->_limitation = $limitation ?: Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+    }
+
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {
@@ -47,7 +68,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
             $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save Category'),
                 'onclick'   => "categorySubmit('" . $this->getSaveUrl() . "', true)",
-                'class' => 'save'
+                'class'     => 'save',
+                'disabled'  => $this->_limitation->isCreateRestricted() ? $category->isObjectNew() : false
             ));
         }
 

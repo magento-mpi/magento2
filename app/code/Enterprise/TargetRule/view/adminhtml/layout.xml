@@ -55,7 +55,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='name'>
                         <arguments>
-                            <header translate='true' module='Enterprise_TargetRule'>Rule Name</header>
+                            <header translate='true' module='Enterprise_TargetRule'>Rule</header>
                             <index>name</index>
                             <type>text</type>
                             <escape>1</escape>
@@ -63,7 +63,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='from_date'>
                         <arguments>
-                            <header translate='true' module='Enterprise_TargetRule'>Date Start</header>
+                            <header translate='true' module='Enterprise_TargetRule'>Start on</header>
                             <index>from_date</index>
                             <type>date</type>
                             <default>--</default>
@@ -72,7 +72,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='to_date'>
                         <arguments>
-                            <header translate='true' module='Enterprise_TargetRule'>Date Expire</header>
+                            <header translate='true' module='Enterprise_TargetRule'>End on</header>
                             <index>to_date</index>
                             <type>date</type>
                             <default>--</default>

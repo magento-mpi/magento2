@@ -104,7 +104,30 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
             'value' => $addressData['postcode']
         ));
 
-        $countries = $this->_countryConfigModel->toOptionArray();
+        $isRegionFieldText = true;
+        if ($addressData['country_id']) {
+            $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($addressData['country_id']);
+            $regions = $regionCollection->toOptionArray();
+            if (!empty($regions)) {
+                $fieldset->addField('region_id', 'select', array(
+                   'name' => 'region_id',
+                   'label' => $helper->__('State/Region'),
+                   'values' => $regions,
+                   'value' => $addressData['region_id'],
+                ));
+                $isRegionFieldText = false;
+            }
+        }
+
+        if ($isRegionFieldText) {
+            $fieldset->addField('region_id', 'text', array(
+                 'name' => 'region_id',
+                 'label' => $helper->__('State/Region'),
+                 'value' => $addressData['region_id']
+            ));
+        }
+
+        $countries = $this->_countryConfigModel->toOptionArray(false, 'US');
         $fieldset->addField('country_id', 'select', array(
             'name' => 'country_id',
             'label' => $helper->__('Country'),
@@ -116,23 +139,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
                 . 'originAddress = new originModel();'
                 . '</script>',
         ));
-        $countryId = isset($addressData['country_id']) ? $addressData['country_id'] : 'US';
-        $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryId);
-        $regions = $regionCollection->toOptionArray();
-        if (!empty($regions)) {
-            $fieldset->addField('region_id', 'select', array(
-               'name' => 'region_id',
-               'label' => $helper->__('State/Region'),
-               'values' => $regions,
-               'value' => $addressData['region_id'],
-            ));
-        } else {
-            $fieldset->addField('region_id', 'text', array(
-                 'name' => 'region_id',
-                 'label' => $helper->__('State/Region'),
-                 'value' => $addressData['region_id']
-            ));
-        }
 
         $form->setUseContainer(false);
         $this->setForm($form);
@@ -168,14 +174,15 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
         $showForm = empty($addressData['street_line1'])
             || empty($addressData['city']) || empty($addressData['postcode']);
 
-        $addressData['country_id'] = $this->_countryModel->loadByCode($addressData['country_id'])->getName();
-
-        $this->_regionModel->load($addressData['region_id']);
-        if ($this->_regionModel->getName()) {
-            $addressData['region_id'] = $this->_regionModel->getName();
+        if ($addressData['country_id']) {
+            $addressData['country_id'] = $this->_countryModel->loadByCode($addressData['country_id'])->getName();
+            if ($addressData['region_id']) {
+                $this->_regionModel->load($addressData['region_id']);
+                if ($this->_regionModel->getName()) {
+                    $addressData['region_id'] = $this->_regionModel->getName();
+                }
+            }
         }
         return array('show_form' => $showForm, 'data' => $addressData);
     }
-
-
 }

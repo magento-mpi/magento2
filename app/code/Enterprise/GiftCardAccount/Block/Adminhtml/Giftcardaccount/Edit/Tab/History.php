@@ -79,7 +79,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
         ));
 
         $this->addColumn('additional_info', array(
-            'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Additional information'),
+            'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('More Information'),
             'index'     => 'additional_info',
             'sortable'  => false,
         ));

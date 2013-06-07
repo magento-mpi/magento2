@@ -27,11 +27,6 @@ class Mage_Core_Model_Translate
     const SCOPE_SEPARATOR   = '::';
 
     /**
-     * Cache tag
-     */
-    const CACHE_TAG         = Mage_Core_Model_Cache_Type_Translate::CACHE_TAG;
-
-    /**
      * Configuration area key
      */
     const CONFIG_KEY_AREA   = 'area';
@@ -76,11 +71,6 @@ class Mage_Core_Model_Translate
      * @var array
      */
     protected $_config;
-
-    /**
-     * @var bool
-     */
-    protected $_useCache = true;
 
     /**
      * Cache identifier
@@ -140,20 +130,28 @@ class Mage_Core_Model_Translate
     protected $_translateFactory;
 
     /**
+     * @var Magento_Cache_FrontendInterface $cache
+     */
+    private $_cache;
+
+    /**
      * Initialize translate model
      *
      * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
      * @param Mage_core_Model_Translate_Factory $translateFactory
+     * @param Magento_Cache_FrontendInterface $cache
      */
     public function __construct(
         Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
-        Mage_Core_Model_Translate_Factory $translateFactory
+        Mage_Core_Model_Translate_Factory $translateFactory,
+        Magento_Cache_FrontendInterface $cache
     ) {
         $this->_designPackage = $designPackage;
         $this->_localeHierarchy = $loader->load();
         $this->_translateFactory = $translateFactory;
+        $this->_cache = $cache;
     }
 
     /**
@@ -164,7 +162,7 @@ class Mage_Core_Model_Translate
      * @param bool $forceReload
      * @return Mage_Core_Model_Translate
      */
-    public function init($area, $initParams, $forceReload = false)
+    public function init($area, $initParams = null, $forceReload = false)
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
@@ -172,13 +170,10 @@ class Mage_Core_Model_Translate
             $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
-            if ($this->_canUseCache()) {
-                $this->_data = $this->_loadCache();
-                if ($this->_data !== false) {
-                    return $this;
-                }
+            $this->_data = $this->_loadCache();
+            if ($this->_data !== false) {
+                return $this;
             }
-            Mage::app()->removeCache($this->getCacheId());
         }
 
         $this->_data = array();
@@ -191,7 +186,7 @@ class Mage_Core_Model_Translate
         $this->_loadThemeTranslation($forceReload);
         $this->_loadDbTranslation($forceReload);
 
-        if (!$forceReload && $this->_canUseCache()) {
+        if (!$forceReload) {
             $this->_saveCache();
         }
 
@@ -618,40 +613,26 @@ class Mage_Core_Model_Translate
     /**
      * Loading data cache
      *
-     * @return  array|false
+     * @return array|bool
      */
     protected function _loadCache()
     {
-        if (!$this->_canUseCache()) {
-            return false;
+        $data = $this->_cache->load($this->getCacheId());
+        if ($data) {
+            $data = unserialize($data);
         }
-        $data = Mage::app()->loadCache($this->getCacheId());
-        $data = unserialize($data);
         return $data;
     }
 
     /**
      * Saving data cache
      *
-     * @return  Mage_Core_Model_Translate
+     * @return Mage_Core_Model_Translate
      */
     protected function _saveCache()
     {
-        if (!$this->_canUseCache()) {
-            return $this;
-        }
-        Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array(self::CACHE_TAG), false);
+        $this->_cache->save(serialize($this->getData()), $this->getCacheId(), array(), false);
         return $this;
-    }
-
-    /**
-     * Check cache usage availability
-     *
-     * @return bool
-     */
-    protected function _canUseCache()
-    {
-        return Mage::app()->useCache(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
     }
 
     /**

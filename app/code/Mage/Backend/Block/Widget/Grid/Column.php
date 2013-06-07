@@ -90,7 +90,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
         'massaction' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Massaction',
         'checkbox' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Checkbox',
         'radio' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Radio',
-        'skiplist' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_SkipList',
+        'skip-list' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_SkipList',
         'store' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Store',
         'theme' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Theme',
         'default' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Text',
@@ -143,6 +143,18 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     public function getGrid()
     {
         return $this->_grid;
+    }
+
+    /**
+     * Retrieve html id of filter
+     *
+     * @return string
+     */
+    public function getHtmlId()
+    {
+        return $this->getGrid()->getId() . '_'
+            . $this->getGrid()->getVarNameFilter() . '_'
+            . $this->getId();
     }
 
     /**

@@ -49,12 +49,12 @@ xml_sitemap:
 add_new_xml_sitemap:
     mca: sitemap/new/
     title: New Sitemap / XML Sitemaps / SEO & Search / Marketing / Magento Admin
-    uimap:
+    uimap: &sitemap
         form:
             fieldsets:
                 -
                     xml_sitemap_create:
-                        xpath: //div[@id='add_sitemap_form']
+                        xpath: //fieldset[@id='add_sitemap_form']
                         dropdowns:
                             xml_sitemap_create_store_view: //select[@name='store_id']
                         fields:
@@ -66,3 +66,8 @@ add_new_xml_sitemap:
             save_and_generate: //button[@title='Save & Generate']
             save: //button[@title='Save']
         messages: *pageMessages
+
+edit_xml_sitemap:
+    mca: sitemap/edit
+    title: Edit Sitemap / XML Sitemaps / SEO & Search / Marketing / Magento Admin
+    uimap: *sitemap

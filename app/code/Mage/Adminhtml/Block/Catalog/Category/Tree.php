@@ -22,6 +22,34 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     protected $_template = 'catalog/category/tree.phtml';
 
+    /**
+     * Used for category count limitation
+     *
+     * @var Mage_Catalog_Model_Category_Limitation
+     */
+    protected $_limitation;
+
+    /**
+     * Is create category restricted
+     *
+     * @var bool|null
+     */
+    protected $_isCreateRestricted = null;
+
+
+    /**
+     * Controls class dependencies.
+     *
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     * @param Mage_Catalog_Model_Category_Limitation $limitation
+     */
+    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array(),
+                                Mage_Catalog_Model_Category_Limitation $limitation = null)
+    {
+        parent::__construct($context, $data);
+        $this->_limitation = $limitation ?: Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+    }
 
     protected function _construct()
     {
@@ -42,18 +70,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Subcategory'),
             'onclick'   => "addNew('".$addUrl."', false)",
             'class'     => 'add',
-            'id'            => 'add_subcategory_button',
-            'style'     => $this->canAddSubCategory() ? '' : 'display: none;'
+            'id'        => 'add_subcategory_button',
+            'disabled'  => !$this->canAddSubCategory(),
         ));
 
-        if ($this->canAddRootCategory()) {
-            $this->addChild('add_root_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Root Category'),
-                'onclick'   => "addNew('".$addUrl."', true)",
-                'class'     => 'add',
-                'id'        => 'add_root_category_button'
-            ));
-        }
+        $this->addChild('add_root_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Root Category'),
+            'onclick'   => "addNew('".$addUrl."', true)",
+            'class'     => 'add',
+            'id'        => 'add_root_category_button',
+            'disabled'  => !$this->canAddRootCategory(),
+        ));
 
         $this->setChild('store_switcher',
             $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher')
@@ -240,8 +267,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             '<script type="text/javascript">'
             . $javascriptVarName . ' = ' . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($categories) . ';'
             . ($this->canAddSubCategory()
-                ? '$("add_subcategory_button").show();'
-                : '$("add_subcategory_button").hide();')
+                ? '$("add_subcategory_button").enable();'
+                : '$("add_subcategory_button").disable();')
+            . ($this->canAddRootCategory()
+                ? '$("add_root_category_button").enable();'
+                : '$("add_root_category_button").disable();')
             . '</script>';
     }
 
@@ -368,7 +398,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             )
         );
 
-        return $options->getIsAllow();
+        return $options->getIsAllow() && !$this->_isCreateRestricted();
     }
 
     /**
@@ -388,6 +418,14 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             )
         );
 
-        return $options->getIsAllow();
+        return $options->getIsAllow() && !$this->_isCreateRestricted();
+    }
+
+    protected function _isCreateRestricted()
+    {
+        if (is_null($this->_isCreateRestricted)) {
+            $this->_isCreateRestricted = $this->_limitation->isCreateRestricted();
+        }
+        return $this->_isCreateRestricted;
     }
 }

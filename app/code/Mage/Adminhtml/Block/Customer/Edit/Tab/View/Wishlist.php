@@ -58,21 +58,21 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Product ID'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('ID'),
             'index'     => 'product_id',
             'type'      => 'number',
             'width'     => '100px'
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Product'),
             'index'     => 'product_name',
             'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
-                'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Added From'),
+                'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Add Locale'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'width'     => '160px',
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
         }
 
         $this->addColumn('added_at', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Date Added'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Add Date'),
             'index'     => 'added_at',
             'type'      => 'date',
             'width'     => '140px',

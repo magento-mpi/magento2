@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,9 +41,9 @@ Customer account home dashboard layout
 
     <customer_account_index>
         <!-- Mage_Tag -->
-        <reference name="customer_account_dashboard">
+        <reference name="my.account.wrapper">
             <action method="unsetChild"><name>customer_account_dashboard_info2</name></action>
-            <block type="Mage_Tag_Block_Customer_Recent" name="customer_account_dashboard_info2" as="info2" template="customer/recent.phtml"/>
+            <block type="Mage_Tag_Block_Customer_Recent" name="customer_account_dashboard_info2" as="info2" after="customer_account_dashboard_info1" template="customer/recent.phtml"/>
         </reference>
     </customer_account_index>
 
@@ -64,6 +64,9 @@ All tags page
         <!-- Mage_Tag -->
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
+        </reference>
+        <reference name="page.main.title">
+            <action method="setPageTitle" translate="title" module="Mage_Tag"><title>All Tags</title></action>
         </reference>
         <reference name="content">
             <block type="Mage_Tag_Block_All" name="tags_all" template="cloud.phtml"/>

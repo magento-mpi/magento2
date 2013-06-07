@@ -54,6 +54,14 @@
             </indexer>
         </index>
         <events>
+            <catalog_category_save_commit_after>
+                <observers>
+                    <fulltext_reindex>
+                        <class>Mage_Catalog_Model_Observer_Reindex</class>
+                        <method>fulltextReindex</method>
+                    </fulltext_reindex>
+                </observers>
+            </catalog_category_save_commit_after>
             <log_log_clean_after>
                 <observers>
                     <catalog_product_compare_item>
@@ -283,6 +291,18 @@
                 </product>
             </catalog>
         </session>
+        <di>
+            <Mage_Catalog_Model_Product_Attribute_Api>
+                <parameters>
+                    <attributeLabelCache>Mage_Core_Model_Cache_Type_Translate</attributeLabelCache>
+                </parameters>
+            </Mage_Catalog_Model_Product_Attribute_Api>
+            <Mage_Catalog_Model_Product_Attribute_Api_V2>
+                <parameters>
+                    <attributeLabelCache>Mage_Core_Model_Cache_Type_Translate</attributeLabelCache>
+                </parameters>
+            </Mage_Catalog_Model_Product_Attribute_Api_V2>
+        </di>
     </global>
     <adminhtml>
         <translate>
@@ -304,6 +324,13 @@
                 </observers>
             </cms_wysiwyg_images_static_urls_allowed>
         </events>
+        <di>
+            <Mage_Catalog_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Catalog_Model_Session>
+        </di>
     </adminhtml>
     <frontend>
         <routers>
@@ -405,6 +432,13 @@
                 </attributes>
             </collection>
         </category>
+        <di>
+            <Mage_Catalog_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Catalog_Model_Session>
+        </di>
     </frontend>
     <default>
         <catalog>

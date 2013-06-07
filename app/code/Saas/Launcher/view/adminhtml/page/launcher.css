@@ -70,6 +70,8 @@
 }
 
 /* For browsers without css3 selectors support */
+.tile-store-settings:first-child + .tile-store-settings + .tile-store-settings + .tile-store-settings,
+.tile-store-settings:first-child,
 .eq-ie8 .tile-home-page,
 .eq-ie8 .tile-customer-communication,
 .eq-ie8 .tile-catalog-price-rule,
@@ -840,6 +842,42 @@
     margin: 0;
 }
 
+.button-tooltip {
+    position: absolute;
+    top: 84px;
+    right: -10px;
+    width: 300px;
+    background: #5c5c5c;
+    padding: 10px;
+    text-transform: none;
+    border-radius: 4px;
+    display: none;
+    z-index: 1;
+}
+
+.button-with-tooltip[disabled]:hover ~ .button-tooltip {
+    display: block;
+}
+
+.button-tooltip:before {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent #5c5c5c transparent;
+    position: absolute;
+    top: -8px;
+    left: 75%;
+    content: '';
+}
+
+.button-tooltip p {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    font-size: 13px;
+    margin: 0;
+}
+
 .no-tax-info .title,
 .shipping-disabled .title {
     margin-top: 11px;
@@ -1130,10 +1168,6 @@
     display: none;
 }
 
-.shipping-origin-address .loading-mask {
-    display: none !important;
-}
-
 .shipping-config .field-fedex-key,
 .field-dhl-account-number,
 .field-ups-user-id {
@@ -1221,7 +1255,7 @@
     display: block;
     float: left;
     position: relative;
-    min-height: 300px;
+    min-height: 325px;
     width: 20%;
     font-size: 14px;
     border-left: 1px solid #cac2b5;
@@ -1420,10 +1454,49 @@
     border-bottom: none;
 }
 
+.payment-config[data-payment-method="express-checkout"] .field {
+    width: 33%;
+}
+
 .payment-config .field {
     width: 25%;
     float: left;
     margin: 0 2% 10px 0;
+}
+
+.payment-config[data-payment-method="payflow-pro"] .field,
+.payment-config[data-payment-method="payments-advanced"] .field {
+    float: none;
+}
+.payment-config .field.with-tooltip .tooltip {
+    margin: -5px 0 0 -10px;
+}
+
+.payment-config[data-payment-method="payflow-link"] .field,
+.payment-config[data-payment-method="payments-advanced"] .field {
+    float: none;
+    position: relative;
+}
+.payment-config .field.with-tooltip .tooltip {
+    margin: -27px 0 0 -10px;
+    top: 27px;
+}
+
+.payment-config[data-payment-method="payflow-link"] .field.with-tooltip .tooltip {
+    margin: -5px 0 0 -10px;
+}
+
+.payment-config .field.with-tooltip .help {
+    width: 15px;
+}
+.tooltip-content {
+    min-width: 400px;
+    margin-left: -2px;
+}
+
+.payment-config[data-payment-method="payflow-link"]  .field + .field + .actions,
+.payment-config[data-payment-method="payments-advanced"]  .field + .field + .actions {
+    width: 25%;
 }
 
 .payment-config .actions {
@@ -1436,6 +1509,11 @@
 
 .payment-config .field + .field + .actions  {
     width: 52%;
+}
+
+.payment-config[data-payment-method="payflow-pro"] .field + .field + .actions,
+.payment-config[data-payment-method="payments-advanced"] .field + .field + .actions {
+    width: 25%;
 }
 
 .price-plan {
@@ -1503,6 +1581,16 @@
 
 .payments-tab-content .payment-method {
     width: 28%;
+}
+
+.payment-config[data-payment-method="express-checkout"]  .payment-info {
+    width: 410px;
+    color: #333;
+}
+
+.field-store-paypal-express-email .control {
+    display: inline-block;
+    width: 75%;
 }
 
 /* Validation */
@@ -1967,7 +2055,6 @@
     color: #676056;
 }
 
-.add-product .field-weight .choice,
 .add-product .field-service {
     display: none;
 }
@@ -1992,6 +2079,10 @@
     position: absolute;
     left: 0;
     top: 30px;
+}
+
+.add-product .field-weight .choice {
+    width: 100px;
 }
 
 .import-products .field-service {

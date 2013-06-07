@@ -13,8 +13,6 @@
  *
  * @method int getNextPage()
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setNextPage(int $page)
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
@@ -26,20 +24,16 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Theme_Service $serviceModel
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_App $app,
         Mage_Core_Model_Theme_Service $serviceModel,
         array $data = array()
     ) {
         $this->_serviceModel = $serviceModel;
-
-        parent::__construct($context, $app, $data
-        );
+        parent::__construct($context, $data);
     }
 
     /**
@@ -75,36 +69,6 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     }
 
     /**
-     * Get demo button
-     *
-     * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
-     */
-    protected function _addDemoButtonHtml($themeBlock)
-    {
-        /** @var $demoButton Mage_Backend_Block_Widget_Button */
-        $demoButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-        $demoButton->setData(array(
-            'label'     => $this->__('Theme Demo'),
-            'class'     => 'action-theme-preview',
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array(
-                        'event' => 'preview',
-                        'target' => 'body',
-                        'eventData' => array(
-                            'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
-                        )
-                    ),
-                ),
-            )
-        ));
-
-        $themeBlock->addButton($demoButton);
-        return $this;
-    }
-
-    /**
      * Add theme buttons
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
@@ -113,13 +77,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     protected function _addThemeButtons($themeBlock)
     {
         parent::_addThemeButtons($themeBlock);
-
-        $this->_addDemoButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock);
-
-        if ($this->_getServiceModel()->isCustomizationsExist()) {
-            $this->_addEditButtonHtml($themeBlock);
-        }
-
+        $this->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock);
         return $this;
     }
 }

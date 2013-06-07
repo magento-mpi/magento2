@@ -21,7 +21,8 @@
                 <span><?php echo $this->getAttributeSetName()?></span>
             </button>
             <ul class="dropdown-menu">
-                <input type="search" id="product-template-suggest" placeholder="start typing to search template"/>
+                <input type="text" id="product-template-suggest" class="search"
+                       placeholder="start typing to search template"/>
             </ul>
         </div>
     </div>
@@ -48,14 +49,18 @@
     <?php echo $this->getBackButtonHtml() ?>
 </div>
 
+<?php if ($this->getUseContainer()): ?>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
+<?php endif; ?>
     <?php echo $this->getBlockHtml('formkey')?>
     <div id="product-edit-form-tabs"></div>
     <?php echo $this->getChildHtml('product-type-tabs') ?>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
     <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
+<?php if ($this->getUseContainer()): ?>
 </form>
+<?php endif; ?>
 <script type="text/javascript">
 
 jQuery(function($) {
@@ -100,6 +105,7 @@ jQuery(function($) {
     var Autogenerator = function(masks) {
         this._masks = masks || {};
         this._fieldReverseIndex = this._buildReverseIndex(this._masks);
+        this.form = $('#product-edit-form, #drawer-form');
     };
 
     $.extend(Autogenerator.prototype, {
@@ -113,16 +119,23 @@ jQuery(function($) {
             var elementSelector = _(this._masks).keys().map(function(key) {
                 return '#' + key;
             }).join(',')
-            $("#product_info_tabs").on("tabscreate", $.proxy(function(event, ui) {
-                $('#product-edit-form').on(
-                    'focus blur change keyup click',
+            var disabler = function() {
+                this.form.on(
+                    'change init',
                     elementSelector,
                     $.proxy(function(event) {
-                        var $element = $(event.currentTarget);
+                        var $element = $(event.target);
+                        if (event.type == 'init' && $element.data('disablerInited')) {
+                            return;
+                        } else {
+                            $element.data('disablerInited', true);
+                        }
                         $element.data(this.data.disabled, $element.val().replace(/\s/g, '') != '');
                     }, this)
-                ).find(elementSelector).trigger('change');
-            }, this));
+                ).find(elementSelector).trigger('init');
+            };
+            disabler.call(this);
+            $("#product_info_tabs").on("tabscreate tabsactivate", $.proxy(disabler, this));
 
             $.each(this._masks, function(field, mask) {
                 var $field = $('#' + field);
@@ -147,14 +160,12 @@ jQuery(function($) {
                             return $('#' + maskfieldName.slice(2, -2)).val();
                         });
                         $el.val(value);
-
                     });
                 };
                 if ($field.length) {
-                    $('#product-edit-form').on(events || 'keyup change blur click paste', '#' + field, filler);
+                    self.form.on('keyup change blur click paste', '#' + field, filler);
                     $field.trigger('change');
                 }
-
             });
         },
         _buildReverseIndex: function(masks) {
@@ -177,15 +188,9 @@ jQuery(function($) {
 
     $('.widget-button-save .item-default').parent().hide();
 
-    $(window).load(function() {
-        if ($.trim($('#name').val()) == '') {
-            $('#name').focus();
-        }
-
-        $('#product-online-switcher')
-            .prop('checked', $('#status').val() == '1')
-            .trigger('change');
-    });
+    $('#product-online-switcher')
+        .prop('checked', $('#status').val() == '1')
+        .trigger('change');
 
     $('#product-online-switcher').on('change', function(event) {
         $('#status').val($(this).prop('checked') ? '1' : '2');

@@ -43,4 +43,9 @@ class Mage_Core_Model_Page_Asset_PublicFileTest extends PHPUnit_Framework_TestCa
     {
         $this->assertEquals('css', $this->_object->getContentType());
     }
+
+    public function testGetSourceFile()
+    {
+        $this->assertSame('test/style.css', $this->_object->getSourceFile());
+    }
 }

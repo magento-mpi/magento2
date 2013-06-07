@@ -538,4 +538,25 @@ abstract class Varien_Image_Adapter_Abstract
     {
         return !empty($this->_fileName);
     }
+
+    /**
+     * Check - is this file an image
+     *
+     * @param string $filePath
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    public function validateUploadFile($filePath)
+    {
+        if (!file_exists($filePath)) {
+            throw new InvalidArgumentException ("File '{$filePath}' does not exists.");
+        }
+        if (!getimagesize($filePath)) {
+            throw new InvalidArgumentException ('Disallowed file type.');
+        }
+        $this->checkDependencies();
+        $this->open($filePath);
+
+        return $this->getMimeType() !== null;
+    }
 }

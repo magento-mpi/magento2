@@ -50,7 +50,7 @@ class Routine
      */
     public static $fileTypes = array(
         'xml'   => array(
-            '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample',
+            '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xml.erb',
             '*.xsd', '*.mxml', '*.jmx', '*.jtl',
         ),
         'php'   => array('*.php', '*.php.dist', '*.php.sample'),
@@ -318,7 +318,7 @@ class Routine
      * @param string $workingDir
      * @param array $config
      * @param array $blackList
-     * @return null
+     * @throws Exception
      */
     public static function run($workingDir, $config, $blackList)
     {

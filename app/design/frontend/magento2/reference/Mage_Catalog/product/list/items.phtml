@@ -3,15 +3,14 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Enterprise_TargetRule_Block_Catalog_Product_List_Related */
+/* @var $this Mage_Catalog_Block_Product_Abstract */
 ?>
 
-
-<?php 
+<?php
 switch($type=$this->getType()) {
 
     case 'related-rule':
@@ -93,7 +92,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='cart_cross_sell_products';
-        $title = $this->__('Based on your selection, you may be interested in the following items:');
+        $title = $this->__('More Choices:');
         $items = $this->getItemCollection();
 
         $showWishlist = true;
@@ -111,7 +110,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='cart_cross_sell_products';
-        $title = $this->__('Based on your selection, you may be interested in the following items:');
+        $title = $this->__('More Choices:');
         $items = $this->getItems();
 
         $showWishlist = true;
@@ -206,7 +205,7 @@ switch($type=$this->getType()) {
                             <?php if($showCart): ?>
                             <div class="primary">
                                 <?php if($_item->isSaleable()): ?>
-                                <button class="action tocart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button" title="<?php echo $this->__('Add to Cart') ?>">
+                                <button class="action tocart" data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_item) ?>'}" type="button" title="<?php echo $this->__('Add to Cart') ?>">
                                     <span><?php echo $this->__('Add to Cart') ?></span>
                                 </button>
                                 <?php else: ?>
@@ -222,7 +221,7 @@ switch($type=$this->getType()) {
                             <?php if($showWishlist || $showCompare): ?>
                             <div class="secondary addto links">
                                 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow() && $showWishlist): ?>
-                                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="action towishlist" title="<?php echo $this->__('Add to Wishlist') ?>">
+                                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="action towishlist" data-action="add-to-wishlist" title="<?php echo $this->__('Add to Wishlist') ?>">
                                         <span><?php echo $this->__('Add to Wishlist') ?></span>
                                     </a>
                                 <?php endif; ?>
@@ -251,5 +250,8 @@ switch($type=$this->getType()) {
         });
     </script>
     <?php endif; ?>
+    <script type="text/javascript">
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+    </script>
 </div>
 <?php endif;?>

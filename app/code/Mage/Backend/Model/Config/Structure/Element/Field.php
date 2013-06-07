@@ -145,6 +145,51 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     }
 
     /**
+     * Get required elements paths for the field
+     *
+     * @param string $fieldPrefix
+     * @param string $elementType
+     * @return array
+     */
+    protected function _getRequiredElements($fieldPrefix = '', $elementType = 'group')
+    {
+        $elements = array();
+        if (isset($this->_data['requires'][$elementType])) {
+            if (isset($this->_data['requires'][$elementType]['id'])) {
+                $elements[] = $this->_getPath($this->_data['requires'][$elementType]['id'], $fieldPrefix);
+            } else {
+                foreach ($this->_data['requires'][$elementType] as $element) {
+                    $elements[] = $this->_getPath($element['id'], $fieldPrefix);
+                }
+            }
+        }
+        return $elements;
+    }
+
+    /**
+     * Get required groups paths for the field
+     *
+     * @param string $fieldPrefix
+     * @return array
+     */
+    public function getRequiredGroups($fieldPrefix = '')
+    {
+        return $this->_getRequiredElements($fieldPrefix, 'group');
+    }
+
+
+    /**
+     * Get required fields paths for the field
+     *
+     * @param string $fieldPrefix
+     * @return array
+     */
+    public function getRequiredFields($fieldPrefix = '')
+    {
+        return $this->_getRequiredElements($fieldPrefix, 'field');
+    }
+
+    /**
      * Retrieve frontend css class
      *
      * @return string
@@ -181,7 +226,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     public function getSectionId()
     {
-        $parts = explode('/', $this->getPath());
+        $parts = explode('/', $this->getConfigPath() ?: $this->getPath());
         return current($parts);
     }
 
@@ -192,7 +237,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     public function getGroupPath()
     {
-        return dirname($this->getPath());
+        return dirname($this->getConfigPath() ?: $this->getPath());
     }
 
     /**

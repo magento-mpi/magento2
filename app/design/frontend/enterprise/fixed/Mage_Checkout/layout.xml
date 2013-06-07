@@ -71,9 +71,12 @@ Default layout, loads most of the pages
                     <block type="Mage_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
                 </container>
 
-                <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
+                <container name="checkout.cart.extra" label="Shopping Cart Extra Contents">
+                    <container name="checkout.cart.widget" as="checkout_cart_widget" before="-" label="Shopping Cart Items After"/>
+                    <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
+                </container>
+
                 <block type="Mage_Checkout_Block_Cart_Shipping" name="checkout.cart.shipping" as="shipping" template="cart/shipping.phtml"/>
-                <container name="checkout.cart.widget" as="checkout_cart_widget" label="Shopping Cart Items After"/>
                 <block type="Mage_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
 
                 <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
@@ -308,6 +311,9 @@ One page checkout main layout
         <label>One Page Checkout</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><file>Mage_Checkout::js/opcheckout.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="onepage.phtml">
