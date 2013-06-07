@@ -504,7 +504,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } catch (Exception $e) {
             Mage::logException($e);
             $response->setError(true);
-            $response->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.' . $e));
+            $response->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
 
         $this->getResponse()->setBody($response->toJson());
