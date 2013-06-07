@@ -42,8 +42,10 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
         /**
          * @var  Varien_Simplexml_Element $node
          */
-        foreach ($serviceCallNodes as $node) {
-            $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
+        if ($serviceCallNodes) {
+            foreach ($serviceCallNodes as $node) {
+                $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
+            }
         }
     }
 
