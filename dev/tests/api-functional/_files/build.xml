@@ -1,0 +1,21 @@
+<project name="mage-api-functional-tests" basedir="." default="copy-test-modules">
+    <!-- Properties -->
+    <property name="mage.code.dir" location="../../../../app/code/Mage" />
+
+    <target name="copy-test-modules">
+        <copy todir="${mage.code.dir}" overwrite="true">
+            <fileset dir=".">
+                <include name="TestModule*/**" />
+                <excludesfile name="build.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="revert-test-modules">
+        <delete includeemptydirs="true">
+            <fileset dir="${mage.code.dir}">
+                <include name="TestModule*/**"/>
+            </fileset>
+        </delete>
+    </target>
+</project>
