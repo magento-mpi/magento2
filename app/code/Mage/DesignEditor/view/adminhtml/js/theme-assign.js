@@ -190,6 +190,7 @@
          * @returns {*}
          */
         setStores: function() {
+            this.messages.clear();
             this._setDefaultContent();
             return this;
         },
@@ -219,7 +220,7 @@
         },
 
         _setDefaultContent: function() {
-            this.title.set($.mage.__('Assign to a Store View'));
+            this.title.set($.mage.__('Default title'));
         }
     });
 
@@ -272,6 +273,7 @@
          * @protected
          */
         _bind: function() {
+            $('body').on('assign-confirm', $.proxy(this._onAssignConfirm, this));
             this._on({
                 'assign': '_onAssign',
                 'loaded': function() {
@@ -293,19 +295,21 @@
          * @private
          */
         _onAssign: function(event, data) {
+            data.dialog = this._dialog;
             this._dialog.setStores(this._getAssignedStores(data.theme_id));
 
-            if (data.confirm_message) {
-                this._dialog.text.set(data.confirm_message);
+            if (data.confirm.message) {
+                this._dialog.text.set(data.confirm.message);
             }
+            this._dialog.title.set(data.confirm.title);
 
-            var buttons = data.confirm_buttons || {
+            var buttons = data.confirm.buttons || {
                 text: BUTTON_ASSIGN,
                 click: $.proxy(function(event) {
                     var button = $(event.currentTarget);
                     if (!button.hasClass('disabled')) {
                         button.addClass('disabled');
-                        this._sendAssignRequest(data.theme_id, this._dialog.getStores(), true);
+                        this._sendAssignRequest(data.theme_id, this._dialog.getStores(), 1);
                     }
                     return false;
                 }, this),
@@ -313,6 +317,17 @@
             };
             this._dialog.setButtons(buttons);
             this._dialog.open();
+        },
+
+        /**
+         * Event handler
+         *
+         * @param event
+         * @param data
+         * @private
+         */
+        _onAssignConfirm: function(event, data) {
+            this._sendAssignRequest(data.theme_id, this._dialog.getStores(), data.reportToSession);
         },
 
         /**
@@ -346,16 +361,17 @@
          *
          * @param {number} themeId
          * @param {Array.<number>|null} stores
-         * @param {boolean} isSaveAndAssign
+         * @param {boolean} reportToSession
          * @protected
          */
-        _sendAssignRequest: function(themeId, stores, isSaveAndAssign) {
+        _sendAssignRequest: function(themeId, stores, reportToSession) {
             if (!this.options.assignUrl) {
                 throw Error($.mage.__('Url to assign themes to store is not defined'));
             }
 
             var data = {
-                theme_id: themeId
+                theme_id: themeId,
+                reportToSession: reportToSession
             };
             if (stores === null) {
                 data.stores = DEFAULT_STORE;
@@ -378,14 +394,10 @@
                     this._dialog.assignAfter(response);
                     this.assignThemeSuccess(response, stores, themeId);
                 }, this),
-                error: function() {
+                error: $.proxy(function() {
                     var message = $.mage.__('Unknown error.');
-                    if (isSaveAndAssign) {
-                        this._dialog.messages.add(message, 'error');
-                    } else {
-                        this._dialog.messages.set(message, 'error');
-                    }
-                }
+                    this._dialog.messages.set(message, 'error');
+                }, this)
             });
         },
 

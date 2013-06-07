@@ -104,9 +104,10 @@
         /**
          * Set dialog buttons
          *
-         * @param {Array.<Object>|Object} buttons
+         * @param {Array.<Object>|Object|undefined} buttons
+         * @param {boolean} addCancel
          */
-        setButtons: function(buttons) {
+        setButtons: function(buttons, addCancel) {
             if (buttons == undefined) {
                 buttons = [];
             } else {
@@ -118,12 +119,13 @@
                 });
             }
 
-            if (buttons.length<=1) {
+            var hasToAddCancel = (addCancel == undefined && buttons.length <= 1) || addCancel == true;
+            if (hasToAddCancel) {
                 buttons.unshift({
                     text: $.mage.__('Cancel'),
-                    click: function() {
-                        $(this).dialog('close');
-                    },
+                    click: $.proxy(function() {
+                        this.close();
+                    }, this),
                     'class': 'action-close'
                 });
             }

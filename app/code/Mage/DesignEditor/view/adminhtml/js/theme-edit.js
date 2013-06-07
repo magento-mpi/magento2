@@ -49,7 +49,7 @@
             dialog.messages.clear();
             dialog.text.set(this.options.confirmMessage);
             dialog.title.set(this.options.title);
-            var buttons = data.confirm_buttons || [{
+            var buttons = (data.confirm && data.confirm.buttons) || [{
                 text: $.mage.__('Got it'),
                 'class': 'primary',
                 click: $.proxy(this._reloadPage, this)

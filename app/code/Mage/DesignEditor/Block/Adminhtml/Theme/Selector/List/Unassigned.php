@@ -48,7 +48,9 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
                                 '*/system_design_theme/delete/',
                                 array('id' => $themeId, 'back' => true)
                             ),
-                            'confirm_message' => $this->__('Are you sure you want to delete this theme?'),
+                            'confirm' => array(
+                                'message' => $this->__('Are you sure you want to delete this theme?'),
+                            ),
                             'title' => $this->__('Delete')
                         )
                     ),

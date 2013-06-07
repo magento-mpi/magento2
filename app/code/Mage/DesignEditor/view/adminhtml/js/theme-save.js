@@ -49,19 +49,28 @@
          */
         _onSave: function(event, eventData) {
             var saveConfirmEvent = this.options.saveConfirmEvent;
-            if (eventData.confirm_message) {
+            if (eventData.confirm && eventData.confirm.message) {
                 var dialog = eventData.dialog = this._getDialog();
                 dialog.messages.clear();
                 dialog.set(
-                    'Save changes:',
-                    eventData.confirm_message,
-                    {
-                        text: 'Save',
-                        click: function() {
-                            $('body').trigger(saveConfirmEvent, eventData);
+                    eventData.confirm.title,
+                    eventData.confirm.message,
+                    [
+                        {
+                            text: 'Yes',
+                            click: function() {
+                                $('body').trigger(saveConfirmEvent, eventData);
+                            },
+                            'class': 'primary'
                         },
-                        'class': 'primary'
-                    }
+                        {
+                            text: 'No',
+                            click: $.proxy(function() {
+                                this.close();
+                            }, dialog),
+                            'class': 'action-close'
+                        }
+                    ]
                 );
                 dialog.open();
             } else {
@@ -90,34 +99,26 @@
                 url:  eventData.save_url,
                 data: data,
                 dataType: 'json',
-                success: $.proxy(function(response) {
-                    var dialog, message;
+                success: eventData.saveAfter || $.proxy(function(response) {
+                    var dialog, title, type;
+
                     if (eventData.dialog) {
                         dialog = eventData.dialog;
                     } else {
                         dialog = this._getDialog();
-                        dialog.title.set('Save changes:');
                     }
                     if (response.error) {
-                        message = [
-                            '<div class="message-success">',
-                            $.mage.__('Error') + ': "' + response.message + '".',
-                            '</div>'
-                        ];
+                        title = 'Error';
+                        type = 'error';
                     } else {
-                        message = [
-                            '<div class="message-success">',
-                            response.message,
-                            '</div>'
-                        ];
+                        title = 'Success';
+                        type = 'success';
                     }
-                    if (dialog.isOpen()) {
-                        dialog.messages.add(message.join(''));
-                    } else {
-                        dialog.messages.set(message.join(''));
-                        dialog.setButtons();
-                        dialog.open();
-                    }
+                    dialog.text.clear();
+                    dialog.title.set($.mage.__(title));
+                    dialog.messages.set(response.message, type);
+                    dialog.setButtons([], false);
+                    dialog.open();
                 }, this),
                 error: function() {
                     alert($.mage.__('Error: unknown error.'));
@@ -134,20 +135,26 @@
          */
         _onSaveAndAssign: function(event, eventData) {
             var saveAndAssignConfirmEvent = this.options.saveAndAssignConfirmEvent;
-            eventData.confirm_buttons = [
+            eventData.confirm.buttons = [
                 {
-                    text: $.mage.__('Save'),
+                    text: 'No',
                     click: function() {
-                        $('body').trigger(saveAndAssignConfirmEvent, eventData);
-                    },
-                    'class': 'primary'
-                },
-                {
-                    text: $.mage.__('Close'),
-                    click: function() {
-                        $(this).dialog('close');
+                        eventData.dialog.close();
                     },
                     'class': 'action-close'
+                },
+                {
+                    text: 'Yes',
+                    click: function() {
+                        $('body').trigger(saveAndAssignConfirmEvent, eventData);
+                        eventData.dialog.assignAfter = $.proxy(function(response) {
+                            var messageType = response.error ? 'error' : 'success';
+                            this.text.clear();
+                            this.setButtons([], false);
+                            this.messages.add(response.message, messageType);
+                        }, eventData.dialog);
+                    },
+                    'class': 'primary'
                 }
             ];
             $(event.target).trigger('assign', eventData);
@@ -165,10 +172,11 @@
                 eventData.dialog.messages.clear();
             }
 
-            //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm_message' later
-            // and to not miss this 'confirm_message' for next calls of _onSaveAndAssign
+            //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm.message' later
+            // and to not miss this 'confirm.message' for next calls of _onSaveAndAssign
             var tempData = jQuery.extend({}, eventData);
-            tempData.confirm_message = null;
+            tempData.saveAfter = function() {};
+            tempData.reportToSession = 0;
             $('body').trigger(this.options.saveConfirmEvent, tempData);
             $('body').trigger('assign-confirm', tempData);
         },

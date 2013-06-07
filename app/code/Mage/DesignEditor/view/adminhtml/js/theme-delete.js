@@ -44,7 +44,7 @@
             this.options.eventData = eventData;
 
             var dialog = this._getDialog();
-            if (this.options.eventData.confirm_message && dialog) {
+            if (this.options.eventData.confirm && this.options.eventData.confirm.message && dialog) {
                 this._showConfirmMessage(dialog, $.proxy(this._sendThemeRemoveRequest, this));
             } else {
                 this._sendThemeRemoveRequest();
@@ -60,9 +60,9 @@
             var buttons = [
                 {
                     text: $.mage.__('No'),
-                    click: function() {
-                        $(this).dialog('close');
-                    },
+                    click: $.proxy(function() {
+                        this.close();
+                    }, dialog),
                     'class': 'action-close'
                 },
                 {
@@ -73,7 +73,7 @@
             ];
 
             dialog.title.set(this.options.eventData.title);
-            dialog.text.set(this.options.eventData.confirm_message);
+            dialog.text.set(this.options.eventData.confirm.message);
             dialog.setButtons(buttons);
             dialog.open();
         },

@@ -49,6 +49,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $availableThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
             $availableThemeBlock->setCollection($collection)->setNextPage(++$page);
             $availableThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
+            $availableThemeBlock->setHasThemeAssigned($this->_hasThemeAssigned());
 
             $response = array('content' => $this->getLayout()->getOutput());
         } catch (Exception $e) {
@@ -114,9 +115,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $stores = $this->getRequest()->getParam('stores');
+        $reportToSession = (bool)$this->getRequest()->getParam('reportToSession');
 
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+
+        $hadThemeAssigned = $this->_hasThemeAssigned();
 
         try {
             $theme = $this->_loadThemeById($themeId);
@@ -145,14 +149,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if ($storeManager->isSingleStoreMode()) {
                 $themeService->assignThemeToDefaultScope($themeCustomization->getId());
             }
+            $successMessage = $hadThemeAssigned
+                ? $this->__('You assigned a new theme to your store view.')
+                : $this->__('You assigned a theme to your live store.');
+            if ($reportToSession) {
+                $this->_getSession()->addSuccess($successMessage);
+            }
             $response = array(
-                'message' => $this->__('Theme "%s" successfully assigned', $theme->getThemeTitle()),
+                'message' => $successMessage,
                 'themeId' => $themeCustomization->getId()
             );
-            $successMessage = $theme->isPhysical()
-                ? $this->__('You assigned the theme.')
-                : $this->__('You assigned a new theme to your store view');
-            $this->_getSession()->addSuccess($successMessage);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array(
@@ -206,18 +212,29 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function saveAction()
     {
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+
+        /** @var $themeService Mage_Core_Model_Theme_Service */
+        $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+
         /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
         $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
+        $themeContext->setEditableThemeById($themeId);
         try {
-            $editableTheme = $themeContext->getStagingTheme();
             $themeContext->copyChanges();
-            $message = $this->_helper->__('You saved changes to the "%s" theme.', $editableTheme->getThemeTitle());
+            if ($themeService->isThemeAssignedToStore($themeContext->getEditableTheme())) {
+                $message = $this->__('You updated your live store.');
+            } else {
+                $message = $this->__('You saved updates to this theme.');
+            }
             $response = array('message' =>  $message);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array('error' => true, 'message' => $this->_helper->__('Unknown error'));
         }
+
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
     }
 
@@ -439,8 +456,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */
         $saveButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_save');
         if ($saveButtonBlock) {
-            $saveButtonBlock->setTheme($theme)
-                ->setMode($mode);
+            $saveButtonBlock->setTheme($theme)->setMode($mode)->setHasThemeAssigned($this->_hasThemeAssigned());
         }
         /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit */
         $editButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_edit');
@@ -479,6 +495,18 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
         return !$themeService->isCustomizationsExist();
+    }
+
+    /**
+     * Check if there are any themes assigned
+     *
+     * @return bool
+     */
+    protected function _hasThemeAssigned()
+    {
+        /** @var $themeService Mage_Core_Model_Theme_Service */
+        $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        return count($themeService->getAssignedThemeCustomizations()) > 0;
     }
 
     /**

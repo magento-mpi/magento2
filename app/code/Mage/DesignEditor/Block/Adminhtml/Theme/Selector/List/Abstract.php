@@ -13,9 +13,12 @@
  *
  * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  * @method bool|null getIsFirstEntrance()
- * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
- *     setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ * @method bool|null getHasThemeAssigned()
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setHasThemeAssigned(bool $flag)
+ * @codingStandardsIgnoreStart
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract|Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setIsFirstEntrance(bool $flag)
+ * @codingStandardsIgnoreEnd
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -88,35 +91,42 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     }
 
     /**
-     * Get assign to storeview button
+     * Get assign to store-view button
+     *
+     * This button used on "Available Themes" tab and "My Customizations" tab
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
      * @return $this
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
-        if ($this->getIsFirstEntrance()) {
-            $message = $this->__('You chose a theme for your new store.')
-                . ' ' . $this->__('Click "Ok" to go live.') . ' '
-                . $this->__('You can always modify or switch themes in "My Customizations" and "Available Themes."');
+        $title = $this->__('Assign to a Store View');
+        if ($this->getHasThemeAssigned()) {
+            // @codingStandardsIgnoreStart
+            $message = $this->__('You chose a new theme for your live store. Click "Ok" to replace your current theme.');
+            // @codingStandardsIgnoreEnd
         } else {
-            $message = $this->__('You chose a new theme for your live store.')
-                . ' ' .  $this->__('Click "Ok" to replace your current theme.');
+            // @codingStandardsIgnoreStart
+            $message = $this->__('You chose a theme for your new store. Click "Ok" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
+            // @codingStandardsIgnoreEnd
         }
         $themeId = $themeBlock->getTheme()->getId();
 
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
-            'label' => $this->__('Assign to a Storeview'),
-            'data_attribute' => array(
+            'label'   => $this->__('Assign to a Store View'),
+            'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array(
                         'event'     => 'assign',
                         'target'    => 'body',
                         'eventData' => array(
-                            'theme_id'        => $themeId,
-                            'confirm_message' => $message
+                            'theme_id' => $themeId,
+                            'confirm'  => array(
+                                'message' =>  $message,
+                                'title'   =>  $title
+                            )
                         )
                     ),
                 ),
