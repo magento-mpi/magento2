@@ -70,17 +70,18 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
 
         $this->_response = $this->getMockBuilder('Mage_Core_Controller_Response_Http')
             ->disableOriginalConstructor()
-            ->setMethods(array('setRedirect'))
+            ->setMethods(array('setRedirect', 'getHeader'))
             ->getMock();
+        $this->_response->expects($this->any())
+            ->method('getHeader')
+            ->with($this->equalTo('X-Frame-Options'))
+            ->will($this->returnValue(true));
 
         $this->_objectManager = $this->getMockBuilder('Mage_Core_Model_ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'create'))
             ->getMock();
         $frontControllerMock = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $layoutFactory = $this->getMockBuilder('Mage_Core_Model_Layout_Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -99,20 +100,30 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getTranslateInline'))
             ->getMock();
-        $invokeArgs = array('translator' => $translator, 'helper' => $this->_helper, 'session' => $this->_session);
 
-        $arguments = array(
-            'request' => $this->_request,
-            'response' => $this->_response,
-            'objectManager' => $this->_objectManager,
-            'frontController' => $frontControllerMock,
-            'layoutFactory' => $layoutFactory,
-            'areaCode' => 'test_area_code',
-            'invokeArgs' => $invokeArgs
+        $contextArgs = array(
+            'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager', 'getFrontController',
+            'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
+        );
+        $contextMock = $this->getMockBuilder('Mage_Backend_Controller_Context')
+            ->disableOriginalConstructor()
+            ->setMethods($contextArgs)
+            ->getMock();
+        $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->_request));
+        $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->_response));
+        $contextMock->expects($this->any())->method('getObjectManager')->will($this->returnValue($this->_objectManager));
+        $contextMock->expects($this->any())->method('getFrontController')->will($this->returnValue($frontControllerMock));
+
+        $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helper));
+        $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_session));
+        $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
+
+        $args = array(
+            'context' => $contextMock, 'areaCode' => Mage_Core_Model_App_Area::AREA_ADMINHTML
         );
 
         $testHelperObjectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_testedObject = $testHelperObjectManager->getObject('Mage_Adminhtml_CustomerController', $arguments);
+        $this->_testedObject = $testHelperObjectManager->getObject('Mage_Adminhtml_CustomerController', $args);
     }
 
     /**

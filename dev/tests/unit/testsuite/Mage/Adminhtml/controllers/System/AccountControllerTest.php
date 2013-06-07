@@ -13,6 +13,7 @@ require 'Mage/Adminhtml/controllers/System/AccountController.php';
 
 class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Adminhtml_System_AccountController */
     protected $_controller;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Controller_Request_Http */
@@ -61,12 +62,8 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
             ->getMock();
         $frontControllerMock = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')
             ->disableOriginalConstructor()
-            ->setMethods(array())
             ->getMock();
-        $layoutMock = $this->getMockBuilder('Mage_Core_Model_Layout_Factory')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
+
         $this->_helperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
@@ -101,22 +98,29 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
             ->setMethods(array('_canUseCache'))
             ->getMock();
 
-        $arguments = array(
-            'request' => $this->_requestMock,
-            'response' => $this->_responseMock,
-            'objectManager' => $this->_objectManagerMock,
-            'frontController' => $frontControllerMock,
-            'layoutFactory' => $layoutMock,
-            'areaCode' => Mage_Core_Model_App_Area::AREA_ADMINHTML,
-            'invokeArgs' => array(
-                'translator' => $this->_translatorMock,
-                'helper' => $this->_helperMock,
-                'session' => $this->_sessionMock
-            )
+        $contextArgs = array(
+            'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager', 'getFrontController',
+            'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
+        );
+        $contextMock = $this->getMockBuilder('Mage_Backend_Controller_Context')
+            ->disableOriginalConstructor()
+            ->setMethods($contextArgs)
+            ->getMock();
+        $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->_requestMock));
+        $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->_responseMock));
+        $contextMock->expects($this->any())->method('getObjectManager')->will($this->returnValue($this->_objectManagerMock));
+        $contextMock->expects($this->any())->method('getFrontController')->will($this->returnValue($frontControllerMock));
+
+        $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helperMock));
+        $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_sessionMock));
+        $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($this->_translatorMock));
+
+        $args = array(
+            'context' => $contextMock, 'areaCode' => Mage_Core_Model_App_Area::AREA_ADMINHTML
         );
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_controller = $helper->getObject('Mage_Adminhtml_System_AccountController', $arguments);
+        $testHelperObjectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_controller = $testHelperObjectManager->getObject('Mage_Adminhtml_System_AccountController', $args);
     }
 
     public function testSaveAction()
