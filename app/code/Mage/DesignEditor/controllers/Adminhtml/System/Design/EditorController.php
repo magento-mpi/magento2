@@ -64,12 +64,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function launchAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-
-        /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
-        $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
-        $themeContext->setEditableThemeId($themeId);
         $mode = (string)$this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_NAVIGATION);
         try {
+            /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
+            $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
+            $themeContext->setEditableThemeById($themeId);
             $launchedTheme = $themeContext->getEditableTheme();
             if ($launchedTheme->isPhysical()) {
                 $lunchedTheme = $this->_getThemeCustomization($launchedTheme);
@@ -85,7 +84,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             $this->_configureToolbarBlocks($launchedTheme, $editableTheme, $mode); //top panel
             $this->_configureToolsBlocks($editableTheme, $mode); //bottom panel
-            $this->_configureEditorBlock($editableTheme); //editor container
+            $this->_configureEditorBlock($editableTheme, $mode); //editor container
 
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
@@ -97,10 +96,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('Unknown error'));
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
         }
@@ -182,6 +183,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $response = array('success' => true);
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array('error' => true, 'message' => $this->__('Theme is not saved'));
@@ -246,6 +248,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->_getSession()->addError($this->__('Theme cannot be duplicated'));
@@ -274,7 +277,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $stagingTheme = $virtualTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
             switch ($revertTo) {
                 case 'last_saved':
-
                     $copyService->copy($virtualTheme, $stagingTheme);
                     $message = $this->_helper->__('Theme "%s" reverted to last saved state',
                         $virtualTheme->getThemeTitle()
@@ -450,14 +452,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * Set to iframe block selected mode and theme
+     *
      * @param Mage_Core_Model_Theme $editableTheme
+     * @param string $mode
      * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
      */
-    protected function _configureEditorBlock($editableTheme)
+    protected function _configureEditorBlock($editableTheme, $mode)
     {
         /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
         $editorBlock = $this->getLayout()->getBlock('design_editor');
-        $currentUrl = $this->_getCurrentUrl();
+        $currentUrl = $this->_getCurrentUrl($editableTheme->getId(), $mode);
         $editorBlock->setFrameUrl($currentUrl);
         $editorBlock->setTheme($editableTheme);
 
@@ -527,17 +532,20 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     /**
      * Get current url
      *
+     * @param null|string $themeId
+     * @param null|string $mode
      * @return string
      */
-    protected function _getCurrentUrl()
+    protected function _getCurrentUrl($themeId = null, $mode = null)
     {
         /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
-        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_NavigationMode');
+        $vdeUrlModel = $this->_objectManager->create('Mage_DesignEditor_Model_Url_NavigationMode', array(
+             'data' => array('mode' => $mode, 'themeId' => $themeId)
+        ));
         $url = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
         if (empty($url)) {
             $url = '';
         }
-
         return $vdeUrlModel->getUrl(ltrim($url, '/'));
     }
 }

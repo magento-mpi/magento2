@@ -97,11 +97,23 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function isVdeRequest(Mage_Core_Controller_Request_Http $request = null)
     {
         if (null !== $request) {
-            $url = trim($request->getOriginalPathInfo(), '/');
+            list($frontName, $currentMode, $themeId) = explode('/', trim($request->getOriginalPathInfo(), '/'));
             $vdeFrontName = $this->getFrontName();
-            $this->_isVdeRequest = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+            $this->_isVdeRequest = $frontName === $vdeFrontName
+                && in_array($currentMode, $this->getAvailableModes())
+                && is_numeric($themeId);
         }
         return $this->_isVdeRequest;
+    }
+
+    /**
+     * Get available modes for Design Editor
+     *
+     * @return array
+     */
+    public function getAvailableModes()
+    {
+        return array(Mage_DesignEditor_Model_State::MODE_NAVIGATION);
     }
 
     /**

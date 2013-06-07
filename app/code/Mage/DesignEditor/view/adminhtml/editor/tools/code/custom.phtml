@@ -78,7 +78,7 @@
         $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
             dataType: 'json',
             replaceFileInput: false,
-            url : '<?php echo $this->getUrl('*/system_design_editor_tools/upload', array('theme' => $this->getTheme()->getThemeId())) ?>',
+            url : '<?php echo $this->getUrl('*/system_design_editor_tools/upload', array('theme_id' => $this->getTheme()->getThemeId())) ?>',
 
             /**
              * Handler of "file selected" event
