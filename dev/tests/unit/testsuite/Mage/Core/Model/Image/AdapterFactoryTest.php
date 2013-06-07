@@ -18,7 +18,8 @@ class Mage_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_TestCas
      */
     protected $_objectManagerHelper;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
     }
 
