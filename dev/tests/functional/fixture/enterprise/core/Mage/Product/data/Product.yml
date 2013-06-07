@@ -163,24 +163,6 @@ frontend_gift_card_validation:
                 custom_options_sku: sku_multipleselect_row_1
                 custom_options_sort_order: 1
 
-custom_options_dropdown_order_rows:
-    custom_options_general_title: Custom Option Drop-down
-    custom_options_general_input_type: Drop-down
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 6
-    custom_option_row_2:
-        custom_options_title: 2
-        custom_options_price: 2.56
-        custom_options_price_type: Fixed
-        custom_options_sku: sku_drop_down_row_2
-        custom_options_sort_order: 2
-    custom_option_row_1:
-        custom_options_title: 1
-        custom_options_price: 2.56
-        custom_options_price_type: Fixed
-        custom_options_sku: sku_drop_down_row_1
-        custom_options_sort_order: 1
-
 gift_card:
     product_attribute_set: Default
     product_online_status: Enabled

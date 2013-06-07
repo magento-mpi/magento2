@@ -1855,13 +1855,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->addParameter('rowId', $rowId);
                 $this->clickButton('add_row', false);
                 $this->fillForm($rowValue, 'custom_options');
-                if ((isset($rowValue['custom_options_sort_order'])) && (isset($rowValue['custom_options_title']))) {
-                    $orderedRows[$rowValue['custom_options_title']]= $rowValue['custom_options_sort_order'];
+                if (isset($rowValue['custom_options_sort_order'])) {
+                    $orderedRows[$rowId] = $rowValue['custom_options_sort_order'];
                     unset($rowValue['custom_options_sort_order']);
+                } else {
+                    $orderedRows[$rowId] = 'noValue';
                 }
             }
         }
-        $this->orderBlocks($orderedRows, 'rowId', 'move_custom_option_row', 'custom_options_titles');
+        $this->orderBlocks($orderedRows, 'rowId', 'move_custom_option_row', 'rows_order');
     }
 
     /**
@@ -1886,9 +1888,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         foreach ($customOptionData as $item) {
             if (isset($item['custom_options_general_sort_order']) && isset($item['custom_options_general_title'])) {
                 $orderedBlocks[$item['custom_options_general_title']] = $item['custom_options_general_sort_order'];
-            } else { //in order to form proper order if custom option doesn't have position
-                $orderedBlocks[$item['custom_options_general_sort_order']] = 'noValue';
                 unset($item['custom_options_general_sort_order']);
+            } else { //in order to form proper order if custom option doesn't have position
+                $orderedBlocks[$item['custom_options_general_title']] = 'noValue';
             }
         }
         if (!empty($orderedBlocks)) {
@@ -1899,8 +1901,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('optionId', $optionId);
             $orderedRows = array();
             foreach ($customOption as $valueRow) {
-                if (is_array($valueRow) && isset($valueRow['custom_options_sort_order'])) {
-                    $orderedRows[$valueRow['custom_options_title']] = $valueRow['custom_options_sort_order'];
+                if (is_array($valueRow) && isset($valueRow['custom_options_title'])) {
+                    if (isset($valueRow['custom_options_sort_order'])) {
+                        $orderedRows[$valueRow['custom_options_title']] = $valueRow['custom_options_sort_order'];
+                        unset($valueRow['custom_options_sort_order']);
+                    } else {
+                        $orderedRows[$valueRow['custom_options_title']] = 'noValue';
+                    }
+                    $this->addParameter('rowName', $valueRow['custom_options_title']);
+                    $rowId = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'option_type_id', 'value');
+                    $this->addParameter('rowId', $rowId);
+                    $this->verifyForm($valueRow, 'custom_options');
                 }
             }
             if (!empty($orderedRows)) {

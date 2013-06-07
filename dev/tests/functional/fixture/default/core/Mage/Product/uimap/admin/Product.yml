@@ -634,7 +634,7 @@ new_product:
                                         custom_options_general_titles: //input[@class='required-entry input-text']
                                         custom_options_general_title: //input[@id='product_option_%optionId%_title']
                                         custom_options_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
-                                        custom_options_titles: //*[@class='required-entry input-text select-type-title']
+                                        custom_options_titles: //*[contains(@id,'product_option_%optionId%') and @class='required-entry input-text select-type-title']
                                         custom_options_price: //input[@name='product[options][%optionId%][price]' or @id='product_option_%optionId%_select_%rowId%_price']
                                         custom_options_sku: //input[@name='product[options][%optionId%][sku]' or @name='product[options][%optionId%][values][%rowId%][sku]']
                                         custom_options_max_characters: //input[@name='product[options][%optionId%][max_characters]']
@@ -642,6 +642,8 @@ new_product:
                                         custom_options_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
                                         custom_options_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
                                         custom_options_rows: //tbody[@id='select_option_type_row_%optionId%']/tr
+                                        rows_order: //tbody[@id='select_option_type_row_%optionId%']//td[@class='col-draggable']/input
+                                        option_type_id: //*[@id='select_option_type_row_%optionId%']//input[../input[@value='%rowName%'] and contains(@name, '[option_type_id]')]
                                     checkboxes:
                                         custom_options_default_value: //input[@id='product_option_%optionId%_title_use_default']
                                         custom_options_general_is_required: //input[@id='product_option_%optionId%_required']

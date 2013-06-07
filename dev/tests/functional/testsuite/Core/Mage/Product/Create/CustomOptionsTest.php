@@ -155,7 +155,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'][] = $this->loadDataSet('Product', 'custom_options_dropdown_order_rows');
+        $productData['custom_options_data'][] = $this->loadDataSet('Product', 'custom_options_dropdown_with_two_rows');
         $productSearch = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $productData['general_sku']));
         //Steps

@@ -4457,9 +4457,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $position = 1;
         /** @var $item PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($blocks as $item) {
-            $key = $fieldType == self::FIELD_TYPE_INPUT
-                ? (!$item->displayed() ? preg_replace('/\D+/', '', $item->attribute('name')) : $item->value())
-                : $item->text();
+            if ($fieldType == self::FIELD_TYPE_INPUT) {
+                if(!$item->displayed()) {
+                    preg_match_all('/\d+/', $item->attribute('name'), $matches);
+                    $key = array_pop(reset($matches));
+                } else {
+                    $key = $item->value();
+                }
+            } else {
+                $key = $item->text();
+            }
             $actualOrder[$key] = $position++;
         }
 
