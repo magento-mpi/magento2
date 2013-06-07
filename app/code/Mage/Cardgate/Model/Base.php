@@ -238,12 +238,12 @@ class Mage_Cardgate_Model_Base extends Varien_Object
 
         $lockFilename = $this->getCallbackData('ref') . '.lock';
 
-        if (!$this->_filesystem->isFile($lockFilename)) {
+        if (!$this->_filesystem->isFile($this->_lockDir . DS . $lockFilename)) {
             $this->_isLocked = true;
             $pid = getmypid();
             $now = date('Y-m-d H:i:s');
-            $this->_filesystem->write($lockFilename, "Locked by $pid at $now\n");
-            $this->_filesystem->changePermissions($lockFilename, 0644);
+            $this->_filesystem->write($this->_lockDir . DS . $lockFilename, "Locked by $pid at $now\n");
+            $this->_filesystem->changePermissions($this->_lockDir . DS . $lockFilename, 0644);
         }
 
         return $this;
@@ -259,8 +259,8 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         $this->_isLocked = false;
         $lockFilename = $this->getCallbackData('ref') . '.lock';
 
-        if ($this->_filesystem->isFile($lockFilename)) {
-            $this->_filesystem->delete($lockFilename);
+        if ($this->_filesystem->isFile($this->_lockDir . DS . $lockFilename)) {
+            $this->_filesystem->delete($this->_lockDir . DS . $lockFilename);
         }
 
         return $this;
