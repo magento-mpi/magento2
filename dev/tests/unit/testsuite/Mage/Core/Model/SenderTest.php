@@ -78,7 +78,9 @@ class Mage_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
         $this->_mailerMock->expects($this->once())->method('setTemplateParams')->with($this->equalTo($params));
         $this->_mailerMock->expects($this->once())->method('send');
 
-        $this->_emailInfoMock->expects($this->once())->method('addTo')->with($this->equalTo($email), $this->equalTo($name));
+        $this->_emailInfoMock->expects($this->once())
+            ->method('addTo')
+            ->with($this->equalTo($email), $this->equalTo($name));
 
         $this->_model->send($email, $name, $template, $sender, $params, $storeId);
     }

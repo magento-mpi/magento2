@@ -69,7 +69,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_address));
 
-        $this->_service = new Mage_Customer_Service_Customer($this->_helperMock, $this->_customerFactory, $this->_addressFactory);
+        $this->_service = new Mage_Customer_Service_Customer($this->_helperMock, $this->_customerFactory,
+            $this->_addressFactory
+        );
     }
 
     /**

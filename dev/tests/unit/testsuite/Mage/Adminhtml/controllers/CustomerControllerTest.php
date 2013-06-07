@@ -111,8 +111,12 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->_request));
         $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->_response));
-        $contextMock->expects($this->any())->method('getObjectManager')->will($this->returnValue($this->_objectManager));
-        $contextMock->expects($this->any())->method('getFrontController')->will($this->returnValue($frontControllerMock));
+        $contextMock->expects($this->any())
+            ->method('getObjectManager')
+            ->will($this->returnValue($this->_objectManager));
+        $contextMock->expects($this->any())
+            ->method('getFrontController')
+            ->will($this->returnValue($frontControllerMock));
 
         $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helper));
         $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_session));
@@ -122,8 +126,8 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             'context' => $contextMock, 'areaCode' => Mage_Core_Model_App_Area::AREA_ADMINHTML
         );
 
-        $testHelperObjectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_testedObject = $testHelperObjectManager->getObject('Mage_Adminhtml_CustomerController', $args);
+        $helperObjectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_testedObject = $helperObjectManager->getObject('Mage_Adminhtml_CustomerController', $args);
     }
 
     /**
@@ -131,7 +135,7 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
      */
     public function testResetPasswordActionNoCustomer()
     {
-        $redirectToCustomerGrid = 'http://example.com/customer/';
+        $redirectLink = 'http://example.com/customer/';
         $this->_request->expects($this->once())
             ->method('getParam')
             ->with($this->equalTo('customer_id'), $this->equalTo(0))
@@ -140,9 +144,9 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
         $this->_helper->expects($this->once())
             ->method('getUrl')
             ->with($this->equalTo('*/customer'), $this->equalTo(array()))
-            ->will($this->returnValue($redirectToCustomerGrid));
+            ->will($this->returnValue($redirectLink));
 
-        $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectToCustomerGrid));
+        $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectLink));
         $this->_testedObject->resetPasswordAction();
     }
 
@@ -151,7 +155,7 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
      */
     public function testResetPasswordActionNoCustomerId()
     {
-        $redirectToCustomerGrid = 'http://example.com/customer/';
+        $redirectLink = 'http://example.com/customer/';
         $customerId = 1;
 
         $this->_request->expects($this->once())
@@ -170,9 +174,9 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
         $this->_helper->expects($this->any())
             ->method('getUrl')
             ->with($this->equalTo('*/customer'), $this->equalTo(array()))
-            ->will($this->returnValue($redirectToCustomerGrid));
+            ->will($this->returnValue($redirectLink));
 
-        $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectToCustomerGrid));
+        $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectLink));
         $this->_testedObject->resetPasswordAction();
     }
 
@@ -236,14 +240,14 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
         $this->_testedObject->resetPasswordAction();
     }
 
-     /**
+    /**
      * Return customer mock instance
      *
      * @param int $customerId
-     * @param null|int $id
+     * @param null|int $returnId
      * @return PHPUnit_Framework_MockObject_MockObject|Mage_Customer_Model_Customer
      */
-    protected function _getCustomerMock($customerId, $id = null)
+    protected function _getCustomerMock($customerId, $returnId = null)
     {
         $customerMock = $this->getMockBuilder('Mage_Customer_Model_Customer')
             ->disableOriginalConstructor()
@@ -255,7 +259,7 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($customerId));
         $customerMock->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue($id));
+            ->will($this->returnValue($returnId));
         return $customerMock;
     }
 }

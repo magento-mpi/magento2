@@ -108,8 +108,12 @@ class Mage_Adminhtml_System_AccountControllerTest extends PHPUnit_Framework_Test
             ->getMock();
         $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->_requestMock));
         $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->_responseMock));
-        $contextMock->expects($this->any())->method('getObjectManager')->will($this->returnValue($this->_objectManagerMock));
-        $contextMock->expects($this->any())->method('getFrontController')->will($this->returnValue($frontControllerMock));
+        $contextMock->expects($this->any())
+            ->method('getObjectManager')
+            ->will($this->returnValue($this->_objectManagerMock));
+        $contextMock->expects($this->any())
+            ->method('getFrontController')
+            ->will($this->returnValue($frontControllerMock));
 
         $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helperMock));
         $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_sessionMock));
