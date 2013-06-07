@@ -382,7 +382,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         if ($field->getType() == 'multiselect') {
             $formField->setCanBeEmpty($field->canBeEmpty());
         }
-        if ($field->hasSourceModel()) {
+        if ($field->hasOptions()) {
             $formField->setValues($field->getOptions());
         }
         $formField->setRenderer($fieldRenderer);

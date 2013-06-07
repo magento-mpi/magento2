@@ -127,6 +127,10 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
             '/config/system/section/group/group/field' => 'id',
             '/config/system/section/group/group/group/field' => 'id',
             '/config/system/section/group/group/group/group/field' => 'id',
+            '/config/system/section/group/field/options/option' => 'label',
+            '/config/system/section/group/group/field/options/option' => 'label',
+            '/config/system/section/group/group/group/field/options/option' => 'label',
+            '/config/system/section/group/group/group/group/field/options/option' => 'label',
         );
     }
 
