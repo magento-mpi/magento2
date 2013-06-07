@@ -678,7 +678,6 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         imageinterlace($image, 0);
         $tmpFileName = $tmpDir->getDir(Mage_Core_Model_Dir::TMP) . 'shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
-        file_put_contents('/home/nas/ee/var/log/shipment.log', $tmpFileName);
         imagepng($image, $tmpFileName);
         $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
