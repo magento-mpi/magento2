@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Model_Product_LimitationTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Catalog_Product_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param int $createNum
@@ -25,7 +25,7 @@ class Mage_Catalog_Model_Product_LimitationTest extends PHPUnit_Framework_TestCa
      *
      * @param int $totalCount
      * @param int $configuredCount
-     * @return Mage_Catalog_Model_Product_Limitation
+     * @return Saas_Limitation_Model_Catalog_Product_Limitation
      */
     protected function _buildModel($configuredCount, $totalCount = null)
     {
@@ -34,10 +34,10 @@ class Mage_Catalog_Model_Product_LimitationTest extends PHPUnit_Framework_TestCa
 
         $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
         $config->expects($this->once())->method('getNode')
-            ->with(Mage_Catalog_Model_Product_Limitation::XML_PATH_NUM_PRODUCTS)
+            ->with(Saas_Limitation_Model_Catalog_Product_Limitation::XML_PATH_NUM_PRODUCTS)
             ->will($this->returnValue($configuredCount));
 
-        return new Mage_Catalog_Model_Product_Limitation($resource, $config);
+        return new Saas_Limitation_Model_Catalog_Product_Limitation($resource, $config);
     }
 
     /**

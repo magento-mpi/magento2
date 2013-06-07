@@ -178,7 +178,7 @@ class Mage_Backend_Block_Widget_Button_Split extends Mage_Backend_Block_Widget
      */
     public function hasSplit()
     {
-        return true;
+        return $this->hasData('has_split') ? (bool)$this->getData('has_split') : true;
     }
 
     /**

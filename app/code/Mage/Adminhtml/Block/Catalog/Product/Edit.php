@@ -307,17 +307,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                     ),
                 ),
             );
-            if (!$this->getRequest()->getParam('popup') && $this->getProduct()->isDuplicable()) {
-                $options[] = array(
-                    'id' => 'duplicate-button',
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
-                    'data_attribute' => array(
-                        'mage-init' => array(
-                            'button' => array('event' => 'saveAndDuplicate', 'target' => '#product-edit-form'),
-                        ),
+        }
+        if (!$this->getRequest()->getParam('popup') && $this->getProduct()->isDuplicable()) {
+            $options[] = array(
+                'id' => 'duplicate-button',
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
+                'data_attribute' => array(
+                    'mage-init' => array(
+                        'button' => array('event' => 'saveAndDuplicate', 'target' => '#product-edit-form'),
                     ),
-                );
-            }
+                ),
+            );
         }
         $options[] = array(
             'id' => 'close-button',
