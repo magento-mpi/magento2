@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_TestModule2>
+            <version>1.6.0.0.23</version>
+            <current_api_version>1</current_api_version>
+            <active>true</active>
+        </Mage_TestModule2>
+    </modules>
+    <global>
+        <di>
+            <preferences>
+                <Mage_TestModule2_Service_Svc1InterfaceV1>Mage_TestModule2_Service_Svc1V1</Mage_TestModule2_Service_Svc1InterfaceV1>
+                <Mage_TestModule2_Service_Svc2InterfaceV1>Mage_TestModule2_Service_Svc2V1</Mage_TestModule2_Service_Svc2InterfaceV1>
+                <Mage_TestModule2_Service_Svc3InterfaceV1>Mage_TestModule2_Service_Svc3V1</Mage_TestModule2_Service_Svc3InterfaceV1>
+            </preferences>
+        </di>
+    </global>
+</config>
