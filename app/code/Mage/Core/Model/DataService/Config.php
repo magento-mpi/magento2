@@ -19,7 +19,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     /**
      * @var array $_serviceCallNodes
      */
-    protected $_finalServiceCallNodes;
+    protected $_serviceCallNodes;
 
     /**
      * @param Mage_Core_Model_DataService_Config_Reader $configReader
@@ -37,13 +37,13 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
             ->getServiceCallConfig()
             ->getXpath('/service_calls/service_call');
 
-        $this->_finalServiceCallNodes = array();
+        $this->_serviceCallNodes = array();
 
         /**
          * @var  Varien_Simplexml_Element $node
          */
         foreach ($serviceCallNodes as $node) {
-            $this->_finalServiceCallNodes[$node->getAttribute('name')] = $node;
+            $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
         }
     }
 
@@ -57,14 +57,14 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
      */
     public function getClassByAlias($alias)
     {
-        if (!isset($this->_finalServiceCallNodes[$alias])) {
+        if (!isset($this->_serviceCallNodes[$alias])) {
             throw new InvalidArgumentException('Service call with name "' . $alias . '" doesn\'t exist');
         }
 
         /**
          * @var Mage_Core_Model_Config_Element $node
          */
-        $node = $this->_finalServiceCallNodes[$alias];
+        $node = $this->_serviceCallNodes[$alias];
 
         /**
          * @var array $methodArguments
