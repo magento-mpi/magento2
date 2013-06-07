@@ -61,7 +61,7 @@ class Mage_Customer_AccountControllerTest extends Magento_Test_TestCase_Controll
         $headers = $this->getResponse()->getHeaders();
         $failed = false;
         foreach ($headers as $header) {
-            if (preg_match('/customer\/account\/login/', $header['value'])) {
+            if (preg_match('~customer\/account\/login~', $header['value'])) {
                 $failed = true;
                 break;
             }

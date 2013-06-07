@@ -35,7 +35,7 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
      *
      * @var PHPUnit_Framework_MockObject_MockObject|Mage_Adminhtml_CustomerController
      */
-    protected $_mockedTestObject;
+    protected $_testedObject;
 
     /**
      * ObjectManager mock instance
@@ -89,15 +89,17 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('setIsUrlNotice', 'addSuccess'))
             ->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
-        $this->_session->expects($this->any())->method('addSuccess');
 
         $this->_helper = $this->getMockBuilder('Mage_Backend_Helper_Data')
             ->disableOriginalConstructor()
-            ->setMethods(array('getUrl', '__'))
+            ->setMethods(array('getUrl'))
             ->getMock();
-        $this->_helper->expects($this->any())->method('__');
 
-        $invokeArgs = array('translator' => 'translator', 'helper' => $this->_helper, 'session' => $this->_session);
+        $translator = $this->getMockBuilder('Mage_Core_Model_Translate')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getTranslateInline'))
+            ->getMock();
+        $invokeArgs = array('translator' => $translator, 'helper' => $this->_helper, 'session' => $this->_session);
 
         $arguments = array(
             'request' => $this->_request,
@@ -110,7 +112,7 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
         );
 
         $testHelperObjectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_mockedTestObject = $testHelperObjectManager->getObject('Mage_Adminhtml_CustomerController', $arguments);
+        $this->_testedObject = $testHelperObjectManager->getObject('Mage_Adminhtml_CustomerController', $arguments);
     }
 
     /**
@@ -118,16 +120,19 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
      */
     public function testResetPasswordActionNoCustomer()
     {
+        $redirectToCustomerGrid = 'http://example.com/customer/';
         $this->_request->expects($this->once())
             ->method('getParam')
             ->with($this->equalTo('customer_id'), $this->equalTo(0))
             ->will($this->returnValue(false)
         );
-        $this->_helper->expects($this->any())
+        $this->_helper->expects($this->once())
             ->method('getUrl')
-            ->with($this->equalTo('*/customer'), $this->equalTo(array()));
+            ->with($this->equalTo('*/customer'), $this->equalTo(array()))
+            ->will($this->returnValue($redirectToCustomerGrid));
 
-        $this->assertEquals($this->_mockedTestObject, $this->_mockedTestObject->resetPasswordAction());
+        $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectToCustomerGrid));
+        $this->_testedObject->resetPasswordAction();
     }
 
     /**
@@ -135,6 +140,7 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
      */
     public function testResetPasswordActionNoCustomerId()
     {
+        $redirectToCustomerGrid = 'http://example.com/customer/';
         $customerId = 1;
 
         $this->_request->expects($this->once())
@@ -152,9 +158,11 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
 
         $this->_helper->expects($this->any())
             ->method('getUrl')
-            ->with($this->equalTo('*/customer'), $this->equalTo(array()));
+            ->with($this->equalTo('*/customer'), $this->equalTo(array()))
+            ->will($this->returnValue($redirectToCustomerGrid));
 
-        $this->assertEquals($this->_mockedTestObject, $this->_mockedTestObject->resetPasswordAction());
+        $this->_response->expects($this->once())->method('setRedirect')->with($this->equalTo($redirectToCustomerGrid));
+        $this->_testedObject->resetPasswordAction();
     }
 
     /**
@@ -196,17 +204,25 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $coreHelperMock->expects($this->any())->method('getUrl')->will($this->returnValue($testUrl));
 
-        $this->_objectManager->expects($this->exactly(3))
+        $this->_objectManager->expects($this->at(0))
             ->method('create')
-            ->will($this->returnValueMap(
-                array(
-                    array('Mage_Customer_Model_Customer', array(), $customerMock),
-                    array('Mage_Customer_Helper_Data', array(), $customerHelperMock),
-                    array('Mage_Core_Model_Url', array(), $coreHelperMock)
-                )
-        ));
+            ->with($this->equalTo('Mage_Customer_Model_Customer'))
+            ->will($this->returnValue($customerMock));
 
-        $this->assertEquals($this->_mockedTestObject, $this->_mockedTestObject->resetPasswordAction());
+        $this->_objectManager->expects($this->at(1))
+            ->method('get')
+            ->with($this->equalTo('Mage_Customer_Helper_Data'))
+            ->will($this->returnValue($customerHelperMock));
+
+        $this->_objectManager->expects($this->at(2))
+            ->method('create')
+            ->with($this->equalTo('Mage_Core_Model_Url'))
+            ->will($this->returnValue($coreHelperMock));
+
+        $this->_session->expects($this->once())
+            ->method('addSuccess')
+            ->with($this->equalTo('Customer will receive an email with a link to reset password.'));
+        $this->_testedObject->resetPasswordAction();
     }
 
      /**
