@@ -504,7 +504,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } catch (Exception $e) {
             Mage::logException($e);
             $response->setError(true);
-            $response->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
+            $response->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.' . $e));
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -674,7 +674,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $page = new Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
+        $tmpFileName = $filesystem->getWorkingDirectory() . DS . 'var' . DS . 'tmp' . DS . 'shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
         imagepng($image, $tmpFileName);
         $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
