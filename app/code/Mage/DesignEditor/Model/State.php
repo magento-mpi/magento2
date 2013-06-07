@@ -81,7 +81,7 @@ class Mage_DesignEditor_Model_State
      * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
-     * @param Mage_Core_Model_Cache_Types $cacheManager
+     * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_App $application
@@ -91,7 +91,7 @@ class Mage_DesignEditor_Model_State
         Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
-        Mage_Core_Model_Cache_Types $cacheManager,
+        Mage_Core_Model_Cache_Types $cacheTypes,
         Mage_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_App $application,
@@ -100,7 +100,7 @@ class Mage_DesignEditor_Model_State
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
         $this->_urlModelFactory = $urlModelFactory;
-        $this->_cacheTypes      = $cacheManager;
+        $this->_cacheTypes      = $cacheTypes;
         $this->_dataHelper      = $dataHelper;
         $this->_objectManager   = $objectManager;
         $this->_application     = $application;

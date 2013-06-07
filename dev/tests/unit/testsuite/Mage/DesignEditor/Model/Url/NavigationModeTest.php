@@ -85,7 +85,7 @@ class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_T
 
         $sourceUrl   = self::BASE_URL . '/' . self::ROUTE_PATH;
         $expectedUrl = self::BASE_URL . '/' . self::FRONT_NAME . '/' . $this->_testData['mode'] . '/'
-            . $this->_testData['themeId'] . '/' . self::ROUTE_PATH;;
+            . $this->_testData['themeId'] . '/' . self::ROUTE_PATH;
 
         $this->assertEquals($expectedUrl, $this->_model->getRouteUrl($sourceUrl));
         $this->assertEquals($this->_model, $this->_model->setType(null));
