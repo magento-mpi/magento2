@@ -25,7 +25,14 @@ class Mage_TestModule2_Service_Svc2V1 implements Mage_TestModule2_Service_Svc2In
     public function items($request)
     {
         return array(
-            array('Hello' => 'World')
+            array(
+                'id' => 1,
+                'name' => 'testItem1'
+            ),
+            array(
+                'id' => 2,
+                'name' => 'testItem2'
+            )
         );
     }
 
