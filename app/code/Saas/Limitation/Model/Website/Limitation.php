@@ -51,7 +51,7 @@ class Saas_Limitation_Model_Website_Limitation
     }
 
     /**
-     * Get message with the the restriction explanation
+     * Get message with the restriction explanation
      *
      * @return string
      */

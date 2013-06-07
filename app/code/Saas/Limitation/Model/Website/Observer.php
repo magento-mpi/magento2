@@ -30,7 +30,7 @@ class Saas_Limitation_Model_Website_Observer
     public function restrictEntityCreation(Varien_Event_Observer $observer)
     {
         /** @var Mage_Core_Model_Website $website */
-        $website = $observer->getWebsite();
+        $website = $observer->getEvent()->getData('website');
         if ($website->isObjectNew() && $this->_websiteLimitation->isCreateRestricted()) {
             $errorMessage = $this->_websiteLimitation->getCreateRestrictedMessage();
             $exception = new Mage_Core_Exception($errorMessage);
@@ -47,7 +47,7 @@ class Saas_Limitation_Model_Website_Observer
     public function removeCreationButton(Varien_Event_Observer $observer)
     {
         /** @var Mage_Backend_Block_Widget_Container $block */
-        $block = $observer->getBlock();
+        $block = $observer->getEvent()->getData('block');
         if ($block instanceof Mage_Adminhtml_Block_System_Store_Store) {
             if ($this->_websiteLimitation->isCreateRestricted()) {
                 $block->removeButton('add');

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Limitation_ObserverTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Website_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Saas_Limitation_Model_Website_Observer
@@ -13,14 +13,9 @@ class Saas_Limitation_Model_Limitation_ObserverTest extends PHPUnit_Framework_Te
     protected $_observer;
 
     /**
-     * @var Varien_Event_Observer|PHPUnit_Framework_MockObject_MockObject
+     * @var Varien_Event_Observer
      */
     protected $_eventObserver;
-
-    /**
-     * @var Mage_Core_Model_Website|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_website;
 
     /**
      * @var Saas_Limitation_Model_Website_Limitation|PHPUnit_Framework_MockObject_MockObject
@@ -29,12 +24,7 @@ class Saas_Limitation_Model_Limitation_ObserverTest extends PHPUnit_Framework_Te
 
     public function setUp()
     {
-        $this->_website = $this->getMock('Mage_Core_Model_Website', array(), array(), '', false);
-        $this->_eventObserver = $this->getMock('Varien_Event_Observer', array('getWebsite', 'getBlock'), array(), '',
-            false);
-        $this->_eventObserver->expects($this->any())
-            ->method('getWebsite')
-            ->will($this->returnValue($this->_website));
+        $this->_eventObserver = new Varien_Event_Observer(array('event' => new Varien_Object()));
 
         $this->_websiteLimitation = $this->getMock('Saas_Limitation_Model_Website_Limitation', array(), array(), '',
             false);
@@ -49,12 +39,16 @@ class Saas_Limitation_Model_Limitation_ObserverTest extends PHPUnit_Framework_Te
      */
     public function testRestrictEntityCreationNoException($isObjectNew, $isCreateRestricted)
     {
-        $this->_website->expects($this->any())
+        $website = $this->getMock('Mage_Core_Model_Website', array(), array(), '', false);
+        $website->expects($this->any())
             ->method('isObjectNew')
             ->will($this->returnValue($isObjectNew));
+        $this->_eventObserver->getData('event')->setData('website', $website);
+
         $this->_websiteLimitation->expects($this->any())
             ->method('isCreateRestricted')
             ->will($this->returnValue($isCreateRestricted));
+
         $this->_observer->restrictEntityCreation($this->_eventObserver);
     }
 
@@ -71,15 +65,19 @@ class Saas_Limitation_Model_Limitation_ObserverTest extends PHPUnit_Framework_Te
 
     public function testRestrictEntityCreationException()
     {
-        $this->_website->expects($this->any())
+        $website = $this->getMock('Mage_Core_Model_Website', array(), array(), '', false);
+        $website->expects($this->any())
             ->method('isObjectNew')
             ->will($this->returnValue(true));
+        $this->_eventObserver->getData('event')->setData('website', $website);
+
         $this->_websiteLimitation->expects($this->any())
             ->method('isCreateRestricted')
             ->will($this->returnValue(true));
         $this->_websiteLimitation->expects($this->any())
             ->method('getCreateRestrictedMessage')
             ->will($this->returnValue('exception_message'));
+
         try {
             $this->_observer->restrictEntityCreation($this->_eventObserver);
         } catch (Exception $e) {
@@ -109,19 +107,18 @@ class Saas_Limitation_Model_Limitation_ObserverTest extends PHPUnit_Framework_Te
     public function removeCreationButton($blockClass, $isCreateRestricted, $expectedRemoval)
     {
         $block = $this->getMock($blockClass, array('removeButton'), array(), '', false);
-        $this->_eventObserver->expects($this->once())
-            ->method('getBlock')
-            ->will($this->returnValue($block));
+        $this->_eventObserver->getData('event')->setData('block', $block);
+
         $this->_websiteLimitation->expects($this->any())
             ->method('isCreateRestriced')
             ->will($this->returnValue($isCreateRestricted));
 
         if ($expectedRemoval) {
-            $this->_block->expects($this->once())
+            $block->expects($this->once())
                 ->method('removeButton')
                 ->with('add');
         } else {
-            $this->_block->expects($this->never())
+            $block->expects($this->never())
                 ->method('removeButton');
         }
 

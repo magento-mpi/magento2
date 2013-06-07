@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Limitation_WebsiteTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Website_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param int $fixtureTotalCount
