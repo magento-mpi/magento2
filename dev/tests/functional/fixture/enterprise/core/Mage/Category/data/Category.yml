@@ -13,7 +13,7 @@ sub_category_required_permissions_deny:
     name: Sub Category Required(%randomize%)
     is_active: Yes
     available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
+    available_product_listing: Position, Name, Price
     website: All Websites
     customer_group: All Customer Groups
     browsing_category: deny

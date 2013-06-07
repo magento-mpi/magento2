@@ -4,6 +4,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @method Saas_Mage_SaasStore_Helper saasStoreHelper() saasStoreHelper()
  */
 class Saas_Mage_TestCase extends Mage_Selenium_TestCase
 {
@@ -51,5 +52,17 @@ class Saas_Mage_TestCase extends Mage_Selenium_TestCase
         $this->addParameter('headerText', $this->processString($header));
 
         return $this->controlIsPresent('pageelement', 'header_main');
+    }
+
+    /**
+     * Get select element by control name
+     *
+     * @param $controlName
+     * @param string $controlType multiselect or dropdown type of control
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element_Select
+     */
+    public function getControlSelect($controlName, $controlType = 'dropdown')
+    {
+        return $this->select($this->getControlElement($controlType, $controlName));
     }
 }

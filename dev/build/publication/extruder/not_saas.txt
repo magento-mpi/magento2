@@ -21,7 +21,6 @@ app/code/Enterprise/Tag
 app/code/Enterprise/TargetRule
 app/code/Enterprise/Wishlist
 app/code/Mage/Authorizenet
-app/code/Mage/GoogleOptimizer
 app/code/Mage/Ogone
 app/code/Mage/PageCache
 app/design/frontend/default/iphone/Mage_Downloadable
@@ -74,7 +73,6 @@ dev/tests/unit/testsuite/Enterprise/PricePermissions
 dev/tests/unit/testsuite/Enterprise/Rma
 dev/tests/unit/testsuite/Enterprise/Tag
 dev/tests/unit/testsuite/Mage/Downloadable
-dev/tests/unit/testsuite/Mage/GoogleOptimizer
 dev/tests/unit/testsuite/Mage/Webapi
 pub/lib/mage/directpost.js
 ########################################################################################################################
