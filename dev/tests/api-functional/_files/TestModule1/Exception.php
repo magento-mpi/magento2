@@ -8,5 +8,5 @@
 
 class Mage_TestModule1_Exception extends Magento_Exception
 {
-    
+
 }
