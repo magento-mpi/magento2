@@ -33,17 +33,12 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @var bool
      */
-    protected $_isVdeRequest;
+    protected $_isVdeRequest = false;
 
     /**
-     * @var mixed
+     * @var string
      */
     protected $_translationMode;
-
-    /**
-     * @var Mage_Backend_Model_Session
-     */
-    protected $_backendSession;
 
     /**
      * @param Mage_Core_Helper_Context $context
@@ -89,19 +84,22 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * This method returns an indicator of whether or not the current request is for vde.
+     * This method returns an indicator of whether or not the current request is for vde
      *
-     * @param $request Mage_Core_Controller_Request_Http
-     * @return _isVdeRequest bool
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return bool
      */
     public function isVdeRequest(Mage_Core_Controller_Request_Http $request = null)
     {
         if (null !== $request) {
-            list($frontName, $currentMode, $themeId) = explode('/', trim($request->getOriginalPathInfo(), '/'));
-            $vdeFrontName = $this->getFrontName();
-            $this->_isVdeRequest = $frontName === $vdeFrontName
-                && in_array($currentMode, $this->getAvailableModes())
-                && is_numeric($themeId);
+            $result = false;
+            $splitPath = explode('/', trim($request->getOriginalPathInfo(), '/'));
+            if (count($splitPath) >= 3) {
+                list($frontName, $currentMode, $themeId) = $splitPath;
+                $result = $frontName === $this->getFrontName() && in_array($currentMode, $this->getAvailableModes())
+                    && is_numeric($themeId);
+            }
+            $this->_isVdeRequest = $result;
         }
         return $this->_isVdeRequest;
     }
