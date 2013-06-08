@@ -17,6 +17,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_adapter = new Magento_Filesystem_Adapter_Local();
+
+        Varien_Io_File::rmdirRecursive(self::_getTmpDir());
         mkdir(self::_getTmpDir());
     }
 
@@ -146,46 +148,77 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertFileNotExists($fileName);
     }
 
-    public function testDeleteException()
+    /**
+     * @dataProvider deleteExceptionDataProvider
+     */
+    public function testDeleteException($nonDeletableDirs, $nonDeletableFiles, $deletePath, $expectedExceptionMessage)
     {
-        $fileName = self::_getTmpDir() . '/locked.txt';
-        $this->_testDeleteLockedFileException($fileName, $fileName);
-    }
+        // Create non-deletable entities
+        foreach ($nonDeletableDirs as $dir) {
+            @mkdir($dir);
+            @chmod($dir, 0);
+        }
+        foreach ($nonDeletableFiles as $file) {
+            @touch($file);
+            @chmod($file, 0);
+        }
 
-    public function testDeleteNestedKeyException()
-    {
-        $dir = self::_getTmpDir() . '/subDir';
-        mkdir($dir);
+        // Run tested method
+        $exception = null;
+        try {
+            $this->_adapter->delete($deletePath);
+        } catch (Exception $exception) {
+        }
 
-        $fileName = $dir . '/locked.txt';
-        $this->_testDeleteLockedFileException($dir, $fileName);
+        // Finally - unlock all created entities
+        $allEntities = array_merge($nonDeletableDirs, $nonDeletableFiles);
+        foreach ($allEntities as $path) {
+            @chmod($path, 0666);
+        }
+
+        // Verify results
+        $this->assertInstanceOf('Magento_Filesystem_Exception', $exception);
+        $this->assertEquals($expectedExceptionMessage, $exception->getMessage());
     }
 
     /**
-     * Lock file, delete entity and verify, that exception is thrown by the filesystem adapter
-     *
-     * @param string $deleteEntity
-     * @param string $lockedFileName
+     * @return array
      */
-    protected function _testDeleteLockedFileException($deleteEntity, $lockedFileName)
+    public static function deleteExceptionDataProvider()
     {
-        $fHandle = fopen($lockedFileName, 'w');
-        $supported = flock($fHandle, LOCK_EX | LOCK_NB);
-        if (!$supported) {
-            fclose($fHandle);
-            $this->markTestSkipped('Testing exception in deleted() is not supported by the filesystem');
-        }
-
-        $exception = null;
-        try {
-            $this->_adapter->delete($deleteEntity);
-        } catch (Exception $exception) {
-        }
-        fclose($fHandle);
-
-        $this->assertFileExists($lockedFileName);
-        $this->assertInstanceOf('Magento_Filesystem_Exception', $exception);
-        $this->assertEquals("Failed to remove file '{$lockedFileName}'", $exception->getMessage());
+        /*
+        Note: parent $dir with chmod(0) is needed to ensure, that its files and directories cannot be deleted
+        under both Windows and Linux.
+        */
+        $dir = self::_getTmpDir() . '/test_dir';
+        $subFile = $dir . '/file.txt';
+        $subDir = $dir . '/sub_dir';
+        return array(
+            'non-deletable file' => array(
+                array($dir),
+                array($subFile),
+                $subFile,
+                "Failed to remove file '$subFile'",
+            ),
+            'non-deletable directory' => array(
+                array($dir, $subDir),
+                array(),
+                "$subDir",
+                "Failed to remove directory '{$subDir}'",
+            ),
+            'non-deletable because of subfile' => array(
+                array($dir),
+                array($subFile),
+                "$dir",
+                "Failed to remove file '{$subFile}'",
+            ),
+            'non-deletable because of subdirectory' => array(
+                array($dir, $subDir),
+                array(),
+                "$dir",
+                "Failed to remove directory '{$subDir}'",
+            ),
+        );
     }
 
     public function testChangePermissionsFile()
