@@ -35,9 +35,9 @@
          * @type {{create: string, update: string, get: string, delete: string}}
          */
         this.method = {
-            create:   'POST',
-            update:   'PUT',
-            'get':    'GET',
+            'create': 'POST',
+            'update': 'PUT',
+            'get': 'GET',
             'delete': 'DELETE'
         };
 

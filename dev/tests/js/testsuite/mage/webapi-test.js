@@ -8,38 +8,68 @@
  */
 WebapiTest = TestCase('WebapiTest');
 
-/**
- * Test call method with required data only
- */
-WebapiTest.prototype.testCallRequiredArgumentsOnly = function() {
-    this.API = $.mage.webapi();
+WebapiTest.prototype.testConstructorSuccess = function() {
+    var successCallback = function(){};
+    new $.mage.webapi('baseUrl', {'timeout': 100, 'success': successCallback});
+}
 
-    var productResourceUri = this.API.resource.uri.products;
-    var httpMethod = this.API.resource.method.get;
-    var productId = 2;
-    var baseUri = this.API.resource.uri.base;
-    var resourceVersion = 1;
-    var productRequest = {
-        "version": resourceVersion
-    };
-    // ensure that $.ajax() was executed
-    expectAsserts(3);
-    $.ajax = function(settings) {
-        var expectedUri = baseUri + resourceVersion + productResourceUri + productId;
-        assertEquals("URI for API call does not match with expected one.", expectedUri, settings.url);
-        assertEquals("HTTP method for API call does not match with expected one.", httpMethod, settings.type);
-        var expectedData = null;
-        assertEquals("Data for API call does not match with expected one.", expectedData, settings.data);
-    };
-    this.API.call(productResourceUri, httpMethod, productId, productRequest);
-};
+WebapiTest.prototype.testConstructorSuccessEmptyArgs = function() {
+    new $.mage.webapi('baseUrl');
+}
 
-WebapiTest.prototype.testCallEmptyRequestObject = function() {
-    this.API = $.mage.webapi();
-    /** Mock function that posts requests */
-    $.ajax = function(settings) {
-        fail("In case of empty request object no data sending must occur.");
+WebapiTest.prototype.testConstructorInvalidOptions = function() {
+    expectAsserts(1);
+    try {
+        new $.mage.webapi('baseUrl', {'timeout': 100, 'invalid': 0});
+    } catch (e) {
+        var expectedException = "No such option: invalid";
+        assertEquals("Invalid exception was thrown.", expectedException, e);
     }
-    var emptyRequestObject = {};
-    this.API.call('', '', emptyRequestObject);
-};
+}
+
+WebapiTest.prototype.testConstructorInvalidBaseUrl = function() {
+    expectAsserts(1);
+    try {
+        var invalidBaseUrl = 1;
+        new $.mage.webapi(invalidBaseUrl);
+    } catch (e) {
+        var expectedException = "String baseUrl parameter required";
+        assertEquals("Invalid exception was thrown.", expectedException, e);
+    }
+}
+
+WebapiTest.prototype.testCallInvalidMethod = function() {
+    var webapi = new $.mage.webapi('baseUrl');
+    try {
+        webapi.call('resourceUri', 'INVALID_HTTP_METHOD');
+    } catch (e) {
+        var expectedException = "Method name is not valid: INVALID_HTTP_METHOD";
+        assertEquals("Invalid exception was thrown.", expectedException, e);
+    }
+}
+
+WebapiTest.prototype.testCallSuccessCallback = function() {
+    // ensure that custom successCallback was executed
+    expectAsserts(1);
+    var successCallback = function(response) {
+        assertObject("Response is expected to be an object", response);
+    }
+    var webapi = new $.mage.webapi('baseUrl', {'success': successCallback});
+    $.ajax = function(settings) {
+        settings.success({});
+    };
+    webapi.call('products', 'GET');
+}
+
+WebapiTest.prototype.testCallErrorCallback = function() {
+    // ensure that custom successCallback was executed
+    expectAsserts(1);
+    var errorCallback = function(response) {
+        assertObject("Response is expected to be an object", response);
+    }
+    var webapi = new $.mage.webapi('baseUrl', {'error': errorCallback});
+    $.ajax = function(settings) {
+        settings.error({});
+    };
+    webapi.call('products', 'GET');
+}
