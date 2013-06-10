@@ -315,12 +315,16 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     public function testGetOptionsWithConstantValOptions()
     {
         $option = array(
-            array('label' => 'test', 'value' =>
-            "{{Mage_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT}}"),
+            array(
+                'label' => 'test',
+                'value' => "{{Mage_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT}}"
+            ),
         );
         $expected = array(
-            array('label' => 'translated test', 'value' =>
-            Mage_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT),
+            array(
+                'label' => 'translated test',
+                'value' => Mage_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT
+            ),
         );
 
         $this->_model->setData(array('options' => array('option' => $option)), 'scope');
@@ -433,7 +437,7 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             array('label' => 'translated test2', 'value' => 1)
         );
         $options = array(
-            'service_call'      => 'serviceCallName',
+            'service_call' => 'serviceCallName',
         );
         $this->_model->setData(array('source_service' => $options), 'scope');
         $this->assertEquals($expected, $this->_model->getOptions());
