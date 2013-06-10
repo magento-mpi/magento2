@@ -19,11 +19,11 @@ class Mage_TestModule1_Service_TestV1 implements Mage_TestModule1_Service_TestIn
      */
     public function item($request)
     {
-        if ($request['entity_id'] == null) {
+        if ($request['id'] == null) {
             throw new Mage_TestModule1_Exception("Invalid Id", Mage_TestModule1_Service_TestV1::ERROR_INTERNAL_LOAD);
         }
         $result = array(
-            'id' => $request['entity_id'],
+            'id' => $request['id'],
             'name' => 'testProduct1'
         );
         return $result;
@@ -71,12 +71,12 @@ class Mage_TestModule1_Service_TestV1 implements Mage_TestModule1_Service_TestIn
      */
     public function update($request)
     {
-        if ($request['entity_id'] == null) {
+        if ($request['id'] == null) {
             throw new Mage_TestModule1_Exception("Invalid Id", Mage_TestModule1_Service_TestV1::ERROR_INTERNAL_SAVE);
         }
 
         $result = array(
-            'id' => rand(),
+            'id' => $request['id'],
             'name' => 'Updated' . $request['name']
         );
         return $result;

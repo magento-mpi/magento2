@@ -19,12 +19,12 @@ class Mage_TestModule1_Service_TestV2 extends Mage_TestModule1_Service_TestV1 im
      */
     public function delete($request)
     {
-        if ($request['entity_id'] == null) {
+        if ($request['id'] == null) {
             throw new Mage_TestModule1_Exception("Invalid Id", Mage_TestModule1_Service_TestV2::ERROR_INTERNAL_DELETE);
         }
 
         $result = array(
-            'id' => $request['entity_id'],
+            'id' => $request['id'],
             'name' => 'testProduct1'
         );
         return $result;
