@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Mage_Core_DataService_Model_SystemConfigTest extends PHPUnit_Framework_TestCase
+class Integrity_Mage_Core_Model_DataService_SystemConfigTest extends PHPUnit_Framework_TestCase
 {
     protected static $_serviceCalls = array();
 
@@ -48,7 +48,7 @@ class Integrity_Mage_Core_DataService_Model_SystemConfigTest extends PHPUnit_Fra
                 if (null != $serviceCallAttribute) {
                     $serviceCall = $serviceCallAttribute->nodeValue;
                     $this->assertTrue(
-                        in_array($serviceCall, self::$_serviceCalls), "Unkown service call: $serviceCall"
+                        in_array($serviceCall, self::$_serviceCalls), "Unknown service call: $serviceCall"
                     );
                 }
             }
