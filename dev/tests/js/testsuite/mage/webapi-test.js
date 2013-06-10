@@ -40,6 +40,7 @@ WebapiTest.prototype.testConstructorInvalidBaseUrl = function() {
 
 WebapiTest.prototype.testCallInvalidMethod = function() {
     var webapi = new $.mage.webapi('baseUrl');
+    expectAsserts(1);
     try {
         webapi.call('resourceUri', 'INVALID_HTTP_METHOD');
     } catch (e) {
@@ -122,7 +123,6 @@ WebapiTest.prototype.testCallProductCreate = function() {
 };
 
 WebapiTest.prototype.testCallProductCreateInvalidVersion = function() {
-
     expectAsserts(1);
     var invalidVersion = 'invalidVersion';
     try {
