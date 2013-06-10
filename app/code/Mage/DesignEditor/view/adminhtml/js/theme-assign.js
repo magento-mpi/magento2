@@ -17,14 +17,6 @@
      */
     var BUTTON_ASSIGN = 'OK';
 
-    /**
-     * Dialog button title
-     *
-     * @const
-     * @type {string}
-     */
-    var BUTTON_EDIT = 'Edit';
-
     //TODO since we can't convert data to JSON string we use magic numbers DEFAULT_STORE and EMPTY_STORES
 
     /**
@@ -213,12 +205,23 @@
             return this;
         },
 
+        /**
+         * Callback event which called after assign
+         *
+         * @param {Object} response
+         * @returns {*}
+         */
         assignAfter: function(response) {
             this.close();
             document.location.reload();
             return this;
         },
 
+        /**
+         * Set default dialog content
+         *
+         * @private
+         */
         _setDefaultContent: function() {
             this.title.set($.mage.__('Default title'));
         }
@@ -242,6 +245,9 @@
             afterAssignMode:       'navigation'
         },
 
+        /**
+         * Dialog widget
+         */
         _dialog: undefined,
 
         /**
@@ -270,6 +276,7 @@
 
         /**
          * Bind handlers
+         *
          * @protected
          */
         _bind: function() {
