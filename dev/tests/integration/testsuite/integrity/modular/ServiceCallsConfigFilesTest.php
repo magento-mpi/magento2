@@ -47,21 +47,26 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
      * Test individual service_calls configuration files
      *
      * @param string $file
+     * @param bool $dummy if this is set skip the test
      * @dataProvider serviceCallsConfigFileDataProvider
      */
-    public function testServiceCallsConfigFile($file)
+    public function testServiceCallsConfigFile($file, $dummy = false)
     {
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
-        $result = $domConfig->validate($this->_schemaFile, $errors);
-        $message = "Invalid XML-file: {$file}\n";
-        foreach ($errors as $error) {
-            $message .= "$error\n";
+        if (!$dummy) {
+            $domConfig = new Magento_Config_Dom(file_get_contents($file));
+            $result = $domConfig->validate($this->_schemaFile, $errors);
+            $message = "Invalid XML-file: {$file}\n";
+            foreach ($errors as $error) {
+                $message .= "$error\n";
+            }
+            $this->assertTrue($result, $message);
         }
-        $this->assertTrue($result, $message);
     }
 
     /**
-     * Find all service_calls.xml files
+     * Find all service_calls.xml files.
+     *
+     * If no service_calls.xml files are found, will return an array with one element that has the dummy flag set.
      *
      * @return array
      */
@@ -69,9 +74,19 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
     {
         $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
         $dataProviderResult = array();
-        foreach ($fileList as $file) {
-            $dataProviderResult[$file] = array($file);
+
+        // if no files are found, set result to a dummy array with dummy flag set
+        if (empty($fileList)) {
+            $dataProviderResult = array(
+                array("dummy", true)
+            );
+        } else {
+            // set result to array of found files
+            foreach ($fileList as $file) {
+                $dataProviderResult[$file] = array($file);
+            }
         }
+
         return $dataProviderResult;
     }
 
