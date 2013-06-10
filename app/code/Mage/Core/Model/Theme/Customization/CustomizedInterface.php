@@ -43,4 +43,11 @@ interface Mage_Core_Model_Theme_Customization_CustomizedInterface
      * @return string|null
      */
     public function getCustomizationPath();
+
+    /**
+     * Get base themes customization path
+     *
+     * @return mixed|string
+     */
+    public function getBaseCustomizationsPath();
 }
