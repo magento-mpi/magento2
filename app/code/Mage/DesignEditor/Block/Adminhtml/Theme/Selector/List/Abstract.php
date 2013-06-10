@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+// @codingStandardsIgnoreStart
 /**
  * Abstract theme list
  *
@@ -15,13 +16,12 @@
  * @method bool|null getIsFirstEntrance()
  * @method bool|null getHasThemeAssigned()
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setHasThemeAssigned(bool $flag)
- * @codingStandardsIgnoreStart
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract|Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setIsFirstEntrance(bool $flag)
- * @codingStandardsIgnoreEnd
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
+// @codingStandardsIgnoreEnd
 abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     extends Mage_Core_Block_Template
 {

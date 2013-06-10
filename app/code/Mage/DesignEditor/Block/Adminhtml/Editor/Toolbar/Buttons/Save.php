@@ -221,9 +221,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _getAssignInitData()
     {
-        $message = "You are about to apply this theme for your live store, are you sure want to do this?\n\n" .
-            'Note: copy of the current theme will be created automatically and assigned to your store, ' .
-            'so you can change your copy as you wish';
+        // @codingStandardsIgnoreStart
+        $message = $this->__("You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish");
+        // @codingStandardsIgnoreEnd
+        $title = $this->__("Assign");
+
         $data = array(
             'button' => array(
                 'event'     => 'assign',
@@ -231,7 +233,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'eventData' => array(
                     'theme_id'        => $this->getTheme()->getId(),
                     'confirm' => array(
-                        'message' => $this->__($message)
+                        'message' => $this->__($message),
+                        'title'   => $title
                     )
                 )
             ),
