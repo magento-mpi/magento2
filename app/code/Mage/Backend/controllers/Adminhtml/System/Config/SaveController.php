@@ -27,18 +27,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     protected $_configFactory;
 
     /**
-     * Core Config Model
-     *
-     * @var Mage_Core_Model_Config
-     */
-    protected $_configModel;
-
-    /**
-     * @var Mage_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var Magento_Cache_FrontendInterface
      */
     protected $_cache;
@@ -46,9 +34,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     /**
      * @param Mage_Backend_Controller_Context $context
      * @param Mage_Backend_Model_Config_Structure $configStructure
-     * @param Mage_Core_Model_Config $configModel
      * @param Mage_Backend_Model_Config_Factory $configFactory
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
      * @param Magento_Cache_FrontendInterface $cache
      * @param string $areaCode
@@ -56,17 +42,13 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Mage_Backend_Model_Config_Structure $configStructure,
-        Mage_Core_Model_Config $configModel,
         Mage_Backend_Model_Config_Factory $configFactory,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Backend_Model_Auth_StorageInterface $authSession,
         Magento_Cache_FrontendInterface $cache,
         $areaCode = null
     ) {
         parent::__construct($context, $configStructure, $authSession, $areaCode);
         $this->_configFactory = $configFactory;
-        $this->_storeManager = $storeManager;
-        $this->_configModel = $configModel;
         $this->_cache = $cache;
     }
 
@@ -96,28 +78,20 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
             $configModel = $this->_configFactory->create(array('data' => $configData));
             $configModel->save();
 
-            $this->_eventManager->dispatch('admin_system_config_section_save_after', array(
-                'website' => $website, 'store' => $store, 'section' => $section
-            ));
-
-            // website and store codes can be used in event implementation, so set them as well
-            $this->_eventManager->dispatch("admin_system_config_changed_section_{$section}", array(
-                'website' => $website, 'store' => $store
-            ));
-            $this->_session->addSuccess($this->_getHelper()->__('You saved the configuration.'));
+            $this->_session->addSuccess(
+                $this->_getHelper()->__('You saved the configuration.')
+            );
         } catch (Mage_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
             foreach ($messages as $message) {
                 $this->_session->addError($message);
             }
         } catch (Exception $e) {
-            $this->_session->addException($e,
-                $this->_getHelper()->__('An error occurred while saving this configuration:') . ' ' . $e->getMessage());
+            $this->_session->addException(
+                $e,
+                $this->_getHelper()->__('An error occurred while saving this configuration:') . ' ' . $e->getMessage()
+            );
         }
-
-        // re-init configuration
-        $this->_eventManager->dispatch('application_process_reinit_config');
-        $this->_storeManager->reinitStores();
 
         $this->_saveState($this->getRequest()->getPost('config_state'));
         $this->_redirect('*/system_config/edit', array('_current' => array('section', 'website', 'store')));

@@ -85,9 +85,14 @@ class Mage_Backend_Model_Config extends Varien_Object
     /**
      * Config data factory
      *
-     * @var Mage_Backend_Model_Config_Loader
+     * @var Mage_Core_Model_Config_DataFactory
      */
     protected $_configDataFactory;
+
+    /**
+     * @var Mage_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Mage_Core_Model_App $application
@@ -97,6 +102,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Backend_Model_Config_Loader $configLoader
      * @param Mage_Core_Model_Config_DataFactory $configDataFactory
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -107,8 +113,10 @@ class Mage_Backend_Model_Config extends Varien_Object
         Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Backend_Model_Config_Loader $configLoader,
         Mage_Core_Model_Config_DataFactory $configDataFactory,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
+        parent::__construct($data);
         $this->_eventManager = $eventManager;
         $this->_configStructure = $configStructure;
         $this->_transactionFactory = $transactionFactory;
@@ -116,13 +124,14 @@ class Mage_Backend_Model_Config extends Varien_Object
         $this->_application = $application;
         $this->_configLoader = $configLoader;
         $this->_configDataFactory = $configDataFactory;
-        parent::__construct($data);
+        $this->_storeManager = $storeManager;
     }
 
     /**
      * Save config section
      * Require set: section, website, store and groups
      *
+     * @throws Exception
      * @return Mage_Backend_Model_Config
      */
     public function save()
@@ -155,8 +164,27 @@ class Mage_Backend_Model_Config extends Varien_Object
             );
         }
 
-        $deleteTransaction->delete();
-        $saveTransaction->save();
+        try {
+            $deleteTransaction->delete();
+            $saveTransaction->save();
+
+            $this->_eventManager->dispatch('admin_system_config_section_save_after', array(
+                'website' => $this->getWebsite(),
+                'store' => $this->getStore(),
+                'section' => $this->getSection()
+            ));
+
+            // website and store codes can be used in event implementation, so set them as well
+            $this->_eventManager->dispatch("admin_system_config_changed_section_{$this->getSection()}", array(
+                'website' => $this->getWebsite(),
+                'store' => $this->getStore()
+            ));
+        } catch (Exception $e) {
+            // re-init configuration
+            $this->_eventManager->dispatch('application_process_reinit_config');
+            $this->_storeManager->reinitStores();
+            throw $e;
+        }
 
         return $this;
     }
