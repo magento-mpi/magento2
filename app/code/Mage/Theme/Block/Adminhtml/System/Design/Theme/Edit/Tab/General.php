@@ -94,8 +94,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
 
         if ($this->_isThemeEditable) {
             $themeFieldset->addField('parent_id', 'select', array(
-                'label'    => $this->__('Parent theme'),
-                'title'    => $this->__('Parent theme'),
+                'label'    => $this->__('Parent Theme'),
+                'title'    => $this->__('Parent Theme'),
                 'name'     => 'parent_id',
                 'values'   => $themesCollections->toOptionArray(!$parentTheme->getId()),
                 'required' => true,
@@ -104,8 +104,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             ));
         } else if (!empty($formData['parent_id'])) {
             $themeFieldset->addField('parent_title', 'note', array(
-                'label'    => $this->__('Parent theme'),
-                'title'    => $this->__('Parent theme'),
+                'label'    => $this->__('Parent Theme'),
+                'title'    => $this->__('Parent Theme'),
                 'name'     => 'parent_title',
                 'text'     => $parentTheme->getId() ? $parentTheme->getThemeTitle() : ''
             ));
