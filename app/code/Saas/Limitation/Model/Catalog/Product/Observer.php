@@ -79,15 +79,23 @@ class Saas_Limitation_Model_Catalog_Product_Observer
     /**
      * @param Varien_Event_Observer $observer
      */
-    public function disableDuplicationButton(Varien_Event_Observer $observer)
+    public function removeRestrictedSavingButtons(Varien_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getData('block');
         if ($block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit) {
             $product = $block->getProduct();
-            if ($product->isObjectNew()) {
-                $product->setIsDuplicable(!$this->_limitation->isCreateRestricted(2));
-            } else {
-                $product->setIsDuplicable(!$this->_limitation->isCreateRestricted());
+            $creationRestricted = $this->_limitation->isCreateRestricted(!$product || $product->isObjectNew() ? 2 : 1);
+            if ($creationRestricted) {
+                /** @var Mage_Backend_Block_Widget_Button_Split $child */
+                $child = $block->getChildBlock('save-split-button');
+                $restrictedButtons = array('new-button', 'duplicate-button');
+                $filteredOptions = array();
+                foreach ($child->getOptions() as $option) {
+                    if (!in_array($option['id'], $restrictedButtons)) {
+                        $filteredOptions[] = $option;
+                    }
+                }
+                $child->setData('options', $filteredOptions);
             }
         }
     }

@@ -97,14 +97,14 @@
                     </saas_limitation_catalog_product>
                 </observers>
             </adminhtml_widget_container_html_before>
-            <core_block_abstract_prepare_layout_before>
+            <core_block_abstract_prepare_layout_after>
                 <observers>
                     <saas_limitation_catalog_product>
                         <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
-                        <method>disableDuplicationButton</method>
+                        <method>removeRestrictedSavingButtons</method>
                     </saas_limitation_catalog_product>
                 </observers>
-            </core_block_abstract_prepare_layout_before>
+            </core_block_abstract_prepare_layout_after>
             <controller_action_predispatch_adminhtml_system_store_index>
                 <observers>
                     <saas_limitation_store>

@@ -147,4 +147,100 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
             'non-product block, limitation is reached'     => array('Some_Block', true),
         );
     }
+
+    /**
+     * @param bool|null $isProductNew
+     * @param int $expectedProductsCount
+     * @dataProvider removeRestrictedSavingButtonsDataProvider
+     */
+    public function testRemoveRestrictedSavingButtonsRestricted($isProductNew, $expectedProductsCount)
+    {
+        if (null === $isProductNew) {
+            $product = null;
+        } else {
+            $product = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
+            $product->expects($this->once())
+                ->method('isObjectNew')
+                ->will($this->returnValue($isProductNew));
+        }
+
+        $this->_limitation->expects($this->once())
+            ->method('isCreateRestricted')
+            ->with($expectedProductsCount)
+            ->will($this->returnValue(true));
+        $block = $this->getMock('Mage_Adminhtml_Block_Catalog_Product_Edit', array(), array(), '', false);
+        $block->expects($this->once())
+            ->method('getProduct')
+            ->will($this->returnValue($product));
+        $splitBlock = $this->getMock(
+            'Mage_Backend_Block_Widget_Button_Split', array('getOptions', 'setData'), array(), '', false
+        );
+        $block->expects($this->once())
+            ->method('getChildBlock')
+            ->with('save-split-button')
+            ->will($this->returnValue($splitBlock));
+
+        $origOptions = array(
+            array('id' => 'button-1'),
+            array('id' => 'new-button'),
+            array('id' => 'duplicate-button'),
+            array('id' => 'button-2'),
+        );
+        $expectedOptions = array(
+            array('id' => 'button-1'),
+            array('id' => 'button-2'),
+        );
+        $splitBlock->expects($this->once())
+            ->method('getOptions')
+            ->will($this->returnValue($origOptions));
+        $splitBlock->expects($this->once())
+            ->method('setData')
+            ->with('options', $expectedOptions);
+
+        $observer  = new Varien_Event_Observer(array('event' => new Varien_Object(array('block' => $block))));
+        $this->_model->removeRestrictedSavingButtons($observer);
+    }
+
+    /**
+     * @param bool|null $isProductNew
+     * @param int $expectedProductsCount
+     * @dataProvider removeRestrictedSavingButtonsDataProvider
+     */
+    public function testRemoveRestrictedSavingButtonsAllowed($isProductNew, $expectedProductsCount)
+    {
+        if (null === $isProductNew) {
+            $product = null;
+        } else {
+            $product = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
+            $product->expects($this->once())
+                ->method('isObjectNew')
+                ->will($this->returnValue($isProductNew));
+        }
+
+        $this->_limitation->expects($this->once())
+            ->method('isCreateRestricted')
+            ->with($expectedProductsCount)
+            ->will($this->returnValue(false));
+        $block = $this->getMock('Mage_Adminhtml_Block_Catalog_Product_Edit', array(), array(), '', false);
+        $block->expects($this->once())
+            ->method('getProduct')
+            ->will($this->returnValue($product));
+        $block->expects($this->never())
+            ->method('getChildBlock');
+
+        $observer  = new Varien_Event_Observer(array('event' => new Varien_Object(array('block' => $block))));
+        $this->_model->removeRestrictedSavingButtons($observer);
+    }
+
+    /**
+     * @return array
+     */
+    public function removeRestrictedSavingButtonsDataProvider()
+    {
+        return array(
+            'no product' => array(null, 2),
+            'new product' => array(true, 2),
+            'existing product' => array(false, 1),
+        );
+    }
 }
