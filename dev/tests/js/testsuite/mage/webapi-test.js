@@ -73,3 +73,50 @@ WebapiTest.prototype.testCallErrorCallback = function() {
     };
     webapi.call('products', 'GET');
 }
+
+WebapiTest.prototype.testCallProductGet = function() {
+    var baseUri = 'baseUrl';
+    var webapi = new $.mage.webapi(baseUri);
+    var httpMethod = webapi.method.get;
+    var productId = 1;
+    var productResourceUri = '/products/';
+    var resourceVersion = 'v1';
+    var expectedUri = baseUri + '/' + resourceVersion + productResourceUri + productId;
+    // ensure that $.ajax() was executed
+    expectAsserts(3);
+    $.ajax = function(settings) {
+        assertEquals("URI for API call does not match with expected one.", expectedUri, settings.url);
+        assertEquals("HTTP method for API call does not match with expected one.", httpMethod, settings.type);
+        assertEquals("Data for API call does not match with expected one.", productId, settings.data);
+    };
+    webapi.Product('v1').get(productId);
+};
+
+WebapiTest.prototype.testCallProductCreate = function() {
+    var baseUri = 'baseUrl';
+    var webapi = new $.mage.webapi(baseUri);
+    var httpMethod = webapi.method.create;
+    var productResourceUri = '/products/';
+    var resourceVersion = 'v1';
+    var expectedUri = baseUri + '/' + resourceVersion + productResourceUri;
+    productData = {
+        "type_id": "simple",
+        "attribute_set_id": 4,
+        "sku": "1234567890",
+        "weight": 1,
+        "status": 1,
+        "visibility": 4,
+        "name": "Simple Product",
+        "description": "Simple Description",
+        "price": 99.95,
+        "tax_class_id": 0
+    };
+    // ensure that $.ajax() was executed
+    expectAsserts(3);
+    $.ajax = function(settings) {
+        assertEquals("URI for API call does not match with expected one.", expectedUri, settings.url);
+        assertEquals("HTTP method for API call does not match with expected one.", httpMethod, settings.type);
+        assertEquals("Data for API call does not match with expected one.", productData, settings.data);
+    };
+    webapi.Product('v1').create(productData);
+};
