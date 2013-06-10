@@ -53,6 +53,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**#@-*/
 
     /**
+     * Name of theme customizations directory
+     */
+    const THEME_DIRECTORY_NAME = 'theme_customization';
+
+    /**
      * Cache tag for empty theme
      */
     const CACHE_TAG_NO_THEME = 'NO_THEME';
@@ -301,12 +306,28 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $customPath = $this->getData('customization_path');
         if ($this->getId() && empty($customPath)) {
-            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA)
-                . Magento_Filesystem::DIRECTORY_SEPARATOR . 'theme_customization'
-                . Magento_Filesystem::DIRECTORY_SEPARATOR . $this->getId();
+            $customPath = $this->getBaseCustomizationsPath();
+            $customPath .= $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
+    }
+
+    /**
+     * Get base themes customization path
+     *
+     * @return mixed|string
+     */
+    public function getBaseCustomizationsPath()
+    {
+        $baseCustomPath = $this->getData('base_customization_path');
+        if (empty($baseCustomPath)) {
+            $baseCustomPath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA)
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . self::THEME_DIRECTORY_NAME
+                . Magento_Filesystem::DIRECTORY_SEPARATOR;
+            $this->setData('base_customization_path', $baseCustomPath);
+        }
+        return $baseCustomPath;
     }
 
     /**

@@ -18,6 +18,37 @@
  */
 class Mage_Catalog_Model_Category_Attribute_Backend_Image extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * Initialize class instance state
+     *
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Magento_Filesystem $filesystem
+     */
+    public function __construct(Mage_Core_Model_Dir $dirs, Magento_Filesystem $filesystem)
+    {
+        $this->_dirs = $dirs;
+        $this->_filesystem = $filesystem;
+    }
+
+    /**
+     * Get category media directory path
+     *
+     * @return string
+     */
+    protected function _getMediaDir()
+    {
+        return $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DS . 'catalog' . DS . 'category' . DS;
+    }
 
     /**
      * Save uploaded file and set its name to category
@@ -38,10 +69,11 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Image extends Mage_Eav_Model
             $object->setData($this->getAttribute()->getName(), '');
             $this->getAttribute()->getEntity()
                 ->saveAttribute($object, $this->getAttribute()->getName());
+            $this->_filesystem->delete($this->_getMediaDir() . $value['value'], $this->_getMediaDir());
             return $this;
         }
 
-        $path = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'category' . DS;
+        $path = $this->_getMediaDir();
 
         try {
             $uploader = new Mage_Core_Model_File_Uploader($this->getAttribute()->getName());
@@ -57,5 +89,21 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Image extends Mage_Eav_Model
             }
         }
         return $this;
+    }
+
+    /**
+     * Delete file from filesystem after attribute deletion
+     *
+     * @param Varien_Object $object
+     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     */
+    public function afterDelete($object)
+    {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        $value = $object->getData($attrCode);
+        if (!empty($value)) {
+            $this->_filesystem->delete($this->_getMediaDir() . $value, $this->_getMediaDir());
+        }
+        return parent::afterDelete($object);
     }
 }

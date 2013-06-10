@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Cdn>
+            <version>2.0.0.0</version>
+            <active>false</active>
+        </Saas_Cdn>
+    </modules>
+    <global>
+        <di>
+            <preferences>
+                <Saas_Cdn_Model_CdnInterface>Saas_Cdn_Model_Provider_Edgecast</Saas_Cdn_Model_CdnInterface>
+                <Magento_Filesystem>Saas_Cdn_Model_Filesystem</Magento_Filesystem>
+            </preferences>
+            <Saas_Cdn_Model_Filesystem>
+                <parameters>
+                    <adapter>Magento_Filesystem_Adapter_Local</adapter>
+                </parameters>
+                <shared>0</shared>
+            </Saas_Cdn_Model_Filesystem>
+            <Saas_Cdn_Model_Provider_Edgecast>
+                <parameters>
+                    <soapClientProxy>Saas_Cdn_Model_Provider_Edgecast_SoapProxy</soapClientProxy>
+                </parameters>
+                <shared>0</shared>
+            </Saas_Cdn_Model_Provider_Edgecast>
+        </di>
+        <events>
+            <application_process_refresh_css_and_js>
+                <observers>
+                    <saas_queue>
+                        <asynchronous>true</asynchronous>
+                        <class>Saas_Cdn_Model_Observer_Cssjs</class>
+                        <method>processRefreshCssAndJs</method>
+                        <params>
+                            <task_name>refresh_css_and_js</task_name>
+                        </params>
+                    </saas_queue>
+                </observers>
+            </application_process_refresh_css_and_js>
+        </events>
+    </global>
+</config>
