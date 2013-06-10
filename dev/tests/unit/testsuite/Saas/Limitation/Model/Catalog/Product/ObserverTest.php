@@ -51,29 +51,109 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
         $this->_model->restrictEntityCreation($observer);
     }
 
-    public function testRestrictEntityCreationNonRestricted()
+    /**
+     * @param bool $isObjectNew
+     * @param int $limitationCalls
+     * @dataProvider restrictEntityCreationNonRestrictedDataProvider
+     */
+    public function testRestrictEntityCreationNonRestricted($isObjectNew, $limitationCalls)
     {
         $entity = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
         $entity->expects($this->once())
             ->method('isObjectNew')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue($isObjectNew));
         $observer  = new Varien_Event_Observer(array('event' => new Varien_Object(array('product' => $entity))));
-        $this->_limitation->expects($this->once())
+        $this->_limitation->expects($this->exactly($limitationCalls))
             ->method('isCreateRestricted')
             ->will($this->returnValue(false));
         $this->_model->restrictEntityCreation($observer);
     }
 
-    public function testRestrictEntityCreationUpdate()
+    /**
+     * @return array
+     */
+    public function restrictEntityCreationNonRestrictedDataProvider()
+    {
+        return array(
+            'new object'      => array(true, 1),
+            'existing object' => array(false, 0),
+        );
+    }
+
+    /**
+     * @param bool $isObjectNew
+     * @param array $variations
+     * @param int $expectedNewEntitiesCount
+     * @expectedException Mage_Catalog_Exception
+     * @expectedExceptionMessage Creation restricted
+     * @dataProvider restrictEntityCreationWithVariationsRestrictedDataProvider
+     */
+    public function testRestrictEntityCreationWithVariationsRestricted(
+        $isObjectNew, array $variations, $expectedNewEntitiesCount
+    ) {
+        $entity = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
+        $entity->expects($this->once())
+            ->method('isObjectNew')
+            ->will($this->returnValue($isObjectNew));
+
+        $data = array('product' => $entity, 'variations' => $variations);
+        $observer  = new Varien_Event_Observer(array('event' => new Varien_Object($data)));
+        $this->_limitation->expects($this->once())
+            ->method('isCreateRestricted')
+            ->will($this->returnValue(true));
+        $this->_limitation->expects($this->once())
+            ->method('getCreationExceededMessage')
+            ->with($expectedNewEntitiesCount)
+            ->will($this->returnValue('Creation restricted'));
+        $this->_model->restrictEntityCreationWithVariations($observer);
+    }
+
+    /**
+     * @return array
+     */
+    public function restrictEntityCreationWithVariationsRestrictedDataProvider()
+    {
+        return array(
+            'new product, no variations'    => array(true, array(), 1),
+            'new product, 1 variation'      => array(true, array(1), 2),
+            'existing product, 1 variation' => array(false, array(1), 1),
+        );
+    }
+
+    /**
+     * @param bool $isNew
+     * @param array $variations
+     * @param int $limitationCalls
+     * @dataProvider restrictEntityCreationWithVariationsDataProvider
+     */
+    public function testRestrictEntityCreationWithVariationsNonRestricted($isNew, array $variations, $limitationCalls)
     {
         $entity = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
         $entity->expects($this->once())
             ->method('isObjectNew')
+            ->will($this->returnValue($isNew));
+
+        $data = array('product' => $entity, 'variations' => $variations);
+        $observer  = new Varien_Event_Observer(array('event' => new Varien_Object($data)));
+        $this->_limitation->expects($this->exactly($limitationCalls))
+            ->method('isCreateRestricted')
             ->will($this->returnValue(false));
-        $observer  = new Varien_Event_Observer(array('event' => new Varien_Object(array('product' => $entity))));
         $this->_limitation->expects($this->never())
-            ->method('isCreateRestricted');
-        $this->_model->restrictEntityCreation($observer);
+            ->method('getCreationExceededMessage');
+        $this->_model->restrictEntityCreationWithVariations($observer);
+    }
+
+    /**
+     * @return array
+     */
+    public function restrictEntityCreationWithVariationsDataProvider()
+    {
+        return array(
+            'new product, no variation, limitation is not reached' => array(true, array(), 1),
+            'new product, 1 variation, limitation is not reached' => array(true, array(1), 1),
+            'existing product, no variation, limitation is not reached' => array(false, array(), 0),
+            'existing product, 1 variation, limitation is not reached' => array(false, array(1), 1),
+        );
     }
 
     public function testDisplayNotificationRestricted()

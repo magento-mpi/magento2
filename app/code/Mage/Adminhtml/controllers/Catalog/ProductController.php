@@ -535,16 +535,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
             $product->validate();
 
-            /* Verify limitation */
-            $numProductsToCreate = $product->getId() ? 0 : 1;
-            $numProductsToCreate += count($variationProducts);
-            $limitation = $this->_getLimitation();
-            if ($limitation->isCreateRestricted($numProductsToCreate)) {
-                $message = Mage::helper('Mage_Catalog_Helper_Data')->__('We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.');
-                $message = sprintf($message, $numProductsToCreate, $limitation->getLimit());
-                throw new Mage_Catalog_Exception($message);
-            }
-
             /**
              * @todo implement full validation process with errors returning which are ignoring now
              */
@@ -584,8 +574,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      *
      * @return array
      */
-    protected function _validateProductVariations($parentProduct, $products)
+    protected function _validateProductVariations($parentProduct, array $products)
     {
+        $this->_eventManager->dispatch(
+            'catalog_product_validate_variations_before',
+            array('product' => $parentProduct, 'variations' => $products)
+        );
         $validationResult = array();
         foreach ($products as $productData) {
             /** @var Mage_Catalog_Model_Product $product */

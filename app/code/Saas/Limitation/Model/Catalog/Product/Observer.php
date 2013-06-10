@@ -50,6 +50,24 @@ class Saas_Limitation_Model_Catalog_Product_Observer
     }
 
     /**
+     * Restrict creation of new entity, if the limitation is reached
+     *
+     * @param Varien_Event_Observer $observer
+     * @throws Mage_Catalog_Exception
+     */
+    public function restrictEntityCreationWithVariations(Varien_Event_Observer $observer)
+    {
+        /** @var Mage_User_Model_User $entity */
+        $entity = $observer->getEvent()->getData('product');
+        $variations = $observer->getEvent()->getData('variations');
+        $newEntities = ($entity->isObjectNew() ? 1 : 0) + count($variations);
+        if ($newEntities > 0 && $this->_limitation->isCreateRestricted($newEntities)) {
+            $message = $this->_limitation->getCreationExceededMessage($newEntities);
+            throw new Mage_Catalog_Exception($message);
+        }
+    }
+
+    /**
      * Add restriction message to the session, if the limitation is reached
      *
      * @param Varien_Event_Observer $observer

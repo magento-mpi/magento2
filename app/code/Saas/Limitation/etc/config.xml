@@ -69,6 +69,14 @@
                     </saas_limitation_catalog_product>
                 </observers>
             </catalog_product_validate_before>
+            <catalog_product_validate_variations_before>
+                <observers>
+                    <saas_limitation_catalog_product>
+                        <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
+                        <method>restrictEntityCreationWithVariations</method>
+                    </saas_limitation_catalog_product>
+                </observers>
+            </catalog_product_validate_variations_before>
         </events>
     </global>
     <adminhtml>

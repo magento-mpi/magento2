@@ -117,4 +117,41 @@ class Saas_Limitation_Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_
         $this->assertSelectCount('#save-split-button-duplicate-button', 0, $body,
             '"Save & Duplicate" should not be present on New Product page, if last allowed product is being created');
     }
+
+    /**
+     * @magentoConfigFixture limitations/catalog_product 2
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @dataProvider validateActionOnVariationsLimitReachedDataProvider
+     */
+    public function testValidateActionOnVariationsLimitReached($productId, $expectedMessage)
+    {
+        $productData = array();
+        $variationsMatrix = array(
+            array('configurable_attribute' => '{"size":1}'),
+            array('configurable_attribute' => '{"size":1}'),
+        );
+        $this->getRequest()
+            ->setPost('product', $productData)
+            ->setPost('id', $productId)
+            ->setPost('variations-matrix', $variationsMatrix);
+
+        $this->dispatch('backend/admin/catalog_product/validate');
+
+        $this->assertContains($expectedMessage, $this->getResponse()->getBody());
+    }
+
+    public static function validateActionOnVariationsLimitReachedDataProvider()
+    {
+        $message = 'You tried to add %d products, but the most you can have is %d.';
+        return array(
+            'new product' => array(
+                null,
+                sprintf($message, 3, 2),
+            ),
+            'existing product' => array(
+                1,
+                sprintf($message, 2, 2),
+            ),
+        );
+    }
 }

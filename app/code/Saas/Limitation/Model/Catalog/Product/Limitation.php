@@ -37,14 +37,14 @@ class Saas_Limitation_Model_Catalog_Product_Limitation
     /**
      * Whether creation of specified number of products is restricted
      *
-     * @param int $num Number of products to create
+     * @param int $number Number of products to create
      * @return bool
      */
-    public function isCreateRestricted($num = 1)
+    public function isCreateRestricted($number = 1)
     {
         $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
         if ($limit > 0) {
-            return $this->_resource->countAll() + $num > $limit;
+            return $this->_resource->countAll() + $number > $limit;
         }
         return false;
     }
@@ -57,19 +57,22 @@ class Saas_Limitation_Model_Catalog_Product_Limitation
     public function getCreateRestrictedMessage()
     {
         // @codingStandardsIgnoreStart
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the products and variations your account allows. To add more, first delete a product or upgrade your service.');
+        return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, you are using all the products and variations your account allows. To add more, first delete a product or upgrade your service.');
         // @codingStandardsIgnoreEnd
     }
 
-
     /**
-     * Returns limit for product creation, or NULL if no limit is set
+     * Get message with configured limitation value and restriction to add specified number of products
      *
-     * @return int|null
+     * @param int $number Number of products attempted to be created
+     * @return string
      */
-    public function getLimit()
+    public function getCreationExceededMessage($number)
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
-        return $limit ?: null;
+        // @codingStandardsIgnoreStart
+        $message = Mage::helper('Saas_Limitation_Helper_Data')->__('We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.');
+        // @codingStandardsIgnoreEnd
+        $message = sprintf($message, $number, (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS));
+        return $message;
     }
 }
