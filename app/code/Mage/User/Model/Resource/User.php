@@ -421,9 +421,6 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
             Zend_Validate_Callback::INVALID_VALUE
         );
 
-        /** @var $validator Magento_Validator_Composite_VarienObject */
-        $validator = new Magento_Validator_Composite_VarienObject;
-        $validator->addRule($userIdentity);
-        return $validator;
+        return $userIdentity;
     }
 }
