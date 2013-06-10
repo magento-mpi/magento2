@@ -1891,18 +1891,21 @@ input.mage-error ~ .addafter {
     background-color: #fff;
 }
 
+.field.type-price .addon,
 .field-price .addon,
 .field-special_price .addon,
 .field-msrp .addon {
     direction: rtl;
 }
 
+.field.type-price .addon > *,
 .field-price .addon > *,
 .field-special_price .addon > *,
 .field-msrp .addon > * {
     direction: ltr;
 }
 
+.field.type-price .addon .addafter,
 .field-price .addon .addafter,
 .field-special_price .addon .addafter,
 .field-msrp .addon .addafter {
@@ -1910,18 +1913,21 @@ input.mage-error ~ .addafter {
     border-radius: 4px 0 0 4px;
 }
 
+.field.type-price .addon input:first-child,
 .field-price .addon input:first-child,
 .field-special_price .addon input:first-child,
 .field-msrp .addon input:first-child {
     border-radius: 0 4px 4px 0;
 }
 
+.eq-ie8 .field.type-price .addon .addafter,
 .eq-ie8 .field-price .addon .addafter,
 .eq-ie8 .field-special_price .addon .addafter,
 .eq-ie8 .field-msrp .addon .addafter {
     border-width: 1px 1px 1px 0;
 }
 
+.field.type-price input,
 .field-price input,
 .field-special_price input,
 .field-msrp input {
@@ -1929,18 +1935,21 @@ input.mage-error ~ .addafter {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
 }
 
+.field.type-price input:focus,
 .field-price input:focus,
 .field-special_price input:focus,
 .field-msrp input:focus {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
+.field.type-price input:focus ~ label.addafter,
 .field-price input:focus ~ label.addafter,
 .field-special_price input:focus ~ label.addafter,
 .field-msrp input:focus ~ label.addafter {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
+.field.type-price input ~ label.addafter strong,
 .field-price input ~ label.addafter strong,
 .field-special_price input ~ label.addafter strong,
 .field-msrp input ~ label.addafter strong {
@@ -5332,6 +5341,7 @@ table .col-draggable .draggable-handle {
 
 .attributes-edit-form .field:last-child,
 .attributes-edit-form .field-name,
+.attributes-edit-form .field.type-price,
 .attributes-edit-form .field-price,
 .attributes-edit-form .field-special_price,
 .attributes-edit-form .field-meta_title,
@@ -5361,6 +5371,7 @@ table .col-draggable .draggable-handle {
     top: 35px;
 }
 
+.attributes-edit-form .field.type-price .attribute-change-checkbox,
 .attributes-edit-form .field-price .attribute-change-checkbox,
 .attributes-edit-form .field-special_price .attribute-change-checkbox,
 .attributes-edit-form .field-msrp .attribute-change-checkbox {
