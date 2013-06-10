@@ -203,8 +203,10 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
             ->method('getAffectedFields')
             ->will($this->returnValue(array(
                 'test_table' => array(
-                    'value_id' => 0,
-                    'attribute_id' => $code,
+                    array(
+                        'value_id' => 0,
+                        'attribute_id' => $code,
+                    )
                 )
             )));
 
