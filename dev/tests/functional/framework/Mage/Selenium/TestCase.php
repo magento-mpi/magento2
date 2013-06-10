@@ -4460,7 +4460,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($fieldType == self::FIELD_TYPE_INPUT) {
                 if(!$item->displayed()) {
                     preg_match_all('/\d+/', $item->attribute('name'), $matches);
-                    $key = array_pop(reset($matches));
+                    $key = array_pop($matches[0]);
                 } else {
                     $key = $item->value();
                 }
