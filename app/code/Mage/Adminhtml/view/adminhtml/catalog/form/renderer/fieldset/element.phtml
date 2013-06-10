@@ -26,7 +26,7 @@ $fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
 $fieldClass .= ($addOn) ? ' with-addon' : '';
 $fieldClass .= ($element->getRequired()) ? ' required' : '';
 $fieldClass .= ($note) ? ' with-note' : '';
-$fieldClass .= ($entity && $entity->getIsUserDefined() && $entity->getFrontendInput() == 'price') ? ' user-defined type-price' : '';
+$fieldClass .= ($entity && $entity->getIsUserDefined()) ? ' user-defined type-' . $entity->getFrontendInput() : '';
 
 $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
     . $this->getUiId('form-field', $element->getId());
