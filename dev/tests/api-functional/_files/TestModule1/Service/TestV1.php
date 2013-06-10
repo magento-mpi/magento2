@@ -20,6 +20,7 @@ class Mage_TestModule1_Service_TestV1 implements Mage_TestModule1_Service_TestIn
     public function item($request)
     {
         if ($request['id'] == null) {
+            //TODO: Change to Mage_Service_Exception
             throw new Mage_TestModule1_Exception("Invalid Id", Mage_TestModule1_Service_TestV1::ERROR_INTERNAL_LOAD);
         }
         $result = array(
@@ -72,6 +73,7 @@ class Mage_TestModule1_Service_TestV1 implements Mage_TestModule1_Service_TestIn
     public function update($request)
     {
         if ($request['id'] == null) {
+            //TODO: Change to Mage_Service_Exception
             throw new Mage_TestModule1_Exception("Invalid Id", Mage_TestModule1_Service_TestV1::ERROR_INTERNAL_SAVE);
         }
 
