@@ -89,7 +89,7 @@ WebapiTest.prototype.testCallProductGet = function() {
         assertEquals("HTTP method for API call does not match with expected one.", httpMethod, settings.type);
         assertEquals("Data for API call does not match with expected one.", productId, settings.data);
     };
-    webapi.Product('v1').get(productId);
+    webapi.Product(resourceVersion).get(productId);
 };
 
 WebapiTest.prototype.testCallProductCreate = function() {
@@ -118,5 +118,18 @@ WebapiTest.prototype.testCallProductCreate = function() {
         assertEquals("HTTP method for API call does not match with expected one.", httpMethod, settings.type);
         assertEquals("Data for API call does not match with expected one.", productData, settings.data);
     };
-    webapi.Product('v1').create(productData);
+    webapi.Product(resourceVersion).create(productData);
+};
+
+WebapiTest.prototype.testCallProductCreateInvalidVersion = function() {
+
+    expectAsserts(1);
+    var invalidVersion = 'invalidVersion';
+    try {
+        var webapi = new $.mage.webapi('BaseUrl');
+        webapi.Product(invalidVersion);
+    } catch (e) {
+        var expectedException = "Incorrect version format: " + invalidVersion;
+        assertEquals("Invalid exception was thrown.", expectedException, e);
+    }
 };
