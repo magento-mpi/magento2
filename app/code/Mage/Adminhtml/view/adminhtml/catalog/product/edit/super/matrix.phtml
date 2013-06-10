@@ -114,7 +114,9 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <td class="col-sku" data-column="sku">
                         <span data-column="sku"><?php echo $this->escapeHtml($product->getSku())?></span>
                     </td>
-                    <td class="col-price" data-column="price"><?php echo $price ?></td>
+                    <td class="col-price" data-column="price">
+                        <?php echo $this->renderPrice($price);?>
+                    </td>
                     <td class="col-qty" data-column="qty"><?php echo $product->getStockItem()->getQty()?></td>
                     <td class="col-weight" data-column="weight"><?php echo $product->getWeight()?></td>
                     <?php
@@ -193,7 +195,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                class="<?php echo $this->getAttributeFrontendClass('sku'); ?>"<?php echo $disabled?>/>
                     </td>
                     <td class="col-price" data-column="price">
-                        <?php echo $price ?>
+                        <?php echo $this->renderPrice($price) ?>
                     </td>
                     <td class="col-qty" data-column="qty">
                         <input type="text"

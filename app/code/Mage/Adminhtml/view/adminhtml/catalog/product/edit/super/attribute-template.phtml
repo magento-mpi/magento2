@@ -120,11 +120,11 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                                         <div class="actions-split actions-select" data-field="is-percent">
                                                             <input name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][is_percent]" class='no-display' data-role="is-percent-change" value="<?php echo $isPercent ? 1 : 0; ?>"/>
                                                             <button type="button" class="action-toggle" data-toggle="dropdown">
-                                                                <span><?php echo $isPercent ? Mage::helper('Mage_Catalog_Helper_Data')->__('%') : Mage::app()->getBaseCurrencyCode() ?></span>
+                                                                <span><?php echo $isPercent ? $this->__('%') : Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></span>
                                                             </button>
                                                             <ul class="dropdown-menu" data-role="dropdown-menu"  data-mage-init="{menu: {}}">
-                                                                <li data-value="0"><a class="item"><?php echo Mage::app()->getBaseCurrencyCode() ?></a></li>
-                                                                <li data-value="1"><a class="item"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%')?></a></li>
+                                                                <li data-value="0"><a class="item"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></a></li>
+                                                                <li data-value="1"><a class="item"><?php echo $this->__('%')?></a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -175,8 +175,8 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                                     <div class="field field-pricing-measure">
                                                         <div class="control">
                                                             <select name="is_percent[]">
-                                                                <option value="0"><?php echo Mage::app()->getBaseCurrencyCode() ?></option>
-                                                                <option value="1"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%')?></option>
+                                                                <option value="0"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></option>
+                                                                <option value="1"><?php echo $this->__('%')?></option>
                                                             </select>
                                                         </div>
                                                     </div>
