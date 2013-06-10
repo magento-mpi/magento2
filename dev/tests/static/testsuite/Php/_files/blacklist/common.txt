@@ -12,6 +12,8 @@ app/code/Mage/DesignEditor/view
 app/code/Mage/Theme/view
 app/code/Mage/User/view
 app/code/Mage/Webapi/view
+app/code/Mage/GoogleOptimizer/Block/Adminhtml/TabAbstract.php
+app/code/Mage/GoogleOptimizer/Block/Adminhtml/Catalog/Category/Edit/Tab/Googleoptimizer.php
 dev/tests/integration/testsuite/Magento/Code/_files
 dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/TemplateFilesTest.php
