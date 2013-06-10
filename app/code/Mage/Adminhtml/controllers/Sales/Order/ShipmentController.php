@@ -664,6 +664,8 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     {
         /** @var Magento_Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento_Filesystem');
+        /** @var $tmpDir Mage_Core_Model_Dir */
+        $tmpDir = $this->_objectManager->get('Mage_Core_Model_Dir', $filesystem->getWorkingDirectory());
         $image = imagecreatefromstring($imageString);
         if (!$image) {
             return false;
@@ -674,7 +676,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $page = new Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
+        $tmpFileName = $tmpDir->getDir(Mage_Core_Model_Dir::TMP) . 'shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
         imagepng($image, $tmpFileName);
         $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
