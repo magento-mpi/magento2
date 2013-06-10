@@ -116,22 +116,22 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     protected $_config;
 
     /**
+     * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Sender $sender
      * @param Mage_Core_Model_StoreManager $storeManager
      * @param Mage_Eav_Model_Config $config
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Mage_Core_Model_Resource_Abstract|null $resource
+     * @param Varien_Data_Collection_Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
-        array $data = array(),
         Mage_Core_Model_Sender $sender,
         Mage_Core_Model_StoreManager $storeManager,
-        Mage_Eav_Model_Config $config
+        Mage_Eav_Model_Config $config,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
     ) {
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
