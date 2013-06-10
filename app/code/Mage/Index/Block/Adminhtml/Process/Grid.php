@@ -32,16 +32,20 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
     protected $_eventRepository;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Url $urlModel
      * @param Mage_Index_Model_EventRepository $eventRepository
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Url $urlModel,
         Mage_Index_Model_EventRepository $eventRepository,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
     }
 
@@ -241,7 +245,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
      */
     public function decorateDate($value, $row, $column, $isExport)
     {
-        if(!$value) {
+        if (!$value) {
             return $this->__('Never');
         }
         return $value;

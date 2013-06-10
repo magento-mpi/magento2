@@ -390,8 +390,9 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @dataProvider imageWatermarkDataProvider
      * @depends testOpen
      */
-    public function testWatermark($image, $watermark, $width, $height, $opacity, $position, $colorX, $colorY, $adapterType)
-    {
+    public function testWatermark(
+        $image, $watermark, $width, $height, $opacity, $position, $colorX, $colorY, $adapterType
+    ) {
         $adapter = $this->_getAdapter($adapterType);
         $adapter->open($image);
         $pixel = $this->_prepareColor(array('x' => $colorX, 'y' => $colorY), $position, $adapter);
