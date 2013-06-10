@@ -31,9 +31,7 @@
  * @method Enterprise_Reminder_Model_Rule setDefaultLabel(string $value)
  * @method string getDefaultDescription()
  * @method Enterprise_Reminder_Model_Rule setDefaultDescription(string $value)
- * @method string getActiveFrom()
  * @method Enterprise_Reminder_Model_Rule setActiveFrom(string $value)
- * @method string getActiveTo()
  * @method Enterprise_Reminder_Model_Rule setActiveTo(string $value)
  *
  * @category    Enterprise
