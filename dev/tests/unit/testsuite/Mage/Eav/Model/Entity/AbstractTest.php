@@ -166,17 +166,22 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         return $adapter;
     }
 
-    public function testSave()
+    /**
+     * @param string $attributeCode
+     * @param int $attributeSetId
+     * @param array $productData
+     * @param array $productOrigData
+     *
+     * @dataProvider productAttributesDataProvider
+     */
+    public function testSave($attributeCode, $attributeSetId, $productData, $productOrigData)
     {
-        $code = 'test_attr';
-        $set = 10;
-
-        $object = $this->getMock('Mage_Catalog_Model_Product', null, array(), '', false);
+        $object = $this->getMock('Mage_Catalog_Model_Product', array('getOrigData'), array(), '', false);
         $object->setEntityTypeId(1);
-        $object->setData(array(
-            'test_attr' => 'test_attr',
-            'attribute_set_id' => $set,
-        ));
+        $object->setData($productData);
+        $object->expects($this->any())
+            ->method('getOrigData')
+            ->will($this->returnValue($productOrigData));
 
         $entityType = new Varien_Object();
         $entityType->setEntityTypeCode('test');
@@ -187,45 +192,68 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
         $attribute = $this->getMock(
             'Mage_Eav_Model_Entity_Attribute_Abstract',
-            array('getBackend', 'getBackendTable', 'isInSet', 'getApplyTo'),
+            array('getBackend', 'getBackendTable', 'isInSet', 'getApplyTo', 'getAttributeCode'),
             array(),
             '',
             false
         );
-        $attribute->setAttributeId($code);
+        $attribute->setAttributeId($attributeCode);
 
         /** @var $backendModel Mage_Eav_Model_Entity_Attribute_Backend_Abstract */
         $backendModel = $this->getMock(
             'Mage_Eav_Model_Entity_Attribute_Backend_Abstract',
-            array('getBackend', 'getBackendTable', 'getAffectedFields')
+            array(
+                'getBackend',
+                'getBackendTable',
+                'getAffectedFields',
+                'isStatic',
+                'getEntityValueId',
+                'getEntityIdField'
+            )
         );
+
         $backendModel->expects($this->once())
             ->method('getAffectedFields')
             ->will($this->returnValue(array(
                 'test_table' => array(
                     array(
                         'value_id' => 0,
-                        'attribute_id' => $code,
+                        'attribute_id' => $attributeCode,
                     )
                 )
             )));
 
+        $backendModel->expects($this->any())
+            ->method('isStatic')
+            ->will($this->returnValue(false));
+
+        $backendModel->expects($this->never())
+            ->method('getEntityValueId');
+
+        $backendModel->expects((isset($productData['entity_id'])?$this->never():$this->once()))
+            ->method('getEntityIdField')
+            ->will($this->returnValue('entity_id'));
+
         $backendModel->setAttribute($attribute);
+
         $attribute->expects($this->any())
             ->method('getBackend')
             ->will($this->returnValue($backendModel));
 
         $attribute->expects($this->any())
             ->method('getBackendTable')
-            ->will($this->returnValue($code . '_table'));
+            ->will($this->returnValue($attributeCode . '_table'));
 
         $attribute->expects($this->any())
             ->method('isInSet')
-            ->with($this->equalTo($set))
+            ->with($this->equalTo($attributeSetId))
             ->will($this->returnValue(false));
 
-        $attributes[$code] = $attribute;
+        $attribute->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
 
+        $attributes[$attributeCode] = $attribute;
 
         $data = array(
             'type' => $entityType,
@@ -251,4 +279,46 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
         $model->save($object);
     }
+
+    public function productAttributesDataProvider()
+    {
+        $attributeSetId = 10;
+        return array(
+            array(
+                'test_attr',
+                $attributeSetId,
+                array(
+                    'test_attr' => 'test_attr',
+                    'attribute_set_id' => $attributeSetId,
+                    'entity_id' => null,
+                ),
+                null,
+            ),
+            array(
+                'test_attr',
+                $attributeSetId,
+                array(
+                    'test_attr' => 'test_attr',
+                    'attribute_set_id' => $attributeSetId,
+                    'entity_id' => 12345,
+                ),
+                array(
+                    'test_attr' => 'test_attr',
+                ),
+            ),
+            array(
+                'test_attr',
+                $attributeSetId,
+                array(
+                    'test_attr' => '99.99',
+                    'attribute_set_id' => $attributeSetId,
+                    'entity_id' => 12345,
+                ),
+                array(
+                    'test_attr' => '99.9900',
+                ),
+            ),
+        );
+    }
+
 }
