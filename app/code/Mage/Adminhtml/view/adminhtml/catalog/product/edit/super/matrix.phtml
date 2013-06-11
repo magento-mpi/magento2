@@ -99,7 +99,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         </div>
                         <?php if ($image): ?>
                             <img src="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getImageUrl($product)?>"
-                                 style="width:55px;height:55px" />
+                                 class="variation-image" />
                         <?php endif; ?>
                     </td>
                     <td class="col-name" data-column="name">
@@ -258,12 +258,14 @@ jQuery(function ($) {
                 }
                 if (!data.result.error) {
                     var parentElement = $(event.target).closest('[data-column=image]'),
+                        uploaderControl = $('.actions-image-uploader', parentElement),
                         imageElement = parentElement.find('img');
+
                     if (imageElement.length) {
                         imageElement.attr('src', data.result.url);
                     } else {
                         parentElement.find('[data-action=upload-image]').hide();
-                        $.tmpl('<img src="${url}" style="width:55px;height:55px"/>', data.result).prependTo(parentElement);
+                        $.tmpl('<img src="${url}" class="variation-image"/>', data.result).prependTo(uploaderControl);
                         parentElement.find('img').on('click', function (event) {
                             if ($(event.target).closest('tr').find('[data-column=entity_id]').is(':checked')) {
                                 $(event.target).closest('.col-image').find('[name=image]').trigger('click');

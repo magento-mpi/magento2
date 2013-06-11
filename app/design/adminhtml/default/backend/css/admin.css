@@ -1009,53 +1009,6 @@ button.primary.disabled:hover,
     color: #888;
 }
 
-/* Variations Image Uploader */
-.actions-image-uploader > img {
-    float: left;
-    border: solid #b7b2a7;
-    border-width: 1px 0 1px 1px;
-    width: 32px;
-    height: 31px;
-}
-
-.eq-ie8 .actions-image-uploader .action-upload {
-    filter: none;
-}
-
-.actions-image-uploader .action-toggle,
-.actions-image-uploader .action-toggle:hover,
-.actions-image-uploader .action-toggle:active,
-.actions-image-uploader .action-toggle:focus,
-.actions-image-uploader .action-toggle[disabled] {
-    position: relative;
-    height: 33px;
-    padding-left: 2px;
-    padding-right: 2px;
-    background: #fff;
-    filter: none;
-    color: #888;
-}
-
-.actions-image-uploader.active .action-toggle {
-    border-radius: 0 5px 0 0;
-}
-
-.actions-image-uploader.active .action-toggle:after {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 1px;
-    background: #fff;
-    z-index: 991;
-    content: '';
-}
-
-.actions-image-uploader .dropdown-menu {
-    margin-top: -1px;
-    border-radius: 3px 0 3px 3px;
-}
-
 /*
     Action delete icon
 -------------------------------------- */

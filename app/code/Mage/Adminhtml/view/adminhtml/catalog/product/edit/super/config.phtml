@@ -177,15 +177,17 @@ jQuery(function($) {
                         .prop({checked: true, disabled: false});
 
                     var parentElement = $matrixRow.find('.col-image'),
+                        uploaderControl = $('.actions-image-uploader', parentElement),
                         imageElement = $matrixRow.find('img');
+
                     if (imageElement.length) {
                         imageElement.attr('src', $gridRow.find('[data-role=image-url]').val());
                     } else {
                         parentElement.find('[data-action=upload-image]').remove();
                         $('<img>', {
                             src: $gridRow.find('[data-role=image-url]').val(),
-                            style: 'width:55px;height:55px'
-                        }).appendTo(parentElement);
+                            'class': "variation-image"
+                        }).prependTo(uploaderControl);
                         parentElement.find('img').on('click', function (event) {
                             if ($(event.target).closest('tr').find('[data-column=entity_id]').is(':checked')) {
                                 $(event.target).closest('.col-image').find('[name=image]').trigger('click');
