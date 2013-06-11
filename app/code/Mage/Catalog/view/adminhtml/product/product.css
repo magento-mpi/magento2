@@ -625,61 +625,44 @@
 }
 
 #product-variations-matrix .variation-image {
-    float: left;
-    border: solid #b7b2a7;
-    border-width: 1px 0 1px 1px;
+    position: relative;
+    border: 0;
     width: 32px;
-    height: 31px;
+    height: 32px;
+    z-index: 2;
 }
 
 #product-variations-matrix .action-upload {
+    position: relative;
+    border: 1px solid #b7b2a7;
     background: #fff;
     border-radius: 0;
     padding: 0;
-    width: 33px;
-    height: 33px;
-    line-height: 30px;
+    width: 31px;
+    height: 31px;
+    line-height: 31px;
     text-align: center;
     color: #9f9a91;
     overflow: hidden;
     cursor: default;
-    border: 0;
     filter: none;
 }
 
-#product-variations-matrix .action-upload + .variation-image {
-    float: none;
-    border: none;
-    width: 33px;
-    height: 33px;
-    margin-right: 0;
-}
-
 #product-variations-matrix .action-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 31px;
+    height: 31px;
     background: none;
-    border: 0;
-    overflow: hidden;
-    top: -1px;
-    right: -1px;
-    bottom: -1px;
-    left: -1px;
-    z-index: 2;
-}
-
-#product-variations-matrix .action-upload input[type="file"] {
-    opacity: 0;
-    background: none;
-    border: none;
+    border: 500px solid transparent;
+    font-size: 10em;
+    z-index: 3;
+    cursor: pointer;
 }
 
 #product-variations-matrix .action-upload:hover {
     color: #7e7e7e;
-}
-
-.lt-ie10 #product-variations-matrix .action-upload input[type="file"] {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    width: 33px;
-    height: 33px;
 }
 
 #product-variations-matrix .action-upload:before {
@@ -696,12 +679,22 @@
     right: 0;
     bottom: 0;
     z-index: 1;
-    border: 1px solid #b7b2a7;
     text-align: center;
 }
 
 #product-variations-matrix .action-upload.loading:before {
     content: '';
+}
+
+#product-variations-matrix .action-upload.loading:after {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    width: 31px;
+    height: 31px;
+    z-index: 4;
 }
 
 #product-variations-matrix .action-upload span,

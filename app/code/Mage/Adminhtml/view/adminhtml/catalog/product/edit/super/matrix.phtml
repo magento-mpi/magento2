@@ -258,19 +258,13 @@ jQuery(function ($) {
                 }
                 if (!data.result.error) {
                     var parentElement = $(event.target).closest('[data-column=image]'),
-                        uploaderControl = $('.actions-image-uploader', parentElement),
+                        uploaderControl = $('.actions-image-uploader .action-upload', parentElement),
                         imageElement = parentElement.find('img');
 
                     if (imageElement.length) {
                         imageElement.attr('src', data.result.url);
                     } else {
-                        parentElement.find('[data-action=upload-image]').hide();
                         $.tmpl('<img src="${url}" class="variation-image"/>', data.result).prependTo(uploaderControl);
-                        parentElement.find('img').on('click', function (event) {
-                            if ($(event.target).closest('tr').find('[data-column=entity_id]').is(':checked')) {
-                                $(event.target).closest('.col-image').find('[name=image]').trigger('click');
-                            }
-                        });
                     }
                     parentElement.find('input[id$="image"]').val(data.result.file);
                 } else {
@@ -289,7 +283,6 @@ jQuery(function ($) {
     });
     matrix.find('[data-action=no-image]').click(function (event) {
         var parentElement = $(event.target).closest('[data-column=image]');
-        parentElement.find('[data-action=upload-image]').show();
         parentElement.find('img').remove();
         parentElement.find('[data-toggle=dropdown]').trigger('close.dropdown');
     });
