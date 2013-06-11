@@ -54,7 +54,6 @@
         <Saas_Sitemap><active>true</active></Saas_Sitemap>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
         <Saas_Webistrano><active>true</active></Saas_Webistrano>
-        <Saas_Cdn><active>true</active></Saas_Cdn>
         <Saas_ImportExport><active>true</active></Saas_ImportExport>
     </modules>
 </config>
