@@ -56,4 +56,28 @@ class Saas_Limitation_Model_Catalog_Product_LimitationTest extends PHPUnit_Frame
             'add 2 products with count much < limit' => array(2, 3, 1, false),
         );
     }
+
+    /**
+     * @param int|string $limit
+     * @param int $expected
+     * @dataProvider getLimitDataProvider
+     */
+    public function testGetLimit($limit, $expected)
+    {
+        $model = $this->_buildModel($limit);
+        $this->assertSame($expected, $model->getLimit());
+    }
+
+    /**
+     * @return array
+     */
+    public function getLimitDataProvider()
+    {
+        return array(
+            'zero limit'     => array(0, 0),
+            'no limit'       => array('', 0),
+            'positive limit' => array(5, 5),
+            'string limit'   => array('5', 5),
+        );
+    }
 }

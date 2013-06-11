@@ -42,7 +42,7 @@ class Saas_Limitation_Model_Catalog_Product_Limitation
      */
     public function isCreateRestricted($number = 1)
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
+        $limit = $this->getLimit();
         if ($limit > 0) {
             return $this->_resource->countAll() + $number > $limit;
         }
@@ -50,29 +50,12 @@ class Saas_Limitation_Model_Catalog_Product_Limitation
     }
 
     /**
-     * Get restriction message
+     * Returns limit for product creation
      *
-     * @return string
+     * @return int
      */
-    public function getCreateRestrictedMessage()
+    public function getLimit()
     {
-        // @codingStandardsIgnoreStart
-        return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, you are using all the products and variations your account allows. To add more, first delete a product or upgrade your service.');
-        // @codingStandardsIgnoreEnd
-    }
-
-    /**
-     * Get message with configured limitation value and restriction to add specified number of products
-     *
-     * @param int $number Number of products attempted to be created
-     * @return string
-     */
-    public function getCreationExceededMessage($number)
-    {
-        // @codingStandardsIgnoreStart
-        $message = Mage::helper('Saas_Limitation_Helper_Data')->__('We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.');
-        // @codingStandardsIgnoreEnd
-        $message = sprintf($message, $number, (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS));
-        return $message;
+        return (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
     }
 }

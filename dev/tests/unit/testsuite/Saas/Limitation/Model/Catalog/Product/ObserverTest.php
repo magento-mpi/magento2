@@ -18,6 +18,11 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
     protected $_session;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helper;
+
+    /**
      * @var Saas_Limitation_Model_Catalog_Product_Observer
      */
     protected $_model;
@@ -28,55 +33,50 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
             'Saas_Limitation_Model_Catalog_Product_Limitation', array(), array(), '', false
         );
         $this->_session = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
-        $this->_model = new Saas_Limitation_Model_Catalog_Product_Observer($this->_limitation, $this->_session);
-    }
-
-    /**
-     * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Creation restricted
-     */
-    public function testRestrictEntityCreationRestricted()
-    {
-        $entity = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
-        $entity->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(true));
-        $observer  = new Varien_Event_Observer(array('event' => new Varien_Object(array('product' => $entity))));
-        $this->_limitation->expects($this->once())
-            ->method('isCreateRestricted')
-            ->will($this->returnValue(true));
-        $this->_limitation->expects($this->once())
-            ->method('getCreateRestrictedMessage')
-            ->will($this->returnValue('Creation restricted'));
-        $this->_model->restrictEntityCreation($observer);
+        $this->_helper = $this->getMock('Saas_Limitation_Helper_Data', array(), array(), '', false);
+        $this->_model = new Saas_Limitation_Model_Catalog_Product_Observer(
+            $this->_limitation, $this->_session, $this->_helper
+        );
     }
 
     /**
      * @param bool $isObjectNew
-     * @param int $limitationCalls
-     * @dataProvider restrictEntityCreationNonRestrictedDataProvider
+     * @param bool $isRestricted
+     * @param bool $throwsException
+     * @dataProvider restrictEntityCreationDataProvider
      */
-    public function testRestrictEntityCreationNonRestricted($isObjectNew, $limitationCalls)
+    public function testRestrictEntityCreation($isObjectNew, $isRestricted, $throwsException)
     {
+        if ($throwsException) {
+            $this->setExpectedException(
+                'Mage_Core_Exception',
+                'Sorry, you are using all the products and variations your account allows'
+            );
+        }
         $entity = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
         $entity->expects($this->once())
             ->method('isObjectNew')
             ->will($this->returnValue($isObjectNew));
         $observer  = new Varien_Event_Observer(array('event' => new Varien_Object(array('product' => $entity))));
-        $this->_limitation->expects($this->exactly($limitationCalls))
+        $this->_limitation->expects($this->any())
             ->method('isCreateRestricted')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue($isRestricted));
+        $this->_helper->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
         $this->_model->restrictEntityCreation($observer);
     }
 
     /**
      * @return array
      */
-    public function restrictEntityCreationNonRestrictedDataProvider()
+    public function restrictEntityCreationDataProvider()
     {
         return array(
-            'new object'      => array(true, 1),
-            'existing object' => array(false, 0),
+            'new entity, creation is restricted'          => array(true, true, true),
+            'new entity, creation is not restricted'      => array(true, false, false),
+            'existing entity, creation is restricted'     => array(false, true, false),
+            'existing entity, creation is not restricted' => array(false, false, false),
         );
     }
 
@@ -84,13 +84,18 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
      * @param bool $isObjectNew
      * @param array $variations
      * @param int $expectedNewCount
-     * @expectedException Mage_Catalog_Exception
-     * @expectedExceptionMessage Creation restricted
      * @dataProvider restrictEntityCreationWithVariationsRestrictedDataProvider
      */
     public function testRestrictEntityCreationWithVariationsRestricted(
         $isObjectNew, array $variations, $expectedNewCount
     ) {
+        $configuredLimit = 1;
+
+        // @codingStandardsIgnoreStart
+        $exceptionMessage = "We could not save the product. You tried to add $expectedNewCount products, but the most you can have is $configuredLimit. To add more, please upgrade your service.";
+        // @codingStandardsIgnoreEnd
+        $this->setExpectedException('Mage_Catalog_Exception', $exceptionMessage);
+
         $entity = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
         $entity->expects($this->once())
             ->method('isObjectNew')
@@ -102,9 +107,15 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
             ->method('isCreateRestricted')
             ->will($this->returnValue(true));
         $this->_limitation->expects($this->once())
-            ->method('getCreationExceededMessage')
-            ->with($expectedNewCount)
-            ->will($this->returnValue('Creation restricted'));
+            ->method('getLimit')
+            ->will($this->returnValue($configuredLimit));
+        $this->_helper->expects($this->once())
+            ->method('__')
+            // @codingStandardsIgnoreStart
+            ->with('We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.')
+            ->will($this->returnValue($exceptionMessage))
+            // @codingStandardsIgnoreEnd
+        ;
         $this->_model->restrictEntityCreationWithVariations($observer);
     }
 
@@ -138,8 +149,8 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
         $this->_limitation->expects($this->exactly($limitationCalls))
             ->method('isCreateRestricted')
             ->will($this->returnValue(false));
-        $this->_limitation->expects($this->never())
-            ->method('getCreationExceededMessage');
+        $this->_helper->expects($this->never())
+            ->method('__');
         $this->_model->restrictEntityCreationWithVariations($observer);
     }
 
@@ -156,15 +167,94 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
         );
     }
 
+    /**
+     * @param bool $isRestricted
+     * @param bool $throwsException
+     * @dataProvider restrictEntityDuplicationDataProvider
+     */
+    public function testRestrictEntityDuplication($isRestricted, $throwsException)
+    {
+        if ($throwsException) {
+            $this->setExpectedException('Mage_Core_Exception', 'You can\'t create new product.');
+        }
+        $observer = new Varien_Event_Observer();
+        $this->_limitation->expects($this->once())
+            ->method('isCreateRestricted')
+            ->will($this->returnValue($isRestricted));
+        $this->_helper->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+        $this->_model->restrictEntityDuplication($observer);
+    }
+
+    /**
+     * @return array
+     */
+    public function restrictEntityDuplicationDataProvider()
+    {
+        return array(
+            'creation is restricted' => array(true, true),
+            'creation is allowed'    => array(false, false),
+        );
+    }
+
+    /**
+     * @param string $redirect
+     * @param bool $isRestricted
+     * @param bool $throwsException
+     * @dataProvider restrictNewEntityCreationDataProvider
+     */
+    public function testRestrictNewEntityCreation($redirect, $isRestricted, $throwsException)
+    {
+        if ($throwsException) {
+            $this->setExpectedException('Mage_Catalog_Exception', 'You can\'t create new product.');
+        }
+        $controller = $this->getMock(
+            'Mage_Adminhtml_Catalog_ProductController', array('getRequest'), array(), '', false
+        );
+        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $request->expects($this->once())
+            ->method('getParam')
+            ->with('back')
+            ->will($this->returnValue($redirect));
+        $controller->expects($this->once())
+            ->method('getRequest')
+            ->will($this->returnValue($request));
+        $observer = new Varien_Event_Observer(array('event' => new Varien_Object(array('controller' => $controller))));
+        $this->_limitation->expects($this->any())
+            ->method('isCreateRestricted')
+            ->will($this->returnValue($isRestricted));
+        $this->_helper->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+        $this->_model->restrictNewEntityCreation($observer);
+    }
+
+    /**
+     * @return array
+     */
+    public function restrictNewEntityCreationDataProvider()
+    {
+        return array(
+            '"new" redirect, limitation is not reached' => array('new', false, false),
+            '"new" redirect, limitation is reached'     => array('new', true, true),
+            '"old" redirect, limitation is not reached' => array('old', false, false),
+            '"old" redirect, limitation is reached'     => array('old', true, false),
+        );
+    }
+
     public function testDisplayNotificationRestricted()
     {
         $this->_limitation->expects($this->once())
             ->method('isCreateRestricted')
             ->will($this->returnValue(true));
-        $restrictionMessage = 'restriction message';
-        $this->_limitation->expects($this->once())
-            ->method('getCreateRestrictedMessage')
-            ->will($this->returnValue($restrictionMessage));
+        // @codingStandardsIgnoreStart
+        $restrictionMessage = 'Sorry, you are using all the products and variations your account allows. To add more, first delete a product or upgrade your service.';
+        // @codingStandardsIgnoreEnd
+        $this->_helper->expects($this->once())
+            ->method('__')
+            ->with($restrictionMessage)
+            ->will($this->returnArgument(0));
         $this->_session->expects($this->once())
             ->method('addNotice')
             ->with($restrictionMessage);
@@ -176,8 +266,8 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
         $this->_limitation->expects($this->once())
             ->method('isCreateRestricted')
             ->will($this->returnValue(false));
-        $this->_limitation->expects($this->never())
-            ->method('getCreateRestrictedMessage');
+        $this->_helper->expects($this->never())
+            ->method('__');
         $this->_session->expects($this->never())
             ->method('addNotice');
         $this->_model->displayNotification(new Varien_Event_Observer);

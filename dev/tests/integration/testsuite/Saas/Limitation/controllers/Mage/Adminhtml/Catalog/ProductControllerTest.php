@@ -173,6 +173,23 @@ class Saas_Limitation_Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_
     }
 
     /**
+     * @magentoConfigFixture limitations/catalog_product 1
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     */
+    public function testSaveActionAndNewLimitationReached()
+    {
+        $this->getRequest()->setPost(array('back' => 'new'));
+        $this->dispatch('backend/admin/catalog_product/save/id/1');
+        $this->assertRedirect(
+            $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
+        );
+        $this->assertSessionMessages(
+            $this->contains('The product has been saved.'), Mage_Core_Model_Message::SUCCESS
+        );
+        $this->assertSessionMessages($this->contains("You can't create new product."), Mage_Core_Model_Message::ERROR);
+    }
+
+    /**
      * @magentoConfigFixture limitations/catalog_category 2
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */

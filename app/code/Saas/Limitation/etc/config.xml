@@ -185,6 +185,14 @@
                     </saas_limitation_category>
                 </observers>
             </controller_action_predispatch_adminhtml_catalog_product_edit>
+            <controller_action_catalog_product_save_entity_after>
+                <observers>
+                    <saas_limitation_catalog_product>
+                        <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
+                        <method>restrictNewEntityCreation</method>
+                    </saas_limitation_catalog_product>
+                </observers>
+            </controller_action_catalog_product_save_entity_after>
             <controller_action_predispatch_adminhtml_catalog_category_index>
                 <observers>
                     <saas_limitation_category>

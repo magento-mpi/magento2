@@ -799,14 +799,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
-                if ($redirectBack === 'new') {
-                    /** @var Mage_Catalog_Model_Product_Limitation $limitation */
-                    $limitation = $this->_objectManager->get('Mage_Catalog_Model_Product_Limitation');
-                    if ($limitation->isCreateRestricted()) {
-                        $redirectBack = true;
-                        $this->_getSession()->addError($this->__("You can't create new product."));
-                    }
-                }
+
+                $this->_eventManager->dispatch(
+                    'controller_action_catalog_product_save_entity_after',
+                    array('controller' => $this)
+                );
+
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
                     $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
