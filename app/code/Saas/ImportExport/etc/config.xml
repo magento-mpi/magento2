@@ -53,12 +53,12 @@
                 <image>
                     <type_code>product_images</type_code>
                     <archive>
-                        <file_name>import_file_image</file_name>
+                        <file_field_name>import_file_image</file_field_name>
                         <allowed_extensions>
                             <zip/>
                         </allowed_extensions>
                     </archive>
-                    <filename_limit>50</filename_limit>
+                    <filename_limit>150</filename_limit>
                     <allowed_extensions>
                         <png/>
                         <gif/>
@@ -72,8 +72,8 @@
                         <gif>image/gif</gif>
                         <jpeg>image/jpeg</jpeg>
                     </allowed_mimetypes>
-                    <width_limit>1500</width_limit>
-                    <height_limit>1500</height_limit>
+                    <width_limit>2000</width_limit>
+                    <height_limit>2000</height_limit>
                 </image>
             </import>
             <export_file_formats>
