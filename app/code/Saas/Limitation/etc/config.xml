@@ -53,6 +53,14 @@
                     </saas_limitation_user>
                 </observers>
             </admin_user_save_before>
+            <catalog_category_save_before>
+                <observers>
+                    <saas_limitation_category>
+                        <class>Saas_Limitation_Model_Catalog_Category_Observer</class>
+                        <method>restrictEntityCreation</method>
+                    </saas_limitation_category>
+                </observers>
+            </catalog_category_save_before>
             <catalog_product_save_before>
                 <observers>
                     <saas_limitation_catalog_product>
@@ -121,6 +129,14 @@
                     </saas_limitation_catalog_product>
                 </observers>
             </core_block_abstract_prepare_layout_after>
+            <adminhtml_block_html_before>
+                <observers>
+                    <saas_limitation_category>
+                        <class>Saas_Limitation_Model_Catalog_Category_Observer</class>
+                        <method>disableCreationButtons</method>
+                    </saas_limitation_category>
+                </observers>
+            </adminhtml_block_html_before>
             <controller_action_predispatch_adminhtml_system_store_index>
                 <observers>
                     <saas_limitation_store>
@@ -151,6 +167,10 @@
                         <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
                         <method>displayNotification</method>
                     </saas_limitation_user>
+                    <saas_limitation_category>
+                        <class>Saas_Limitation_Model_Catalog_Category_Observer</class>
+                        <method>displayNotification</method>
+                    </saas_limitation_category>
                 </observers>
             </controller_action_predispatch_adminhtml_catalog_product_new>
             <controller_action_predispatch_adminhtml_catalog_product_edit>
@@ -159,8 +179,20 @@
                         <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
                         <method>displayNotification</method>
                     </saas_limitation_user>
+                    <saas_limitation_category>
+                        <class>Saas_Limitation_Model_Catalog_Category_Observer</class>
+                        <method>displayNotification</method>
+                    </saas_limitation_category>
                 </observers>
             </controller_action_predispatch_adminhtml_catalog_product_edit>
+            <controller_action_predispatch_adminhtml_catalog_category_index>
+                <observers>
+                    <saas_limitation_category>
+                        <class>Saas_Limitation_Model_Catalog_Category_Observer</class>
+                        <method>displayNotification</method>
+                    </saas_limitation_category>
+                </observers>
+            </controller_action_predispatch_adminhtml_catalog_category_index>
         </events>
     </adminhtml>
 </config>

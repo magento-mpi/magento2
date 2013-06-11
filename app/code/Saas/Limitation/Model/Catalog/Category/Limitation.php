@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Model_Category_Limitation
+class Saas_Limitation_Model_Catalog_Category_Limitation
 {
     /**
      * XML-node that stores limitation of number of categories in the system
@@ -62,6 +62,8 @@ class Mage_Catalog_Model_Category_Limitation
      */
     public function getCreateRestrictedMessage()
     {
+        // @codingStandardsIgnoreStart
         return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the categories your account allows. To add more, first delete a category or upgrade your service.');
+        // @codingStandardsIgnoreEnd
     }
 }

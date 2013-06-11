@@ -18,17 +18,14 @@
 class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_Data_Form_Element_Multiselect
 {
     /**
-     * Used for category count limitation
-     *
-     * @var Mage_Catalog_Model_Category_Limitation
+     * @var Mage_Core_Model_Layout
      */
-    protected $_limitation;
+    protected $_layout;
 
-    public function __construct($attributes = array(), Mage_Catalog_Model_Category_Limitation $limitation = null)
+    public function __construct($attributes = array(), Mage_Core_Model_Layout $layout = null)
     {
         parent::__construct($attributes);
-        $this->_limitation = $limitation ?: Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
-
+        $this->_layout = $layout ?: Mage::getObjectManager()->get('Mage_Core_Model_Layout');
     }
 
     /**
@@ -79,16 +76,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = Mage::helper('Mage_Catalog_Helper_Data')->__('New Category');
 
-        $status = $this->_limitation->isCreateRestricted() ? 'disabled="disabled"' : '';
-        return <<<HTML
+        $button = $this->_layout
+            ->createBlock('Mage_Backend_Block_Widget_Button')
+            ->setData(array(
+                'id'        => 'add_category_button',
+                'label'     => $newCategoryCaption,
+                'title'     => $newCategoryCaption,
+                'onclick'   => 'jQuery("#new-category").dialog("open")'
+            ));
+        $return = <<<HTML
     <input id="{$htmlId}-suggest" placeholder="$suggestPlaceholder" />
     <script>
         jQuery('#{$htmlId}-suggest').mage('treeSuggest', {$selectorOptions});
     </script>
-    <button title="{$newCategoryCaption}" type="button" {$status} onclick="jQuery('#new-category').dialog('open')">
-        <span><span><span>{$newCategoryCaption}</span></span></span>
-    </button>
 HTML;
+        return $return . $button->toHtml();
     }
 
     /**

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Model_Category_LimitationTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Catalog_Category_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param int $createNum
@@ -21,10 +21,10 @@ class Mage_Catalog_Model_Category_LimitationTest extends PHPUnit_Framework_TestC
 
         $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $config->expects($this->once())->method('getNode')
-            ->with(Mage_Catalog_Model_Category_Limitation::XML_PATH_NUM_CATEGORIES)
+            ->with(Saas_Limitation_Model_Catalog_Category_Limitation::XML_PATH_NUM_CATEGORIES)
             ->will($this->returnValue($configuredCount));
 
-        $model = new Mage_Catalog_Model_Category_Limitation($resource, $config);
+        $model = new Saas_Limitation_Model_Catalog_Category_Limitation($resource, $config);
         $this->assertEquals($expected, $model->isCreateRestricted($createNum));
     }
 

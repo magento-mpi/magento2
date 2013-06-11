@@ -80,12 +80,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $params['_current'] = true;
         $redirect = false;
 
-        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
-        $limitation = $this->_objectManager->get('Mage_Catalog_Model_Category_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
-
         $storeId = (int)$this->getRequest()->getParam('store');
         $parentId = (int)$this->getRequest()->getParam('parent');
         $prevStoreId = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')
