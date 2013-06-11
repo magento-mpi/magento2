@@ -12,7 +12,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="service_calls">
         <xs:complexType>
-            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="service_call" />
             </xs:sequence>
         </xs:complexType>
