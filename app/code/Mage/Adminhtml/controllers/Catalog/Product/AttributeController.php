@@ -152,16 +152,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
      */
     protected function _filterPostData($data)
     {
-        if ($data) {
-            /** @var $helperCatalog Mage_Catalog_Helper_Data */
-            $helperCatalog = Mage::helper('Mage_Catalog_Helper_Data');
-            //labels
-            foreach ($data['frontend_label'] as &$value) {
-                if ($value) {
-                    $value = $helperCatalog->stripTags($value);
-                }
-            }
-        }
         return $data;
     }
 
