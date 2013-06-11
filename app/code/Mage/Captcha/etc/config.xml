@@ -85,6 +85,16 @@
         </events>
     </global>
     <frontend>
+        <events>
+            <controller_action_predispatch_contacts_index_post>
+                <observers>
+                    <captcha_contact_us_form>
+                        <class>Mage_Captcha_Model_Observer</class>
+                        <method>checkContactUsForm</method>
+                    </captcha_contact_us_form>
+                </observers>
+            </controller_action_predispatch_contacts_index_post>
+        </events>
         <routers>
             <captcha>
                 <use>standard</use>
@@ -179,6 +189,7 @@
                 <length>4-5</length>
                 <symbols>ABCDEFGHJKMnpqrstuvwxyz23456789</symbols>
                 <case_sensitive>0</case_sensitive>
+                <shown_to_logged_in_user/>
                 <always_for>
                     <backend_forgotpassword>1</backend_forgotpassword>
                 </always_for>
@@ -197,11 +208,15 @@
                 <length>4-5</length>
                 <symbols>ABCDEFGHJKMnpqrstuvwxyz23456789</symbols>
                 <case_sensitive>0</case_sensitive>
+                <shown_to_logged_in_user>
+                    <contact_us>1</contact_us>
+                </shown_to_logged_in_user>
                 <always_for>
                     <user_create>1</user_create>
                     <user_forgotpassword>1</user_forgotpassword>
                     <guest_checkout>1</guest_checkout>
                     <register_during_checkout>1</register_during_checkout>
+                    <contact_us>1</contact_us>
                 </always_for>
             </captcha>
         </customer>
@@ -229,6 +244,9 @@
                     <register_during_checkout>
                         <label>Register during Checkout</label>
                     </register_during_checkout>
+                    <contact_us>
+                        <label>Contact Us</label>
+                    </contact_us>
                 </areas>
             </frontend>
             <backend>

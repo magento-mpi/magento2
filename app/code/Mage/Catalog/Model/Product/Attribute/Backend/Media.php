@@ -213,24 +213,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
     }
 
     /**
-     * Called when product was deleted
-     *
-     * @param Varien_Object $object
-     * @return Mage_Catalog_Model_Product_Attribute_Backend_Media
-     */
-    public function afterDelete($object)
-    {
-        $attrCode = $this->getAttribute()->getAttributeCode();
-        $value = $object->getData($attrCode);
-        if(isset($value['images']) && is_array($value['images'])) {
-            foreach ($value['images'] as &$image) {
-                $this->_filesystem->delete($this->_mediaConfig->getMediaPath($image['file']), $this->_baseMediaPath);
-            }
-        }
-        return parent::afterDelete($object);
-    }
-
-    /**
      * Retrieve renamed image name
      *
      * @param string $file
@@ -282,7 +264,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             if (!empty($image['removed'])) {
                 if (!empty($image['value_id']) && !isset($picturesInOtherStores[$image['file']])) {
                     $toDelete[] = $image['value_id'];
-                    $this->_filesystem->delete($this->_mediaConfig->getMediaPath($image['file']), $this->_baseMediaPath);
                 }
                 continue;
             }

@@ -16,41 +16,21 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
      */
     protected $_model;
 
-    /**
-     * @var Mage_Catalog_Model_Product_Media_Config
-     */
-    protected $_mediaConfig;
-
-    /**
-     * @var Mage_Core_Model_Dir
-     */
-    protected $_dirs;
-
-    /**
-     * @var Magento_Filesystem
-     */
-    protected $_filesystem;
-
-    /**
-     * @var StdClass
-     */
-    protected $_resource;
-
     protected function setUp()
     {
-        $this->_resource = $this->getMock('StdClass', array('getMainTable'));
-        $this->_resource->expects($this->any())
+        $resource = $this->getMock('StdClass', array('getMainTable'));
+        $resource->expects($this->any())
             ->method('getMainTable')
             ->will($this->returnValue('table'));
 
-        $this->_mediaConfig = $this->getMock('Mage_Catalog_Model_Product_Media_Config', array(), array(), '', false);
-        $this->_dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
-        $this->_filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $mediaConfig = $this->getMock('Mage_Catalog_Model_Product_Media_Config', array(), array(), '', false);
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = new Mage_Catalog_Model_Product_Attribute_Backend_Media(
-            $this->_mediaConfig,
-            $this->_dirs,
-            $this->_filesystem,
-            array('resourceModel' => $this->_resource)
+            $mediaConfig,
+            $dirs,
+            $filesystem,
+            array('resourceModel' => $resource)
         );
     }
 
@@ -103,79 +83,5 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
             ),
             $this->_model->getAffectedFields($object)
         );
-    }
-
-    /**
-     * Dataprovider for afterDelete test
-     *
-     * @return array
-     */
-    public function afterDeleteDataProvider()
-    {
-        $attributeCode = 'mediaFile';
-
-        return array(
-            array(
-                array(
-                    $attributeCode => array(
-                        'images' => array(
-                            array('file' => 'file'),
-                            array('file' => 'file'),
-                        ),
-                    ),
-                ),
-                $attributeCode,
-            ),
-            array(
-                array(
-                    $attributeCode => array(
-                        'images' => array(
-                        ),
-                    ),
-                ),
-                $attributeCode,
-            ),
-        );
-    }
-
-    /**
-     * Check if after attribute deletion properly calls image deletion
-     *
-     * @dataProvider afterDeleteDataProvider
-     * @test
-     */
-    public function afterDelete($data, $attributeCode)
-    {
-        $attribute = $this->getMockForAbstractClass(
-            'Mage_Eav_Model_Entity_Attribute_Abstract',
-            array(),
-            '',
-            false,
-            true,
-            true,
-            array(
-                'getAttributeCode'
-            )
-        );
-
-        $imageObject = new Varien_Object($data);
-
-        /** @var Magento_Filesystem $filesystem */
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $filesystem->expects($this->exactly(count($data[$attributeCode]['images'])))->method('delete');
-
-        $model = new Mage_Catalog_Model_Product_Attribute_Backend_Media(
-            $this->_mediaConfig,
-            $this->_dirs,
-            $filesystem,
-            array('resourceModel' => $this->_resource)
-        );
-
-        $attribute->expects($this->any())->method('getAttributeCode')
-            ->will($this->returnValue($attributeCode));
-        $model->setAttribute($attribute);
-
-
-        $model->afterDelete($imageObject);
     }
 }

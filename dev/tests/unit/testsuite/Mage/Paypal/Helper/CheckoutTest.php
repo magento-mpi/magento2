@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,6 +11,39 @@
  */
 class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Mage_Checkout_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_session;
+
+    /**
+     * @var Mage_Sales_Model_QuoteFactory|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var Mage_Paypal_Helper_Checkout
+     */
+    protected $_checkout;
+
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        $this->_session = $this->getMockBuilder('Mage_Checkout_Model_Session')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getLastRealOrder', 'replaceQuote', 'unsLastRealOrderId'))
+            ->getMock();
+        $this->_quoteFactory = $this->getMockBuilder('Mage_Sales_Model_QuoteFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('create'))
+            ->getMock();
+
+        $this->_checkout = new Mage_Paypal_Helper_Checkout($this->_session, $this->_quoteFactory);
+    }
+
     /**
      * Get order mock
      *
@@ -31,44 +61,6 @@ class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($hasOrderId ? 'order id' : null));
         return $order;
-    }
-
-    /**
-     * Get session mock
-     *
-     * @param Mage_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject $order
-     * @param array $mockMethods
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getSessionMock($order, $mockMethods = array())
-    {
-        $session = $this->getMockBuilder('Mage_Checkout_Model_Session')
-            ->disableOriginalConstructor()
-            ->setMethods(array_merge(array('getLastRealOrder'), $mockMethods))
-            ->getMock();
-        $session->expects($this->any())
-            ->method('getLastRealOrder')
-            ->will($this->returnValue($order));
-        return $session;
-    }
-
-    /**
-     * Get checkout mock
-     *
-     * @param Mage_Checkout_Model_Session $session
-     * @param array $mockMethods
-     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Paypal_Helper_Checkout
-     */
-    protected function _getCheckoutMock($session, $mockMethods = array())
-    {
-        $checkout = $this->getMockBuilder('Mage_Paypal_Helper_Checkout')
-            ->disableOriginalConstructor()
-            ->setMethods(array_merge(array('_getCheckoutSession'), $mockMethods))
-            ->getMock();
-        $checkout->expects($this->any())
-            ->method('_getCheckoutSession')
-            ->will($this->returnValue($session));
-        return $checkout;
     }
 
     /**
@@ -95,11 +87,16 @@ class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
             $order->expects($this->never())
                 ->method('save');
         }
-        $session = $this->_getSessionMock($order);
-        $checkout = $this->_getCheckoutMock($session);
-        $this->assertEquals($expectedResult, $checkout->cancelCurrentOrder($comment));
+
+        $this->_session->expects($this->any())
+            ->method('getLastRealOrder')
+            ->will($this->returnValue($order));
+        $this->assertEquals($expectedResult, $this->_checkout->cancelCurrentOrder($comment));
     }
 
+    /**
+     * @return array
+     */
     public function cancelCurrentOrderDataProvider()
     {
         return array(
@@ -113,26 +110,30 @@ class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
     /**
      * @param bool $hasOrderId
      * @param bool $hasQuoteId
-     * @param bool $expectedResult
      * @dataProvider restoreQuoteDataProvider
      */
     public function testRestoreQuote($hasOrderId, $hasQuoteId)
     {
+        $quote = $this->getMockBuilder('Mage_Sales_Model_Quote')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getId', 'save', 'setIsActive', 'setReservedOrderId', 'load'))
+            ->getMock();
         $order = $this->_getOrderMock($hasOrderId);
-        $session = $this->_getSessionMock($order, array('replaceQuote', 'unsLastRealOrderId'));
-        $checkout = $this->_getCheckoutMock($session, array('_getQuote'));
+        $this->_session->expects($this->once())
+            ->method('getLastRealOrder')
+            ->will($this->returnValue($order));
+
         if ($hasOrderId) {
             $quoteId = 'quote id';
             $order->setQuoteId($quoteId);
-            $quote = $this->getMockBuilder('Mage_Sales_Model_Quote')
-                ->disableOriginalConstructor()
-                ->setMethods(array('getId', 'save', 'setIsActive', 'setReservedOrderId'))
-                ->getMock();
+            $this->_quoteFactory->expects($this->once())
+                ->method('create')
+                ->will($this->returnValue($quote));
             $quote->expects($this->once())
                 ->method('getId')
                 ->will($this->returnValue($hasQuoteId ? 'some quote id' : null));
-            $checkout->expects($this->once())
-                ->method('_getQuote')
+            $quote->expects($this->any())
+                ->method('load')
                 ->with($this->equalTo($quoteId))
                 ->will($this->returnValue($quote));
             if ($hasQuoteId) {
@@ -146,7 +147,7 @@ class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
                     ->will($this->returnSelf());
                 $quote->expects($this->once())
                     ->method('save');
-                $session->expects($this->once())
+                $this->_session->expects($this->once())
                     ->method('replaceQuote')
                     ->with($quote)
                     ->will($this->returnSelf());
@@ -160,20 +161,19 @@ class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
             }
         }
         if ($hasOrderId && $hasQuoteId) {
-            $session->expects($this->once())
+            $this->_session->expects($this->once())
                 ->method('unsLastRealOrderId');
         } else {
-            $session->expects($this->never())
+            $this->_session->expects($this->never())
                 ->method('replaceQuote');
-            $session->expects($this->never())
+            $this->_session->expects($this->never())
                 ->method('unsLastRealOrderId');
         }
-        $this->assertEquals($hasOrderId && $hasQuoteId, $checkout->restoreQuote());
+        $result = $this->_checkout->restoreQuote();
+        $this->assertEquals($result, $hasOrderId && $hasQuoteId);
     }
 
     /**
-     * Data Provider
-     *
      * @return array
      */
     public function restoreQuoteDataProvider()
