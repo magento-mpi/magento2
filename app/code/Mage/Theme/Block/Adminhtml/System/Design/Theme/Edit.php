@@ -24,6 +24,10 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
         $this->_controller = 'Adminhtml_System_Design_Theme';
         $this->setId('theme_edit');
 
+        if (is_object($this->getLayout()->getBlock('page-title'))) {
+            $this->getLayout()->getBlock('page-title')->setPageTitle($this->getHeaderText());
+        }
+
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_getCurrentTheme();
         if ($theme) {
