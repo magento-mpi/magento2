@@ -10,6 +10,8 @@
 
 /**
  * Abstract helper
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class Mage_Core_Helper_Abstract
 {
