@@ -155,18 +155,18 @@
             </controller_action_predispatch_adminhtml_user_index>
             <controller_action_predispatch_adminhtml_catalog_product_index>
                 <observers>
-                    <saas_limitation_user>
+                    <saas_limitation_catalog_product>
                         <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
                         <method>displayNotification</method>
-                    </saas_limitation_user>
+                    </saas_limitation_catalog_product>
                 </observers>
             </controller_action_predispatch_adminhtml_catalog_product_index>
             <controller_action_predispatch_adminhtml_catalog_product_new>
                 <observers>
-                    <saas_limitation_user>
+                    <saas_limitation_catalog_product>
                         <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
                         <method>displayNotification</method>
-                    </saas_limitation_user>
+                    </saas_limitation_catalog_product>
                     <saas_limitation_category>
                         <class>Saas_Limitation_Model_Catalog_Category_Observer</class>
                         <method>displayNotification</method>
@@ -175,10 +175,10 @@
             </controller_action_predispatch_adminhtml_catalog_product_new>
             <controller_action_predispatch_adminhtml_catalog_product_edit>
                 <observers>
-                    <saas_limitation_user>
+                    <saas_limitation_catalog_product>
                         <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
                         <method>displayNotification</method>
-                    </saas_limitation_user>
+                    </saas_limitation_catalog_product>
                     <saas_limitation_category>
                         <class>Saas_Limitation_Model_Catalog_Category_Observer</class>
                         <method>displayNotification</method>
