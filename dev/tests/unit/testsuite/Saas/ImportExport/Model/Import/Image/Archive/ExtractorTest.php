@@ -9,22 +9,22 @@
 class Saas_ImportExport_Model_Import_Image_Archive_ExtractorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_ImportExport_Helper_Import_Image_Configuration|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configurationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_ImportExport_Model_Import_Image_Archive_Adapter_Zip|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adapterZipMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Varien_Data_Collection_FilesystemFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_collectionFilesystemFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_ImportExport_Model_Import_Image_FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemMock;
 
@@ -32,6 +32,11 @@ class Saas_ImportExport_Model_Import_Image_Archive_ExtractorTest extends PHPUnit
      * @var Saas_ImportExport_Model_Import_Image_Archive_Extractor
      */
     protected $_extractor;
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/_files/ZipArchive.php';
+    }
 
     public function setUp()
     {
