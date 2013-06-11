@@ -34,7 +34,7 @@
                 </div>
                 <div class="draggable-handle" title="<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Sort Variations')?>"></div>
             </div>
-            <div class="fieldset-wrapper-content collapse" id="${attribute.id}-content">
+            <div class="fieldset-wrapper-content collapse" id="${attribute.id}-content" data-attribute-id="${attribute.id}">
                 <fieldset class="fieldset">
                     <div class="field field-variation">
                         <label class="label"><span><?php echo $this->__('Variation Label'); ?></span></label>
@@ -76,7 +76,7 @@
                                 {{each(index, option) attribute.options}}
                                 <tr>
                                     <td class="col-name">${option.label}</td>
-                                    <td class="col-change-price">
+                                    <td class="col-change-price" data-column="change-price">
                                         <input type="hidden"
                                                name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][value_index]"
                                                value="${option.value}">
@@ -92,13 +92,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="field field-pricing-measure">
-                                                        <div class="control">
-                                                            <select name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][is_percent]">
-                                                                <option value="0"><?php echo Mage::app()->getBaseCurrencyCode() ?>
-                                                                </option>
-                                                                <option value="1"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%')?>
-                                                                </option>
-                                                            </select>
+                                                        <div class="actions-split actions-select" data-field="is-percent">
+                                                            <input name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][is_percent]" class='no-display' data-role="is-percent-change" value="0"/>
+                                                            <button type="button" class="action-toggle" data-toggle="dropdown">
+                                                                <span><?php echo Mage::app()->getBaseCurrencyCode() ?></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu" data-role="dropdown-menu"  data-mage-init="{menu: {}}">
+                                                                <li data-value="0"><a class="item"><?php echo Mage::app()->getBaseCurrencyCode() ?></a></li>
+                                                                <li data-value="1"><a class="item"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%')?></a></li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>

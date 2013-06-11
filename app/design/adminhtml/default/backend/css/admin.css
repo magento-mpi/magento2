@@ -562,7 +562,6 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
-<<<<<<< HEAD
 }
 
 /*
@@ -993,37 +992,51 @@ button.primary.disabled:hover,
     text-decoration: none;
 }
 
-.actions-select .dropdown-menu {
-    margin-top: 1px;
-    min-width: 33px;
+/* Variations Image Uploader */
+.actions-image-uploader > img {
+    float: left;
+    border: solid #b7b2a7;
+    border-width: 1px 0 1px 1px;
+    width: 32px;
+    height: 31px;
 }
 
-.actions-select .dropdown-menu li {
-    padding: 5px;
-}
-
-.actions-select .action-toggle,
-.actions-select .action-toggle:hover,
-.actions-select .action-toggle:active,
-.actions-select .action-toggle:focus,
-.actions-select .action-toggle[disabled] {
-    background: #fff;
-    padding: 4px 4px 4px 7px;
-    color: #888;
+.eq-ie8 .actions-image-uploader .action-upload {
     filter: none;
 }
 
-.actions-select .action-toggle > span {
-    display: inline-block;
-    float: left;
-    font-family: Arial, Verdana, sans-serif;
-    margin-right: 3px;
+.actions-image-uploader .action-toggle,
+.actions-image-uploader .action-toggle:hover,
+.actions-image-uploader .action-toggle:active,
+.actions-image-uploader .action-toggle:focus,
+.actions-image-uploader .action-toggle[disabled] {
+    position: relative;
+    height: 33px;
+    padding-left: 2px;
+    padding-right: 2px;
+    background: #fff;
+    filter: none;
+    color: #888;
 }
 
-.actions-select .action-toggle:before {
-    display: inline-block;
-    float: right;
-    color: #888;
+.actions-image-uploader.active .action-toggle {
+    border-radius: 0 5px 0 0;
+}
+
+.actions-image-uploader.active .action-toggle:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: #fff;
+    z-index: 991;
+    content: '';
+}
+
+.actions-image-uploader .dropdown-menu {
+    margin-top: -1px;
+    border-radius: 3px 0 3px 3px;
 }
 
 /*
@@ -5146,10 +5159,8 @@ table .col-draggable .draggable-handle {
 .col-display,
 .col-image,
 .col-price,
-.col-change-price
 .col-no-records,
 .col-select,
-.col-change-price,
 .col-default,
 .col-uqty {
     text-align: center;
@@ -5222,10 +5233,6 @@ table .col-draggable .draggable-handle {
 
 .store-tree .webiste-groups dd > ul > li {
     margin: 0 0 5px;
-}
-
-.no-display {
-    display: none;
 }
 
 /*

@@ -45,7 +45,7 @@ $id = $this->escapeHtml($attribute['attribute_id']);
             </div>
             <div class="draggable-handle" title="<?php echo $this->__('Sort Variations'); ?>"></div>
         </div>
-        <div class="fieldset-wrapper-content collapse" id="<?php echo $id ?>-content">
+        <div class="fieldset-wrapper-content collapse" id="<?php echo $id ?>-content" data-attribute-id="<?php echo $id ?>">
             <fieldset class="fieldset">
                 <div class="field field-variation">
                     <label class="label"><span><?php echo $this->__('Variation Label'); ?></span></label>
@@ -84,7 +84,7 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                 ?>
                                 <tr>
                                     <td class="col-name"><?php echo $this->escapeHtml($option['label']) ?></td>
-                                    <td class="col-change-price">
+                                    <td class="col-change-price" data-column="change-price">
                                         <?php
                                         $price_value = '';
                                         $isPercent = false;
@@ -117,11 +117,15 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                                         </div>
                                                     </div>
                                                     <div class="field field-pricing-measure">
-                                                        <div class="control">
-                                                            <select name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][is_percent]">
-                                                                <option value="0" <?php echo !$isPercent ? 'selected="selected"' : '' ?>><?php echo Mage::app()->getBaseCurrencyCode() ?></option>
-                                                                <option value="1" <?php echo $isPercent ? 'selected="selected"' : '' ?>><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%')?></option>
-                                                            </select>
+                                                        <div class="actions-split actions-select" data-field="is-percent">
+                                                            <input name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][is_percent]" class='no-display' data-role="is-percent-change" value="<?php echo $isPercent ? 1 : 0; ?>"/>
+                                                            <button type="button" class="action-toggle" data-toggle="dropdown">
+                                                                <span><?php echo $isPercent ? Mage::helper('Mage_Catalog_Helper_Data')->__('%') : Mage::app()->getBaseCurrencyCode() ?></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu" data-role="dropdown-menu"  data-mage-init="{menu: {}}">
+                                                                <li data-value="0"><a class="item"><?php echo Mage::app()->getBaseCurrencyCode() ?></a></li>
+                                                                <li data-value="1"><a class="item"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%')?></a></li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>

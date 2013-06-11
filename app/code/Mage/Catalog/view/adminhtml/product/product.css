@@ -485,6 +485,39 @@
     border-radius: 4px;
 }
 
+.actions-select .dropdown-menu {
+    margin-top: 1px;
+    min-width: 38px;
+}
+
+.actions-select .dropdown-menu li {
+    padding: 5px;
+    text-align: center;
+}
+
+.actions-select .action-toggle,
+.actions-select .action-toggle:hover,
+.actions-select .action-toggle:active,
+.actions-select .action-toggle:focus,
+.actions-select .action-toggle[disabled] {
+    background: #fff;
+    padding: 4px 4px 3px 7px;
+    color: #888;
+    filter: none;
+}
+
+.actions-select .action-toggle > span {
+    display: inline-block;
+    font-family: Arial, Verdana, sans-serif;
+    margin-right: 3px;
+}
+
+.actions-select .action-toggle:before {
+    display: inline-block;
+    float: right;
+    color: #888;
+}
+
 /* Variations Search Field */
 #variations-search-field {
     margin-bottom: 16px;
@@ -525,12 +558,6 @@
 
 #configurable-attributes-container .col-change-price {
     width: 150px;
-    white-space: nowrap;
-}
-
-#configurable-attributes-container .field-change-pricing {
-    width: 120px;
-    margin: 0 auto;
 }
 
 #configurable-attributes-container .field-change-pricing .field {
@@ -539,6 +566,10 @@
 
 #configurable-attributes-container .field-change-pricing .field-pricing-value {
     width: 75px;
+}
+
+#configurable-attributes-container .field-change-pricing .action-toggle {
+    min-width: 40px;
 }
 
 @media screen and (max-width: 960px) {
