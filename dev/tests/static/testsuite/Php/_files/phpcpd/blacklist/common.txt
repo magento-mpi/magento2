@@ -66,7 +66,6 @@ Mage/Tax/Model/Sales/Pdf
 Mage/Usa/Model/Shipping/Carrier
 Mage/Webapi/Model
 Mage/Wishlist/Model
-Mage/GoogleOptimizer/Block/Adminhtml/Catalog/Category/Edit/Tab
 lib/Mage/Archive
 lib/Mage/Connect/Channel
 lib/Mage/HTTP/Client
