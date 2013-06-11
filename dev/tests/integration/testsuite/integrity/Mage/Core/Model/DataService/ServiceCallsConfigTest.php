@@ -34,7 +34,9 @@ class Integrity_Mage_Core_DataService_Model_ServiceCallsConfigTest extends PHPUn
                         try {
                             $ref = new ReflectionClass($service);
                         } catch (ReflectionException $re) {
-                            $this->fail("$configFile has service_call $name with non-existent service class $service: $re");
+                            $this->fail(
+			        "$configFile has service_call $name with non-existent service class $service: $re"
+                            );
                         }
                         $this->assertTrue(
                             $ref->hasMethod($method),
@@ -62,3 +64,4 @@ class Integrity_Mage_Core_DataService_Model_ServiceCallsConfigTest extends PHPUn
         return $files;
     }
 }
+
