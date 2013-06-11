@@ -5,7 +5,6 @@ app/bootstrap.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
-app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category/Button.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/Mage/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
