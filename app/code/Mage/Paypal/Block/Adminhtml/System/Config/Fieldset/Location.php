@@ -66,7 +66,6 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             && (isEvent || enabler.value == 1 && !isPayflowLinkEnabled)
                         ) {
                             ecPayflowEnabler.value = enabler.value;
-//                            fireEvent(ecPayflowEnabler, "change");
                             paypalConflictsObject.checklessEventAction(ecPayflowEnabler, true);
                             if (ecPayflowEnabler.value == 1) {
                                 if (typeof ecEnabler != "undefined") {

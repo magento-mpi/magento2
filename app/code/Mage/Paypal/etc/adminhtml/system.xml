@@ -277,7 +277,7 @@
                         <field id="payment_action" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/payment_action" />
                         <field id="visible_on_cart" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_cart" />
                         <field id="visible_on_product" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_product" />
-                        <group id="settings_payflow_link_express_checkout_advanced" type="group" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/paypal_payflow_express_checkout_advanced"/>
+                        <group id="settings_express_checkout_advanced" type="group" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/paypal_payflow_express_checkout_advanced"/>
                     </group>
                 </group>
                 <group id="wpp" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
