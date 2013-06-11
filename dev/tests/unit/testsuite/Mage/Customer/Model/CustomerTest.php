@@ -79,8 +79,8 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_model = new Mage_Customer_Model_Customer(
-            $this->_contextMock, $this->_resourceMock, $this->_collectionMock, array(), $this->_senderMock,
-            $this->_storeManager, $this->_config
+            $this->_contextMock, $this->_senderMock, $this->_storeManager, $this->_config, $this->_resourceMock,
+            $this->_collectionMock, array()
         );
     }
 
