@@ -44,7 +44,7 @@
          */
         _deleteAddress: function(e) {
             if (confirm(this.options.deleteConfirmMessage)) {
-                window.location = this.options.deleteUrlPrefix + $(e.target).data('address');
+                window.location = this.options.deleteUrlPrefix + $(e.target).parent().data('address');
             }
             return false;
         }
