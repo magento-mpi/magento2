@@ -611,16 +611,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Return product limitation model
-     *
-     * @return Mage_Catalog_Model_Product_Limitation
-     */
-    protected function _getLimitation()
-    {
-        return $this->_objectManager->get('Mage_Catalog_Model_Product_Limitation');
-    }
-
-    /**
      * Initialize product before saving
      *
      * @param $product Mage_Catalog_Model_Product
@@ -813,8 +803,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
-                if ($redirectBack === 'new' || $redirectBack === 'duplicate') {
-                    $limitation = $this->_getLimitation();
+                if ($redirectBack === 'new') {
+                    /** @var Mage_Catalog_Model_Product_Limitation $limitation */
+                    $limitation = $this->_objectManager->get('Mage_Catalog_Model_Product_Limitation');
                     if ($limitation->isCreateRestricted()) {
                         $redirectBack = true;
                         $this->_getSession()->addError($this->__("You can't create new product."));

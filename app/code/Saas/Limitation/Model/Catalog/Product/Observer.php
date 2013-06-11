@@ -68,6 +68,23 @@ class Saas_Limitation_Model_Catalog_Product_Observer
     }
 
     /**
+     * Restrict duplication of an entity, if the limitation is reached
+     *
+     * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function restrictEntityDuplication(Varien_Event_Observer $observer)
+    {
+        if ($this->_limitation->isCreateRestricted()) {
+            $message = Mage::helper('Saas_Limitation_Helper_Data')->__("You can't create new product.");
+            $exception = new Mage_Core_Exception($message);
+            $exception->addMessage(new Mage_Core_Model_Message_Error($message));
+            throw $exception;
+        }
+    }
+
+    /**
      * Add restriction message to the session, if the limitation is reached
      *
      * @param Varien_Event_Observer $observer

@@ -77,6 +77,14 @@
                     </saas_limitation_catalog_product>
                 </observers>
             </catalog_product_validate_variations_before>
+            <catalog_model_product_duplicate>
+                <observers>
+                    <saas_limitation_catalog_product>
+                        <class>Saas_Limitation_Model_Catalog_Product_Observer</class>
+                        <method>restrictEntityDuplication</method>
+                    </saas_limitation_catalog_product>
+                </observers>
+            </catalog_model_product_duplicate>
         </events>
     </global>
     <adminhtml>

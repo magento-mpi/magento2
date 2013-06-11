@@ -230,10 +230,10 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
 
     /**
      * @param bool|null $isProductNew
-     * @param int $expectedProductsCount
+     * @param int $expectedNumber
      * @dataProvider removeRestrictedSavingButtonsDataProvider
      */
-    public function testRemoveRestrictedSavingButtonsRestricted($isProductNew, $expectedProductsCount)
+    public function testRemoveRestrictedSavingButtonsRestricted($isProductNew, $expectedNumber)
     {
         if (null === $isProductNew) {
             $product = null;
@@ -246,7 +246,7 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
 
         $this->_limitation->expects($this->once())
             ->method('isCreateRestricted')
-            ->with($expectedProductsCount)
+            ->with($expectedNumber)
             ->will($this->returnValue(true));
         $block = $this->getMock('Mage_Adminhtml_Block_Catalog_Product_Edit', array(), array(), '', false);
         $block->expects($this->once())
@@ -283,10 +283,10 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
 
     /**
      * @param bool|null $isProductNew
-     * @param int $expectedProductsCount
+     * @param int $expectedNumber
      * @dataProvider removeRestrictedSavingButtonsDataProvider
      */
-    public function testRemoveRestrictedSavingButtonsAllowed($isProductNew, $expectedProductsCount)
+    public function testRemoveRestrictedSavingButtonsAllowed($isProductNew, $expectedNumber)
     {
         if (null === $isProductNew) {
             $product = null;
@@ -299,7 +299,7 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
 
         $this->_limitation->expects($this->once())
             ->method('isCreateRestricted')
-            ->with($expectedProductsCount)
+            ->with($expectedNumber)
             ->will($this->returnValue(false));
         $block = $this->getMock('Mage_Adminhtml_Block_Catalog_Product_Edit', array(), array(), '', false);
         $block->expects($this->once())
