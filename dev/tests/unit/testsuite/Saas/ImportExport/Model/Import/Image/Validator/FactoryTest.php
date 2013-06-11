@@ -44,11 +44,13 @@ class Saas_ImportExport_Model_Import_Image_Validator_FactoryTest extends PHPUnit
             array(), '', false);
         $this->_helperMock = $this->getMock('Saas_ImportExport_Helper_Data', array(), array(), '', false);
         $this->_helperMock->expects($this->any())->method('__')->with($this->isType('string'))
-            ->will($this->returnCallback(function () {
-                $args = func_get_args();
-                $translated = array_shift($args);
-                return vsprintf($translated, $args);
-            }));
+            ->will($this->returnCallback(
+                function () {
+                    $args = func_get_args();
+                    $translated = array_shift($args);
+                    return vsprintf($translated, $args);
+                }
+            ));
 
         $this->_validatorBuilderFactoryMock = $this->getMock('Magento_Validator_BuilderFactory', array('create'),
             array(), '', false);

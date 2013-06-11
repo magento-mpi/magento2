@@ -49,4 +49,4 @@ url_sub_category_required:
     url_key: %noValue%
     is_active: Yes
     available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
+    available_product_listing: Position, Name, Price
