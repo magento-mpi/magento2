@@ -42,6 +42,12 @@
                     <model_token>Saas_ImportExport_Model_Import_Entity_Product</model_token>
                     <label>Products</label>
                 </catalog_product>
+                <product_images translate="label">
+                    <!-- model_token is required for behaviours -->
+                    <model_token>Saas_ImportExport_Model_Service_Image_Import</model_token>
+                    <label>Product Images</label>
+                    <behavior_token>Saas_ImportExport_Model_Source_Import_Behavior_Image</behavior_token>
+                </product_images>
             </import_entities>
             <import>
                 <image>
