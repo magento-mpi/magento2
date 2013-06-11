@@ -83,13 +83,13 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
     /**
      * @param bool $isObjectNew
      * @param array $variations
-     * @param int $expectedNewEntitiesCount
+     * @param int $expectedNewCount
      * @expectedException Mage_Catalog_Exception
      * @expectedExceptionMessage Creation restricted
      * @dataProvider restrictEntityCreationWithVariationsRestrictedDataProvider
      */
     public function testRestrictEntityCreationWithVariationsRestricted(
-        $isObjectNew, array $variations, $expectedNewEntitiesCount
+        $isObjectNew, array $variations, $expectedNewCount
     ) {
         $entity = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
         $entity->expects($this->once())
@@ -103,7 +103,7 @@ class Saas_Limitation_Model_Catalog_Product_ObserverTest extends PHPUnit_Framewo
             ->will($this->returnValue(true));
         $this->_limitation->expects($this->once())
             ->method('getCreationExceededMessage')
-            ->with($expectedNewEntitiesCount)
+            ->with($expectedNewCount)
             ->will($this->returnValue('Creation restricted'));
         $this->_model->restrictEntityCreationWithVariations($observer);
     }
