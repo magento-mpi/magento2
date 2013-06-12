@@ -20,7 +20,7 @@ class Mage_Core_Model_New_Design
     
     public function getTheme()
     {
-        return $this->_theme;
+        return $this->theme;
     }
 
     public function applyChange(Mage_Core_Model_New_Design_Change $designChange)
