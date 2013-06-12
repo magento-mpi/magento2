@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Core_Model_New_Design_Init
+class Mage_Core_Model_New_Design_Detection
 {
     protected $design;
 
@@ -17,7 +17,7 @@ class Mage_Core_Model_New_Design_Init
         $this->design = $design;
     }
 
-    public function init()
+    public function detectDesign()
     {
         /** @var $rule Mage_Core_Model_New_Design_Rule */
         foreach ($this->getDesignRules() as $rule) {
