@@ -162,13 +162,13 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         if ($this->getRequest()->has('new_attribute_set_name')) {
             $setName = $this->getRequest()->getParam('new_attribute_set_name');
             /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-            $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
+            $attributeSet = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute_Set');
             $attributeSet->setEntityTypeId($this->_entityTypeId)->load($setName, 'attribute_set_name');
             if ($attributeSet->getId()) {
-                $setName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($setName);
+                $setName = $this->_objectManager->get('Mage_Core_Helper_Data')->escapeHtml($setName);
                 $response->setError(true);
                 $response->setMessage(
-                    Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $setName)
+                    $this->_objectManager->get('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $setName)
                 );
             }
         }
