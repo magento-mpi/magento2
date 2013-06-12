@@ -20,4 +20,16 @@ class Mage_DesignEditor_Model_Theme_Change extends Mage_Core_Model_Abstract
     {
         $this->_init('Mage_DesignEditor_Model_Theme_Resource_Change');
     }
+
+    /**
+     * Load alias for theme id
+     *
+     * @param int $themeId
+     * @return $this
+     */
+    public function loadByThemeId($themeId)
+    {
+        $this->load($themeId, 'theme_id');
+        return $this;
+    }
 }

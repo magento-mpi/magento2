@@ -31,6 +31,7 @@ class Mage_Checkout_Model_Cart_Payment_ApiTest extends PHPUnit_Framework_TestCas
     /**
      * Test setting payment method for the cart
      *
+     * @magentoConfigFixture current_store payment/checkmo/active 1
      * @magentoDataFixture Mage/Checkout/_files/quote_with_address_saved.php
      */
     public function testShoppingCartPaymentMethod()
