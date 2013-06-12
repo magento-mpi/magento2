@@ -1,19 +1,10 @@
 <?xml version="1.0"?>
-<!--
-/**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Payment
- * @copyright   {copyright}
- * @license     {license_link}
- */
--->
 <config>
     <modules>
         <Saas_Payment>
             <version>0.1.0</version>
-            <active>false</active>
+            <active>true</active>
+            <codePool>core</codePool>
             <depends>
                 <Saas_Saas/>
                 <Mage_Payment/>
@@ -102,4 +93,26 @@
             </eway_direct>
          </payment>
     </default>
+    <frontend>
+        <translate>
+            <modules>
+                <Saas_Payment>
+                    <files>
+                        <default>Saas_Payment.csv</default>
+                    </files>
+                </Saas_Payment>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Saas_Payment>
+                    <files>
+                        <default>Saas_Payment.csv</default>
+                    </files>
+                </Saas_Payment>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

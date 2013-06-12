@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Paypal
- * @copyright   {copyright}
- * @license     {license_link}
- */
+* {license_notice}
+*
+* @category    Saas
+* @package     Saas_Paypal
+* @copyright   {copyright}
+* @license     {license_link}
+*/
 -->
 <config>
     <system>

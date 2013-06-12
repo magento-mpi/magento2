@@ -1,19 +1,10 @@
 <?xml version="1.0"?>
-<!--
-/**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Paypal
- * @copyright   {copyright}
- * @license     {license_link}
- */
--->
 <config>
     <modules>
         <Saas_Paypal>
             <version>1.0.0.0.3</version>
-            <active>false</active>
+            <active>true</active>
+            <codePool>core</codePool>
             <depends>
                 <Saas_Saas/>
                 <Mage_Paypal/>
@@ -56,6 +47,11 @@
             <paypal_standard>
                 <active>0</active>
             </paypal_standard>
+            <!--TODO node from XmlConnect-->
+            <!--<paypal_mep>
+                <active>0</active>
+                <disabled>1</disabled>
+            </paypal_mep>-->
             <paypal_billing_agreement>
                 <active>1</active>
                 <disabled>1</disabled>

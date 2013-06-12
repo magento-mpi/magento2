@@ -65,12 +65,10 @@
         </item>
         <item>
             <word>Enterprise_ImportExport</word>
-            <word>Mage_Ogone</word>
             <path>app/etc/modules/XSaas_Edition.xml</path>
         </item>
         <item>
             <word>Enterprise_ImportExport</word>
-            <word>Mage_Ogone</word>
             <path>app/etc/modules/XSaas_Edition.xml.dist</path>
         </item>
         <item>
@@ -189,7 +187,7 @@
             <path>app/code/Enterprise/Logging/Model/Handler/Controllers.php</path>
         </item>
         <item>
-            <word>CustomerSegment</word>
+            word>CustomerSegment</word>
             <path>app/code/Enterprise/PageCache/Model/Observer.php</path>
         </item>
         <item>

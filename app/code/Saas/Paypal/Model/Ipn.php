@@ -104,9 +104,7 @@ class Saas_Paypal_Model_Ipn extends Mage_Paypal_Model_Ipn
             $methodCode = $methodInstance->getCode();
             $config = $methodInstance->getConfig();
             if (!$config || !($config instanceof Mage_Paypal_Model_Config)) {
-                $config = Mage::getModel('Mage_Paypal_Model_Config',
-                    array($methodCode, $this->_recurringProfile->getStoreId())
-                );
+                $config = Mage::getModel('Mage_Paypal_Model_Config', array($methodCode, $this->_recurringProfile->getStoreId()));
             } else {
                 $config->setStoreId($this->_recurringProfile->getStoreId());
             }

@@ -10,6 +10,10 @@
 
 /**
  * Current ip block
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Pbridge
+ * @author     Magento Saas Team <core@magentocommerce.com>
  */
 class Enterprise_Pbridge_Block_Adminhtml_System_Config_Currentip extends Mage_Backend_Block_System_Config_Form_Field
 {

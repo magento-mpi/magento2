@@ -37,7 +37,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Ogone_Direct_Debit
      * Info block
      * @var string
      */
-    protected $_infoBlockType = 'Enterprise_Pbridge_Block_Payment_Info_Ogone_Debit';
+    protected $_infoBlockType = 'enterprise_pbridge/payment_info_ogone_debit';
 
     /**
      * Availability options

@@ -10,6 +10,10 @@
 
 /**
  * Firstdata Credentials Archive form element renderer
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Pbridge
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Pbridge_Block_Adminhtml_System_Config_Firstdata_FieldFile
     extends Mage_Backend_Block_System_Config_Form_Field
