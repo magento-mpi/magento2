@@ -65,20 +65,28 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
     protected $_isScriptInserted = false;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Initialize inline translation model specific for vde
      *
      * @param Mage_Core_Model_Translate_InlineParser $parser
      * @param Mage_DesignEditor_Helper_Data $helper
      * @param Mage_Core_Model_Url $url
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Mage_Core_Model_Translate_InlineParser $parser,
         Mage_DesignEditor_Helper_Data $helper,
-        Mage_Core_Model_Url $url
+        Mage_Core_Model_Url $url,
+        Magento_ObjectManager $objectManager
     ) {
         $this->_parser = $parser;
         $this->_helper = $helper;
         $this->_url = $url;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -140,13 +148,12 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
                   '_useVdeFrontend' => true));
 
         /** @var $block Mage_Core_Block_Template */
-        $block = Mage::getObjectManager()->create('Mage_Core_Block_Template');
+        $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
         $block->setArea($this->_parser->getDesignPackage()->getArea());
         $block->setAjaxUrl($ajaxUrl);
-        $frameUrl = Mage::getObjectManager()->get('Mage_Backend_Model_Session')
-            ->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
-        $block->setFrameUrl($frameUrl);
+
+        $block->setFrameUrl($this->_getFrameUrl());
         $block->setRefreshCanvas($this->isAllowed());
 
         $block->setTemplate('Mage_DesignEditor::translate_inline.phtml');
@@ -155,6 +162,23 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
         $this->_parser->setContent(str_ireplace('</body>', $block->toHtml() . '</body>', $content));
 
         $this->_isScriptInserted = true;
+    }
+
+    /**
+     * Generate frame url
+     *
+     * @return string
+     */
+    protected function _getFrameUrl()
+    {
+        /** @var Mage_Backend_Model_Session $backendSession */
+        $backendSession = $this->_objectManager->get('Mage_Backend_Model_Session');
+
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
+        $vdeUrlModel = $this->_objectManager->create('Mage_DesignEditor_Model_Url_NavigationMode');
+        $backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
+
+        return $vdeUrlModel->getUrl($backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY));
     }
 
     /**
