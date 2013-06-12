@@ -192,7 +192,6 @@ class Mage_Backend_Model_Config extends Varien_Object
          *
          * Map field names if they were cloned
          */
-        var_dump($groupPath);
         /** @var $group Mage_Backend_Model_Config_Structure_Element_Group */
         $group = $this->_configStructure->getElement($groupPath);
 
