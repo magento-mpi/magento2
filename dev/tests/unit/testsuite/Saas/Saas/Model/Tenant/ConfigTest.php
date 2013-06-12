@@ -268,7 +268,7 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
                  */
                 array(
                     'tenantConfiguration' => array(
-                        'local'   => self::_wrapXml(self::XML_MEDIA_DIR . $limitationTwo),
+                        'local' => self::_wrapXml(self::XML_MEDIA_DIR . $limitationTwo),
                         'modules' => self::_wrapXml($limitationThree),
                     ),
                     'groupConfiguration'  => array('limitations' => self::_wrapXml($limitationOne)),

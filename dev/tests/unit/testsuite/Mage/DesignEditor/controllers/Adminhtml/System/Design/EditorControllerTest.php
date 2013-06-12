@@ -36,8 +36,16 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
 
         /** @var $layoutMock Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
         $layoutMock = $this->getMock('Mage_Core_Model_Layout',
-            array('getBlock', 'getUpdate', 'addHandle', 'load', 'generateXml', 'getNode',
-                  'generateElements', 'getMessagesBlock'),
+            array(
+                'getBlock',
+                'getUpdate',
+                'addHandle',
+                'load',
+                'generateXml',
+                'getNode',
+                'generateElements',
+                'getMessagesBlock'
+            ),
             array(), '', false);
         /** @var $layoutMock Mage_Core_Model_Layout */
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
@@ -79,24 +87,17 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
      * Return mocked theme service model
      *
      * @param  bool $hasCustomizedThemes
-     * @param string $action
      * @return Mage_Core_Model_Theme_Service
      */
-    protected function _getThemeService($hasCustomizedThemes, $action = '')
+    protected function _getThemeService($hasCustomizedThemes)
     {
         $themeService = $this->getMock('Mage_Core_Model_Theme_Service',
             array('isCustomizationsExist'), array(), '', false);
 
-
-        $themeService->expects($this->at(0))
+        $themeService->expects($this->any())
             ->method('isCustomizationsExist')
             ->will($this->returnValue($hasCustomizedThemes));
 
-        if ($hasCustomizedThemes xor $action !== 'index') {
-            $themeService->expects($this->at(1))
-                ->method('isCustomizationsExist')
-                ->will($this->returnValue(false));
-        }
         return $themeService;
     }
 
@@ -146,10 +147,9 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
 
     /**
      * @param bool $hasCustomizedThemes
-     * @param string $action
      * @return array
      */
-    protected function _getObjectManagerMap($hasCustomizedThemes, $action = '')
+    protected function _getObjectManagerMap($hasCustomizedThemes)
     {
         $translate = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
         $translate->expects($this->any())->method('translate')
@@ -173,7 +173,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         $inlineMock = $this->getMock('Mage_Core_Model_Translate_Inline', array(), array(), '', false);
 
         return array(
-            array('Mage_Core_Model_Theme_Service', $this->_getThemeService($hasCustomizedThemes, $action)),
+            array('Mage_Core_Model_Theme_Service', $this->_getThemeService($hasCustomizedThemes)),
             array('Mage_Core_Model_Translate', $translate),
             array('Mage_Core_Model_Config', $configMock),
             array('Mage_Core_Model_Event_Manager', $eventManager),

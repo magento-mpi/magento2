@@ -48,8 +48,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Theme types group
      */
     const TYPE_PHYSICAL = 0;
-    const TYPE_VIRTUAL = 1;
-    const TYPE_STAGING = 2;
+    const TYPE_VIRTUAL  = 1;
+    const TYPE_STAGING  = 2;
     /**#@-*/
 
     /**
@@ -434,7 +434,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeDelete()
     {
-        if (!$this->isDeletable()) {
+        /** @var $service Mage_Core_Model_Theme_Service */
+        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        if (!$this->isDeletable() || $service->isThemeAssignedToStore($this)) {
             throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->getThemeImage()->removePreviewImage();
