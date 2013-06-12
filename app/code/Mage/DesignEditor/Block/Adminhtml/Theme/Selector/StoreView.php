@@ -187,12 +187,11 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $options['assignUrl']         = $this->getUrl('*/*/assignThemeToStore', array(
             'theme_id' => $this->getThemeId()
         ));
-        $options['afterAssignUrl']    = $this->getUrl('*/*/launch');
+        $options['afterAssignUrl']    = $this->getUrl('*/*/index');
         $options['hasMultipleStores'] = $this->_hasMultipleStores();
-        $options['redirectOnAssign']  = $this->getData('redirectOnAssign');
-        if ($this->hasData('openNewOnAssign')) {
-            $options['openNewOnAssign'] = $this->getData('openNewOnAssign');
-        }
+
+        $options['actionOnAssign']   = $this->getData('actionOnAssign');
+        $options['afterAssignOpen']  = false;
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = $this->helper('Mage_Core_Helper_Data');

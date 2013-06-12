@@ -23,7 +23,7 @@ class Mage_Paypal_Model_ProTest extends PHPUnit_Framework_TestCase
     public function testCanReviewPayment($pendingReason, $isReviewRequired, $expected)
     {
         /** @var $pro Mage_Paypal_Model_Pro */
-        $pro = $this->getMock('Mage_Paypal_Model_Pro', array('_isPaymentReviewRequired'));
+        $pro = $this->getMock('Mage_Paypal_Model_Pro', array('_isPaymentReviewRequired'), array(), '', false);
         $pro->expects($this->any())
             ->method('_isPaymentReviewRequired')
             ->will($this->returnValue($isReviewRequired));

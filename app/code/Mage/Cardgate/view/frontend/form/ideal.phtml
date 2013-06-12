@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Cardgate
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var Mage_Cardgate_Block_Form_Ideal $this */
+?>
+<?php $_code = $this->getMethodCode() ?>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <div class="input-box">
+            <?php echo $this->getSelectField(); ?>
+        </div>
+    </li>
+</ul>

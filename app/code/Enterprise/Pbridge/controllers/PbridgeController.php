@@ -103,6 +103,60 @@ class Enterprise_Pbridge_PbridgeController extends Mage_Core_Controller_Front_Ac
     }
 
     /**
+     * Redirect to Onepage checkout success page
+     *
+     *  @return void
+     */
+    public function onepagesuccessAction()
+    {
+        $this->_initActionLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Return checkout session object
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    private function _getCheckoutSession()
+    {
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
+    }
+    /**
+     * Review success action
+     *
+     *  @return void
+     */
+    public function cancelAction()
+    {
+        try {
+            // if there is an order - cancel it
+            $orderId = $this->_getCheckoutSession()->getLastOrderId();
+            $order = ($orderId) ? Mage::getModel('Mage_Sales_Model_Order')->load($orderId) : false;
+            if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
+                $order->cancel()->save();
+                $this->_getCheckoutSession()
+                    ->unsLastQuoteId()
+                    ->unsLastSuccessQuoteId()
+                    ->unsLastOrderId()
+                    ->unsLastRealOrderId()
+                    ->addSuccess($this->__('Order has been canceled.'))
+                ;
+            } else {
+                $this->_getCheckoutSession()->addSuccess($this->__('Order has been canceled.'));
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getCheckoutSession()->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_getCheckoutSession()->addError($this->__('Unable to cancel order.'));
+            Mage::logException($e);
+        }
+
+        $this->_initActionLayout();
+        $this->renderLayout();
+    }
+
+    /**
      * Review error action
      *
      *  @return void

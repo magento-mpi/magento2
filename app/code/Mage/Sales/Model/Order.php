@@ -249,7 +249,6 @@
  * @method Mage_Sales_Model_Order setRelationParentRealId(string $value)
  * @method string getRemoteIp()
  * @method Mage_Sales_Model_Order setRemoteIp(string $value)
- * @method string getShippingMethod()
  * @method Mage_Sales_Model_Order setShippingMethod(string $value)
  * @method string getStoreCurrencyCode()
  * @method Mage_Sales_Model_Order setStoreCurrencyCode(string $value)

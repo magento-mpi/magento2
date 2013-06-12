@@ -10,6 +10,10 @@
 
 /**
  * Save button block
+ *
+ * @method bool|null getHasThemeAssigned() If there is a theme that assigned to the store view
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save setHasThemeAssigned(bool $flag)
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save setMode(bool $flag)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     extends Mage_Backend_Block_Widget_Button_Split
@@ -66,7 +70,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      * Set current theme
      *
      * @param Mage_Core_Model_Theme $theme
-     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
+     * @return $this
      */
     public function setTheme($theme)
     {
@@ -87,7 +91,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
 
     /**
      * Disable actions-split functionality if no options provided
-     *
      *
      * @return bool
      */
@@ -132,7 +135,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     {
         $this->setData(array(
             'label'          => $this->__('Save'),
-            'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData()),
+            'data_attribute' => array('mage-init' => $this->_getSaveAssignedInitData()),
             'options'        => array()
         ));
 
@@ -151,7 +154,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
             'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
             'options'        => array(
                 array(
-                    'label'          => $this->__('Save and Assign'),
+                    'label'          => $this->__('Save & Assign'),
                     'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData())
                 ),
             )
@@ -174,7 +177,36 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'eventData' => array(
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
-                    'confirm_message' => null
+                    'confirm'  => false
+                )
+            ),
+        );
+
+        return $this->_encode($data);
+    }
+
+    /**
+     * Get 'data-mage-init' attribute value for 'Save' button when theme is live (assigned)
+     *
+     * @return string
+     */
+    protected function _getSaveAssignedInitData()
+    {
+        $message = $this->__("You changed the design of your live store. Are you sure you want to do that?");
+        $title = $this->__("Save");
+
+        $data = array(
+            'button' => array(
+                'event'     => 'save',
+                'target'    => 'body',
+                'eventData' => array(
+                    'theme_id' => $this->getTheme()->getId(),
+                    'save_url' => $this->getSaveUrl(),
+                    'confirm' => array(
+                        'message' => $message,
+                        'title'   => $title,
+                        'buttons' => array()
+                    )
                 )
             ),
         );
@@ -189,16 +221,21 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _getAssignInitData()
     {
-        $message = "You are about to apply this theme for your live store, are you sure want to do this?\n\n" .
-            'Note: copy of the current theme will be created automatically and assigned to your store, ' .
-            'so you can change your copy as you wish';
+        // @codingStandardsIgnoreStart
+        $message = $this->__("You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish");
+        // @codingStandardsIgnoreEnd
+        $title = $this->__("Assign");
+
         $data = array(
             'button' => array(
                 'event'     => 'assign',
                 'target'    => 'body',
                 'eventData' => array(
                     'theme_id'        => $this->getTheme()->getId(),
-                    'confirm_message' => $this->__($message)
+                    'confirm' => array(
+                        'message' => $this->__($message),
+                        'title'   => $title
+                    )
                 )
             ),
         );
@@ -209,11 +246,18 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Get 'data-mage-init' attribute value for 'Save and Assign' button
      *
+     * Used in VDE when clicking button on top toolbar
+     *
      * @return string
      */
     protected function _getSaveAndAssignInitData()
     {
-        $message = "You are about to apply current changes for your live store, are you sure want to do this?";
+        if ($this->getHasThemeAssigned()) {
+            $message = $this->__("Are you sure you want this theme to replace your current theme?");
+        } else {
+            $message = $this->__("Do you want to use this theme in your live store?");
+        }
+        $title = $this->__("Save & Assign");
 
         $data = array(
             'button' => array(
@@ -222,7 +266,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'eventData' => array(
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
-                    'confirm_message' => $this->__($message)
+                    'confirm'  => array(
+                        'message' => $message,
+                        'title'   => $title
+                    )
                 )
             ),
         );
