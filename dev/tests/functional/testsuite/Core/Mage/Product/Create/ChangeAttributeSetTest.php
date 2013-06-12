@@ -360,8 +360,11 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertTrue($this->controlIsPresent('pageelement', 'group_price'), 'Special price not found');
         $this->clickButton('add_to_cart');
         $productInfo = $this->shoppingCartHelper()->getProductInfoInTable($productData);
-        $this->assertEquals('$' . $productData['prices_special_price'], $productInfo['product_1']['unit_price'],
-                                                                                       'Special price is not applied');
+        $this->assertEquals(
+            '$' . $productData['prices_special_price'],
+            $productInfo['product_1']['unit_price'],
+            'Special price is not applied'
+        );
 
         //Steps
         $this->loginAdminUser();
@@ -383,8 +386,11 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertFalse($this->controlIsPresent('pageelement', 'group_price'), 'Special price not found');
         $this->clickButton('add_to_cart');
         $productInfo = $this->shoppingCartHelper()->getProductInfoInTable($productData);
-        $this->assertEquals('$' . $productData['general_price'], $productInfo['product_1']['unit_price'],
-                                                                                             'Special is not applied');
+        $this->assertEquals(
+            '$' . $productData['general_price'],
+            $productInfo['product_1']['unit_price'],
+            'Special is not applied'
+        );
 
     }
 }
