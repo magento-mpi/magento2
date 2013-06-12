@@ -135,10 +135,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         $response = new Varien_Object();
         $response->setError(false);
 
-        $attributeCode  = $this->getRequest()->getParam('attribute_code');
+        $attributeCode = $this->getRequest()->getParam('attribute_code');
         $frontendLabel = $this->getRequest()->getParam('frontend_label');
         $attributeCode = $attributeCode ?: $this->generateCode($frontendLabel[0]);
-        $attributeId    = $this->getRequest()->getParam('attribute_id');
+        $attributeId = $this->getRequest()->getParam('attribute_id');
         $attribute = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
@@ -159,6 +159,20 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             $response->setError(true);
         }
 
+        if ($this->getRequest()->has('new_attribute_set_name')) {
+            $setName = $this->getRequest()->getParam('new_attribute_set_name');
+            /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
+            $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
+            $attributeSet->setEntityTypeId($this->_entityTypeId)->load($setName, 'attribute_set_name');
+            if ($attributeSet->getId()) {
+                $setName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($setName);
+                $response->setError(true);
+                $response->setMessage(
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $setName)
+                );
+            }
+        }
+        
         $this->getResponse()->setBody($response->toJson());
     }
 

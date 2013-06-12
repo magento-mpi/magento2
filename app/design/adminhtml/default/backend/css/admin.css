@@ -363,6 +363,9 @@ button.primary.disabled:hover,
     text-shadow: none;
     filter: none;
 }
+.attribute-popup .messages{
+    margin: 0 15px;
+}
 
 .eq-ie8 .customer-current-activity .action-refresh,
 .eq-ie8 .pager .action-next,
