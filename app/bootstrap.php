@@ -71,21 +71,7 @@ HTML;
         exit;
     }
     if (!empty($_SERVER['MAGE_PROFILER'])) {
-        $profilerConfigData = $_SERVER['MAGE_PROFILER'];
-
-        $profilerConfig = array(
-            'baseDir' => dirname(__DIR__),
-            'tagFilters' => array()
-        );
-
-        if (is_scalar($profilerConfigData)) {
-            $profilerConfig['driver'] = array(
-                'output' => is_numeric($profilerConfigData) ? 'html' : $profilerConfigData
-            );
-        } elseif (is_array($profilerConfigData)) {
-            $profilerConfig = array_merge($profilerConfig, $profilerConfigData);
-        }
-        Magento_Profiler::applyConfig($profilerConfig);
+        Magento_Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
     }
 }
 set_error_handler(Mage::DEFAULT_ERROR_HANDLER);

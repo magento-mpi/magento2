@@ -305,11 +305,13 @@ class Magento_Profiler
     /**
      * Init profiler
      *
-     * @param array $config
+     * @param array|string $config
+     * @param string $baseDir
+     * @param boolean $isAjax
      */
-    public static function applyConfig(array $config)
+    public static function applyConfig($config, $baseDir, $isAjax = false)
     {
-        $config = self::_parseConfig($config);
+        $config = self::_parseConfig($config, $baseDir, $isAjax);
         if ($config['driverConfigs']) {
             foreach ($config['driverConfigs'] as $driverConfig) {
                 self::add($config['driverFactory']->create($driverConfig));
@@ -324,10 +326,25 @@ class Magento_Profiler
      * Parses config
      *
      * @param array $config
+     * @param string $baseDir
+     * @param boolean $isAjax
      * @return array
      */
-    protected static function _parseConfig(array $config)
+    protected static function _parseConfig($profilerConfig, $baseDir, $isAjax)
     {
+        $config = array(
+            'baseDir' => $baseDir,
+            'tagFilters' => array()
+        );
+
+        if (is_scalar($profilerConfig)) {
+            $config['driver'] = array(
+                'output' => $isAjax ? 'firebug' : 'html'
+            );
+        } elseif (is_array($profilerConfig)) {
+            $config = array_merge($config, $profilerConfig);
+        }
+
         if (isset($config['drivers']) && is_array($config['drivers'])) {
             $driverConfigs = $config['drivers'];
         } elseif (isset($config['driver'])) {
