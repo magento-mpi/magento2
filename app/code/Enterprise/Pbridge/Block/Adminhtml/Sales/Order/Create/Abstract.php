@@ -48,6 +48,19 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
     protected $_iframeTemplate = 'Enterprise_Pbridge::iframe.phtml';
 
     /**
+     * Return 3D validation flag
+     *
+     * @return bool
+     */
+    public function is3dSecureEnabled()
+    {
+        if ($this->hasMethod() && $this->getMethod()->is3dSecureEnabled()) {
+            return true;
+        }
+        return parent::is3dSecureEnabled();
+    }
+
+    /**
      * Return redirect url for Payment Bridge application
      *
      * @return string

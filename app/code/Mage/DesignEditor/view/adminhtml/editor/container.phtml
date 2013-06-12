@@ -16,10 +16,6 @@
 <?php echo $this->getChildHtml('design_editor_tools'); ?>
 <script type="text/javascript">
     (function ($) {
-        $('body').vdeThemeInit({
-            isPhysicalTheme: '<?php echo (int)$this->getTheme()->getType() == Mage_Core_Model_Theme::TYPE_PHYSICAL ?>',
-            createVirtualThemeUrl: '<?php echo $this->getVirtualThemeCreationUrl() ?>'
-        });
         $(document).ready(function(){
             $("#vde_container_frame").vdeFrame({
                 vdeToolbar: '#vde_toolbar_row',

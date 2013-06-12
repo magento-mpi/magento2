@@ -16,7 +16,8 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Payflow_Pro extends Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Payflow_Pro
+    extends Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
 {
     /**
      * Verisign payment code
@@ -24,4 +25,14 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Payflow_Pro extends 
      * @var string
      */
     protected $_code = 'verisign';
+
+    /**
+     * Return 3D validation flag
+     * @return bool
+     */
+    public function is3dSecureEnabled()
+    {
+        return (bool)$this->getMethod()->getConfigData('centinel')
+            && (bool)$this->getMethod()->getConfigData('centinel_backend');
+    }
 }
