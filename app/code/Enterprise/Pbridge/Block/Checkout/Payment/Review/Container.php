@@ -26,8 +26,7 @@ class Enterprise_Pbridge_Block_Checkout_Payment_Review_Container extends Mage_Co
         $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
-            $method = $payment->getMethodInstance();
-            if ($method->getIsDeferred3dCheck() || $method->getIsPendingOrderRequired()) {
+            if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {
                 $this->setMethodCode($payment->getMethod());
                 return parent::_toHtml();
             }
