@@ -17,10 +17,10 @@ class Saas_Limitation_Model_Mage_Catalog_Model_Product_Api_SimpleTest
         $formattedData = $this->_prepareProductDataForSoap(
             require 'Mage/Catalog/Model/Product/Api/_files/_data/simple_product_data.php'
         );
-        /** @var Saas_Limitation_Model_Catalog_Product_Limitation $limitation */
-        $limitation = Mage::getModel('Saas_Limitation_Model_Catalog_Product_Limitation');
         Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData,
-            $limitation->getCreateRestrictedMessage()
+            // @codingStandardsIgnoreStart
+            'Sorry, you are using all the products and variations your account allows. To add more, first delete a product or upgrade your service.'
+        // @codingStandardsIgnoreEnd
         );
     }
 }
