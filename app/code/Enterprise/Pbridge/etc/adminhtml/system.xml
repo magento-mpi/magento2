@@ -45,7 +45,7 @@
             <group id="authorizenet">
                 <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Use via Payment Bridge</label>
-                    <comment>Gives effect only when payment bridge is active.</comment>
+                    <comment>This feature is functional only when a payment bridge is active.</comment>
                     <config_path>payment/authorizenet/using_pbridge</config_path>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
@@ -625,7 +625,7 @@
                         <group id="wpp_and_express_checkout">
                             <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="0">
                                 <label>Use via Payment Bridge</label>
-                                <comment>Gives effect only when payment bridge is active.</comment>
+                                <comment>This feature is functional only when a payment bridge is active.</comment>
                                 <config_path>payment/paypal_direct/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             </field>
@@ -637,7 +637,7 @@
                         <group id="pp_pe_api_settings">
                             <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                                 <label>Use via Payment Bridge</label>
-                                <comment>Gives effect only when payment bridge is active.</comment>
+                                <comment>This feature is functional only when a payment bridge is active.</comment>
                                 <config_path>payment/paypaluk_direct/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             </field>
