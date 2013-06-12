@@ -540,6 +540,7 @@ return array(
     array('Mage_Adminhtml_System_ConfigController', 'Mage_Backend_Adminhtml_System_ConfigController'),
     array('Mage_Bundle_Product_EditController', 'Mage_Bundle_Adminhtml_Bundle_SelectionController'),
     array('Mage_Bundle_SelectionController', 'Mage_Bundle_Adminhtml_Bundle_SelectionController'),
+    array('Mage_Catalog_Model_Category_Limitation'),
     array('Mage_Catalog_Model_Convert'),
     array('Mage_Catalog_Model_Convert_Adapter_Catalog'),
     array('Mage_Catalog_Model_Convert_Adapter_Product'),

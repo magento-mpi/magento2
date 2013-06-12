@@ -54,6 +54,9 @@ class Saas_Limitation_Model_Catalog_Category_ObserverTest extends PHPUnit_Framew
         )));
     }
 
+    /**
+     * @return array
+     */
     public function restrictEntityCreationInactiveDataProvider()
     {
         return array(
@@ -108,6 +111,9 @@ class Saas_Limitation_Model_Catalog_Category_ObserverTest extends PHPUnit_Framew
         )));
     }
 
+    /**
+     * @return array
+     */
     public function disableCreationButtonsInCategoriesFormInactiveDataProvider()
     {
         return array(
@@ -135,6 +141,9 @@ class Saas_Limitation_Model_Catalog_Category_ObserverTest extends PHPUnit_Framew
         )));
     }
 
+    /**
+     * @return array
+     */
     public function disableCreationButtonsInCategoriesTreeInactiveDataProvider()
     {
         return array(
@@ -143,19 +152,37 @@ class Saas_Limitation_Model_Catalog_Category_ObserverTest extends PHPUnit_Framew
         );
     }
 
-    public function testDisableCreationButtonsInProductsInactive()
+    /**
+     * @param string $buttonName
+     * @param bool $isLimitationReached
+     * @dataProvider disableCreationButtonsInProductsInactiveDataProvider
+     */
+    public function testDisableCreationButtonsInProductsInactive($buttonName, $isLimitationReached)
     {
         $this->_categoryLimitation
-            ->expects($this->any())->method('isCreateRestricted')->will($this->returnValue(false));
+            ->expects($this->any())->method('isCreateRestricted')->will($this->returnValue($isLimitationReached));
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category_Button', array('setData'), array(), '', false
+            'Mage_Backend_Block_Widget_Button', array('setData', 'getId'), array(), '', false
         );
+        $block->expects($this->once())->method('getId')->will($this->returnValue($buttonName));
         $block->expects($this->never())->method('setData');
 
         $this->_observer->disableCreationButtons(new Varien_Event_Observer(array(
             'event' => new Varien_Object(array('block' => $block))
         )));
+    }
+
+    /**
+     * @return array
+     */
+    public function disableCreationButtonsInProductsInactiveDataProvider()
+    {
+        return array(
+            'wrong button, no limits' => array('wrong_button', false),
+            'right button, no limits' => array('add_category_button', false),
+            'wrong button, limits' => array('wrong_button', true),
+        );
     }
 
     public function testDisableCreationButtonsInCategoriesFormActive()
@@ -203,8 +230,9 @@ class Saas_Limitation_Model_Catalog_Category_ObserverTest extends PHPUnit_Framew
             ->expects($this->once())->method('isCreateRestricted')->will($this->returnValue(true));
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category_Button', array('setData'), array(), '', false
+            'Mage_Backend_Block_Widget_Button', array('setData', 'getId'), array(), '', false
         );
+        $block->expects($this->once())->method('getId')->will($this->returnValue('add_category_button'));
         $block->expects($this->once())->method('setData')->with('disabled', true);
 
         $this->_observer->disableCreationButtons(new Varien_Event_Observer(array(
