@@ -14,20 +14,19 @@
 class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
-
     /**
      * @var Mage_Core_Model_Config_Data
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Config_Data $config
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Model_Config $config
+     * @param Mage_Backend_Block_Context $context
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Model_Config $config,
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Context $context,
         array $data = array()
     ) {
         $this->_config = $config;

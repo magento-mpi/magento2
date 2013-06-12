@@ -36,10 +36,7 @@ class Mage_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_Fra
     {
         $event = $this->getMock('Varien_Event', array('getMethodInstance'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-        $event->expects(
-            $this->once())->
-            method('getMethodInstance')->will($this->returnValue('Enterprise_AdminGws_Model_Observer_Abstract')
-        );
+        $event->expects($this->once())->method('getMethodInstance')->will($this->returnValue('some incorrect value'));
         $event->expects($this->never())->method('isAvailable');
         $this->_model->dispatch($this->_observerMock);
     }
