@@ -58,7 +58,7 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testCheckContactUsFormWhenCaptchaIsRequiredAndValid()
     {
         $formId = 'contact_us';
-        $captchaValue = 'AdsaASkP';
+        $captchaValue = 'some-value';
 
         $controller = $this->getMock('Mage_Core_Controller_Varien_Action', array(), array(), '', false);
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
