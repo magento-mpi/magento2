@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
             $this->_removeButton('delete');
         }
 
-        if ($customer->getId()) {
+        if ($customer && $customer->getId()) {
             $url = $this->getUrl('*/*/resetPassword', array('customer_id' => $customer->getId()));
             $this->_addButton('reset_password', array(
                 'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Reset Password'),
