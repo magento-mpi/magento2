@@ -17,6 +17,7 @@ if (!extension_loaded('zip')) {
          *
          * @param string $filename
          * @param int $flags
+         * @SuppressWarnings(PHPMD.UnusedFormalParameter)
          */
         public function open($filename, $flags = null)
         {
@@ -33,6 +34,7 @@ if (!extension_loaded('zip')) {
          * Extract the archive contents
          * @param string $destination
          * @param mixed $entries
+         * @SuppressWarnings(PHPMD.UnusedFormalParameter)
          */
         public function extractTo($destination, $entries = null)
         {
