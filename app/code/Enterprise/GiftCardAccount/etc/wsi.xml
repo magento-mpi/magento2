@@ -180,27 +180,27 @@
     </wsdl:message>
     <wsdl:portType name="{{var wsdl.handler}}PortType">
         <wsdl:operation name="giftcardAccountCreate">
-            <wsdl:documentation>Create gift card account</wsdl:documentation>
+            <wsdl:documentation>Create a gift card account</wsdl:documentation>
             <wsdl:input message="typens:giftcardAccountCreateRequest" />
             <wsdl:output message="typens:giftcardAccountCreateResponse" />
         </wsdl:operation>
         <wsdl:operation name="giftcardAccountUpdate">
-            <wsdl:documentation>Remove gift card account</wsdl:documentation>
+            <wsdl:documentation>Remove this gift card account</wsdl:documentation>
             <wsdl:input message="typens:giftcardAccountUpdateRequest" />
             <wsdl:output message="typens:giftcardAccountUpdateResponse" />
         </wsdl:operation>
         <wsdl:operation name="giftcardAccountRemove">
-            <wsdl:documentation>Remove gift card account</wsdl:documentation>
+            <wsdl:documentation>Remove this gift card account</wsdl:documentation>
             <wsdl:input message="typens:giftcardAccountRemoveRequest" />
             <wsdl:output message="typens:giftcardAccountRemoveResponse" />
         </wsdl:operation>
         <wsdl:operation name="giftcardAccountList">
-            <wsdl:documentation>Remove gift card account</wsdl:documentation>
+            <wsdl:documentation>Remove this gift card account</wsdl:documentation>
             <wsdl:input message="typens:giftcardAccountListRequest" />
             <wsdl:output message="typens:giftcardAccountListResponse" />
         </wsdl:operation>
         <wsdl:operation name="giftcardAccountInfo">
-            <wsdl:documentation>Remove gift card account</wsdl:documentation>
+            <wsdl:documentation>Remove this gift card account</wsdl:documentation>
             <wsdl:input message="typens:giftcardAccountInfoRequest" />
             <wsdl:output message="typens:giftcardAccountInfoResponse" />
         </wsdl:operation>

@@ -109,7 +109,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
             $this->_eventManager->dispatch("admin_system_config_changed_section_{$section}", array(
                 'website' => $website, 'store' => $store
             ));
-            $this->_session->addSuccess($this->_getHelper()->__('The configuration has been saved.'));
+            $this->_session->addSuccess($this->_getHelper()->__('You saved the configuration.'));
         } catch (Mage_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
             foreach ($messages as $message) {

@@ -307,7 +307,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
             'cc_cid' => '000',
         );
         $errorCode = 1075;
-        $errorMessage = 'Incorrect credit card expiration date.';
+        $errorMessage = 'We found an incorrect credit card expiration date.';
         $exception = Magento_Test_Helper_Api::callWithException(
             $this,
             'shoppingCartOrderWithPayment',

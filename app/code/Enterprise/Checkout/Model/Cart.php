@@ -359,7 +359,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     public function reorderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Failed to reorder item'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Something went wrong reordering this product.'));
         }
 
         $product = Mage::getModel('Mage_Catalog_Model_Product')
@@ -395,7 +395,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             return $item;
 
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Failed to add a product of order item'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Something went wrong reordering this product.'));
         }
     }
 
@@ -544,7 +544,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     }
                 }
                 if (!$wishlist) {
-                    $this->_addResultError(Mage::helper('Mage_Wishlist_Helper_Data')->__("Could not find such wishlist"));
+                    $this->_addResultError(Mage::helper('Mage_Wishlist_Helper_Data')->__("We couldn't find this wish list."));
                     return $this;
                 }
                 $wishlist->setStore($this->getStore())
@@ -1396,8 +1396,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         $messages = array();
         if ($addedItemsCount) {
             $message = ($addedItemsCount == 1)
-                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s product was added to your shopping cart.', $addedItemsCount)
-                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s products were added to your shopping cart.', $addedItemsCount);
+                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s product to your shopping cart.', $addedItemsCount)
+                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s products to your shopping cart.', $addedItemsCount);
             $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->success($message);
         }
         if ($failedItemsCount) {

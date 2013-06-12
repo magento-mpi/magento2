@@ -30,5 +30,5 @@
             }
         });
         return !error;
-    }, 'Please select one of each ratings above');
+    }, 'Please select one of each ratings above.');
 })(jQuery);

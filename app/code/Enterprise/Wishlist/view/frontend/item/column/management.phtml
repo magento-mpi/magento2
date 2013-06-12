@@ -14,7 +14,7 @@
 $item = $this->getItem();
 ?>
 <div class="split-button light">
-    <strong><span <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo $this->__('Move to Wishlist');?></span></strong>
+    <strong><span <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo $this->__('Move to Wish List');?></span></strong>
     <a href="#" class="change"><?php echo $this->__('Move to:') ?></a>
     <div class="list-container">
         <ul>
@@ -24,13 +24,13 @@ $item = $this->getItem();
                 <?php endif;?>
             <?php endforeach;?>
             <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                <li class="new"><span data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
+                <li class="new"><span data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo $this->__('Create New Wish List')?>"><?php echo $this->__('Create New Wish List')?></span></li>
             <?php endif;?>
         </ul>
     </div>
 </div>
 <div class="split-button light">
-    <strong><span <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo $this->__('Copy to Wishlist');?></span></strong>
+    <strong><span <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo $this->__('Copy to Wish List');?></span></strong>
     <a href="#" class="change"><?php echo $this->__('Copy to:') ?></a>
     <div class="list-container">
         <ul>
@@ -40,7 +40,7 @@ $item = $this->getItem();
                 <?php endif; ?>
             <?php endforeach;?>
             <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                <li class="new"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
+                <li class="new"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo $this->__('Create New Wish List')?>"><?php echo $this->__('Create New Wish List')?></span></li>
             <?php endif;?>
         </ul>
     </div>

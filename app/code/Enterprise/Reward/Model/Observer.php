@@ -231,7 +231,7 @@ class Enterprise_Reward_Model_Observer
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer earned %s for the order.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
+                    Mage::helper('Enterprise_Reward_Helper_Data')->__('The customer earned %s for this order.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
                 )->save();
             }
         }

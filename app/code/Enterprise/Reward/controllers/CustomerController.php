@@ -67,7 +67,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
             $this->_getSession()->addSuccess(
-                $this->__('The settings have been saved.')
+                $this->__('You saved the settings.')
             );
         }
         $this->_redirect('*/*/info');
@@ -99,7 +99,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
                 );
             }
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Failed to unsubscribe.'));
+            $this->_getSession()->addError($this->__('Failed to unsubscribe'));
         }
 
         $this->_redirect('*/*/info');

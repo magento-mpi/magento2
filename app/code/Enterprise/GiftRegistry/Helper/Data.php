@@ -99,7 +99,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
                         }
                     }
                     if (!$found) {
-                        $errors[] = $this->__('Please enter correct "%s".', $data['label']);
+                        $errors[] = $this->__('Please enter the correct "%s".', $data['label']);
                     }
                 }
             }

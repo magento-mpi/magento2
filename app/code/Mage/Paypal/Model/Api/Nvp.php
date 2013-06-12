@@ -842,7 +842,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 || (in_array(11557, $this->_callErrors) && 'Suspend' === $request['ACTION'])
                 || (in_array(11558, $this->_callErrors) && 'Reactivate' === $request['ACTION'])
             ) {
-                Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Unable to change status. Current status is not correspond to real status.'));
+                Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('We can\'t change the status because the current status doesn\'t match the real status.'));
             }
             throw $e;
         }
@@ -982,7 +982,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             ));
             $http->close();
 
-            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Unable to communicate with the PayPal gateway.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('We can\'t contact the PayPal gateway.'));
         }
 
         // cUrl resource must be closed after checking it for errors
@@ -992,7 +992,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Mage::logException(new Exception(
                 Mage::helper('Mage_Paypal_Helper_Data')->__("PayPal response hasn't required fields.")
             ));
-            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('There was an error processing your order. Please contact us or try again later.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Something went wrong while processing your order.'));
         }
 
         $this->_callErrors = array();
@@ -1043,7 +1043,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 isset($response['VERSION']) ? $response['VERSION'] : ''
             ));
             Mage::logException($e);
-            $e->setMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal gateway has rejected request. %s', $errors));
+            $e->setMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('The PayPal gateway has rejected this request. %s', $errors));
             throw $e;
         }
     }

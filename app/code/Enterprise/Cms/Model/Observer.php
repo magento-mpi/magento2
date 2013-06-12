@@ -114,7 +114,7 @@ class Enterprise_Cms_Model_Observer
          */
         if (!$revisionAvailable && $page->getId() && $page->getUnderVersionControl()) {
             $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
-            $page->setPublishedRevisionStatus(Mage::helper('Enterprise_Cms_Helper_Data')->__('Published Revision Unavailable'));
+            $page->setPublishedRevisionStatus(Mage::helper('Enterprise_Cms_Helper_Data')->__('The published revision is unavailable.'));
         }
 
         return $this;

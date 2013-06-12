@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
             $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Send Tracking Information'));
             $this->_updateButton('save',
                 'onclick', "deleteConfirm('"
-                . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to send Shipment email to customer?')
+                . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to send a Shipment email to customer?')
                 . "', '" . $this->getEmailUrl() . "')"
             );
         }

@@ -106,7 +106,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
         $rid        = $this->getRequest()->getParam('role_id', false);
         $role = Mage::getModel('Mage_Api_Model_Roles')->load($rid);
         if (!$role->getId() && $rid) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This Role no longer exists'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This role no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -146,7 +146,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
             }
 
             $rid = $role->getId();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been saved.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You saved the role.'));
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while saving this role.'));
         }

@@ -89,7 +89,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
         $rewardFormatted = Mage::helper('Enterprise_Reward_Helper_Data')
             ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
         $this->setPointsBalance($points)->setCurrencyAmount($amount)
-            ->setUseLabel($this->__('Use my reward points, %s are available.', $rewardFormatted))
+            ->setUseLabel($this->__('Use my reward points; %s are available.', $rewardFormatted))
         ;
         return parent::_toHtml();
     }
