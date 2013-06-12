@@ -89,7 +89,7 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testCheckContactUsFormRedirectsCustomerWithWarningMessageWhenCaptchaIsRequiredAndInvalid()
     {
         $formId = 'contact_us';
-        $captchaValue = 'AdsaASkP';
+        $captchaValue = 'some-value';
         $warningMessage = 'Incorrect CAPTCHA.';
         $redirectRoutePath = 'contacts/index/index';
         $redirectUrl = 'http://magento.com/contacts/';
