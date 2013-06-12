@@ -142,11 +142,13 @@
             </Saas_Limitation_Model_Catalog_Product_Observer_Entity>
             <Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication>
                 <parameters>
+                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
                     <messageCode>catalog_product_creation</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication>
             <Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations>
                 <parameters>
+                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
                     <messageCode>catalog_product_variations</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations>

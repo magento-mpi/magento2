@@ -24,13 +24,13 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication
 
     /**
      * @param Saas_Limitation_Model_Limitation_Validator $limitationValidator,
-     * @param Saas_Limitation_Model_Catalog_Product_Limitation $limitation
+     * @param Saas_Limitation_Model_Limitation_LimitationInterface $limitation
      * @param Saas_Limitation_Model_Dictionary $dictionary
      * @param string $messageCode
      */
     public function __construct(
         Saas_Limitation_Model_Limitation_Validator $limitationValidator,
-        Saas_Limitation_Model_Catalog_Product_Limitation $limitation,
+        Saas_Limitation_Model_Limitation_LimitationInterface $limitation,
         Saas_Limitation_Model_Dictionary $dictionary,
         $messageCode
     ) {

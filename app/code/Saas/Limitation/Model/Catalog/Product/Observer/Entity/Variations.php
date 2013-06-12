@@ -24,13 +24,13 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations
 
     /**
      * @param Saas_Limitation_Model_Limitation_Validator $limitationValidator,
-     * @param Saas_Limitation_Model_Catalog_Product_Limitation $limitation
+     * @param Saas_Limitation_Model_Limitation_LimitationInterface $limitation
      * @param Saas_Limitation_Model_Dictionary $dictionary
      * @param string $messageCode
      */
     public function __construct(
         Saas_Limitation_Model_Limitation_Validator $limitationValidator,
-        Saas_Limitation_Model_Catalog_Product_Limitation $limitation,
+        Saas_Limitation_Model_Limitation_LimitationInterface $limitation,
         Saas_Limitation_Model_Dictionary $dictionary,
         $messageCode
     ) {
@@ -47,7 +47,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations
      */
     public function restrictCreation(Varien_Event_Observer $observer)
     {
-        /** @var Mage_User_Model_User $entity */
+        /** @var Mage_Catalog_Model_Product $entity */
         $entity = $observer->getEvent()->getData('product');
         $variations = $observer->getEvent()->getData('variations');
         $qty = ($entity->isObjectNew() ? 1 : 0) + count($variations);
