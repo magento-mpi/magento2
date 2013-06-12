@@ -16,7 +16,6 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -43,9 +42,9 @@ class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
     public function wrongNumberOfSymbols($value)
     {
         $config = $this->loadDataSet('Captcha', 'front_captcha_after_attempts_to_login',
-                                     array ('captcha_word_length' => $value));
+            array('captcha_word_length' => $value));
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                                    '"Number of Symbols": The value is not within the specified range.');
+            '"Number of Symbols": The value is not within the specified range.');
         $this->systemConfigurationHelper()->configure($config);
     }
 
@@ -70,7 +69,7 @@ class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
     public function correctNumberOfSymbols($value)
     {
         $config = $this->loadDataSet('Captcha', 'front_captcha_after_attempts_to_login',
-                                     array ('captcha_word_length' => $value));
+            array('captcha_word_length' => $value));
         $this->systemConfigurationHelper()->configure($config);
     }
 

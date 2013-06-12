@@ -66,20 +66,23 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openStaticBlock(array $searchData)
     {
-        if (array_key_exists('filter_store_view', $searchData)
-            && !$this->controlIsPresent('dropdown', 'filter_store_view')
-        ) {
+        if (isset($searchData['filter_store_view']) && !$this->controlIsVisible('dropdown', 'filter_store_view')) {
             unset($searchData['filter_store_view']);
         }
-        $xpathTR = $this->search($searchData, 'static_blocks_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Static Block is not found');
+        //Search Static Block
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $blockLocator = $this->search($searchData, 'static_blocks_grid');
+        $this->assertNotNull($blockLocator, 'Static Block is not found with data: ' . print_r($searchData, true));
+        $blockRowElement = $this->getElement($blockLocator);
+        $blockUrl = $blockRowElement->attribute('title');
+        //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Title');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $cellElement = $this->getChildElement($blockRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($blockUrl));
+        //Open Static Block
+        $this->url($blockUrl);
+        $this->validatePage('edit_cms_static_block');
     }
 
     /**

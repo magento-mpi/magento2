@@ -387,6 +387,17 @@
             </analyzer>
         </fieldType>
 
+        <!-- Less flexible matching, but less false matches.  Probably not ideal for product names,
+             but may be good for SKUs.  Can insert dashes and dots in the wrong place and still match. -->
+        <fieldType name="textTight" class="solr.TextField" positionIncrementGap="100">
+            <analyzer>
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="1" preserveOriginal="1"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+        </fieldType>
 
         <!--
             This is an example of using the KeywordTokenizer along. With various TokenFilterFactories to produce a
@@ -1603,7 +1614,11 @@
         <field name="timestamp"     type="date" indexed="true" multiValued="false" default="NOW"/>
 
         <!-- Static type attribute fields. -->
-        <field name="sku"   type="textTight_en" indexed="true" omitNorms="true"/>
+        <field name="sku"   type="textTight" indexed="true" omitNorms="true"/>
+
+        <!-- Field to sort by SKU -->
+        <field name="attr_sort_sku" type="string" indexed="true" stored="false"/>
+        <copyField source="sku" dest="attr_sort_sku"/>
 
         <!--
             Dynamic fields definitions. If a field name is not found, dynamicFields will be used if the name matches any

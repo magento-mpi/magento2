@@ -19,18 +19,28 @@
  */
 class Core_Mage_ImportExport_Customer_CustomActionsTest extends Mage_Selenium_TestCase
 {
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export/p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $this->runMassAction('Delete', 'all', 'confirmation_for_massaction_delete');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('import');
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
     /**
      * Verify that import customers main file with specified action works correctly
      *
@@ -59,12 +69,12 @@ class Core_Mage_ImportExport_Customer_CustomActionsTest extends Mage_Selenium_Te
         //Steps 7-8: verifying customer data after import
         foreach ($updatedCustomerData as $key => $value) {
             $this->navigate('manage_customers');
-            if (!is_null($updatedCustomerData[$key])) {
-                $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($updatedCustomerData[$key]),
+            if (!is_null($value)) {
+                $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($value),
                     'Customer not found');
-                $this->customerHelper()->openCustomer(array('email' => $updatedCustomerData[$key]['email']));
-                $this->assertTrue($this->verifyForm($updatedCustomerData[$key], 'account_information'),
-                    'Customer has not been updated');
+                $this->customerHelper()->openCustomer(array('email' => $value['email']));
+                $this->verifyForm($value, 'account_information', array('associate_to_website'));
+                $this->assertEmptyVerificationErrors();
             } else {
                 $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($originalCustomerData[$key]),
                     'Customer has not been deleted');

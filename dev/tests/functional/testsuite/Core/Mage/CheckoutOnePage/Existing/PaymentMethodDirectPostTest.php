@@ -41,22 +41,21 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodDirectPostTest extends Mag
      *
      * @return string
      * @test
-     * @skipTearDown
      */
     public function preconditionsForTests()
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
         return array('sku' => $simple['general_name'], 'email' => $userData['email']);
     }
 
@@ -71,17 +70,13 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodDirectPostTest extends Mag
      */
     public function authorizeDirectPost($testData)
     {
-        $this->markTestIncomplete('MAGETWO-8885');
+        $this->markTestIncomplete('MAGETWO-9104');
         //Data
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'exist_flatrate_checkmoney_usa',
-            array(
-                'general_name' => $testData['sku'],
-                'email_address' => $testData['email'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')
-            )
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'email_address' => $testData['email'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')
+        ));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');

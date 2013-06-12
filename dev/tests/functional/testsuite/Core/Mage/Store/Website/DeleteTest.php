@@ -102,11 +102,13 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $websiteData = $this->loadDataSet('Website', 'generic_website');
-        $productData =
-            $this->loadDataSet('Product', 'simple_product_visible', array('websites' => $websiteData['website_name']));
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
+            array('websites' => $websiteData['website_name']));
         $deleteWebsiteData = array('website_name' => $websiteData['website_name']);
         $this->storeHelper()->createStore($websiteData, 'website');
         $this->assertMessagePresent('success', 'success_saved_website');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');

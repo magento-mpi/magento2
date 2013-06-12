@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
         $rateObject = new Varien_Object(Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->getData());
         $form = new Varien_Data_Form();
 
-        $countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray();
+        $countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray(false, 'US');
         unset($countries[0]);
 
         if (!$rateObject->hasTaxCountryId()) {
@@ -59,7 +59,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
             $regions = array(array('value' => '', 'label' => '*'));
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate Information')));
+        $legend = $this->getShowLegend() ? Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate Information') : '';
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $legend));
 
         if ($rateObject->getTaxCalculationRateId() > 0) {
             $fieldset->addField('tax_calculation_rate_id', 'hidden', array(
@@ -74,19 +75,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
             'title'    => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Identifier'),
             'class'    => 'required-entry',
             'required' => true,
-        ));
-
-        $fieldset->addField('tax_country_id', 'select', array(
-            'name'     => 'tax_country_id',
-            'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Country'),
-            'required' => true,
-            'values'   => $countries
-        ));
-
-        $fieldset->addField('tax_region_id', 'select', array(
-            'name'   => 'tax_region_id',
-            'label'  => Mage::helper('Mage_Tax_Helper_Data')->__('State'),
-            'values' => $regions
         ));
 
         $fieldset->addField('zip_is_range', 'checkbox', array(
@@ -121,6 +109,19 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
             'maxlength' => 9,
             'class'     => 'validate-digits',
             'css_class'     => 'hidden',
+        ));
+
+        $fieldset->addField('tax_region_id', 'select', array(
+            'name'   => 'tax_region_id',
+            'label'  => Mage::helper('Mage_Tax_Helper_Data')->__('State'),
+            'values' => $regions
+        ));
+
+        $fieldset->addField('tax_country_id', 'select', array(
+            'name'     => 'tax_country_id',
+            'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Country'),
+            'required' => true,
+            'values'   => $countries
         ));
 
         $fieldset->addField('rate', 'text', array(

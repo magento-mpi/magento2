@@ -21,11 +21,12 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('VatID/store_information_data');
-        $this->systemConfigurationHelper()->expandFieldSet('store_information');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
-        $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_valid'), 'VAT Number is not valid');
+        if (!$this->controlIsVisible('pageelement', 'vat_number_is_valid')){
+            $this->skipTestWithScreenshot('VAT Number is not valid');
+        }
     }
 
     protected function tearDownAfterTest()
@@ -39,6 +40,7 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('VatID/create_new_account_options_disable');
+        $this->systemConfigurationHelper()->configure('ShippingSettings/store_information_empty');
     }
 
     /**
@@ -48,10 +50,12 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
     public function preconditionsForTests()
     {
         //Data
-        $names = array('group_valid_vat_domestic'   => 'Valid VAT Domestic_%randomize%',
-                       'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
-                       'group_invalid_vat'          => 'Invalid VAT_%randomize%',
-                       'group_default'              => 'Default Group_%randomize%');
+        $names = array(
+            'group_valid_vat_domestic' => 'Valid VAT Domestic_%randomize%',
+            'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
+            'group_invalid_vat' => 'Invalid VAT_%randomize%',
+            'group_default' => 'Default Group_%randomize%'
+        );
         $processedGroupNames = array();
         //Creating three Customer  Groups
         $this->loginAdminUser();
@@ -67,7 +71,8 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->navigate('system_configuration');
         $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options', $processedGroupNames);
         $this->systemConfigurationHelper()->configure($accountOptions);
-
+        $this->reindexInvalidedData();
+        $this->flushCache();
         return $processedGroupNames;
     }
 
@@ -100,27 +105,29 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->fillFieldset($addressData, 'address_book');
         $this->clickButton('save_address');
         //Verifying Customer Group on back-end
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-        $verificationData = $vatGroup[$customerGroup];
-        $this->verifyForm(array('group' => $verificationData, 'account_information'));
+        $this->openTab('account_information');
+        $this->verifyForm(array('group' => $vatGroup[$customerGroup], 'account_information'));
+        $this->assertEmptyVerificationErrors();
     }
 
     public function dataForCustomersDataProvider()
     {
         return array(
-            array(array('country'            => 'Germany', 'state'=> 'Berlin',
-                        'billing_vat_number' => '%noValue%', 'default_billing_address' => '%noValue%'),
-                  'group_default'),
-            array(array('country' => 'Germany', 'state' => 'Berlin', 'billing_vat_number' => '111607872',
-                        'default_billing_address' => '%noValue%'),
-                  'group_valid_vat_domestic'),
-            array(array('country' => 'Germany', 'state' => 'Berlin', 'billing_vat_number' => '11111111',
-                        'default_billing_address' => '%noValue%'),
-                  'group_invalid_vat'),
-            array(array('country' => 'United Kingdom', 'billing_vat_number' => '584451913',
-                        'default_billing_address' => '%noValue%'),
-                  'group_valid_vat_intraunion')
+            array(array('country' => 'Germany', 'state' => 'Berlin', 'vat_number' => '%noValue%',
+                'default_billing_address' => '%noValue%'),
+                'group_default'),
+            array(array('country' => 'Germany', 'state' => 'Berlin', 'vat_number' => '111607872',
+                'default_billing_address' => '%noValue%'),
+                'group_valid_vat_domestic'),
+            array(array('country' => 'Germany', 'state' => 'Berlin', 'vat_number' => '11111111',
+                'default_billing_address' => '%noValue%'),
+                'group_invalid_vat'),
+            array(array('country' => 'United Kingdom', 'state' => '%noValue%', 'vat_number' => '584451913',
+                'default_billing_address' => '%noValue%'),
+                'group_valid_vat_intraunion')
         );
     }
 
@@ -139,10 +146,12 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
     {
         //Data
         $userRegisterData = $this->loadDataSet('Customers', 'customer_account_register');
-        $userAddressData = $this->loadDataSet('Customers', 'generic_address',
-            array('country'    => 'United Kingdom',
-                  'billing_vat_number' => '584451913',
-                  'default_billing_address' => '%noValue%'));
+        $userAddressData = $this->loadDataSet('Customers', 'generic_address', array(
+            'country' => 'United Kingdom',
+            'state' => '%noValue%',
+            'vat_number' => '584451913',
+            'default_billing_address' => '%noValue%'
+        ));
         //Creating customer on front-end
         $this->goToArea('frontend');
         $this->navigate('customer_login');
@@ -150,13 +159,14 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->assertMessagePresent('success', 'vat_number_message');
         //Filling Address Book and VAT Number
         $this->navigate('adding_new_address_book');
-        $this->addParameter('VatNumber', $userAddressData['billing_vat_number']);
+        $this->addParameter('VatNumber', $userAddressData['vat_number']);
         $this->fillFieldset($userAddressData, 'address_book');
         $this->clickButton('save_address');
         $this->assertMessagePresent('success', 'success_validate_intraunion_vat');
         //Verifying Customer Group on back-end
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->customerHelper()->openCustomer($userRegisterData);
+        $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
         $this->openTab('account_information');
         $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_intraunion']), 'account_information');
     }
@@ -181,6 +191,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->systemConfigurationHelper()->expandFieldSet('store_information');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
-        $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_invalid'));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'vat_number_is_invalid'));
     }
 }

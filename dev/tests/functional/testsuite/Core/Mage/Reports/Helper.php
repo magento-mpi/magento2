@@ -20,34 +20,26 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Searches the specified data in the report.
-     * Returns row number(s) if found, or null otherwise.
+     * Returns row number(s) if found
      *
      * @param array $data Data to look for in report
      * @param string $gridXpath
      *
-     * @return string|array|null
+     * @return array
      */
-    public function searchDataInReport(array $data , $gridXpath = 'report_tag_grid')
+    public function searchDataInReport(array $data, $gridXpath = 'report_tag_grid')
     {
         $rowNumbers = array();
-        $fieldsetLocator = $this->_getControlXpath('fieldset', $gridXpath);
-        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
-        $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
+        $totalCount = $this->getTotalRecordsInTable('fieldset', $gridXpath);
         $xpathTR = $this->formSearchXpath($data);
-        $availableElement = $this->elementIsPresent($xpathTR);
-        if ($availableElement) {
+        if ($this->elementIsPresent($xpathTR)) {
             for ($i = 1; $i <= $totalCount; $i++) {
                 if ($this->elementIsPresent(str_replace('tr', 'tr[' . $i . ']', $xpathTR))) {
                     $rowNumbers[] = $i;
                 }
             }
-            if (count($rowNumbers) == 1) {
-                return $rowNumbers[0];
-            } else {
-                return $rowNumbers;
-            }
         }
-        return null;
+        return $rowNumbers;
     }
 
     /**
@@ -76,9 +68,13 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
         }
 
         for ($i = 0; $i < count($sortedReport); $i++) {
-            $this->assertEquals(
-                $i + 1, $this->searchDataInReport($sortedReport[$i]), "Report sorting by $column is not correct");
+            list($rowNumber) = $this->searchDataInReport($sortedReport[$i]);
+            if ($i + 1 !== $rowNumber) {
+                $this->addVerificationMessage('Report sorting by ' . $column . ' is not correct. Line number must be '
+                    . ($i + 1) . ' but now is ' . $rowNumber. ' Data: '. print_r($sortedReport[$i], true));
+            }
         }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -88,16 +84,17 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
      */
     public function export()
     {
+        $exportLabel = $this->getControlAttribute('dropdown', 'export_to', 'selectedLabel');
         $exportUrl = $this->getControlAttribute('dropdown', 'export_to', 'selectedValue');
         $report = $this->getFile($exportUrl);
-        if (strpos(strtolower($exportUrl), 'csv')) {
+        if (strpos(strtolower($exportLabel), 'csv') !== false) {
             return $this->_csvToArray($report);
         }
-        if (strpos(strtolower($exportUrl), 'excel')) {
+        if (strpos(strtolower($exportLabel), 'excel') !== false) {
             $xmlArray = $this->_xmlToArray($report);
             return $this->_convertXmlReport($xmlArray);
         }
-        return false;
+        $this->fail('Wrong type of export file');
     }
 
     /**
@@ -110,24 +107,7 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
      */
     protected function _csvToArray($input, $delimiter = ',')
     {
-        $temp = tmpfile();
-        fwrite($temp, $input);
-        fseek($temp, 0);
-        $data = array();
-        $header = array();
-        while (($line = fgetcsv($temp, 10000, $delimiter, '"', '\\')) !== FALSE) {
-            if (!$header) {
-                $header = $line;
-            } else {
-                try {
-                    $data[] = array_combine($header, $line);
-                } catch (Exception $e) {
-                    var_dump($e->getMessage());
-                    return null;
-                }
-            }
-        }
-        return $data;
+        return $this->csvHelper()->csvToArray($input, $delimiter);
     }
 
     /**

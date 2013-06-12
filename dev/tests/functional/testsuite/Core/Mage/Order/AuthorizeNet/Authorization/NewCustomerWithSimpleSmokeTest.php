@@ -28,6 +28,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
     }
 
     protected function assertPreConditions()

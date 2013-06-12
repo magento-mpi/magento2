@@ -19,54 +19,60 @@
 class Core_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Inserts variable
-     *
-     * @param string $variable
-     */
-    public function insertVariable($variable)
-    {
-        if (!empty($variable)) {
-            $this->clickButton('insert_variable', false);
-            $this->waitForAjax();
-            $this->clickControl('link', $variable, false);
-            $this->waitForAjax();
-        }
-    }
-
-    /** <p>Fill fields in Template form according to the resulting array</p>
+     * <p>Create new template</p>
      *
      * @param array $templateData
-     * @param string
      */
-    public function fillTemplateForm(array $templateData, $fieldName)
+    public function createEmailTemplate(array $templateData)
     {
+        $this->clickButton('add_new_template');
+        $this->fillEmailTemplateData($templateData);
+        $this->saveForm('save_template');
+    }
+
+    /**
+     * @param array $templateData
+     */
+    public function fillEmailTemplateData(array $templateData)
+    {
+        if (isset($templateData['template'])) {
+            $this->fillDropdown('template', $templateData['template']);
+            $this->clickButton('load_template', false);
+            $this->pleaseWait();
+            unset($templateData['template']);
+        }
+        if (isset($templateData['variable_data'])) {
+            foreach ($templateData['variable_data'] as $variable) {
+                $this->cmsPagesHelper()->insertVariable($variable);
+            }
+            unset($templateData['variable_data']);
+        }
         if (!empty($templateData)) {
-            $this->fillFieldset($templateData, $fieldName);
+            $this->fillFieldset($templateData, 'template_information');
         }
     }
 
     /**
-     * <p>Create new template</p>
+     * Open Email Template.
      *
-     * @param array $templateData
-     * @param array $templateName
-     * @param string $variable
+     * @param array $searchData
      */
-    public function createNewTemplate(array $templateData, array $templateName, $variable)
+    public function openEmailTemplate(array $searchData)
     {
-        $this->clickButton('add_new_template');
-        if (!empty($templateData)) {
-            $this->fillTemplateForm($templateData, 'load_default_template');
-            $this->clickButton('load_template', false);
-            $this->waitForAjax();
-            if (!empty($variable)) {
-                $this->insertVariable($variable);
-            }
-            if (!empty($templateName)) {
-                $this->fillTemplateForm($templateName, 'template_information');
-                $this->clickButton('save_template');
-            }
-        }
+        //Search Email Template.
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $templateLocator = $this->search($searchData, 'system_email_template_grid');
+        $this->assertNotNull($templateLocator, 'Email Template is not found with data: ' . print_r($searchData, true));
+        $templateRowElement = $this->getElement($templateLocator);
+        $templateUrl = $templateRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Template');
+        $cellElement = $this->getChildElement($templateRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($templateUrl));
+        //Open Email Template.
+        $this->url($templateUrl);
+        $this->validatePage('edit_email_template');
     }
 
     /**
@@ -74,16 +80,9 @@ class Core_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $searchData
      */
-    public function deleteTemplate(array $searchData)
+    public function deleteEmailTemplate(array $searchData)
     {
-        if (!isset($searchData['filter_template_name'])) {
-            $this->fail('Required data for deleting are empty');
-        }
-        //Data
-        $this->addParameter('elementTitle', $searchData['filter_template_name']);
-        //Steps
-        $this->searchAndOpen($searchData, 'system_email_template_grid');
-        //Verifying
+        $this->openEmailTemplate($searchData);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
 
@@ -93,19 +92,11 @@ class Core_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
      * @param array $searchData
      * @param array $newTemplateData
      */
-    public function editTemplate(array $searchData, array $newTemplateData)
+    public function editEmailTemplate(array $searchData, array $newTemplateData)
     {
-        if (empty($newTemplateData)) {
-            $this->fail('$newTemplateData is empty');
-        }
-        if (!isset($searchData['filter_template_name'])) {
-            $this->fail('filter_template_name is empty');
-        }
-        $this->addParameter('elementTitle', $searchData['filter_template_name']);
-        //Steps
-        $this->searchAndOpen($searchData, 'system_email_template_grid');
-        $this->fillTemplateForm($newTemplateData, 'template_information');
-        $this->clickButton('save_template');
+        $this->openEmailTemplate($searchData);
+        $this->fillEmailTemplateData($newTemplateData);
+        $this->saveForm('save_template');
     }
 
     /*

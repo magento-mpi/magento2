@@ -98,8 +98,7 @@ class Core_Mage_ProductAttribute_Create_TextFieldTest extends Mage_Selenium_Test
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $fieldXpath = $this->_getControlXpath('field', 'attribute_label');
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->addFieldIdToMessage('field', 'attribute_label');
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -151,9 +150,10 @@ class Core_Mage_ProductAttribute_Create_TextFieldTest extends Mage_Selenium_Test
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield',
             array('attribute_label' => $this->generate('string', 32, ':punct:')));
-        $attrData['attribute_label'] = preg_replace('/<|>/', '', $attrData['attribute_label']);
+        $attrData['attribute_properties']['attribute_label'] =
+            preg_replace('/<|>/', '', $attrData['attribute_properties']['attribute_label']);
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code' => $attrData['attribute_code']));
+            array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -178,8 +178,8 @@ class Core_Mage_ProductAttribute_Create_TextFieldTest extends Mage_Selenium_Test
             array('attribute_code'  => $this->generate('string', 30, ':lower:'),
                   'attribute_label' => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code'  => $attrData['attribute_code'],
-                  'attribute_label' => $attrData['attribute_label']));
+            array('attribute_code'  => $attrData['advanced_attribute_properties']['attribute_code'],
+                  'attribute_label' => $attrData['attribute_properties']['attribute_label']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying

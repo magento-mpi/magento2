@@ -33,16 +33,14 @@ class Core_Mage_Csv_Helper extends Mage_Selenium_AbstractHelper
         fseek($temp, 0);
         $data = array();
         $header = array();
-        while (($line = fgetcsv($temp, 10000, $delimiter, '"', '\\')) !== FALSE) {
-            if (!$header) {
-                $header = $line;
-            } else {
-                try {
-                    $data[] = array_combine($header, $line);
-                } catch (Exception $e) {
-                    print_r($e);
-                    return null;
+        while (($line = fgetcsv($temp, 10000, $delimiter, '"', '\\')) !== false) {
+            if ($header) {
+                if (count($header) !== count($line)) {
+                    $this->markTestIncomplete('MAGETWO-3858: Both parameters should have an equal number of elements');
                 }
+                $data[] = array_combine($header, $line);
+            } else {
+                $header = $line;
             }
         }
         return $data;
@@ -61,15 +59,14 @@ class Core_Mage_Csv_Helper extends Mage_Selenium_AbstractHelper
         $temp = tmpfile();
         $header = null;
         foreach ($input as $line) {
-            if (is_array($line)) {
-                if (!$header) {
-                    $header = array_keys($line);
-                    fputcsv($temp, $header, $delimiter, '"');
-                }
-                fputcsv($temp, array_values($line), $delimiter, '"');
-            } else {
+            if (!is_array($line)) {
                 $this->markTestIncomplete('MAGETWO-3858');
             }
+            if (!$header) {
+                $header = array_keys($line);
+                fputcsv($temp, $header, $delimiter, '"');
+            }
+            fputcsv($temp, array_values($line), $delimiter, '"');
         }
         fseek($temp, 0);
         $csv = '';

@@ -51,7 +51,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Data
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => $attributeData['attribute_code']));
+            array('Product Details' => $attributeData['advanced_attribute_properties']['attribute_code']));
         $productData['general_user_attr_dropdown'] = $attributeData['option_1']['admin_option_name'];
         //Steps (attribute)
         $this->navigate('manage_attributes');
@@ -66,7 +66,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array('attribute' => $attributeData['attribute_label'],
+        return array('attribute' => $attributeData['attribute_properties']['attribute_label'],
                      'option'    => $attributeData['option_1']['admin_option_name']);
     }
 
@@ -82,11 +82,10 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $attributeData = $this->loadDataSet('SystemAttributes', 'quantity_and_stock_status');
         //Steps
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attributeData['attribute_code']));
+        $this->productAttributeHelper()->
+            openAttribute(array('attribute_code' => $attributeData['advanced_attribute_properties']['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifySystemAttribute($attributeData);
-        //Steps
-        $this->productAttributeHelper()->processAttributeValue($attributeData);
         $this->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -244,6 +243,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product, 'simple', false);
+        $this->productHelper()->openProductTab('inventory');
         $this->fillTab($inventory, 'inventory');
         $this->addParameter('elementTitle', $product['general_name']);
         $this->productHelper()->saveProduct('continueEdit');

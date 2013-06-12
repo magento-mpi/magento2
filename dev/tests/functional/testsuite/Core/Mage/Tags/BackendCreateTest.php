@@ -67,7 +67,8 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->tagsHelper()->addTag($setData);
         //Verify
-        $this->assertMessagePresent('validation', 'required_name');
+        $this->addFieldIdToMessage('field', 'tag_name');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
@@ -112,7 +113,6 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      */
     public function productTaggedByAdministrator()
     {
-        $this->markTestIncomplete('MAGETWO-8429');
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array('prod_tag_admin_name' => $simple['general_name']));

@@ -18,6 +18,10 @@ $isWrapped = $containerId || $element->getHeaderBar() || $isCollapsable;
 $titleActions = $element->getHeaderBar() ? '<div class="actions">' . $element->getHeaderBar() . '</div>' : '';
 $isField = $element->getFieldsetType() == 'field';
 $advancedAfter = $element->getAdvancedPosition() == 'after'; // To place advanced options inside or after fieldset
+$advancedLabel = $element->getAdvancedLabel();
+if (!isset($advancedLabel)) {
+    $advancedLabel = Mage::helper('Mage_Backend_Helper_Data')->__('Additional Settings');
+}
 
 $cssClass = ($isField) ? 'field ' . $element->getClass() : 'fieldset ' . $element->getClass();
 
@@ -84,7 +88,7 @@ if ($isField) {
             <?php echo (!$element->getNoContainer() && $advancedAfter)  ? '</fieldset>' : ''?>
             <details class="details" id="details<?php echo $id ?>">
                 <summary class="details-summary" id="details-summary<?php echo $id ?>">
-                    <span><?php echo $element->getAdvancedLabel() ?></span>
+                    <span><?php echo $advancedLabel ?></span>
                 </summary>
                 <div class="details-content" id="details-content<?php echo $id ?>">
                     <?php echo $element->getAdvancedChildrenHtml(); ?>

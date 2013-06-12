@@ -245,6 +245,37 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     }
 
     /**
+     * @magentoAppIsolation enabled
+     */
+    public function testGetSelectedAttributesInfoForStore()
+    {
+        $attributes = $this->_model->getConfigurableAttributesAsArray($this->_product);
+
+        $attribute = reset($attributes);
+        $optionValueId = $attribute['values'][0]['value_index'];
+
+        $this->_product->addCustomOption(
+            'attributes',
+            serialize(array($attribute['attribute_id'] => $optionValueId))
+        );
+        /** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $configurableAttributes */
+        $configurableAttributes = $this->_model->getConfigurableAttributes($this->_product);
+        $attribute = $configurableAttributes->getFirstItem();
+
+        $attribute->getProductAttribute()->setStoreLabel('store label');
+        $info = $this->_model->getSelectedAttributesInfo($this->_product);
+        $this->assertEquals(
+            array(
+                array(
+                    'label' => 'store label',
+                    'value' => 'Option 1'
+                )
+            ),
+            $info
+        );
+    }
+
+    /**
      * @depends testGetConfigurableAttributesAsArray
      */
     public function testPrepareForCart()
@@ -410,26 +441,43 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     }
 
     /**
+     * @param array $productsData
+     * @dataProvider generateSimpleProductsWithoutQtyDataProvider
+     * @magentoDbIsolation enabled
+     */
+    public function testGenerateSimpleProductsWithoutQty($productsData)
+    {
+        $this->_product->setNewVariationsAttributeSetId(4);
+        $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
+        foreach ($generatedProducts as $productId) {
+            /** @var $product Mage_Catalog_Model_Product */
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
+            $product->load($productId);
+            $this->assertEquals('0', $product->getStockItem()->getData('manage_stock'));
+        }
+    }
+
+    /**
      * @return array
      */
     public static function generateSimpleProductsDataProvider()
     {
         return array(array(array(
-            25 => array(
+            array(
                 'name' => '1-aaa',
                 'configurable_attribute' => '{"configurable_attribute":"25"}',
                 'price' => '3',
                 'sku' => '1-aaa',
                 'quantity_and_stock_status' => array('qty' => '5'),
                 'weight' => '6'),
-            24 => array(
+            array(
                 'name' => '1-bbb',
                 'configurable_attribute' => '{"configurable_attribute":"24"}',
                 'price' => '3',
                 'sku' => '1-bbb',
                 'quantity_and_stock_status' => array('qty' => '5'),
                 'weight' => '6'),
-            23 => array(
+            array(
                 'name' => '1-ccc',
                 'configurable_attribute' => '{"configurable_attribute":"23"}',
                 'price' => '3',
@@ -438,6 +486,23 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
                 'weight' => '6'
             ),
         )));
+    }
+
+    /**
+     * @return array
+     */
+    public static function generateSimpleProductsWithoutQtyDataProvider()
+    {
+        return array(array(array(
+            array(
+                'name' => '1-aaa',
+                'configurable_attribute' => '{"configurable_attribute":"23"}',
+                'price' => '3',
+                'sku' => '1-aaa-1',
+                'quantity_and_stock_status' => array('qty' => ''),
+                'weight' => '6')
+            ),
+        ));
     }
 
     /**

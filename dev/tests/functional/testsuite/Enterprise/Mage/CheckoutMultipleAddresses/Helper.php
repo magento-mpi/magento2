@@ -49,14 +49,16 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         foreach ($forItems as $data) {
             $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
             $this->addParameter('productName', $productName);
-            $this->fillCheckbox('gift_option_for_individual_items', 'Yes');
-            $giftWrapping = (isset($data['gift_wrapping_for_item'])) ? $data['gift_wrapping_for_item'] : '';
+            $this->fillCheckbox('gift_option_for_item', 'Yes');
+            $giftWrapping = (isset($data['item_gift_wrapping_design'])) ? $data['item_gift_wrapping_design'] : '';
             $giftMessage = (isset($data['gift_message'])) ? $data['gift_message'] : array();
             if ($giftWrapping) {
-                $this->fillDropdown('gift_wrapping_for_item', $giftWrapping);
+                $this->fillDropdown('item_gift_wrapping_design', $giftWrapping);
             }
             if ($giftMessage) {
-                $this->clickControl('link', 'gift_message_for_item', false);
+                if (!$this->controlIsEditable('field', 'item_gift_message_from')) {
+                    $this->clickControl('link', 'add_item_gift_message', false);
+                }
                 $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
@@ -69,14 +71,16 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
     protected function _addGiftOptionsForOrder($forOrder)
     {
         if ($forOrder) {
-            $this->fillCheckbox('gift_option_for_the_entire_order', 'Yes');
-            $giftWrapping = (isset($forOrder['gift_wrapping_for_order'])) ? $forOrder['gift_wrapping_for_order'] : '';
+            $this->fillCheckbox('gift_option_for_order', 'Yes');
+            $giftWrapping = (isset($forOrder['order_gift_wrapping_design'])) ? $forOrder['order_gift_wrapping_design'] : '';
             $giftMessage = (isset($forOrder['gift_message'])) ? $forOrder['gift_message'] : array();
             if ($giftWrapping) {
-                $this->fillDropdown('gift_wrapping_for_order', $giftWrapping);
+                $this->fillDropdown('order_gift_wrapping_design', $giftWrapping);
             }
             if ($giftMessage) {
-                $this->clickControl('link', 'gift_message_for_order', false);
+                if (!$this->controlIsEditable('field', 'order_gift_message_from')) {
+                    $this->clickControl('link', 'add_order_gift_message', false);
+                }
                 $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
@@ -92,7 +96,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         //Data
         $forItemsData = (isset($giftOptions['individual_items'])) ? $giftOptions['individual_items'] : array();
         $forOrder = (isset($giftOptions['entire_order'])) ? true : false;
-        $forOrderWrapping = (isset($giftOptions['entire_order']['gift_wrapping_for_order'])) ? true : false;
+        $forOrderWrapping = (isset($giftOptions['entire_order']['order_gift_wrapping_design'])) ? true : false;
         $forOrderMessage = (isset($giftOptions['entire_order']['gift_message'])) ? true : false;
         $forItems = (isset($giftOptions['individual_items'])) ? true : false;
         $giftReceipt = (isset($giftOptions['send_gift_receipt'])) ? true : false;
@@ -101,14 +105,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         $this->verifyControlAvailability('checkbox', 'send_gift_receipt', $giftReceipt, 'send Gift Receipt');
         $this->verifyControlAvailability('checkbox', 'add_printed_card', $printedCard, 'add Printed Card to Order');
         //For Entire Order
-        $this->verifyControlAvailability('checkbox', 'gift_option_for_the_entire_order', $forOrder,
+        $this->verifyControlAvailability('checkbox', 'gift_option_for_order', $forOrder,
             'add gift options to Entire Order');
-        $this->verifyControlAvailability('dropdown', 'gift_wrapping_for_order', $forOrderWrapping,
+        $this->verifyControlAvailability('dropdown', 'order_gift_wrapping_design', $forOrderWrapping,
             'add gift wrapping to Entire Order');
-        $this->verifyControlAvailability('link', 'gift_message_for_order', $forOrderMessage,
+        $this->verifyControlAvailability('link', 'add_order_gift_message', $forOrderMessage,
             'add gift message to Entire Order');
         //For Individual Items
-        $this->verifyControlAvailability('checkbox', 'gift_option_for_individual_items', $forItems,
+        $this->verifyControlAvailability('checkbox', 'gift_option_for_item', $forItems,
             'add gift options to Individual Items');
         $this->_verifyGiftOptionsForItems($forItemsData);
         $this->assertEmptyVerificationErrors();
@@ -123,11 +127,11 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         foreach ($forItemsData as $data) {
             $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
             $this->addParameter('productName', $productName);
-            $forItemWrapping = (isset($data['gift_wrapping_for_item'])) ? true : false;
+            $forItemWrapping = (isset($data['item_gift_wrapping_design'])) ? true : false;
             $forItemMessage = (isset($data['gift_message'])) ? true : false;
-            $this->verifyControlAvailability('link', 'gift_message_for_item', $forItemMessage,
+            $this->verifyControlAvailability('link', 'add_item_gift_message', $forItemMessage,
                 'add gift message to ' . $productName);
-            $this->verifyControlAvailability('dropdown', 'gift_wrapping_for_item', $forItemWrapping,
+            $this->verifyControlAvailability('dropdown', 'item_gift_wrapping_design', $forItemWrapping,
                 'add gift wrapping to ' . $productName);
         }
     }

@@ -25,32 +25,30 @@ class Enterprise_Mage_Acl_BugVerifications_CatalogPriceRuleTest extends Mage_Sel
      */
     public function createCatalogPriceRuleSaveAndContinue()
     {
+        //Data
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+            array('resource_acl' => 'marketing-promotions'));
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
+        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
+            array('from_date' => '%noValue%', 'to_date' => '%noValue%'));
         //Preconditions
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_acl' => 'promotions'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with  rights to Catalog Price Rules Menu
         $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_catalog_price_rules');
-        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule');
-        $this->clickButton('add_new_rule');
-        $this->priceRulesHelper()->fillTabs($priceRuleData);
-        $this->saveForm('save_and_continue_edit', false);
-        $this->addParameter('elementTitle', $priceRuleData['info']['rule_name']);
-        $this->validatePage('edit_rule_page');
+        $this->assertTrue($this->checkCurrentPage('manage_catalog_price_rules'), $this->getParsedMessages());
+        $this->priceRulesHelper()->createRuleAndContinueEdit($priceRuleData);
+        $this->assertTrue($this->checkCurrentPage('edit_rule_page'), $this->getParsedMessages());
         $this->assertMessagePresent('success', 'success_saved_rule');
-        $this->verifyForm($priceRuleData, 'rule_information');
-        $this->verifyForm($priceRuleData, 'rule_actions');
+        $this->priceRulesHelper()->verifyRuleData($priceRuleData);
     }
 }

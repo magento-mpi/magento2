@@ -320,7 +320,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
+        return $this->_authorization
             ->isAllowed('Saas_PrintedTemplate::add_edit');
     }
 

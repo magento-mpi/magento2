@@ -22,7 +22,7 @@ customer_attribute_search_data:
 
 # Test Datasets for Add New TextField type Customer Attribute
 customer_attribute_textfield: &customerAttributeTextfield
-    properties:
+    attribute_properties:
         attribute_label: Textfield_attribute_label_%randomize%
         input_type: Text Field
         default_value: %noValue%
@@ -33,6 +33,7 @@ customer_attribute_textfield: &customerAttributeTextfield
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
@@ -42,7 +43,7 @@ customer_attribute_textfield: &customerAttributeTextfield
 
 # Test Datasets for Add New TextArea type Customer  Attribute
 customer_attribute_textarea: &customerAttributeTextarea
-    properties:
+    attribute_properties:
         attribute_label: Text_Area_Admin
         input_type: Text Area
         attribute_code: textarea_%randomize%
@@ -52,6 +53,7 @@ customer_attribute_textarea: &customerAttributeTextarea
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
@@ -61,7 +63,7 @@ customer_attribute_textarea: &customerAttributeTextarea
 
 # Test Datasets for Add New Multiple Line type Customer Attribute
 customer_attribute_multipleline: &customerAttributeMultipLine
-    properties:
+    attribute_properties:
         attribute_label: MultipLine_Area_Admin
         input_type: Multiple Line
         attribute_code: multiline_%randomize%
@@ -73,6 +75,7 @@ customer_attribute_multipleline: &customerAttributeMultipLine
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
@@ -82,7 +85,7 @@ customer_attribute_multipleline: &customerAttributeMultipLine
 
 # Test Datasets for Add New Date type Customer Attribute
 customer_attribute_date: &customerAttributeDate
-    properties:
+    attribute_properties:
         attribute_label: Date_Admina
         input_type: Date
         attribute_code: date_%randomize%
@@ -93,6 +96,7 @@ customer_attribute_date: &customerAttributeDate
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
@@ -102,12 +106,13 @@ customer_attribute_date: &customerAttributeDate
 
 # Test Datasets for Add New Dropdown type Customer Attribute
 customer_attribute_dropdown: &customerAttributeDropdown
-    properties:
+    attribute_properties:
         attribute_label: Dropdown_Admin_%randomize%
         input_type: Dropdown
         attribute_code: dropdown_%randomize%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
@@ -138,12 +143,13 @@ customer_attribute_dropdown: &customerAttributeDropdown
 
 # Test Datasets for Add New MultipleSelect type Customer  Attribute
 customer_attribute_multiselect: &customerAttributeMultiselect
-    properties:
+    attribute_properties:
         attribute_label: Dropdown_Admin_%randomize%
         input_type: Multiple Select
         attribute_code: mselect_%randomize%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
@@ -174,13 +180,14 @@ customer_attribute_multiselect: &customerAttributeMultiselect
 
 # Test Datasets for Add New Yes/No type Customer Attribute
 customer_attribute_yesno: &customerAttributeYesno
-    properties:
+    attribute_properties:
         attribute_label: Yes/No_Admin
         input_type: Yes/No
         attribute_code: yesno_%randomize%
         default_value: %noValue%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use: %noValue%
@@ -190,7 +197,7 @@ customer_attribute_yesno: &customerAttributeYesno
 
 # Test Datasets for Attach File type Customer Attribute
 customer_attribute_attach_file: &customerAttributeAttachFile
-    properties:
+    attribute_properties:
         attribute_label: File Attachment_Admin
         input_type: File (attachment)
         attribute_code: file__%randomize%
@@ -198,6 +205,7 @@ customer_attribute_attach_file: &customerAttributeAttachFile
         file_extensions: %noValue%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use: %noValue%
@@ -207,7 +215,7 @@ customer_attribute_attach_file: &customerAttributeAttachFile
 
 # Test Datasets for Image File type Customer Attribute
 customer_attribute_image_file: &customerAttributeImageFile
-    properties:
+    attribute_properties:
         attribute_label: Image file_Admin
         input_type: Image File
         attribute_code: image_file_%randomize%
@@ -216,6 +224,7 @@ customer_attribute_image_file: &customerAttributeImageFile
         maximum_image_height:
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use: %noValue%
@@ -236,7 +245,7 @@ customer_attributes:
     customer_attribute_image_file: *customerAttributeImageFile
 
 generic_customer_attribute:
-    properties:
+    attribute_properties:
         attribute_label: 'Text_Field_Admin_%randomize%'
         input_type: Text Field
         attribute_code: 'attr_%randomize%'
@@ -246,10 +255,11 @@ generic_customer_attribute:
         min_text_length: 1
         max_text_length: 255
         input_filter: None
+    frontend_properties:
         used_for_customer_segment: No
         visible_on_frontend: Yes
         sort_order: 1
         used_in_forms: Customer Account Edit, Customer Checkout Register
     manage_labels_options:
         store_view_titles:
-                    Default Store View: Textfield_Title_%randomize%
+            Default Store View: Textfield_Title_%randomize%

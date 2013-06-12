@@ -91,10 +91,8 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $fieldXpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()

@@ -42,6 +42,10 @@ class Core_Mage_Tags_CustomerTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function addNewTags($tags, $status, $testData)
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-1299');
+        }
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -64,8 +68,8 @@ class Core_Mage_Tags_CustomerTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
             $this->navigate('manage_customers');
             $this->assertTrue($this->tagsHelper()->verifyTagCustomer($tagSearchData, $customerSearchData),
                 'Product tags verification is failure');
-            $searchTag = array('product_name' => $testData['simple'], 'status' => $status, 'tag_search_name' => $tag);
-            $this->tagsHelper()->openTag($searchTag);
+            $this->navigate('all_tags');
+            $this->tagsHelper()->openTag(array('tags_status' => $status, 'tag_name' => $tag));
             $this->tagsHelper()->saveForm('save_tag');
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
@@ -93,7 +97,7 @@ class Core_Mage_Tags_CustomerTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function searchTags($columnName, $testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2854');
+        $this->markTestIncomplete('MAGETWO-2854');
         //Setup
         $this->loginAdminUser();
         $this->navigate('manage_customers');

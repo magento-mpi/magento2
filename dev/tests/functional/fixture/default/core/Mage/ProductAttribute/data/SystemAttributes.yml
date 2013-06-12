@@ -10,10 +10,12 @@
 ---
 # System attribute options
 custom_design:
-    attribute_code: custom_design
-    attribute_label: Custom Design
+    attribute_properties:
+        attribute_label: Custom Design
+    advanced_attribute_properties:
+        attribute_code: custom_design
     option_1:
-        admin_option_name: -- Please Select --
+        admin_option_name: '-- Please Select --'
     option_2:
         admin_option_name: Magento Blank
     option_3:
@@ -21,21 +23,17 @@ custom_design:
     option_4:
         admin_option_name: Magento Demo Blue
     option_5:
-        admin_option_name: Magento Fixed Design
-    option_6:
-        admin_option_name: Magento Fluid Design (incompatible version)
-    option_7:
         admin_option_name: Magento Iphone
-    option_8:
-        admin_option_name: Magento Iphone (HTML5)
-    option_9:
+    option_6:
         admin_option_name: Magento Modern
-    default_value: Magento Blank
-    default_control_value: Magento Blank
+    default_value: '-- Please Select --'
+    set_default_value: Magento Blank
 
 enable_googlecheckout:
-    attribute_code: enable_googlecheckout
-    attribute_label: Is Product Available for Purchase with Google Checkout
+    attribute_properties:
+        attribute_label: Is Product Available for Purchase with Google Checkout
+    advanced_attribute_properties:
+        attribute_code: enable_googlecheckout
     option_1:
         admin_option_name: Yes
     option_2:
@@ -43,17 +41,22 @@ enable_googlecheckout:
     default_value: Yes
 
 gift_message_available:
-    attribute_code: gift_message_available
-    attribute_label: Allow Gift Message
+    attribute_properties:
+        attribute_label: Allow Gift Message
+    advanced_attribute_properties:
+        attribute_code: gift_message_available
     option_1:
         admin_option_name: Yes
     option_2:
         admin_option_name: No
-    default_value: Yes
+    default_value: No
+    set_default_value: Yes
 
 is_recurring:
-    attribute_code: is_recurring
-    attribute_label: Enable Recurring Profile
+    attribute_properties:
+        attribute_label: Enable Recurring Profile
+    advanced_attribute_properties:
+        attribute_code: is_recurring
     option_1:
         admin_option_name: Yes
     option_2:
@@ -61,19 +64,24 @@ is_recurring:
     default_value: No
 
 msrp_enabled:
-    attribute_code: msrp_enabled
-    attribute_label: Apply MAP
+    attribute_properties:
+        attribute_label: Apply MAP
+    advanced_attribute_properties:
+        attribute_code: msrp_enabled
     option_1:
         admin_option_name: Yes
     option_2:
         admin_option_name: No
     option_3:
         admin_option_name: Use config
-    default_value: Yes
+    default_value: Use config
+    set_default_value: Yes
 
 msrp_display_actual_price_type:
-    attribute_code: msrp_display_actual_price_type
-    attribute_label: Display Actual Price
+    attribute_properties:
+        attribute_label: Display Actual Price
+    advanced_attribute_properties:
+        attribute_code: msrp_display_actual_price_type
     option_1:
         admin_option_name: In Cart
     option_2:
@@ -82,11 +90,14 @@ msrp_display_actual_price_type:
         admin_option_name: On Gesture
     option_4:
         admin_option_name: Use config
-    default_value: Before Order Confirmation
+    default_value: Use config
+    set_default_value: Before Order Confirmation
 
 options_container:
-    attribute_code: options_container
-    attribute_label: Display Product Options In
+    attribute_properties:
+        attribute_label: Display Product Options In
+    advanced_attribute_properties:
+        attribute_code: options_container
     option_1:
         admin_option_name: Product Info Column
     option_2:
@@ -94,8 +105,10 @@ options_container:
     default_value: Block after Info Column
 
 page_layout:
-    attribute_code: page_layout
-    attribute_label: Page Layout
+    attribute_properties:
+        attribute_label: Page Layout
+    advanced_attribute_properties:
+        attribute_code: page_layout
     option_1:
         admin_option_name: No layout updates
     option_2:
@@ -108,20 +121,26 @@ page_layout:
         admin_option_name: 2 columns with right bar
     option_6:
         admin_option_name: 3 columns
-    default_value: 2 columns with right bar
+    default_value: No layout updates
+    set_default_value: 2 columns with right bar
 
 price_view:
-    attribute_code: price_view
-    attribute_label: Price View
+    attribute_properties:
+        attribute_label: Price View
+    advanced_attribute_properties:
+        attribute_code: price_view
     option_1:
         admin_option_name: As Low as
     option_2:
         admin_option_name: Price Range
-    default_value: As Low as
+    default_value: Price Range
+    set_default_value: As Low as
 
 status:
-    attribute_code: status
-    attribute_label: Status
+    attribute_properties:
+        attribute_label: Status
+    advanced_attribute_properties:
+        attribute_code: status
     option_1:
         admin_option_name: Enabled
     option_2:
@@ -129,8 +148,10 @@ status:
     default_value: Enabled
 
 tax_class_id:
-    attribute_code: tax_class_id
-    attribute_label: Tax Class
+    attribute_properties:
+        attribute_label: Tax Class
+    advanced_attribute_properties:
+        attribute_code: tax_class_id
     option_1:
         admin_option_name: None
     option_2:
@@ -140,8 +161,10 @@ tax_class_id:
     default_value: Taxable Goods
 
 visibility:
-    attribute_code: visibility
-    attribute_label: Visibility
+    attribute_properties:
+        attribute_label: Visibility
+    advanced_attribute_properties:
+        attribute_code: visibility
     option_1:
         admin_option_name: Not Visible Individually
     option_2:
@@ -153,8 +176,10 @@ visibility:
     default_value: 'Catalog, Search'
 
 country_of_manufacture:
-    attribute_code: country_of_manufacture
-    attribute_label: Country of Manufacture
+    attribute_properties:
+        attribute_label: Country of Manufacture
+    advanced_attribute_properties:
+        attribute_code: country_of_manufacture
     option_1:
         admin_option_name: ''
     option_2:
@@ -649,11 +674,14 @@ country_of_manufacture:
         admin_option_name: Zambia
     option_247:
         admin_option_name: Zimbabwe
-    default_value: Afghanistan
+    default_value: ''
+    set_default_value: Afghanistan
 
 quantity_and_stock_status:
-    attribute_code: quantity_and_stock_status
-    attribute_label: Quantity
+    attribute_properties:
+        attribute_label: Quantity
+    advanced_attribute_properties:
+        attribute_code: quantity_and_stock_status
     option_1:
         admin_option_name: In Stock
     option_2:

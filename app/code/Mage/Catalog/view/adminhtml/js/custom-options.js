@@ -96,7 +96,7 @@
                         resizable: true,
                         buttons: [
                             {
-                                text: $.mage.__('Close'),
+                                text: $.mage.__('Cancel'),
                                 id: 'import-custom-options-close-button',
                                 click: function () {
                                     $(this).dialog('close');
@@ -105,6 +105,7 @@
                             {
                                 text: $.mage.__('Import'),
                                 id: 'import-custom-options-apply-button',
+                                'class': 'primary',
                                 click: function (event, massActionTrigger) {
                                     var request = [];
                                     $(this).find('input[name=product]:checked').map(function () {

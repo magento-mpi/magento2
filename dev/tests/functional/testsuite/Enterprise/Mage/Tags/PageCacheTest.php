@@ -35,25 +35,20 @@ class Enterprise_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
         $this->navigate('cache_storage_management');
         self::$_isFpcOnBeforeTests = $this->cacheStorageManagementHelper()->isFullPageCacheEnabled();
         self::$_isFpcOnCurrently = self::$_isFpcOnBeforeTests;
-
-        //Create customer
-        self::$_customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
+        self::$_customerData = $this->loadDataSet('Customers', 'customer_account_register', array(
             'first_name' => $this->generate('string', 5, ':lower:'),
             'last_name' => $this->generate('string', 5, ':lower:'),
         ));
+        self::$_productData = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_name' => $this->generate('string', 8, ':lower:')));
         $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer(self::$_customerData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-
-        //Create product
-        self::$_productData = $this->loadDataSet('Product', 'simple_product_visible', array(
-            'general_name' => $this->generate('string', 8, ':lower:'),
-        ));
         $this->navigate('manage_products');
         $this->productHelper()->createProduct(self::$_productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer(self::$_customerData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
     }
 
     /**
@@ -90,12 +85,11 @@ class Enterprise_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
                 'Unable to enable Full Page Cache');
             self::$_isFpcOnCurrently = true;
         }
-
         //Step 1
         $this->customerHelper()->frontLoginCustomer(array(
-                'email' => self::$_customerData['email'],
-                'password' => self::$_customerData['password'])
-        );
+            'email' => self::$_customerData['email'],
+            'password' => self::$_customerData['password']
+        ));
         //Step 2
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
         //Step 3
@@ -103,7 +97,7 @@ class Enterprise_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
         $this->tagsHelper()->frontendAddTag($tag);
         //Step 4
         $this->loginAdminUser();
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), 'Approved');
         //Step 5
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);

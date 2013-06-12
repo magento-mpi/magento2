@@ -40,11 +40,11 @@ checkout_multishipping_shipping_methods:
                 -
                     shipping_method_form:
                         dropdowns:
-                            gift_wrapping_for_item: //li[div/h5='%productName%']//select
-                            gift_wrapping_for_order: //div[@class='gift-options-for-order']//select
+                            item_gift_wrapping_design: //li[div/h5='%productName%']//select
+                            order_gift_wrapping_design: //div[@class='gift-options-for-order']//select
                         links:
-                            gift_message_for_item: //li[div/h5='%productName%']//a[text()='Gift Message']
-                            gift_message_for_order: //div[@class='gift-options-for-order']//a[text()='Gift Message']
+                            add_item_gift_message: //li[div/h5='%productName%']//a[text()='Gift Message']
+                            add_order_gift_message: //div[@class='gift-options-for-order']//a[text()='Gift Message']
                         checkboxes:
                             send_gift_receipt: //p[label='Send Gift Receipt']/input
                             add_printed_card: //p[label='Add Printed Card']/input

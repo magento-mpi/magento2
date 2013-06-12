@@ -66,6 +66,9 @@
                     <helper>Mage_CatalogRule_Helper_Data</helper>
                 </parameters>
             </Mage_CatalogRule_Model_Rule_Job>
+            <Mage_CatalogRule_Model_Resource_Rule_Collection>
+                <shared>0</shared>
+            </Mage_CatalogRule_Model_Resource_Rule_Collection>
         </di>
     </global>
     <frontend>

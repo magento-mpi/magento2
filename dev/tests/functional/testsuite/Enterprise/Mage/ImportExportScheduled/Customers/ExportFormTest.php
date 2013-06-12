@@ -35,7 +35,7 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
     {
         // Step 1
         $this->assertTrue($this->buttonIsPresent('add_scheduled_export'),
-                          'Button "Add Scheduled Export" is absent in current page');
+            'Button "Add Scheduled Export" is absent in current page');
         $this->addParameter('type', 'Export');
         $this->clickButton('add_scheduled_export');
         // Verify
@@ -76,12 +76,10 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         $this->importExportScheduledHelper()->createExport($exportData);
         // Step 10
         $this->assertMessagePresent('success', 'success_saved_export');
-        $this->importExportScheduledHelper()->openImportExport(
-            array(
-                'name' => $exportData['name'],
-                'operation' => 'Export'
-            )
-        );
+        $this->importExportScheduledHelper()->openImportExport(array(
+            'name' => $exportData['name'],
+            'operation' => 'Export'
+        ));
     }
 
     /**
@@ -93,19 +91,16 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
     public function editingNewScheduledExport()
     {
         // Precondition
-        $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
-            array(
-                'entity_type' => 'Customers Main File'
-            ));
+        $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+            'entity_type' => 'Customers Main File'
+        ));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         //Step 1
-        $this->importExportScheduledHelper()->openImportExport(
-            array(
-                'name' => $exportData['name'],
-                'operation' => 'Export',
-            )
-        );
+        $this->importExportScheduledHelper()->openImportExport(array(
+            'name' => $exportData['name'],
+            'operation' => 'Export',
+        ));
         // Step 2
         $this->fillField('name', 'Edit_Export_Name_1078769789');
         $this->fillField('description', 'Edit_Export_Description');
@@ -113,15 +108,13 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         $this->fillDropdown('frequency', 'Monthly');
         $this->fillField('file_path', 'test/directory');
         // Step 3
-        $this->clickButton('save');
+        $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 4
-        $this->importExportScheduledHelper()->openImportExport(
-            array(
-                'name' => 'Edit_Export_Name_1078769789',
-                'operation' => 'Export',
-            )
-        );
+        $this->importExportScheduledHelper()->openImportExport(array(
+            'name' => 'Edit_Export_Name_1078769789',
+            'operation' => 'Export',
+        ));
         // Verifying
         $updateExportData = array(
             'name' => 'Edit_Export_Name_1078769789',
@@ -138,15 +131,13 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         $this->fillDropdown('frequency', 'Weekly');
         $this->fillField('file_path', 'test/directory/again');
         // Step 6
-        $this->clickButton('save');
+        $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_export');
         // Verifying
-        $this->importExportScheduledHelper()->openImportExport(
-            array(
-                'name' => 'Edit_Export_Name_again',
-                'operation' => 'Export',
-            )
-        );
+        $this->importExportScheduledHelper()->openImportExport(array(
+            'name' => 'Edit_Export_Name_again',
+            'operation' => 'Export',
+        ));
         $updateExportData = array(
             'name' => 'Edit_Export_Name_again',
             'description' => 'Edit_Export_Description_again',
@@ -167,17 +158,14 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
     {
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
-            array(
-                'entity_type' => 'Customers Main File'));
+            array('entity_type' => 'Customers Main File'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 1, 2
-        $this->importExportScheduledHelper()->applyAction(
-            array(
-                'name' => $exportData['name'],
-                'operation' => 'Export'
-            ), 'Edit'
-        );
+        $this->importExportScheduledHelper()->applyAction(array(
+            'name' => $exportData['name'],
+            'operation' => 'Export'
+        ), 'Edit');
         // Verifying
         $this->assertTrue($this->checkCurrentPage('scheduled_importexport_edit'), 'Edit page is not opened');
         unset($exportData['password']);
@@ -194,25 +182,21 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
     {
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
-            array(
-                'entity_type' => 'Customers Main File'));
+            array('entity_type' => 'Customers Main File'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 1, 2
-        $this->importExportScheduledHelper()->openImportExport(
-            array(
-                'name' => $exportData['name'],
-                'operation' => 'Export',
-            )
-        );
+        $this->importExportScheduledHelper()->openImportExport(array(
+            'name' => $exportData['name'],
+            'operation' => 'Export',
+        ));
         $this->clickButtonAndConfirm('delete', 'delete_confirmation_export');
         //Verifying
         $this->checkCurrentPage('scheduled_import_export');
         $this->assertMessagePresent('success', 'success_delete_export');
         $this->assertFalse($this->importExportScheduledHelper()->isImportExportPresentInGrid(array(
-                'name' => $exportData['name'],
-                'operation' => 'Export',
-            )),
-            'Scheduled Export is found in grid');
+            'name' => $exportData['name'],
+            'operation' => 'Export',
+        )), 'Scheduled Export is found in grid');
     }
 }

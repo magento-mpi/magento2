@@ -24,13 +24,29 @@ flat_catalog_frontend:
                 use_flat_catalog_product: %noValue%
                 product_listing_sort_by: %noValue%
                 allow_all_products_per_page: %noValue%
-                list_mode: %noValue%
+                list_mode: 'Grid (default) / List'
                 products_per_page_on_grid_allowed_values: '8,18,28'
                 products_per_page_on_grid_default_value: 8
                 products_per_page_on_list_allowed_values: '10,20,30,40'
                 products_per_page_on_list_default_value: 10
+
+flat_catalog_default:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_catalog
+        configuration:
+            frontend:
+                list_mode: 'Grid (default) / List'
+                products_per_page_on_grid_allowed_values: '9,15,30'
+                products_per_page_on_grid_default_value: 9
+                products_per_page_on_list_allowed_values: '5,10,15,20,25'
+                products_per_page_on_list_default_value: 10
+                allow_all_products_per_page: No
+                product_listing_sort_by: Best Value
+                use_flat_catalog_category: No
+                use_flat_catalog_product: No
       
-flat_catalog_Search_engine_optimizations:
+flat_catalog_search_engine_optimizations:
     configuration_scope: Default Config
     tab_1:
         tab_name: catalog_catalog

@@ -24,7 +24,8 @@ class Enterprise_Mage_ProductAttribute_SystemDefaultValueTest extends Core_Mage_
     {
         return array(
             array('is_returnable', 'simple', 'general_enable_rma'),
-            array('gift_wrapping_available', 'simple', 'autosettings_allow_gift_wrapping')
+            array('gift_wrapping_available', 'simple', 'autosettings_allow_gift_wrapping'),
+            array('allow_open_amount', 'giftcard', 'general_allow_open_amount')
         );
     }
 }

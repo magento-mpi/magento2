@@ -187,7 +187,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                 gallery = data.gallery,
                 wrapper = gallery.gallery,
                 thumbs = gallery.thumbsContainer,
-                thumbsH = thumbs.outerHeight(true),
+                thumbsH = thumbs.is(':visible') ? thumbs.outerHeight(true) : 0,
                 img = data.enlarged.image,
                 vp = { w: $(window).width(), h: $(window).height() };
 
@@ -209,11 +209,14 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
             //     wW = vp.w - (wrapper.innerWidth() - wrapper.width());
             // }
 
-            if(wrapper.height() > vp.h) {
+            $(img).parent().css({
+                bottom: thumbsH + 15
+            });
+
+/*            if(wrapper.height() > vp.h) {
                 wH = vp.h - ( wrapper.outerHeight() - wrapper.height());
             } else {
                 wH = wrapper.outerHeight();
-                mt = ((vp.h - wH) / 2) >> 0;
             }
 
             wrapper.css({
@@ -224,18 +227,19 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
 
             img.css({
                 // maxWidth: wrapper.width(),
-                maxHeight: wrapper.height() - thumbsH - 50
+                maxHeight: wrapper.height() - thumbsH
             });
 
-            vCorrection = img.height() + thumbsH + 50;
+            vCorrection = img.height() + thumbsH;
 
             if(vCorrection < wrapper.height()) {
                 wrapper.height(vCorrection);
             }
 
+
             wrapper.css({
                 marginLeft: utils.ceil((vp.w - wrapper.width()) / 2)
-            });
+            });*/
 
         },
 
@@ -740,7 +744,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                 enlarged = data.enlarged.wrapper;
 
             if(!data.loading){
-                if(!$this.hasClass(settings.main.activeTrackClass)) {
+                if(!$this.hasClass(settings.main.activeTrackClass) && settings.useLens) {
 
                     utils.setData({
                         pageX: e.pageX,
@@ -774,12 +778,12 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                     }
 
                     $this.addClass(settings.main.activeTrackClass);
+                    enlarged.show();
 
                 } else if (settings.useGallery){
                     method.showGallery();
                 }
 
-                enlarged.show();
             }
         },
 
@@ -970,6 +974,8 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                 // .removeAttr('style')
                 .addClass('lightbox');
 
+            $('body').addClass('js-lightbox');
+
             if(isNotSingleInCollection){
                 thumbsItemWidth = $(data.gallery.thumbs[1]).parent().outerWidth(true);
                 visibleThumbs = (data.gallery.thumbsContainer.width() / thumbsItemWidth) >> 0;
@@ -1004,6 +1010,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
             data.main.track.removeClass(settings.gallery.activeGalleryClass);
 
             data.enlarged.wrapper.removeClass('lightbox');
+            $('body').removeClass('js-lightbox');
 
             utils.recalculateSize(data.main.image, data.enlarged.image);
 
@@ -1194,7 +1201,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
     $.fn.magentoZoom.defaults = {
         main: {
             activeTrackClass: 'zoom-activated',
-            selector: '#main-image',
+            selector: '[data-role=base-image-zoom]',
             prefix: 'magento-zoom'
         },
         lens: {
@@ -1205,7 +1212,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
             adjustment: 20,
             action: 'click',
             width: 370,
-            height: 324
+            height: 800
         },
         gallery: {
             activeGalleryClass: 'gallery-activated',

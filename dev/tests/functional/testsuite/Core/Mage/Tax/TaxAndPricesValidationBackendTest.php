@@ -20,14 +20,19 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
 {
     public function setUpBeforeTests()
     {
+        $taxRule = $this->loadDataSet('Tax', 'new_tax_rule_required',
+            array('tax_rate' => 'US-CA-*-Rate 1,US-NY-*-Rate 1'));
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
         $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
         $this->systemConfigurationHelper()->configure('Currency/enable_usd');
         $this->systemConfigurationHelper()->configure('Tax/flat_rate_for_price_verification');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
+        $this->taxHelper()->deleteRulesExceptSpecified();
+        $this->taxHelper()->createTaxRule($taxRule);
+        $this->assertMessagePresent('success', 'success_saved_tax_rule');
     }
 
     protected function assertPreConditions()

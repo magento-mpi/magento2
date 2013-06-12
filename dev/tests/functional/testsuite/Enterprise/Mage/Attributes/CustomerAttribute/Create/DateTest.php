@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Attributes_CustomerAttribute_Create_DateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer Attributes</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -99,8 +95,7 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_DateTest extends Mage_
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
@@ -161,10 +156,10 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_DateTest extends Mage_
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_date',
             array('attribute_label' => $this->generate('string', 32, ':punct:')));
-        $attrData['properties']['attribute_label'] = preg_replace('/<|>/', '',
-            $attrData['properties']['attribute_label']);
+        $attrData['attribute_properties']['attribute_label'] =
+            preg_replace('/<|>/', '', $attrData['attribute_properties']['attribute_label']);
         $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
-            array('attribute_code' => $attrData['properties']['attribute_code']));
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
@@ -185,12 +180,14 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_DateTest extends Mage_
     public function withLongValues()
     {
         //Data
-        $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_date',
-            array('attribute_code'  => $this->generate('string', 21, ':lower:'),
-                  'attribute_label' => $this->generate('string', 255, ':alnum:')));
-        $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
-            array('attribute_code'  => $attrData['properties']['attribute_code'],
-                  'attribute_label' => $attrData['properties']['attribute_label']));
+        $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_date', array(
+            'attribute_code' => $this->generate('string', 21, ':lower:'),
+            'attribute_label' => $this->generate('string', 255, ':alnum:')
+        ));
+        $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data', array(
+            'attribute_code' => $attrData['attribute_properties']['attribute_code'],
+            'attribute_label' => $attrData['attribute_properties']['attribute_label']
+        ));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying

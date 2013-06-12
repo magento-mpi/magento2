@@ -28,6 +28,11 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
 
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
+    }
+
+    protected function tearDownAfterTest()
+    {
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
@@ -43,21 +48,24 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
-        return array('sku'      => $simple['general_name'],
-                     'customer' => array('email'    => $userData['email'],
-                                         'password' => $userData['password']));
+        return array(
+            'sku' => $simple['general_name'],
+            'customer' => array(
+                'email' => $userData['email'],
+                'password' => $userData['password']
+            )
+        );
     }
 
     /**
@@ -75,12 +83,12 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
         //Data
-        $override = array('general_name' => $data['sku'], 'billing_' . $field  => '');
+        $override = array('general_name' => $data['sku'], 'billing_' . $field => '');
         if ($field == 'country') {
             $override['billing_state'] = '%noValue%';
         }
-        $checkoutData =
-            $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', $override);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
+            $override);
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
@@ -101,13 +109,16 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      */
     public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
+        if ($field == 'state') {
+            $this->markTestIncomplete('MAGETWO-8745');
+        }
         //Data
-        $override = array('general_name' => $data['sku'], 'shipping_' . $field  => '');
+        $override = array('general_name' => $data['sku'], 'shipping_' . $field => '');
         if ($field == 'country') {
             $override['shipping_state'] = '%noValue%';
         }
-        $checkoutData =
-            $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', $override);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
+            $override);
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
@@ -121,7 +132,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
             array('last_name', '"Last Name": This is a required field.'),
             array('street_address_1', '"Address": This is a required field.'),
             array('city', '"City": This is a required field.'),
-            array('state', '"State/Province": This is a required field.'),
+            array('state', 'State/Province": Please select an option.'),
             array('zip_code', '"Zip/Postal Code": This is a required field.'),
             array('country', '"Country": Please select an option.'),
             array('telephone', '"Telephone": This is a required field.')
@@ -141,9 +152,10 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     {
         //Data
         $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('shipping_alert');
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
-                                           array('general_name'   => $data['sku'],
-                                                'shipping_data'   => '%noValue%'));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', array(
+            'general_name' => $data['sku'],
+            'shipping_data' => '%noValue%'
+        ));
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -162,9 +174,10 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     {
         //Data
         $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('payment_alert');
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
-                                           array('general_name' => $data['sku'],
-                                                'payment_data'  => '%noValue%'));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', array(
+            'general_name' => $data['sku'],
+            'payment_data' => '%noValue%'
+        ));
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);

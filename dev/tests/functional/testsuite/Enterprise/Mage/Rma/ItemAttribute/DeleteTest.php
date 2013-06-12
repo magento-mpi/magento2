@@ -37,11 +37,12 @@ class Enterprise_Mage_Rma_ItemAttribute_DeleteTest extends Mage_Selenium_TestCas
     {
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType);
-        $this->addParameter('elementTitle', $attrData['attribute_label']);
+        $this->addParameter('elementTitle', $attrData['attribute_properties']['attribute_label']);
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']), 'rma_item_atribute_grid');
+        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_properties']['attribute_code']),
+            'rma_item_atribute_grid');
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');

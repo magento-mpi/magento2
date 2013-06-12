@@ -46,9 +46,13 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function entriesInTagReports($testData)
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-1299');
+        }
         //Step 1
-        $this->customerHelper()->frontLoginCustomer(array('email'    => $testData['customer']['email'],
-                                                          'password' => $testData['customer']['password']));
+        $this->customerHelper()->frontLoginCustomer(array('email' => $testData['customer']['email'],
+            'password' => $testData['customer']['password']));
         //Step 2
         $this->productHelper()->frontOpenProduct($testData['product']);
         //Steps 3-4
@@ -62,10 +66,10 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         $this->loginAdminUser();
         foreach ($tags as $tag) {
             $this->navigate('all_tags');
-            $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => 'Pending'));
+            $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'tags_status' => 'Pending'));
         }
         //Steps 5-6
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         //Step 7
         foreach ($tags as $tag) {
             $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), 'Approved');
@@ -75,47 +79,62 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Step 9
         $this->navigate('report_tag_customer');
         //Verifying
-        $this->assertNotNull($this->reportsHelper()
-                ->searchDataInReport(array('first_name' => $testData['customer']['first_name'],
-                                           'last_name'  => $testData['customer']['last_name'],
-                                           'total_tags' => count($tags)), 'report_tag_customer_grid'),
-            'Customer who submitted tag is not shown in report');
+        $searchData = array(
+            'first_name' => $testData['customer']['first_name'],
+            'last_name' => $testData['customer']['last_name'],
+            'total_tags' => count($tags)
+        );
+        $this->assertNotEmpty(
+            $this->reportsHelper()->searchDataInReport($searchData),
+            'Customer who submitted tag is not shown in report. Data: ' . print_r($searchData, true)
+        );
         //Step 10
         $this->addParameter('firstName', $testData['customer']['first_name']);
         $this->addParameter('lastName', $testData['customer']['last_name']);
-        $this->addParameter('elementTitle',
-            $testData['customer']['first_name'] . ' ' . $testData['customer']['last_name']);
+        $this->addParameter('elementTitle', $testData['customer']['first_name'] . ' ' .
+            $testData['customer']['last_name']);
         $this->clickControl('link', 'show_tags');
         //Verifying
         foreach ($tags as $tag) {
-            $this->assertNotNull($this->reportsHelper()
-                    ->searchDataInReport(array('product_name' => $testData['product'], 'tag_name' => $tag)),
-                'Tag is not shown in Tags Submitted by Customer');
+            $searchData = array('product_name' => $testData['product'], 'tag_name' => $tag);
+            $this->assertNotEmpty(
+                $this->reportsHelper()->searchDataInReport($searchData),
+                'Tag is not shown in Tags Submitted by Customer. Data: ' . print_r($searchData, true)
+            );
         }
         //Step 11
         $this->navigate('report_tag_product');
         //Verifying
-        $this->assertNotNull($this->reportsHelper()->searchDataInReport(array('product_name' => $testData['product'],
-                                                                              'unique_tags_number' => count($tags),
-                                                                              'total_tags_number' => count($tags)),
-            'report_tag_product_grid'), 'Product with submitted tag is not shown in report');
+        $searchData = array(
+            'product_name' => $testData['product'],
+            'unique_tags_number' => count($tags),
+            'total_tags_number' => count($tags)
+        );
+        $this->assertNotEmpty(
+            $this->reportsHelper()->searchDataInReport($searchData),
+            'Product with submitted tag is not shown in report. Data: ' . print_r($searchData, true)
+        );
         //Step 12
         $this->addParameter('productName', $testData['product']);
         $this->addParameter('elementTitle', $testData['product']);
         $this->clickControl('link', 'show_tags');
         //Verifying
         foreach ($tags as $tag) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport(array('tag_name' => $tag,
-                                                                                  'tag_use'  => '1')),
-                'Tag is not shown in Tags Submitted to Product');
+            $searchData = array('tag_name' => $tag, 'tag_use' => '1');
+            $this->assertNotEmpty(
+                $this->reportsHelper()->searchDataInReport($searchData),
+                'Tag is not shown in Tags Submitted to Product. Data: ' . print_r($searchData, true)
+            );
         }
         //Step 13
         $this->navigate('report_tag_popular');
         //Verifying
         foreach ($tags as $tag) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport(array('tag_name'   => $tag,
-                                                                                  'popularity' => '1'),
-                'report_tag_popular_grid'), 'Tag is not shown in report');
+            $searchData = array('tag_name' => $tag, 'popularity' => '1');
+            $this->assertNotEmpty(
+                $this->reportsHelper()->searchDataInReport($searchData),
+                'Tag is not shown in report. Data: ' . print_r($searchData, true)
+            );
         }
         //Step 14
         foreach ($tags as $tag) {
@@ -124,11 +143,15 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
             $this->addParameter('elementTitle', $tag);
             $this->clickControl('link', 'show_details');
             //Verifying
-            $this->assertNotNull($this->reportsHelper()
-                    ->searchDataInReport(array('first_name'   => $testData['customer']['first_name'],
-                                               'last_name'    => $testData['customer']['last_name'],
-                                               'product_name' => $testData['product']), 'report_tag_grid'),
-                'Tag is not shown in Tag Details');
+            $searchData = array(
+                'first_name' => $testData['customer']['first_name'],
+                'last_name' => $testData['customer']['last_name'],
+                'product_name' => $testData['product']
+            );
+            $this->assertNotEmpty(
+                $this->reportsHelper()->searchDataInReport($searchData),
+                'Tag is not shown in Tag Details. Data: ' . print_r($searchData, true)
+            );
         }
     }
 
@@ -161,16 +184,23 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
             $this->assertTrue($this->controlIsPresent('link', $column), "Column $column is not present in report");
         }
         //Verifying content
-        $reportContent = array(array('first_name' => $testData[0]['customer']['first_name'],
-                                     'last_name'  => $testData[0]['customer']['last_name'],
-                                     'total_tags' => count($testData[0]['tags'])),
-                               array('first_name' => $testData[1]['customer']['first_name'],
-                                     'last_name'  => $testData[1]['customer']['last_name'],
-                                     'total_tags' => count($testData[1]['tags'])));
-
+        $reportContent = array(
+            array(
+                'first_name' => $testData[0]['customer']['first_name'],
+                'last_name' => $testData[0]['customer']['last_name'],
+                'total_tags' => count($testData[0]['tags'])
+            ),
+            array(
+                'first_name' => $testData[1]['customer']['first_name'],
+                'last_name' => $testData[1]['customer']['last_name'],
+                'total_tags' => count($testData[1]['tags'])
+            )
+        );
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow, 'report_tag_customer_grid'),
-                'Customer who submitted tag is not shown in report');
+            $this->assertNotEmpty(
+                $this->reportsHelper()->searchDataInReport($reportRow),
+                'Customer who submitted tag is not shown in report. Data: ' . print_r($reportRow, true)
+            );
         }
         //Verifying columns sorting
         $sortedColumns = array('first_name', 'last_name', 'total_tags');
@@ -200,16 +230,23 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
             $this->assertTrue($this->controlIsPresent('link', $column), "Column $column is not present in report");
         }
         //Verifying content
-        $reportContent = array(array('product_name'       => $testData[0]['product'],
-                                     'unique_tags_number' => count($testData[0]['tags']),
-                                     'total_tags_number'  => count($testData[0]['tags'])),
-                               array('product_name'       => $testData[1]['product'],
-                                     'unique_tags_number' => count($testData[1]['tags']),
-                                     'total_tags_number'  => count($testData[1]['tags'])));
-
+        $reportContent = array(
+            array(
+                'product_name' => $testData[0]['product'],
+                'unique_tags_number' => count($testData[0]['tags']),
+                'total_tags_number' => count($testData[0]['tags'])
+            ),
+            array(
+                'product_name' => $testData[1]['product'],
+                'unique_tags_number' => count($testData[1]['tags']),
+                'total_tags_number' => count($testData[1]['tags'])
+            )
+        );
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow, 'report_tag_product_grid'),
-                'Product with submitted tag is not shown in report');
+            $this->assertNotEmpty(
+                $this->reportsHelper()->searchDataInReport($reportRow),
+                'Product with submitted tag is not shown in report. Data: ' . print_r($reportRow, true)
+            );
         }
         //Verifying columns sorting
         $sortedColumns = array('product_name', 'unique_tags_number', 'total_tags_number');
@@ -239,13 +276,16 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
             $this->assertTrue($this->controlIsPresent('link', $column), "Column $column is not present in report");
         }
         //Verifying content
-        $reportContent = array(array('tag_name' => $testData[0]['tags'][0], 'popularity' => '1'),
-                               array('tag_name' => $testData[1]['tags'][0], 'popularity' => '1'),
-                               array('tag_name' => $testData[1]['tags'][1], 'popularity' => '1'));
-
+        $reportContent = array(
+            array('tag_name' => $testData[0]['tags'][0], 'popularity' => '1'),
+            array('tag_name' => $testData[1]['tags'][0], 'popularity' => '1'),
+            array('tag_name' => $testData[1]['tags'][1], 'popularity' => '1')
+        );
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow, 'report_tag_popular_grid'),
-                'Tag is not shown in report');
+            $this->assertNotEmpty(
+                $this->reportsHelper()->searchDataInReport($reportRow),
+                'Tag is not shown in report. Data: ' . print_r($reportRow, true)
+            );
         }
         //Verifying columns sorting
         $sortedColumns = array('tag_name');
@@ -268,18 +308,25 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function exportCustomerTagsReport($testData)
     {
+        $this->markTestIncomplete('BUG: Fatal error after step5(export to csv)');
         //Step 1
         $this->navigate('report_tag_customer');
         //Step 2
         $this->fillDropdown('export_to', 'CSV');
         $exportedReportCsv = $this->reportsHelper()->export();
         //Verifying
-        $gridReport = array(array('First Name' => $testData[0]['customer']['first_name'],
-                                  'Last Name'  => $testData[0]['customer']['last_name'],
-                                  'Total Tags' => count($testData[0]['tags'])),
-                            array('First Name' => $testData[1]['customer']['first_name'],
-                                  'Last Name'  => $testData[1]['customer']['last_name'],
-                                  'Total Tags' => count($testData[1]['tags'])));
+        $gridReport = array(
+            array(
+                'First Name' => $testData[0]['customer']['first_name'],
+                'Last Name' => $testData[0]['customer']['last_name'],
+                'Total Tags' => count($testData[0]['tags'])
+            ),
+            array(
+                'First Name' => $testData[1]['customer']['first_name'],
+                'Last Name' => $testData[1]['customer']['last_name'],
+                'Total Tags' => count($testData[1]['tags'])
+            )
+        );
         $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
         //Step 3
         $this->fillDropdown('export_to', 'Excel XML');
@@ -290,8 +337,8 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         foreach ($testData as $dataRow) {
             $this->addParameter('firstName', $dataRow['customer']['first_name']);
             $this->addParameter('lastName', $dataRow['customer']['last_name']);
-            $this->addParameter('elementTitle',
-                $dataRow['customer']['first_name'] . ' ' . $dataRow['customer']['last_name']);
+            $this->addParameter('elementTitle', $dataRow['customer']['first_name'] . ' ' .
+                $dataRow['customer']['last_name']);
             $this->clickControl('link', 'show_tags');
             //Step 5
             $this->fillDropdown('export_to', 'CSV');
@@ -323,18 +370,25 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function exportProductTagsReport($testData)
     {
+        $this->markTestIncomplete('BUG: Fatal error after step5(export to csv)');
         //Step 1
         $this->navigate('report_tag_product');
         //Step 2
         $this->fillDropdown('export_to', 'CSV');
         $exportedReportCsv = $this->reportsHelper()->export();
         //Verifying
-        $gridReport = array(array('Product Name'          => $testData[0]['product'],
-                                  'Number of Unique Tags' => count($testData[0]['tags']),
-                                  'Number of Total Tags'  => count($testData[0]['tags'])),
-                            array('Product Name'          => $testData[1]['product'],
-                                  'Number of Unique Tags' => count($testData[1]['tags']),
-                                  'Number of Total Tags'  => count($testData[1]['tags'])));
+        $gridReport = array(
+            array(
+                'Product Name' => $testData[0]['product'],
+                'Number of Unique Tags' => count($testData[0]['tags']),
+                'Number of Total Tags' => count($testData[0]['tags'])
+            ),
+            array(
+                'Product Name' => $testData[1]['product'],
+                'Number of Unique Tags' => count($testData[1]['tags']),
+                'Number of Total Tags' => count($testData[1]['tags'])
+            )
+        );
         $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
         //Step 3
         $this->fillDropdown('export_to', 'Excel XML');
@@ -344,6 +398,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Step 4
         foreach ($testData as $dataRow) {
             $this->addParameter('productName', $dataRow['product']);
+            $this->addParameter('elementTitle', $dataRow['product']);
             $this->clickControl('link', 'show_tags');
             //Step 5
             $this->fillDropdown('export_to', 'CSV');
@@ -374,6 +429,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function exportPopularTagsReport($testData)
     {
+        $this->markTestIncomplete('BUG: Fatal error after step2(export to csv)');
         //Step 1
         $this->navigate('report_tag_popular');
         //Step 2
@@ -396,14 +452,17 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         foreach ($testData as $key => $testDataValue) {
             foreach ($testData[$key]['tags'] as $tag) {
                 $this->addParameter('tagName', $tag);
+                $this->addParameter('elementTitle', $tag);
                 $this->clickControl('link', 'show_details');
                 //Step 5
                 $this->fillDropdown('export_to', 'CSV');
                 $showDetailsReportCsv = $this->reportsHelper()->export();
                 //Verifying
-                $showDetailsReport[0] = array('First Name'   => $testData[$key]['customer']['first_name'],
-                                              'Last Name'    => $testData[$key]['customer']['last_name'],
-                                              'Product Name' => $testData[$key]['product']);
+                $showDetailsReport[0] = array(
+                    'First Name' => $testData[$key]['customer']['first_name'],
+                    'Last Name' => $testData[$key]['customer']['last_name'],
+                    'Product Name' => $testData[$key]['product']
+                );
                 $this->reportsHelper()->verifyExportedReport($showDetailsReport, $showDetailsReportCsv);
                 //Step 6
                 $this->fillDropdown('export_to', 'Excel XML');

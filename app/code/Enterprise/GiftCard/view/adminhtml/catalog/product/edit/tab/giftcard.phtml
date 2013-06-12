@@ -10,7 +10,7 @@
 ?>
 
 <div class="entry-edit form-inline" id="giftcard_info_container">
-    <div class="fieldset-wrapper" id="giftcard_info-wrapper">
+    <div class="fieldset-wrapper collapsable-wrapper" id="giftcard_info-wrapper">
         <div class="fieldset-wrapper-title">
             <strong class="title" data-toggle="collapse" data-target="#giftcard_info-content">
                 <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Messaging and Lifetime') ?></span>
@@ -42,7 +42,7 @@
                             id="giftcard_is_redeemable_default"
                             value="<?php echo $this->getConfigValue('is_redeemable'); ?>" />
                     </div>
-                    <div class="field-service" value-scope="<?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?>">
+                    <div class="field-service" <?php echo $this->getScopeValue('[GLOBAL]') ?>>
                         <?php $_checked = ($this->getFieldValue('use_config_is_redeemable') || $this->IsNew()) ? 'checked="checked"' : '' ?>
                         <input
                             type="hidden"
@@ -85,7 +85,7 @@
                             id="giftcard_lifetime_default"
                             value="<?php echo $this->getConfigValue('lifetime'); ?>" />
                     </div>
-                    <div class="field-service" value-scope="<?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?>">
+                    <div class="field-service" <?php echo $this->getScopeValue('[GLOBAL]') ?>>
                         <?php $_checked = ($this->getFieldValue('use_config_lifetime') || $this->IsNew()) ? 'checked="checked"' : '' ?>
                         <input
                             type="hidden"
@@ -130,7 +130,7 @@
                             id="giftcard_allow_message_default"
                             value="<?php echo $this->getConfigValue('allow_message'); ?>" />
                     </div>
-                    <div class="field-service" value-scope="<?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') ?>">
+                    <div class="field-service" <?php echo $this->getScopeValue('[STORE VIEW]') ?>>
                         <?php $_checked = ($this->getFieldValue('use_config_allow_message') || $this->IsNew()) ? 'checked="checked"' : '' ?>
                         <input
                             type="hidden"
@@ -175,7 +175,7 @@
                             id="giftcard_email_template_default"
                             value="<?php echo $this->getConfigValue('email_template'); ?>" />
                     </div>
-                    <div class="field-service" value-scope="<?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') ?>">
+                    <div class="field-service" <?php echo $this->getScopeValue('[STORE VIEW]') ?>>
                         <?php $_checked = ($this->getFieldValue('use_config_email_template') || $this->IsNew()) ? 'checked="checked"' : '' ?>
                         <input
                             type="hidden"
@@ -220,11 +220,6 @@ jQuery(function($){
     toggleDefault('is_redeemable');
     toggleDefault('lifetime');
     toggleDefault('allow_message');
-
-    $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
-        var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
-        $('#giftcard_info_container')[action]();
-    });
 
     $('#allow_open_amount').on('click', toggleOpenAmount);
     toggleOpenAmount();

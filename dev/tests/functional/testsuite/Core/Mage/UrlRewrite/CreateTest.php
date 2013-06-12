@@ -33,7 +33,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTestClass()
     {
-        $this->skipTestWithScreenshot('Test skiped cause of bug MAGETWO-6965');
+        $this->skipTestWithScreenshot('Test skipped cause of bug MAGETWO-6965');
         $this->frontend();
         $this->addParameter('store', 'Main Website Store');
         $this->clickControl('link','select_store',false);
@@ -85,9 +85,8 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Click Save button
         $this->saveForm('save');
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
@@ -334,7 +333,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function cmsPageRewriteExtLink()
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-3263');
+        $this->markTestIncomplete('MAGETWO-3263');
         //Create data
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
@@ -344,18 +343,8 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
         //Create CMS Page
         $this->navigate('manage_cms_pages');
-
-        $this->clickButton('add_new_page');
-        $this->fillFieldset($pageData['page_information'], 'page_information_fieldset');
-
-        $this->openTab('content');
-        $this->fillField('content_heading', 'test');
-        $this->clickButton('show_hide_editor', false);
-        $this->waitForAjax();
-        $this->fillField('editor', 'test');
-        $this->validatePage();
-        $this->waitForAjax();
-        $this->clickButton('save_page');
+        $this->cmsPagesHelper()->createCmsPage($pageData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_cms_page');
 
         //Create Custom URL rewrite
@@ -400,18 +389,8 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
         //Create CMS Page
         $this->navigate('manage_cms_pages');
-
-        $this->clickButton('add_new_page');
-        $this->fillFieldset($pageData['page_information'], 'page_information_fieldset');
-
-        $this->openTab('content');
-        $this->fillField('content_heading', 'test');
-        $this->clickButton('show_hide_editor', false);
-        $this->waitForAjax();
-        $this->fillField('editor', 'test');
-        $this->validatePage();
-        $this->waitForAjax();
-        $this->clickButton('save_page');
+        $this->cmsPagesHelper()->createCmsPage($pageData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_cms_page');
 
         //Create Custom URL rewrite
@@ -673,7 +652,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
 
         //Generate request path and open it
-        $urlKeyReplace = str_replace(array('(', ')'), array('-', ''), $productData['general_url_key']);
+        $urlKeyReplace = str_replace(array('(', ')'), array('-', ''), $productData['autosettings_url_key']);
         $uri = $urlKeyReplace . '.html';
 
         //Open product URl
@@ -762,7 +741,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Loading data from data file
         $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_product_custom');
         //Generate request path and open it
-        $urlKeyReplace = str_replace(array('(', ')'), array('-', ''), $productData['general_url_key']);
+        $urlKeyReplace = str_replace(array('(', ')'), array('-', ''), $productData['autosettings_url_key']);
         $uri = $urlKeyReplace . '.html';
         //Fill fields
         $this->fillField('id_path', $fieldData['id_path']);

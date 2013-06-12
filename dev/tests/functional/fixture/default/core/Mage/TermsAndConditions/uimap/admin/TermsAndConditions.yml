@@ -38,7 +38,6 @@ manage_sales_checkout_terms_conditions:
             save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: &conditionMessages
             condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             condition_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been deleted')]
             confirmation_for_delete: Are you sure you want to do this?
             content_height: //label[@class='mage-error' and @for='content_height' and contains(.,'Please enter a number greater than 0 in this field')]

@@ -10,10 +10,12 @@
 ?>
 <div class="block dashboard orders">
 <?php $_orders = $this->getOrders(); ?>
-    <div class="title">
+    <div class="order title">
         <strong><?php echo $this->__('Recent Orders') ?></strong>
         <?php if( sizeof($_orders->getItems()) > 0 ): ?>
-            <a class="action view" href="<?php echo $this->getUrl('sales/order/history') ?>"><span><?php echo $this->__('View All') ?></span></a>
+            <a class="action view" href="<?php echo $this->getUrl('sales/order/history') ?>">
+                <span><?php echo $this->__('View All') ?></span>
+            </a>
         <?php endif; ?>
     </div>
     <div class="content">
@@ -39,18 +41,21 @@
                         <td class="col total"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
                         <td class="col status"><em><?php echo $_order->getStatusLabel() ?></em></td>
                         <td class="col actions">
-                            <a href="<?php echo $this->getViewUrl($_order) ?>" class="action view"><span><?php echo $this->__('View Order') ?></span></a>
+                            <a href="<?php echo $this->getViewUrl($_order) ?>" class="action view">
+                                <span><?php echo $this->__('View Order') ?></span>
+                            </a>
                             <?php if ($this->helper('Mage_Sales_Helper_Reorder')->canReorder($_order)) : ?>
-                                <a href="<?php echo $this->getReorderUrl($_order) ?>" class="action order"><span><?php echo $this->__('Reorder') ?></span></a>
+                                <a href="<?php echo $this->getReorderUrl($_order) ?>" class="action order">
+                                    <span><?php echo $this->__('Reorder') ?></span>
+                                </a>
                             <?php endif ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <script type="text/javascript">(function($) {$('#my-orders-table').decorate('table')})(jQuery)</script>
     <?php else: ?>
-        <p><?php echo $this->__('You have placed no orders.'); ?></p>
+        <p class="empty"><?php echo $this->__('You have placed no orders.'); ?></p>
     <?php endif; ?>
     </div>
 </div>

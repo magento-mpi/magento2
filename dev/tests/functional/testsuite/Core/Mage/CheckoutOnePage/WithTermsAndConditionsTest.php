@@ -17,8 +17,11 @@
  */
 class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium_TestCase
 {
+    private static $_paypalAccount;
+
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGETWO-9011');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('TermsAndConditions/terms_and_conditions_frontend_allow');
@@ -43,8 +46,10 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
         $this->systemConfigurationHelper()->configure('TermsAndConditions/terms_and_conditions_frontend_disable');
         $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->deleteAllTerms();
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
+        if (isset(self::$_paypalAccount)) {
+            $this->paypalHelper()->paypalDeveloperLogin();
+            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
+        }
     }
 
     /**
@@ -73,19 +78,27 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
         $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->createTermsAndConditions($termsData);
         $this->assertMessagePresent('success', 'condition_saved');
-        $agreementId =
-            $this->termsAndConditionsHelper()->getAgreementId(array('condition_name' => $termsData['condition_name']));
+        $agreementId = $this->termsAndConditionsHelper()->getAgreementId(array(
+            'condition_name' => $termsData['condition_name']
+        ));
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
+        self::$_paypalAccount = $accountInfo['email'];
 
-        return array('sku' => $simple['general_name'], 'api' => $api, 'email' => $userData['email'],
-            'visa'  => $accounts['visa']['credit_card'],
-            'agreement' => array('agreement_id' => $agreementId,
-            'agreement_content' => $termsData['content'],
-            'agreement_checkbox_text' => $termsData['checkbox_text']));
+        return array(
+            'sku' => $simple['general_name'],
+            'api' => $api,
+            'email' => $userData['email'],
+            'visa' => $accounts['visa']['credit_card'],
+            'agreement' => array(
+                'agreement_id' => $agreementId,
+                'agreement_content' => $termsData['content'],
+                'agreement_checkbox_text' => $termsData['checkbox_text']
+            )
+        );
     }
 
     /**
@@ -102,11 +115,13 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
     public function withDifferentPaymentMethods($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
-        $checkoutData['agreement'] =
-            $this->loadDataSet('TermsAndConditions', 'checkout_agreement', $testData['agreement']);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'email_address' => $testData['email'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+        ));
+        $checkoutData['agreement'] = $this->loadDataSet('TermsAndConditions', 'checkout_agreement',
+            $testData['agreement']);
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
         if ($payment != 'payflowpro' && $payment != 'checkmoney') {

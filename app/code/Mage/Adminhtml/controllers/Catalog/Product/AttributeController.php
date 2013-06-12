@@ -18,6 +18,24 @@
 
 class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    private $_attributeLabelCache;
+
+    /**
+     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Cache_FrontendInterface $attributeLabelCache
+     * @param string|null $areaCode
+     */
+    public function __construct(
+        Mage_Backend_Controller_Context $context,
+        Magento_Cache_FrontendInterface $attributeLabelCache,
+        $areaCode = null
+    ) {
+        parent::__construct($context, $areaCode);
+        $this->_attributeLabelCache = $attributeLabelCache;
+    }
 
     protected $_entityTypeId;
 
@@ -339,10 +357,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $session->addSuccess(
                     Mage::helper('Mage_Catalog_Helper_Data')->__('The product attribute has been saved.'));
 
-                /**
-                 * Clear translation cache because attribute labels are stored in translation
-                 */
-                Mage::app()->cleanCache(array(Mage_Core_Model_Translate::CACHE_TAG));
+                $this->_attributeLabelCache->clean();
                 $session->setAttributeData(false);
                 if ($this->getRequest()->getParam('popup')) {
                     $requestParams = array(
@@ -352,7 +367,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                         'product_tab' => $this->getRequest()->getParam('product_tab'),
                     );
                     if ($isNewAttributeSet) {
-                        $requestParams['new_attribute_set_id'] = $attributeSetId;
+                        $requestParams['new_attribute_set_id'] = $attributeSet->getId();
                     }
                     $this->_redirect('adminhtml/catalog_product/addAttribute', $requestParams);
                 } elseif ($redirectBack) {
@@ -421,6 +436,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::attributes_attributes');
+        return $this->_authorization->isAllowed('Mage_Catalog::attributes_attributes');
     }
 }

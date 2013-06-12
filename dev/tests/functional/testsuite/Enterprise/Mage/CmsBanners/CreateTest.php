@@ -39,6 +39,8 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         $product = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps Crating Categories
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
@@ -60,19 +62,20 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         //Verification Shopping Cart Price Rule
         $this->assertMessagePresent('success', 'success_saved_rule');
 
-        return array('category_path'      => $product['general_categories'], 'filter_sku' => $product['general_sku'],
-                     'catalog_rule_name'  => $priceRuleData['info']['rule_name'],
-                     'price_rule_name'    => $ruleData['info']['rule_name'],);
+        return array(
+            'category_path' => $product['general_categories'],
+            'filter_sku' => $product['general_sku'],
+            'catalog_rule_name' => $priceRuleData['info']['rule_name'],
+            'price_rule_name' => $ruleData['info']['rule_name']
+        );
     }
 
     /**
      * <p>Creates Banner with required fields</p>
      *
-     * @return array
      * @test
      * @TestlinkId TL-MAGE-6024
      */
-
     public function withRequiredFields()
     {
         //Data
@@ -82,7 +85,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         $this->cmsBannersHelper()->createCmsBanner($pageData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_cms_banner');
-        return $pageData;
     }
 
     /**
@@ -112,6 +114,7 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
             $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
         }
     }
+
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
@@ -129,13 +132,14 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-6026
      */
-
     public function withSpecialSettings()
     {
         //Data
-        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_req',
-            array('active'        => 'No', 'applies_to' => 'Specified Banner Types',
-                  'specify_types' => 'Content Area, Header, Right Column'));
+        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_req', array(
+            'active' => 'No',
+            'applies_to' => 'Specified Banner Types',
+            'specify_types' => 'Content Area, Header, Right Column'
+        ));
         //Steps
         $this->navigate('manage_cms_banners');
         $this->cmsBannersHelper()->createCmsBanner($pageData);
@@ -150,7 +154,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-6027
      */
-
     public function withLongValues()
     {
         //Data
@@ -173,9 +176,11 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
     public function withEmptySpecificContent()
     {
         //Data
-        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_req',
-            array('no_default_content' => 'Yes', 'specific_content_use_default' => 'No',
-                  'content_area'       => '%novalue%'));
+        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_req', array(
+            'no_default_content' => 'Yes',
+            'specific_content_use_default' => 'No',
+            'content_area' => '%noValue%'
+        ));
         //Steps
         $this->navigate('manage_cms_banners');
         $this->cmsBannersHelper()->createCmsBanner($pageData);
@@ -217,9 +222,11 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
     public function withAllWidgetsTypeSpecificContent()
     {
         //Data
-        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields',
-            array('no_default_content'           => 'Yes', 'content_area' => '%noValue%',
-                  'specific_content_use_default' => 'No'));
+        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields', array(
+            'no_default_content' => 'Yes',
+            'content_area' => '%noValue%',
+            'specific_content_use_default' => 'No'
+        ));
         //Steps
         $this->navigate('manage_cms_banners');
         $this->cmsBannersHelper()->createCmsBanner($pageData);

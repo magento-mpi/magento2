@@ -18,7 +18,6 @@
  */
 class Enterprise_Mage_ImportExportScheduled_BackwardCompatibility_ExportTest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -27,147 +26,127 @@ class Enterprise_Mage_ImportExportScheduled_BackwardCompatibility_ExportTest ext
         $this->customerHelper()->createCustomer($customerData);
         return $customerData;
     }
+
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+        $this->navigate('scheduled_import_export');
+    }
+
     /**
-     * Precondition:
-     * Create new product
+     * Precondition: Create new product
      *
      * @test
      * @return array
      */
     public function preconditionAppendImportExport()
     {
-        $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
+        $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         return $productData;
     }
-    protected function assertPreConditions()
-    {
-        //logged in once for all tests
-        $this->loginAdminUser();
-        $this->navigate('scheduled_import_export');
-    }
+
     /**
      * Running Scheduled Export
      *
      * @test
-     * TL-MAGE-1499
+     * @TestlinkId TL-MAGE-1499
      */
     public function simpleScheduledExport()
     {
         // Precondition
-        $exportDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
-            array(
-                'entity_type' => 'Products'
-            ));
-        $this->importExportScheduledHelper()->createExport($exportDataProducts);
+        $exportProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
+            array('entity_type' => 'Products'));
+        $this->importExportScheduledHelper()->createExport($exportProducts);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Run export
         $this->navigate('scheduled_import_export');
-        $this->importExportScheduledHelper()->applyAction(
-            array(
-                'name' => $exportDataProducts['name'],
-                'operation' => 'Export'
-            )
-        );
+        $this->importExportScheduledHelper()->applyAction(array(
+            'name' => $exportProducts['name'],
+            'operation' => 'Export'
+        ));
         //Verifying
-        $this->assertEquals('Successful',
-            $this->importExportScheduledHelper()->getLastOutcome(
-                array(
-                    'name' => $exportDataProducts['name'],
-                    'operation' => 'Export'
-                )
-            ), 'Error is occurred');
+        $lastOutcome = $this->importExportScheduledHelper()->getLastOutcome(array(
+            'name' => $exportProducts['name'],
+            'operation' => 'Export'
+        ));
+        $this->assertEquals('Successful', $lastOutcome, 'Error is occurred');
         $this->assertMessagePresent('success', 'success_run');
         //get file
-        $exportDataProducts['file_name'] = $this->importExportScheduledHelper()->
-            getFilePrefix(
-            array(
-                'name' => $exportDataProducts['name'],
-                'operation' => 'Export'
-            )
-        );
-        $exportDataProducts['file_name'] .= 'export_catalog_product.csv';
-        $csv = $this->importExportScheduledHelper()->getCsvFromFtp($exportDataProducts);
-        return $csv;
+        $exportProducts['file_name'] = $this->importExportScheduledHelper()->getFilePrefix(array(
+            'name' => $exportProducts['name'],
+            'operation' => 'Export'
+        ));
+        $exportProducts['file_name'] .= 'export_catalog_product.csv';
 
+        return $this->importExportScheduledHelper()->getCsvFromFtp($exportProducts);
     }
+
     /**
      * Running Scheduled Import
      *
+     * @test
      * @dataProvider simpleScheduledImportData
      * @depends simpleScheduledExport
-     * @test
-     * TL-MAGE-1528
+     * @TestlinkId TL-MAGE-1528
      */
     public function simpleScheduledImport($customersCsv, $productsCsv)
     {
         // Import Customer
-        $importDataCustomers = $this->loadDataSet('ImportExportScheduled', 'scheduled_import',
-            array('entity_type' => 'Customers',
-                'behavior' => 'Append Complex Data'));
+        $importDataCustomers = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
+            'entity_type' => 'Customers',
+            'behavior' => 'Append Complex Data'
+        ));
         $importDataCustomers['file_name'] = date('Y-m-d_H-i-s_') . 'export_customer.csv';
         $this->importExportScheduledHelper()->createImport($importDataCustomers);
         $this->assertMessagePresent('success', 'success_saved_import');
-        $this->assertEquals('Pending',
-            $this->importExportScheduledHelper()->getLastOutcome(
-                array(
-                    'name' => $importDataCustomers['name'],
-                    'operation' => 'Import'
-                )
-            ), 'Error is occurred');
+        $lastOutcome = $this->importExportScheduledHelper()->getLastOutcome(array(
+            'name' => $importDataCustomers['name'],
+            'operation' => 'Import'
+        ));
+        $this->assertEquals('Pending', $lastOutcome, 'Error is occurred');
         //upload file to ftp
         $this->importExportScheduledHelper()->putCsvToFtp($importDataCustomers, $customersCsv);
-        $this->importExportScheduledHelper()->applyAction(
-            array(
-                'name' => $importDataCustomers['name'],
-                'operation' => 'Import'
-            )
-        );
+        $this->importExportScheduledHelper()->applyAction(array(
+            'name' => $importDataCustomers['name'],
+            'operation' => 'Import'
+        ));
         //Verifying import
-        $this->assertEquals('Successful',
-            $this->importExportScheduledHelper()->getLastOutcome(
-                array(
-                    'name' => $importDataCustomers['name'],
-                    'operation' => 'Import'
-                )
-            ), 'Error is occurred');
+        $lastOutcome = $this->importExportScheduledHelper()->getLastOutcome(array(
+            'name' => $importDataCustomers['name'],
+            'operation' => 'Import'
+        ));
+        $this->assertEquals('Successful', $lastOutcome, 'Error is occurred');
         $this->assertMessagePresent('success', 'success_run');
         //Import Product
-        $importDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_import',
-            array(
-                'entity_type' => 'Products',
-                'behavior' => 'Append Complex Data'
+        $importDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
+            'entity_type' => 'Products',
+            'behavior' => 'Append Complex Data'
         ));
         $importDataProducts['file_name'] = date('Y-m-d_H-i-s_') . 'export_catalog_product.csv';
         $this->importExportScheduledHelper()->createImport($importDataProducts);
         $this->assertMessagePresent('success', 'success_saved_import');
-        $this->assertEquals('Pending',
-            $this->importExportScheduledHelper()->getLastOutcome(
-                array(
-                    'name' => $importDataProducts['name'],
-                    'operation' => 'Import'
-                )
-            ), 'Error is occurred');
+        $lastOutcome = $this->importExportScheduledHelper()->getLastOutcome(array(
+            'name' => $importDataProducts['name'],
+            'operation' => 'Import'
+        ));
+        $this->assertEquals('Pending', $lastOutcome, 'Error is occurred');
         //upload file to ftp
         $this->importExportScheduledHelper()->putCsvToFtp($importDataProducts, $productsCsv);
-        $this->importExportScheduledHelper()->applyAction(
-            array(
-                'name' => $importDataProducts['name'],
-                'operation' => 'Import'
-            )
-        );
+        $this->importExportScheduledHelper()->applyAction(array(
+            'name' => $importDataProducts['name'],
+            'operation' => 'Import'
+        ));
         //Verifying import
-        $this->assertEquals('Successful',
-            $this->importExportScheduledHelper()->getLastOutcome(
-                array(
-                    'name' => $importDataProducts['name'],
-                    'operation' => 'Import'
-                )
-            ), 'Error is occurred');
+        $lastOutcome = $this->importExportScheduledHelper()->getLastOutcome(array(
+            'name' => $importDataProducts['name'],
+            'operation' => 'Import'
+        ));
+        $this->assertEquals('Successful', $lastOutcome, 'Error is occurred');
         $this->assertMessagePresent('success', 'success_run');
     }
 

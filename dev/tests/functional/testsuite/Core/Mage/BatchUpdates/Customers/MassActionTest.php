@@ -18,9 +18,6 @@
  */
 class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -51,7 +48,7 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
         }
         //Steps
         $this->addParameter('qtySubscribeCustomers', $customerQty);
-        $this->fillDropdown('grid_massaction_select', 'Subscribe to Newsletter');
+        $this->fillDropdown('mass_action_select_action', 'Subscribe to Newsletter');
         $this->clickButton('submit');
         //Verifying
         $this->assertMessagePresent('success', 'success_subscribe_unsubscribe_customer_massaction');
@@ -74,7 +71,7 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
             $this->searchAndChoose($searchData, 'customers_grid');
         }
         //Steps
-        $this->fillDropdown('grid_massaction_select', 'Unsubscribe from Newsletter');
+        $this->fillDropdown('mass_action_select_action', 'Unsubscribe from Newsletter');
         $this->clickButton('submit');
         //Verifying
         $this->assertMessagePresent('success', 'success_subscribe_unsubscribe_customer_massaction');
@@ -100,7 +97,7 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
             $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $customerData['email']));
             $this->searchAndChoose($searchData, 'customers_grid');
         }
-        $this->fillDropdown('grid_massaction_select', 'Assign a Customer Group');
+        $this->fillDropdown('mass_action_select_action', 'Assign a Customer Group');
         $this->fillDropdown('group', $customerGroupData['group_name']);
         $this->clickButton('submit');
         //Verifying
@@ -117,11 +114,11 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
     public function updateAttributesByBatchUpdatesNegative($actionValue)
     {
         //Steps
-        $this->fillDropdown('grid_massaction_select', $actionValue);
+        $this->fillDropdown('mass_action_select_action', $actionValue);
         $this->clickButton('submit', false);
         //Verifying
-        $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
-        match');
+        $this->assertSame('Please select items.', $this->alertText(),
+            'actual and expected confirmation message does not match');
         $this->acceptAlert();
     }
 
@@ -159,7 +156,7 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
         }
         //Steps
         $this->addParameter('qtySubscribeCustomers', $customerQty);
-        $this->fillDropdown('grid_massaction_select', 'Assign a Customer Group');
+        $this->fillDropdown('mass_action_select_action', 'Assign a Customer Group');
         $this->fillDropdown('group', $groupValue);
         $this->clickButton('submit');
         //Verifying

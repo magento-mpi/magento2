@@ -85,8 +85,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'        => $simpleSku,
-                                                'checkout_as_customer' => '%noValue%'));
+            array('general_name' => $simpleSku, 'checkout_as_customer' => '%noValue%'));
         $message = 'Please choose to register or to checkout as a guest';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
@@ -127,9 +126,6 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
         }
         $checkout = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
             $override);
-        if ($field == 'billing_password') {
-            $message .= "\n" . '"Confirm Password": Please make sure your passwords match.';
-        }
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkout);
@@ -143,7 +139,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
             array('billing_email', '"Email Address": This is a required field.'),
             array('billing_street_address_1', '"Address": This is a required field.'),
             array('billing_city', '"City": This is a required field.'),
-            array('billing_state', '"State/Province": This is a required field.'),
+            array('billing_state', '"State/Province": Please select an option.'),
             array('billing_zip_code', '"Zip/Postal Code": This is a required field.'),
             array('billing_country', '"Country": Please select an option.'),
             array('billing_telephone', '"Telephone": This is a required field.'),
@@ -177,9 +173,12 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
         //Data
         $billingPassword = $this->generate('string', 5, ':punct:');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'            => $simpleSku,
-                                                'billing_password'         => $billingPassword,
-                                                'billing_confirm_password' => $billingPassword));
+            array(
+                'general_name' => $simpleSku,
+                'billing_password' => $billingPassword,
+                'billing_confirm_password' => $billingPassword
+            )
+        );
         $message = '"Password": Please enter 6 or more characters. Leading or trailing spaces will be ignored.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
@@ -212,8 +211,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name' => $simpleSku,
-                                                'billing_email' => $wrongValue));
+            array(
+                'general_name' => $simpleSku,
+                'billing_email' => $wrongValue
+            )
+        );
         $message = '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
@@ -255,8 +257,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
         $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('exist_email_alert');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name' => $simpleSku,
-                                                'billing_email' => $userData['email']));
+            array(
+                'general_name' => $simpleSku,
+                'billing_email' => $userData['email']
+            )
+        );
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
@@ -320,6 +325,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      */
     public function emptyRequiredFieldsInShippingAddress($field, $message, $simpleSku)
     {
+        if ($field == 'shipping_state') {
+            $this->markTestIncomplete('MAGETWO-8745');
+        }
         //Data
         if ($field != 'shipping_country') {
             $override = array('general_name' => $simpleSku, $field => '');
@@ -339,7 +347,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
             array('shipping_last_name', '"Last Name": This is a required field.'),
             array('shipping_street_address_1', '"Address": This is a required field.'),
             array('shipping_city', '"City": This is a required field.'),
-            array('shipping_state', '"shipping:region_id": This is a required field.'),
+            array('shipping_state', '"State/Province": Please select an option.'),
             array('shipping_zip_code', '"Zip/Postal Code": This is a required field.'),
             array('shipping_country', '"Country": Please select an option.'),
             array('shipping_telephone', '"Telephone": This is a required field.')
@@ -376,8 +384,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'     => $simpleSku,
-                                                'billing_' . $field => $this->generate('string', 256, ':alpha:')));
+            array(
+                'general_name' => $simpleSku,
+                'billing_' . $field => $this->generate('string', 256, ':alpha:')
+            )
+        );
         //Steps and Verification
         $this->addParameter('fieldName', $fieldName);
         $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('long_value_alert');
@@ -411,8 +422,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'      => $simpleSku,
-                                                'shipping_' . $field => $this->generate('string', 256, ':alpha:')));
+            array(
+                'general_name' => $simpleSku,
+                'shipping_' . $field => $this->generate('string', 256, ':alpha:')
+            )
+        );
         //Steps and Verification
         $this->addParameter('fieldName', $fieldName);
         $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('long_value_alert');

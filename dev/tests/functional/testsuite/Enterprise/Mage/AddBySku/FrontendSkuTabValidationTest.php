@@ -14,9 +14,6 @@
  */
 class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Enable Order By SKU functionality on Frontend</p>
-     */
     public function setUpBeforeTests()
     {
         //Data
@@ -26,7 +23,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);
     }
-    
+
     /**
      * <p>Creating Simple product and customer</p>
      *
@@ -52,57 +49,58 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
             'customer' => array('email' => $userData['email'], 'password' => $userData['password'])
         );
     }
-            
+
     /**
      * <p>Valid values for QTY field according SRS</p>
-     * 
+     *
      * @param string $qty
      * @param string $message
      * @param array $data
      *
      * @test
-     * @dataProvider qtyListDataProvider 
-     * @depends preconditionsForTests   
+     * @dataProvider qtyListDataProvider
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3933, TL-MAGE-3889
      */
     public function qtyValidation($qty, $message, $data)
-    { 
+    {
         //Preconditions:    
         $this->frontend();
         if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($data['customer']);
         }
         //Steps:
-        $this->navigate('order_by_sku');    
+        $this->navigate('order_by_sku');
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple_product']['sku'], 'qty' => $qty));
         $this->clickButton('add_to_cart', false);
         $this->waitForAjax();
         //Verifying
-        $this->assertMessagePresent('error', $message);   
+        $this->addFieldIdToMessage('field', 'qty');
+        $this->assertMessagePresent('validation', $message);
     }
-    
+
     public function qtyListDataProvider()
     {
         return array(
-            array('non-num', 'sku_invalid_number'),
-            array('-5', 'sku_negative_number'),
-            array('0', 'sku_negative_number'),
-            array('0.00001', 'sku_outofrange_number'),
-            array('999999999.9999', 'sku_outofrange_number'),
-            array('-5', 'sku_negative_number'),
-            array('','sku_required_field')
+            array('non-num', 'empty_required_field'),
+            array('-5', 'empty_required_field'),
+            array('0', 'empty_required_field'),
+            array('0.00001', 'empty_required_field'),
+            array('999999999.9999', 'empty_required_field'),
+            array('-5', 'empty_required_field'),
+            array('', 'empty_required_field')
         );
     }
-        
+
     /**
      * <p>Validation rows, for which SKU and Qty values are empty</p>
-     * 
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3889
      */
     public function addEmptyRowQtyFields($data)
-    {  
+    {
         //Preconditions:
         $this->shoppingCartHelper()->frontClearShoppingCart();
         if ($this->controlIsPresent('link', 'log_in')) {
@@ -114,10 +112,10 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         //Verifying
         $this->assertMessagePresent('error', 'no_product_added_by_sku');
     }
-    
+
     /**
      * <p>Validation rows, for which SKU and Qty values are empty</p>
-     * 
+     *
      * @param array $data
      *
      * @test
@@ -125,33 +123,33 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
      * @TestlinkId TL-MAGE-3889
      */
     public function addSimpleProductWithEmptyRow($data)
-    { 
+    {
         //Preconditions:
         $this->shoppingCartHelper()->frontClearShoppingCart();
         if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($data['customer']);
         }
         //Steps:
-        $this->navigate('order_by_sku'); 
-        $this->clickButton('add_row', false);  
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product']);        
-        $this->clickButton('add_to_cart');        
+        $this->navigate('order_by_sku');
+        $this->clickButton('add_row', false);
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product']);
+        $this->clickButton('add_to_cart');
         //Verifying
-        $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');       
+        $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
     }
-    
+
     /**
      * <p>Adding to Cart by SKU after entering valid and invalid values in multiple fields</p>
-     * 
+     *
      * @param array $data
      *
      * @test
-     * @depends preconditionsForTests   
+     * @depends preconditionsForTests
      * @depends qtyValidation
      * @TestlinkId TL-MAGE-4057
      */
     public function addMultipleSimpleProductsFailure($data)
-    {  
+    {
         //Preconditions:
         $this->frontend();
         if ($this->controlIsPresent('link', 'log_in')) {
@@ -167,46 +165,46 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         //Verifying
         $this->assertMessagePresent('error', 'sku_invalid_number');
     }
-    
+
     /**
      * <p>Disable order by SKU on My Account for for customers unselected group</p>
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3878
      */
     public function orderBySkuForUnselectedCustomer($data)
-    {    
+    {
         //Preconditions:
-        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_retailer_group');        
+        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_retailer_group');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);        
+        $this->systemConfigurationHelper()->configure($config);
         //Steps:
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');
         //Verifying
         $this->assertFalse($this->controlIsPresent('link', 'sku_tab'), 'There is "Order by SKU" tab on the page. ');
-    } 
-    
+    }
+
     /**
      * <p>Disable Order by SKU on My Account in Front-end</p>
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3868
      */
     public function orderBySkuDisabled($data)
-    {    
+    {
         //Preconditions:
-        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_disabled');        
+        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_disabled');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);        
+        $this->systemConfigurationHelper()->configure($config);
         //Steps:
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');
