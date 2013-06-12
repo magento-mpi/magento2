@@ -149,9 +149,9 @@ class Mage_Cardgate_CardgateController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
-        $order_id = $this->_checkoutSession->getLastRealOrderId();
-        $order = $this->_salesOrder->loadByIncrementId($order_id);
-        if ($order_id) {
+        $orderId = $this->_checkoutSession->getLastRealOrderId();
+        $order = $this->_salesOrder->loadByIncrementId($orderId);
+        if ($orderId) {
             $order->setState($this->_base->getConfigData('order_status_failed'));
             $order->cancel();
             $order->save();

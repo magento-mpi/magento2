@@ -41,7 +41,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
      *
      * @var Mage_Core_Model_Resource_Transaction_Factory
      */
-    protected $_resourceTransactionFactory;
+    protected $_transactionFactory;
 
     /**
      * Sales Order factory
@@ -113,7 +113,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Dir $dir
      * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Core_Model_Resource_Transaction_Factory $resourceTransactionFactory
+     * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Sales_Model_OrderFactory $orderFactory
      * @param Mage_Cardgate_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
@@ -124,7 +124,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Dir $dir,
         Mage_Core_Model_Logger $logger,
-        Mage_Core_Model_Resource_Transaction_Factory $resourceTransactionFactory,
+        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Sales_Model_OrderFactory $orderFactory,
         Mage_Cardgate_Helper_Data $helper,
         Magento_Filesystem $filesystem,
@@ -136,7 +136,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         $this->_configObject = $config;
         $this->_dir = $dir;
         $this->_logger = $logger;
-        $this->_resourceTransactionFactory = $resourceTransactionFactory;
+        $this->_transactionFactory = $transactionFactory;
         $this->_orderFactory = $orderFactory;
         $this->_helper = $helper;
         $this->_filesystem = $filesystem;
@@ -280,23 +280,23 @@ class Mage_Cardgate_Model_Base extends Varien_Object
             $invoice->register();
             $invoice->save();
 
-            $this->_resourceTransactionFactory->create()
+            $this->_transactionFactory->create()
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
 
-            $mail_invoice = $this->getConfigData("mail_invoice");
-            if ($mail_invoice) {
+            $mailInvoice = $this->getConfigData("mail_invoice");
+            if ($mailInvoice) {
                 $invoice->setEmailSent(true);
                 $invoice->save();
                 $invoice->sendEmail();
             }
 
-            $statusMessage = $mail_invoice ? "Invoice #%s created and send to customer." : "Invoice #%s created.";
+            $statusMessage = $mailInvoice ? "Invoice #%s created and send to customer." : "Invoice #%s created.";
             $order->addStatusToHistory(
                 $order->getStatus(),
                 $this->_helper->__($statusMessage, $invoice->getIncrementId()),
-                $mail_invoice
+                $mailInvoice
             );
 
             return true;
@@ -364,14 +364,14 @@ class Mage_Cardgate_Model_Base extends Varien_Object
      */
     public function processCallback()
     {
-        $id = $this->getCallbackData('ref');
-        if (preg_match('/.*\-([0-9]+)$/', $id, $matches)) {
-            $id = $matches[1];
+        $orderId = $this->getCallbackData('ref');
+        if (preg_match('/.*\-([0-9]+)$/', $orderId, $matches)) {
+            $orderId = $matches[1];
         }
 
         /** @var Mage_Sales_Model_Order $order */
         $order = $this->_orderFactory->create();
-        $order->loadByIncrementId($id);
+        $order->loadByIncrementId($orderId);
 
         // Log callback
         $this->log('Callback received');
@@ -429,11 +429,11 @@ class Mage_Cardgate_Model_Base extends Varien_Object
             // Create an invoice when the payment is completed
             if ($complete && !$canceled && $autocreateInvoice) {
                 $this->_createInvoice($order);
-                $this->log("Creating invoice for order ID: $id.");
+                $this->log("Creating invoice for order ID: $orderId.");
             }
 
             $order->setState($newState, $newStatus, $statusMessage);
-            $this->log("Changing state to $newState with message $statusMessage for order ID: $id.");
+            $this->log("Changing state to $newState with message $statusMessage for order ID: $orderId.");
         }
 
         // Save order status changes

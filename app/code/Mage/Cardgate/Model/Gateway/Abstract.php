@@ -190,7 +190,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      * @param string $url
      * @return string
      */
-    function getModelUrl($url)
+    public function getModelUrl($url)
     {
         $params = array('_secure' => true);
         if (!empty($this->_model)) {
@@ -240,11 +240,11 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
     {
         parent::validate();
 
-        $currency_code = $this->getQuote()->getBaseCurrencyCode();
-        if (!in_array($currency_code, $this->_supportedCurrencies)) {
-            $this->_base->log('Unacceptable currency code (' . $currency_code . ').');
+        $currencyCode = $this->getQuote()->getBaseCurrencyCode();
+        if (!in_array($currencyCode, $this->_supportedCurrencies)) {
+            $this->_base->log('Unacceptable currency code (' . $currencyCode . ').');
             Mage::throwException(
-                $this->_helper->__('Selected currency code ') . $currency_code .
+                $this->_helper->__('Selected currency code ') . $currencyCode .
                     $this->_helper->__(' is not compatible with CardGatePlus'));
         }
 
@@ -266,87 +266,85 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
         $statusMessage = $this->_helper->__('Transaction started, waiting for payment.');
         $order->setState($newState, $newStatus, $statusMessage);
         $order->save();
-        $s_arr = array();
+        $fields = array();
         switch ($this->_model) {
             // Credit cards
             case 'creditcard':
-                $s_arr['option'] = 'creditcard';
+                $fields['option'] = 'creditcard';
                 break;
 
             // DIRECTebanking
             case 'sofortbanking':
-                $s_arr['option'] = 'directebanking';
+                $fields['option'] = 'directebanking';
                 break;
 
             // iDEAL
             case 'ideal':
-                $s_arr['option'] = 'ideal';
-                $s_arr['suboption'] = $order->getPayment()->getAdditionalInformation('ideal_issuer_id');
+                $fields['option'] = 'ideal';
+                $fields['suboption'] = $order->getPayment()->getAdditionalInformation('ideal_issuer_id');
                 break;
 
             // Mister Cash
             case 'mistercash':
-                $s_arr['option'] = 'mistercash';
+                $fields['option'] = 'mistercash';
                 break;
 
             // Default
             default:
-                $s_arr['option'] = '';
-                $s_arr['suboption'] = '';
+                $fields['option'] = '';
+                $fields['suboption'] = '';
                 break;
         }
 
-        $currency_code = $order->getBaseCurrencyCode();
+        $currencyCode = $order->getBaseCurrencyCode();
 
         $orderId = $order->getIncrementId();
         $orderId = $this->getConfigData('transaction_id_prefix')
             ? $this->getConfigData('transaction_id_prefix') . '-' . $orderId
             : $orderId;
 
-        $s_arr['siteid'] = $this->getConfigData('site_id');
-        $s_arr['ref'] = $orderId;
-        $s_arr['first_name'] = $customer->getFirstname();
-        $s_arr['last_name'] = $customer->getLastname();
-        $s_arr['email'] = $order->getCustomerEmail();
-        $s_arr['address'] = $customer->getStreet(1) .
+        $fields['siteid'] = $this->getConfigData('site_id');
+        $fields['ref'] = $orderId;
+        $fields['first_name'] = $customer->getFirstname();
+        $fields['last_name'] = $customer->getLastname();
+        $fields['email'] = $order->getCustomerEmail();
+        $fields['address'] = $customer->getStreet(1) .
             ($customer->getStreet(2) ? ', ' . $customer->getStreet(2) : '');
-        $s_arr['city'] = $customer->getCity();
-        $s_arr['country_code'] = $customer->getCountry();
-        $s_arr['postal_code'] = $customer->getPostcode();
-        $s_arr['phone_number'] = $customer->getTelephone();
-        $s_arr['state'] = $customer->getRegionCode();
-        $s_arr['language']  = $this->getConfigData('lang');
-        $s_arr['return_url'] = $this->_urlGenerator->getUrl('cardgate/cardgate/success/', array('_secure' => true));
-        $s_arr['return_url_failed'] =
+        $fields['city'] = $customer->getCity();
+        $fields['country_code'] = $customer->getCountry();
+        $fields['postal_code'] = $customer->getPostcode();
+        $fields['phone_number'] = $customer->getTelephone();
+        $fields['state'] = $customer->getRegionCode();
+        $fields['language']  = $this->getConfigData('lang');
+        $fields['return_url'] = $this->_urlGenerator->getUrl('cardgate/cardgate/success/', array('_secure' => true));
+        $fields['return_url_failed'] =
             $this->_urlGenerator->getUrl('cardgate/cardgate/cancel/', array('_secure' => true));
-        $s_arr['shop_version'] = 'Magento ' . Mage::getVersion();
-//        $s_arr['plugin_name'] = 'Cardgate_Cgp';
-//        $s_arr['plugin_version'] = '1.0.1';
+        $fields['shop_version'] = 'Magento ' . Mage::getVersion();
 
         if ($this->_base->isTest()) {
-            $s_arr['test'] = '1';
-            $hash_prefix = 'TEST';
+            $fields['test'] = '1';
+            $hashPrefix = 'TEST';
         } else {
-            $hash_prefix = '';
+            $hashPrefix = '';
         }
 
-        $s_arr['currency'] = $currency_code;
-        $s_arr['amount'] = sprintf('%.0f', $order->getBaseTotalDue() * 100);
-        $s_arr['description'] = str_replace('%id%',
+        $fields['currency'] = $currencyCode;
+        $fields['amount'] = sprintf('%.0f', $order->getBaseTotalDue() * 100);
+        $fields['description'] = str_replace('%id%',
             $orderId,
             $this->getConfigData('order_description'));
-        $s_arr['hash'] = md5($hash_prefix .
+        $fields['hash'] = md5($hashPrefix .
             $this->getConfigData('site_id') .
-            $s_arr['amount'] .
-            $s_arr['ref'] .
+            $fields['amount'] .
+            $fields['ref'] .
             $this->getConfigData('hash_key'));
 
         // Logging
         $this->_base->log('Initiating a new transaction');
         $this->_base->log('Sending customer to CardGatePlus with values:');
         $this->_base->log('URL = ' . $this->getGatewayUrl());
-        $this->_base->log($s_arr);
+        $this->_base->log($fields);
 
-        return $s_arr;
+        return $fields;
     }
 }
