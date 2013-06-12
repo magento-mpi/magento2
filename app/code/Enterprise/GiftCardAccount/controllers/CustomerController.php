@@ -35,7 +35,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
             $code = $data['giftcard_code'];
             try {
                 if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
-                    Mage::throwException($this->__('Redemption functionality is disabled.'));
+                    Mage::throwException($this->__("You can't redeem a gift card now."));
                 }
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
@@ -45,7 +45,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Customer_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Customer_Model_Session')->addException($e, $this->__('Cannot redeem Gift Card.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addException($e, $this->__('We cannot redeem this gift card.'));
             }
             $this->_redirect('*/*/*');
             return;

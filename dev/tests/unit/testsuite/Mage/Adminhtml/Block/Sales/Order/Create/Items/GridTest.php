@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Fra
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
 
-        $contextMock = $this->getMockBuilder('Mage_Core_Block_Template_Context')
+        $contextMock = $this->getMockBuilder('Mage_Backend_Block_Template_Context')
             ->disableOriginalConstructor()
             ->setMethods(array('getHelperFactory'))
             ->getMock();

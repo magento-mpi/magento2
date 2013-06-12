@@ -120,7 +120,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportValidationTest extends Mage_
                     "E-mail is not specified in rows: 1"
                     ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
                     ))),
             array($addressCsv[1], array('validation' => array(
@@ -128,7 +128,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportValidationTest extends Mage_
                     "Required attribute 'firstname' has an empty value in rows: 1"
                     ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
                     ))),
             array($addressCsv[2], array('validation' => array(
@@ -136,7 +136,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportValidationTest extends Mage_
                     "Invalid value in website column in rows: 1"
                     ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
                     ))),
             array($addressCsv[3], array('validation' => array(
@@ -144,7 +144,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportValidationTest extends Mage_
                     "E-mail is invalid in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
             ))),
             array($addressCsv[4], array('validation' => array(
@@ -152,7 +152,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportValidationTest extends Mage_
                     "Region is invalid in rows: 1"
                     ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
                     ))),
             array($addressCsv[5], array('validation' => array(
@@ -160,7 +160,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportValidationTest extends Mage_
                     "Customer with such email and website code doesn't exist in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
             )
             )

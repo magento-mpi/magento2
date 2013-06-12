@@ -123,7 +123,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
         );
         if (!isset($methods[$comparsionMethod])) {
             Mage::throwException(
-                Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is not a correct comparsion method.', $comparsionMethod)
+                Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is not a correct comparison method.', $comparsionMethod)
             );
         }
 

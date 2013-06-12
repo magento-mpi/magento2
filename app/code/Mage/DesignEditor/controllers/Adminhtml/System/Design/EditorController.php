@@ -360,7 +360,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_DesignEditor::editor');
+        return $this->_authorization->isAllowed('Mage_DesignEditor::editor');
     }
 
     /**

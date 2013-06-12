@@ -83,8 +83,8 @@ class Mage_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         /** @var $model Mage_Tax_Model_Class */
         $model = Mage::getModel('Mage_Tax_Model_Class')
             ->load($customerClasses[0]);
-        $this->setExpectedException('Mage_Core_Exception', 'You cannot delete this tax class as it is used in' .
-            ' Tax Rules. You have to delete the rules it is used in first');
+        $this->setExpectedException('Mage_Core_Exception', 'You cannot delete this tax class because it is used in' .
+            ' Tax Rules. You have to delete the rules it is used in first.');
         $model->checkClassCanBeDeleted();
     }
 
@@ -103,8 +103,8 @@ class Mage_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         /** @var $model Mage_Tax_Model_Class */
         $model = Mage::getModel('Mage_Tax_Model_Class')
             ->load($productClasses[0]);
-        $this->setExpectedException('Mage_Core_Exception', 'You cannot delete this tax class as it is used in' .
-            ' Tax Rules. You have to delete the rules it is used in first');
+        $this->setExpectedException('Mage_Core_Exception', 'You cannot delete this tax class because it is used in' .
+            ' Tax Rules. You have to delete the rules it is used in first.');
         $model->checkClassCanBeDeleted();
     }
 }

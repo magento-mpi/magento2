@@ -196,7 +196,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function createDirectory($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Invalid folder name. Please, use alphanumeric characters, underscores and dashes.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Please correct the folder name. Use only letters, numbers, underscores and dashes.'));
         }
         if (!$this->_filesystem->isDirectory($path) || !$this->_filesystem->isWritable($path)) {
             $path = $this->getHelper()->getStorageRoot();
@@ -223,7 +223,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             );
             return $result;
         } Catch (Magento_Filesystem_Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Cannot create new directory.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('We cannot create a new directory.'));
         }
     }
 
@@ -250,7 +250,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         try {
             $this->_filesystem->delete($path);
         } catch (Magento_Filesystem_Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Cannot delete directory %s.', $path));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('We cannot delete directory %s.', $path));
         }
 
         if (strpos($pathCmp, $rootCmp) === 0) {

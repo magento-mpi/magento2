@@ -105,7 +105,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard
         if (is_array($codes)) {
             foreach ($codes as &$code) {
                 if ($code === null) {
-                    $code = Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Unable to create.');
+                    $code = Mage::helper('Enterprise_GiftCard_Helper_Data')->__('We cannot create this gift card.');
                 }
             }
         } else {

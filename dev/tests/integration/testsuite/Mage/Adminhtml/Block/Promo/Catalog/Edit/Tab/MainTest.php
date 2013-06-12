@@ -11,8 +11,10 @@
 
 /**
  * Test class for Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
+ *
+ * @magentoAppArea adminhtml
  */
-class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends Mage_Backend_Area_TestCase
+class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled

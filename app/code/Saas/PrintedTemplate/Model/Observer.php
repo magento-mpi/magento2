@@ -46,6 +46,19 @@ class Saas_PrintedTemplate_Model_Observer
     );
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(Magento_AuthorizationInterface $authorization)
+    {
+        $this->_authorization = $authorization;
+    }
+
+    /**
      * Save order detailed tax information on event sales_order_save_after
      *
      * @param Varien_Event_Observer $observer
@@ -262,7 +275,7 @@ class Saas_PrintedTemplate_Model_Observer
         }
 
         $block = $observer->getEvent()->getBlock();
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Saas_PrintedTemplate::print')) {
+        if (!$this->_authorization->isAllowed('Saas_PrintedTemplate::print')) {
             if ($block instanceof Mage_Backend_Block_Widget_Grid
                 && $block->getMassactionBlock() instanceof Mage_Backend_Block_Widget) {
                 $gridBlocks = array('pdfdocs_order','pdfshipments_order','pdfcreditmemos_order','pdfinvoices_order');

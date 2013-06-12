@@ -596,7 +596,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
             Mage::throwException(
-                Mage::helper('Enterprise_AdminGws_Helper_Data')->__('An order cannot be created in disallowed store.')
+                Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You can create an order in an active store only.')
             );
         }
     }
@@ -1090,7 +1090,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
             count($this->_role->getWebsiteIds())) {
-            Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('This item must be assigned to a website.'));
+            Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Please assign this item to a store view.'));
         }
         return $websiteIds;
     }
@@ -1106,7 +1106,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
             count($this->_role->getStoreIds())) {
-            Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('This item must be assigned to a store view.'));
+            Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Please assign this item to a store view.'));
         }
         return $storeIds;
     }
@@ -1117,7 +1117,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     protected function _throwSave()
     {
         Mage::throwException(
-            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to save this item.')
+            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to save this item.')
         );
     }
 
@@ -1127,7 +1127,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     protected function _throwDelete()
     {
         Mage::throwException(
-            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to delete this item.')
+            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to delete this item.')
         );
     }
 
@@ -1138,7 +1138,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         throw Mage::exception(
             'Enterprise_AdminGws_Controller',
-            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to view this item.')
+            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to view this item.')
         );
     }
 

@@ -139,7 +139,7 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
                     "E-mail is not specified in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
             )
             )
@@ -149,7 +149,7 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
                     "Required attribute 'firstname' has an empty value in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
             )
             )
@@ -159,7 +159,7 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
                     "Invalid value in website column in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
             )
             )
@@ -169,7 +169,7 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
                     "E-mail is invalid in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
             )
             )

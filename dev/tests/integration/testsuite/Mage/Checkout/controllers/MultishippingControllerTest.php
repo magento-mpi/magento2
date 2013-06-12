@@ -11,6 +11,8 @@
 
 /**
  * Test class for Mage_Checkout_MultishippingController
+ *
+ * @magentoAppArea frontend
  */
 class Mage_Checkout_MultishippingControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {

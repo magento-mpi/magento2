@@ -8,8 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Backend_Area_TestCase
+/**
+ * Test class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest
+ */
+class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit_Framework_TestCase
 {
     /** @var array $_carriers Array of predefined carrierrs */
     protected $_activeCarriers = array(
@@ -26,6 +28,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Ba
      */
     public function testSave()
     {
+        $this->markTestIncomplete('Incorrect usage of magentoDataFixture');
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
         /** @var Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler */
         $shippingSaveHandler = Mage::getModel('Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler');

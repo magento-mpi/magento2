@@ -139,13 +139,13 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 $message = $this->__('Availability: Out of stock.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->__('Requested quantity is not available.');
+                $message = $this->__('The requested quantity is not available.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $message = $this->__('The product cannot be added to cart in requested quantity.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                $message = $this->__('Please specify the product\'s options.');
+                $message = $this->__("Please specify the product's options.");
                 break;
             case self::ADD_ITEM_STATUS_FAILED_PERMISSIONS:
                 $message = $this->__('The product cannot be added to cart.');
@@ -159,7 +159,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 $message = $this->__('The product is assigned to another website.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_DISABLED:
-                $message = $this->__('Disabled products cannot be added.');
+                $message = $this->__('You can add only enabled products.');
                 break;
             default:
                 $message = '';
@@ -322,7 +322,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getFileGeneralErrorText()
     {
-        return $this->__('File cannot be uploaded.');
+        return $this->__('You cannot upload this file.');
     }
 
     /**
@@ -339,7 +339,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                Mage::throwException($this->__('File is empty.'));
+                Mage::throwException($this->__('The file is empty.'));
             }
             return $rows;
         } catch (Mage_Core_Exception $e) {
@@ -382,7 +382,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSkuEmptyDataMessageText()
     {
         return $this->isSkuApplied()
-            ? $this->__('You have not entered any product sku. Please <a href="%s">click here</a> to add product(s) by sku.', $this->getAccountSkuUrl())
-            : $this->__('You have not entered any product sku.');
+            ? $this->__('You have not entered a product SKU. Please <a href="%s">click here</a> to add product(s) by SKU.', $this->getAccountSkuUrl())
+            : $this->__('You have not entered a product SKU.');
     }
 }

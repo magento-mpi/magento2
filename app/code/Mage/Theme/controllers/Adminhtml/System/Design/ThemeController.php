@@ -295,6 +295,6 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_Theme::theme');
+        return $this->_authorization->isAllowed('Mage_Theme::theme');
     }
 }

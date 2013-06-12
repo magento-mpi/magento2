@@ -53,7 +53,7 @@ vde_design:
 
 vde_navigation:
     mca: system_design_editor/launch/theme_id/%themeId%/mode/navigation/
-    title: Editor / Design / System / Magento Admin
+    title: Store Designer / Design / Content / Magento Admin
     uimap:
             form:
                 fieldsets:

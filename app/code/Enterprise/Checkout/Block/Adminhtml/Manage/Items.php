@@ -136,11 +136,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      */
     public function isAllowedActionColumn()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update');
+        return $this->_authorization->isAllowed('Enterprise_Checkout::update');
     }
 
     /**
-     * Return current quote from regisrty
+     * Return current quote from registry
      *
      * @return Mage_Sales_Model_Quote
      */
@@ -150,7 +150,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     }
 
     /**
-     * Return current store from regisrty
+     * Return current store from registry
      *
      * @return Mage_Core_Model_Store
      */
@@ -160,7 +160,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     }
 
     /**
-     * Return current customer from regisrty
+     * Return current customer from registry
      *
      * @return Mage_Customer_Model_Customer
      */

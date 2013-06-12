@@ -142,7 +142,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $this->_expectResetStores();
 
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $this->_sessionMock->expects($this->once())->method('addSuccess')->with('The configuration has been saved.');
+        $this->_sessionMock->expects($this->once())->method('addSuccess')->with('You saved the configuration.');
 
         $this->_eventManagerMock->expects($this->exactly(3))->method('dispatch');
         $this->_eventManagerMock->expects($this->at(0))->method('dispatch')->with('application_process_reinit_config');

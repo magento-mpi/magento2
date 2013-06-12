@@ -1,31 +1,26 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Framework
- * @subpackage  Authorization
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Uses ACL to control access. If ACL doesn't contain provided resource,
  * permission for all resources is checked
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Authorization_Policy_Acl implements Magento_Authorization_Policy
 {
     /**
-     * @var Magento_Acl
+     * @var Magento_Acl_Builder
      */
-    protected $_acl;
+    protected $_aclBuilder;
 
     /**
-     * @param Magento_Acl $acl
+     * @param Magento_Acl_Builder $aclBuilder
      */
-    public function __construct(Magento_Acl $acl)
+    public function __construct(Magento_Acl_Builder $aclBuilder)
     {
-        $this->_acl = $acl;
+        $this->_aclBuilder = $aclBuilder;
     }
 
     /**
@@ -39,11 +34,11 @@ class Magento_Authorization_Policy_Acl implements Magento_Authorization_Policy
     public function isAllowed($roleId, $resourceId, $privilege = null)
     {
         try {
-            return $this->_acl->isAllowed($roleId, $resourceId, $privilege);
+            return $this->_aclBuilder->getAcl()->isAllowed($roleId, $resourceId, $privilege);
         } catch (Exception $e) {
             try {
-                if (!$this->_acl->has($resourceId)) {
-                    return $this->_acl->isAllowed($roleId, null, $privilege);
+                if (!$this->_aclBuilder->getAcl()->has($resourceId)) {
+                    return $this->_aclBuilder->getAcl()->isAllowed($roleId, null, $privilege);
                 }
             } catch (Exception $e) {
             }

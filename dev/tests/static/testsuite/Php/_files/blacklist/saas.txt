@@ -8,6 +8,3 @@ app/code/Saas/PrintedTemplate/view
 app/code/Saas/UnitPrice/view
 app/code/Saas/Sitemap/view
 app/code/Saas/ImportExport/view
-app/code/Saas/Payment
-app/code/Saas/Paypal
-app/code/Saas/Pbridge

@@ -24,13 +24,4 @@ class Enterprise_Pbridge_Block_Checkout_Payment_Paypaluk extends Enterprise_Pbri
      * @var string
      */
     protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
-
-    /**
-     * Return 3D validation flag
-     * @return bool
-     */
-    public function is3dSecureEnabled()
-    {
-        return (bool)$this->getMethod()->getConfigData('centinel');
-    }
 }

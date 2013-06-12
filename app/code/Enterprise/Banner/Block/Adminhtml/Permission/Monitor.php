@@ -28,7 +28,7 @@ class Enterprise_Banner_Block_Adminhtml_Permission_Monitor extends Mage_Adminhtm
     {
         parent::_prepareLayout();
 
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Banner::enterprise_banner')) {
+        if (!$this->_authorization->isAllowed('Enterprise_Banner::enterprise_banner')) {
             /** @var $layout Mage_Core_Model_Layout */
             $layout = $this->getLayout();
             if ($layout->getBlock('salesrule.related.banners') !== false) {
