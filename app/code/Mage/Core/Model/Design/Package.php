@@ -277,16 +277,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Get default theme form config file
-     *
-     * @return string
-     */
-    protected function _getDefaultTheme()
-    {
-
-    }
-
-    /**
      * Set default design theme
      *
      * @return Mage_Core_Model_Design_Package

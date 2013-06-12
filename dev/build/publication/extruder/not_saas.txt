@@ -85,6 +85,8 @@ dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterTemplateCon
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/System/DesignControllerTest.php
 # multi-address checkout is disabled
 dev/tests/integration/testsuite/Mage/Checkout/controllers/MultishippingControllerTest.php
+# Saas Edition contains another implementation of Paypal payment methods
+dev/tests/integration/testsuite/Mage/Paypal/Model/IpnTest.php
 ########################################################################################################################
 # following tests must be refactored to be applicable in Saas Edition
 # MAGETWO-10542, test requires Mage_Downloadable module,

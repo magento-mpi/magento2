@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Enterprise_Pbridge_Model_Encryption extends Enterprise_Pci_Model_Encryption {
+class Enterprise_Pbridge_Model_Encryption extends Enterprise_Pci_Model_Encryption
+{
 
     /**
      * Constructor

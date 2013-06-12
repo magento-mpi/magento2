@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Cardgate
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 /**
  * @category   Mage
