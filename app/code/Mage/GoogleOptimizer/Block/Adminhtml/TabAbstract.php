@@ -26,7 +26,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
     protected $_codeHelper;
 
     /**
-     * @var Mage_GoogleOptimizer_Helper_Block_Form
+     * @var Mage_GoogleOptimizer_Helper_Form
      */
     protected $_formHelper;
 
@@ -35,7 +35,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
      * @param Mage_GoogleOptimizer_Helper_Data $helperData
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
-     * @param Mage_GoogleOptimizer_Helper_Block_Form $formHelper
+     * @param Mage_GoogleOptimizer_Helper_Form $formHelper
      * @param Varien_Data_Form $form
      * @param array $data
      */
@@ -44,7 +44,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
         Mage_GoogleOptimizer_Helper_Data $helperData,
         Mage_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,
-        Mage_GoogleOptimizer_Helper_Block_Form $formHelper,
+        Mage_GoogleOptimizer_Helper_Form $formHelper,
         Varien_Data_Form $form,
         array $data = array()
     ) {
@@ -64,7 +64,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
      */
     protected function _prepareForm()
     {
-        $this->_formHelper->prepareForm($this, $this->_getGoogleExperiment());
+        $this->_formHelper->addGoogleoptimizerFields($this->getForm(), $this->_getGoogleExperiment());
         return parent::_prepareForm();
     }
 

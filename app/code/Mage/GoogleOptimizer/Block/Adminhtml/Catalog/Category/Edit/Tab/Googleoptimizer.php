@@ -21,7 +21,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     protected $_codeHelper;
 
     /**
-     * @var Mage_GoogleOptimizer_Helper_Block_Form
+     * @var Mage_GoogleOptimizer_Helper_Form
      */
     protected $_formHelper;
 
@@ -29,7 +29,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
-     * @param Mage_GoogleOptimizer_Helper_Block_Form $formHelper
+     * @param Mage_GoogleOptimizer_Helper_Form $formHelper
      * @param Varien_Data_Form $form
      * @param array $data
      */
@@ -37,7 +37,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,
-        Mage_GoogleOptimizer_Helper_Block_Form $formHelper,
+        Mage_GoogleOptimizer_Helper_Form $formHelper,
         Varien_Data_Form $form,
         array $data = array()
     ) {
@@ -56,7 +56,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
      */
     protected function _prepareForm()
     {
-        $this->_formHelper->prepareForm($this, $this->_getGoogleExperiment());
+        $this->_formHelper->addGoogleoptimizerFields($this->getForm(), $this->_getGoogleExperiment());
         return parent::_prepareForm();
     }
 
