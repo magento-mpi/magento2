@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Enterprise_Pbridge>
-            <version>1.8.0.0.0</version>
+            <version>1.8.0.0.1</version>
             <active>false</active>
             <depends>
                 <Enterprise_Enterprise/>
@@ -38,6 +38,77 @@
                 </observers>
             </payment_method_is_active>
         </events>
+        <payment>
+            <cc>
+                <types>
+                    <UKE translate="name">
+                        <code>UKE</code>
+                        <name>Visa Electron</name>
+                        <order>100</order>
+                    </UKE>
+                    <DELTA translate="name">
+                        <code>DELTA</code>
+                        <name>Visa Debit (Delta)</name>
+                        <order>101</order>
+                    </DELTA>
+                    <DICL translate="name">
+                        <code>DICL</code>
+                        <name>Diners Club</name>
+                        <order>102</order>
+                    </DICL>
+                    <LASER translate="name">
+                        <code>LASER</code>
+                        <name>Laser</name>
+                        <order>103</order>
+                    </LASER>
+                    <CBCB translate="name">
+                        <code>CBCB</code>
+                        <name>Carte Bancaire CB</name>
+                        <order>103</order>
+                    </CBCB>
+                    <MSE translate="name">
+                        <code>MSE</code>
+                        <name>Maestro</name>
+                        <order>104</order>
+                    </MSE>
+                    <ECB translate="name">
+                        <code>ECB</code>
+                        <name>e-Carte Bleue</name>
+                        <order>105</order>
+                    </ECB>
+                    <AURORE translate="name">
+                        <code>AURORE</code>
+                        <name>Aurore</name>
+                        <order>106</order>
+                    </AURORE>
+                    <UATP translate="name">
+                        <code>UATP</code>
+                        <name>UATP</name>
+                        <order>53</order>
+                    </UATP>
+                    <UFJNH translate="name">
+                        <code>UFJNH</code>
+                        <name>UFJ Nicos House Card</name>
+                        <order>54</order>
+                    </UFJNH>
+                    <MAES translate="name">
+                        <code>MAES</code>
+                        <name>Maestro</name>
+                        <order>104</order>
+                    </MAES>
+                    <MSI translate="name">
+                        <code>MSI</code>
+                        <name>Maestro International</name>
+                        <order>104</order>
+                    </MSI>
+                    <CB translate="name">
+                        <code>CB</code>
+                        <name>Carte Bleue</name>
+                        <order>105</order>
+                    </CB>
+                </types>
+            </cc>
+        </payment>
     </global>
     <frontend>
         <secure_url>
@@ -76,6 +147,24 @@
                 </parameters>
             </Enterprise_Pbridge_Model_Session>
         </di>
+        <events>
+            <checkout_submit_all_after>
+                <observers>
+                    <pbridge_save_order_after_submit>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
+                        <method>saveOrderAfterSubmit</method>
+                    </pbridge_save_order_after_submit>
+                </observers>
+            </checkout_submit_all_after>
+            <controller_action_postdispatch_checkout_onepage_saveOrder>
+                <observers>
+                    <pbridge_save_order_onepage>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
+                        <method>setResponseAfterSaveOrder</method>
+                    </pbridge_save_order_onepage>
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveOrder>
+        </events>
     </frontend>
     <adminhtml>
         <layout>
@@ -131,101 +220,201 @@
             </pbridge_paypaluk_direct>
             <pbridge_authorizenet>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Authorizenet</model>
-                <enabled>1</enabled>
-                <active>0</active>
-                <debug>0</debug>
-                <order_status>processing</order_status>
-                <payment_action>authorize</payment_action>
-                <title>Authorize.net</title>
-                <allowspecific>0</allowspecific>
-                <currency>USD</currency>
-                <partial_authorization_checksum_checking>1</partial_authorization_checksum_checking>
-                <using_pbridge>1</using_pbridge>
+                <active>1</active>
             </pbridge_authorizenet>
-            <eway_direct>
-                <active>0</active>
-                <title>eWAY Direct</title>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
-                <using_pbridge>1</using_pbridge>
-                <payment_action>authorize_capture</payment_action>
-                <order_status>processing</order_status>
-                <allowspecific>0</allowspecific>
-            </eway_direct>
             <pbridge_verisign>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro</model>
-                <enabled>1</enabled>
+                <active>1</active>
             </pbridge_verisign>
-            <pbridge_ogone_direct>
+            <sagepay_direct>
+                <active>0</active>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <cctypes_all>AE,VI,JCB,MC,SM,UKE,DELTA,DICL,LASER</cctypes_all>
+                <debug>0</debug>
+                <payment_action>authorize</payment_action>
+                <mode>test</mode>
+                <title>Credit Card (Sage Pay Direct)</title>
+                <allowspecific>0</allowspecific>
+                <using_pbridge>1</using_pbridge>
+            </sagepay_direct>
+            <pbridge_sagepay_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct</model>
+            </pbridge_sagepay_direct>
+            <firstdata>
+                <title>First Data Global Gateway</title>
+                <currency>USD</currency>
+                <cctypes>VI,MC,AE</cctypes>
+                <cctypes_all>VI,MC,AE,JCB,DI</cctypes_all>
+                <config_file backend_model="Enterprise_Pbridge_Model_System_Config_Backend_Firstdata_FileEncrypted"/>
+                <using_pbridge>1</using_pbridge>
+            </firstdata>
+            <pbridge_firstdata>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Firstdata</model>
+                <active>1</active>
+            </pbridge_firstdata>
+            <braintree_basic>
+                <active>0</active>
+                <cctypes>AE,VI,MC</cctypes>
+                <cctypes_all>VI,MC,AE,JCB,DI</cctypes_all>
+                <merchant_id backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <public_key backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <private_key backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <title>Braintree</title>
+                <payment_action>authorize</payment_action>
+                <useccv>1</useccv>
+                <using_pbridge>1</using_pbridge>
+            </braintree_basic>
+            <pbridge_braintree_basic>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic</model>
+                <active>1</active>
+            </pbridge_braintree_basic>
+            <cybersource_soap>
+                <payment_action>authorize</payment_action>
+                <title>Credit Card (Cybersource)</title>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <cctypes_all>VI,MC,AE,DI,JCB,DICL,LASER,UATP,SM,SO,OT</cctypes_all>
+                <merchant_id backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <security_key backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <jpo_method>1,2,4,5</jpo_method>
+                <jpo_installment_number>32</jpo_installment_number>
+                <using_pbridge>1</using_pbridge>
+            </cybersource_soap>
+            <pbridge_cybersource_soap>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap</model>
+                <active>1</active>
+            </pbridge_cybersource_soap>
+            <dibs>
+                <title>Credit Card (DIBS)</title>
+                <cctypes>VI, MC, AE, DI, OT</cctypes>
+                <cctypes_all>AE,VI,JCB,MC,SM,OT</cctypes_all>
+                <merchantid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <login backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <password backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <key_1 backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <key_2 backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <currency>USD</currency>
+                <using_pbridge>1</using_pbridge>
+            </dibs>
+            <pbridge_dibs>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Dibs</model>
+                <active>1</active>
+            </pbridge_dibs>
+            <pbridge_ogone_direct translate="title">
                 <model>Enterprise_Pbridge_Model_Payment_Method_Ogone</model>
                 <title>Ogone Direct Link</title>
                 <userid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
                 <password backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
                 <passphrase backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
                 <payment_action>authorize</payment_action>
+                <cctypes>VI</cctypes>
+                <cctypes_all>VI,MC,AE,JCB,SM,SO,DI,DICL,CBCB,MSE,ECB,AURORE,OT</cctypes_all>
                 <useccv>1</useccv>
+                <using_pbridge>1</using_pbridge>
             </pbridge_ogone_direct>
+            <pbridge_ogone_direct_debit translate="title">
+                <model>Enterprise_Pbridge_Model_Payment_Method_Ogone_Direct_Debit</model>
+                <title>Ogone Direct Debit</title>
+                <payment_action>authorize</payment_action>
+                <allowspecific>1</allowspecific>
+                <specificcountry>AT,DE,NL</specificcountry>
+                <using_pbridge>1</using_pbridge>
+            </pbridge_ogone_direct_debit>
+            <paybox_direct>
+                <pbx_site backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <pbx_rang backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <pbx_cle backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <payment_action>authorize</payment_action>
+                <title>Paybox Direct</title>
+                <useccv>1</useccv>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <cctypes_all>VI,MC,AE,OT</cctypes_all>
+                <allowspecific>0</allowspecific>
+                <using_pbridge>1</using_pbridge>
+            </paybox_direct>
+            <pbridge_paybox_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
+                <active>1</active>
+            </pbridge_paybox_direct>
             <worldpay_direct>
+                <active>0</active>
+                <cctypes>AE,VI,MC,JCB,DI</cctypes>
+                <cctypes_all>VI,MC,AE,JCB,DI,DICL,MAES</cctypes_all>
+                <merchant_code backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <xml_password backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <account_type>business</account_type>
                 <title>Worldpay</title>
                 <payment_action>authorize</payment_action>
+                <useccv>1</useccv>
                 <using_pbridge>1</using_pbridge>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Worldpay_Direct</model>
-                <active>0</active>
             </worldpay_direct>
-            <cybersource_soap>
+            <pbridge_worldpay_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Worldpay_Direct</model>
+                <active>1</active>
+            </pbridge_worldpay_direct>
+            <pbridge_payone_debit>
+                <title>Direct Debit (Payone)</title>
+                <merchantid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <portalid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <trans_key backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <sub_account backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <merchantid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <currency>EUR</currency>
+                <using_pbridge>1</using_pbridge>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Payone_Debit</model>
                 <active>0</active>
-                <title>Credit Card (Cybersource)</title>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap</model>
-                <using_pbridge>1</using_pbridge>
-                <payment_action>authorize</payment_action>
-                <order_status>processing</order_status>
-                <allowspecific>0</allowspecific>
-            </cybersource_soap>
-            <dibs>
-                <title>Credit Card (DIBS)</title>
-                <using_pbridge>1</using_pbridge>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Dibs</model>
-                <active>0</active>
-            </dibs>
-            <braintree_basic>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic</model>
-                <title>Braintree</title>
-                <payment_action>authorize</payment_action>
-                <using_pbridge>1</using_pbridge>
-            </braintree_basic>
-            <sagepay_direct>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct</model>
-                <payment_action>authorize</payment_action>
-                <title>Credit Card (Sage Pay Direct)</title>
-                <using_pbridge>1</using_pbridge>
-            </sagepay_direct>
-            <firstdata>
-                <title>First Data Global Gateway</title>
-                <currency>USD</currency>
-                <using_pbridge>1</using_pbridge>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Firstdata</model>
-            </firstdata>
+            </pbridge_payone_debit>
             <payone_gate>
-                <title>Payone.de</title>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Payone_Gate</model>
+                <title>Credit Card (Payone.de)</title>
+                <cctypes>VI,MC,AE,JCB,SM,DI</cctypes>
+                <cctypes_all>VI,MC,AE,JCB,MSI,SM,DICL,DI,CB</cctypes_all>
+                <merchantid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <portalid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <trans_key backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <sub_account backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <merchantid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <transaction_status_key backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
                 <currency>EUR</currency>
                 <using_pbridge>1</using_pbridge>
             </payone_gate>
-            <paybox_direct>
-                <active>0</active>
-                <title>Paybox Direct</title>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
+            <pbridge_payone_gate>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Payone_Gate</model>
+                <active>1</active>
+            </pbridge_payone_gate>
+            <eway_direct>
                 <using_pbridge>1</using_pbridge>
-                <payment_action>authorize</payment_action>
-                <order_status>processing</order_status>
+                <customer_id backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <refunds_password backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <currency>AUD</currency>
+                <payment_action>authorize_capture</payment_action>
+                <title>eWAY Direct</title>
+                <cctypes>AE,VI,MC,DICL,JCB</cctypes>
+                <cctypes_all>VI,MC,AE,DICL,JCB</cctypes_all>
                 <allowspecific>0</allowspecific>
-            </paybox_direct>
+            </eway_direct>
+            <pbridge_eway_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
+                <active>1</active>
+            </pbridge_eway_direct>
             <psigate_basic>
+                <active>0</active>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <cctypes_all>VI,MC,AE,DI,OT</cctypes_all>
+                <storeid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <passphrase backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
                 <title>Psigate</title>
                 <payment_action>authorize</payment_action>
+                <allowspecific>0</allowspecific>
                 <using_pbridge>1</using_pbridge>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic</model>
-                <active>0</active>
             </psigate_basic>
+            <pbridge_psigate_basic>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic</model>
+                <active>1</active>
+            </pbridge_psigate_basic>
         </payment>
+        <payment_services>
+            <kount>
+                <p12_cert_password backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+            </kount>
+        </payment_services>
     </default>
 </config>
