@@ -546,6 +546,7 @@ return array(
     array('Mage_Catalog_Model_Convert_Adapter_Product'),
     array('Mage_Catalog_Model_Convert_Parser_Product'),
     array('Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image'),
+    array('Mage_Catalog_Model_Product_Limitation'),
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image'),
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice'),
     array('Mage_Core_Block_Flush'),
