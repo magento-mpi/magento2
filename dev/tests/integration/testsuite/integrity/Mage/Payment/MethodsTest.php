@@ -32,7 +32,7 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
              */
             $this->fail("Model of '{$code}' payment method is not found."); // prevent fatal error
         }
-        $model = new $methodClass;
+        $model = Mage::getObjectManager()->create($methodClass);
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";
@@ -63,7 +63,9 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
         $helper = Mage::helper('Mage_Payment_Helper_Data');
         $result = array();
         foreach ($helper->getPaymentMethods() as $code => $method) {
-            $result[] = array($code, $method['model']);
+            if (!empty($method['model'])) {
+                $result[] = array($code, $method['model']);
+            }
         }
         return $result;
     }
