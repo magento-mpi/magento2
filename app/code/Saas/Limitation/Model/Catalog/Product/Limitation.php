@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Catalog_Product_Limitation
+class Saas_Limitation_Model_Catalog_Product_Limitation implements Saas_Limitation_Model_Limitation_LimitationInterface
 {
     /**
-     * XML-node that stores limitation of number of products in the system
+     * @var Saas_Limitation_Model_Limitation_Config
      */
-    const XML_PATH_NUM_PRODUCTS = 'limitations/catalog_product';
+    private $_config;
 
     /**
      * @var Mage_Catalog_Model_Resource_Product
@@ -20,42 +20,30 @@ class Saas_Limitation_Model_Catalog_Product_Limitation
     private $_resource;
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    private $_config;
-
-    /**
+     * @param Saas_Limitation_Model_Limitation_Config $config
      * @param Mage_Catalog_Model_Resource_Product $resource
-     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Catalog_Model_Resource_Product $resource, Mage_Core_Model_Config $config)
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Saas_Limitation_Model_Limitation_Config $config,
+        Mage_Catalog_Model_Resource_Product $resource
+    ) {
         $this->_config = $config;
+        $this->_resource = $resource;
     }
 
     /**
-     * Whether creation of specified number of products is restricted
-     *
-     * @param int $number Number of products to create
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isCreateRestricted($number = 1)
+    public function getThreshold()
     {
-        $limit = $this->getLimit();
-        if ($limit > 0) {
-            return $this->_resource->countAll() + $number > $limit;
-        }
-        return false;
+        return $this->_config->getThreshold('catalog_product');
     }
 
     /**
-     * Returns limit for product creation
-     *
-     * @return int
+     * {@inheritdoc}
      */
-    public function getLimit()
+    public function getTotalCount()
     {
-        return (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
+        return $this->_resource->countAll();
     }
 }

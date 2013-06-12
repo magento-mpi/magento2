@@ -8,37 +8,40 @@
 class Saas_Limitation_Model_Store_Group_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param int $fixtureTotalCount
-     * @param string|int $fixtureLimitation
-     * @param bool $expectedResult
-     * @dataProvider isCreateRestrictedDataProvider
+     * @var Saas_Limitation_Model_Store_Group_Limitation
      */
-    public function testIsCreateRestricted($fixtureTotalCount, $fixtureLimitation, $expectedResult)
-    {
-        $resource = $this->getMock('Mage_Core_Model_Resource_Store_Group', array('countAll'), array(), '', false);
-        $resource->expects($this->any())->method('countAll')->will($this->returnValue($fixtureTotalCount));
-
-        $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
-        $config->expects($this->any())->method('getNode')
-            ->with(Saas_Limitation_Model_Store_Group_Limitation::XML_PATH_NUM_STORE_GROUPS)
-            ->will($this->returnValue($fixtureLimitation));
-
-        $model = new Saas_Limitation_Model_Store_Group_Limitation($resource, $config);
-        $this->assertEquals($expectedResult, $model->isCreateRestricted());
-    }
+    private $_model;
 
     /**
-     * @return array
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    public function isCreateRestrictedDataProvider()
+    private $_config;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_resource;
+
+    protected function setUp()
     {
-        return array(
-            'no limit'       => array(0, '', false),
-            'negative limit' => array(2, -1, false),
-            'zero limit'     => array(2, 0, false),
-            'count > limit'  => array(2, 1, true),
-            'count = limit'  => array(2, 2, true),
-            'count < limit'  => array(2, 3, false),
-        );
+        $this->_resource = $this->getMock('Mage_Core_Model_Resource_Store_Group', array(), array(), '', false);
+        $this->_config = $this->getMock('Saas_Limitation_Model_Limitation_Config', array(), array(), '', false);
+        $this->_model = new Saas_Limitation_Model_Store_Group_Limitation($this->_config, $this->_resource);
+    }
+
+    public function testGetThreshold()
+    {
+        $this->_config->expects($this->once())
+            ->method('getThreshold')
+            ->with('store_group')
+            ->will($this->returnValue(5))
+        ;
+        $this->assertEquals(5, $this->_model->getThreshold());
+    }
+
+    public function testGetTotalCount()
+    {
+        $this->_resource->expects($this->any())->method('countAll')->will($this->returnValue(81));
+        $this->assertEquals(81, $this->_model->getTotalCount());
     }
 }

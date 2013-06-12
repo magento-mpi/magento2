@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_User_Limitation
+class Saas_Limitation_Model_User_Limitation implements Saas_Limitation_Model_Limitation_LimitationInterface
 {
     /**
-     * XPath to configuration node with specified limitation for number of users
+     * @var Saas_Limitation_Model_Limitation_Config
      */
-    const XML_PATH_NUM_USERS = 'limitations/admin_account';
+    private $_config;
 
     /**
      * @var Mage_User_Model_Resource_User
@@ -20,43 +20,30 @@ class Saas_Limitation_Model_User_Limitation
     private $_resource;
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    private $_config;
-
-    /**
+     * @param Saas_Limitation_Model_Limitation_Config $config
      * @param Mage_User_Model_Resource_User $resource
-     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_User_Model_Resource_User $resource, Mage_Core_Model_Config $config)
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Saas_Limitation_Model_Limitation_Config $config,
+        Mage_User_Model_Resource_User $resource
+    ) {
         $this->_config = $config;
+        $this->_resource = $resource;
     }
 
     /**
-     * Check if creation of the entity is restricted
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isCreateRestricted()
+    public function getThreshold()
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_USERS);
-        if ($limit > 0) {
-            return $this->_resource->countAll() >= $limit;
-        }
-        return false;
+        return $this->_config->getThreshold('admin_account');
     }
 
     /**
-     * Get restriction message
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getCreateRestrictedMessage()
+    public function getTotalCount()
     {
-        // @codingStandardsIgnoreStart
-        return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.');
-        // @codingStandardsIgnoreEnd
+        return $this->_resource->countAll();
     }
 }

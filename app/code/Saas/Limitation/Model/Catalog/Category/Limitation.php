@@ -1,69 +1,49 @@
 <?php
 /**
- * Category functional limitations
+ * Limitation on the number of categories in the system
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Catalog_Category_Limitation
+class Saas_Limitation_Model_Catalog_Category_Limitation implements Saas_Limitation_Model_Limitation_LimitationInterface
 {
     /**
-     * XML-node that stores limitation of number of categories in the system
+     * @var Saas_Limitation_Model_Limitation_Config
      */
-    const XML_PATH_NUM_CATEGORIES = 'limitations/catalog_category';
+    private $_config;
 
     /**
-     * Mage resource category
-     *
      * @var Mage_Catalog_Model_Resource_Category
      */
     private $_resource;
 
     /**
-     * Mage config
-     *
-     * @var Mage_Core_Model_Config
-     */
-    private $_config;
-
-    /**
-     * Inject dependencies
-     *
+     * @param Saas_Limitation_Model_Limitation_Config $config
      * @param Mage_Catalog_Model_Resource_Category $resource
-     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Catalog_Model_Resource_Category $resource, Mage_Core_Model_Config $config)
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Saas_Limitation_Model_Limitation_Config $config,
+        Mage_Catalog_Model_Resource_Category $resource
+    ) {
         $this->_config = $config;
+        $this->_resource = $resource;
     }
 
     /**
-     * Whether creation is restricted
-     *
-     * @param int $categoriesCount number of categories to create
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isCreateRestricted($categoriesCount = 1)
+    public function getThreshold()
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_CATEGORIES);
-        if ($limit > 0) {
-            return $this->_resource->countVisible() + $categoriesCount > $limit;
-        }
-        return false;
+        return $this->_config->getThreshold('catalog_category');
     }
 
     /**
-     * Get message with the the restriction explanation
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getCreateRestrictedMessage()
+    public function getTotalCount()
     {
-        // @codingStandardsIgnoreStart
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, you are using all the categories your account allows. To add more, first delete a category or upgrade your service.');
-        // @codingStandardsIgnoreEnd
+        return $this->_resource->countVisible();
     }
 }

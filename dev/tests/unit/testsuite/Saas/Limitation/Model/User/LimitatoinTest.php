@@ -8,38 +8,40 @@
 class Saas_Limitation_Model_User_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param int $limitation
-     * @param int $existingCount
-     * @param bool $expected
-     * @dataProvider isCreateRestrictedDataProvider
+     * @var Saas_Limitation_Model_User_Limitation
      */
-    public function testIsCreateRestricted($limitation, $existingCount, $expected)
-    {
-        $resource = $this->getMock('Mage_User_Model_Resource_User', array(), array(), '', false);
-        $resource->expects($this->any())
-            ->method('countAll')
-            ->will($this->returnValue($existingCount));
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $config->expects($this->once())
-            ->method('getNode')
-            ->with('limitations/admin_account')
-            ->will($this->returnValue($limitation));
-        $model = new Saas_Limitation_Model_User_Limitation($resource, $config);
-        $actual = $model->isCreateRestricted();
-        $this->assertSame($expected, $actual);
-    }
+    private $_model;
 
     /**
-     * @return array
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    public function isCreateRestrictedDataProvider()
+    private $_config;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_resource;
+
+    protected function setUp()
     {
-        return array(
-            'no limit'      => array('', 1, false),
-            'zero limit'    => array(0, 1, false),
-            'limit > count' => array(2, 1, false),
-            'limit = count' => array(1, 1, true),
-            'limit < count' => array(1, 2, true),
-        );
+        $this->_resource = $this->getMock('Mage_User_Model_Resource_User', array(), array(), '', false);
+        $this->_config = $this->getMock('Saas_Limitation_Model_Limitation_Config', array(), array(), '', false);
+        $this->_model = new Saas_Limitation_Model_User_Limitation($this->_config, $this->_resource);
+    }
+
+    public function testGetThreshold()
+    {
+        $this->_config->expects($this->once())
+            ->method('getThreshold')
+            ->with('admin_account')
+            ->will($this->returnValue(5))
+        ;
+        $this->assertEquals(5, $this->_model->getThreshold());
+    }
+
+    public function testGetTotalCount()
+    {
+        $this->_resource->expects($this->any())->method('countAll')->will($this->returnValue(81));
+        $this->assertEquals(81, $this->_model->getTotalCount());
     }
 }

@@ -8,40 +8,40 @@
 class Saas_Limitation_Model_Catalog_Category_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param int $createNum
-     * @param int $totalCount
-     * @param string|int $configuredCount
-     * @param bool $expected
-     * @dataProvider isCreateRestrictedDataProvider
+     * @var Saas_Limitation_Model_Catalog_Category_Limitation
      */
-    public function testIsCreateRestricted($createNum, $totalCount, $configuredCount, $expected)
-    {
-        $resource = $this->getMock('Mage_Catalog_Model_Resource_Category', array(), array(), '', false);
-        $resource->expects($this->any())->method('countVisible')->will($this->returnValue($totalCount));
-
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $config->expects($this->once())->method('getNode')
-            ->with(Saas_Limitation_Model_Catalog_Category_Limitation::XML_PATH_NUM_CATEGORIES)
-            ->will($this->returnValue($configuredCount));
-
-        $model = new Saas_Limitation_Model_Catalog_Category_Limitation($resource, $config);
-        $this->assertEquals($expected, $model->isCreateRestricted($createNum));
-    }
+    private $_model;
 
     /**
-     * @return array
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    public function isCreateRestrictedDataProvider()
+    private $_config;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_resource;
+
+    protected function setUp()
     {
-        return array(
-            'add 1 category with no limit'             => array(1, 0, '', false),
-            'add 1 category with negative limit'       => array(1, 2, -1, false),
-            'add 1 category with zero limit'           => array(1, 2, 0, false),
-            'add 1 category with count > limit '       => array(1, 2, 1, true),
-            'add 1 category with count = limit'        => array(1, 2, 2, true),
-            'add 1 category with count < limit'        => array(1, 2, 3, false),
-            'add 2 categories with count < limit'      => array(2, 2, 3, true),
-            'add 2 categories with count much < limit' => array(2, 1, 3, false),
-        );
+        $this->_resource = $this->getMock('Mage_Catalog_Model_Resource_Category', array(), array(), '', false);
+        $this->_config = $this->getMock('Saas_Limitation_Model_Limitation_Config', array(), array(), '', false);
+        $this->_model = new Saas_Limitation_Model_Catalog_Category_Limitation($this->_config, $this->_resource);
+    }
+
+    public function testGetThreshold()
+    {
+        $this->_config->expects($this->once())
+            ->method('getThreshold')
+            ->with('catalog_category')
+            ->will($this->returnValue(5))
+        ;
+        $this->assertEquals(5, $this->_model->getThreshold());
+    }
+
+    public function testGetTotalCount()
+    {
+        $this->_resource->expects($this->any())->method('countVisible')->will($this->returnValue(81));
+        $this->assertEquals(81, $this->_model->getTotalCount());
     }
 }

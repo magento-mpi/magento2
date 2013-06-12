@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Store_Limitation
+class Saas_Limitation_Model_Store_Limitation implements Saas_Limitation_Model_Limitation_LimitationInterface
 {
     /**
-     * XML-node that stores limitation of number of stores in the system
+     * @var Saas_Limitation_Model_Limitation_Config
      */
-    const XML_PATH_NUM_STORES = 'limitations/store';
+    private $_config;
 
     /**
      * @var Mage_Core_Model_Resource_Store
@@ -20,45 +20,30 @@ class Saas_Limitation_Model_Store_Limitation
     private $_resource;
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    private $_config;
-
-    /**
-     * Determine restriction
-     *
+     * @param Saas_Limitation_Model_Limitation_Config $config
      * @param Mage_Core_Model_Resource_Store $resource
-     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Resource_Store $resource, Mage_Core_Model_Config $config)
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Saas_Limitation_Model_Limitation_Config $config,
+        Mage_Core_Model_Resource_Store $resource
+    ) {
         $this->_config = $config;
+        $this->_resource = $resource;
     }
 
     /**
-     * Whether adding new entity is restricted
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isCreateRestricted()
+    public function getThreshold()
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_STORES);
-        if ($limit > 0) {
-            return $this->_resource->countAll() >= $limit;
-        }
-        return false;
+        return $this->_config->getThreshold('store');
     }
 
     /**
-     * User notification message about the restriction
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getCreateRestrictedMessage()
+    public function getTotalCount()
     {
-        // @codingStandardsIgnoreStart
-        return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
-        // @codingStandardsIgnoreEnd
+        return $this->_resource->countAll();
     }
 }

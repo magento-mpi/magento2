@@ -51,11 +51,19 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends PHPUn
     {
         $expected = true;
         $context = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
-        $limitation = $this->getMock('Saas_Limitation_Model_Catalog_Product_Limitation', array(), array(), '', false);
-        $limitation->expects($this->once())
-            ->method('isCreateRestricted')
-            ->will($this->returnValue($expected));
-        $block = new Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile($context, $limitation);
+        $limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
+        $limitationValidator = $this->getMock(
+            'Saas_Limitation_Model_Limitation_Validator', array('isThresholdReached')
+        );
+        $limitationValidator
+            ->expects($this->once())
+            ->method('isThresholdReached')
+            ->with($limitation)
+            ->will($this->returnValue($expected))
+        ;
+        $block = new Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile(
+            $context, $limitationValidator, $limitation
+        );
         $this->assertSame($expected, $block->isAddProductRestricted());
     }
 }

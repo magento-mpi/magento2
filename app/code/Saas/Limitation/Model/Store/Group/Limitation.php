@@ -7,56 +7,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Store_Group_Limitation
+class Saas_Limitation_Model_Store_Group_Limitation implements Saas_Limitation_Model_Limitation_LimitationInterface
 {
     /**
-     * XML-node that stores limitation of number of store groups in the system
+     * @var Saas_Limitation_Model_Limitation_Config
      */
-    const XML_PATH_NUM_STORE_GROUPS = 'limitations/store_group';
+    private $_config;
 
     /**
-     * Store group resource model
-     *
      * @var Mage_Core_Model_Resource_Store_Group
      */
     private $_resource;
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    private $_config;
-
-    /**
+     * @param Saas_Limitation_Model_Limitation_Config $config
      * @param Mage_Core_Model_Resource_Store_Group $resource
-     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Resource_Store_Group $resource, Mage_Core_Model_Config $config)
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Saas_Limitation_Model_Limitation_Config $config,
+        Mage_Core_Model_Resource_Store_Group $resource
+    ) {
         $this->_config = $config;
+        $this->_resource = $resource;
     }
 
     /**
-     * Whether adding new entity is restricted
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isCreateRestricted()
+    public function getThreshold()
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_STORE_GROUPS);
-        if ($limit > 0) {
-            return $this->_resource->countAll() >= $limit;
-        }
-        return false;
+        return $this->_config->getThreshold('store_group');
     }
 
     /**
-     * User notification message about the restriction
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getCreateRestrictedMessage()
+    public function getTotalCount()
     {
-        return Mage::helper('Saas_Limitation_Helper_Data')->__('You are using the maximum number of stores allowed.');
+        return $this->_resource->countAll();
     }
 }

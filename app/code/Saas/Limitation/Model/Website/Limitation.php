@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Website_Limitation
+class Saas_Limitation_Model_Website_Limitation implements Saas_Limitation_Model_Limitation_LimitationInterface
 {
     /**
-     * XML-node that stores limitation of number of websites in the system
+     * @var Saas_Limitation_Model_Limitation_Config
      */
-    const XML_PATH_NUM_WEBSITES = 'limitations/website';
+    private $_config;
 
     /**
      * @var Mage_Core_Model_Resource_Website
@@ -20,45 +20,30 @@ class Saas_Limitation_Model_Website_Limitation
     private $_resource;
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    private $_config;
-
-    /**
-     * Inject dependencies
-     *
+     * @param Saas_Limitation_Model_Limitation_Config $config
      * @param Mage_Core_Model_Resource_Website $resource
-     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Resource_Website $resource, Mage_Core_Model_Config $config)
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Saas_Limitation_Model_Limitation_Config $config,
+        Mage_Core_Model_Resource_Website $resource
+    ) {
         $this->_config = $config;
+        $this->_resource = $resource;
     }
 
     /**
-     * Whether adding new entity is restricted
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isCreateRestricted()
+    public function getThreshold()
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_WEBSITES);
-        if ($limit > 0) {
-            return $this->_resource->countAll() >= $limit;
-        }
-        return false;
+        return $this->_config->getThreshold('website');
     }
 
     /**
-     * Get message with the restriction explanation
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getCreateRestrictedMessage()
+    public function getTotalCount()
     {
-        // @codingStandardsIgnoreStart
-        return Mage::helper('Saas_Limitation_Helper_Data')->__('Sorry, but you can\'t add any more websites with this account.');
-        // @codingStandardsIgnoreEnd
+        return $this->_resource->countAll();
     }
 }
