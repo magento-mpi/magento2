@@ -97,4 +97,51 @@ class Mage_DesignEditor_Model_Observer
             $theme->setCustomization($themeCss)->save();
         }
     }
+
+    /**
+     * Save time stamp of last change
+     *
+     * @param Varien_Event_Observer $event
+     */
+    public function saveChangeTime($event)
+    {
+        /** @var $theme Mage_Core_Model_Theme|null */
+        $theme = $event->getTheme() ?: $event->getDataObject()->getTheme();
+        /** @var $change Mage_DesignEditor_Model_Theme_Change */
+        $change = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
+        if ($theme && $theme->getId()) {
+            $change->loadByThemeId($theme->getId());
+            $change->setThemeId($theme->getId())->setChangeTime(null);
+            $change->save();
+        }
+    }
+
+    /**
+     * Copy additional information about theme change time
+     *
+     * @param Varien_Event_Observer $event
+     */
+    public function copyChangeTime($event)
+    {
+        /** @var $sourceTheme Mage_Core_Model_Theme|null */
+        $sourceTheme = $event->getData('sourceTheme');
+        /** @var $targetTheme Mage_Core_Model_Theme|null */
+        $targetTheme = $event->getData('targetTheme');
+        if ($sourceTheme && $targetTheme) {
+            /** @var $sourceChange Mage_DesignEditor_Model_Theme_Change */
+            $sourceChange = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
+            $sourceChange->loadByThemeId($sourceTheme->getId());
+            /** @var $targetChange Mage_DesignEditor_Model_Theme_Change */
+            $targetChange = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
+            $targetChange->loadByThemeId($targetTheme->getId());
+
+            if ($sourceChange->getId()) {
+                $targetChange->setThemeId($targetTheme->getId());
+                $targetChange->setChangeTime($sourceChange->getChangeTime());
+                $targetChange->save();
+            } elseif ($targetChange->getId()) {
+                $targetChange->delete();
+            }
+        }
+    }
 }
