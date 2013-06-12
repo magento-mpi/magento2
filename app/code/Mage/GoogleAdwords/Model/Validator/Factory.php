@@ -11,7 +11,7 @@
 class Mage_GoogleAdwords_Model_Validator_Factory
 {
     /**
-     * @var Saas_ImportExport_Helper_Data
+     * @var Mage_GoogleAdwords_Helper_Data
      */
     protected $_helper;
 

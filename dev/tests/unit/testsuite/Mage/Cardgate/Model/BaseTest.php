@@ -42,7 +42,7 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
     /**
      * @var Mage_Core_Model_Resource_Transaction_Factory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_resourceTransactionFactoryMock;
+    protected $_transFactoryMock;
 
     /**
      * @var Mage_Sales_Model_OrderFactory|PHPUnit_Framework_MockObject_MockObject
@@ -69,7 +69,7 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
         $this->_loggerMock = $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false);
-        $this->_resourceTransactionFactoryMock =
+        $this->_transFactoryMock =
             $this->getMock('Mage_Core_Model_Resource_Transaction_Factory', array('create'), array(), '', false);
         $this->_orderFactoryMock = $this->getMock('Mage_Sales_Model_OrderFactory', array('create'), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Cardgate_Helper_Data', array(), array(), '', false);
@@ -86,7 +86,7 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
             $this->_configMock,
             $this->_dirMock,
             $this->_loggerMock,
-            $this->_resourceTransactionFactoryMock,
+            $this->_transFactoryMock,
             $this->_orderFactoryMock,
             $this->_helperMock,
             $this->_filesystemMock
@@ -126,7 +126,7 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
             array('getIncrementId', 'save', 'sendEmail', 'getOrder', 'register', 'setRequestedCaptureCase',
                 'setEmailSent'),
             array(), '', false);
-        $resourceTransactionMock = $this->getMock('Mage_Core_Model_Resource_Transaction', array(), array(), '', false);
+        $transactionMock = $this->getMock('Mage_Core_Model_Resource_Transaction', array(), array(), '', false);
 
         $this->_orderFactoryMock->expects($this->once())->method('create')->will($this->returnValue($order));
 
@@ -151,12 +151,12 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $order->expects($this->once())->method('prepareInvoice')->will($this->returnValue($invoice));
         $invoice->expects($this->exactly(2))->method('save')->will($this->returnSelf());
 
-        $this->_resourceTransactionFactoryMock->expects($this->once())->method('create')
-            ->will($this->returnValue($resourceTransactionMock));
+        $this->_transFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($transactionMock));
         $invoice->expects($this->once())->method('getOrder')->will($this->returnValue($order));
-        $resourceTransactionMock->expects($this->exactly(2))->method('addObject')
+        $transactionMock->expects($this->exactly(2))->method('addObject')
             ->with($this->logicalOr($this->equalTo($order), $this->equalTo($invoice)))->will($this->returnSelf());
-        $resourceTransactionMock->expects($this->once())->method('save')->will($this->returnSelf());
+        $transactionMock->expects($this->once())->method('save')->will($this->returnSelf());
 
         $invoice->expects($this->once())->method('sendEmail')->will($this->returnSelf());
 
