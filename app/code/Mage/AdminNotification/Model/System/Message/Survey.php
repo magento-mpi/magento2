@@ -19,7 +19,7 @@ class Mage_AdminNotification_Model_System_Message_Survey
     protected $_authSession;
 
     /**
-     * @var Mage_Core_Model_Authorization
+     * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
 
@@ -31,13 +31,13 @@ class Mage_AdminNotification_Model_System_Message_Survey
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Backend_Model_Auth_Session $authSession
-     * @param Mage_Core_Model_Authorization $authorization
+     * @param Magento_AuthorizationInterface $authorization
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Backend_Model_Auth_Session $authSession,
-        Mage_Core_Model_Authorization $authorization,
+        Magento_AuthorizationInterface $authorization,
         Mage_Core_Model_UrlInterface $urlBuilder
     ) {
         $this->_helperFactory = $helperFactory;
@@ -74,7 +74,7 @@ class Mage_AdminNotification_Model_System_Message_Survey
     public function isDisplayed()
     {
         if ($this->_authSession->getHideSurveyQuestion()
-            || false == $this->_authorization->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)
+            || false == $this->_authorization->isAllowed(null)
             || Mage_AdminNotification_Model_Survey::isSurveyViewed()
             || false == Mage_AdminNotification_Model_Survey::isSurveyUrlValid()
         ) {

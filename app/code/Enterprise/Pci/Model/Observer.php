@@ -18,6 +18,19 @@ class Enterprise_Pci_Model_Observer
     const ADMIN_USER_LOCKED = 243;
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(Magento_AuthorizationInterface $authorization)
+    {
+        $this->_authorization = $authorization;
+    }
+
+    /**
      * Admin locking and password hashing upgrade logic implementation
      *
      * @param Varien_Event_Observer $observer
@@ -250,7 +263,7 @@ class Enterprise_Pci_Model_Observer
         $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), $actionList)) {
-                if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::myaccount')) {
+                if ($this->_authorization->isAllowed('Mage_Adminhtml::myaccount')) {
                     $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Backend_Model_Url')
                             ->getUrl('adminhtml/system_account/'));
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);

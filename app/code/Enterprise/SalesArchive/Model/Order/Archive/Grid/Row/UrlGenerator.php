@@ -21,18 +21,17 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator
     extends Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
 {
     /**
-     * @var $_authorizationModel Mage_Core_Model_Authorization
+     * @var $_authorizationModel Magento_AuthorizationInterface
      */
     protected $_authorizationModel;
 
     /**
+     * @param Magento_AuthorizationInterface $authorization
      * @param array $args
      */
-    public function __construct(array $args = array())
+    public function __construct(Magento_AuthorizationInterface $authorization, array $args = array())
     {
-        $this->_authorizationModel = isset($args['authorizationModel']) ?
-            $args['authorizationModel'] : Mage::getSingleton('Mage_Core_Model_Authorization');
-
+        $this->_authorizationModel = $authorization;
         parent::__construct($args);
     }
 

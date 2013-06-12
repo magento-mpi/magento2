@@ -22,6 +22,18 @@
         </Enterprise_Cms>
     </modules>
     <global>
+        <di>
+            <Enterprise_Cms_Model_Config>
+                <parameters>
+                    <authorization>Magento_Authorization_Proxy</authorization>
+                </parameters>
+            </Enterprise_Cms_Model_Config>
+            <Enterprise_Cms_Model_Observer>
+                <parameters>
+                    <authorization>Magento_Authorization_Proxy</authorization>
+                </parameters>
+            </Enterprise_Cms_Model_Observer>
+        </di>
         <resources>
             <enterprise_cms_setup>
                 <setup>

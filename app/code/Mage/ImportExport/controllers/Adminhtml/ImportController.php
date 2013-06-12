@@ -46,7 +46,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_ImportExport::import');
+        return $this->_authorization->isAllowed('Mage_ImportExport::import');
     }
 
     /**

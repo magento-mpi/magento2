@@ -11,6 +11,8 @@
 
 /**
  * Test class for Mage_User_Adminhtml_AuthController.
+ *
+ * @magentoAppArea adminhtml
  */
 class Mage_User_Adminhtml_AuthControllerTest extends Mage_Backend_Utility_Controller
 {

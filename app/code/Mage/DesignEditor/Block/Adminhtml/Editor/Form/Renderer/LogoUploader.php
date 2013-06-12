@@ -40,12 +40,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {

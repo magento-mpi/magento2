@@ -529,6 +529,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::categories');
+        return $this->_authorization->isAllowed('Mage_Catalog::categories');
     }
 }

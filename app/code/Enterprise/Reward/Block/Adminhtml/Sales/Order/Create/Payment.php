@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_Backend_Block_Template
 {
     /**
      * Getter
@@ -53,8 +53,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
             && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)
-            && Mage::getSingleton('Mage_Core_Model_Authorization')
-                ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
+            && $this->_authorization->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
             && (float)$this->getCurrencyAmount()
             && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
     }

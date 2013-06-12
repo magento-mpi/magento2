@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Button_AddTest extends PHPUnit_Framew
 
     public function setUp()
     {
-        $context = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
+        $context = $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false);
         $this->_limitation = $this->getMock('Mage_Catalog_Model_Product_Limitation', array(), array(), '', false);
         $this->_model = new Mage_Adminhtml_Block_Catalog_Product_Button_Add($context, $this->_limitation);
 

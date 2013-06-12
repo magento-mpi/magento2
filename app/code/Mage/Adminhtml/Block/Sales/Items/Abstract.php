@@ -470,7 +470,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
 
     public function canCapture()
     {
-        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::capture')) {
+        if ($this->_authorization->isAllowed('Mage_Sales::capture')) {
             return $this->getInvoice()->canCapture();
         }
         return false;

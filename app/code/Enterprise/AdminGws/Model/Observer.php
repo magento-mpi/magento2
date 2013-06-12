@@ -34,7 +34,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      * If only websites selected, all their store groups and stores will be set as well
      *
      * @param  Varien_Event_Observer $observer
-     * @return Enterprise_Permissions_Model_Observer
+     * @return Enterprise_AdminGws_Model_Observer
      */
     public function addDataAfterRoleLoad($observer)
     {
@@ -115,7 +115,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      * Transform array of website ids and array of store group ids into comma-separated strings
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_Permissions_Model_Observer
+     * @return Enterprise_AdminGws_Model_Observer
      */
     public function setDataBeforeRoleSave($observer)
     {
@@ -124,7 +124,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         $storeGroupIds = $object->getGwsStoreGroups();
 
         // validate specified data
-        if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
+        if ($object->getGwsIsAll() === 0 && empty($websiteIds) && empty($storeGroupIds)) {
             Mage::throwException(
                 Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Please specify at least one website or one store group.')
             );
@@ -193,7 +193,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      * Prepare role object permissions data before saving
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_Permissions_Model_Observer
+     * @return Enterprise_AdminGws_Model_Observer
      */
     public function prepareRoleSave($observer)
     {
@@ -308,11 +308,11 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
          /* @var $session Mage_Backend_Model_Auth_Session */
         $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
 
-        /* @var $session Mage_Backend_Model_Auth_Session */
-        $builder = Mage::getSingleton('Mage_Core_Model_Acl_Builder');
+        /* @var $session Magento_Acl_Builder */
+        $builder = Mage::getSingleton('Magento_Acl_Builder');
 
         foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
-            $builder->getAcl(Mage_Core_Model_App_Area::AREA_ADMINHTML)->deny($session->getUser()->getAclRole(), $rule);
+            $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);
         }
         return $this;
     }

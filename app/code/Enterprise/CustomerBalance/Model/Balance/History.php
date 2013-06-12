@@ -90,7 +90,9 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                 // break intentionally omitted
             case self::ACTION_UPDATED:
                 if (!$balance->getUpdatedActionAdditionalInfo()) {
-                    if ($user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()) {
+                    if (Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')->getStore()->isAdmin()
+                        && $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()
+                    ) {
                         if ($user->getUsername()) {
                             if (!trim($balance->getComment())){
                                 $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('By admin: %s.', $user->getUsername()));

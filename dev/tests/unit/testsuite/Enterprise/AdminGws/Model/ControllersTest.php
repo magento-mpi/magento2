@@ -47,7 +47,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
     {
         $this->_roleMock = $this->getMock('Enterprise_AdminGws_Model_Role', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_objectFactory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_objectFactory = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
         $this->_controllerMock = $this->getMock('Mage_Adminhtml_Controller_Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(
@@ -60,12 +60,11 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $this->_controllerMock->expects($this->once())
             ->method('getRequest')->will($this->returnValue($this->_ctrlRequestMock));
 
-        $data = array(
-            'role' => $this->_roleMock,
-            'request' => $this->_requestMock,
-            'objectFactory' => $this->_objectFactory,
+        $this->_model = new Enterprise_AdminGws_Model_Controllers(
+            $this->_roleMock,
+            $this->_requestMock,
+            $this->_objectFactory
         );
-        $this->_model = new Enterprise_AdminGws_Model_Controllers($data);
     }
 
     public function tearDown()
@@ -154,7 +153,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
         $this->_objectFactory->expects($this->once())
-            ->method('getModelInstance')->with($this->equalTo($modelName))->will($this->returnValue(null));
+            ->method('create')->with($this->equalTo($modelName))->will($this->returnValue(null));
 
         $this->assertTrue($this->_model->validateRuleEntityAction($this->_controllerMock));
     }
@@ -194,7 +193,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
 
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
-        $this->_objectFactory->expects($this->exactly(0))->method('getModelInstance');
+        $this->_objectFactory->expects($this->exactly(0))->method('create');
 
         $this->assertTrue($this->_model->validateRuleEntityAction($this->_controllerMock));
     }
@@ -217,7 +216,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(false));
 
         $this->_objectFactory->expects($this->exactly(1))
-            ->method('getModelInstance')->will($this->returnValue($modelMock));
+            ->method('create')->will($this->returnValue($modelMock));
 
         $this->_requestMock->expects($this->once())->method('getActionName')->will($this->returnValue('denied'));
 
@@ -243,7 +242,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
             ->will($this->returnValue(false));
 
         $this->_objectFactory->expects($this->exactly(1))
-            ->method('getModelInstance')->will($this->returnValue($modelMock));
+            ->method('create')->will($this->returnValue($modelMock));
 
         $modelMock->expects($this->once())->method('load')->with(array(1));
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
@@ -272,7 +271,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
 
         $this->_objectFactory->expects($this->exactly(1))
-            ->method('getModelInstance')->will($this->returnValue($modelMock));
+            ->method('create')->will($this->returnValue($modelMock));
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
         $this->_requestMock->expects($this->once())->method('getActionName')->will($this->returnValue('denied'));
@@ -307,7 +306,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
 
         $this->_objectFactory->expects($this->exactly(1))
-            ->method('getModelInstance')->will($this->returnValue($modelMock));
+            ->method('create')->will($this->returnValue($modelMock));
 
         $this->_roleMock->expects($this->once())
             ->method('hasExclusiveAccess')->with($this->equalTo(array(0 => 1, 2 => 2)))

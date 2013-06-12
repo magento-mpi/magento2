@@ -70,6 +70,7 @@ dev/tests/unit/testsuite/Enterprise/CustomerSegment
 dev/tests/unit/testsuite/Enterprise/GiftRegistry
 dev/tests/unit/testsuite/Enterprise/ImportExport
 dev/tests/unit/testsuite/Enterprise/PricePermissions
+dev/tests/unit/testsuite/Enterprise/Reward
 dev/tests/unit/testsuite/Enterprise/Rma
 dev/tests/unit/testsuite/Enterprise/Tag
 dev/tests/unit/testsuite/Mage/Downloadable

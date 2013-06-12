@@ -44,13 +44,28 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
     const DEFAULT_PRODUCT_PRICE_CONFIG_PATH = 'default/catalog/price/default_product_price';
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Mage_Core_Helper_Context $context
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(Mage_Core_Helper_Context $context, Magento_AuthorizationInterface $authorization)
+    {
+        parent::__construct($context);
+        $this->_authorization = $authorization;
+    }
+
+    /**
      * Check if admin has permissions to read product price
      *
      * @return boolean
      */
     public function getCanAdminReadProductPrice()
     {
-        return (boolean) Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
+        return (boolean) $this->_authorization->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
@@ -60,17 +75,17 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCanAdminEditProductPrice()
     {
-        return (boolean) Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
+        return (boolean) $this->_authorization->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
-     * Check if admin has permissions to edit product ststus
+     * Check if admin has permissions to edit product status
      *
      * @return boolean
      */
     public function getCanAdminEditProductStatus()
     {
-        return (boolean) Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
+        return (boolean) $this->_authorization->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
     }
 
     /**

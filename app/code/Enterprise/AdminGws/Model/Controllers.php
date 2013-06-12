@@ -28,22 +28,23 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     protected $_isForwarded = false;
 
     /**
-     * Application config object
-     *
-     * @var Mage_Core_Model_Config
+     * @var Magento_ObjectManager
      */
-    protected $_objectFactory;
-
+    protected $_objectManager;
 
     /**
-     * Initialize helper
-     *
+     * @param Enterprise_AdminGws_Model_Role $role
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
-        $this->_request = isset($data['request']) ?  $data['request'] : Mage::app()->getRequest();
-        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
+    public function __construct(
+        Enterprise_AdminGws_Model_Role $role,
+        Mage_Core_Controller_Request_Http $request,
+        Magento_ObjectManager $objectManager
+    ) {
+        parent::__construct($role);
+        $this->_objectManager = $objectManager;
+        $this->_request = $request;
     }
 
     /**
@@ -1103,7 +1104,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return true;
         }
 
-        $entityObject = $this->_objectFactory->getModelInstance($entityModelClassName);
+        $entityObject = $this->_objectManager->create($entityModelClassName);
         if (!$entityObject) {
             return true;
         }

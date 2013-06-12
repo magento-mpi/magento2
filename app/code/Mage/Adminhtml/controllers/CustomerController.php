@@ -302,9 +302,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         $this->_processCustomerPassword($customerData);
-        /** @var Mage_Core_Model_Authorization $acl */
-        $acl = $this->_objectManager->get('Mage_Core_Model_Authorization');
-        if ($acl->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)) {
+        if ($this->_authorization->isAllowed(null)) {
             $customerData['is_subscribed'] = $this->getRequest()->getPost('subscription') !== null;
         }
 

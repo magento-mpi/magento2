@@ -195,7 +195,8 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $canShow = $this->getCanShowTab();
         if (is_null($canShow)) {
-            $canShow = Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions');
+            $canShow = $this->_authorization
+                ->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions');
         }
         return $canShow;
     }

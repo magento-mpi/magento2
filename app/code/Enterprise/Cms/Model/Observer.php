@@ -25,11 +25,17 @@ class Enterprise_Cms_Model_Observer
     protected $_config;
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(Enterprise_Cms_Model_Config $config, Magento_AuthorizationInterface $authorization)
     {
-        $this->_config = Mage::getSingleton('Enterprise_Cms_Model_Config');
+        $this->_config = $config;
+        $this->_authorization = $authorization;
     }
 
     /**
@@ -97,7 +103,7 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if ($revisionAvailable && !Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::save_revision')) {
+        if ($revisionAvailable && !$this->_authorization->isAllowed('Enterprise_Cms::save_revision')) {
             foreach ($baseFieldset->getElements() as $element) {
                 $element->setDisabled(true);
             }

@@ -22,7 +22,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         parent::_construct();
         $this->setId('checkout_manage_container');
 
-        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::create')) {
+        if ($this->_authorization->isAllowed('Mage_Sales::create')) {
             $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Create Order'));
             $this->_updateButton('save', 'onclick', 'setLocation(\'' . $this->getCreateOrderUrl() . '\');');
         } else {
@@ -39,7 +39,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
      */
     protected function _prepareLayout()
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update')) {
+        if (!$this->_authorization->isAllowed('Enterprise_Checkout::update')) {
             return $this;
         }
 

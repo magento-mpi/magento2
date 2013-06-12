@@ -11,8 +11,9 @@
 
 /**
  * Test for Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest
+ * @magentoAppArea adminhtml
  */
-class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends Mage_Backend_Area_TestCase
+class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Get form instance

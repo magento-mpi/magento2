@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Paypal_Adminhtml_Paypal_ReportsControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
