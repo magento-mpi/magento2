@@ -14,6 +14,7 @@ class Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Con
     public function testIndexAction()
     {
         $this->dispatch('backend/admin/system_store/index');
+
         $response = $this->getResponse()->getBody();
         $this->assertSelectRegExp('#add', '/Create Website/', 1, $response);
         $this->assertSelectCount('#add_group', 1, $response);
