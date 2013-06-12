@@ -176,9 +176,9 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
 
         /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
         $vdeUrlModel = $this->_objectManager->create('Mage_DesignEditor_Model_Url_NavigationMode');
-        $backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
+        $currentUrl = $backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
 
-        return $vdeUrlModel->getUrl($backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY));
+        return $vdeUrlModel->getUrl(ltrim($currentUrl, '/'));
     }
 
     /**
