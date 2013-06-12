@@ -116,6 +116,7 @@
                         <field id="centinel">1</field>
                     </depends>
                 </field>
+                <field id="model"></field>
             </group>
         </section>
     </system>

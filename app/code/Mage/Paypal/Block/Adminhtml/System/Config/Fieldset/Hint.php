@@ -12,10 +12,6 @@
 /**
  * Renderer for PayPal banner in System Configuration
  * @author      Magento Core Team <core@magentocommerce.com>
- * @method Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint setHelpUrl(string $helpUrl)
- * @method string getHelpUrl()
- * @method Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint setHtmlId(string $htmlId)
- * @method string getHtmlId()
  */
 class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
     extends Mage_Backend_Block_Abstract
@@ -32,9 +28,8 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $elementOriginalData = $element->getOriginalData();
-        if (isset($elementOriginalData['help_url'])) {
-            $this->setHelpUrl($elementOriginalData['help_url']);
-            $this->setHtmlId($element->getId());
+        if (isset($elementOriginalData['help_link'])) {
+            $this->setHelpLink($elementOriginalData['help_link']);
         }
         $js = '
             paypalToggleSolution = function(id, url) {
