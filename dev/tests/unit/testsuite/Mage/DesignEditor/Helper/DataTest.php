@@ -55,16 +55,52 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetFrontName()
     {
-        $frontNameNode = new Mage_Core_Model_Config_Element('<test>' . self::TEST_FRONT_NAME . '</test>');
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $this->_getConfigFrontNameMock());
+        $this->assertEquals(self::TEST_FRONT_NAME, $this->_model->getFrontName());
+    }
 
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getConfigFrontNameMock()
+    {
+        $frontNameNode = new Mage_Core_Model_Config_Element('<test>' . self::TEST_FRONT_NAME . '</test>');
         $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
-        $configurationMock->expects($this->once())
+        $configurationMock->expects($this->any())
             ->method('getNode')
             ->with(Mage_DesignEditor_Helper_Data::XML_PATH_FRONT_NAME)
             ->will($this->returnValue($frontNameNode));
+        return $configurationMock;
+    }
 
-        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock);
-        $this->assertEquals(self::TEST_FRONT_NAME, $this->_model->getFrontName());
+    /**
+     * @param string $path
+     * @param bool $expected
+     * @dataProvider isVdeRequestDataProvider
+     */
+    public function testIsVdeRequest($path, $expected)
+    {
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $this->_getConfigFrontNameMock());
+
+        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array('getOriginalPathInfo'),
+            array(), '', false);
+        $requestMock->expects($this->once())
+            ->method('getOriginalPathInfo')
+            ->will($this->returnValue($path));
+        $this->assertEquals($expected, $this->_model->isVdeRequest($requestMock));
+    }
+
+    /**
+     * @return array
+     */
+    public function isVdeRequestDataProvider()
+    {
+        $vdePath = self::TEST_FRONT_NAME . '/' . Mage_DesignEditor_Model_State::MODE_NAVIGATION . '/';
+        return array(
+            array($vdePath . '1/category.html', true),
+            array('/1/category.html', false),
+            array('/1/2/3/4/5/6/7/category.html', false)
+        );
     }
 
     public function testGetDisabledCacheTypes()
@@ -79,5 +115,12 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock);
         $this->assertEquals($this->_disabledCacheTypes, $this->_model->getDisabledCacheTypes());
+    }
+
+    public function testGetAvailableModes()
+    {
+        $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock);
+        $this->assertEquals(array(Mage_DesignEditor_Model_State::MODE_NAVIGATION), $this->_model->getAvailableModes());
     }
 }

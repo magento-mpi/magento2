@@ -22,22 +22,9 @@
             imageRatioClass: '.image-ratio',
             imageWidthClass: '.image-width',
             imageHeightClass: '.image-height',
-            formUrl: '<?php echo $this->getUrl('*/system_design_editor_tools/saveImageSizing', array('id' => $this->getTheme()->getId())) ?>',
+            formUrl: '<?php echo $this->getUrl('*/system_design_editor_tools/saveImageSizing', array('theme_id' => $this->getTheme()->getId())) ?>',
             maxSizeValue: <?php echo Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator::MAX_SIZE_VALUE ?>,
             messagesContainer: '#vde-tab-imagesizing-messages-placeholder'
-        });
-        $(document).ready(function() {
-            var eventData = {
-                elements: {
-                    focus: ['#product_image_sizing_form input[id!="add_white_borders"]'],
-                    click: [
-                        '#product_image_sizing_form .action-connect',
-                        '#add_white_borders'                    //works in Chrome and FF
-                    ],
-                    mousedown: ['#product_image_sizing_form button', '#product_image_sizing_form select']
-                }
-            };
-            $('body').trigger('registerElements', eventData);
         });
     })(jQuery);
 </script>

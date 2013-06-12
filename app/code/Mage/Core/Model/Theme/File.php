@@ -39,6 +39,20 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
     const TYPE_JS = 'js';
 
     /**
+     * {@inheritdoc}
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'theme_file';
+
+    /**
+     * {@inheritdoc}
+     *
+     * @var string
+     */
+    protected $_eventObject = 'file';
+
+    /**
      * @var Varien_Io_File
      */
     protected $_ioFile;
