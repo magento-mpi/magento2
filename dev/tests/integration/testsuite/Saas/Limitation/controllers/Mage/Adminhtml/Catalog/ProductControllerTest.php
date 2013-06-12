@@ -8,18 +8,6 @@
 class Saas_Limitation_Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * Return the expected message, used by product limitation
-     *
-     * @return string
-     */
-    protected function _getCreateRestrictedMessage()
-    {
-        /** @var Saas_Limitation_Model_Catalog_Product_Limitation $limitation */
-        $limitation = Mage::getModel('Saas_Limitation_Model_Catalog_Product_Limitation');
-        return $limitation->getCreateRestrictedMessage();
-    }
-
-    /**
      * @magentoConfigFixture limitations/catalog_product 1
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
@@ -28,7 +16,7 @@ class Saas_Limitation_Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_
         $this->dispatch('backend/admin/catalog_product');
         $body = $this->getResponse()->getBody();
 
-        $this->assertContains($this->_getCreateRestrictedMessage(), $body);
+        $this->assertContains('Sorry, you are using all the products and variations your account allows.', $body);
 
         $this->assertSelectCount('#add_new_product', 1, $body,
             '"Add Product" button container should be present on Manage Products page, if the limit is reached');
@@ -47,7 +35,7 @@ class Saas_Limitation_Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_
     {
         $this->dispatch('backend/admin/catalog_product/edit/id/1');
         $body = $this->getResponse()->getBody();
-        $this->assertContains($this->_getCreateRestrictedMessage(), $body);
+        $this->assertContains('Sorry, you are using all the products and variations your account allows.', $body);
         $this->assertSelectCount('#save-split-button', 1, $body,
             '"Save" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-new-button', 0, $body,
