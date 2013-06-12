@@ -1,0 +1,989 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Saas
+* @package     Saas_Paypal
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <system>
+        <section id="payment">
+            <group id="account">
+                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location</frontend_model>
+            </group>
+
+            <group id="paypal_payments">
+                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                <group id="payflow_advanced">
+                    <group id="required_settings">
+                        <group id="express">
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                        <group id="payments_advanced">
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="settings_payments_advanced">
+                        <group id="settings_payments_advanced_advanced">
+                            <group id="settlement_report" showInDefault="1" showInWebsite="0">
+                                <field id="heading_sftp" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_login" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_password" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_sandbox" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_ip" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_path" showInDefault="1" showInWebsite="0"/>
+                                <field id="heading_schedule" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_active" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_schedule" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_time" showInDefault="1" showInWebsite="0"/>
+                            </group>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <group id="billing_agreement">
+                                <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                </field>
+                                <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                </field>
+                            </group>
+                        </group>
+                    </group>
+                    <group id="settings_express_checkout">
+                        <group id="settings_express_checkout_advanced">
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+
+                <group id="wpp">
+                    <attribute type="activity_path">
+                        <path_1>payment/paypal_direct/active</path_1>
+                        <path_2>payment/paypal_direct_boarding/active</path_2>
+                    </attribute>
+                    <group id="wpp_required_settings">
+                        <group id="wpp_and_express_checkout">
+                            <field id="authentication_method" translate="label" module="Saas_Paypal" type="select" sortOrder="7" showInDefault="1" showInWebsite="1">
+                                <label>Authentication Method</label>
+                                <config_path>payment/paypal_direct/authentication_method</config_path>
+                                <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro</frontend_model>
+                                <attribute type="shared">1</attribute>
+                            </field>
+                            <field id="business_account">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_authentication">
+                                <label>API Authentication Method</label>
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_username">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_password">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_signature">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_cert">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="sandbox_flag">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="use_proxy">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="proxy_host">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="proxy_port">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_status" type="select" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                                <label>Boarding Status</label>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
+                                <button_label>Setup or change your site permissions with Paypal</button_label>
+                                <attribute type="status_label">Account Status</attribute>
+                                <attribute type="account_label">Paypal Account</attribute>
+                                <attribute type="account_id_label">Paypal Account ID</attribute>
+                                <attribute type="payment_method">paypal_direct_boarding</attribute>
+                                <attribute type="status_config_path">payment/paypal_direct_boarding/status</attribute>
+                                <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
+                                <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
+                                <attribute type="create_link">
+                                    <![CDATA[https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMSrun]]>
+                                </attribute>
+                                <depends>
+                                    <field id="authentication_method">1</field>
+                                </depends>
+                            </field>
+                        </group>
+                        <field id="enable_wpp_boarding" extends="*/paypal_payments/wpp/wpp_required_settings/enable_wpp">
+                            <config_path>payment/paypal_direct_boarding/active</config_path>
+                            <frontend_class>paypal-enabler paypal-boarding-enabler</frontend_class>
+                        </field>
+                    </group>
+                    <group id="wpp_settings">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                        <field id="title">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="payment_action">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="cctypes">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="sort_order">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="direct_boarding_title" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
+                            <config_path>payment/paypal_direct_boarding/title</config_path>
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="direct_boarding_sort_order" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypal_direct_boarding/sort_order</config_path>
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="direct_boarding_payment_action" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="0">
+                            <label>Payment Action</label>
+                            <config_path>payment/paypal_direct_boarding/payment_action</config_path>
+                            <source_model>Mage_Paypal_Model_Config::getPaymentActions</source_model>
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="direct_boarding_cctypes" translate="label comment" type="multiselect" sortOrder="45" showInDefault="1" showInWebsite="0">
+                            <label>Allowed Credit Card Types</label>
+                            <comment><![CDATA[3D Secure validation is required for Maestro cards. Supporting of American Express cards require additional agreement. Learn more at <a href="http://www.paypal.com/amexupdate">http://www.paypal.com/amexupdate</a>.]]></comment>
+                            <config_path>payment/paypal_direct_boarding/cctypes</config_path>
+                            <source_model>Mage_Paypal_Model_Config::getWppCcTypesAsOptionArray</source_model>
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <group id="wpp_settings_advanced">
+                            <field id="direct_boarding_allowspecific" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0">
+                                <label>Payment Applicable From</label>
+                                <config_path>payment/paypal_direct_boarding/allowspecific</config_path>
+                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="0">
+                                <label>Countries Payment Applicable From</label>
+                                <config_path>payment/paypal_direct_boarding/specificcountry</config_path>
+                                <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
+                                <depends>
+                                    <field id="*/*/*/*/wpp_settings_advanced/direct_boarding_allowspecific">1</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_line_items_enabled" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
+                                <label>Transfer Cart Line Items</label>
+                                <config_path>payment/paypal_direct_boarding/line_items_enabled</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_useccv" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0">
+                                <label>Require CVV Entry</label>
+                                <config_path>payment/paypal_direct_boarding/useccv</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_centinel" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0">
+                                <label>3D Secure Card Validation</label>
+                                <config_path>payment/paypal_direct_boarding/centinel</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_centinel_is_mode_strict" translate="label comment" type="select" sortOrder="65"  showInDefault="1" showInWebsite="0">
+                                <label>Severe 3D Secure Card Validation</label>
+                                <config_path>payment/paypal_direct_boarding/centinel_is_mode_strict</config_path>
+                                <comment>Severe Validation Removes Chargeback Liability on Merchant</comment>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                    <field id="direct_boarding_centinel">1</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_centinel_api_url" translate="label comment" type="text"  sortOrder="70"  showInDefault="1" showInWebsite="0">
+                                <label>Centinel Custom Api URL</label>
+                                <config_path>payment/paypal_direct_boarding/centinel_api_url</config_path>
+                                <comment>If empty, a default value will be used. Custom URL may be provided by CardinalCommerce agreement.</comment>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                    <field id="direct_boarding_centinel">1</field>
+                                </depends>
+                            </field>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="allowspecific">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="specificcountry">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="line_items_enabled">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="useccv">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="heading_3dsecure">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_is_mode_strict">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_api_url">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="wpp_settings_express_checkout">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                        <field id="boarding_title" extends="payment/paypal_payments/express_checkout/settings_ec/boarding_title">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_sort_order" extends="payment/paypal_payments/express_checkout/settings_ec/boarding_sort_order">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_payment_action" extends="payment/paypal_payments/express_checkout/settings_ec/boarding_payment_action">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_visible_on_cart" extends="payment/paypal_payments/express_checkout/settings_ec/boarding_visible_on_cart">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_visible_on_product" extends="payment/paypal_payments/express_checkout/settings_ec/boarding_visible_on_product">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="title" extends="payment/paypal_payments/express_checkout/settings_ec/title">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="sort_order" extends="payment/paypal_payments/express_checkout/settings_ec/sort_order">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="payment_action" extends="payment/paypal_payments/express_checkout/settings_ec/payment_action">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="visible_on_cart" extends="payment/paypal_payments/express_checkout/settings_ec/visible_on_cart">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="visible_on_product" extends="payment/paypal_payments/express_checkout/settings_ec/visible_on_product">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="authorization_honor_period" extends="payment/paypal_payments/express_checkout/settings_ec/authorization_honor_period">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="order_valid_period" extends="payment/paypal_payments/express_checkout/settings_ec/order_valid_period">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="child_authorization_number" extends="payment/paypal_payments/express_checkout/settings_ec/child_authorization_number">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <group id="wpp_settings_express_checkout_advanced">
+                            <field id="allowspecific" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/allowspecific">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="specificcountry" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/specificcountry">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="verify_peer" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/verify_peer">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="line_items_enabled" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/line_items_enabled">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="transfer_shipping_options" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/transfer_shipping_options">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="button_flavor" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/button_flavor">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="solution_type" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/solution_type">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="require_billing_address" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/require_billing_address">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/allow_ba_signup">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_allowspecific" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/boarding_allowspecific">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_specificcountry" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/boarding_specificcountry">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                    <field id="boarding_allowspecific">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_line_items_enabled" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/boarding_line_items_enabled">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_transfer_shipping_options" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/boarding_transfer_shipping_options">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                    <field id="boarding_line_items_enabled">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_button_flavor" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/boarding_button_flavor">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_solution_type" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/boarding_solution_type">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+
+                <group id="wps">
+                    <group id="settings_payments_standart">
+                        <field id="payment_action" showInWebsite="0"/>
+                        <group id="settings_payments_standart_advanced">
+                            <field id="allowspecific" showInWebsite="0"/>
+                            <field id="specificcountry" showInWebsite="0"/>
+                            <field id="sandbox_flag" showInWebsite="0"/>
+                            <field id="line_items_enabled" showInWebsite="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+
+                <group id="paypal_verisign">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                    <group id="settings_paypal_payflow">
+                        <field id="payment_action" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                        <field id="heading_cc" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                        <field id="cctypes" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                        <group id="settings_paypal_payflow_advanced">
+                            <field id="allowspecific" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="specificcountry" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="useccv" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="heading_3dsecure" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="centinel" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="centinel_is_mode_strict" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="centinel_api_url" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="paypal_payflow_express_checkout" showInDefault="1" showInWebsite="0">
+                        <field id="sort_order" showInDefault="1" showInWebsite="0"/>
+                        <field id="payment_action" showInDefault="1" showInWebsite="0"/>
+                        <field id="visible_on_cart" showInDefault="1" showInWebsite="0"/>
+                        <field id="visible_on_product" showInDefault="1" showInWebsite="0"/>
+                        <group id="paypal_payflow_express_checkout_advanced">
+                            <field id="allowspecific" showInDefault="1" showInWebsite="0"/>
+                            <field id="specificcountry" showInDefault="1" showInWebsite="0"/>
+                            <field id="line_items_enabled" showInDefault="1" showInWebsite="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="paypal_payflow_required">
+                        <group id="paypal_payflow_api_settings">
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+
+                <group id="paypal_verisign_with_express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                    <group id="paypal_payflow_express_checkout">
+                        <group id="paypal_payflow_express_checkout_advanced">
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+
+                <group id="payflow_link">
+                    <group id="settings_payflow_link">
+                        <group id="settings_payflow_link_advanced">
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="payflow_link_required">
+                        <group id="payflow_link_payflow_link">
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="settings_payflow_link_express_checkout">
+                        <group id="settings_payflow_link_express_checkout_advanced">
+                            <group id="payflow_link_billing_agreement">
+                                <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                </field>
+                            </group>
+                        </group>
+                    </group>
+                </group>
+
+                <group id="payments_pro_payflow_edition">
+                    <group id="pp_pe_required_settings">
+                        <group id="pp_pe_api_settings">
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="settings_pp_pe">
+                        <field id="payment_action" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                        <field id="heading_cc" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                        <field id="cctypes" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                        <group id="settings_pp_pe_advanced">
+                            <field id="allowspecific" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="specificcountry" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="useccv" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="heading_3dsecure" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="centinel" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="centinel_is_mode_strict" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="centinel_api_url" showInDefault="1" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+                <group id="payments_pro_hosted_solution">
+                    <group id="pphs_settings">
+                        <group id="pphs_settings_advanced">
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+
+                <group id="express_checkout">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                    <attribute type="activity_path">
+                        <path_3>payment/paypal_express_boarding/active</path_3>
+                    </attribute>
+                    <group id="express_checkout_required">
+                        <group id="express_checkout_required_express_checkout" showInStore="1">
+                            <field id="authentication_method" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <label>Authentication Method</label>
+                                <frontend_class>ec-auth-method</frontend_class>
+                                <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod</frontend_model>
+                                <config_path>payment/paypal_express_boarding/authentification_method</config_path>
+                                <attribute type="create_account_link">http://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
+                                <attribute type="shared">1</attribute>
+                            </field>
+                            <field id="business_account">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_authentication">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_username">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_password">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_signature">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_cert">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="sandbox_flag">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="use_proxy">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="proxy_host">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="proxy_port">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_business_account" sortOrder="10" showInDefault="1" showInWebsite="1">
+                                <label>Email to Send PayPal Payments</label>
+                                <config_path>paypal/onboarding/boarding_account</config_path>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingAccount</frontend_model>
+                                <attribute type="tooltip">Don't have a PayPal account? Simply enter your email address and start accepting payments immediately.</attribute>
+                                <attribute type="validate">validate-email</attribute>
+                                <depends>
+                                    <field id="authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_sandbox_flag" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
+                                <label>Sandbox Mode</label>
+                                <config_path>paypal/onboarding/sandbox_flag</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox</frontend_model>
+                                <depends>
+                                    <field id="authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <label>Boarding Status</label>
+                                <button_label>Setup or change your site permissions with Paypal</button_label>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
+                                <attribute type="status_label">Account Status</attribute>
+                                <attribute type="account_label">Paypal Account</attribute>
+                                <attribute type="account_id_label">Paypal Account ID</attribute>
+                                <attribute type="payment_method">paypal_express_boarding</attribute>
+                                <attribute type="status_config_path">payment/paypal_express_boarding/status</attribute>
+                                <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
+                                <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
+                                <attribute type="create_link">
+                                    <![CDATA[https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS]]>
+                                </attribute>
+                                <depends>
+                                    <field id="authentication_method">1</field>
+                                </depends>
+                            </field>
+                        </group>
+                        <field id="enable_express_checkout">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
+                            <label>Enable this Solution</label>
+                            <config_path>payment/paypal_express_boarding/active</config_path>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <frontend_class>paypal-enabler paypal-ec-boarding-enabler</frontend_class>
+                            <attribute type="shared">1</attribute>
+                            <requires>
+                                <group id="express_checkout_required_express_checkout"/>
+                            </requires>
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                    </group>
+                    <group id="settings_ec">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                        <field id="title">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="sort_order">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="payment_action">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="visible_on_cart">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="visible_on_product">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="authorization_honor_period">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="order_valid_period">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="child_authorization_number">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_title" translate="label comment" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <comment>It is recommended to set this value to "PayPal" per store views.</comment>
+                            <config_path>payment/paypal_express_boarding/title</config_path>
+                            <attribute type="shared">1</attribute>
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_sort_order" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypal_express_boarding/sort_order</config_path>
+                            <attribute type="shared">1</attribute>
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_payment_action" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="0">
+                            <label>Payment Action</label>
+                            <config_path>payment/paypal_express_boarding/payment_action</config_path>
+                            <source_model>Mage_Paypal_Model_Config::getPaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_visible_on_cart" translate="label comment" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shortcut on Shopping Cart</label>
+                            <config_path>payment/paypal_express_boarding/visible_on_cart</config_path>
+                            <comment>Also affects mini-shopping cart.</comment>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <field id="boarding_visible_on_product" translate="label" type="select" sortOrder="46" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shortcut on Product View</label>
+                            <config_path>payment/paypal_express_boarding/visible_on_product</config_path>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                            </depends>
+                        </field>
+                        <group id="settings_ec_advanced">
+                            <field id="allowspecific">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="specificcountry">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="verify_peer">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="line_items_enabled">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="transfer_shipping_options">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="button_flavor">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="solution_type">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="require_billing_address">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="allow_ba_signup">
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_allowspecific" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0">
+                                <label>Payment Applicable From</label>
+                                <config_path>payment/paypal_express_boarding/allowspecific</config_path>
+                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="0">
+                                <label>Countries Payment Applicable From</label>
+                                <config_path>payment/paypal_express_boarding/specificcountry</config_path>
+                                <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
+                                <attribute type="shared">1</attribute>
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_line_items_enabled" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
+                                <label>Transfer Cart Line Items</label>
+                                <config_path>payment/paypal_express_boarding/line_items_enabled</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
+                                <label>Transfer Shipping Options</label>
+                                <config_path>payment/paypal_express_boarding/transfer_shipping_options</config_path>
+                                <attribute type="tooltip">If this option is enabled, customer can change shipping address and shipping method on PayPal website. In live mode works via HTTPS protocol only.</attribute>
+                                <comment>Does not work if there are more than 10 shipping options available.</comment>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
+                                <depends>
+                                    <field id="boarding_line_items_enabled">1</field>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_button_flavor" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <label>Shortcut Buttons Flavor</label>
+                                <config_path>paypal/wpp/button_flavor</config_path>
+                                <source_model>Mage_Paypal_Model_Config::getExpressCheckoutButtonFlavors</source_model>
+                                <attribute type="shared">1</attribute>
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_solution_type" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="0">
+                                <label>Enable PayPal Guest Checkout</label>
+                                <comment>Ability for buyer to purchase without PayPal account.</comment>
+                                <config_path>payment/paypal_express_boarding/solution_type</config_path>
+                                <source_model>Mage_Paypal_Model_Config::getExpressCheckoutSolutionTypes</source_model>
+                                <attribute type="shared">1</attribute>
+                                <depends>
+                                    <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>
+

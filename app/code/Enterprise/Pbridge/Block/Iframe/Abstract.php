@@ -19,6 +19,13 @@
 abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Block_Form
 {
     /**
+     * Default iframe height
+     *
+     * @var string
+     */
+    protected $_iframeHeight = '360';
+
+    /**
      * Default iframe width
      *
      * @var string
@@ -26,11 +33,11 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     protected $_iframeWidth = '100%';
 
     /**
-     * Default iframe height
+     * Default iframe height for 3D Secure authorization
      *
      * @var string
      */
-    protected $_iframeHeight = '350';
+    protected $_iframeHeight3dSecure = '425';
 
     /**
      * Default iframe block type
@@ -47,20 +54,6 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     protected $_iframeTemplate = 'Enterprise_Pbridge::iframe.phtml';
 
     /**
-     * Whether scrolling enabled for iframe element, auto or not
-     *
-     * @var string
-     */
-    protected $_iframeScrolling = 'auto';
-
-    /**
-     * Whether to allow iframe body reloading
-     *
-     * @var bool
-     */
-    protected $_allowReload = true;
-
-    /**
      * Return redirect url for Payment Bridge application
      *
      * @return string
@@ -68,6 +61,35 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     public function getRedirectUrl()
     {
         return $this->getUrl('enterprise_pbridge/pbridge/result', array('_current' => true, '_secure' => true));
+    }
+
+    /**
+     * Getter
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+    }
+
+    /**
+     * Getter for $_iframeHeight
+     * @return string
+     */
+    public function getIframeHeight()
+    {
+        return $this->_iframeHeight;
+    }
+
+    /**
+     * Getter for $_iframeWidth
+     *
+     * @return string
+     */
+    public function getIframeWidth()
+    {
+        return $this->_iframeWidth;
     }
 
     /**
@@ -123,9 +145,8 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     {
         $iframeBlock = $this->getLayout()->createBlock($this->_iframeBlockType)
             ->setTemplate($this->_iframeTemplate)
-            ->setScrolling($this->_iframeScrolling)
-            ->setIframeWidth($this->_iframeWidth)
-            ->setIframeHeight($this->_iframeHeight)
+            ->setIframeHeight($this->getIframeHeight())
+            ->setIframeWidth($this->getIframeWidth())
             ->setSourceUrl($this->getSourceUrl());
         return $iframeBlock;
     }
@@ -153,7 +174,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     }
 
     /**
-     * Returns merged css url for pbridge
+     * Returns merged css url of saas for pbridge
      *
      * @return string
      */
@@ -219,8 +240,8 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         // lookup each file basing on current theme configuration
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $designPackage->getFilename($name)
-                    : $designPackage->getViewFileUrl($name);
+                $items[$params][] = $mergeCallback ? $designPackage->getFilename($name, array('_type' => 'skin'))
+                    : $designPackage->getSkinUrl($name, array());
             }
         }
 
@@ -256,8 +277,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         $customer = $this->_getCurrentCustomer();
         $store = $this->_getCurrentStore();
         if ($customer && $customer->getEmail()) {
-            return Mage::helper('Enterprise_Pbridge_Helper_Data')
-                ->getCustomerIdentifierByEmail($customer->getId(), $store->getId());
+            return Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($customer->getEmail());
         }
         return null;
     }
@@ -272,8 +292,11 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     public function getCustomerEmail()
     {
         $customer = $this->_getCurrentCustomer();
+        $quote = $this->getQuote();
         if ($customer && $customer->getEmail()) {
             return $customer->getEmail();
+        } elseif ($quote && $quote->getCustomerEmail()) {
+            return $quote->getCustomerEmail();
         }
         return null;
     }
