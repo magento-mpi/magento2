@@ -26,7 +26,9 @@
             <action method="setHeaderTitle" translate="title" module="Mage_Contacts"><title>Contact Us</title></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Core_Block_Template" name="contactForm" template="Mage_Contacts::form.phtml"/>
+            <block type="Mage_Core_Block_Template" name="contactForm" template="Mage_Contacts::form.phtml">
+                <container name="form.additional.info"  label="Form Additional Info"/>
+            </block>
         </reference>
     </contacts_index_index>
 </layout>

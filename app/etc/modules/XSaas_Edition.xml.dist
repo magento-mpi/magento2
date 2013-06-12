@@ -30,6 +30,7 @@
         <Mage_Connect><active>false</active></Mage_Connect>
         <Mage_Downloadable><active>false</active></Mage_Downloadable>
         <Mage_Oauth><active>false</active></Mage_Oauth>
+        <Mage_Ogone><active>false</active></Mage_Ogone>
         <Mage_Webapi><active>false</active></Mage_Webapi>
         <Saas_Backend><active>true</active></Saas_Backend>
         <Saas_Backup><active>true</active></Saas_Backup>
@@ -54,7 +55,6 @@
         <Saas_Sitemap><active>true</active></Saas_Sitemap>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
         <Saas_Webistrano><active>true</active></Saas_Webistrano>
-        <Saas_Cdn><active>true</active></Saas_Cdn>
         <Saas_ImportExport><active>true</active></Saas_ImportExport>
     </modules>
 </config>

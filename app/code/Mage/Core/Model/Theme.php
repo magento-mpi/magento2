@@ -48,14 +48,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Theme types group
      */
     const TYPE_PHYSICAL = 0;
-    const TYPE_VIRTUAL = 1;
-    const TYPE_STAGING = 2;
+    const TYPE_VIRTUAL  = 1;
+    const TYPE_STAGING  = 2;
     /**#@-*/
-
-    /**
-     * Name of theme customizations directory
-     */
-    const THEME_DIRECTORY_NAME = 'theme_customization';
 
     /**
      * Cache tag for empty theme
@@ -306,28 +301,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $customPath = $this->getData('customization_path');
         if ($this->getId() && empty($customPath)) {
-            $customPath = $this->getBaseCustomizationsPath();
-            $customPath .= $this->getId();
+            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA)
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . 'theme_customization'
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
-    }
-
-    /**
-     * Get base themes customization path
-     *
-     * @return mixed|string
-     */
-    public function getBaseCustomizationsPath()
-    {
-        $baseCustomPath = $this->getData('base_customization_path');
-        if (empty($baseCustomPath)) {
-            $baseCustomPath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA)
-                . Magento_Filesystem::DIRECTORY_SEPARATOR . self::THEME_DIRECTORY_NAME
-                . Magento_Filesystem::DIRECTORY_SEPARATOR;
-            $this->setData('base_customization_path', $baseCustomPath);
-        }
-        return $baseCustomPath;
     }
 
     /**
@@ -455,7 +434,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeDelete()
     {
-        if (!$this->isDeletable()) {
+        /** @var $service Mage_Core_Model_Theme_Service */
+        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        if (!$this->isDeletable() || $service->isThemeAssignedToStore($this)) {
             throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->getThemeImage()->removePreviewImage();

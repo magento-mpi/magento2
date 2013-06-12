@@ -158,27 +158,12 @@
 
     $( document ).ready(function( ) {
         var body = $('body');
-        body.on('delete', function(event, data) {
-            deleteConfirm($.mage.__('Are you sure you want to delete this theme?'), data.url);
-        });
         body.on('loaded', function() {
             body.trigger('contentUpdated');
         });
-
-        body.on('duplicate-theme', function(event, data) {
-            $.ajax({
-                url: data.url,
-                type: 'GET',
-                dataType: 'json',
-                showLoader: true,
-                success: $.proxy(function(response) {
-                    if (response.success) {
-                        document.location.reload();
-                    }
-                }, this),
-                error: $.proxy(function() {
-                    alert($.mage.__('Sorry, there was an unknown error.'));
-                }, this)
+        $('.action-duplicate').on('click', function() {
+            $('body').loadingPopup({
+                timeout: false
             });
         });
     });

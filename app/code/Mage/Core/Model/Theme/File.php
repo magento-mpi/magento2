@@ -39,9 +39,23 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
     const TYPE_JS = 'js';
 
     /**
-     * @var Magento_Filesystem
+     * {@inheritdoc}
+     *
+     * @var string
      */
-    protected $_filesystem;
+    protected $_eventPrefix = 'theme_file';
+
+    /**
+     * {@inheritdoc}
+     *
+     * @var string
+     */
+    protected $_eventObject = 'file';
+
+    /**
+     * @var Varien_Io_File
+     */
+    protected $_ioFile;
 
     /**
      * @var Magento_ObjectManager
@@ -50,7 +64,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
 
     /**
      * @param Mage_Core_Model_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param Varien_Io_File $ioFile
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
@@ -58,7 +72,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
      */
     public function __construct(
         Mage_Core_Model_Context $context,
-        Magento_Filesystem $filesystem,
+        Varien_Io_File $ioFile,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
@@ -66,8 +80,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
 
-        $this->_filesystem = $filesystem;
-        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_ioFile = $ioFile;
         $this->_objectManager = $objectManager;
     }
 
@@ -137,8 +150,8 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
     protected function _saveFile()
     {
         $filePath = $this->getFullPath();
-        $this->_filesystem->ensureDirectoryExists(dirname($filePath));
-        $result = $this->_filesystem->write($filePath, $this->getContent());
+        $this->_ioFile->checkAndCreateFolder(dirname($filePath));
+        $result = $this->_ioFile->write($filePath, $this->getContent());
         return $result;
     }
 
@@ -149,7 +162,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
      */
     protected function _deleteFile()
     {
-        $result = $this->_filesystem->delete($this->getFullPath());
+        $result = $this->_ioFile->rm($this->getFullPath());
         return $result;
     }
 

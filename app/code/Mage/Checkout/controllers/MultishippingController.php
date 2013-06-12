@@ -430,9 +430,6 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             $this->loadLayout();
             $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $this->_initLayoutMessages('Mage_Customer_Model_Session');
-            foreach ($this->getLayout()->getAllBlocks() AS $name => $block) {
-                $test[$name] = get_class($block);
-            }
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());

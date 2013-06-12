@@ -88,7 +88,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getJsUploadUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/uploadjs', array('id' => $this->getTheme()->getId()));
+        return $this->getUrl('*/system_design_editor_tools/uploadjs', array('theme_id' => $this->getTheme()->getId()));
     }
 
     /**
@@ -98,7 +98,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getJsReorderUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/reorderjs', array('id' => $this->getTheme()->getId()));
+        return $this->getUrl('*/system_design_editor_tools/reorderjs', array('theme_id' => $this->getTheme()->getId()));
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     public function getJsDeleteUrl()
     {
         return $this->getUrl('*/system_design_editor_tools/deleteCustomFiles', array(
-            'id' => $this->getTheme()->getId()
+            'theme_id' => $this->getTheme()->getId()
         ));
     }
 

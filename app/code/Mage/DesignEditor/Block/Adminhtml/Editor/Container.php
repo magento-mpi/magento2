@@ -66,14 +66,4 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Bl
     {
         return $this->_frameUrl;
     }
-
-    /**
-     * Get virtual theme url
-     *
-     * @return string
-     */
-    public function getVirtualThemeCreationUrl()
-    {
-        return $this->getUrl('*/*/createVirtualTheme', array('theme_id' => $this->getTheme()->getId()));
-    }
 }

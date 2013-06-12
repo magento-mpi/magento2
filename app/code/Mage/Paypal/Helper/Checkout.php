@@ -12,21 +12,42 @@
 class Mage_Paypal_Helper_Checkout extends Mage_Core_Helper_Abstract
 {
     /**
+     * @var Mage_Checkout_Model_SessionFactory
+     */
+    protected $_session;
+
+    /**
+     * @var Mage_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @param Mage_Checkout_Model_Session $session
+     * @param Mage_Sales_Model_QuoteFactory $quoteFactory
+     */
+    public function __construct(
+        Mage_Checkout_Model_Session $session,
+        Mage_Sales_Model_QuoteFactory $quoteFactory
+    ) {
+        $this->_session = $session;
+        $this->_quoteFactory = $quoteFactory;
+    }
+
+    /**
      * Restore last active quote based on checkout session
      *
      * @return bool True if quote restored successfully, false otherwise
      */
     public function restoreQuote()
     {
-        $order = $this->_getCheckoutSession()->getLastRealOrder();
+        $order = $this->_session->getLastRealOrder();
         if ($order->getId()) {
-            $quote = $this->_getQuote($order->getQuoteId());
+            $quote = $this->_quoteFactory->create()->load($order->getQuoteId());
             if ($quote->getId()) {
                 $quote->setIsActive(1)
                     ->setReservedOrderId(null)
                     ->save();
-                $this->_getCheckoutSession()
-                    ->replaceQuote($quote)
+                $this->_session->replaceQuote($quote)
                     ->unsLastRealOrderId();
                 return true;
             }
@@ -42,32 +63,11 @@ class Mage_Paypal_Helper_Checkout extends Mage_Core_Helper_Abstract
      */
     public function cancelCurrentOrder($comment)
     {
-        $order = $this->_getCheckoutSession()->getLastRealOrder();
+        $order = $this->_session->getLastRealOrder();
         if ($order->getId() && $order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
             $order->registerCancellation($comment)->save();
             return true;
         }
         return false;
-    }
-
-    /**
-     * Return checkout session instance
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    protected function _getCheckoutSession()
-    {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
-    }
-
-    /**
-     * Return sales quote instance for specified ID
-     *
-     * @param int $quoteId Quote identifier
-     * @return Mage_Sales_Model_Quote
-     */
-    protected function _getQuote($quoteId)
-    {
-        return Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId);
     }
 }
