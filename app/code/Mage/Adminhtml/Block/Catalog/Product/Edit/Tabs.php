@@ -56,7 +56,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 $attributes = $product->getAttributes($group->getId(), true);
 
                 foreach ($attributes as $key => $attribute) {
-                    if (!$attribute->getIsVisible()) {
+                    $applyTo = $attribute->getApplyTo();
+                    if (!$attribute->getIsVisible()
+                        || (!empty($applyTo) && !in_array($product->getTypeId(), $applyTo))
+                    ) {
                         unset($attributes[$key]);
                     }
                 }
