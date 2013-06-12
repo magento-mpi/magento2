@@ -18,8 +18,8 @@
     <global>
         <di>
             <preferences>
-                <Mage_TestModule1_Service_TestInterfaceV1>Mage_TestModule1_Service_TestV1</Mage_TestModule1_Service_TestInterfaceV1>
-                <Mage_TestModule1_Service_TestInterfaceV2>Mage_TestModule1_Service_TestV2</Mage_TestModule1_Service_TestInterfaceV2>
+                <Mage_TestModule1_Service_AllSoapAndRestInterfaceV1>Mage_TestModule1_Service_AllSoapAndRestV1</Mage_TestModule1_Service_AllSoapAndRestInterfaceV1>
+                <Mage_TestModule1_Service_AllSoapAndRestInterfaceV2>Mage_TestModule1_Service_AllSoapAndRestV2</Mage_TestModule1_Service_AllSoapAndRestInterfaceV2>
             </preferences>
         </di>
     </global>

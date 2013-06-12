@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Mage_TestModule1_Service_TestV1 implements Mage_TestModule1_Service_TestInterfaceV1
+class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Service_AllSoapAndRestInterfaceV1
 {
     const ERROR_INTERNAL_LOAD = '01';
     const ERROR_INTERNAL_SAVE = '02';
@@ -21,7 +21,8 @@ class Mage_TestModule1_Service_TestV1 implements Mage_TestModule1_Service_TestIn
     {
         if ($request['id'] == null) {
             //TODO: Change to Mage_Service_Exception
-            throw new Mage_TestModule1_Exception("Invalid Id", Mage_TestModule1_Service_TestV1::ERROR_INTERNAL_LOAD);
+            throw new Mage_TestModule1_Exception("Invalid Id",
+                Mage_TestModule1_Service_AllSoapAndRestV1::ERROR_INTERNAL_LOAD);
         }
         $result = array(
             'id' => $request['id'],
@@ -74,7 +75,8 @@ class Mage_TestModule1_Service_TestV1 implements Mage_TestModule1_Service_TestIn
     {
         if ($request['id'] == null) {
             //TODO: Change to Mage_Service_Exception
-            throw new Mage_TestModule1_Exception("Invalid Id", Mage_TestModule1_Service_TestV1::ERROR_INTERNAL_SAVE);
+            throw new Mage_TestModule1_Exception("Invalid Id",
+                Mage_TestModule1_Service_AllSoapAndRestV1::ERROR_INTERNAL_SAVE);
         }
 
         $result = array(

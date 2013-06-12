@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:mage="http://www.magento.com">
-    <xs:include schemaLocation="TestV1.xsd" />
+    <xs:include schemaLocation="AllSoapAndRestV1.xsd" />
 
     <xs:element name="deleteRequest">
         <xs:complexType>

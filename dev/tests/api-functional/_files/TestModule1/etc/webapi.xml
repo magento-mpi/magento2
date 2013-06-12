@@ -13,7 +13,7 @@
         https://wiki.corp.x.com/display/MDS/Versioning+Strategy+%28Draft%29#VersioningStrategy%28Draft%29-VersioninginSOAP
         IMPORTANT NOTE : baseUrl=/<VER>/url won't work since routing is not updated to handle this versioned URL pattern
         -->
-    <service class="Mage_TestModule1_Service_TestInterfaceV1" baseUrl="/V1/testmodule1">
+    <service class="Mage_TestModule1_Service_AllSoapAndRestInterfaceV1" baseUrl="/V1/testmodule1">
         <rest-route httpMethod="GET" method="item">/:id</rest-route>
         <rest-route httpMethod="GET" method="items"></rest-route>
         <rest-route httpMethod="POST" method="create"></rest-route>
@@ -21,18 +21,12 @@
     </service>
 
     <!-- Do we need to establish relation between extending Services? Do we need to -->
-    <service class="Mage_TestModule1_Service_TestInterfaceV2" baseUrl="/V2/testmodule1">
+    <service class="Mage_TestModule1_Service_AllSoapAndRestInterfaceV2" baseUrl="/V2/testmodule1">
         <rest-route httpMethod="GET" method="item">/:id</rest-route>
         <rest-route httpMethod="GET" method="items"></rest-route>
         <rest-route httpMethod="POST" method="create"></rest-route>
         <rest-route httpMethod="PUT" method="update">/:id</rest-route>
         <rest-route httpMethod="DELETE" method="delete">/:id</rest-route>
     </service>
-
-
-    <!--
-        TODO :
-        Write WSDL configurations for SOAP once finalized.
-    -->
 
 </config>
