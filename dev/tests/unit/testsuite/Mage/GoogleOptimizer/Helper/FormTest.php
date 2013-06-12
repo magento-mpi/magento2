@@ -43,8 +43,8 @@ class Mage_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
                     return vsprintf($translated, $args);
                 }
             ));
-        $this->_formMock = $this->getMock('Varien_Data_Form',
-            array('setFieldNameSuffix', 'addFieldset'), array(), '', false);
+        $this->_formMock = $this->getMock('Varien_Data_Form', array('setFieldNameSuffix', 'addFieldset'), array(), '',
+            false);
         $this->_fieldsetMock = $this->getMock('Varien_Data_Form_Element_Fieldset', array(), array(), '', false);
         $this->_experimentCodeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code',
             array('getExperimentScript', 'getCodeId'), array(), '', false);
@@ -61,7 +61,7 @@ class Mage_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($experimentCode));
         $this->_experimentCodeMock->expects($this->once())->method('getCodeId')
             ->will($this->returnValue($experimentCodeId));
-        $this->_addFields($experimentCode, $experimentCodeId);
+        $this->_prepareFormMock($experimentCode, $experimentCodeId);
 
         $this->_helper->addGoogleoptimizerFields($this->_formMock, $this->_experimentCodeMock);
     }
@@ -70,7 +70,7 @@ class Mage_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
     {
         $experimentCode = array();
         $experimentCodeId = '';
-        $this->_addFields($experimentCode, $experimentCodeId);
+        $this->_prepareFormMock($experimentCode, $experimentCodeId);
 
         $this->_helper->addGoogleoptimizerFields($this->_formMock, null);
     }
@@ -79,7 +79,7 @@ class Mage_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
      * @param string|array $experimentCode
      * @param string $experimentCodeId
      */
-    protected function _addFields($experimentCode, $experimentCodeId)
+    protected function _prepareFormMock($experimentCode, $experimentCodeId)
     {
         $this->_formMock->expects($this->once())->method('addFieldset')
             ->with('googleoptimizer_fields', array('legend' => 'Google Analytics Content Experiments Code'))
