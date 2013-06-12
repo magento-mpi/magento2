@@ -10,8 +10,6 @@
 ?>
 <?php
 $_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
-$_customerBalanceBlock = $this->getLayout()->getBlock('customerbalance');
-$_rewardBlock = $this->getLayout()->getBlock('reward.points');
 $_registerParam = $this->getRequest()->getParam('register');
 ?>
 <div class="opc wrapper">
@@ -37,6 +35,7 @@ $_registerParam = $this->getRequest()->getParam('register');
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/opcheckout.js') ?>",
                 "<?php echo $this->getViewFileUrl('Mage_Checkout::js/accordion.js') ?>",
                 function() {
                     $('#checkoutSteps')
@@ -45,8 +44,6 @@ $_registerParam = $this->getRequest()->getParam('register');
                         })
                         .opcheckout({
                             quoteBaseGrandTotal: <?php echo (float)$_paymentBlock->getQuoteBaseGrandTotal() ?>,
-                            customerBalanceSubstracted: <?php if ($_customerBalanceBlock->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
-                            rewardPointsSubstracted: <?php if ($_rewardBlock->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
                             progressUrl: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
                             reviewUrl: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
                             failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>',

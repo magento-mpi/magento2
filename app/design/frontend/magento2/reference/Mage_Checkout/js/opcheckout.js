@@ -137,7 +137,7 @@
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
-                            var msg = response.message;
+                            var msg = response.message || response.error_messages;
                             if (msg) {
                                 if ($.type(msg) === 'array') {
                                     msg = msg.join("\n");
@@ -346,8 +346,6 @@
                 continueSelector: '#payment-buttons-container .button',
                 form: '#co-payment-form',
                 methodsContainer: '#checkout-payment-method-load',
-                rewardPointsCheckBoxSelector: '#use-reward-points',
-                customerBalanceCheckBoxSelector: '#use-customer-balance',
                 freeInput: {
                     tmpl: '<input id="hidden-free" type="hidden" name="payment[method]" value="free">',
                     selector: '#hidden-free'
@@ -383,12 +381,6 @@
                 .on('contentUpdated', this.options.payment.form, $.proxy(function() {
                     $(this.options.payment.form).find('dd [name^="payment["]').prop('disabled', true);
                     var checkoutPrice = this.element.find(this.options.payment.form).find('[data-checkout-price]').data('checkout-price');
-                    $(this.options.payment.customerBalanceCheckBoxSelector)
-                        .prop({'checked':this.options.customerBalanceSubstracted,
-                            'disabled':false}).change().parent().show();
-                    $(this.options.payment.rewardPointsCheckBoxSelector)
-                        .prop({'checked':this.options.rewardPointsSubstracted,
-                            'disabled':false}).change().parent().show();
                     if ($.isNumeric(checkoutPrice)) {
                         this.checkoutPrice = checkoutPrice;
                     }
@@ -466,21 +458,34 @@
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
             review: {
-                continueSelector: '#review-buttons-container .button'
+                continueSelector: '#review-buttons-container .button',
+                container: '#opc-review',
+                submitContainer: '#checkout-review-submit'
             }
         },
 
         _create: function() {
             this._super();
             this.element
-                .on('click', this.options.review.continueSelector, $.proxy(function() {
-                    if ($(this.options.payment.form).validation &&
-                        $(this.options.payment.form).validation('isValid')) {
-                        this._ajaxContinue(
-                            this.options.review.saveUrl,
-                            $(this.options.payment.form).serialize());
+                .on('click', this.options.review.continueSelector, $.proxy(this._saveOrder, this))
+                .on('saveOrder', this.options.review.container, $.proxy(this._saveOrder, this))
+                .on('contentUpdated', this.options.review.container, $.proxy(function() {
+                    var paypalIframe = this.element.find(this.options.review.container)
+                        .find('[data-container="paypal-iframe"]');
+                    if (paypalIframe.length) {
+                        paypalIframe.show();
+                        $(this.options.review.submitContainer).hide();
                     }
                 }, this));
+        },
+
+        _saveOrder: function() {
+            if ($(this.options.payment.form).validation &&
+                $(this.options.payment.form).validation('isValid')) {
+                this._ajaxContinue(
+                    this.options.review.saveUrl,
+                    $(this.options.payment.form).serialize());
+            }
         }
     });
 })(jQuery, window);

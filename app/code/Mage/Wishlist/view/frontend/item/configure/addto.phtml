@@ -11,7 +11,7 @@
 
 <?php $_wishlistItem = $this->getWishlistItem(); ?>
 <?php $_wishlistSubmitUrl = $this->helper('Mage_Wishlist_Helper_Data')->getUpdateUrl($_wishlistItem); ?>
-<ul class="add-to-links">
+<ul class="add-to-links" data-role="add-to-links">
 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
     <li><a href="<?php echo $_wishlistSubmitUrl ?>" class="link-compare"><?php echo $this->__('Update Wishlist') ?></a></li>
 <?php endif; ?>

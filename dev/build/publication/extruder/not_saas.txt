@@ -1,7 +1,6 @@
-# Files or directories that are not part of Go Edition.
+# Files or directories that are not part of Saas Edition.
 #
 CHANGELOG.markdown
-app/code/Phoenix
 app/code/Enterprise/AdminGws
 app/code/Enterprise/BannerCustomerSegment
 app/code/Enterprise/CatalogEvent
@@ -16,12 +15,12 @@ app/code/Enterprise/Persistent
 app/code/Enterprise/PricePermissions
 app/code/Enterprise/PromotionPermissions
 app/code/Enterprise/Reminder
+app/code/Enterprise/Reward
 app/code/Enterprise/Rma
 app/code/Enterprise/Tag
 app/code/Enterprise/TargetRule
 app/code/Enterprise/Wishlist
 app/code/Mage/Authorizenet
-app/code/Mage/GoogleOptimizer
 app/code/Mage/Ogone
 app/code/Mage/PageCache
 app/design/frontend/default/iphone/Mage_Downloadable
@@ -43,19 +42,21 @@ dev/tests/integration/testsuite/Enterprise/CatalogPermissions
 dev/tests/integration/testsuite/Enterprise/CustomerSegment
 dev/tests/integration/testsuite/Enterprise/Checkout
 dev/tests/integration/testsuite/Enterprise/GiftRegistry
+dev/tests/integration/testsuite/Enterprise/GiftWrapping
 dev/tests/integration/testsuite/Enterprise/ImportExport
 dev/tests/integration/testsuite/Enterprise/PricePermissions
 dev/tests/integration/testsuite/Enterprise/PromotionPermissions
 dev/tests/integration/testsuite/Enterprise/Reminder
+dev/tests/integration/testsuite/Enterprise/Reward
 dev/tests/integration/testsuite/Enterprise/Rma
 dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
+dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
 dev/tests/integration/testsuite/Mage/Authorizenet
 dev/tests/integration/testsuite/Mage/Connect
 dev/tests/integration/testsuite/Mage/Downloadable
 dev/tests/integration/testsuite/Mage/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
-dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
@@ -74,7 +75,25 @@ dev/tests/unit/testsuite/Enterprise/Tag
 dev/tests/unit/testsuite/Mage/Downloadable
 dev/tests/unit/testsuite/Mage/Webapi
 pub/lib/mage/directpost.js
-# Following core functionality is overlapped in Go Edition
+########################################################################################################################
+# following functionality introduced in Mage/Enterprise modules is overlapped in Saas modules
+dev/tests/integration/testsuite/Enterprise/Enterprise/CodeIntegrityTest.php
+dev/tests/integration/testsuite/Enterprise/PageCache/Model/Processor/RestrictionTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/controllers/CacheControllerTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterQueueControllerTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterTemplateControllerTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/System/DesignControllerTest.php
+# multi-address checkout is disabled
+dev/tests/integration/testsuite/Mage/Checkout/controllers/MultishippingControllerTest.php
+# Saas Edition contains another implementation of Paypal payment methods
+dev/tests/integration/testsuite/Mage/Paypal/Model/IpnTest.php
+########################################################################################################################
+# following tests must be refactored to be applicable in Saas Edition
+# MAGETWO-10542, test requires Mage_Downloadable module,
+dev/tests/integration/testsuite/Mage/Adminhtml/Model/Sales/Order/CreateTest.php
+# MAGETWO-10546, Saas_Saas_Exception: Modification is not permitted in Mage_Backend_Model_ConfigTest::testSaveWithSingleStoreModeEnabled
+dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
+# MAGETWO-10544, test requires Mage_Downloadable module
+dev/tests/integration/testsuite/Mage/Catalog/Model/Product/TypeTest.php
+# MAGETWO-10543, test requires Mage_Downloadable module
+dev/tests/integration/testsuite/Mage/Checkout/controllers/CartControllerTest.php

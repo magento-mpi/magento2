@@ -104,19 +104,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
             'value' => $addressData['postcode']
         ));
 
-        $countries = $this->_countryConfigModel->toOptionArray();
-        $fieldset->addField('country_id', 'select', array(
-            'name' => 'country_id',
-            'label' => $helper->__('Country'),
-            'required' => true,
-            'values' => $countries,
-            'class' => 'countries',
-            'value' => $addressData['country_id'],
-            'after_element_html' => '<script type="text/javascript">'
-                . 'originAddress = new originModel();'
-                . '</script>',
-        ));
-
         $isRegionFieldText = true;
         if ($addressData['country_id']) {
             $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($addressData['country_id']);
@@ -131,6 +118,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
                 $isRegionFieldText = false;
             }
         }
+
         if ($isRegionFieldText) {
             $fieldset->addField('region_id', 'text', array(
                  'name' => 'region_id',
@@ -138,6 +126,19 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
                  'value' => $addressData['region_id']
             ));
         }
+
+        $countries = $this->_countryConfigModel->toOptionArray(false, 'US');
+        $fieldset->addField('country_id', 'select', array(
+            'name' => 'country_id',
+            'label' => $helper->__('Country'),
+            'required' => true,
+            'values' => $countries,
+            'class' => 'countries',
+            'value' => $addressData['country_id'],
+            'after_element_html' => '<script type="text/javascript">'
+                . 'originAddress = new originModel();'
+                . '</script>',
+        ));
 
         $form->setUseContainer(false);
         $this->setForm($form);

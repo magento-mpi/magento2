@@ -18,17 +18,17 @@
         </dt>
     </dl>
 
-<script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/customer-balance.js') ?>",
-            function() {
-                $('#use-reward-points').customerBalance({
-                    balance: <?php echo (float)$this->getCurrencyAmount(); ?>,
-                    amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
-                    usedAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>
+    <script type="text/javascript">
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('Enterprise_Reward::js/checkout-balance.js') ?>",
+                function() {
+                    $('#use-reward-points').checkoutBalance({
+                        balance: <?php echo (float)$this->getCurrencyAmount(); ?>,
+                        amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
+                        usedAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>
+                    });
                 });
-            });
-    })(jQuery);
-</script>
+        })(jQuery);
+    </script>
 <?php endif; ?>

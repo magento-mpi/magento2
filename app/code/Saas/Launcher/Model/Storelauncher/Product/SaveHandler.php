@@ -56,8 +56,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
             /** @var $product Mage_Catalog_Model_Product */
             $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array())
                 ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
-                // only simple product can be created via Product Tile
-                ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+                ->setTypeId($preparedData['product']['typeId'])
                 ->addData($preparedData['product'])
                 ->setData('_edit_mode', true)
                 ->setWebsiteIds($this->getRelatedWebsiteIds());
@@ -96,6 +95,10 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
         unset($data['product'][Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
         // prepare product stock data
         $data['product']['stock_data'] = $this->_prepareProductStockData($data);
+        // only simple or virtual product can be created via Product Tile
+        $data['product']['typeId'] = isset($data['product']['is_virtual'])
+            ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+            : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE;
 
         return $data;
     }

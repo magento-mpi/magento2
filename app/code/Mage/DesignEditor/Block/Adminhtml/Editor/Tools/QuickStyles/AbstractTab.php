@@ -27,6 +27,16 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
     protected $_formBuilder;
 
     /**
+     * Theme context
+     *
+     * @todo Should be refactored. setTheme() should be removed.
+     * After refactoring blocks should use theme context.
+     *
+     * @var Mage_DesignEditor_Model_Theme_Context
+     */
+    protected $_themeContext;
+
+    /**
      * Tab form HTML identifier
      *
      * @var string
@@ -48,10 +58,12 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder $formBuilder,
+        Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_formBuilder = $formBuilder;
+        $this->_themeContext = $themeContext;
     }
 
     /**
@@ -68,11 +80,12 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
             );
         }
         $form = $this->_formBuilder->create(array(
-            'id'     => $this->_formId,
-            'action' => '#',
-            'method' => 'post',
-            'tab'    => $this->_tab,
-            'theme'  => $this->getTheme(),
+            'id'            => $this->_formId,
+            'action'        => '#',
+            'method'        => 'post',
+            'tab'           => $this->_tab,
+            'theme'         => $this->getTheme(),
+            'parent_theme'  => $this->_themeContext->getEditableTheme()->getParentTheme(),
         ));
         $form->setUseContainer(true);
 

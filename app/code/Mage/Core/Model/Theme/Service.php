@@ -64,11 +64,6 @@ class Mage_Core_Model_Theme_Service
     protected $_helper;
 
     /**
-     * @var Mage_DesignEditor_Model_Resource_Layout_Update
-     */
-    protected $_layoutUpdate;
-
-    /**
      * Application event manager
      *
      * @var Mage_Core_Model_Event_Manager
@@ -98,7 +93,6 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Helper_Data $helper
-     * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Magento_Cache_FrontendInterface $configCache
@@ -112,7 +106,6 @@ class Mage_Core_Model_Theme_Service
         Mage_Core_Model_Design_PackageInterface $design,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Helper_Data $helper,
-        Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Magento_Cache_FrontendInterface $configCache,
@@ -123,7 +116,6 @@ class Mage_Core_Model_Theme_Service
         $this->_design       = $design;
         $this->_storeManager = $storeManager;
         $this->_helper       = $helper;
-        $this->_layoutUpdate = $layoutUpdate;
         $this->_eventManager = $eventManager;
         $this->_configWriter = $configWriter;
         $this->_configCache  = $configCache;
@@ -160,7 +152,6 @@ class Mage_Core_Model_Theme_Service
             $this->_configCache->clean();
         }
 
-        $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
         $this->_layoutCache->clean();
 
         $this->_eventManager->dispatch('assign_theme_to_stores_after',
@@ -188,7 +179,7 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _unassignThemeFromStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
         /** @var $config Mage_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
@@ -210,7 +201,7 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _assignThemeToStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
         if (count($stores) > 0) {
             foreach ($stores as $storeId) {
                 $this->_configWriter->save($configPath, $themeId, $scope, $storeId);
@@ -230,8 +221,9 @@ class Mage_Core_Model_Theme_Service
     {
         $scope = Mage_Core_Model_Config::SCOPE_DEFAULT;
 
-        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
         $this->_configWriter->save($configPath, $themeId, $scope);
+        $this->_configCache->clean();
 
         return $this;
     }
@@ -276,20 +268,6 @@ class Mage_Core_Model_Theme_Service
         return Mage::getSingleton('Mage_Core_Model_Config_Data')->getCollection()
             ->addFieldToFilter('scope', $scope)
             ->addFieldToFilter('path', $configPath);
-    }
-
-    /**
-     * Make temporary updates for given theme and given stores permanent
-     *
-     * @param int $themeId
-     * @param array $storeIds
-     */
-    protected function _makeTemporaryLayoutUpdatesPermanent($themeId, array $storeIds)
-    {
-        // currently all layout updates are related to theme only
-        $storeIds = array_merge($storeIds, array(Mage_Core_Model_AppInterface::ADMIN_STORE_ID));
-
-        $this->_layoutUpdate->makeTemporaryLayoutUpdatesPermanent($themeId, $storeIds);
     }
 
     /**

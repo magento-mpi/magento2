@@ -29,6 +29,7 @@
     margin-left: 8px;
 }
 
+.tooltip .help span,
 .tooltip .help a {
     display: block;
     width: 15px;
@@ -38,6 +39,7 @@
     cursor: help;
 }
 
+.tooltip .help span:before,
 .tooltip .help a:before {
     position: absolute;
     height: 15px;
@@ -59,6 +61,7 @@
     overflow: hidden;
 }
 
+.tooltip .help span:hover:before,
 .tooltip .help a:hover:before {
     color: #9c958a;
     color: rgba(103, 96, 86, .6);

@@ -33,6 +33,13 @@ class Mage_Paypal_Model_Express_Checkout
     const PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT = 'paypal_ec_create_ba';
 
     /**
+     * Flag which says that was used PayPal Express Checkout button for checkout
+     * Uses additional_information as storage
+     * @var string
+     */
+    const PAYMENT_INFO_BUTTON = 'button';
+
+    /**
      * @var Mage_Sales_Model_Quote
      */
     protected $_quote = null;

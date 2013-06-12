@@ -76,6 +76,13 @@ class Saas_Saas_Model_Tenant_Config
     private $_maintenanceMode;
 
     /**
+     * Task name prefix
+     *
+     * @var string
+     */
+    private $_taskNamePrefix = '';
+
+    /**
      * Constructor
      *
      * @param string $rootDir
@@ -92,6 +99,11 @@ class Saas_Saas_Model_Tenant_Config
         if (array_key_exists('groupConfiguration', $tenantData)) {
             $this->_groupConfiguration = $tenantData['groupConfiguration'];
         }
+
+        if (array_key_exists('tmt_instance', $tenantData)) {
+            $this->_taskNamePrefix = (string)$tenantData['tmt_instance'];
+        }
+
         $this->_config = $this->_mergeConfig(array(
             $this->_getLocalConfig(),
             $this->_getModulesConfig(),
@@ -145,19 +157,24 @@ class Saas_Saas_Model_Tenant_Config
     public function getApplicationParams()
     {
         $varDirWorkaround = $this->_config->getNode('global/web/dir/media');
+        $viewCacheDir = "{$this->_mediaDir}/view_cache";
         return array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::MEDIA => "{$this->_rootDir}/{$this->_mediaDir}",
                 Mage_Core_Model_Dir::STATIC_VIEW => "{$this->_rootDir}/skin",
                 Mage_Core_Model_Dir::VAR_DIR => "{$this->_rootDir}/var/{$varDirWorkaround}",
+                Mage_Core_Model_Dir::PUB_VIEW_CACHE => "{$this->_rootDir}/$viewCacheDir",
             ),
             Mage::PARAM_APP_URIS => array(
                 Mage_Core_Model_Dir::MEDIA => $this->_mediaDir,
                 Mage_Core_Model_Dir::STATIC_VIEW => $this->_staticDir,
+                Mage_Core_Model_Dir::PUB_VIEW_CACHE => $viewCacheDir,
             ),
             Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
             'status' => $this->_status,
             'maintenance_mode' => $this->_maintenanceMode,
+            Enterprise_Queue_Model_ParamMapper::PARAM_TASK_NAME_PREFIX => $this->_taskNamePrefix,
+            Mage::PARAM_MODE => Mage_Core_Model_App_State::MODE_PRODUCTION,
         );
     }
 

@@ -386,7 +386,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
      * Instantiate quote and checkout
      * @throws Mage_Core_Exception
      */
-    private function _initCheckout()
+    protected function _initCheckout()
     {
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {

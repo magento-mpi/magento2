@@ -1,26 +1,19 @@
 #
 # {license_notice}
 #
-# @category    Magento
-# @package     Mage_SystemConfiguration
-# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
-#Manage System Configuration
-
-# 'System Configuration' page
 system_configuration:
     uimap: &system_configuration_uimap
         form:
             tabs:
                 -
-                    catalog_google_sitemap:
+                    catalog_xml_sitemap:
                         fieldsets:
                             -
                                 generation_settings:
-                                    xpath: //fieldset[@id='sitemap_generate']
                                     fields:
                                         google_verification_code: //input[@name='groups[generate][fields][verification_code][value]']
 

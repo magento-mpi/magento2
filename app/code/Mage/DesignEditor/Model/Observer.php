@@ -36,51 +36,6 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
-     * Clear temporary layout updates and layout links
-     */
-    public function clearLayoutUpdates()
-    {
-        $daysToExpire = $this->_helper->getDaysToExpire();
-
-        // remove expired links
-        /** @var $linkCollection Mage_Core_Model_Resource_Layout_Link_Collection */
-        $linkCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Link_Collection');
-        $linkCollection->addTemporaryFilter(true)
-            ->addUpdatedDaysBeforeFilter($daysToExpire);
-
-        /** @var $layoutLink Mage_Core_Model_Layout_Link */
-        foreach ($linkCollection as $layoutLink) {
-            $layoutLink->delete();
-        }
-
-        // remove expired updates without links
-        /** @var $layoutCollection Mage_Core_Model_Resource_Layout_Update_Collection */
-        $layoutCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Update_Collection');
-        $layoutCollection->addNoLinksFilter()
-            ->addUpdatedDaysBeforeFilter($daysToExpire);
-
-        /** @var $layoutUpdate Mage_Core_Model_Layout_Update */
-        foreach ($layoutCollection as $layoutUpdate) {
-            $layoutUpdate->delete();
-        }
-    }
-
-    /**
-     * Determine if the vde specific translation class should be used.
-     *
-     * @param  Varien_Event_Observer $observer
-     * @return Mage_DesignEditor_Model_Observer
-     */
-    public function initializeTranslation(Varien_Event_Observer $observer)
-    {
-        if ($this->_helper->isVdeRequest()) {
-            // Request is for vde.  Override the translation class.
-            $observer->getResult()->setInlineType('Mage_DesignEditor_Model_Translate_InlineVde');
-        }
-        return $this;
-    }
-
-    /**
      * Remove non-VDE JavaScript assets in design mode
      * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
      *
@@ -140,6 +95,53 @@ class Mage_DesignEditor_Model_Observer
                 Mage_Core_Model_Theme_Customization_Files_Css::QUICK_STYLE_CSS => $content
             ));
             $theme->setCustomization($themeCss)->save();
+        }
+    }
+
+    /**
+     * Save time stamp of last change
+     *
+     * @param Varien_Event_Observer $event
+     */
+    public function saveChangeTime($event)
+    {
+        /** @var $theme Mage_Core_Model_Theme|null */
+        $theme = $event->getTheme() ?: $event->getDataObject()->getTheme();
+        /** @var $change Mage_DesignEditor_Model_Theme_Change */
+        $change = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
+        if ($theme && $theme->getId()) {
+            $change->loadByThemeId($theme->getId());
+            $change->setThemeId($theme->getId())->setChangeTime(null);
+            $change->save();
+        }
+    }
+
+    /**
+     * Copy additional information about theme change time
+     *
+     * @param Varien_Event_Observer $event
+     */
+    public function copyChangeTime($event)
+    {
+        /** @var $sourceTheme Mage_Core_Model_Theme|null */
+        $sourceTheme = $event->getData('sourceTheme');
+        /** @var $targetTheme Mage_Core_Model_Theme|null */
+        $targetTheme = $event->getData('targetTheme');
+        if ($sourceTheme && $targetTheme) {
+            /** @var $sourceChange Mage_DesignEditor_Model_Theme_Change */
+            $sourceChange = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
+            $sourceChange->loadByThemeId($sourceTheme->getId());
+            /** @var $targetChange Mage_DesignEditor_Model_Theme_Change */
+            $targetChange = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
+            $targetChange->loadByThemeId($targetTheme->getId());
+
+            if ($sourceChange->getId()) {
+                $targetChange->setThemeId($targetTheme->getId());
+                $targetChange->setChangeTime($sourceChange->getChangeTime());
+                $targetChange->save();
+            } elseif ($targetChange->getId()) {
+                $targetChange->delete();
+            }
         }
     }
 }
