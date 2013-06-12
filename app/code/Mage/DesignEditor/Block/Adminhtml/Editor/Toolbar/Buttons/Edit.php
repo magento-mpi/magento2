@@ -25,27 +25,27 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     protected $_changeFactory;
 
     /**
-     * @var Mage_Core_Model_Date
+     * @var Mage_Core_Model_LocaleInterface
      */
-    protected $_dateModel;
+    protected $_localeModel;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory
-     * @param Mage_Core_Model_Date $dateModel
+     * @param Mage_Core_Model_LocaleInterface $localeModel
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory,
-        Mage_Core_Model_Date $dateModel,
+        Mage_Core_Model_LocaleInterface $localeModel,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
         $this->_changeFactory = $changeFactory;
-        $this->_dateModel = $dateModel;
+        $this->_localeModel = $localeModel;
         parent::__construct($context, $data);
     }
 
@@ -160,9 +160,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     {
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($this->_themeContext->getEditableTheme()->getId());
-
-        $message = $this->__('Do you want to restore the version saved at %s?',
-            $this->_dateModel->date('H:i \o\n d-m-y', $sourceChange->getChangeTime()));
+        $dateMessage = $this->_localeModel
+            ->date($sourceChange->getChangeTime(), Varien_Date::DATETIME_INTERNAL_FORMAT)->toString();
+        $message = $this->__('Do you want to restore the version saved at %s?', $dateMessage);
 
         $data = array(
             'vde-edit-button' => array(
