@@ -103,7 +103,7 @@ manage_sales_orders:
             not_valid_email: //*[text()='Please enter a valid email address (for example, johndoe@domain.com.).']
             order_id: //h1[@class='title']
             #confirmation
-            confirmation_to_procced:This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you want to continue?
+            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you want to continue?
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead.
             confirmation_for_cancel: Are you sure you want to cancel this order?
             confirmation_to_void: Are you sure you want to void the payment?

@@ -109,7 +109,7 @@ new_gift_registry:
 # 'Edit Gift Registry' page
 edit_gift_registry:
     mca: giftregistry/edit/id/%id%/
-    title: '%elementLabel%' Gift Registry Type / Gift Registry Types / Other Settings / Stores / Magento Admin
+    title: "'%elementLabel%' Gift Registry Type / Gift Registry Types / Other Settings / Stores / Magento Admin"
     uimap:
         form: *giftRegistryForm
         buttons:
