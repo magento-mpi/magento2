@@ -11,11 +11,12 @@
     /**
      * Webapi object constructor
      *
-     * @param {string}           baseUrl Base URL
-     * @param {Object|undefined} args    Arguments for constructor, see "options" variable
+     * @param {string}           baseUrl  Base URL
+     * @param {Object|undefined} ajaxArgs Arguments for AJAX API call
+     * @see http://api.jquery.com/jQuery.ajax/
      * @returns {{method: Object, call: Function}}
      */
-    $.mage.webapi = function(baseUrl, args) {
+    $.mage.Webapi = function(baseUrl, ajaxArgs) {
         /**
          * Resource-related parameters. Further extended by other domain objects like Product, etc.
          *
@@ -24,7 +25,8 @@
          */
         this.resource = {
             uri: {
-                base: '' // Initialized below
+                base: '', // Initialized below
+                api: '/webapi/rest'
             }
         };
 
@@ -43,37 +45,17 @@
 
         var validMethods = [this.method.create, this.method.update, this.method.get, this.method['delete']];
 
-        var options = {
-            /**
-             * Timeout for AJAX request
-             */
-            timeout: 5000,
-            /**
-             * Success AJAX call function handler
-             */
-            success: null,
-            /**
-             * Failed AJAX call function handler
-             */
-            error: null
-        };
-
         // Check whether passed options comply with what we allow
-        if (args && typeof args === 'object') {
-            for (var option in args) {
-                if (args.hasOwnProperty(option) && options.hasOwnProperty(option)) {
-                    options[option] = args[option];
-                } else {
-                    throw 'No such option: ' + option;
-                }
-            }
+        if (ajaxArgs && typeof ajaxArgs !== 'object') {
+            throw 'ajaxArgs expected to be object';
         }
 
         if (!(baseUrl && typeof baseUrl === 'string')) {
             throw 'String baseUrl parameter required';
         }
 
-        this.resource.uri.base = baseUrl;
+        // Ensure that baseUrl doesn't have ending forward slash
+        this.resource.uri.base = baseUrl[baseUrl.length - 1] === '/' ? baseUrl.substr(0, baseUrl.length - 1) : baseUrl;
 
         /**
          * Makes an API request
@@ -117,55 +99,41 @@
                     return str[0] === '/' ? str : '/' + str;
                 }
 
-                var resourceUrl = '';
-
                 if (version) {
-                    resourceUrl = version + ensureForwardSlash(resourceUri);
+                    resourceUri = version + ensureForwardSlash(resourceUri);
                 }
 
                 if (data && [that.method.get, that.method['delete']].indexOf(method) !== -1) {
                     // Append data for GET and DELETE request methods as it's simple ID (usually int)
-                    resourceUrl += data;
+                    resourceUri += data;
                 }
 
-                resourceUrl = that.resource.uri.base + ensureForwardSlash(resourceUrl);
-
-                return resourceUrl;
+                return that.resource.uri.base + that.resource.uri.api + ensureForwardSlash(resourceUri);
             }
 
-            return $.ajax({
+            var ajaxOptions = {
                 url: getUrl(resourceUri, method, data, version),
                 type: validateMethod(method),
                 data: data,
                 dataType: 'text',
-                timeout: options.timeout,
+                timeout: 5000,
                 processData: false, // Otherwise jQuery will try to append 'data' to query URL
                 cache: false, // Disable browser cache for GET requests
 
                 beforeSend: function (request) {
                     request.setRequestHeader('Accept', 'application/json');
-                },
-
-                success: function (response) {
-                    if (response) {
-                        if (typeof options.success === 'function') {
-                            options.success(response);
-                        }
-                    }
-                },
-
-                error: function (xhr, error) {
-                    if (typeof options.error === 'function') {
-                        options.error(xhr, error);
-                    }
                 }
-            });
+            };
+
+            $.extend(ajaxOptions, ajaxArgs);
+
+            return $.ajax(ajaxOptions);
         };
 
         return this;
     };
 
-    $.mage.webapi.prototype.constructor = $.mage.webapi;
+    $.mage.Webapi.prototype.constructor = $.mage.Webapi;
 
     /**
      * Syntax sugar over call(). Example usage: $.mage.webapi.Product('v1').get({...})
@@ -173,11 +141,12 @@
      * @param {string} version API version (e.g. 'v1')
      * @returns {{get: Function, create: Function}}
      */
-    $.mage.webapi.prototype.Product = function(version) {
-        if (!(typeof version === 'string' && /v\d+/.test(version))) {
+    $.mage.Webapi.prototype.Product = function(version) {
+        if (!(typeof version === 'string' && /v\d+/i.test(version))) {
             throw 'Incorrect version format: ' + version;
         }
 
+        version = version.toLowerCase();
         var that = this; // Points to $.mage.webapi
         that.resource.uri.products = '/products/';
 
@@ -185,11 +154,15 @@
             /**
              * Retrieves information about specific product
              *
-             * @param productId Product ID
+             * @param idObj Object which helps to identify the product, e.g. {id: 1}
              * @returns {jqXHR}
              */
-            get: function(productId) {
-                return that.call(that.resource.uri.products, that.method.get, productId, version);
+            get: function(idObj) {
+                if (!idObj.hasOwnProperty('id')) {
+                    throw '"id" property expected in the object';
+                }
+
+                return that.call(that.resource.uri.products, that.method.get, idObj.id, version);
             },
 
             /**
