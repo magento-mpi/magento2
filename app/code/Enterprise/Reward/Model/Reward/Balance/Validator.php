@@ -65,7 +65,7 @@ class Enterprise_Reward_Model_Reward_Balance_Validator
                 $this->_session->setUpdateSection('payment-method');
                 $this->_session->setGotoSection('payment');
                 throw new Enterprise_Reward_Model_Reward_Balance_Exception(
-                    $this->_helper->__('Not enough Reward Points to complete this Order.')
+                    $this->_helper->__('You don\'t have enough reward points to pay for this purchase.')
                 );
             }
         }
