@@ -902,3 +902,7 @@
 .new-variation-set {
     margin-left: 2.127659574%;
 }
+
+.not-applicable-attribute {
+    display: none;
+}
