@@ -16,9 +16,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends PHPU
         $form = new Varien_Data_Form();
         $block->setForm($form);
 
-        $html = $block->getAfterElementHtml();
-        $pattern = '/<button[^>]*New\sCategory[^>]*>/';
-        preg_match($pattern, $html, $matches);
-        $this->assertNotEmpty($matches[0]);
+        $this->assertRegExp('/<button[^>]*New\sCategory[^>]*>/', $block->getAfterElementHtml());
     }
 }
