@@ -83,19 +83,32 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     public function handle($requestedResources, $endpointUrl)
     {
-        throw new LogicException("SOAP API can be enabled only when request-response schemas are available.");
+        /** TODO: Remove Mage_Catalog_Service_Product after this method is finalized */
         /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedResources);
-        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $cachedWsdlContent = $this->_cache->load($cacheId);
-            if ($cachedWsdlContent !== false) {
-                return $cachedWsdlContent;
-            }
-        }
+//        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
+//        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+//            $cachedWsdlContent = $this->_cache->load($cacheId);
+//            if ($cachedWsdlContent !== false) {
+//                return $cachedWsdlContent;
+//            }
+//        }
 
         $resources = array();
-        $services = $this->_newApiConfig->getServices();
+        $services = array(
+            'Mage_Catalog_Service_Product' => array(
+                'class' => 'Mage_Catalog_Service_Product',
+                'baseUrl' => '/products',
+                'operations' => array(
+                    'item' => array(
+                        'httpMethod' => 'GET',
+                        'method' => 'item',
+                        'route' => '/:entity_id',
+                    ),
+                ),
+            ),
+        );
+
         foreach ($services as $serviceData) {
             $resourceName = $this->_helper->translateResourceName($serviceData['class']);
             $resources[$resourceName] = array('methods' => array());
@@ -103,9 +116,19 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             foreach ($serviceData['operations'] as $operation => $operationData) {
                 /** Collect input parameters */
                 $inputParameters = array();
-                /** @var Magento_Data_Schema $requestSchema */
-                $requestSchema = $this->_serviceManager->getRequestSchema($serviceData['class'], $operation);
-                $requestFields = $requestSchema->getData('fields');
+                $requestFields = array(
+                    'entity_id' => array(
+                        'label' => 'Entity ID',
+                        'type' => 'integer',
+                        'required' => true,
+                        'default' => NULL,
+                        'constraints' => array(
+                            'is_integer' => array(
+                                'class' => 'Magento_Validator_Int',
+                            ),
+                        ),
+                    ),
+                );
                 foreach ($requestFields as $fieldName => $fieldData) {
                     $inputParameters[$fieldName] = array(
                         // TODO: Remove default values
@@ -119,9 +142,15 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
                 /** Collect output parameters */
                 $outputParameters = array();
-                /** @var Magento_Data_Schema $responseSchema */
-                $responseSchema = $this->_serviceManager->getResponseSchema($serviceData['class'], $operation);
-                $responseFields = $responseSchema->getData('fields');
+                $responseFields = array(
+                    'entity_id' => array('required' => true,),
+                    'name' => array('required' => true,),
+                    'sku' => array('required' => true,),
+                    'description' => array('required' => true,),
+                    'short_description' => array('required' => true,),
+                    'weight' => array('required' => true,)
+                );
+
                 foreach ($responseFields as $fieldName => $fieldData) {
                     $outputParameters[$fieldName] = array(
                         // TODO: Remove default values
@@ -148,9 +177,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         }
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
-        }
+//        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+//            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+//        }
 
         return $wsdlContent;
     }
