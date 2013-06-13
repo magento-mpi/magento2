@@ -65,7 +65,7 @@
         var $storesList = $('[data-role=stores-list]');
         $storesList.on('click', '[data-value]', function(event) {
             var val = $(event.target).data('value');
-            var storeSwitcher = $storesList.find('[data-role=store-id]');
+            var storeSwitcher = $('[data-role=store-id]');
             if (val != storeSwitcher.val()) {
                 storeSwitcher.val(val).trigger('change');
             }
