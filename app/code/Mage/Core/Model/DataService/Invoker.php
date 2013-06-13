@@ -92,9 +92,13 @@ class Mage_Core_Model_DataService_Invoker
     {
         $result = array();
         foreach ($argumentsList as $name => $value) {
-            // convert from '{parent.child}' format to array('parent', 'child') format
-            $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($value, '{}'));
-            $result[$name] = Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
+            if (preg_match("/^\{\{.*\}\}$/", $value)) {
+                // convert from '{{parent.child}}' format to array('parent', 'child') format
+                $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($value, '{}'));
+                $result[$name] = Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
+            } else {
+                $result[$name] = $value;
+            }
         }
         return $result;
     }
