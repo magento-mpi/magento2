@@ -40,7 +40,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist %s shared', $this->getValueElementHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wish List %s shared', $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

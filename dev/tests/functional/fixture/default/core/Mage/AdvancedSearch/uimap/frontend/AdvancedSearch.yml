@@ -33,7 +33,7 @@ advanced_search:
             search: //div[contains(@class, 'buttons-set')]/button[span='Search']
         messages: &AdvancedSearchMessages
             error_message: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify at least one search term.')]
-            error_message_wrong_entered_data: //p[normalize-space(@class)='error-msg' and contains(.,'No items were found using the following search criteria.')]
+            error_message_wrong_entered_data: //p[normalize-space(@class)='error-msg' and contains(.,'We didn't find any items using this search criteria.')]
             required_price: //div[@id='advice-validate-number-price' and text()='Please enter a valid number in this field.']
             required_price_to: //div[@id='advice-validate-number-price_to' and text()='Please enter a valid number in this field.']
 

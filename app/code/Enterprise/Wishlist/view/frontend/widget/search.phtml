@@ -11,7 +11,7 @@
 <div class="widget">
 <div class="block block-gr-search">
     <div class="block-title">
-        <strong><span><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Search') ?></span></strong>
+        <strong><span><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search') ?></span></strong>
     </div>
     <div class="block-content">
         <?php if ($this->useSearchFormSelect()) : ?>
@@ -53,7 +53,7 @@
         </ul>
         <div class="actions">
             <input type="hidden" name="params[search]" value="type" />
-            <p class="note"><em>*</em> <?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Enter at least two letters') ?></p>
+            <p class="note"><em>*</em> <?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please enter at least two letters.') ?></p>
             <button type="submit" title="<?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Search') ?></span></span></button>
         </div>
     </form>

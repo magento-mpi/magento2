@@ -8,7 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends Mage_Backend_Area_TestCase
+
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php

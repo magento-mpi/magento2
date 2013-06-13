@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */
     protected $_layout;

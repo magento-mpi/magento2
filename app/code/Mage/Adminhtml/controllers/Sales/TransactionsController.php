@@ -27,7 +27,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
         );
 
         if (!$txn->getId()) {
-            $this->_getSession()->addError($this->__('Wrong transaction ID specified.'));
+            $this->_getSession()->addError($this->__('Please correct the transaction ID and try again.'));
             $this->_redirect('*/*/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to update transaction details.')
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t update the transaction details.')
             );
             Mage::logException($e);
         }

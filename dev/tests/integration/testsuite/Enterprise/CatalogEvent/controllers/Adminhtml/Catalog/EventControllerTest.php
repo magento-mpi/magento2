@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_CatalogEvent_Adminhtml_Catalog_EventControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testEditActionSingleStore()

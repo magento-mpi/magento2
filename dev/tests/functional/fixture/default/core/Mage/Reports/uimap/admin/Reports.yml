@@ -13,7 +13,7 @@
 reports_sales_sales:
     mca: report_sales/sales/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/sales/')]
-    title: Sales / Sales / Reports / Magento Admin
+    title: Sales Report / Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -27,7 +27,7 @@ reports_sales_sales:
 report_sales_tax:
     mca: report_sales/tax/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/tax/')]
-    title: Tax / Sales / Reports / Magento Admin
+    title: Tax Report / Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -41,7 +41,7 @@ report_sales_tax:
 report_sales_invoiced:
     mca: report_sales/invoiced/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/invoiced/')]
-    title: Total Invoiced / Sales / Reports / Magento Admin
+    title: Invoice Report / Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -55,7 +55,7 @@ report_sales_invoiced:
 report_sales_shipping:
     mca: report_sales/shipping/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/shipping/')]
-    title: Shipping / Sales / Reports / Magento Admin
+    title: Shipping Report / Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -69,7 +69,7 @@ report_sales_shipping:
 report_sales_refunded:
     mca: report_sales/refunded/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/refunded/')]
-    title: Total Refunded / Sales / Reports / Magento Admin
+    title: Refunds Report / Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -83,7 +83,7 @@ report_sales_refunded:
 report_sales_coupons:
     mca: report_sales/coupons/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/coupons/')]
-    title: Coupons / Sales / Reports / Magento Admin
+    title: Coupons Report / Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -141,7 +141,7 @@ report_sales_bestsellers:
 report_product_sold:
     mca: report_product/sold/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/report_product/sold/')]
-    title: Products Ordered / Products / Reports / Magento Admin
+    title: Ordered Products Report / Products / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -171,7 +171,7 @@ report_product_sold:
 report_product_viewed:
     mca: report_product/viewed/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/viewed/')]
-    title: Most Viewed / Products / Reports / Magento Admin
+    title: Product Views Report / Products / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -185,7 +185,7 @@ report_product_viewed:
 report_product_lowstock:
     mca: report_product/lowstock/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/lowstock/')]
-    title: Low Stock / Products / Reports / Magento Admin
+    title: Low Stock Report / Products / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -199,7 +199,7 @@ report_product_lowstock:
 report_product_downloads:
     mca: report_product/downloads/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/downloads/')]
-    title: Downloads / Products / Reports / Magento Admin
+    title: Downloads Report / Products / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -213,7 +213,7 @@ report_product_downloads:
 report_customer_accounts:
     mca: report_customer/accounts/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/accounts/')]
-    title: New Accounts / Customers / Reports / Magento Admin
+    title: New Accounts Report / Customers / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -245,7 +245,7 @@ report_customer_accounts:
 report_customer_totals:
     mca: report_customer/totals/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/report_customer/totals/')]
-    title: Customers by Orders Total / Customers / Reports / Magento Admin
+    title: Order Total Report / Customers / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -283,7 +283,7 @@ report_customer_totals:
 report_customer_orders:
     mca: report_customer/orders/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/orders/')]
-    title: Customers by Number of Orders / Customers / Reports / Magento Admin
+    title: Order Count Report / Customers / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -312,7 +312,7 @@ report_customer_orders:
 report_tag_customer:
     mca: report_tag/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/customer/')]
-    title: Customers / Tags / Reports / Magento Admin
+    title: Customer Report / Tags / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -337,7 +337,7 @@ report_tag_customer:
 # Tags: Tags Submitted by Customer
 tags_submitted_by_customer:
     mca: report_tag/customerDetail/id/%id%/
-    title: Tags Submitted by %elementTitle% / Customers / Tags / Reports / Reports / Magento Admin
+    title: Tags Submitted by %elementTitle% / Customer Report / Tags / Reports / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -353,7 +353,7 @@ tags_submitted_by_customer:
 report_tag_product:
     mca: report_tag/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/product/')]
-    title: Products / Tags / Reports / Reports / Magento Admin
+    title: Product Report / Tags / Reports / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -378,7 +378,7 @@ report_tag_product:
 # Tags: Tags Submitted to Product
 tags_submitted_to_product:
     mca: report_tag/productDetail/id/%id%/
-    title: Tags submitted to %elementTitle% / Products / Tags / Reports / Magento Admin
+    title: Tags submitted to %elementTitle% / Product Report / Tags / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -394,7 +394,7 @@ tags_submitted_to_product:
 report_tag_popular:
     mca: report_tag/popular/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/popular/')]
-    title: Popular / Tags / Reports / Tags / Reports / Magento Admin
+    title: Popularity Report / Tags / Reports / Tags / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -420,7 +420,7 @@ report_tag_popular:
 # Tags: Tag Details
 tag_details:
     mca: report_tag/tagDetail/id/%id%/
-    title: Tag "%elementTitle%" details / Popular / Tags / Reports / Magento Admin
+    title: Tag "%elementTitle%" details / Popularity Report / Tags / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -436,7 +436,7 @@ tag_details:
 report_review_customer:
     mca: report_review/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/customer/')]
-    title: Customers Reviews / Reviews / Reports / Magento Admin
+    title: Customer Reviews Report / Reviews / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -454,7 +454,7 @@ report_review_customer:
 report_review_product:
     mca: report_review/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/product/')]
-    title: Products Reviews / Reviews / Reports / Magento Admin
+    title: Product Reviews Report / Reviews / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -472,7 +472,7 @@ report_review_product:
 report_search:
     mca: report/search/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report/search/')]
-    title: Search Terms / Marketing / Reports / Magento Admin
+    title: Search Terms Report / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

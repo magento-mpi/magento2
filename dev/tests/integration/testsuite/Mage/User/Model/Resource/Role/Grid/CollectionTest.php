@@ -6,6 +6,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_User_Model_Resource_Role_Grid_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -18,9 +21,6 @@ class Mage_User_Model_Resource_Role_Grid_CollectionTest extends PHPUnit_Framewor
         $this->_collection = Mage::getResourceModel('Mage_User_Model_Resource_Role_Grid_Collection');
     }
 
-    /**
-     * @XmagentoDataFixture Mage/User/_files/dummy_user.php
-     */
     public function testGetItems()
     {
         $expectedResult = array(

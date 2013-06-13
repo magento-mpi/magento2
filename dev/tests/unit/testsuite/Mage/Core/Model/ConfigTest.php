@@ -35,11 +35,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                                     </admin>
                                 </routers>
                                 <frontName>backend</frontName>
-                                <acl>
-                                    <resourceLoader>resourceLoader</resourceLoader>
-                                    <roleLocator>roleLocator</roleLocator>
-                                    <policy>policy</policy>
-                                </acl>
                             </adminhtml>
                         </areas>
                         <resources>
@@ -136,11 +131,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                     ),
                 ),
                 'frontName' => 'backend',
-                'acl' => array(
-                    'resourceLoader' => 'resourceLoader',
-                    'roleLocator' => 'roleLocator',
-                    'policy' => 'policy',
-                ),
             ),
         );
 
@@ -156,11 +146,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 'class' => 'class',
                 'base_controller' => 'base_controller',
                 'frontName' => 'backend',
-                'acl' => array(
-                    'resourceLoader' => 'resourceLoader',
-                    'roleLocator' => 'roleLocator',
-                    'policy' => 'policy',
-                ),
                 'area' => 'adminhtml',
             ),
         );

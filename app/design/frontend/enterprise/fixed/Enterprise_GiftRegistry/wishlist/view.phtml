@@ -21,7 +21,7 @@ $entityValues = $this->getEntityValues();
         <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
             <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
         <?php endif; ?>
-        <h1><?php echo $this->__('My Wishlist') ?></h1>
+        <h1><?php echo $this->__('My Wish List') ?></h1>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
@@ -117,12 +117,12 @@ $entityValues = $this->getEntityValues();
                 <?php if($this->isSaleable()):?>
                     <button type="button" title="<?php echo $this->__('Add All to Cart') ?>" onclick="addAllWItemsToCart()" class="button btn-add"><span><span><?php echo $this->__('Add All to Cart') ?></span></span></button>
                 <?php endif;?>
-                <button type="submit" title="<?php echo $this->__('Update Wishlist') ?>" onclick="this.name='do'" class="button btn-update"><span><span><?php echo $this->__('Update Wishlist') ?></span></span></button>
+                <button type="submit" title="<?php echo $this->__('Update Wish List') ?>" onclick="this.name='do'" class="button btn-update"><span><span><?php echo $this->__('Update Wish List') ?></span></span></button>
             </div>
         </fieldset>
     </form>
     <?php else: ?>
-        <p><?php echo $this->__('You have no items in your wishlist.') ?></p>
+        <p><?php echo $this->__('You have no items in your wish list.') ?></p>
     <?php endif ?>
     <form action="<?php echo $this->getAddUrl();?>" method="post" id="giftregistry-form">
         <div class="no-display">

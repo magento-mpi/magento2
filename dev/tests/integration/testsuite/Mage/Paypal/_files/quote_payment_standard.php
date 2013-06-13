@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+Mage::app()->loadArea('adminhtml');
 Mage::app()->getStore()->setConfig('carriers/flatrate/active', 1);
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');

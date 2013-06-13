@@ -204,7 +204,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $this->setIsValid(false);
                 $value = $this->getFileSizeService()->getMaxFileSizeInMb();
                 Mage::throwException(
-                    Mage::helper('Mage_Catalog_Helper_Data')->__("The file you uploaded is larger than %s Megabytes allowed by server", $value)
+                    Mage::helper('Mage_Catalog_Helper_Data')->__("You cannot upload files larger than %s megabytes.", $value)
                 );
             } else {
                 switch($this->getProcessMode())
@@ -314,7 +314,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             }
         } else {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s)'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
         }
         return $this;
     }
@@ -410,7 +410,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             }
         } else {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s)'));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
         }
     }
 
@@ -426,15 +426,15 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $result = array();
         foreach ($errors as $errorCode) {
             if ($errorCode == Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
-                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' for '%s' has an invalid extension", $fileInfo['title'], $option->getTitle());
+                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' for '%s' has an invalid extension.", $fileInfo['title'], $option->getTitle());
             } elseif ($errorCode == Zend_Validate_File_Extension::FALSE_EXTENSION) {
-                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' for '%s' has an invalid extension", $fileInfo['title'], $option->getTitle());
+                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' for '%s' has an invalid extension.", $fileInfo['title'], $option->getTitle());
             } elseif ($errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
                 || $errorCode == Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG) {
                 $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("Maximum allowed image size for '%s' is %sx%s px.", $option->getTitle(), $option->getImageSizeX(), $option->getImageSizeY());
             } elseif ($errorCode == Zend_Validate_File_FilesSize::TOO_BIG) {
                 $maxFileSize = $this->getFileSizeService()->getMaxFileSizeInMb();
-                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' you uploaded is larger than %s Megabytes allowed by server", $fileInfo['title'], $maxFileSize);
+                $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' you uploaded is larger than the %s megabytes allowed by our server.", $fileInfo['title'], $maxFileSize);
             }
         }
         return $result;
@@ -538,7 +538,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $sizes
             );
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("File options format is not valid."));
+            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("The file options format is not valid."));
         }
     }
 
@@ -736,7 +736,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $this->_filesystem->createDirectory($path, 0777);
         } catch (Magento_Filesystem_Exception $e) {
             Mage::throwException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path)
+                Mage::helper('Mage_Catalog_Helper_Data')->__("We can't create writeable directory \"%s\".", $path)
             );
         }
     }

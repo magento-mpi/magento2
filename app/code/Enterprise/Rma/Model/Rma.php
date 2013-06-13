@@ -681,39 +681,39 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
         $validator = new Zend_Validate_EmailAddress();
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" invalid type entered.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid type: "%s".', $label),
             Zend_Validate_EmailAddress::INVALID
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%s".', $label),
             Zend_Validate_EmailAddress::INVALID_FORMAT
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid hostname.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid hostname: "%s"', $label),
             Zend_Validate_EmailAddress::INVALID_HOSTNAME
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid hostname.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid hostname: "%s"', $label),
             Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid hostname.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid hostname: "%s"', $label),
             Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%s".', $label),
             Zend_Validate_EmailAddress::DOT_ATOM
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%s".', $label),
             Zend_Validate_EmailAddress::QUOTED_STRING
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is not a valid email address.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%s".', $label),
             Zend_Validate_EmailAddress::INVALID_LOCAL_PART
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" exceeds the allowed length.', $label),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%s" is longer than allowed.', $label),
             Zend_Validate_EmailAddress::LENGTH_EXCEEDED
         );
         if (!$validator->isValid($value)) {

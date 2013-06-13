@@ -26,7 +26,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
     protected $_codeHelper;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_GoogleOptimizer_Helper_Data $helperData
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
@@ -34,7 +34,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_GoogleOptimizer_Helper_Data $helperData,
         Mage_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,

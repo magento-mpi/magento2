@@ -24,12 +24,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     protected $_service;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Theme_Service $service
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Theme_Service $service,
         array $data = array()
     ) {

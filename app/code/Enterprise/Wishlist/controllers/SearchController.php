@@ -78,7 +78,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Search'));
+            $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search'));
         }
         $this->renderLayout();
     }
@@ -121,13 +121,13 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Could not perform search'));
+            $this->_getSession()->addError(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('We could not perform the search.'));
         }
 
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Search'));
+            $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search'));
         }
         $this->renderLayout();
     }
@@ -192,11 +192,11 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
                     } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                         $hasOptions[] = $item;
                     } else {
-                        $messages[] = $this->__('%s for "%s".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
+                        $messages[] = $this->__('%s for "%s"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                     }
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $messages[] = Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Could not add item to shopping cart.');
+                    $messages[] = Mage::helper('Enterprise_Wishlist_Helper_Data')->__('We could not add the item to shopping cart.');
                 }
             }
         }

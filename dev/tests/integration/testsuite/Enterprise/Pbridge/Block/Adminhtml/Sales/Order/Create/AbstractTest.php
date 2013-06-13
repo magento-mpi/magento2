@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_AbstractTest extends Mage_Backend_Area_TestCase
+
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_AbstractTest extends PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {

@@ -28,7 +28,7 @@
         <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
         <div class="cms-scope">
             <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
-            <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Parent Node\'s Hierarchy') ?></label>
+            <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use the parent node hierarchy.') ?></label>
         </div>
         <?php endif; ?>
 
@@ -553,7 +553,7 @@
                 for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
                     var comparedNode = node.parentNode.childNodes[i];
                     if (comparedNode.id != node_id && identifier == comparedNode.attributes.identifier) {
-                        alert('<?php echo $this->jsQuoteEscape($this->__('Node with same URL Key already exists.'))?>');
+                        alert('<?php echo $this->jsQuoteEscape($this->__('This URL key is already in use.'))?>');
                         return false;
                     }
                 }

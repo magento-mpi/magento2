@@ -206,7 +206,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     {
         $product = $this->getData('product');
         if (!$product instanceof Varien_Object) {
-            Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please define product data object'));
+            Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please define a product data object.'));
         }
         return $product;
     }

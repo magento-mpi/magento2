@@ -27,13 +27,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     protected $_controlFactory;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Eav_Model_Config $eavConfig
      * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Eav_Model_Config $eavConfig,
         Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
         array $data = array()

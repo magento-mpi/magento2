@@ -20,13 +20,13 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExpo
     protected $_helper;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_ImportExport_Helper_Import_Image_Configuration $configuration
      * @param Saas_ImportExport_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_ImportExport_Helper_Import_Image_Configuration $configuration,
         Saas_ImportExport_Helper_Data $helper,
         array $data = array()

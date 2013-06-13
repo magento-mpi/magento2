@@ -69,7 +69,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
             if ($product->getId()/* && !$product->isSuper()*/) {
                 Mage::getSingleton('Mage_Catalog_Model_Product_Compare_List')->addProduct($product);
                 Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
-                    $this->__('The product %s has been added to comparison list.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()))
+                    $this->__('You added product %s to the comparison list.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()))
                 );
                 $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product'=>$product));
             }
@@ -109,7 +109,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
                 if($item->getId()) {
                     $item->delete();
                     Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
-                        $this->__('The product %s has been removed from comparison list.', $helper->escapeHtml($product->getName()))
+                        $this->__('You removed product %s from the comparison list.', $helper->escapeHtml($product->getName()))
                     );
                     $this->_eventManager->dispatch('catalog_product_compare_remove_product', array('product' => $item));
                     $helper->calculate();
@@ -142,12 +142,12 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
 
         try {
             $items->clear();
-            $session->addSuccess($this->__('The comparison list was cleared.'));
+            $session->addSuccess($this->__('You cleared the comparison list.'));
             Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate();
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred while clearing comparison list.'));
+            $session->addException($e, $this->__('Something went wrong  clearing the comparison list.'));
         }
 
         $this->_redirectReferer();

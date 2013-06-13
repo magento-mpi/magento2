@@ -11,8 +11,9 @@
 
 /**
  * Test class for Mage_Backend_Block_Widget_Form
+ * @magentoAppArea adminhtml
  */
-class Mage_Backend_Block_Widget_FormTest extends Mage_Backend_Area_TestCase
+class Mage_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
