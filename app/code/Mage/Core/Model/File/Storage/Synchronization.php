@@ -25,9 +25,10 @@ class Mage_Core_Model_File_Storage_Synchronization
      * @param Mage_Core_Model_File_Storage_DatabaseFactory $storageFactory
      * @param Magento_Filesystem_Stream_LocalFactory $streamFactory
      */
-    public function __construct(Mage_Core_Model_File_Storage_DatabaseFactory $storageFactory,
-                                Magento_Filesystem_Stream_LocalFactory $streamFactory)
-    {
+    public function __construct(
+        Mage_Core_Model_File_Storage_DatabaseFactory $storageFactory,
+        Magento_Filesystem_Stream_LocalFactory $streamFactory
+    ) {
         $this->_storageFactory = $storageFactory;
         $this->_streamFactory = $streamFactory;
     }
