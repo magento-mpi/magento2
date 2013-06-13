@@ -59,7 +59,7 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
      */
     public function setException(Exception $exception)
     {
-        return parent::setException($this->_errorProcessor->maskException($exception));
+        return parent::setException($exception);
     }
 
     /**
@@ -89,18 +89,27 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
     protected function _renderMessages()
     {
         $formattedMessages = array();
-        $formattedMessages['messages'] = $this->getMessages();
+        $formattedMessages = $this->getMessages();
         $responseHttpCode = null;
         /** @var Exception $exception */
         foreach ($this->getException() as $exception) {
-            $code = ($exception instanceof Mage_Webapi_Exception)
-                ? $exception->getCode()
-                : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
-            $messageData = array('code' => $code, 'message' => $exception->getMessage());
+            if ($exception instanceof Mage_Service_ResourceNotFoundException) {
+                $code = Mage_Webapi_Exception::HTTP_NOT_FOUND;
+            } elseif ($exception instanceof Mage_Service_AuthorizationException) {
+                $code = Mage_Webapi_Exception::HTTP_UNAUTHORIZED;
+            } elseif ($exception instanceof Mage_Service_Exception) {
+                $code = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
+            } elseif ($exception instanceof Mage_Webapi_Exception) {
+                $code = $exception->getCode();
+            } else {
+                $code = Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
+            }
+
+            $messageData = array('code' => $exception->getCode(), 'message' => $exception->getMessage());
             if ($this->_app->isDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
-            $formattedMessages['messages']['error'][] = $messageData;
+            $formattedMessages['errors'][] = $messageData;
             // keep HTTP code for response
             $responseHttpCode = $code;
         }

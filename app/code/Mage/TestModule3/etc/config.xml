@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_TestModule3
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_TestModule3>
+            <version>1.6.0.0.23</version>
+            <current_api_version>1</current_api_version>
+            <active>true</active>
+        </Mage_TestModule3>
+    </modules>
+    <global>
+        <di>
+            <preferences>
+                <Mage_TestModule3_Service_V1_ErrorInterface>Mage_TestModule3_Service_V1_Error</Mage_TestModule3_Service_V1_ErrorInterface>
+            </preferences>
+        </di>
+    </global>
+</config>
