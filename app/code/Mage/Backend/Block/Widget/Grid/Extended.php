@@ -165,7 +165,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
     protected function _construct()
     {
         parent::_construct();
-        $this->_emptyText = Mage::helper('Mage_Backend_Helper_Data')->__('We couldn\'t find records for this period.');
+        $this->_emptyText = Mage::helper('Mage_Backend_Helper_Data')->__('We couldn\'t find any records.');
         $this->_exportPath = Mage::getBaseDir('var') . DS . 'export';
     }
 
