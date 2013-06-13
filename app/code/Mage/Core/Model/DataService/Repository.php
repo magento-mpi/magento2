@@ -42,7 +42,7 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
     /**
      * Get all data services from namespace.
      *
-     * @param $namespace
+     * @param string $namespace
      * @return array
      */
     public function getByNamespace($namespace)
@@ -62,7 +62,7 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
      * Add new service data.
      *
      * @param string $name
-     * @param Mage_Core_Model_DataService_Path_Node $dataService
+     * @param Mage_Core_Model_DataService_Path_NodeInterface $dataService
      * @return $this
      */
     public function add($name, $dataService)
@@ -75,7 +75,7 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
      * Get service data by name.
      *
      * @param string $name
-     * @return Mage_Core_Model_DataService_Path_NodeInterface
+     * @return Mage_Core_Model_DataService_Path_NodeInterface|null
      */
     public function get($name)
     {
