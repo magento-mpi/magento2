@@ -71,7 +71,7 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
         if ($dataService === null) {
             $dataService = $this->_invoker->getServiceData($dataServiceName);
         }
-        $this->getRepository()->add($dataServiceName, $dataService);
+        $this->_repository->add($dataServiceName, $dataService);
         return $dataService;
     }
 
@@ -83,17 +83,7 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
      */
     public function getByNamespace($namespace)
     {
-        return $this->getRepository()->getByNamespace($namespace);
-    }
-
-    /**
-     * Get repository object.
-     *
-     * @return \Mage_Core_Model_DataService_Repository
-     */
-    protected function getRepository()
-    {
-        return $this->_repository;
+        return $this->_repository->getByNamespace($namespace);
     }
 
     /**
