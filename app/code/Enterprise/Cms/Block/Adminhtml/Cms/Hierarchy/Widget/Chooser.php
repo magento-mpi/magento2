@@ -123,7 +123,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                 treeRoot'.$this->getId().'.expand();
             }
             else {
-                $("tree'.$this->getId().'").innerHTML = "'.$this->__('No Nodes available').'";
+                $("tree'.$this->getId().'").innerHTML = "'.$this->__('No nodes are available.').'";
             }
             </script>
         ';

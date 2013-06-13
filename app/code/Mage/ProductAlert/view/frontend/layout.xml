@@ -22,7 +22,7 @@
                     <block type="Mage_ProductAlert_Block_Product_View" name="productalert.stock" as="productalert_stock" template="product/view.phtml">
                         <action method="prepareStockAlertData"/>
                         <action method="setHtmlClass"><value>alert-stock link-stock-alert</value></action>
-                        <action method="setSignupLabel" translate="value"><value>Sign up to get notified when this product is back in stock</value></action>
+                        <action method="setSignupLabel" translate="value"><value>Sign up to be notified when this product is back in stock.</value></action>
                     </block>
                 </reference>
             </reference>

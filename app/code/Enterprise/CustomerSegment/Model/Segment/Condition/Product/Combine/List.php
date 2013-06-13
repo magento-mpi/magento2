@@ -72,7 +72,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     {
         $this->setValueOption(array(
             self::CART      => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart'),
-            self::WISHLIST  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wishlist'),
+            self::WISHLIST  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wish List'),
         ));
         return $this;
     }

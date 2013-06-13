@@ -16,10 +16,24 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_Template extends Mage_Core_Block_Template
 {
+    /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(Mage_Backend_Block_Template_Context $context, array $data = array())
+    {
+        $this->_authorization = $context->getAuthorization();
+        parent::__construct($context, $data);
+    }
+
     /**
      * Retrieve Session Form Key
      *

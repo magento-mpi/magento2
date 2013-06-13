@@ -25,7 +25,7 @@ class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action
     protected $_helper;
 
     /**
-     * @var Mage_Core_Model_Authorization
+     * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
 
@@ -43,7 +43,7 @@ class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action
      * @param Mage_Backend_Model_Session $session
      * @param Mage_Backend_Helper_Data $helper
      * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Authorization $authorization
+     * @param Magento_AuthorizationInterface $authorization
      * @param Mage_Core_Model_Translate $translator
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -57,7 +57,7 @@ class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Session $session,
         Mage_Backend_Helper_Data $helper,
-        Mage_Core_Model_Authorization $authorization,
+        Magento_AuthorizationInterface $authorization,
         Mage_Core_Model_Translate $translator
     ) {
         parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $eventManager);
@@ -84,7 +84,7 @@ class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * @return \Mage_Core_Model_Authorization
+     * @return \Magento_AuthorizationInterface
      */
     public function getAuthorization()
     {

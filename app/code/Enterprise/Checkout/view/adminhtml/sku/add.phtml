@@ -44,7 +44,7 @@
             <label class="label" for="sku_upload"><?php echo $this->__('File') ?></label>
             <div class="control">
                 <input type="file" id="sku_upload" name="<?php echo Enterprise_Checkout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" value=""/>
-                <div class="note"><span><?php echo $this->__('Allowed file type: csv.<br/>File must contain two columns, with "sku" and "qty" in the header row.') ?></span></div>
+                <div class="note"><span><?php echo $this->__('Your csv file must include "sku" and "qty" columns.') ?></span></div>
                 <button type="button" onclick="resetUploadField()" class="button btn-reset"><span><span><span><?php echo $this->__('Reset')?></span></span></span></button>
             </div>
             <script type="text/javascript">

@@ -79,7 +79,7 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_ImportValidationTest exten
                             "Invalid value for '%attribute_id%' in rows: 1"
                         ),
                     'validation' => array(
-                        "File is totally invalid. Please fix errors and re-upload file",
+                        "File is totally invalid. Please fix errors and re-upload file.",
                         "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
                         )
                     )

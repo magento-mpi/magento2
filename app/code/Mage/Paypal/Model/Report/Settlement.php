@@ -189,7 +189,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
             $localCsv = tempnam(Mage::getBaseDir(Mage_Core_Model_Dir::TMP), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
-                    Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Cannot create target file for reading reports.'));
+                    Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = file_get_contents($localCsv);

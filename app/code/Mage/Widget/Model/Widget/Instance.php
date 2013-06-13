@@ -152,7 +152,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($this->isCompleteToCreate()) {
             return true;
         }
-        return Mage::helper('Mage_Widget_Helper_Data')->__('Widget instance is not full complete to create.');
+        return Mage::helper('Mage_Widget_Helper_Data')->__('We cannot create the widget instance because it is missing required information.');
     }
 
     /**

@@ -333,11 +333,9 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $productData = $productData['create_full']['soap'];
         $productData['set'] = 9999;
 
-        try {
-            Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
-        } catch (Exception $e) {
-            $this->assertEquals('Product attribute set does not exist.', $e->getMessage(), 'Invalid exception message');
-        }
+        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate',
+            $productData, 'Product attribute set does not exist.'
+        );
 
         // find not product (category) attribute set identifier to try other error message
         /** @var $entity Mage_Eav_Model_Entity_Type */
@@ -354,15 +352,9 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
         $productData['set'] = $categoryAttrSetId;
 
-        try {
-            Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Product attribute set does not belong to catalog product entity type.',
-                $e->getMessage(),
-                'Invalid exception message'
-            );
-        }
+        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate',
+            $productData, 'Product attribute set does not belong to catalog product entity type.'
+        );
     }
 
     /**

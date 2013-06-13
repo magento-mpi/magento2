@@ -82,7 +82,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="days">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Days in Wishlist</header>
+                        <header translate="true" module="Mage_Wishlist">Days in Wish List</header>
                         <index>days_in_wishlist</index>
                         <type>number</type>
                         <id>days</id>

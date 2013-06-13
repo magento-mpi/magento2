@@ -39,14 +39,14 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
     protected $_storeLimitation;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Website_Limitation $websiteLimitation
      * @param Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation
      * @param Mage_Core_Model_Store_Limitation $storeLimitation
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Website_Limitation $websiteLimitation,
         Mage_Core_Model_Store_Group_Limitation $storeGroupLimitation,
         Mage_Core_Model_Store_Limitation $storeLimitation,

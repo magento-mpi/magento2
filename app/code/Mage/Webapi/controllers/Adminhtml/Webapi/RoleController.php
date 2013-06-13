@@ -205,11 +205,12 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         // parse resource list
         $resources = explode(',', $this->getRequest()->getParam('resource', false));
         $isAll = $this->getRequest()->getParam('all');
+        $rootResource = $this->_objectManager->get('Mage_Core_Model_Acl_RootResource');
         if ($isAll) {
-            $resources = array(Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID);
-        } elseif (in_array(Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID, $resources)) {
+            $resources = array($rootResource->getId());
+        } elseif (in_array($rootResource->getId(), $resources)) {
             unset($resources[array_search(
-                Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID,
+                $rootResource->getId(),
                 $resources
             )]);
         }
@@ -280,7 +281,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_Webapi::webapi_roles');
+        return $this->_authorization->isAllowed('Mage_Webapi::webapi_roles');
     }
 
 }

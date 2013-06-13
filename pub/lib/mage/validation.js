@@ -907,7 +907,7 @@
                     }
                 }
                 return true;
-            }, "Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com."
+            }, "Please enter valid email addresses, separated by commas. For example, johndoe@domain.com, johnsmith@domain.com."
         ],
 
         "validate-cc-type-select": [

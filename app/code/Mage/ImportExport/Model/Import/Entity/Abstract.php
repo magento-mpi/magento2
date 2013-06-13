@@ -198,7 +198,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
     protected function _getSource()
     {
         if (!$this->_source) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('No source specified'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Please specify a source.'));
         }
         return $this->_source;
     }
@@ -559,7 +559,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
         }
 
         if (!$valid) {
-            $this->addRowError(Mage::helper('Mage_ImportExport_Helper_Data')->__("Invalid value for '%s'"), $rowNum, $attrCode);
+            $this->addRowError(Mage::helper('Mage_ImportExport_Helper_Data')->__("Please correct the value for '%s'."), $rowNum, $attrCode);
         } elseif (!empty($attrParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attrCode][$rowData[$attrCode]])) {
                 $this->addRowError(Mage::helper('Mage_ImportExport_Helper_Data')->__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
@@ -653,7 +653,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 Mage::throwException(
-                    $helper->__('Can not find required columns: %s', implode(', ', $absentColumns))
+                    $helper->__('Cannot find required columns: %s', implode(', ', $absentColumns))
                 );
             }
 

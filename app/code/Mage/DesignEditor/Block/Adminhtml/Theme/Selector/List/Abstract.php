@@ -23,7 +23,7 @@
  */
 // @codingStandardsIgnoreEnd
 abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
-    extends Mage_Core_Block_Template
+    extends Mage_Backend_Block_Template
 {
     /**
      * Get tab title

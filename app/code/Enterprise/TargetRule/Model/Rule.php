@@ -338,7 +338,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
                     );
                 }
                 if (isset($actionArgs['attribute']) && !$validator->isValid($actionArgs['attribute'])) {
-                    $result[] = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
+                    $result[] = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.');
                 }
             }
         }

@@ -93,13 +93,13 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
         if ($agreementModel && $agreementModel->canCancel()) {
             try {
                 $agreementModel->cancel();
-                $this->_getSession()->addSuccess($this->__('The billing agreement has been canceled.'));
+                $this->_getSession()->addSuccess($this->__('You canceled the billing agreement.'));
                 $this->_redirect('*/*/view', array('_current' => true));
                 return;
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Failed to cancel the billing agreement.'));
+                $this->_getSession()->addError($this->__('We could not cancel the billing agreement.'));
                 Mage::logException($e);
             }
             $this->_redirect('*/*/view', array('_current' => true));
@@ -117,13 +117,13 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
         if ($agreementModel) {
             try {
                 $agreementModel->delete();
-                $this->_getSession()->addSuccess($this->__('The billing agreement has been deleted.'));
+                $this->_getSession()->addSuccess($this->__('You deleted the billing agreement.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Failed to delete the billing agreement.'));
+                $this->_getSession()->addError($this->__('We could not delete the billing agreement.'));
                 Mage::logException($e);
             }
             $this->_redirect('*/*/view', array('_current' => true));
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
         $agreementModel = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($agreementId);
 
         if (!$agreementModel->getId()) {
-            $this->_getSession()->addError($this->__('Wrong billing agreement ID specified.'));
+            $this->_getSession()->addError($this->__('Please specify the correct billing agreement ID and try again.'));
             return false;
         }
 

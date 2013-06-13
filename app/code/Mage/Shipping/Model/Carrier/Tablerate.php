@@ -150,7 +150,7 @@ class Mage_Shipping_Model_Carrier_Tablerate
         );
 
         if (!isset($codes[$type])) {
-            throw Mage::exception('Mage_Shipping', Mage::helper('Mage_Shipping_Helper_Data')->__('Invalid Table Rate code type: %s', $type));
+            throw Mage::exception('Mage_Shipping', Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct Table Rate code type: %s.', $type));
         }
 
         if (''===$code) {
@@ -158,7 +158,7 @@ class Mage_Shipping_Model_Carrier_Tablerate
         }
 
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Mage_Shipping', Mage::helper('Mage_Shipping_Helper_Data')->__('Invalid Table Rate code for type %s: %s', $type, $code));
+            throw Mage::exception('Mage_Shipping', Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct Table Rate code for type %s: %s.', $type, $code));
         }
 
         return $codes[$type][$code];

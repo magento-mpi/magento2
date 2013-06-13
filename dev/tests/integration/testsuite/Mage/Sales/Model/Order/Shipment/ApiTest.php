@@ -283,9 +283,10 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _getOrderFixture()
     {
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
-        return $order;
+        /** @var $order Mage_Sales_Model_Resource_Order_Collection */
+        $orderCollection = Mage::getModel('Mage_Sales_Model_Resource_Order_Collection');
+        $this->assertCount(1, $orderCollection->getItems());
+        return $orderCollection->getFirstItem();
     }
 
     /**
@@ -295,8 +296,9 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _getShipmentFixture()
     {
-        /** @var $shipment Mage_Sales_Model_Order_Shipment */
-        $shipment = Mage::registry('shipment');
-        return $shipment;
+        /** @var $order Mage_Sales_Model_Resource_Order_Shipment_Collection */
+        $collection = Mage::getModel('Mage_Sales_Model_Resource_Order_Shipment_Collection');
+        $this->assertCount(1, $collection->getItems());
+        return $collection->getFirstItem();
     }
 }
