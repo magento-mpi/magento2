@@ -9,10 +9,14 @@
  */
 class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_DataService_Config */
+    /**
+     * @var Mage_Core_Model_DataService_Config
+     */
     protected $_dataServiceConfig;
 
-    /** @var  Mage_Core_Model_DataService_Config_Reader */
+    /**
+     * @var  Mage_Core_Model_DataService_Config_Reader
+     */
     private $_reader;
 
     /**
@@ -28,7 +32,6 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_reader->expects($this->any())
             ->method('getServiceCallConfig')
             ->will($this->returnValue($config));
-
         $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config($this->_reader);
     }
 
