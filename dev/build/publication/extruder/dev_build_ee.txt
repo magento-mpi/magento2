@@ -1,7 +1,5 @@
 # special case for EE edition in build mode: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
-app/code/Enterprise/Queue/etc/config.xml
 ~dev/tests/functional
 dev/tests/functional/fixture/saas
 dev/tests/functional/testsuite/Saas
-dev/tests/unit/testsuite/Enterprise/Queue

@@ -10,6 +10,14 @@
 -->
 <config>
     <global>
+        <cache>
+            <request_processors>
+                <saas_replication>
+                    <sortOrder>40</sortOrder>
+                    <class>Saas_PageCache_Model_RequestProcessor_Replication</class>
+                </saas_replication>
+            </request_processors>
+        </cache>
         <configurators>
             <saas_search>Saas_Search_Model_ObjectManager_Configurator</saas_search>
             <saas>Saas_Saas_Model_ObjectManager_Configurator</saas>
@@ -19,6 +27,7 @@
                 <Enterprise_Queue_Model_Event_HandlerInterface>Saas_Queue_Model_Event_Handler</Enterprise_Queue_Model_Event_HandlerInterface>
                 <Magento_JobQueue_ClientInterface>Magento_JobQueue_Client_Gearman</Magento_JobQueue_ClientInterface>
                 <Magento_JobQueue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_JobQueue_Client_ConfigInterface>
+                <Enterprise_PageCache_Model_Processor_RestrictionInterface>Saas_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
             </preferences>
             <!--<Mage_Core_Model_Config>-->
                 <!--<parameters>-->
@@ -78,6 +87,11 @@
                     </handlers>
                 </parameters>
             </Magento_Http_Handler_Composite>
+            <Saas_Saas_Model_Cache>
+                <parameters>
+                    <config>Mage_Core_Model_Config_Proxy</config>
+                </parameters>
+            </Saas_Saas_Model_Cache>
         </di>
     </global>
 </config>

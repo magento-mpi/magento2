@@ -219,6 +219,8 @@
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
+ * @method Saas_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
+ * @method Saas_Mage_Tmt_Helper                                                                        tmtHelper()
  *
  * @method fail($message)
  * @method assertEquals(mixed $expected, mixed $actual, string $message = '', float $delta = 0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false)

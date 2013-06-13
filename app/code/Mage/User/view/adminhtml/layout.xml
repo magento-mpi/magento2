@@ -71,6 +71,7 @@
                         <arguments>
                             <header translate="true" module="Mage_User">Role</header>
                             <type>text</type>
+                            <escape>1</escape>
                             <index>role_name</index>
                         </arguments>
                     </block>

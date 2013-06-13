@@ -25,7 +25,10 @@
                         <curl/>
                         <iconv/>
                         <ctype/>
-                        <gd/>
+                        <any>
+                            <gd/>
+                            <imagick min_version="3.0.0"/>
+                        </any>
                     </extensions>
                 </php>
             </system_requirements>
@@ -117,10 +120,10 @@
         <di>
             <preferences>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
-                <Mage_Core_Model_Event_InvokerInterface>Mage_Core_Model_Event_Invoker_InvokerDefault</Mage_Core_Model_Event_InvokerInterface>
                 <Mage_Core_Model_Store_ConfigInterface>Mage_Core_Model_Store_Config</Mage_Core_Model_Store_ConfigInterface>
                 <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
+                <Mage_Core_Model_Page_Asset_MergeStrategyInterface>Mage_Core_Model_Page_Asset_MergeStrategy_Direct</Mage_Core_Model_Page_Asset_MergeStrategyInterface>
                 <Mage_Core_Model_DataService_ConfigInterface>Mage_Core_Model_DataService_Config</Mage_Core_Model_DataService_ConfigInterface>
                 <Mage_Core_Model_ConfigInterface>Mage_Core_Model_Config</Mage_Core_Model_ConfigInterface>
             </preferences>
@@ -169,20 +172,12 @@
                     <fetchStrategy>Mage_Core_Model_Resource_Store_Collection_FetchStrategy</fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Collection>
-            <Mage_Core_Model_Store_StorageFactory>
-                <parameters>
-                    <config>Mage_Core_Model_Config_Proxy</config>
-                </parameters>
-            </Mage_Core_Model_Store_StorageFactory>
             <Mage_Core_Model_Theme_Image>
                 <shared>0</shared>
             </Mage_Core_Model_Theme_Image>
             <Mage_Core_Model_Page_Asset_Collection>
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
-            <Mage_Core_Block_Twig_Wrapper>
-                <shared>0</shared>
-            </Mage_Core_Block_Twig_Wrapper>
             <Mage_Core_Model_Observer>
                 <parameters>
                     <config>Mage_Core_Model_Config</config>
@@ -325,6 +320,8 @@
             </log>
             <js>
                 <merge_files>0</merge_files>
+                <minify_files>0</minify_files>
+                <minify_adapter>Magento_Code_Minifier_Adapter_Js_Jsmin</minify_adapter>
             </js>
         </dev>
         <system>

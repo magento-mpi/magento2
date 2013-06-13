@@ -162,7 +162,7 @@ class Mage_Core_Model_Translate
      * @param bool $forceReload
      * @return Mage_Core_Model_Translate
      */
-    public function init($area, $initParams, $forceReload = false)
+    public function init($area, $initParams = null, $forceReload = false)
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 

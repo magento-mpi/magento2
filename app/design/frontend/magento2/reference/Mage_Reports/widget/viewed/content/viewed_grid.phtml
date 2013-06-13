@@ -42,13 +42,13 @@
     </div>
     <div class="content">
         <?php echo $this->getPagerHtml() ?>
+        <?php echo '<!-- ' . $image . '-->' ?>
         <ol class="products list items <?php echo $type; ?>">
         <?php $iterator = 1; ?>
         <?php foreach($items as $_item): ?>
             <?php echo ($iterator++==1) ? '<li class="item product">' : '</li><li class="item product">' ?>
                 <div class="product">
 
-                    <?php echo '<!-- ' . $image . '-->' ?>
                     <a href="<?php echo $this->getProductUrl($_item) ?>" class="product photo">
                         <?php echo $imageBlock->init($_item, $image)->toHtml() ?>
                     </a>
@@ -71,7 +71,7 @@
                             <?php if($showCart): ?>
                             <div class="primary">
                                 <?php if($_item->isSaleable()): ?>
-                                <button class="action tocart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button" title="<?php echo $this->__('Add to Cart') ?>">
+                                <button class="action tocart" data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_item) ?>'}" type="button" title="<?php echo $this->__('Add to Cart') ?>">
                                     <span><?php echo $this->__('Add to Cart') ?></span>
                                 </button>
                                 <?php else: ?>
@@ -87,7 +87,7 @@
                             <?php if($showWishlist || $showCompare): ?>
                             <div class="secondary addto links">
                                 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow() && $showWishlist): ?>
-                                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="action towishlist" title="<?php echo $this->__('Add to Wishlist') ?>">
+                                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="action towishlist" data-action="add-to-wishlist" title="<?php echo $this->__('Add to Wishlist') ?>">
                                         <span><?php echo $this->__('Add to Wishlist') ?></span>
                                     </a>
                                 <?php endif; ?>
@@ -106,6 +106,9 @@
             <?php echo ($iterator==count($items)+1) ? '</li>' : '' ?>
         <?php endforeach ?>
         </ol>
+        <script type="text/javascript">
+            head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+        </script>
     </div>
 </div>
 <?php endif;?>

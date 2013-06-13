@@ -10,7 +10,6 @@
 
 class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Mage_Core_Model_Config_Loader_Modules
      */
@@ -27,29 +26,34 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
     protected $_primaryConfigMock;
 
     /**
-     * PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceConfigMock;
 
     /**
-     * PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileReaderMock;
 
     /**
-     * PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
 
     /**
-     * PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sortedFactoryMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_localLoaderMock;
 
     protected function setUp()
     {
@@ -64,6 +68,7 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
             $this->getMock('Mage_Core_Model_Config_Loader_Modules_File', array(), array(), '', false);
         $this->_sortedFactoryMock =
             $this->getMock('Mage_Core_Model_Config_Modules_SortedFactory', array('create'), array(), '', false);
+        $this->_localLoaderMock = $this->getMock('Mage_Core_Model_Config_Loader_Local', array(), array(), '', false);
         $arguments = array(
             'primaryConfig' => $this->_primaryConfigMock,
             'resourceConfig' => $this->_resourceConfigMock,
@@ -71,6 +76,7 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
             'dirs' => $this->_dirMock,
             'sortedFactory' => $this->_sortedFactoryMock,
             'fileReader' => $this->_fileReaderMock,
+            'localLoader' => $this->_localLoaderMock
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $helper->getObject('Mage_Core_Model_Config_Loader_Modules', $arguments);
@@ -82,10 +88,7 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
         $data = array('someKey' => 'someValue');
         $nodeMock->expects($this->once())->method('asArray')->will($this->returnValue($data));
 
-        $this->_configMock
-            ->expects($this->any())
-            ->method('getNode')
-            ->will($this->returnValue($nodeMock));
+        $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValue($nodeMock));
 
         $path = realpath(__DIR__ . '/../_files/modules/');
         $this->_dirMock->expects($this->any())->method("getDir")->will($this->returnValue($path));
@@ -97,13 +100,13 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
             ->will($this->returnValue($sortedConfigMock));
 
         $this->_configMock
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(2))
             ->method('extend')
             ->with($this->logicalOr($this->equalTo($this->_primaryConfigMock), $this->equalTo($sortedConfigMock)));
 
-        $this->_fileReaderMock
-            ->expects($this->once())
-            ->method('loadConfigurationFromFile');
+        $this->_localLoaderMock->expects($this->once())->method('load')->with($this->_configMock);
+
+        $this->_fileReaderMock->expects($this->once())->method('loadConfigurationFromFile');
 
         $this->_configMock->expects($this->once())->method('applyExtends');
 

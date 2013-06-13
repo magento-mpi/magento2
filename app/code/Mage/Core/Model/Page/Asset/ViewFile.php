@@ -65,6 +65,6 @@ class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_
      */
     public function getSourceFile()
     {
-        return $this->_file;
+        return $this->_designPackage->getViewFilePublicPath($this->_file);
     }
 }

@@ -68,6 +68,7 @@
         <xs:attribute name="showInStore" type="xs:int" use="optional" />
         <xs:attribute name="showInWebsite" type="xs:int" use="optional" />
         <xs:attribute name="advanced" type="xs:boolean" use="optional" />
+        <xs:attribute name="extends" type="xs:string" use="optional" />
     </xs:attributeGroup>
 
     <xs:element name="tab">
@@ -134,11 +135,14 @@
                     <xs:element name="clone_fields" type="xs:int" />
                     <xs:element name="expanded" type="xs:int" />
                     <xs:element name="help_url" type="typeUrl" />
+                    <xs:element name="more_url" type="typeUrl" />
+                    <xs:element name="demo_link" type="typeUrl" />
                     <xs:element name="comment" type="xs:string" />
                     <xs:element name="hide_in_single_store_mode" type="xs:int" />
                     <xs:element ref="field" />
                     <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element ref="depends" />
+                    <xs:element ref="attribute" />
                 </xs:choice>
             </xs:sequence>
 
@@ -366,6 +370,7 @@
                             <xs:extension base="xs:string">
                                 <xs:attribute name="id" type="typeElementPath" use="required" />
                                 <xs:attribute name="separator" type='xs:string' use='optional' />
+                                <xs:attribute name="negative" type='xs:int' use='optional' />
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
@@ -442,7 +447,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Z]+[a-z0-9]{1,}(_[A-Z][A-Z0-9a-z]+){1,}(::[A-Z0-9a-z_]+)?" />
+            <xs:pattern value="[A-Z]+[A-Za-z0-9]{1,}(_[A-Z][A-Z0-9a-z]+){1,}(::[A-Z0-9a-z_]+)?" />
             <xs:minLength value="5" />
         </xs:restriction>
     </xs:simpleType>

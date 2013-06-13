@@ -54,8 +54,7 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
         $this->assertEquals(9.99, $customerBalance->getAmount());
 
         //Test giftcard already redeemed
-        $this->setExpectedException('SoapFault');
-        Magento_Test_Helper_Api::call($this,
+        Magento_Test_Helper_Api::callWithException($this,
             'giftcardCustomerRedeem',
             array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
         );
@@ -63,25 +62,21 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
 
     /**
      * Test info throw exception with incorrect data
-     *
-     * @expectedException SoapFault
      */
     public function testIncorrectDataInfoException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/giftcard_customer.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidInfo);
-        Magento_Test_Helper_Api::call($this, 'giftcardCustomerInfo', (array)$invalidData);
+        Magento_Test_Helper_Api::callWithException($this, 'giftcardCustomerInfo', (array)$invalidData);
     }
 
     /**
      * Test redeem throw exception with incorrect data
-     *
-     * @expectedException SoapFault
      */
     public function testIncorrectDataRedeemException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/giftcard_customer.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidRedeem);
-        Magento_Test_Helper_Api::call($this, 'giftcardCustomerRedeem', (array)$invalidData);
+        Magento_Test_Helper_Api::callWithException($this, 'giftcardCustomerRedeem', (array)$invalidData);
     }
 }

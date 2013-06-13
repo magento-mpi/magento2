@@ -149,7 +149,7 @@
         </replace>
     </target>
 
-    <!-- @TODO Eliminate code duplication when build for Go Edition will be created and common parts of code will be clear -->
+    <!-- @TODO Eliminate code duplication when build for Saas Edition will be created and common parts of code will be clear -->
     <target name="run-ee" description="Deploy multiple Magento Enterprise instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')
@@ -330,6 +330,7 @@
                 instance_count: '',
                 tests_executed_saas: ' (relative path or few paths combined into one mask, for instance testsuite/{dir1/subdir1/*name1,dir2/*subdir2*,dir3/name3*})',
                 domain_pattern: '',
+                tmt_host: '',
             };
             for (name in variables) {
                 if (project.getProperty('env.bamboo_' + name) === null) {
@@ -416,6 +417,7 @@
             <replacefilter token="{{selenium_timeout}}" value="${env.selenium_timeout}"/>
             <replacefilter token="{{selenium_browser}}" value="${env.selenium_browser}"/>
             <replacefilter token="{{selenium_testsuite}}" value="${env.selenium_testsuite}"/>
+            <replacefilter token="{{tmt_url}}" value="${env.bamboo_tmt_host}"/>
         </replace>
     </target>
 

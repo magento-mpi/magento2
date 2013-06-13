@@ -115,7 +115,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'required' => true,
             'class' => 'validate-email',
             'disabled' => 'disabled',
-            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
+            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email'),
+            'note' => $helper->__('Uses Store Contact Email as your General Contact Email.'),
         ));
 
         $salesRepresentative = $storeInfo->addFieldset('sales_representative',
@@ -216,6 +217,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'value' => $addressData['city']
         ));
 
+        $businessAddress->addField('postcode', 'text', array(
+            'name' => 'postcode',
+            'label' => $helper->__('ZIP/Postal Code'),
+            'required' => false,
+            'value' => $addressData['postcode']
+        ));
+
         $isRegionFieldText = true;
         if ($addressData['country_id']) {
             $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($addressData['country_id']);
@@ -238,14 +246,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             ));
         }
 
-        $businessAddress->addField('postcode', 'text', array(
-            'name' => 'postcode',
-            'label' => $helper->__('ZIP/Postal Code'),
-            'required' => false,
-            'value' => $addressData['postcode']
-        ));
-
-        $countries = $this->_countryModel->toOptionArray();
+        $countries = $this->_countryModel->toOptionArray(false, 'US');
         $businessAddress->addField('country_id', 'select', array(
             'name' => 'groups[general][store_information][fields][country_id][value]',
             'label' => $helper->__('Country'),
