@@ -28,8 +28,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
 
     protected function setUp()
     {
-        $this->_authorizationMock = $this->getMockBuilder('Mage_Core_Model_Authorization')
-            ->disableOriginalConstructor()
+        $this->_authorizationMock = $this->getMockBuilder('Magento_AuthorizationInterface')
             ->getMock();
 
         $this->_urlModelMock = $this->getMockBuilder('Mage_Backend_Model_Url')
@@ -57,10 +56,10 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
             ->will($this->returnValueMap($urlMap));
 
         $this->_model = new Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator(
+            $this->_authorizationMock,
             array(
                 'path' => '*/sales_order/view',
                 'urlModel' => $this->_urlModelMock,
-                'authorizationModel' => $this->_authorizationMock,
                 'extraParamsTemplate' => array(
                     'order_id' => 'getId'
                 )

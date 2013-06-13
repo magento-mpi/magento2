@@ -445,7 +445,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function defaultCommentString()
     {
-        return $this->__('Please, enter your comments...');
+        return $this->__('Please enter your comments.');
     }
 
     /**
@@ -455,7 +455,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDefaultWishlistName()
     {
-        return $this->__('Wishlist');
+        return $this->__('Wish List');
     }
 
     /**

@@ -20,11 +20,11 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     protected $_storeManager;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
-    public function __construct(Mage_Core_Block_Template_Context $context,
+    public function __construct(Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {

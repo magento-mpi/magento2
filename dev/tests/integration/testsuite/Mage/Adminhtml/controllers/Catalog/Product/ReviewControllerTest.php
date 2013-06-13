@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_Catalog_Product_ReviewControllerTest extends Mage_Backend_Utility_Controller
 {
     /**

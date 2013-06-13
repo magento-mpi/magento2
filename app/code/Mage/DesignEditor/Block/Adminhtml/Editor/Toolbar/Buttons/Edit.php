@@ -30,14 +30,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     protected $_dateModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory
      * @param Mage_Core_Model_Date $dateModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory,
         Mage_Core_Model_Date $dateModel,

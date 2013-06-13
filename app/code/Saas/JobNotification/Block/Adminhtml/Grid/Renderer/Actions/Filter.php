@@ -8,14 +8,14 @@
 class Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter
 {
     /**
-     * @var Mage_Core_Model_Authorization
+     * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Mage_Core_Model_Authorization $authorization
+     * @param Magento_AuthorizationInterface $authorization
      */
-    public function __construct(Mage_Core_Model_Authorization $authorization)
+    public function __construct(Magento_AuthorizationInterface $authorization)
     {
         $this->_authorization = $authorization;
     }

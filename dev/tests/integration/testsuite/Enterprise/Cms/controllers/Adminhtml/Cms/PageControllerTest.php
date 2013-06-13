@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Backend_Utility_Controller
 {
     /**

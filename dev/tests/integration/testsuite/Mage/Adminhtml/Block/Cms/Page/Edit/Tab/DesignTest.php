@@ -11,8 +11,9 @@
 
 /**
  * Test class for Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
+ * @magentoAppArea adminhtml
  */
-class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends Mage_Backend_Area_TestCase
+class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled

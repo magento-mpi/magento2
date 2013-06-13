@@ -124,7 +124,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
         $carriers = $this->_getCarriers($shipment);
 
         if (!isset($carriers[$carrier])) {
-            $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Invalid carrier specified.'));
+            $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('We don\'t recognize the carrier you selected.'));
         }
 
         $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')

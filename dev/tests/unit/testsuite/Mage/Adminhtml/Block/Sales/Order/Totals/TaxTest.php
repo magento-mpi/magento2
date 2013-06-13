@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framework_
         return $objectManagerHelper->getConstructArguments(
             'Mage_Adminhtml_Block_Sales_Order_Totals_Tax',
             array(
-                'context'         => $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false),
+                'context'         => $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false),
                 'taxConfig'       => $this->getMock('Mage_Tax_Model_Config', array(), array(), '', false),
                 'taxHelper'       => $this->_getTaxHelperMock(),
                 'taxCalculation'  => $this->getMock('Mage_Tax_Model_Calculation', array(), array(), '', false),

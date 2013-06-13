@@ -67,6 +67,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerAddressCreate()
     {
+        $this->markTestIncomplete('Unreliable implementation');
         $customerId = 1;
 
         // New address to create

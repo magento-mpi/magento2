@@ -136,9 +136,7 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
      */
     public function getRowUrl($row)
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)
-        ) {
+        if (!$this->_authorization->isAllowed(null)) {
             return false;
         }
 

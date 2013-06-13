@@ -7,7 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends Mage_Backend_Area_TestCase
+
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Test_ObjectManager

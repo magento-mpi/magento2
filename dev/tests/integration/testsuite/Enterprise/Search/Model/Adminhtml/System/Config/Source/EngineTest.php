@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine

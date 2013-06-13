@@ -182,7 +182,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Name must not be empty.'));
+            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Please enter a name.'));
         }
         $bannerContents = $this->getStoreContents();
         $flag = false;

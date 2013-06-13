@@ -44,7 +44,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
     }
 
     /**
-     * Check archive entity existance
+     * Check archive entity existence
      *
      * @param string $archiveEntity
      * @return boolean

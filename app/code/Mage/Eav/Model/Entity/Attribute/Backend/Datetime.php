@@ -11,10 +11,10 @@
 class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Formating date value before save
+     * Formatting date value before save
      *
      * Should set (bool, string) correct type for empty value from html form,
-     * neccessary for farther proccess, else date string
+     * necessary for further process, else date string
      *
      * @param Varien_Object $object
      * @throws Mage_Eav_Exception

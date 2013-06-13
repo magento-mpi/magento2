@@ -14,12 +14,12 @@ class Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions
     protected $_filter;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Context $context
      * @param Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter $filter
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Context $context,
         Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter $filter,
         array $data = array()
     ) {

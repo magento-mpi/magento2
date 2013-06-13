@@ -20,12 +20,12 @@ class Saas_Backend_Block_Adminhtml_System_Store_Edit extends Mage_Adminhtml_Bloc
     protected $_registry;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Registry $registry,
         array $data = array()
     ) {

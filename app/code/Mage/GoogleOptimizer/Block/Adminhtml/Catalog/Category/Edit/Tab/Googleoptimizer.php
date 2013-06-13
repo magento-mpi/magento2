@@ -26,7 +26,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     protected $_formHelper;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
      * @param Mage_GoogleOptimizer_Helper_Form $formHelper
@@ -34,7 +34,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,
         Mage_GoogleOptimizer_Helper_Form $formHelper,

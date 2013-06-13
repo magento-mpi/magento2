@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testIndexAction()

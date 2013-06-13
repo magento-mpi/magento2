@@ -147,7 +147,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         $this->getMassactionBlock()->addItem('status', array(
             'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Close'),
             'url'  => $this->getUrl($this->_getControllerUrl('close')),
-            'confirm'  => Mage::helper('Enterprise_Rma_Helper_Data')->__("You have chosen to change status(es) of the selected RMA requests to Close.\nAre you sure you want to proceed?")
+            'confirm'  => Mage::helper('Enterprise_Rma_Helper_Data')->__("You have chosen to change status(es) of the selected RMA requests to Close. Are you sure you want to proceed?")
         ));
 
         return $this;

@@ -154,7 +154,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             return $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            return $this->_helper('Enterprise_GiftCard_Helper_Data')->__('An error has occurred while preparing Gift Card.');
+            return $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Something went wrong  preparing the gift card.');
         }
 
         $product->addCustomOption('giftcard_amount', $amount, $product);
@@ -200,7 +200,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
         if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
             if ($customAmount <= 0 && $isStrictProcessMode) {
                 Mage::throwException(
-                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify Gift Card amount.')
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a gift card amount.')
                 );
             }
             $amount = $this->_getAmountWithinConstraints($product, $customAmount, $isStrictProcessMode);
@@ -353,29 +353,29 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     {
         if (is_null($amount)) {
             Mage::throwException(
-                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify Gift Card amount.')
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a gift card amount.')
             );
         }
         if (!$buyRequest->getGiftcardRecipientName()) {
             Mage::throwException(
-                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify recipient name.')
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a recipient name.')
             );
         }
         if (!$buyRequest->getGiftcardSenderName()) {
             Mage::throwException(
-                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify sender name.')
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a sender name.')
             );
         }
 
         if (!$isPhysical) {
             if (!$buyRequest->getGiftcardRecipientEmail()) {
                 Mage::throwException(
-                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify recipient email.')
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a recipient email.')
                 );
             }
             if (!$buyRequest->getGiftcardSenderEmail()) {
                 Mage::throwException(
-                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify sender email.')
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a sender email.')
                 );
             }
         }
