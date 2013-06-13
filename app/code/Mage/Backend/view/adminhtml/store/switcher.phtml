@@ -12,13 +12,14 @@
 <?php if ($websites = $this->getWebsites()): ?>
     <div class="store-switcher-alt">
         <input type="hidden" name="store_switcher" id="store_switcher"
+            data-role="store-id"
             value="<?php echo $this->escapeHtml($this->getStoreId()) ?>"
-            onchange="return switchStore(this);"<?php echo $this->getUiId()?>>
+            onchange="return switchStore(this);"<?php echo $this->getUiId()?> />
         <strong class="store-selected" data-toggle="dropdown">
-            <?php echo $this->getCurentStoreName() ?>
+            <?php echo $this->getCurrentStoreName() ?>
         </strong>
 
-        <ul class="dropdown-menu" id="store_switcher_list">
+        <ul class="dropdown-menu" data-role="stores-list">
             <?php if ($this->hasDefaultOption()): ?>
                 <li class="store-switcher-all">
                     <a data-value=""
@@ -61,11 +62,12 @@
     </div>
 <script type="text/javascript">
     (function($) {
-        var $swither = $('#store_switcher_list');
-        $swither.on('click', '[data-value]', function(event) {
+        var $storesList = $('[data-role=stores-list]');
+        $storesList.on('click', '[data-value]', function(event) {
             var val = $(event.target).data('value');
-            if (val != $('#store_switcher').val()) {
-                $('#store_switcher').val(val).trigger('change');
+            var storeSwitcher = $storesList.find('[data-role=store-id]');
+            if (val != storeSwitcher.val()) {
+                storeSwitcher.val(val).trigger('change');
             }
         });
     })(jQuery)
