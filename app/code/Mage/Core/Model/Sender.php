@@ -32,7 +32,7 @@ class Mage_Core_Model_Sender
      * @param Mage_Core_Model_Store $store
      */
     public function __construct(Mage_Core_Model_Email_Template_Mailer $mailer,
-                                Mage_Core_Model_Email_Info $info, Mage_Core_Model_Store $store
+        Mage_Core_Model_Email_Info $info, Mage_Core_Model_Store $store
     ) {
         $this->_mailer = $mailer;
         $this->_emailInfo = $info;
@@ -46,7 +46,7 @@ class Mage_Core_Model_Sender
      * @param string $sender
      * @param array $templateParams
      * @param int $storeId
-     * @return Mage_Customer_Model_Sender
+     * @return Mage_Core_Model_Sender
      */
     public function send($email, $name, $template, $sender, $templateParams = array(), $storeId)
     {
