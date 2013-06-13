@@ -19,6 +19,24 @@
 class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_Resource_Abstract
 {
     /**
+     * @var Mage_Customer_Model_Config_Share
+     */
+    protected $_configShare;
+
+    /**
+     * @param Mage_Core_Model_Resource $resource
+     * @param Mage_Customer_Model_Config_Share $configShare
+     */
+    public function __construct(
+        Mage_Core_Model_Resource $resource,
+        Mage_Customer_Model_Config_Share $configShare
+    ) {
+        parent::__construct($resource);
+        $this->_configShare = $configShare;
+    }
+
+
+    /**
      * Store associated with rule entities information map
      *
      * @var array
@@ -121,30 +139,29 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      * Save customer Ids matched by segment SQL select on specific website
      *
      * @param Enterprise_CustomerSegment_Model_Segment $segment
-     * @param int $websiteId
      * @param string $select
-     *
      * @return Enterprise_CustomerSegment_Model_Resource_Segment
+     * @throws Exception
      */
-    public function saveCustomersFromSelect($segment, $websiteId, $select)
+    public function saveCustomersFromSelect($segment, $select)
     {
         $customerTable = $this->getTable('enterprise_customersegment_customer');
-        $adapter   = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $segmentId = $segment->getId();
-        $now       = $this->formatDate(time());
+        $now = $this->formatDate(time());
 
         $data = array();
-        $count= 0;
+        $count = 0;
         $stmt = $adapter->query($select);
         $adapter->beginTransaction();
         try {
             while ($row = $stmt->fetch()) {
                 $data[] = array(
-                    'segment_id'    => $segmentId,
-                    'customer_id'   => $row['entity_id'],
-                    'website_id'    => $websiteId,
-                    'added_date'    => $now,
-                    'updated_date'  => $now,
+                    'segment_id' => $segmentId,
+                    'customer_id' => $row['entity_id'],
+                    'website_id' => $row['website_id'],
+                    'added_date' => $now,
+                    'updated_date' => $now,
                 );
                 $count++;
                 if (($count % 1000) == 0) {
@@ -186,20 +203,27 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      * Aggregate customer/segments relations by matched segment conditions
      *
      * @param Enterprise_CustomerSegment_Model_Segment $segment
-     *
      * @return Enterprise_CustomerSegment_Model_Resource_Segment
+     * @throws Exception
      */
     public function aggregateMatchedCustomers($segment)
     {
         $websiteIds = $segment->getWebsiteIds();
-        $adapter    = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
 
         $adapter->beginTransaction();
         try {
             $this->deleteSegmentCustomers($segment);
-            foreach ($websiteIds as $websiteId) {
-                $query = $segment->getConditions()->getConditionsSql(null, $websiteId);
-                $this->saveCustomersFromSelect($segment, $websiteId, $query);
+            if (!empty($websiteIds)) {
+                if ($this->_configShare->isGlobalScope()) {
+                    $query = $segment->getConditions()->getConditionsSql(null, $websiteIds);
+                    $this->saveCustomersFromSelect($segment, $query);
+                } else {
+                    foreach ($websiteIds as $websiteId) {
+                        $query = $segment->getConditions()->getConditionsSql(null, $websiteId);
+                        $this->saveCustomersFromSelect($segment, $query);
+                    }
+                }
             }
         } catch (Exception $e) {
             $adapter->rollback();
