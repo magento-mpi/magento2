@@ -66,7 +66,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      *
      * @var Mage_Core_Model_DataService_Invoker
      */
-    protected $_dataserviceInvoker;
+     protected $_dataServiceInvoker;
 
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
@@ -93,7 +93,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         $this->_sourceFactory = $sourceFactory;
         $this->_commentFactory = $commentFactory;
         $this->_blockFactory = $blockFactory;
-        $this->_dataserviceInvoker = $dataServiceInvoker;
+        $this->_dataServiceInvoker = $dataServiceInvoker;
         $this->_dependencyMapper = $dependencyMapper;
     }
 
@@ -421,7 +421,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     {
         $valueField = self::DEFAULT_VALUE_FIELD;
         $labelField = self::DEFAULT_LABEL_FIELD;
-        $useEmptyValueOption = self::DEFAULT_INCLUDE_EMPTY_VALUE_OPTION;
+        $inclEmptyValOption = self::DEFAULT_INCLUDE_EMPTY_VALUE_OPTION;
         $serviceCall = $sourceService['service_call'];
         if (isset($sourceService['idField'])) {
             $valueField = $sourceService['idField'];
@@ -430,19 +430,17 @@ class Mage_Backend_Model_Config_Structure_Element_Field
             $labelField = $sourceService['labelField'];
         }
         if (isset($sourceService['includeEmptyValueOption'])) {
-            $useEmptyValueOption = $sourceService['includeEmptyValueOption'];
+            $inclEmptyValOption = $sourceService['includeEmptyValueOption'];
         }
-        $dataCollection = $this->_dataserviceInvoker->getServiceData($serviceCall);
+        $dataCollection = $this->_dataServiceInvoker->getServiceData($serviceCall);
         $options = array();
-        if ($useEmptyValueOption) {
+        if ($inclEmptyValOption) {
             $options[] = array('value' => '', 'label' => '-- Please Select --');
         }
         foreach ($dataCollection as $dataItem) {
-            $label = $this->_translateLabel($dataItem[$labelField]);
-            $value = $dataItem[$valueField];
             $options[] = array(
-                'value' => $value,
-                'label' => $label,
+                'value' => $dataItem[$valueField],
+                'label' => $this->_translateLabel($dataItem[$labelField])
             );
         }
         return $options;
@@ -464,7 +462,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     private function _fillInConstantPlaceholders($value)
     {
-        if (is_string($value) && preg_match('/^{{([A-Z][A-Za-z\d_]+::[A-Z_]+)}}$/', $value, $matches)) {
+        if (is_string($value) && preg_match('/^{{([A-Z][A-Za-z\d_]+::[A-Z\d_]+)}}$/', $value, $matches)) {
             $value = constant($matches[1]);
         }
         return $value;
