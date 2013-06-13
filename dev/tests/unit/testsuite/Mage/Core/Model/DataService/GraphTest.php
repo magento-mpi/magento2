@@ -9,27 +9,35 @@
  */
 class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /**
      * Fake info for service and classes.
      */
     const TEST_CLASS_NAME = 'TEST_CLASS_NAME';
-    const TEST_DATA_SERVICE_NAME = 'TEST_DATA_SERVICE_NAME';
-    const TEST_NAMESPACE = 'TEST_NAMESPACE';
-    const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
-    /**#@-*/
 
-    /** @var Mage_Core_Model_DataService_Graph */
+    const TEST_DATA_SERVICE_NAME = 'TEST_DATA_SERVICE_NAME';
+
+    const TEST_NAMESPACE = 'TEST_NAMESPACE';
+
+    const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
+
+    /**
+     * @var Mage_Core_Model_DataService_Graph
+     */
     protected $_graph;
 
     /**
-     * @var data service
+     * @var object $_dataServiceMock
      */
     protected $_dataServiceMock;
 
-    /** @var  Mage_Core_Model_DataService_Invoker */
+    /**
+     * @var  Mage_Core_Model_DataService_Invoker
+     */
     protected $_factoryMock;
 
-    /** @var  Mage_Core_Model_DataService_Repository */
+    /**
+     * @var  Mage_Core_Model_DataService_Repository
+     */
     protected $_repositoryMock;
 
     /**

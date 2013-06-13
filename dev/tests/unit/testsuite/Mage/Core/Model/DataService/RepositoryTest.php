@@ -9,7 +9,9 @@
  */
 class Mage_Core_Model_DataService_RepositoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_DataService_Repository */
+    /**
+     * @var Mage_Core_Model_DataService_Repository
+     */
     protected $_repository;
 
     /**
