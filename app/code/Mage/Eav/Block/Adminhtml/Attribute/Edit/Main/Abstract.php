@@ -66,6 +66,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
 
         $yesno = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
+        $labels = $attributeObject->getFrontendLabel();
         $fieldset->addField(
             'attribute_label',
             'text',
@@ -74,7 +75,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
                 'label' => $this->__('Attribute Label'),
                 'title' => $this->__('Attribute Label'),
                 'required' => true,
-                'value' => $attributeObject->getFrontendLabel()
+                'value' => is_array($labels)  && count($labels) ? $labels[0] : null
             )
         );
 
