@@ -92,6 +92,7 @@
                 postcode = $(this.options.postcodeId),
                 requiredLabel = regionList.parent().siblings('label').children('em');
             this._clearError();
+            this._checkRegionRequired(country);
             // Populate state/province dropdown list if available or use input box
             if (this.options.regionJson[country]) {
                 this._removeSelectOptions(regionList);
@@ -107,12 +108,25 @@
                     }).attr('selected', true);
                 }
                 if (this.options.isRegionRequired) {
-                    regionList.addClass('required-entry');
+                    regionList.addClass('required-entry').removeAttr('disabled');
+                    requiredLabel.show();
+                } else {
+                    regionList.removeClass('required-entry validate-select').removeAttr('data-validate');
+                    requiredLabel.hide();
+                    if (!this.options.optionalRegionAllowed) {
+                        regionList.attr('disabled', 'disabled');
+                    }
                 }
                 regionList.show();
                 regionInput.hide();
-                requiredLabel.show();
             } else {
+                if (this.options.isRegionRequired) {
+                    regionInput.removeAttr('disabled');
+                } else {
+                    if (!this.options.optionalRegionAllowed) {
+                        regionInput.attr('disabled', 'disabled');
+                    }
+                }
                 regionList.removeClass('required-entry').hide();
                 regionInput.show();
                 requiredLabel.hide();
@@ -125,6 +139,20 @@
             }
             // Add defaultvalue attribute to state/province select element
             regionList.attr('defaultvalue', this.options.defaultRegion);
+        },
+
+        /**
+         *Check if the selected country has a mandatory region selection
+         * @param country Code of the country, such as 'US'
+         */
+        _checkRegionRequired: function(country) {
+            this.options.isRegionRequired = false;
+            var self = this;
+            $.each(this.options.regionJson.config.regions_required, function(index, elem){
+                if (elem == country) {
+                    self.options.isRegionRequired = true;
+                }
+            });
         }
     });
 })(jQuery);
