@@ -62,14 +62,16 @@ class Mage_DesignEditor_Model_Url_NavigationMode extends Mage_Core_Model_Url
      */
     public function getRouteUrl($routePath = null, $routeParams = null)
     {
-        $this->_hasThemeAndMode();
         $url = parent::getRouteUrl($routePath, $routeParams);
-        $baseUrl = trim($this->getBaseUrl(), '/');
-        $vdeBaseUrl = implode('/', array(
-            $baseUrl, $this->_helper->getFrontName(), $this->_mode, $this->_themeId
-        ));
-        if (strpos($url, $baseUrl) === 0 && strpos($url, $vdeBaseUrl) === false) {
-            $url = str_replace($baseUrl, $vdeBaseUrl, $url);
+        if (!isset($routeParams['_useVdeFrontend']) || $routeParams['_useVdeFrontend'] === true) {
+            $this->_hasThemeAndMode();
+            $baseUrl = trim($this->getBaseUrl(), '/');
+            $vdeBaseUrl = implode('/', array(
+                $baseUrl, $this->_helper->getFrontName(), $this->_mode, $this->_themeId
+            ));
+            if (strpos($url, $baseUrl) === 0 && strpos($url, $vdeBaseUrl) === false) {
+                $url = str_replace($baseUrl, $vdeBaseUrl, $url);
+            }
         }
         return $url;
     }

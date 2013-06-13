@@ -142,10 +142,10 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
         }
 
         $store = $this->_parser->getStoreManager()->getStore();
-        $ajaxUrl = $this->_url->getUrl('core/ajax/translate',
-            array('_secure'=>$store->isCurrentlySecure(),
-                  '_useRealRoute' => true,
-                  '_useVdeFrontend' => true));
+        $ajaxUrl = $this->_url->getUrl('core/ajax/translate', array(
+            '_secure' => $store->isCurrentlySecure(),
+            '_useVdeFrontend' => false
+        ));
 
         /** @var $block Mage_Core_Block_Template */
         $block = $this->_objectManager->create('Mage_Core_Block_Template');
