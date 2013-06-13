@@ -39,6 +39,7 @@ return array(
     array('_decodeInput', 'Mage_Adminhtml_Catalog_ProductController'),
     array('_emailOrderConfirmation', 'Mage_Checkout_Model_Type_Abstract'),
     array('_escapeValue', 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract'),
+    array('_filterPostData', 'Mage_Adminhtml_Catalog_Product_AttributeController'),
     array('_generateCssHtml', 'Mage_Page_Block_Html_Head'),
     array('_generateJsHtml', 'Mage_Page_Block_Html_Head'),
     array('_getAddressTaxRequest', 'Mage_Tax_Model_Sales_Total_Quote_Shipping'),

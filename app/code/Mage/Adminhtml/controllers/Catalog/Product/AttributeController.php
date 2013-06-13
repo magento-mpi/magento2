@@ -177,17 +177,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     }
 
     /**
-     * Filter post data
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function _filterPostData($data)
-    {
-        return $data;
-    }
-
-    /**
      * Generate code from label
      *
      * @param string $label
@@ -339,8 +328,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 unset($data['apply_to']);
             }
 
-            //filter
-            $data = $this->_filterPostData($data);
             $model->addData($data);
 
             if (!$id) {
