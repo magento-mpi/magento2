@@ -12,6 +12,10 @@
  * @category   Mage
  * @package    Mage_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * Suppress the rules as the class extends Mage_Payment_Model_Method_Abstract which is not refactored
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_Method_Abstract
 {
@@ -83,7 +87,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      *
      * @var mixed
      */
-    protected $_url = 'https://gateway.cardgateplus.com/';
+    const CARDGATE_URL = 'https://gateway.cardgateplus.com/';
 
     /**
      * Codes of supported currencies
@@ -147,7 +151,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      */
     public function getGatewayUrl()
     {
-        return $this->_url;
+        return self::CARDGATE_URL;
     }
 
     /**
@@ -178,6 +182,9 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      *
      * @param Mage_Sales_Model_Order $order
      * @return void
+     *
+     * Suppress this rule as $order parameter is a part of method signature
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function setSortOrder($order)
     {
@@ -255,6 +262,8 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      * Generates checkout form fields
      *
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getCheckoutFormFields()
     {
@@ -266,6 +275,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
         $statusMessage = $this->_helper->__('Transaction started, waiting for payment.');
         $order->setState($newState, $newStatus, $statusMessage);
         $order->save();
+
         $fields = array();
         switch ($this->_model) {
             // Credit cards

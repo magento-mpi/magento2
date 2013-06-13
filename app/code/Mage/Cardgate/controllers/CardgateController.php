@@ -192,7 +192,8 @@ class Mage_Cardgate_CardgateController extends Mage_Core_Controller_Front_Action
         // Verify callback hash
         if (!$this->getRequest()->isPost() || !$this->validate($data)) {
             $base->log('Callback hash validation failed!');
-            exit;
+            $this->getResponse()->setBody('');
+            return;
         }
 
         // Log Callback data
@@ -204,10 +205,11 @@ class Mage_Cardgate_CardgateController extends Mage_Core_Controller_Front_Action
             $base->setCallbackData($data)->processCallback();
         } catch (RuntimeException $e) {
             $base->log($e->getMessage());
-            exit;
+            $this->getResponse()->setBody('');
+            return;
         }
 
         // Display transaction_id and status
-        echo $data['transaction_id'] . '.' . $data['status'];
+        $this->getResponse()->setBody($data['transaction_id'] . '.' . $data['status']);
     }
 }

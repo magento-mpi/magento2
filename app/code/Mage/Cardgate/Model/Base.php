@@ -308,6 +308,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
     /**
      * Returns true if the amounts match
      *
+     * @throws RuntimeException
      * @param Mage_Sales_Model_Order $order
      * @return boolean
      */
@@ -323,7 +324,8 @@ class Mage_Cardgate_Model_Base extends Varien_Object
                 ->__("Hacker attempt: Order total amount does not match CardGatePlus's gross total amount!");
             $order->addStatusToHistory($order->getStatus(), $statusMessage);
             $order->save();
-            return false;
+
+            throw new RuntimeException('Amount validation failed!');
         }
 
         return true;
@@ -357,9 +359,49 @@ class Mage_Cardgate_Model_Base extends Varien_Object
     }
 
     /**
+     * Sends new order email if it wasn't send earlier
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return void
+     */
+    protected function _sendOrderEmail(Mage_Sales_Model_Order $order)
+    {
+        // Send new order e-mail
+        if (!$order->getEmailSent()) {
+            $order->setEmailSent(true);
+            $order->sendNewOrderEmail();
+        }
+    }
+
+    /**
+     * Update the order status if changed
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @param string $newState
+     * @param string $newStatus
+     * @param string $statusMessage
+     * @return void
+     */
+    protected function _updateOrderState(Mage_Sales_Model_Order $order, $newState, $newStatus, $statusMessage)
+    {
+        if ($this->_isOrderUpdatable($order) &&
+            (($newState != $order->getState()) || ($newStatus != $order->getStatus()))
+        ) {
+            // Create an invoice when the payment is completed
+            if ($newState == Mage_Sales_Model_Order::STATE_PROCESSING && $this->getConfigData("autocreate_invoice")) {
+                $this->_createInvoice($order);
+                $this->log("Creating invoice for order ID: " . $order->getId() . ".");
+            }
+
+            $order->setState($newState, $newStatus, $statusMessage);
+            $this->log("Changing state to ${newState} with message ${statusMessage} for order ID: "
+                . $order->getId() . ".");
+        }
+    }
+
+    /**
      * Process callback for all transactions
      *
-     * @throws RuntimeException
      * @return void
      */
     public function processCallback()
@@ -378,41 +420,30 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         $this->log($this->getCallbackData());
 
         // Validate amount
-        if (!$this->_validateAmount($order)) {
-            throw new RuntimeException('Amount validation failed!');
-        }
+        $this->_validateAmount($order);
 
         $statusComplete    = $this->getConfigData("complete_status");
         $statusFailed      = $this->getConfigData("failed_status");
         $statusFraud       = $this->getConfigData("fraud_status");
-        $autocreateInvoice = $this->getConfigData("autocreate_invoice");
 
-        $complete      = false;
-        $canceled      = false;
         $newState      = null;
         $newStatus     = true;
         $statusMessage = '';
 
         switch ($this->getCallbackData('status')) {
             case "200":
-                $complete = true;
                 $newState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $newStatus = $statusComplete;
                 $statusMessage = $this->_helper->__("Payment complete.");
-                // Send new order e-mail
-                if (!$order->getEmailSent()) {
-                    $order->setEmailSent(true);
-                    $order->sendNewOrderEmail();
-                }
+                // send new email
+                $this->_sendOrderEmail($order);
                 break;
             case "300":
-                $canceled = true;
                 $newState = Mage_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFailed;
                 $statusMessage = $this->_helper->__("Payment failed or canceled by user.");
                 break;
             case "301":
-                $canceled = true;
                 $newState = Mage_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFraud;
                 $statusMessage = $this->_helper->__("Transaction failed, payment is fraud.");
@@ -423,18 +454,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         $this->lock();
 
         // Update the status if changed
-        if ($this->_isOrderUpdatable($order) &&
-            (($newState != $order->getState()) || ($newStatus != $order->getStatus()))
-        ) {
-            // Create an invoice when the payment is completed
-            if ($complete && !$canceled && $autocreateInvoice) {
-                $this->_createInvoice($order);
-                $this->log("Creating invoice for order ID: $orderId.");
-            }
-
-            $order->setState($newState, $newStatus, $statusMessage);
-            $this->log("Changing state to $newState with message $statusMessage for order ID: $orderId.");
-        }
+        $this->_updateOrderState($order, $newState, $newStatus, $statusMessage);
 
         // Save order status changes
         $order->save();
