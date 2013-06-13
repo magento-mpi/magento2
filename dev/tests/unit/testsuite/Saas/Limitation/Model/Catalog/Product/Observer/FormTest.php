@@ -25,7 +25,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
     protected function setUp()
     {
         $this->_limitationValidator = $this->getMock(
-            'Saas_Limitation_Model_Limitation_Validator', array('isThresholdReached'), array(), '', false
+            'Saas_Limitation_Model_Limitation_Validator', array('exceedsThreshold'), array(), '', false
         );
         $this->_limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
         $this->_model = new Saas_Limitation_Model_Catalog_Product_Observer_Form(
@@ -43,7 +43,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
     {
         $this->_limitationValidator
             ->expects($this->any())
-            ->method('isThresholdReached')
+            ->method('exceedsThreshold')
             ->with($this->_limitation)
             ->will($this->returnValue($isThresholdReached))
         ;

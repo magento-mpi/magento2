@@ -36,7 +36,7 @@ class Saas_Limitation_Model_Observer_ControllerTest extends PHPUnit_Framework_Te
     {
         $this->_session = $this->getMock('Mage_Backend_Model_Session', array('addNotice'), array(), '', false);
         $this->_limitationValidator = $this->getMock(
-            'Saas_Limitation_Model_Limitation_Validator', array('isThresholdReached'), array(), '', false
+            'Saas_Limitation_Model_Limitation_Validator', array('exceedsThreshold'), array(), '', false
         );
         $this->_limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
         $this->_dictionary = $this->getMock(
@@ -61,7 +61,7 @@ class Saas_Limitation_Model_Observer_ControllerTest extends PHPUnit_Framework_Te
     {
         $this->_limitationValidator
             ->expects($this->once())
-            ->method('isThresholdReached')
+            ->method('exceedsThreshold')
             ->with($this->_limitation)
             ->will($this->returnValue(true))
         ;
@@ -73,7 +73,7 @@ class Saas_Limitation_Model_Observer_ControllerTest extends PHPUnit_Framework_Te
     {
         $this->_limitationValidator
             ->expects($this->once())
-            ->method('isThresholdReached')
+            ->method('exceedsThreshold')
             ->with($this->_limitation)
             ->will($this->returnValue(false))
         ;

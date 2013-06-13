@@ -40,7 +40,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Form
         $block = $observer->getEvent()->getData('block');
         if ($block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit) {
             $product = $block->getProduct();
-            $isThresholdReached = $this->_limitationValidator->isThresholdReached(
+            $isThresholdReached = $this->_limitationValidator->exceedsThreshold(
                 $this->_limitation,
                 !$product || $product->isObjectNew() ? 2 : 1
             );

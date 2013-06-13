@@ -63,7 +63,7 @@ class Saas_Limitation_Model_Observer_Grid
      */
     protected function _isThresholdReached()
     {
-        return $this->_limitationValidator->isThresholdReached($this->_limitation);
+        return $this->_limitationValidator->exceedsThreshold($this->_limitation);
     }
 
     /**

@@ -51,7 +51,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations
         $entity = $observer->getEvent()->getData('product');
         $variations = $observer->getEvent()->getData('variations');
         $qty = ($entity->isObjectNew() ? 1 : 0) + count($variations);
-        if ($qty > 0 && $this->_limitationValidator->isThresholdReached($this->_limitation, $qty)) {
+        if ($qty > 0 && $this->_limitationValidator->exceedsThreshold($this->_limitation, $qty)) {
             $message = sprintf($this->_message, $qty, $this->_limitation->getThreshold());
             throw new Mage_Catalog_Exception($message);
         }

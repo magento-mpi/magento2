@@ -35,7 +35,7 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_limitationValidator = $this->getMock(
-            'Saas_Limitation_Model_Limitation_Validator', array('isThresholdReached'), array(), '', false
+            'Saas_Limitation_Model_Limitation_Validator', array('exceedsThreshold'), array(), '', false
         );
         $this->_limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
         $this->_block = $this->getMock(
@@ -61,7 +61,7 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
     {
         $this->_limitationValidator
             ->expects($this->any())
-            ->method('isThresholdReached')
+            ->method('exceedsThreshold')
             ->with($this->_limitation)
             ->will($this->returnValue($isThresholdReached))
         ;

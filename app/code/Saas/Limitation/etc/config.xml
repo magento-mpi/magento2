@@ -23,6 +23,7 @@
         <di>
             <Saas_Limitation_Model_Dictionary>
                 <parameters>
+                    <translationHelper>Saas_Limitation_Helper_Data</translationHelper>
                     <messages translate="store,store_group,website,user,catalog_category,catalog_product,catalog_product_creation,catalog_product_variations" module="Saas_Limitation">
                         <store>Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.</store>
                         <store_group>You are using the maximum number of stores allowed.</store_group>

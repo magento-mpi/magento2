@@ -73,6 +73,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Laun
      */
     public function isAddProductRestricted()
     {
-        return $this->_limitationValidator->isThresholdReached($this->_limitation);
+        return $this->_limitationValidator->exceedsThreshold($this->_limitation);
     }
 }

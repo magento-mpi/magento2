@@ -50,7 +50,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_Redirect
         /** @var Mage_Adminhtml_Catalog_ProductController $controller */
         $controller = $observer->getEvent()->getData('controller');
         $redirectTarget = $controller->getRequest()->getParam('back');
-        if ($redirectTarget == 'new' && $this->_limitationValidator->isThresholdReached($this->_limitation)) {
+        if ($redirectTarget == 'new' && $this->_limitationValidator->exceedsThreshold($this->_limitation)) {
             throw new Mage_Catalog_Exception($this->_message);
         }
     }

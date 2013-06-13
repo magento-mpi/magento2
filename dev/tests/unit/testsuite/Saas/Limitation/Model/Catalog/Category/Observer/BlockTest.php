@@ -25,7 +25,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
     protected function setUp()
     {
         $this->_limitationValidator = $this->getMock(
-            'Saas_Limitation_Model_Limitation_Validator', array('isThresholdReached'), array(), '', false
+            'Saas_Limitation_Model_Limitation_Validator', array('exceedsThreshold'), array(), '', false
         );
         $this->_limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
         $this->_model = new Saas_Limitation_Model_Catalog_Category_Observer_Block(
@@ -43,7 +43,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
     {
         $this->_limitationValidator
             ->expects($this->any())
-            ->method('isThresholdReached')
+            ->method('exceedsThreshold')
             ->with($this->_limitation)
             ->will($this->returnValue($isThresholdReached))
         ;
@@ -145,10 +145,9 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $this->_emulateThresholdIsReached(false);
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Category_Edit_Form', array('getCategoryId', 'getChildBlock'),
+            'Mage_Adminhtml_Block_Catalog_Category_Edit_Form', array('getChildBlock'),
             array(), '', false
         );
-        $block->expects($this->never())->method('getCategoryId');
         $block->expects($this->never())->method('getChildBlock');
 
         $this->_model->disableCreationButtons(new Varien_Event_Observer(array(

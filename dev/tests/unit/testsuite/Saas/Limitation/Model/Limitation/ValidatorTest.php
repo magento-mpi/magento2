@@ -12,22 +12,22 @@ class Saas_Limitation_Model_Limitation_ValidatorTest extends PHPUnit_Framework_T
      * @param int $fixtureThreshold
      * @param int $inputQuantity
      * @param bool $expectedResult
-     * @dataProvider isThresholdReachedDataProvider
+     * @dataProvider exceedsThresholdDataProvider
      */
-    public function testIsThresholdReached($fixtureTotalCount, $fixtureThreshold, $inputQuantity, $expectedResult)
+    public function testExceedsThreshold($fixtureTotalCount, $fixtureThreshold, $inputQuantity, $expectedResult)
     {
         $limitation = $this->getMock('Saas_Limitation_Model_Limitation_LimitationInterface');
         $limitation->expects($this->any())->method('getThreshold')->will($this->returnValue($fixtureThreshold));
         $limitation->expects($this->any())->method('getTotalCount')->will($this->returnValue($fixtureTotalCount));
 
         $model = new Saas_Limitation_Model_Limitation_Validator();
-        $this->assertEquals($expectedResult, $model->isThresholdReached($limitation, $inputQuantity));
+        $this->assertEquals($expectedResult, $model->exceedsThreshold($limitation, $inputQuantity));
     }
 
     /**
      * @return array
      */
-    public function isThresholdReachedDataProvider()
+    public function exceedsThresholdDataProvider()
     {
         return array(
             'negative threshold'        => array(2, -1, 1, false),

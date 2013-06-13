@@ -40,7 +40,7 @@ class Saas_Limitation_Model_Observer_Entity
     }
 
     /**
-     * Restrict creation of new stores upon reaching the limitation
+     * Restrict creation of new entities upon reaching the limitation
      *
      * @param Varien_Event_Observer $observer
      * @throws Mage_Core_Exception
@@ -49,7 +49,7 @@ class Saas_Limitation_Model_Observer_Entity
     {
         /** @var Mage_Core_Model_Abstract $model */
         $model = $observer->getEvent()->getData('data_object');
-        if ($model->isObjectNew() && $this->_limitationValidator->isThresholdReached($this->_limitation)) {
+        if ($model->isObjectNew() && $this->_limitationValidator->exceedsThreshold($this->_limitation)) {
             $exception = new Mage_Core_Exception($this->_message);
             $exception->addMessage(new Mage_Core_Model_Message_Error($this->_message));
             throw $exception;

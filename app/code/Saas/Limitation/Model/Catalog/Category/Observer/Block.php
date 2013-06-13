@@ -38,15 +38,23 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
     public function disableCreationButtons(Varien_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getData('block');
-        if ($this->_limitationValidator->isThresholdReached($this->_limitation)) {
-            if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Tree) {
-                $this->_disableButtonsInCategoryTree($block);
-            } else if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Edit_Form) {
-                $this->_disableButtonsInCategoryForm($block);
-            } else if ($block instanceof Mage_Backend_Block_Widget_Button) {
-                $this->_disableButtonsInProduct($block);
-            }
+        if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Tree) {
+            $this->_disableButtonsInCategoryTree($block);
+        } else if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Edit_Form) {
+            $this->_disableButtonsInCategoryForm($block);
+        } else if ($block instanceof Mage_Backend_Block_Widget_Button) {
+            $this->_disableButtonsInProduct($block);
         }
+    }
+
+    /**
+     * Whether a limitation threshold has been reached
+     *
+     * @return bool
+     */
+    protected function _isThresholdReached()
+    {
+        return $this->_limitationValidator->exceedsThreshold($this->_limitation);
     }
 
     /**
@@ -56,7 +64,9 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
      */
     protected function _disableButtonsInCategoryTree(Mage_Adminhtml_Block_Catalog_Category_Tree $block)
     {
-        $this->_disableChildButtons($block, array('add_root_button', 'add_sub_button'));
+        if ($this->_isThresholdReached()) {
+            $this->_disableChildButtons($block, array('add_root_button', 'add_sub_button'));
+        }
     }
 
     /**
@@ -66,7 +76,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
      */
     protected function _disableButtonsInCategoryForm(Mage_Adminhtml_Block_Catalog_Category_Edit_Form $block)
     {
-        if ($block->getCategoryId() === null) {
+        if ($block->getCategoryId() === null && $this->_isThresholdReached()) {
             $this->_disableChildButtons($block, array('save_button'));
         }
     }
@@ -78,7 +88,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
      */
     protected function _disableButtonsInProduct(Mage_Backend_Block_Widget_Button $block)
     {
-        if ($block->getId() === 'add_category_button') {
+        if ($block->getId() === 'add_category_button' && $this->_isThresholdReached()) {
             $this->_disableButton($block);
         }
     }

@@ -53,11 +53,11 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends PHPUn
         $context = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
         $limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
         $limitationValidator = $this->getMock(
-            'Saas_Limitation_Model_Limitation_Validator', array('isThresholdReached')
+            'Saas_Limitation_Model_Limitation_Validator', array('exceedsThreshold')
         );
         $limitationValidator
             ->expects($this->once())
-            ->method('isThresholdReached')
+            ->method('exceedsThreshold')
             ->with($limitation)
             ->will($this->returnValue($expected))
         ;

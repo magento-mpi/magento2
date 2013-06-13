@@ -48,7 +48,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication
      */
     public function restrict(Varien_Event_Observer $observer)
     {
-        if ($this->_limitationValidator->isThresholdReached($this->_limitation)) {
+        if ($this->_limitationValidator->exceedsThreshold($this->_limitation)) {
             $exception = new Mage_Core_Exception($this->_message);
             $exception->addMessage(new Mage_Core_Model_Message_Error($this->_message));
             throw $exception;

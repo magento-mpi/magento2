@@ -55,7 +55,7 @@ class Saas_Limitation_Model_Observer_Controller
      */
     public function displayNotification(Varien_Event_Observer $observer)
     {
-        if ($this->_limitationValidator->isThresholdReached($this->_limitation)) {
+        if ($this->_limitationValidator->exceedsThreshold($this->_limitation)) {
             $this->_session->addNotice($this->_message);
         }
     }
