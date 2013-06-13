@@ -75,7 +75,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
                 'label' => $this->__('Attribute Label'),
                 'title' => $this->__('Attribute Label'),
                 'required' => true,
-                'value' => is_array($labels)  && count($labels) ? $labels[0] : null
+                'value' => is_array($labels) ? $labels[0] : $labels
             )
         );
 
