@@ -251,7 +251,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     protected function _getSaveAndAssignInitData()
     {
         if ($this->getHasThemeAssigned()) {
-            $message = $this->__("Are you sure you want to change the design of your live store?");
+            $message = $this->__("Are you sure you want this theme to replace your current theme?");
         } else {
             $message = $this->__("Do you want to use this theme in your live store?");
         }
