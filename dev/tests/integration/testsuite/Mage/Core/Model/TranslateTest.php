@@ -32,11 +32,13 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName'),
             array(
+                Mage::getSingleton('Mage_Core_Model_Dir'),
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 Mage::getSingleton('Magento_Filesystem'),
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
-                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')
+                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
+                Mage::getSingleton('Mage_Core_Helper_Css'),
             )
         );
         $this->_designModel->expects($this->any())
@@ -49,7 +51,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
 
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
-        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND, null);
+        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
     }
 
     /**
@@ -160,11 +162,13 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName', 'getDesignTheme'),
             array(
+                Mage::getSingleton('Mage_Core_Model_Dir'),
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 $filesystem,
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
-                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')
+                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
+                Mage::getSingleton('Mage_Core_Helper_Css'),
             )
         );
         $this->_designModel->expects($this->any())
@@ -180,7 +184,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
-        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND, null);
+        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
 
         $actualTranslation = $this->_model->translate(array($inputText));
         $this->assertEquals($expectedTranslation, $actualTranslation);
@@ -226,14 +230,14 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture global/locale/inheritance/en_AU en_UK
      * @magentoConfigFixture global/locale/inheritance/en_UK en_US
      * @dataProvider translateWithLocaleInheritanceDataProvider
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      */
     public function testTranslateWithLocaleInheritance($inputText, $expectedTranslation)
     {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         /** @var Mage_Core_Model_Translate $model */
         $model = Mage::getModel('Mage_Core_Model_Translate');
         $model->setLocale('en_AU');
-        $model->init(Mage_Core_Model_App_Area::AREA_FRONTEND, null);
+        $model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
         $this->assertEquals($expectedTranslation, $model->translate(array($inputText)));
     }
 

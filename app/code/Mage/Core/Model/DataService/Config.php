@@ -39,10 +39,10 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
 
         $this->_serviceCallNodes = array();
 
-        /**
-         * @var  Varien_Simplexml_Element $node
-         */
         if ($serviceCallNodes) {
+            /**
+             * @var  Varien_Simplexml_Element $node
+             */
             foreach ($serviceCallNodes as $node) {
                 $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
             }
@@ -53,12 +53,13 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     /**
      * Get the class information for a given service call
      *
-     * @param $alias
+     * @param string $alias
      * @return array
      * @throws InvalidArgumentException
      */
     public function getClassByAlias($alias)
     {
+        //validate that service call is defined
         if (!isset($this->_serviceCallNodes[$alias])) {
             throw new InvalidArgumentException('Service call with name "' . $alias . '" doesn\'t exist');
         }
@@ -68,9 +69,6 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
          */
         $node = $this->_serviceCallNodes[$alias];
 
-        /**
-         * @var array $methodArguments
-         */
         $methodArguments = array();
 
         /**
@@ -86,9 +84,16 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
             'methodArguments' => $methodArguments,
         );
 
+        //validate that service attribute is defined
         if (!$result['class']) {
             throw new InvalidArgumentException('Invalid Service call ' . $alias
                 . ', service type must be defined in the "service" attribute');
+        }
+
+        //validate that retrieval method attribute is defined
+        if (!$result['retrieveMethod']) {
+            throw new LogicException('Invalid Service call ' . $alias
+                . ', retrieval method must be defined for the service ' . $result['class']);
         }
 
         return $result;

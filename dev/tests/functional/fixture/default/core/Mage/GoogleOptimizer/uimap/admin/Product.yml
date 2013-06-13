@@ -1,0 +1,29 @@
+#
+# {license_notice}
+#
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Add New Product page
+new_product:
+    uimap: &newProduct
+        form: &newProductCreationForm
+            tabs:
+                -
+                    google_experiment: &google_experiment
+                        xpath: //a[@title='Product View Optimization']
+                        fieldsets:
+                            -
+                                google_experiment:
+                                    xpath: //div[*/*/span='Google Analytics Content Experiments Code']
+                                    fields:
+                                        google_experiment_code: //textarea[@id='experiment_script']
+
+# Edit Product page
+edit_product:
+    uimap: &editProduct
+        form:
+            tabs:
+                -
+                    google_experiment: *google_experiment

@@ -75,8 +75,8 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testProcessPreDispatchCannotProcessRequest()
     {
-        /** @var $restriction Enterprise_PageCache_Model_Processor_Restriction */
-        $restriction = Mage::getSingleton('Enterprise_PageCache_Model_Processor_Restriction');
+        /** @var $restriction Enterprise_PageCache_Model_Processor_RestrictionInterface */
+        $restriction = Mage::getSingleton('Enterprise_PageCache_Model_Processor_RestrictionInterface');
         $restriction->setIsDenied();
 
         $observerData = new Varien_Event_Observer();
@@ -90,8 +90,8 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         )));
         $this->_cookie
             ->expects($this->once())
-            ->method('updateCustomerCookies')
-        ;
+            ->method('updateCustomerCookies');
+
         Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         $this->_observer->processPreDispatch($observerData);
         $this->assertFalse(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());

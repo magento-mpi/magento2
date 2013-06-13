@@ -221,6 +221,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Dibs extends Mage_Payment_Model_Me
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(1);
         return $this;
     }
 
@@ -232,9 +233,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Dibs extends Mage_Payment_Model_Me
      */
     public function cancel(Varien_Object $payment)
     {
-        $response = $this->getPbridgeMethodInstance()->void($payment);
-        $payment->addData((array)$response);
-        return $this;
+        return $this->void($payment);
     }
 
     /**

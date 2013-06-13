@@ -249,7 +249,6 @@
  * @method Mage_Sales_Model_Order setRelationParentRealId(string $value)
  * @method string getRemoteIp()
  * @method Mage_Sales_Model_Order setRemoteIp(string $value)
- * @method string getShippingMethod()
  * @method Mage_Sales_Model_Order setShippingMethod(string $value)
  * @method string getStoreCurrencyCode()
  * @method Mage_Sales_Model_Order setStoreCurrencyCode(string $value)
@@ -507,6 +506,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function canCancel()
     {
         if ($this->canUnhold()) {  // $this->isPaymentReview()
+            return false;
+        }
+
+        if (!$this->canReviewPayment() && $this->canFetchPaymentReviewUpdate()) {
             return false;
         }
 
@@ -1122,7 +1125,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function registerCancellation($comment = '', $graceful = true)
     {
-        if ($this->canCancel()) {
+        if ($this->canCancel() || $this->isPaymentReview()) {
             $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
                 if ($cancelState != self::STATE_PROCESSING && $item->getQtyToRefund()) {
@@ -1394,6 +1397,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $address->setOrder($this)->setParentId($this->getId());
         if (!$address->getId()) {
             $this->getAddressesCollection()->addItem($address);
+            $this->setDataChanges(true);
         }
         return $this;
     }
@@ -1596,6 +1600,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             ->setParentId($this->getId());
         if (!$payment->getId()) {
             $this->getPaymentsCollection()->addItem($payment);
+            $this->setDataChanges(true);
         }
         return $this;
     }
@@ -1690,6 +1695,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $this->setStatus($history->getStatus());
         if (!$history->getId()) {
             $this->getStatusHistoryCollection()->addItem($history);
+            $this->setDataChanges(true);
         }
         return $this;
     }

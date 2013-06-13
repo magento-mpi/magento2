@@ -35,7 +35,7 @@ class Integrity_Mage_Core_DataService_Model_ServiceCallsConfigTest extends PHPUn
                             $ref = new ReflectionClass($service);
                         } catch (ReflectionException $re) {
                             $this->fail(
-			        "$configFile has service_call $name with non-existent service class $service: $re"
+                                "$configFile has service_call $name with non-existent service class $service: $re"
                             );
                         }
                         $this->assertTrue(

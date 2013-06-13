@@ -9,37 +9,47 @@
  */
 class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /**
      * Fake info for service and classes.
      */
     const TEST_CLASS_NAME = 'TEST_CLASS_NAME';
-    const TEST_DATA_SERVICE_NAME = 'TEST_DATA_SERVICE_NAME';
-    const TEST_NAMESPACE = 'TEST_NAMESPACE';
-    const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
-    /**#@-*/
 
-    /** @var Mage_Core_Model_DataService_Invoker */
+    const TEST_DATA_SERVICE_NAME = 'TEST_DATA_SERVICE_NAME';
+
+    const TEST_NAMESPACE = 'TEST_NAMESPACE';
+
+    const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
+
+    /**
+     * @var Mage_Core_Model_DataService_Invoker
+     */
     protected $_invoker;
 
-    /** @var Mage_Core_Model_DataService_ConfigInterface */
+    /**
+     * @var Mage_Core_Model_DataService_ConfigInterface
+     */
     protected $_configMock;
 
-    /** @var  Magento_ObjectManager */
+    /**
+     * @var  Magento_ObjectManager
+     */
     protected $_objectManagerMock;
 
-    /** @var  Mage_Core_Model_DataService_Path_Composite */
+    /**
+     * @var  Mage_Core_Model_DataService_Path_Composite
+     */
     protected $_compositeMock;
-
-    /** @var  Mage_Core_Model_DataService_Path_Navigator */
-    protected $_pathNavigatorMock;
 
     /**
      * Empty data service object
+     *
+     * @var object
      */
     protected $_dataServiceMock;
 
     /**
-     * get the data service mock
+     * Get the data service mock
+     *
      * @return mixed
      */
     public function retrieveMethod()
@@ -86,7 +96,8 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this));
         $this->assertSame(
             $this->_dataServiceMock,
-            $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME));
+            $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME)
+        );
     }
 
     /**
@@ -107,9 +118,9 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
             ->method("get")
             ->with($this->equalTo(self::TEST_CLASS_NAME))
             ->will($this->returnValue($this));
-
         $this->assertSame(
             $this->_dataServiceMock,
-            $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME));
+            $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME)
+        );
     }
 }

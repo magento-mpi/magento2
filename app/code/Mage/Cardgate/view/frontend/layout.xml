@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+Supported layout update handles (action):
+- cardgate_cardgate_redirect
+
+-->
+<layout version="0.1.0">
+
+<!--
+Cardgate redirect page
+-->
+
+    <cardgate_cardgate_redirect translate="label" type="page" parent="default">
+        <label>Card Gate Redirect Page</label>
+        <reference name="content">
+            <block type="Mage_Cardgate_Block_Redirect" name="cardgate_redirect" after="-" template="redirect.phtml"/>
+        </reference>
+    </cardgate_cardgate_redirect>
+
+</layout>

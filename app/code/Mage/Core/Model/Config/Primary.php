@@ -171,6 +171,7 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
             ),
             'Mage_Core_Model_Config_Loader_Local' => array(
                 'parameters' => array(
+                    'configDirectory' => $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG),
                     'customFile' => $this->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),
                     'customConfig' => $this->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG)
                 )

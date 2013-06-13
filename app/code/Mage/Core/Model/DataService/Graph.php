@@ -33,7 +33,7 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
     }
 
     /**
-     * takes array of the following structure
+     * Takes array of the following structure
      * and initializes all of the data sources
      *
      *  array(dataServiceName => array(
@@ -48,10 +48,10 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
     public function init(array $dataServicesList)
     {
         foreach ($dataServicesList as $dataServiceName => $namespaceConfig) {
-            $this->get($dataServiceName);
             if (!isset($namespaceConfig['namespaces'])) {
                 throw new Mage_Core_Exception("Data reference configuration doesn't have a block to link to");
             }
+            $this->get($dataServiceName);
             foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
                 $this->_repository->addNameInNamespace($namespaceName, $dataServiceName, $aliasInNamespace);
             }
@@ -62,39 +62,28 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
     /**
      * Retrieve the data or the service call based on its name
      *
-     * @param $sourceName
-     * @return bool|mixed
+     * @param string $dataServiceName
+     * @return Mage_Core_Model_DataService_Path_NodeInterface|bool|mixed
      */
-    public function get($sourceName)
+    public function get($dataServiceName)
     {
-        $dataService = $this->_repository->get($sourceName);
+        $dataService = $this->_repository->get($dataServiceName);
         if ($dataService == null) {
-            $dataService = $this->_invoker->getServiceData($sourceName);
+            $dataService = $this->_invoker->getServiceData($dataServiceName);
         }
-        $this->getRepository()->add($sourceName, $dataService);
+        $this->_repository->add($dataServiceName, $dataService);
         return $dataService;
     }
 
     /**
      * Retrieve all data for the service calls for particular namespace.
      *
-     * @param $namespace
+     * @param string $namespace
      * @return mixed
      */
     public function getByNamespace($namespace)
     {
-        $dataServices = $this->getRepository()->getByNamespace($namespace);
-        return $dataServices;
-    }
-
-    /**
-     * Get repository object.
-     *
-     * @return \Mage_Core_Model_DataService_Repository
-     */
-    public function getRepository()
-    {
-        return $this->_repository;
+        return $this->_repository->getByNamespace($namespace);
     }
 
     /**
@@ -102,7 +91,7 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
      * data service graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Mage_Core_Model_DataService_Path_Node|mixed|null the child node, or mixed if this is a leaf node
+     * @return Mage_Core_Model_DataService_Path_NodeInterface|mixed|null the child node, or mixed if this is a leaf node
      */
     public function getChildNode($pathElement)
     {

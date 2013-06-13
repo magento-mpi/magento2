@@ -1243,7 +1243,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             if ($this->_canUpdateAttribute($attribute, $v, $origData)) {
                 if ($this->_isAttributeValueEmpty($attribute, $v)) {
                     $this->_aggregateDeleteData($delete, $attribute, $newObject);
-                } elseif ($v !== $origData[$k]) {
+                } elseif ((!is_numeric($v) && $v !== $origData[$k]) || (is_numeric($v) && $v != $origData[$k])) {
                     $update[$attrId] = array(
                         'value_id' => $attribute->getBackend()->getEntityValueId($newObject),
                         'value'    => $v,

@@ -124,11 +124,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $merchantCode = Mage::getStoreConfig('payment/pbridge/merchantcode', $storeId);
-        $uniqueId = Mage::getStoreConfig('payment/pbridge/uniquekey');
-        if ($uniqueId) {
-            $uniqueId .= '@';
-        }
-        return md5($uniqueId . $email . '@' . $merchantCode);
+        return md5($email . '@' . $merchantCode);
     }
 
     /**
@@ -152,6 +148,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode', $storeId));
+        $params['merchant_version'] = '2.0.0.0.0';
 
         $sourceUrl .= '?' . http_build_query($params);
 
@@ -291,6 +288,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
             'token'                   => isset($data['token']) ? $data['token'] : null,
             'cc_last4'                => isset($data['cc_last4']) ? $data['cc_last4'] : null,
             'cc_type'                 => isset($data['cc_type']) ? $data['cc_type'] : null,
+            'x_params'                => isset($data['x_params']) ? serialize($data['x_params']) : null
         );
 
         return $data;
@@ -353,4 +351,29 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
 
         return '';
     }
+
+    /**
+     * Get template for Continue button to save order and load iframe
+     *
+     * @param string $name template name
+     * @param string $block buttons block name
+     * @return string
+     */
+    public function getContiueButtonTemplate($name, $block)
+    {
+        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        if ($quote) {
+            $payment = $quote->getPayment();
+            if ($payment && $payment->getMethodInstance()->getIsPendingOrderRequired()) {
+                return $name;
+            }
+        }
+
+        if ($blockObject = Mage::getSingleton('Mage_Core_Model_Layout')->getBlock($block)) {
+            return $blockObject->getTemplate();
+        }
+
+        return '';
+    }
+
 }

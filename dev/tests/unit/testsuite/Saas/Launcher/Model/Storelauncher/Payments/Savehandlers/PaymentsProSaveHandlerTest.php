@@ -35,14 +35,17 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsProSaveHan
     public function prepareDataValidInputDataProvider()
     {
         $data0 = array();
-        $data0['groups']['account']['fields']['business_account']['value'] = 'test@example.com';
+        $data0['groups']['paypal_group_all_in_one']['groups']['wpp_us']['groups']['wpp_required_settings']
+            ['groups']['wpp_and_express_checkout']['fields']['business_account']['value'] = 'test@example.com';
 
         $preparedData0 = array();
-        $preparedData0['paypal']['account']['fields']['business_account']['value'] = 'test@example.com';
-        $preparedData0['paypal']['global']['fields']['wpp']['value'] = 1;
+        $preparedData0['payment']['paypal_group_all_in_one']['groups']['wpp_us']['groups']['wpp_required_settings']
+            ['groups']['wpp_and_express_checkout']['fields']['business_account']['value'] = 'test@example.com';
+        $preparedData0['payment']['paypal_group_all_in_one']['groups']['wpp_us']['groups']
+            ['wpp_required_settings']['fields']['enable_wpp']['value'] = 1;
 
         return array(
-            array($data0, $preparedData0, array('paypal')),
+            array($data0, $preparedData0, array('payment')),
         );
     }
 
@@ -54,7 +57,8 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsProSaveHan
     public function prepareDataInvalidInputDataProvider()
     {
         $data0 = array();
-        $data0['groups']['account']['fields']['business_account']['value'] = 'email_invalid';
+        $data0['groups']['paypal_group_all_in_one']['groups']['wpp_us']['groups']['wpp_required_settings']
+            ['groups']['wpp_and_express_checkout']['fields']['business_account']['value'] = 'email_invalid';
 
         return array(
             array($data0),

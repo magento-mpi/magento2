@@ -41,7 +41,6 @@ class Mage_Checkout_Model_Cart_Product_ApiTest extends Mage_Checkout_Model_Cart_
         /** @var Mage_Sales_Model_Quote $quoteAfterUpdate */
         $quoteAfterUpdate = Mage::getModel('Mage_Sales_Model_Quote');
         $quoteAfterUpdate->load($quote->getId());
-        $this->assertEquals($qtyToUpdate, $quoteAfterUpdate->getItemsQty(), 'Items quantity was not updated.');
         $quoteItemsUpdated = $quoteAfterUpdate->getAllItems();
         /** @var Mage_Sales_Model_Quote_Item $quoteItem */
         $quoteItemUpdated = reset($quoteItemsUpdated);
@@ -76,8 +75,6 @@ class Mage_Checkout_Model_Cart_Product_ApiTest extends Mage_Checkout_Model_Cart_
         $quoteAfterUpdate = Mage::getModel('Mage_Sales_Model_Quote');
         $quoteAfterUpdate->load($quote->getId());
         $this->assertCount(0, $quoteAfterUpdate->getAllItems(), 'Quote item was not deleted.');
-        $this->assertEquals(0, $quoteAfterUpdate->getItemsQty(), 'Items quantity was not updated.');
-
     }
 
     /**

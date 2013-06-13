@@ -23,7 +23,7 @@
 
         _create : function() {
             this.element
-                .on('reloadPbridgeIframe', $.proxy(function(event, data) { this.reloadIframe(data); }, this))
+                .on('reloadPbridgeIframe', $.proxy(function(event, data) { this._reloadIframe(data); }, this))
                 .find('span.pbridge-reload a').on('click', $.proxy(function () {
                     var data = {};
                     data.method = this.options.method;

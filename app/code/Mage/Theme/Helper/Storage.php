@@ -39,6 +39,16 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     const NODE_ROOT = 'root';
 
     /**
+     * Display name for images storage type
+     */
+    const IMAGES = 'Images';
+
+    /**
+     * Display name for fonts storage type
+     */
+    const FONTS = 'Fonts';
+
+    /**
      * Current directory path
      *
      * @var string
@@ -216,7 +226,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
                 if ($this->_filesystem->isDirectory($path)
                     && $this->_filesystem->isPathInDirectory($path, $currentPath)
                 ) {
-                    $currentPath = $this->_filesystem->getAbsolutePath($path);
+                    $currentPath = $this->_filesystem->normalizePath($path);
                 }
             }
             $this->_currentPath = $currentPath;
@@ -292,6 +302,28 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
         }
 
         return $extensions;
+    }
+
+    /**
+     * Get storage type name for display.
+     *
+     * @return string
+     * @throws Magento_Exception
+     */
+    public function getStorageTypeName()
+    {
+        switch ($this->getStorageType()) {
+            case Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT:
+                $name = self::FONTS;
+                break;
+            case Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE:
+                $name = self::IMAGES;
+                break;
+            default:
+                throw new Magento_Exception('Invalid type');
+        }
+
+        return $name;
     }
 
     /**

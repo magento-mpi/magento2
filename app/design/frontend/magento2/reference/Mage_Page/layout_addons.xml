@@ -10,17 +10,6 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <action method="addJs"><file>prototype/prototype.js</file></action>
-            <action method="addJs"><file>lib/ccard.js</file></action>
-            <action method="addJs"><file>prototype/validation.js</file></action>
-            <action method="addJs"><file>scriptaculous/builder.js</file></action>
-            <action method="addJs"><file>scriptaculous/effects.js</file></action>
-            <action method="addJs"><file>scriptaculous/dragdrop.js</file></action>
-            <action method="addJs"><file>scriptaculous/controls.js</file></action>
-            <action method="addJs"><file>scriptaculous/slider.js</file></action>
-            <action method="addJs"><file>varien/js.js</file></action>
-            <action method="addJs"><file>varien/form.js</file></action>
-            <action method="addJs"><file>Mage_Page::menu.js</file></action>
             <action method="addCss"><file>mage/calendar.css</file><params/></action>
             <action method="addJs"><file>jquery/jquery.js</file></action>
             <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
@@ -37,6 +26,7 @@
             <action method="addJs"><file>mage/toggle.js</file></action>
             <action method="addJs"><file>mage/popup-window.js</file></action>
             <!-- <action method="addCss"><file>Mage_Page::css/tabs.css</file><params/></action> -->
+            <action method="addCss"><file>css/print.css</file><params>media="print"</params></action>
             <action method="addJs"><file>mage/loader.js</file></action>
             <!-- Preload resources for widgets -->
             <block type="Mage_Core_Block_Template" name="head.components" as="components" template="Mage_Page::js/components.phtml"/>
@@ -45,11 +35,7 @@
 
     <print>
         <reference name="head">
-            <action method="addJs"><file>prototype/prototype.js</file></action>
-            <action method="addJs"><file>mage/translate.js</file></action>
-            <action method="addJs"><file>lib/ccard.js</file></action>
-            <action method="addJs"><file>prototype/validation.js</file></action>
-            <action method="addJs"><file>varien/js.js</file></action>
+            <action method="addCss"><file>css/print.css</file></action>
         </reference>
     </print>
 
