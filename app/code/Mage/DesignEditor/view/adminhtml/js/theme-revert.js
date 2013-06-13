@@ -64,7 +64,7 @@
         _showConfirmMessage: function(dialogElement, callback) {
             var dialog = dialogElement.data('dialog');
             var buttons = {
-                text: $.mage.__('Ok'),
+                text: $.mage.__('OK'),
                 click: callback,
                 'class': 'primary'
             };
