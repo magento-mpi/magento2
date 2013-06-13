@@ -29,6 +29,9 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     /** @var string */
     protected $_httpMethod;
 
+    /** @var boolean */
+    protected $_secure;
+
     /**
      * Set service service ID.
      *
@@ -115,5 +118,27 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     public function getHttpMethod()
     {
         return $this->_httpMethod;
+    }
+
+    /**
+     * Set if the route is secure
+     *
+     * @param boolean $secure
+     * @return Mage_Webapi_Controller_Router_Route_Rest
+     */
+    public function setSecure($secure)
+    {
+        $this->_secure = $secure;
+        return $this;
+    }
+
+    /**
+     * Returns true if the route is secure
+     *
+     * @return boolean
+     */
+    public function isSecure()
+    {
+        return $this->_secure;
     }
 }

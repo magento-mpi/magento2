@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="Mage_TestModule2_Service_SubsetRestInterfaceV1" baseUrl="/V1/subset">
+        <rest-route httpMethod="GET" method="item">/:id</rest-route>
+        <rest-route httpMethod="GET" method="items"></rest-route>
+    </service>
+    <service class="Mage_TestModule2_Service_AllSoapNoRestInterfaceV1"/>
+</config>

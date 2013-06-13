@@ -141,6 +141,7 @@ class Mage_Webapi_Config
 
     /**
      * Save services into the cache
+     *
      * @param string $data serialized version of the webapi registry
      */
     protected function _saveToCache($data)
@@ -226,9 +227,8 @@ class Mage_Webapi_Config
     /**
      * Retrieve info about the given service
      *
-     * @param $serviceName Name
-     * @param $serviceVersion Version
-     * @throw InvalidArgumentException if the service does not exist
+     * @param string $serviceName Name
+     * @throws InvalidArgumentException if the service does not exist
      */
     public function getService($serviceName)
     {
@@ -240,32 +240,11 @@ class Mage_Webapi_Config
     }
 
     /**
-     * Add a new service (and/or method into the registry)
-     *
-     * @param string $serviceName used as SOAP service (e.g. product)
-     * @param string $serviceClass Service class containing the method
-     * @param string $baseUrl the base url for all route of thsi service (e.g. products)
-     * @throw InvalidArgumentException if the service already exists
-     */
-    public function addService($serviceName, $serviceClass, $baseUrl)
-    {
-        if (isset($this->_services[$serviceName])) {
-            throw new InvalidArgumentException("Service $serviceName already exists");
-        } else {
-            $this->_services[$serviceName] = array(
-                'name' => $serviceName,
-                'class' => $serviceClass,
-                'baseUrl' => $baseUrl
-            );
-        }
-    }
-
-    /**
      * Retrieve info about the given operation
      *
      * @param string $serviceName
      * @param string $operation
-     * @throw InvalidArgumentException if the service or operation do not exist
+     * @throws InvalidArgumentException if the service or operation do not exist
      */
     public function getOperation($serviceName, $operation)
     {
@@ -276,30 +255,6 @@ class Mage_Webapi_Config
         }
 
         throw new InvalidArgumentException("Operation $operation does not exist");
-    }
-
-    /**
-     * Add a new route to an existing service
-     *
-     * @param string $serviceName e.g. product
-     * @param string $operation name of the operation (must match the PHP method name) to add
-     * @param string $httpMethod e.g. GET, POST
-     * @param string $restRoute the route expression
-     * @throw InvalidArgumentException if the service does not exist or the operation is already present
-     */
-    public function addOperation($serviceName, $operation, $httpMethod, $restRoute)
-    {
-        if (!isset($this->_services[$serviceName])) {
-            throw new InvalidArgumentException("Service $serviceName does not exist");
-        } elseif (isset($this->_services[$serviceName][self::KEY_OPERATIONS][$operation])) {
-            throw new InvalidArgumentException("operation $operation already exists");
-        } else {
-            $this->_services[$serviceName][self::KEY_OPERATIONS][$operation] = array(
-                'name' => $operation,
-                'httpMethod' => $httpMethod,
-                'route' => $restRoute
-            );
-        }
     }
 
     /**
@@ -324,13 +279,15 @@ class Mage_Webapi_Config
             // TODO: skip if version is not null and does not match
             foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
                 if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
+                    $secure = isset($operationData['secure']) ? $operationData['secure'] : false;
                     $routes[] = $this->_createRoute(
                         array(
                             'routePath' => $serviceData['baseUrl'] . $operationData['route'],
                             'version' => $request->getResourceVersion(), // TODO: Take version from config
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
-                            'httpMethod' => $httpMethod
+                            'httpMethod' => $httpMethod,
+                            'secure' => $secure
                         )
                     );
                 }
@@ -350,6 +307,7 @@ class Mage_Webapi_Config
      *      'version' => 1,
      *      'serviceId' => 'Mage_Catalog_Service_CategoryService',
      *      'serviceMethod' => 'item'
+     *      'secure' => true
      *  );</pre>
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
@@ -360,7 +318,8 @@ class Mage_Webapi_Config
         $route->setServiceId($routeData['serviceId'])
             ->setHttpMethod($routeData['httpMethod'])
             ->setServiceMethod($routeData['serviceMethod'])
-            ->setServiceVersion(self::VERSION_NUMBER_PREFIX . $routeData['version']);
+            ->setServiceVersion(self::VERSION_NUMBER_PREFIX . $routeData['version'])
+            ->setSecure($routeData['secure']);
         return $route;
     }
 

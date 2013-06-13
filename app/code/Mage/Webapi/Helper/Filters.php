@@ -1,13 +1,13 @@
 <?php
 /**
- * Service Helper.
+ * Webapi Helper.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Service_Helper_Filters
+class Mage_Webapi_Helper_Filters extends Mage_Core_Helper_Abstract
 {
     /**
      * @var \stdClass
@@ -27,7 +27,7 @@ class Mage_Core_Service_Helper_Filters
     public function __construct(Mage_Core_Helper_Context $context)
     {
         parent::__construct($context);
-        $moduleDir = Mage::getModuleDir('etc', 'Mage_Core');
+        $moduleDir = Mage::getModuleDir('etc', 'Mage_Webapi');
         $retriever = new JsonSchema\Uri\UriRetriever();
         $this->_schema = $retriever->retrieve('file://' . $moduleDir . DS . 'json' . DS . 'filters-schema.json');
         $refResolver = new JsonSchema\RefResolver($retriever);
@@ -72,43 +72,5 @@ class Mage_Core_Service_Helper_Filters
             $schemaErrors .= '[' . $error['property'] . '] ' . $error['message'] . PHP_EOL;
         }
         return $schemaErrors;
-    }
-
-    /**
-     * @param Varien_Data_Collection $collection
-     * @param array $request
-     */
-    public function applyPaginationToCollection(Varien_Data_Collection $collection, array $request)
-    {
-        // TODO
-    }
-
-    /**
-     * @param Varien_Data_Collection $collection
-     * @param array $request
-     */
-    public function applyFiltersToCollection(Varien_Data_Collection $collection, array $request)
-    {
-        // TODO
-    }
-
-    public function applyAndConditionToCollection($collection, $condition)
-    {
-        // TODO
-    }
-
-    public function applyOrConditionToCollection($collection, $condition)
-    {
-        // TODO
-    }
-
-    public function applyAttributeConditionToCollection($collection, $attribute, $condition)
-    {
-        // TODO
-    }
-
-    public function applyFunctionalConditionToCollection($collection, $method, $arguments)
-    {
-        // TODO
     }
 }

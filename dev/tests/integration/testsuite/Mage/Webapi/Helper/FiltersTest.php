@@ -5,16 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Helper_FiltersTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Service_Helper_Filters
+     * @var Mage_Webapi_Helper_Filters
      */
     private static $_helper;
 
     public static function setUpBeforeClass()
     {
-        self::$_helper = Mage::helper('Mage_Core_Service_Helper_Filters');
+        self::$_helper = Mage::helper('Mage_Webapi_Helper_Filters');
     }
 
     /**

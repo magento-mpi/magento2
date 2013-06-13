@@ -62,9 +62,10 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     {
         switch (strtoupper($this->_request->getHttpMethod())) {
             // TODO: Introduce constants instead of literals
-            case 'CREATE':
+            case 'POST':
                 /** @var $createdItem Mage_Core_Model_Abstract */
-                $this->_response->setHeader('Location', $this->_getCreatedItemLocation($outputData));
+                // TODO: Refactor.Currently uses legacy Mage_Webapi_Model_Config_Rest
+                //$this->_response->setHeader('Location', $this->_getCreatedItemLocation($outputData));
                 break;
             case 'GET':
                 $this->_render($outputData);
