@@ -46,7 +46,7 @@ class Mage_Core_Model_DataService_Invoker
      * Call service method and retrieve the data from the call
      *
      * @param $sourceName
-     * @return bool|mixed
+     * @return bool|array
      */
     public function getServiceData($sourceName)
     {
@@ -65,7 +65,8 @@ class Mage_Core_Model_DataService_Invoker
      * @param $object
      * @param $methodName
      * @param $methodArguments
-     * @return mixed
+     * @throws InvalidArgumentException
+     * @return array
      */
     protected function _applyMethod($object, $methodName, $methodArguments)
     {
@@ -75,6 +76,9 @@ class Mage_Core_Model_DataService_Invoker
             $arguments = $this->_prepareArguments($methodArguments);
         }
         $result = call_user_func_array(array($object, $methodName), $arguments);
+        if (!is_array($result)) {
+            throw new InvalidArgumentException("Method call didn't return an array. Method: $methodName");
+        }
         return $result;
     }
 

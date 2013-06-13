@@ -43,15 +43,17 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
      *
      * @param array $dataServicesList
      * @return Mage_Core_Model_DataService_Graph
-     * @throws Mage_Core_Exception
+     * @throws InvalidArgumentException
      */
     public function init(array $dataServicesList)
     {
         foreach ($dataServicesList as $dataServiceName => $namespaceConfig) {
             if (!isset($namespaceConfig['namespaces'])) {
-                throw new Mage_Core_Exception("Data reference configuration doesn't have a block to link to");
+                throw new InvalidArgumentException("Data reference configuration doesn't have a block to link to");
             }
-            $this->get($dataServiceName);
+            if ($this->get($dataServiceName) === false) {
+                throw new InvalidArgumentException("Data service '$dataServiceName' couldn't be retrieved");
+            }
             foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
                 $this->_repository->addNameInNamespace($namespaceName, $dataServiceName, $aliasInNamespace);
             }
@@ -63,15 +65,15 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
      * Retrieve the data or the service call based on its name
      *
      * @param string $dataServiceName
-     * @return Mage_Core_Model_DataService_Path_NodeInterface|bool|mixed
+     * @return bool|array
      */
     public function get($dataServiceName)
     {
         $dataService = $this->_repository->get($dataServiceName);
         if ($dataService == null) {
             $dataService = $this->_invoker->getServiceData($dataServiceName);
+            $this->_repository->add($dataServiceName, $dataService);
         }
-        $this->_repository->add($dataServiceName, $dataService);
         return $dataService;
     }
 

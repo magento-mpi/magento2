@@ -33,7 +33,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     /**
      * @var  Mage_Core_Model_DataService_Invoker
      */
-    protected $_factoryMock;
+    protected $_invokerMock;
 
     /**
      * @var  Mage_Core_Model_DataService_Repository
@@ -53,9 +53,9 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
+        $this->_invokerMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_DataService_Repository', array(), array(), "", false);
-        $this->_graph = new Mage_Core_Model_DataService_Graph($this->_factoryMock, $this->_repositoryMock);
+        $this->_graph = new Mage_Core_Model_DataService_Graph($this->_invokerMock, $this->_repositoryMock);
         $this->_dataServiceMock = (object)array();
     }
 
@@ -69,41 +69,60 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
             self::TEST_DATA_SERVICE_NAME,
             self::TEST_NAMESPACE_ALIAS
         );
-        $namespaceConfig
-            = array('namespaces' => array(self::TEST_NAMESPACE =>
-                                          Mage_Core_Model_DataService_GraphTest::TEST_NAMESPACE_ALIAS));
-        $this->_repositoryMock->expects($this->once())->method("get")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue(null));
-        $this->_factoryMock->expects($this->once())->method('getServiceData')->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($this->_dataServiceMock));
-        $this->_repositoryMock->expects($this->once())->method("add")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME),
-            $this->equalTo($this->_dataServiceMock)
-        );
+        $namespaceConfig = array('namespaces' => array(
+            self::TEST_NAMESPACE => Mage_Core_Model_DataService_GraphTest::TEST_NAMESPACE_ALIAS
+        ));
+        $this->_repositoryMock->expects($this->once())
+            ->method("get")
+            ->with($this->equalTo(self::TEST_DATA_SERVICE_NAME))
+            ->will($this->returnValue(null));
+        $this->_invokerMock->expects($this->once())
+            ->method('getServiceData')
+            ->with($this->equalTo(self::TEST_DATA_SERVICE_NAME))
+            ->will($this->returnValue($this->_dataServiceMock));
+        $this->_repositoryMock->expects($this->once())
+            ->method("add")
+            ->with(
+                $this->equalTo(self::TEST_DATA_SERVICE_NAME),
+                $this->equalTo($this->_dataServiceMock)
+            );
         $this->_graph->init(
             array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
         );
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Data reference configuration doesn't have a block to link to
      */
     public function testInitMissingNamespaces()
     {
         $namespaceConfig = array();
-        $this->_repositoryMock->expects($this->any())->method("get")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue(null));
-        $this->_factoryMock->expects($this->any())->method('getServiceData')->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($this->_dataServiceMock));
-        $this->_repositoryMock->expects($this->any())->method("add")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME),
-            $this->equalTo($this->_dataServiceMock)
+
+        $this->_graph->init(
+            array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
         );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage couldn't be retrieved
+     */
+    public function testInitServiceReturnsFalse()
+    {
+
+        $namespaceConfig = array('namespaces' => array(
+            self::TEST_NAMESPACE => Mage_Core_Model_DataService_GraphTest::TEST_NAMESPACE_ALIAS
+        ));
+        $this->_repositoryMock->expects($this->once())
+            ->method("get")
+            ->with($this->equalTo(self::TEST_DATA_SERVICE_NAME))
+            ->will($this->returnValue(null));
+        $this->_invokerMock->expects($this->once())
+            ->method('getServiceData')
+            ->with($this->equalTo(self::TEST_DATA_SERVICE_NAME))
+            ->will($this->returnValue(false));
+
         $this->_graph->init(
             array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
         );
