@@ -167,6 +167,40 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Get attribute mock
+     *
+     * @param string $attributeCode
+     * @param int $attributeSetId
+     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Eav_Model_Entity_Attribute_Abstract
+     */
+    protected function _getAttributeMock($attributeCode, $attributeSetId)
+    {
+        $attribute = $this->getMock(
+            'Mage_Eav_Model_Entity_Attribute_Abstract',
+            array('getBackend', 'getBackendTable', 'isInSet', 'getApplyTo', 'getAttributeCode'),
+            array(),
+            '',
+            false
+        );
+        $attribute->setAttributeId($attributeCode);
+
+        $attribute->expects($this->any())
+            ->method('getBackendTable')
+            ->will($this->returnValue($attributeCode . '_table'));
+
+        $attribute->expects($this->any())
+            ->method('isInSet')
+            ->with($this->equalTo($attributeSetId))
+            ->will($this->returnValue(false));
+
+        $attribute->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
+
+        return $attribute;
+    }
+
+    /**
      * @param string $attributeCode
      * @param int $attributeSetId
      * @param array $productData
@@ -190,14 +224,7 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
         $attributes = $this->_getAttributes();
 
-        $attribute = $this->getMock(
-            'Mage_Eav_Model_Entity_Attribute_Abstract',
-            array('getBackend', 'getBackendTable', 'isInSet', 'getApplyTo', 'getAttributeCode'),
-            array(),
-            '',
-            false
-        );
-        $attribute->setAttributeId($attributeCode);
+        $attribute = $this->_getAttributeMock($attributeCode, $attributeSetId);
 
         /** @var $backendModel Mage_Eav_Model_Entity_Attribute_Backend_Abstract */
         $backendModel = $this->getMock(
@@ -239,19 +266,6 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         $attribute->expects($this->any())
             ->method('getBackend')
             ->will($this->returnValue($backendModel));
-
-        $attribute->expects($this->any())
-            ->method('getBackendTable')
-            ->will($this->returnValue($attributeCode . '_table'));
-
-        $attribute->expects($this->any())
-            ->method('isInSet')
-            ->with($this->equalTo($attributeSetId))
-            ->will($this->returnValue(false));
-
-        $attribute->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue($attributeCode));
 
         $attributes[$attributeCode] = $attribute;
 
