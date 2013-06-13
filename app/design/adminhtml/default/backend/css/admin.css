@@ -3277,7 +3277,7 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0 20px;
 }
 
-.page-content > .messages {
+.page-content > #messages {
     max-width: 1300px;
     min-width: 960px;
     margin: 0 auto;

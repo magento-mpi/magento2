@@ -128,7 +128,9 @@
             if (!response.error) {
                 this._submit();
             } else {
-                $(this.options.errorTemplate).tmpl(response).appendTo($('[data-role=messages-container]'));
+                if (response.message) {
+                    $(this.options.errorTemplate).tmpl(response).appendTo($('[data-role=messages-container]'));
+                }
             }
         },
 
