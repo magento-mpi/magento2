@@ -63,4 +63,13 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_dataServiceConfig->getClassByAlias('missing_service');
     }
 
+    /**
+     * @expectedException LogicException
+     * @expectedExceptionMessage
+     */
+    public function testGetClassByAliasMethodNotFound()
+    {
+        $this->_dataServiceConfig->getClassByAlias('missing_retrieval_method');
+    }
+
 }
