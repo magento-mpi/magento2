@@ -14,6 +14,7 @@
  * @category   Saas
  * @package    Saas_PrintedTemplate
  * @subpackage Models
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Saas_PrintedTemplate_Model_Observer
 {

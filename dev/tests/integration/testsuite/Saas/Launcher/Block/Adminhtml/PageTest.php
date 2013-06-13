@@ -14,7 +14,7 @@
  *
  * @magentoDataFixture Saas/Launcher/_files/pages.php
  * @magentoDataFixture Saas/Launcher/_files/config_bootstrap.php
-  */
+ */
 class Saas_Launcher_Block_Adminhtml_PageTest extends PHPUnit_Framework_TestCase
 {
     public function testGetTileBlocks()
