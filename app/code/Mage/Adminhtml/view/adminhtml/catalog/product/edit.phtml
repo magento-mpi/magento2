@@ -113,7 +113,7 @@ jQuery(function($) {
             var self = this;
             var elementSelector = _(this._masks).keys().map(function(key) {
                 return '#' + key;
-            }).join(',')
+            }).join(',');
             var disabler = function() {
                 this.form.on(
                     'change init',
@@ -225,10 +225,10 @@ jQuery(function($) {
             $page.find('#product_info_tabs .tabs').each(function(i, tabContainer) {
                 $newPage.find('#product_info_tabs .tabs').each(function(j, newTabContainer) {
                     if (i != j) {
-                        return
+                        return;
                     }
                     var $tabContainer = $(tabContainer);
-                    $(tabContainer).find('li').removeClass(removedElementClass)
+                    $(tabContainer).find('li').removeClass(removedElementClass);
                     var $tabs = $(tabContainer)
                         .find('li:not(.' + removedElementClass + ')  .tab-item-link.user-defined:not(.ajax)');
                     var $newTabs = $(newTabContainer).find('.tab-item-link.user-defined:not(.ajax)'),
@@ -239,7 +239,7 @@ jQuery(function($) {
                         _.difference(tabsNames, $newTabs.map(nameMapper).toArray()),
                         function(index, tabName) {
                             $tabContainer.find('[name=' + tabName + ']').closest('li')
-                                .addClass(removedElementClass)
+                                .addClass(removedElementClass);
                             $page.find('#' + tabName)
                                 .addClass(removedElementClass)
                                 .addClass('ignore-validate');

@@ -2,6 +2,7 @@
 # Glob patterns are supported
 #
 app/bootstrap.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Attributes/Search.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php

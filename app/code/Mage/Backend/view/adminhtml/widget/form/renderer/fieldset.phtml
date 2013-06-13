@@ -15,7 +15,7 @@ $containerId = $element->getFieldsetContainerId();
 $id = $element->getHtmlId();
 $isCollapsable = $element->getCollapsable();
 $isWrapped = $containerId || $element->getHeaderBar() || $isCollapsable;
-$titleActions = $element->getHeaderBar() ? '<div class="actions">' . $element->getHeaderBar() . '</div>' : '';
+$titleActions = '<div class="actions">' . $element->getHeaderBar() . '</div>';
 $isField = $element->getFieldsetType() == 'field';
 $advancedAfter = $element->getAdvancedPosition() == 'after'; // To place advanced options inside or after fieldset
 $advancedLabel = $element->getAdvancedLabel();

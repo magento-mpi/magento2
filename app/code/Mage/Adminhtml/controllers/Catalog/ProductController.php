@@ -1068,6 +1068,40 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
+     * Search for attributes by part of attribute's label in admin store
+     */
+    public function suggestAttributesAction()
+    {
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search')
+                ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
+        ));
+    }
+
+    /**
+     * Add attribute to product template
+     */
+    public function addAttributeToTemplateAction()
+    {
+        $request = $this->getRequest();
+        $attribute = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute')
+            ->load($request->getParam('attribute_id'));
+
+        $attributeSet = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute_Set')
+            ->load($request->getParam('template_id'));
+
+        $attribute->setAttributeSetId($attributeSet->getId())->loadEntityAttributeIdBySet();
+
+        try {
+            $attribute->setEntityTypeId($attributeSet->getEntityTypeId())
+                ->setAttributeSetId($request->getParam('template_id'))
+                ->setAttributeGroupId($request->getParam('group_id') ?: $attributeSet->getDefaultGroupId())
+                ->setSortOrder('0')
+                ->save();
+        } catch (Exception $e) {}
+    }
+
+    /**
      * In case of fully used limit on products - display message about this.
      */
     protected function _addProductLimitationMassage()
