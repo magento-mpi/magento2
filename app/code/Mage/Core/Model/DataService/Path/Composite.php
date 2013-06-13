@@ -16,7 +16,7 @@ class Mage_Core_Model_DataService_Path_Composite implements Mage_Core_Model_Data
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param $items
+     * @param array string[] $items
      */
     public function __construct(Magento_ObjectManager $objectManager, $items)
     {
