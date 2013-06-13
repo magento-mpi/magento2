@@ -12,7 +12,7 @@
 google_content_manage_attributes:
     mca: googleshopping_types/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_types/')]
-    title: Manage Attributes / Google Content / Products / Magento Admin
+    title: Google Content Attributes / Google Content / Products / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -33,4 +33,4 @@ google_content_manage_attributes:
 google_content_manage_items:
     mca: googleshopping_items/index/store/1/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_items/')]
-    title: Manage Items / Google Content / Products / Magento Admin
+    title: Google Content Items / Google Content / Products / Magento Admin

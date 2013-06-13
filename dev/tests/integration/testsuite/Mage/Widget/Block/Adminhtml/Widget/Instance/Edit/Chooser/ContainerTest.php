@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container

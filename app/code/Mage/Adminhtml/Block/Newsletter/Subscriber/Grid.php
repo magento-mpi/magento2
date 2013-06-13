@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
 
         if (!$this->_app->isSingleStoreMode()) {
             $this->addColumn('website', array(
-                'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Website'),
+                'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Web Site'),
                 'index'     => 'website_id',
                 'type'      => 'options',
                 'options'   => $this->_getWebsiteOptions(),

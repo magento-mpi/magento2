@@ -137,7 +137,7 @@
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
-                            var msg = response.message || response.error_messages;
+                            var msg = response.message;
                             if (msg) {
                                 if ($.type(msg) === 'array') {
                                     msg = msg.join("\n");
@@ -458,34 +458,21 @@
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
             review: {
-                continueSelector: '#review-buttons-container .button',
-                container: '#opc-review',
-                submitContainer: '#checkout-review-submit'
+                continueSelector: '#review-buttons-container .button'
             }
         },
 
         _create: function() {
             this._super();
             this.element
-                .on('click', this.options.review.continueSelector, $.proxy(this._saveOrder, this))
-                .on('saveOrder', this.options.review.container, $.proxy(this._saveOrder, this))
-                .on('contentUpdated', this.options.review.container, $.proxy(function() {
-                    var paypalIframe = this.element.find(this.options.review.container)
-                        .find('[data-container="paypal-iframe"]');
-                    if (paypalIframe.length) {
-                        paypalIframe.show();
-                        $(this.options.review.submitContainer).hide();
+                .on('click', this.options.review.continueSelector, $.proxy(function() {
+                    if ($(this.options.payment.form).validation &&
+                        $(this.options.payment.form).validation('isValid')) {
+                        this._ajaxContinue(
+                            this.options.review.saveUrl,
+                            $(this.options.payment.form).serialize());
                     }
                 }, this));
-        },
-
-        _saveOrder: function() {
-            if ($(this.options.payment.form).validation &&
-                $(this.options.payment.form).validation('isValid')) {
-                this._ajaxContinue(
-                    this.options.review.saveUrl,
-                    $(this.options.payment.form).serialize());
-            }
         }
     });
 })(jQuery, window);

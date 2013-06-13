@@ -13,13 +13,13 @@ class Saas_JobNotification_Model_Grid_Massaction_ItemUpdaterTest extends PHPUnit
     private $_model;
 
     /**
-     * @var Mage_Core_Model_Authorization|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_AuthorizationInterface|PHPUnit_Framework_MockObject_MockObject
      */
     private $_authorization;
 
     protected function setUp()
     {
-        $this->_authorization = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false);
+        $this->_authorization = $this->getMock('Magento_AuthorizationInterface');
         $this->_model = new Saas_JobNotification_Model_Grid_Massaction_ItemUpdater($this->_authorization);
     }
 

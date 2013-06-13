@@ -75,7 +75,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
         },
 
         /**
-            @description Recalculate sizes and setData() for neccessary objects
+            @description Recalculate sizes and setData() for necessary objects
             @param {jQuery} image Zoomed image
             [@param {Object -> Function} callback After setup recalculation after: {@borrows img as this},
             @returns {jQuery} img

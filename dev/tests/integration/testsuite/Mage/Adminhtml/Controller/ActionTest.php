@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Controller_ActionTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Controller_ActionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Adminhtml_Controller_Action|PHPUnit_Framework_MockObject_MockObject

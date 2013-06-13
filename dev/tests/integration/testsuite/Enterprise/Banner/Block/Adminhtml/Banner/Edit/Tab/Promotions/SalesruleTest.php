@@ -9,6 +9,7 @@
 /**
  * @magentoDataFixture Mage/SalesRule/_files/cart_rule_40_percent_off.php
  * @magentoDataFixture Mage/SalesRule/_files/cart_rule_50_percent_off.php
+ * @magentoAppArea adminhtml
  */
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_SalesruleTest extends PHPUnit_Framework_TestCase
 {

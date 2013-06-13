@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_CatalogEvent_CategoryControllerTest extends Mage_Backend_Utility_Controller
 {
     /**

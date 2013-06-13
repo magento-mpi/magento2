@@ -124,16 +124,16 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
                 }
 
                 if (!$this->OtherCcType($info->getCcType()) && $ccType!=$info->getCcType()) {
-                    $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Credit card number mismatch with credit card type.');
+                    $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('The credit card number doesn\'t match the credit card type.');
                 }
             }
             else {
                 $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Invalid Credit Card Number');
             }
 
-        }
+        } 
         else {
-            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Credit card type is not allowed for this payment method.');
+            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('The credit card type is not allowed for this payment method.');
         }
 
         //validate credit card verification number
@@ -146,7 +146,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         }
 
         if ($ccType != 'SS' && !$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
-            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('Incorrect credit card expiration date.');
+            $errorMsg = Mage::helper('Mage_Payment_Helper_Data')->__('We found an incorrect credit card expiration date.');
         }
 
         if($errorMsg){

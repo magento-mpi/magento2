@@ -32,13 +32,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Saas
     protected $_countryModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Directory_Model_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Directory_Model_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
         array $data = array()

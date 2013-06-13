@@ -11,6 +11,7 @@
 
 /**
  * Test class for Mage_Backend_Controller_ActionAbstract.
+ * @magentoAppArea adminhtml
  */
 class Mage_Backend_Controller_ActionAbstractTest extends Mage_Backend_Utility_Controller
 {
@@ -75,7 +76,7 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Backend_Utility_Co
         $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 
         /** @var $acl Magento_Acl */
-        $acl = Mage::getSingleton('Mage_Core_Model_Acl_Builder')->getAcl(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }

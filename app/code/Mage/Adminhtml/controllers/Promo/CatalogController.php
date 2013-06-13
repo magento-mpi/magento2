@@ -75,7 +75,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             }
         }
 
-        $this->_title($model->getRuleId() ? $model->getName() : $this->__('New Rule'));
+        $this->_title($model->getRuleId() ? $model->getName() : $this->__('New Catalog Price Rule'));
 
         // set entered data if was error when we do save
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);

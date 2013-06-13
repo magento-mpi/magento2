@@ -12,7 +12,7 @@
 manage_sales_recurring_profile:
     mca: sales_recurring_profile/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_recurring_profile/')]
-    title: Recurring Profiles / Operations / Sales / Magento Admin
+    title: Recurring Billing Profiles / Operations / Sales / Magento Admin
     uimap:
         form: &salesRecurringProfiles
             fieldsets:

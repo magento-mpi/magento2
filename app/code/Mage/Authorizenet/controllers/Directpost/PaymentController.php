@@ -66,7 +66,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         catch (Exception $e) {
             Mage::logException($e);
             $result['success'] = 0;
-            $result['error_msg'] = $this->__('There was an error processing your order. Please contact us or try again later.');
+            $result['error_msg'] = $this->__('We couldn\'t process your order right now. Please try again later.');
         }
 
         if (!empty($data['controller_action_name'])
@@ -136,7 +136,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             );
         } else {
             $result = array(
-                'error_messages' => $this->__('Please, choose payment method'),
+                'error_messages' => $this->__('Please choose a payment method.'),
                 'goto_section'   => 'payment'
             );
             $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));

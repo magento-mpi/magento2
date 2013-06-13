@@ -8,6 +8,7 @@
 
 /**
  * @magentoDataFixture Mage/CatalogRule/_files/catalog_rule_10_off_not_logged.php
+ * @magentoAppArea adminhtml
  */
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_CatalogruleTest extends PHPUnit_Framework_TestCase
 {

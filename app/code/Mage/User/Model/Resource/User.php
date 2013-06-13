@@ -19,6 +19,21 @@
 class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Acl_CacheInterface
+     */
+    protected $_aclCache;
+
+    /**
+     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Acl_CacheInterface $aclCache
+     */
+    public function __construct(Mage_Core_Model_Resource $resource, Magento_Acl_CacheInterface $aclCache)
+    {
+        $this->_aclCache = $aclCache;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table
      *
      */
@@ -199,6 +214,7 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
 
             $insertData = $this->_prepareDataForTable($data, $this->getTable('admin_role'));
             $this->_getWriteAdapter()->insert($this->getTable('admin_role'), $insertData);
+            $this->_aclCache->clean();
         }
     }
 
@@ -221,6 +237,7 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
      *
      * @param Mage_Core_Model_Abstract $user
      * @return bool
+     * @throws Mage_Core_Exception
      */
     public function delete(Mage_Core_Model_Abstract $user)
     {

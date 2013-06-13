@@ -11,8 +11,10 @@
 
 /**
  * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer
+ *
+ * @magentoAppArea adminhtml
  */
-class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_DrawerTest extends Mage_Backend_Area_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_DrawerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getMoreUrlDataProvider

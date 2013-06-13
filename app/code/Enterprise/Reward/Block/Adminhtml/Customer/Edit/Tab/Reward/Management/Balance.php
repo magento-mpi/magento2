@@ -29,8 +29,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
      */
     protected function _prepareLayout()
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE)
+        if (!$this->_authorization->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE)
         ) {
             // unset template to get empty output
 

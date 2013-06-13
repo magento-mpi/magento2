@@ -38,7 +38,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         // Add 'new button' depending on permission
         if ($config->canCurrentUserSaveVersion()) {
             $this->_addButton('new', array(
-                    'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save as New Version'),
+                    'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save as new version.'),
                     'class'     => 'new',
                     'data_attribute'  => array(
                         'mage-init' => array(
@@ -71,7 +71,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         // Only owner and publisher can save version
         if (($isOwner || $isPublisher) && $config->canCurrentUserSaveVersion()) {
             $this->_addButton('saveandcontinue', array(
-                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Continue Edit'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and continue edit.'),
                 'class'     => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(

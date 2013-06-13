@@ -46,7 +46,7 @@ manage_sales_invoices:
                         pageelements:
                             invoice_grid_head: //*[@id='sales_invoice_grid_table']//thead/tr[@class='headings']
         messages: &invoiceMessage
-            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
+            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you want to continue?
             failure: //li[normalize-space(@class)='error-msg' and contains(.,'PayPal gateway rejected the request.')]
 
 create_invoice:

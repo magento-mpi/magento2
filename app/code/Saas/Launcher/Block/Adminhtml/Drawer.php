@@ -33,17 +33,16 @@ class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     protected $_linkTracker;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-
         $this->_linkTracker = $linkTracker;
     }
 
