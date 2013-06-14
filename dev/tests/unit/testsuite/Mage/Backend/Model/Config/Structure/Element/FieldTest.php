@@ -51,7 +51,7 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dsFactoryMock;
+    protected $_dsGraphMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -88,8 +88,8 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->_blockFactoryMock = $this->getMock(
             'Mage_Core_Model_BlockFactory', array(), array(), '', false
         );
-        $this->_dsFactoryMock = $this->getMock(
-            'Mage_Core_Model_DataService_Invoker', array(), array(), '', false
+        $this->_dsGraphMock = $this->getMock(
+            'Mage_Core_Model_DataService_Graph', array(), array(), '', false
         );
         $this->_depMapperMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
@@ -102,7 +102,7 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             $this->_sourceFactoryMock,
             $this->_commentFactoryMock,
             $this->_blockFactoryMock,
-            $this->_dsFactoryMock,
+            $this->_dsGraphMock,
             $this->_depMapperMock
         );
     }
@@ -402,8 +402,8 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             array('customLabel' => 'test', 'customId' => 0),
             array('customLabel' => 'test2', 'customId' => 1)
         );
-        $this->_dsFactoryMock->expects($this->once())
-            ->method('getServiceData')
+        $this->_dsGraphMock->expects($this->once())
+            ->method('get')
             ->with('serviceCallName')
             ->will($this->returnValue($option));
 
@@ -427,8 +427,8 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             array('name' => 'test', 'id' => 0),
             array('name' => 'test2', 'id' => 1)
         );
-        $this->_dsFactoryMock->expects($this->once())
-            ->method('getServiceData')
+        $this->_dsGraphMock->expects($this->once())
+            ->method('get')
             ->with('serviceCallName')
             ->will($this->returnValue($option));
 

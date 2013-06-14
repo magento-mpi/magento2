@@ -62,11 +62,11 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     protected $_blockFactory;
 
     /**
-     * dataservice factory
+     * dataservice graph
      *
-     * @var Mage_Core_Model_DataService_Invoker
+     * @var Mage_Core_Model_DataService_Graph
      */
-     protected $_dataServiceInvoker;
+     protected $_dataServiceGraph;
 
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
@@ -75,7 +75,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      * @param Mage_Backend_Model_Config_SourceFactory $sourceFactory
      * @param Mage_Backend_Model_Config_CommentFactory $commentFactory
      * @param Mage_Core_Model_BlockFactory $blockFactory
-     * @param Mage_Core_Model_DataService_Invoker $dataServiceInvoker,
+     * @param Mage_Core_Model_DataService_Graph $dataServiceGraph,
      * @param Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
      */
     public function __construct(
@@ -85,7 +85,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         Mage_Backend_Model_Config_SourceFactory $sourceFactory,
         Mage_Backend_Model_Config_CommentFactory $commentFactory,
         Mage_Core_Model_BlockFactory $blockFactory,
-        Mage_Core_Model_DataService_Invoker $dataServiceInvoker,
+        Mage_Core_Model_DataService_Graph $dataServiceGraph,
         Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
     ) {
         parent::__construct($helperFactory, $application);
@@ -93,7 +93,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         $this->_sourceFactory = $sourceFactory;
         $this->_commentFactory = $commentFactory;
         $this->_blockFactory = $blockFactory;
-        $this->_dataServiceInvoker = $dataServiceInvoker;
+        $this->_dataServiceGraph = $dataServiceGraph;
         $this->_dependencyMapper = $dependencyMapper;
     }
 
@@ -432,7 +432,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         if (isset($sourceService['includeEmptyValueOption'])) {
             $inclEmptyValOption = $sourceService['includeEmptyValueOption'];
         }
-        $dataCollection = $this->_dataServiceInvoker->getServiceData($serviceCall);
+        $dataCollection = $this->_dataServiceGraph->get($serviceCall);
         $options = array();
         if ($inclEmptyValOption) {
             $options[] = array('value' => '', 'label' => '-- Please Select --');
