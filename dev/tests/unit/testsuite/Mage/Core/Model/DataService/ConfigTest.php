@@ -1,6 +1,6 @@
 <?php
 /**
- * Mage_Core_Model_DataService_Config
+ * Test class for Mage_Core_Model_DataService_Config
  *
  * {license_notice}
  *
@@ -14,25 +14,36 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_dataServiceConfig;
 
-    /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
-     */
-    private $_readerMock;
+    /** @var Mage_Core_Model_DataService_Config_Reader_Factory */
+    private $_readersFactoryMock;
 
-    /**
-     * Create Config object to test and mock the reader it is dependant on.
-     */
-    public function setUp()
+    public function setup()
     {
-        $this->_readerMock = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
+        $reader = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
+
         $configXml = file_get_contents(__DIR__ . '/_files/service_calls.xml');
-        $config = new Varien_Simplexml_Config($configXml);
-        $this->_readerMock->expects($this->any())
+        $config = new Magento_Config_Dom($configXml);
+        $reader->expects($this->any())
             ->method('getServiceCallConfig')
-            ->will($this->returnValue($config));
-        $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config($this->_readerMock);
+            ->will($this->returnValue($config->getDom()));
+
+        $this->_readersFactoryMock = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_readersFactoryMock->expects($this->any())
+            ->method('createReader')
+            ->will($this->returnValue($reader));
+
+        /** @var Mage_Core_Model_Config_Modules_Reader $modulesReaderMock */
+        $modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config(
+            $this->_readersFactoryMock, $modulesReaderMock);
     }
 
     public function testGetClassByAlias()
