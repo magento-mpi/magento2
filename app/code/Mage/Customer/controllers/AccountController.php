@@ -61,6 +61,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             'confirm',
             'confirmation',
             'createpassword',
+            'createpost',
         );
         $pattern = '/^(' . implode('|', $openActions) . ')$/i';
 
