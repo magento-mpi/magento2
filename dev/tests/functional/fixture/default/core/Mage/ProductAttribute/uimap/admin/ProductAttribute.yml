@@ -174,6 +174,8 @@ edit_product_attribute:
                                         is_default_option_index: //tr[%index%]//input[@class='input-radio']
                             -
                                 advanced_attribute_properties: *productAttributeAdvancedProperties
+                        pageelements:
+                            advanced_attribute_properties_section: //*[@id='advanced_fieldset-wrapper']/*[@class='fieldset-wrapper-title']//span
 
                 -
                     manage_labels_options: *productAttributeManageLabels
@@ -216,7 +218,7 @@ new_product_attribute_from_product_page:
 
 edit_product_attribute_save_and_continue:
     mca: catalog_product_attribute/edit/attribute_id/%id%/back/edit/active_tab/%tab%
-    title: %elementTitle% / Manage Attributes / Magento Admin
+    title: ~
     uimap: *edit_product_attribute
 
 new_product_attribute_save_and_continue:
