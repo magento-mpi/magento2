@@ -49,7 +49,7 @@
                 <field id="code_split" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Dash Every X Characters</label>
                     <backend_model>Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool</backend_model>
-                    <comment>if empty no separation.</comment>
+                    <comment>if empty no separation</comment>
                 </field>
                 <field id="pool_size" translate="label comment" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>New Pool Size</label>
@@ -60,7 +60,7 @@
                 <field id="generate" translate="label comment" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label></label>
                     <frontend_model>Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate</frontend_model>
-                    <comment>WARNING: Save your configuration before running generation process.</comment>
+                    <comment>IMPORTANT: Be sure to save your configuration before running generation process.</comment>
                 </field>
             </group>
         </section>

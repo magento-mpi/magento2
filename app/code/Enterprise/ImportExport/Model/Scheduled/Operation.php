@@ -258,7 +258,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
                 ->setPath($modelPath)
                 ->save();
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Unable to save the cron expression.'));
+            Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('We were unable to save the cron expression.'));
             Mage::logException($e);
         }
         return $this;
@@ -321,14 +321,14 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             $operationId = (int)substr($jobCode, $idPos + 1);
         }
         if (!isset($operationId) || !$operationId) {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid cron job task'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Please correct the cron job task'));
         }
 
         return $this->load($operationId);
     }
 
     /**
-     * Run scheduled operation. If some error ocurred email notification will be send
+     * Run scheduled operation. If some error occurred email notification will be send
      *
      * @return bool
      */
@@ -356,7 +356,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
 
         if (!$result || isset($e) && is_object($e)) {
             $operation->addLogComment(
-                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation finished with fail status')
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Something went wrong and the operation failed.')
             );
             $this->sendEmailNotification(array(
                 'operationName'  => $this->getName(),
@@ -384,7 +384,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     {
         $fileInfo = $this->getFileInfo();
         if (empty($fileInfo['file_name'])) {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to read file source. File name is empty'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__("We couldn't read the file source because the file name is empty."));
         }
         $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Connecting to server'));
         $fs = $this->getServerIoDriver();
@@ -394,7 +394,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $filePath  = $fileInfo['file_name'];
         $tmpFilePath = sys_get_temp_dir() . DS . uniqid(time(), true) . '.' . $extension;
         if (!$fs->read($filePath, $tmpFilePath)) {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to read import file'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__("We couldn't read the import file."));
         }
         $fs->close();
         $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save history file content "%s"', $this->getHistoryFilePath()));
@@ -423,7 +423,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $result   = $fs->write($fileName, $fileContent);
         if (!$result) {
             Mage::throwException(
-                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to write file "%s" to "%s" with "%s" driver', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('We couldn\'t write file "%s" to "%s" with the "%s" driver.', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
             );
         }
         $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save file content'));
@@ -445,7 +445,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $operation = Mage::getModel('Enterprise_ImportExport_Model_' . uc_words($this->getOperationType()));
         if (!$operation || !($operation instanceof Enterprise_ImportExport_Model_Scheduled_Operation_Interface)) {
             Mage::throwException(
-                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid scheduled operation')
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Please correct the scheduled operation.')
             );
         }
 
@@ -468,14 +468,14 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             || !$fileInfo['server_type']
             || !isset($availableTypes[$fileInfo['server_type']])
         ) {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid server type'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Please correct the server type.'));
         }
 
         $class = 'Varien_Io_' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
             Mage::throwException(
                 Mage::helper('Enterprise_ImportExport_Helper_Data')
-                    ->__('Invalid server communication class "%s"', $class)
+                    ->__('Please correct the server communication class "%s".', $class)
             );
         }
         $driver = new $class;
@@ -526,7 +526,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             'path' => dirname($filePath)
         ));
         if (!$fs->write(basename($filePath), $source)) {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to save file history file'));
+            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__("We couldn't save the file history file."));
         }
         return $this;
     }

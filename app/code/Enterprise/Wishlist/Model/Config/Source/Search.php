@@ -47,8 +47,8 @@ class Enterprise_Wishlist_Model_Config_Source_Search
     {
         return array(
             self::WISHLIST_SEARCH_DISPLAY_ALL_FORMS => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('All Forms'),
-            self::WISHLIST_SEARCH_DISPLAY_NAME_FORM => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Owner Name Search'),
-            self::WISHLIST_SEARCH_DISPLAY_EMAIL_FORM => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Owner Email Search')
+            self::WISHLIST_SEARCH_DISPLAY_NAME_FORM => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Owner Name Search'),
+            self::WISHLIST_SEARCH_DISPLAY_EMAIL_FORM => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Owner Email Search')
         );
     }
 }

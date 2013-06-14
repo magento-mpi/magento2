@@ -34,10 +34,11 @@ class Saas_ImportExport_Model_Import_Image_ResultTest extends PHPUnit_Framework_
         $this->_model->addInvalid('invalidFile1', 'invalidMessage1');
         $this->_model->addInvalid('invalidFile3', array('invalidMessage31', 'invalidMessage32'));
 
-        $expected = 'Product images errors (next image files will be ignored):<br />&nbsp;&nbsp;&nbsp;'
-            . '&nbsp;invalidMessage1<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invalidFile1'
-            . '<br />&nbsp;&nbsp;&nbsp;&nbsp;invalidMessage31;<br />&nbsp;&nbsp;&nbsp;&nbsp;invalidMessage32<br />'
-            . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invalidFile3';
+        $indent = Saas_ImportExport_Model_Import_Image_Result::MESSAGE_INDENT;
+        $expected = 'Product images errors (next image files will be ignored):<br />'
+            . $indent . 'invalidMessage1<br />' . $indent . $indent . 'invalidFile1'
+            . '<br />' . $indent . 'invalidMessage31;<br />' . $indent . 'invalidMessage32<br />'
+            . $indent . $indent . 'invalidFile3';
 
         $this->assertEquals($expected, $this->_model->getErrorsAsString());
     }
@@ -47,10 +48,11 @@ class Saas_ImportExport_Model_Import_Image_ResultTest extends PHPUnit_Framework_
         $this->_model->addValid('validFile1');
         $this->_model->addValid('validFile2');
 
+        $indent = Saas_ImportExport_Model_Import_Image_Result::MESSAGE_INDENT;
         $expected = array(
             'is_success' => true,
             'message' => 'Image Archive File is valid. All image files successfully uploaded to media storage.<br />'
-                . '&nbsp;&nbsp;&nbsp;&nbsp;Checked images: 2<br />&nbsp;&nbsp;&nbsp;&nbsp;Valid images: 2'
+                . $indent . 'Checked images: 2<br />' . $indent . 'Valid images: 2'
         );
 
         $this->assertEquals($expected, $this->_model->getUploadSummary());
@@ -63,11 +65,11 @@ class Saas_ImportExport_Model_Import_Image_ResultTest extends PHPUnit_Framework_
         $this->_model->addValid('validFile1');
         $this->_model->addValid('validFile2');
 
+        $indent = Saas_ImportExport_Model_Import_Image_Result::MESSAGE_INDENT;
         $expected = array(
             'is_success' => true,
-            'message' => 'Remainder image files, were successfully uploaded to media storage.<br />&nbsp;&nbsp;&nbsp;'
-                . '&nbsp;Checked images: 4<br />&nbsp;&nbsp;&nbsp;&nbsp;Valid images: 2<br />&nbsp;&nbsp;&nbsp;&nbsp;'
-                . 'Invalid images: 2'
+            'message' => 'Remainder image files, were successfully uploaded to media storage.<br />' . $indent
+                . 'Checked images: 4<br />' . $indent . 'Valid images: 2<br />' . $indent . 'Invalid images: 2'
         );
 
         $this->assertEquals($expected, $this->_model->getUploadSummary());
@@ -78,9 +80,10 @@ class Saas_ImportExport_Model_Import_Image_ResultTest extends PHPUnit_Framework_
         $this->_model->addInvalid('invalidFile1', 'invalidMessage1');
         $this->_model->addInvalid('invalidFile3', array('invalidMessage31', 'invalidMessage32'));
 
+        $indent = Saas_ImportExport_Model_Import_Image_Result::MESSAGE_INDENT;
         $expected = array(
             'is_success' => false,
-            'message' => 'There are no valid images in archive<br />&nbsp;&nbsp;&nbsp;&nbsp;Checked images: 2'
+            'message' => 'There are no valid images in archive<br />' . $indent . 'Checked images: 2'
         );
 
         $this->assertEquals($expected, $this->_model->getUploadSummary());

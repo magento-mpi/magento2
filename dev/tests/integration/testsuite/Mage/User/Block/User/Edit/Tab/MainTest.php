@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_User_Block_User_Edit_Tab_MainTest extends Mage_Backend_Utility_Controller
 {
     /**

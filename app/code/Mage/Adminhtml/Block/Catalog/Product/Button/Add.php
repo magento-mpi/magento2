@@ -19,12 +19,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Button_Add extends Mage_Backend_Block
     /**
      * Constructor
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Catalog_Model_Product_Limitation $limitation
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Catalog_Model_Product_Limitation $limitation,
         $data = array()
     ) {

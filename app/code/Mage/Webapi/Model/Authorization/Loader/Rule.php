@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
+class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_LoaderInterface
 {
     /**
      * @var Mage_Webapi_Model_Resource_Acl_Rule

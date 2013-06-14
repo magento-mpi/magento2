@@ -30,13 +30,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launc
     protected $_themeService;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param Mage_Core_Model_Theme_Service $themeService
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Helper_Data $launcherHelper,
         Mage_Core_Model_Theme_Service $themeService,
         array $data = array()

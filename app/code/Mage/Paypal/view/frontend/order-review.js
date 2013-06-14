@@ -138,11 +138,11 @@
                             return false;
                         }
                         this._ajaxComplete();
-                        alert($.mage.__('Unknown Error. Please try again later.'));
+                        alert($.mage.__('Sorry, something went wrong.'));
                     }
                 },
                 error: function() {
-                    alert($.mage.__('Server Error. Please try again.'));
+                    alert($.mage.__('Sorry, something went wrong. Please try again later.'));
                     this._ajaxComplete();
                 }
             });

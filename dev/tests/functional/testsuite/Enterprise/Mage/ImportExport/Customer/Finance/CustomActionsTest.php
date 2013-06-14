@@ -248,10 +248,10 @@ class Enterprise_Mage_ImportExport_Customer_Finance_CustomActionsTest extends Ma
             $this->navigate('manage_customers');
             $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
             $currentBalance = str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
-            $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
+            $this->assertTrue($currentBalance == '0' || $currentBalance == 'We couldn\'t  find any records.',
                 'Store credit balance is wrong ' . $i);
             $currentBalance = $this->customerHelper()->getRewardPointsBalance();
-            $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
+            $this->assertTrue($currentBalance == '0' || $currentBalance == 'We couldn\'t  find any records.',
                 'Reward points balance is wrong ' . $i);
         }
     }

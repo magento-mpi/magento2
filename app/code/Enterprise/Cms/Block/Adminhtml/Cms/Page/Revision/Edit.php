@@ -78,7 +78,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             if ($config->canCurrentUserSaveRevision()) {
                 $this->_addButton('save_publish', array(
                     'id'        => 'save_publish_button',
-                    'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Publish'),
+                    'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and publish.'),
                     'class'     => 'publish no-display',
                     'data_attribute'  => array(
                         'mage-init' => array(
@@ -112,7 +112,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
-                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save in New Version...'),
+                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save in a new version.'),
                 'data_attribute'  => array(
                     'mage-init' => array(
                         'button' => array(
@@ -130,9 +130,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
             $this->_formScripts[] = "
                 function newVersionAction(e){
-                    var versionName = prompt('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('Specify New Version Name (required)') . "', '')
+                    var versionName = prompt('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('You must specify a new version name.') . "', '')
                     if (versionName == '') {
-                        alert('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('You should specify valid name') . "');
+                        alert('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('Please specify a valid name.') . "');
                         e.stopImmediatePropagation();
                     } else if (versionName == null) {
                         return false;

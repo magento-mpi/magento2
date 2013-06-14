@@ -25,12 +25,12 @@ class Mage_AdminNotification_Block_ToolbarEntry extends Mage_Backend_Block_Templ
     protected $_notificationList;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList,
         array $data = array()
     ) {

@@ -66,7 +66,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 return $this;
             } else {
                 throw new Enterprise_Checkout_Exception(
-                    $this->__('Shopping cart management disabled for this customer.')
+                    $this->__('Shopping cart management is disabled for this customer.')
                 );
             }
         }
@@ -90,7 +90,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new Enterprise_Checkout_Exception($this->__('Store not found.'));
+                throw new Enterprise_Checkout_Exception($this->__('We could not find this store.'));
             }
         } else {
             // try to find quote for selected store
@@ -345,7 +345,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function createOrderAction()
     {
         if (!$this->_authorization->isAllowed('Mage_Sales::create')) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('You do not have access to this.'));
         }
         try {
             $this->_initData();
@@ -475,13 +475,13 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                Mage::throwException($this->__('Wishlist item id is not received.'));
+                Mage::throwException($this->__('The wish list item id is not received.'));
             }
 
             $item = Mage::getModel('Mage_Wishlist_Model_Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
-                Mage::throwException($this->__('Wishlist item is not loaded.'));
+                Mage::throwException($this->__('The wish list item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -572,7 +572,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     protected function _isModificationAllowed()
     {
         if (!$this->_authorization->isAllowed('Enterprise_Checkout::update')) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('You do not have access to this.'));
         }
     }
 

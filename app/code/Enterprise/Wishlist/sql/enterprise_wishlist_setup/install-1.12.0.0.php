@@ -40,7 +40,7 @@ $installer->getConnection()->addForeignKey(
 $installer->getConnection()->addColumn($tableName, 'name', array(
         'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
         'length'   => 255,
-        'comment'  => 'Wishlist name',
+        'comment'  => 'Wish List Name',
         'default'  => null
     )
 );

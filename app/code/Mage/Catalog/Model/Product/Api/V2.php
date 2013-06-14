@@ -151,9 +151,9 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
                 $strErrors = array();
                 foreach ($errors as $code => $error) {
                     if ($error === true) {
-                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid.', $code);
+                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%s".', $code);
                     } else {
-                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid: %s',
+                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%s": %s',
                             $code, $error);
                     }
                     $strErrors[] = $error;
