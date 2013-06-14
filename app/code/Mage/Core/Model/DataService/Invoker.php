@@ -92,14 +92,24 @@ class Mage_Core_Model_DataService_Invoker
     {
         $result = array();
         foreach ($argumentsList as $name => $value) {
-            if (preg_match("/^\{\{.*\}\}$/", $value)) {
-                // convert from '{{parent.child}}' format to array('parent', 'child') format
-                $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($value, '{}'));
-                $result[$name] = Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
-            } else {
-                $result[$name] = $value;
-            }
+            $result[$name] = $this->getArgumentValue($value);
         }
         return $result;
+    }
+
+    /**
+     * Get the value for the method argument
+     *
+     * @param $path
+     * @return null
+     */
+    public function getArgumentValue($path)
+    {
+        if (preg_match("/^\{\{.*\}\}$/", $path)) {
+            // convert from '{{parent.child}}' format to array('parent', 'child') format
+            $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($path, '{}'));
+            return Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
+        }
+        return $path;
     }
 }

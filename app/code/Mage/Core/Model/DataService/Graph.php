@@ -33,6 +33,17 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
     }
 
     /**
+     * Get the value for the method argument
+     *
+     * @param $path
+     * @return null
+     */
+    public function getArgumentValue($path)
+    {
+        return $this->_invoker->getArgumentValue($path);
+    }
+
+    /**
      * Takes array of the following structure
      * and initializes all of the data sources
      *
