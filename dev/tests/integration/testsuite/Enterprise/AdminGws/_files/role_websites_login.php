@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
 if (!isset($scope)) {
     $scope = 'websites';
 }
@@ -29,7 +29,7 @@ $role->save();
 /** @var $rule Mage_User_Model_Rules */
 $rule = Mage::getModel('Mage_User_Model_Rules');
 $rule->setRoleId($role->getId())
-    ->setResources(array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL))
+    ->setResources(array('Mage_Adminhtml::all'))
     ->saveRel();
 
 $user = Mage::getModel('Mage_User_Model_User');

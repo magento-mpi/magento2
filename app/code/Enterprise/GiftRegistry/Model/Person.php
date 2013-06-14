@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Model_Person extends Mage_Core_Model_Abstract
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('"Email" is not a valid email address.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid email address(for example, daniel@x.com).');
         }
 
         $customValues = $this->getCustom();

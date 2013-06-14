@@ -35,7 +35,7 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_ImageTest extends PHPUnit_Fr
     public function setUp()
     {
         $this->_urlBuilderMock = $this->getMock('Mage_Core_Model_UrlInterface');
-        $contextMock = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
+        $contextMock = $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false);
         $contextMock->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($this->_urlBuilderMock));
 
         $this->_configurationMock = $this->getMock('Saas_ImportExport_Helper_Import_Image_Configuration', array(),

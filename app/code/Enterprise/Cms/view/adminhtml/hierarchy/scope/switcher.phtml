@@ -30,7 +30,7 @@
 <script type="text/javascript">
     function switchStore(obj)
     {
-        if (confirm("<?php echo $this->__('Please confirm site switching. All data that hasn\'t been saved will be lost.') ?>")) {
+        if (confirm("<?php echo $this->__("Please confirm site switching. You will lose all data that hasn't been saved.") ?>")) {
             setLocation(obj.options[obj.selectedIndex].getAttribute('url'));
             return true;
         }

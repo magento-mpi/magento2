@@ -15,7 +15,7 @@
     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
         <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
     <?php endif; ?>
-    <h1><?php echo $this->__('Wishlist Info') ?></h1>
+    <h1><?php echo $this->__('Wish List Info') ?></h1>
 </div>
 <?php echo $this->getLayout()->renderElement('messages');?>
 <div class="info-box">
@@ -41,7 +41,7 @@
     </div>
 </div>
 
-<h2 class="subtitle"><?php echo $this->__('Wishlist Items') ?></h2>
+<h2 class="subtitle"><?php echo $this->__('Wish List Items') ?></h2>
 <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form">
     <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
     <?php echo $this->getChildHtml('items');?>
@@ -60,7 +60,7 @@
             "<?php echo $this->getViewFileUrl('Mage_Wishlist::wishlist.js')?>", function() {
                 $('#wishlist-info-form').wishlist({
                     infoList: true,
-                    checkBoxValidationMessage: '<?php echo $this->__('You must select items to add to cart');?>'
+                    checkBoxValidationMessage: '<?php echo $this->__('You must select items to add to the cart.');?>'
                 });
             });
     })(jQuery);

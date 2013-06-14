@@ -40,14 +40,14 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
     protected $_regionModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Directory_Model_Config_Source_Country $countryConfigModel
      * @param Mage_Directory_Model_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Directory_Model_Config_Source_Country $countryConfigModel,
         Mage_Directory_Model_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,

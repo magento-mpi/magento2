@@ -437,7 +437,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                     ) {
                         $errorTitle = (string)$xml->Package->Error->Description;
                     } else {
-                        $errorTitle = 'Unknown error';
+                        $errorTitle = 'Sorry, something went wrong. Please try again or contact us and we\'ll try to help.';
                     }
                     $r = $this->_rawRequest;
                     $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
@@ -851,7 +851,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                     ) {
                         $errorTitle = (string)$xml->TrackInfo->Error->Description;
                     } else {
-                        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Unknown error');
+                        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.');
                     }
 
                     if(isset($xml->TrackInfo) && isset($xml->TrackInfo->TrackSummary)){

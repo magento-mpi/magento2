@@ -44,9 +44,9 @@
                 </field>
             </group>
             <group id="wishlist_link" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>My Wishlist Link</label>
+                <label>My Wish List Link</label>
                 <field id="use_qty" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Display Wishlist Summary</label>
+                    <label>Display Wish List Summary</label>
                     <source_model>Mage_Wishlist_Model_Config_Source_Summary</source_model>
                 </field>
             </group>

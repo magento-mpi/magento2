@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -18,8 +21,6 @@ class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
-
         $roleAdmin = Mage::getModel('Mage_User_Model_Role');
         $roleAdmin->load(Magento_Test_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
@@ -31,7 +32,7 @@ class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNotEmpty($this->_block->getSelectedResources());
         $this->assertContains(
-            Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL,
+            'Mage_Adminhtml::all',
             $this->_block->getSelectedResources()
         );
     }

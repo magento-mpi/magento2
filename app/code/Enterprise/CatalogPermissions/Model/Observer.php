@@ -187,7 +187,7 @@ class Enterprise_CatalogPermissions_Model_Observer
                 ->setRedirect($this->_helper->getLandingPageUrl());
 
             Mage::throwException(
-                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You have no permissions to access this category')
+                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You may need more permissions to access this category.')
             );
         }
         return $this;
@@ -263,12 +263,12 @@ class Enterprise_CatalogPermissions_Model_Observer
                 if ($parentItem) {
                     $quote->setHasError(true)
                             ->addMessage(
-                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('The product "%s" cannot be added to cart.', $parentItem->getName())
+                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $parentItem->getName())
                             );
                 } else {
                      $quote->setHasError(true)
                             ->addMessage(
-                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('The product "%s" cannot be added to cart.', $quoteItem->getName())
+                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $quoteItem->getName())
                             );
                 }
             }
@@ -307,11 +307,11 @@ class Enterprise_CatalogPermissions_Model_Observer
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('The product "%s" cannot be added to cart.', $parentItem->getName())
+                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $parentItem->getName())
                 );
             } else {
                 Mage::throwException(
-                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('The product "%s" cannot be added to cart.', $quoteItem->getName())
+                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $quoteItem->getName())
                 );
             }
         }
@@ -398,7 +398,7 @@ class Enterprise_CatalogPermissions_Model_Observer
                 ->setRedirect($this->_helper->getLandingPageUrl());
 
             Mage::throwException(
-                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You have no permissions to access this product')
+                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You may need more permissions to access this product.')
             );
         }
 

@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testNewAction()

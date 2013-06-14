@@ -115,7 +115,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $roleId = $this->defineParameterFromUrl('role_id');
         //Click Delete API Role button
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
-        //Verify that message "The role has been deleted." is displayed
+        //Verify that message "You deleted the role." is displayed
         $this->assertMessagePresent('success', 'success_deleted_role');
         //Open Admin Actions Logs page
         $this->navigate('admin_action_log_report');

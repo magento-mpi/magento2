@@ -594,7 +594,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function register()
     {
         if ($this->getId()) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Cannot register existing invoice'));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We cannot register an existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {

@@ -839,7 +839,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Invalid email address "%s".', $this->getEmail());
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please correct this email address: "%s".', $this->getEmail());
         }
 
         $entityType = $this->_config->getEntityType('customer');

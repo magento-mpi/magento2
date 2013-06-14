@@ -43,18 +43,4 @@ class Mage_Sales_Model_Resource_Order_Payment extends Mage_Sales_Model_Resource_
         $this->_converter = Mage::getSingleton('Mage_Sales_Model_Payment_Method_Converter');
         $this->_init('sales_flat_order_payment', 'entity_id');
     }
-
-    /**
-     * Update payment method name
-     *
-     * @param string $oldName
-     * @param string $newName
-     * @return Mage_Sales_Model_Resource_Order_Payment
-     */
-    public function updatePaymentMethodName($oldName, $newName)
-    {
-        $this->_getWriteAdapter()
-            ->update($this->getMainTable(), array('method' => $newName), array('method = ?' => $oldName));
-        return $this;
-    }
 }

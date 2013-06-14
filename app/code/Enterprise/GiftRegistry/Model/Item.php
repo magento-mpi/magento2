@@ -115,7 +115,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 
         if (!$product->isSalable()) {
             Mage::throwException(
-                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('This product(s) is currently out of stock.'));
+                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('This product(s) is out of stock.'));
         }
 
         $product->setGiftregistryItemId($this->getId());
@@ -216,7 +216,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getProductId());
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Invalid product for adding item to quote.'));
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
         }
@@ -372,7 +372,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         } elseif($option instanceof Enterprise_GiftRegistry_Model_Item_Option) {
             $option->setItem($this);
         } else {
-            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Invalid item option format.'));
+            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());

@@ -178,23 +178,23 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     {
         $systemComments = array(
             Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been placed.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We placed your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been authorized.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We have authorized your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_PARTIAL_AUTHORIZED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been partially authorized. '),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially authorized your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been received.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We received your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED_ON_ITEM =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been partially received.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially received your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED_ON_ITEM =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been partially approved.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially approved your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_REJECTED_ON_ITEM =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been partially rejected.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially rejected your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_CLOSED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been closed.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We closed your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Your Return request has been processed and closed.'),
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We processed and closed your Return request.'),
         );
 
         $rma = $this->getRma();

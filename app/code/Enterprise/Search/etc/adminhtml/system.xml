@@ -73,7 +73,7 @@
                 </field>
                 <field id="solr_server_suggestion_enabled" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Search Suggestions</label>
-                    <comment>Note: Enabling this option affects the performance.</comment>
+                    <comment>When you enable this option your site may slow down.</comment>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="engine">Enterprise_Search_Model_Resource_Engine</field>
@@ -89,7 +89,7 @@
                 <field id="solr_server_suggestion_count_results_enabled" translate="label" type="select" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Results Count for Each Suggestion</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                    <comment>Note: Enabling this option affects the performance.</comment>
+                    <comment>When you enable this option your site may slow down.</comment>
                     <depends>
                         <field id="engine">Enterprise_Search_Model_Resource_Engine</field>
                         <field id="solr_server_suggestion_enabled">1</field>
@@ -97,7 +97,7 @@
                 </field>
                 <field id="search_recommendations_enabled" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Search Recommendations</label>
-                    <comment>Note: Enabling this option affects the performance.</comment>
+                    <comment>When you enable this option your site may slow down.</comment>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="search_recommendations_count" translate="label" type="text" sortOrder="81" showInDefault="1" showInWebsite="1" showInStore="1">

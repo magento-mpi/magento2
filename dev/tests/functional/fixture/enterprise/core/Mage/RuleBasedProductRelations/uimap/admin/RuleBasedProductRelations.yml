@@ -13,7 +13,7 @@
 manage_product_rules:
     mca: targetrule/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'targetrule/')]
-    title: Rule-based Product Relations / Promotions / Marketing / Magento Admin
+    title: Related Product Rules / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -39,13 +39,13 @@ manage_product_rules:
         buttons:
             add_rule: //button[span='Add Rule']
         messages:
-            success_create_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
-            success_delete_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
+            success_create_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rule.')]
+            success_delete_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rule.')]
 
 #Create Product Rules page
 create_product_rule:
     mca: targetrule/new/
-    title: New Rule / Rule-based Product Relations / Promotions / Marketing / Magento Admin
+    title: New Related Product Rules / Rule-based Product Relations / Promotions / Marketing / Magento Admin
     uimap:
         form: &createProductRule
             tabs:

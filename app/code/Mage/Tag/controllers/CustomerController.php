@@ -97,7 +97,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 $model->deactivate();
 
                 Mage::getSingleton('Mage_Tag_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Tag_Helper_Data')->__('The tag has been deleted.')
+                    Mage::helper('Mage_Tag_Helper_Data')->__('You deleted the tag.')
                 );
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array(
                     self::PARAM_NAME_URL_ENCODED => Mage::helper('Mage_Core_Helper_Data')->urlEncode(
@@ -106,7 +106,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 )));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Tag_Model_Session')->addError(Mage::helper('Mage_Tag_Helper_Data')->__('Unable to remove tag. Please, try again later.'));
+                Mage::getSingleton('Mage_Tag_Model_Session')->addError(Mage::helper('Mage_Tag_Helper_Data')->__('We can\'t remove the tag. Please try again later.'));
             }
         }
         else {

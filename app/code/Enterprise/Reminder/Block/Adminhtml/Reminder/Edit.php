@@ -32,7 +32,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_B
         if ($rule && $rule->getId()) {
             $confirm = Mage::helper('Enterprise_Reminder_Helper_Data')->__('Are you sure you want to match this rule now?');
             if ($limit = Mage::helper('Enterprise_Reminder_Helper_Data')->getOneRunLimit()) {
-                $confirm .= ' ' . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Up to %s customers may receive reminder email after this action.', $limit);
+                $confirm .= ' ' . Mage::helper('Enterprise_Reminder_Helper_Data')->__('No more than %s customers may receive the reminder email after this action.', $limit);
             }
             $this->_addButton('run_now', array(
                 'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Run Now'),

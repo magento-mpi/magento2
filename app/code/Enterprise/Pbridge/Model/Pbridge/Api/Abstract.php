@@ -105,7 +105,7 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
             Mage::throwException($response['error']);
         }
-        Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment gateway internal error.'));
+        Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('There was a payment gateway internal error.'));
     }
 
     /**

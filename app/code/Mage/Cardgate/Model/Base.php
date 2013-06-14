@@ -41,7 +41,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
      *
      * @var Mage_Core_Model_Resource_Transaction_Factory
      */
-    protected $_resourceTransactionFactory;
+    protected $_transactionFactory;
 
     /**
      * Sales Order factory
@@ -113,7 +113,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Dir $dir
      * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Core_Model_Resource_Transaction_Factory $resourceTransactionFactory
+     * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Sales_Model_OrderFactory $orderFactory
      * @param Mage_Cardgate_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
@@ -124,7 +124,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Dir $dir,
         Mage_Core_Model_Logger $logger,
-        Mage_Core_Model_Resource_Transaction_Factory $resourceTransactionFactory,
+        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Sales_Model_OrderFactory $orderFactory,
         Mage_Cardgate_Helper_Data $helper,
         Magento_Filesystem $filesystem,
@@ -136,7 +136,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         $this->_configObject = $config;
         $this->_dir = $dir;
         $this->_logger = $logger;
-        $this->_resourceTransactionFactory = $resourceTransactionFactory;
+        $this->_transactionFactory = $transactionFactory;
         $this->_orderFactory = $orderFactory;
         $this->_helper = $helper;
         $this->_filesystem = $filesystem;
@@ -280,23 +280,23 @@ class Mage_Cardgate_Model_Base extends Varien_Object
             $invoice->register();
             $invoice->save();
 
-            $this->_resourceTransactionFactory->create()
+            $this->_transactionFactory->create()
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
 
-            $mail_invoice = $this->getConfigData("mail_invoice");
-            if ($mail_invoice) {
+            $mailInvoice = $this->getConfigData("mail_invoice");
+            if ($mailInvoice) {
                 $invoice->setEmailSent(true);
                 $invoice->save();
                 $invoice->sendEmail();
             }
 
-            $statusMessage = $mail_invoice ? "Invoice #%s created and send to customer." : "Invoice #%s created.";
+            $statusMessage = $mailInvoice ? "Invoice #%s created and send to customer." : "Invoice #%s created.";
             $order->addStatusToHistory(
                 $order->getStatus(),
                 $this->_helper->__($statusMessage, $invoice->getIncrementId()),
-                $mail_invoice
+                $mailInvoice
             );
 
             return true;
@@ -308,6 +308,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
     /**
      * Returns true if the amounts match
      *
+     * @throws RuntimeException
      * @param Mage_Sales_Model_Order $order
      * @return boolean
      */
@@ -323,7 +324,8 @@ class Mage_Cardgate_Model_Base extends Varien_Object
                 ->__("Hacker attempt: Order total amount does not match CardGatePlus's gross total amount!");
             $order->addStatusToHistory($order->getStatus(), $statusMessage);
             $order->save();
-            return false;
+
+            throw new RuntimeException('Amount validation failed!');
         }
 
         return true;
@@ -357,62 +359,91 @@ class Mage_Cardgate_Model_Base extends Varien_Object
     }
 
     /**
+     * Sends new order email if it wasn't send earlier
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return void
+     */
+    protected function _sendOrderEmail(Mage_Sales_Model_Order $order)
+    {
+        // Send new order e-mail
+        if (!$order->getEmailSent()) {
+            $order->setEmailSent(true);
+            $order->sendNewOrderEmail();
+        }
+    }
+
+    /**
+     * Update the order status if changed
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @param string $newState
+     * @param string $newStatus
+     * @param string $statusMessage
+     * @return void
+     */
+    protected function _updateOrderState(Mage_Sales_Model_Order $order, $newState, $newStatus, $statusMessage)
+    {
+        if ($this->_isOrderUpdatable($order) &&
+            (($newState != $order->getState()) || ($newStatus != $order->getStatus()))
+        ) {
+            // Create an invoice when the payment is completed
+            if ($newState == Mage_Sales_Model_Order::STATE_PROCESSING && $this->getConfigData("autocreate_invoice")) {
+                $this->_createInvoice($order);
+                $this->log("Creating invoice for order ID: " . $order->getId() . ".");
+            }
+
+            $order->setState($newState, $newStatus, $statusMessage);
+            $this->log("Changing state to ${newState} with message ${statusMessage} for order ID: "
+                . $order->getId() . ".");
+        }
+    }
+
+    /**
      * Process callback for all transactions
      *
-     * @throws RuntimeException
      * @return void
      */
     public function processCallback()
     {
-        $id = $this->getCallbackData('ref');
-        if (preg_match('/.*\-([0-9]+)$/', $id, $matches)) {
-            $id = $matches[1];
+        $orderId = $this->getCallbackData('ref');
+        if (preg_match('/.*\-([0-9]+)$/', $orderId, $matches)) {
+            $orderId = $matches[1];
         }
 
         /** @var Mage_Sales_Model_Order $order */
         $order = $this->_orderFactory->create();
-        $order->loadByIncrementId($id);
+        $order->loadByIncrementId($orderId);
 
         // Log callback
         $this->log('Callback received');
         $this->log($this->getCallbackData());
 
         // Validate amount
-        if (!$this->_validateAmount($order)) {
-            throw new RuntimeException('Amount validation failed!');
-        }
+        $this->_validateAmount($order);
 
         $statusComplete    = $this->getConfigData("complete_status");
         $statusFailed      = $this->getConfigData("failed_status");
         $statusFraud       = $this->getConfigData("fraud_status");
-        $autocreateInvoice = $this->getConfigData("autocreate_invoice");
 
-        $complete      = false;
-        $canceled      = false;
         $newState      = null;
         $newStatus     = true;
         $statusMessage = '';
 
         switch ($this->getCallbackData('status')) {
             case "200":
-                $complete = true;
                 $newState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $newStatus = $statusComplete;
                 $statusMessage = $this->_helper->__("Payment complete.");
-                // Send new order e-mail
-                if (!$order->getEmailSent()) {
-                    $order->setEmailSent(true);
-                    $order->sendNewOrderEmail();
-                }
+                // send new email
+                $this->_sendOrderEmail($order);
                 break;
             case "300":
-                $canceled = true;
                 $newState = Mage_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFailed;
                 $statusMessage = $this->_helper->__("Payment failed or canceled by user.");
                 break;
             case "301":
-                $canceled = true;
                 $newState = Mage_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFraud;
                 $statusMessage = $this->_helper->__("Transaction failed, payment is fraud.");
@@ -423,18 +454,7 @@ class Mage_Cardgate_Model_Base extends Varien_Object
         $this->lock();
 
         // Update the status if changed
-        if ($this->_isOrderUpdatable($order) &&
-            (($newState != $order->getState()) || ($newStatus != $order->getStatus()))
-        ) {
-            // Create an invoice when the payment is completed
-            if ($complete && !$canceled && $autocreateInvoice) {
-                $this->_createInvoice($order);
-                $this->log("Creating invoice for order ID: $id.");
-            }
-
-            $order->setState($newState, $newStatus, $statusMessage);
-            $this->log("Changing state to $newState with message $statusMessage for order ID: $id.");
-        }
+        $this->_updateOrderState($order, $newState, $newStatus, $statusMessage);
 
         // Save order status changes
         $order->save();

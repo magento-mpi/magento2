@@ -20,6 +20,7 @@ app/code/Mage/Adminhtml/controllers/Report/ProductController.php
 app/code/Mage/Adminhtml/controllers/UrlrewriteController.php
 app/code/Mage/Api/Model/Cache/Type.php
 app/code/Mage/Backend
+app/code/Mage/Cardgate
 app/code/Mage/Catalog/Block/Product/Configurable
 app/code/Mage/Catalog/Model/Product/Limitation.php
 app/code/Mage/Catalog/Block/Product/Grouped

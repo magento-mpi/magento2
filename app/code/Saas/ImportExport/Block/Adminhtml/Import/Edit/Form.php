@@ -20,13 +20,13 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExpo
     protected $_helper;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_ImportExport_Helper_Import_Image_Configuration $configuration
      * @param Saas_ImportExport_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_ImportExport_Helper_Import_Image_Configuration $configuration,
         Saas_ImportExport_Helper_Data $helper,
         array $data = array()
@@ -49,8 +49,7 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExpo
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('upload_file_fieldset');
 
-        $note = sprintf('%s ZIP. %s %dM.', $this->__('Allowed file type:'), $this->__('Max file size: '),
-            $this->_helper->getMaxFileSizeInMb());
+        $note = $this->__('Allowed file type: ZIP. Max file size: %dM', $this->_helper->getMaxFileSizeInMb());
         $fieldset->addField($this->_configuration->getFileFieldName(), 'file', array(
             'name' => $this->_configuration->getFileFieldName(),
             'label' => $this->__('Select Image Archive File to Import'),
