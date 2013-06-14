@@ -26,10 +26,16 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
     protected $_codeHelper;
 
     /**
+     * @var Mage_GoogleOptimizer_Helper_Form
+     */
+    protected $_formHelper;
+
+    /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_GoogleOptimizer_Helper_Data $helperData
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
+     * @param Mage_GoogleOptimizer_Helper_Form $formHelper
      * @param Varien_Data_Form $form
      * @param array $data
      */
@@ -38,6 +44,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
         Mage_GoogleOptimizer_Helper_Data $helperData,
         Mage_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,
+        Mage_GoogleOptimizer_Helper_Form $formHelper,
         Varien_Data_Form $form,
         array $data = array()
     ) {
@@ -46,6 +53,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
         $this->_helperData = $helperData;
         $this->_registry = $registry;
         $this->_codeHelper = $codeHelper;
+        $this->_formHelper = $formHelper;
         $this->setForm($form);
     }
 
@@ -56,35 +64,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
      */
     protected function _prepareForm()
     {
-        $fieldset = $this->getForm()->addFieldset('googleoptimizer_fields', array(
-            'legend' => $this->__('Google Analytics Content Experiments Code')
-        ));
-
-        $experimentCode = array();
-        $experimentId = '';
-
-        if (null != ($experiment = $this->_getGoogleExperiment())) {
-            $experimentCode = $experiment->getExperimentScript();
-            $experimentId = $experiment->getCodeId();
-        }
-
-        $fieldset->addField('experiment_script', 'textarea', array(
-            'name' => 'experiment_script',
-            'label' => $this->__('Experiment Code'),
-            'value' => $experimentCode,
-            'class' => 'textarea googleoptimizer',
-            'required' => false,
-            'note' => $this->__('Note: Experiment code should be added to the original page only.'),
-        ));
-
-        $fieldset->addField('code_id', 'hidden', array(
-            'name' => 'code_id',
-            'value' => $experimentId,
-            'required' => false,
-        ));
-
-        $this->getForm()->setFieldNameSuffix('google_experiment');
-
+        $this->_formHelper->addGoogleoptimizerFields($this->getForm(), $this->_getGoogleExperiment());
         return parent::_prepareForm();
     }
 
