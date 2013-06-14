@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Config
+ * Mage_Core_Model_DataService_Config
  *
  * {license_notice}
  *
@@ -15,29 +15,26 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_dataServiceConfig;
 
     /**
-     * @var  Mage_Core_Model_DataService_Config_Reader
+     * @var  PHPUnit_Framework_MockObject_MockObject
      */
-    private $_reader;
+    private $_readerMock;
 
     /**
      * Create Config object to test and mock the reader it is dependant on.
      */
     public function setup()
     {
-        $this->_reader = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
+        $this->_readerMock = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $configXml = file_get_contents(__DIR__ . '/_files/service_calls.xml');
         $config = new Varien_Simplexml_Config($configXml);
-        $this->_reader->expects($this->any())
+        $this->_readerMock->expects($this->any())
             ->method('getServiceCallConfig')
             ->will($this->returnValue($config));
-        $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config($this->_reader);
+        $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config($this->_readerMock);
     }
 
-    /**
-     * Make sure the class info for alias is correct
-     */
     public function testGetClassByAlias()
     {
         // result should match the config.xml file

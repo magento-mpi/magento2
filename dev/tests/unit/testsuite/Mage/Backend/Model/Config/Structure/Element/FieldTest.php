@@ -1,5 +1,7 @@
 <?php
 /**
+ * Mage_Backend_Model_Config_Structure_Element_Field
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -62,9 +64,14 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             'Mage_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
         );
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())->method('__')->will($this->returnCallback(function($arg) {
-            return 'translated ' . $arg;
-        }));
+        $helperMock->expects($this->any())
+            ->method('__')
+            ->will($this->returnCallback(
+                    function ($arg) {
+                        return 'translated ' . $arg;
+                    }
+                )
+            );
         $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_factoryHelperMock->expects($this->any())->method('get')->with('Mage_Module_Helper_Data')
             ->will($this->returnValue($helperMock));

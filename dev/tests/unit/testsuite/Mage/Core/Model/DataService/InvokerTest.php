@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Invoker
+ * Mage_Core_Model_DataService_Invoker
  *
  * {license_notice}
  *
@@ -26,17 +26,17 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
     protected $_invoker;
 
     /**
-     * @var Mage_Core_Model_DataService_ConfigInterface
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var  Magento_ObjectManager
+     * @var  PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var  Mage_Core_Model_DataService_Path_Composite
+     * @var  PHPUnit_Framework_MockObject_MockObject
      */
     protected $_compositeMock;
 
@@ -57,9 +57,6 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         return $this->_dataServiceMock;
     }
 
-    /**
-     * Create the Invoker to test and mock the objects it depends on.
-     */
     public function setup()
     {
         $this->_configMock = $this->getMock(
@@ -77,9 +74,6 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         $this->_dataServiceMock = array();
     }
 
-    /**
-     * Verify getServiceData returns mocked service class info
-     */
     public function testGetServiceData()
     {
         $classInformation = array(
@@ -102,9 +96,6 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Verify getServiceData works with 'args'
-     */
     public function testGetServiceDataWithArguments()
     {
         $classInformation = array(
@@ -128,8 +119,6 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify getServiceData fails if something other than array is returned
-     *
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage return an array
      */

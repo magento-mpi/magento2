@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Invoker
+ * Mage_Core_Model_DataService_Invoker
  *
  * {license_notice}
  *
@@ -31,12 +31,12 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     protected $_dataServiceMock;
 
     /**
-     * @var  Mage_Core_Model_DataService_Invoker
+     * @var  PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var  Mage_Core_Model_DataService_Repository
+     * @var  PHPUnit_Framework_MockObject_MockObject
      */
     protected $_repositoryMock;
 
@@ -48,9 +48,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         return $this->_dataServiceMock;
     }
 
-    /**
-     * Create mocks and Graph object to test
-     */
     public function setup()
     {
         $this->_factoryMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
@@ -59,9 +56,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         $this->_dataServiceMock = (object)array();
     }
 
-    /**
-     * Verify the init method
-     */
     public function testInit()
     {
         $this->_repositoryMock->expects($this->once())->method('addNameInNamespace')->with(
@@ -109,9 +103,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Verify the mock object is returned
-     */
     public function testGet()
     {
         $this->_dataServiceMock = (object)array();
@@ -124,9 +115,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Verify correct mock returned for child node
-     */
     public function testGetChild()
     {
         $this->_dataServiceMock = (object)array();
@@ -139,9 +127,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Verify correct service name is returned for namespace
-     */
     public function testGetByNamespace()
     {
         $this->_repositoryMock->expects($this->once())->method('getByNamespace')->with(
