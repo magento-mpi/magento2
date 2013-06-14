@@ -96,7 +96,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
     {
         if (empty($params) || !is_array($params) || empty($params['search'])) {
             $this->_getSession()->addNotice(
-                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please specify correct search options.')
+                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct search options.')
             );
             return false;
         }
@@ -120,7 +120,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
             case 'email':
                 if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid email address.')
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid email address.')
                     );
                     return false;
                 }
@@ -129,7 +129,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
             case 'id':
                 if (empty($params['id'])) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please specify gift registry ID.')
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a gift registry ID.')
                     );
                     return false;
                 }
@@ -137,7 +137,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
 
             default:
                 $this->_getSession()->addNotice(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please specify correct search options.')
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct search options.')
                 );
                 return false;
         }

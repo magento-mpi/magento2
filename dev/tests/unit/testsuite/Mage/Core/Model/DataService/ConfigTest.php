@@ -22,7 +22,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Create Config object to test and mock the reader it is dependant on.
      */
-    public function setup()
+    public function setUp()
     {
         $this->_readerMock = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
             ->disableOriginalConstructor()

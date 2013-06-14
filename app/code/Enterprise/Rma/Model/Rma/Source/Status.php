@@ -78,7 +78,7 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
     public function getStatusByItems($itemStatusArray)
     {
         if (!is_array($itemStatusArray) || empty($itemStatusArray)) {
-            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA item status.'));
+            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('This is the wrong RMA item status.'));
         }
 
         $itemStatusArray = array_unique($itemStatusArray);
@@ -87,7 +87,7 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {
-                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA item status.'));
+                Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('This is the wrong RMA item status.'));
             }
         }
 

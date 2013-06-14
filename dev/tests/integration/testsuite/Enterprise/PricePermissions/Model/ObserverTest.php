@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */

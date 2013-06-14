@@ -25,13 +25,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Saas_L
     protected $_configStructure;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Backend_Model_Config_Structure $configStructure,
         array $data = array()

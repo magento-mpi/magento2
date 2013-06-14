@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_LocaleTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_LocaleInterface

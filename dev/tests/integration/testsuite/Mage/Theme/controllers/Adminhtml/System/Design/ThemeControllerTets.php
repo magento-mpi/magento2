@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Theme_Adminhtml_System_Design_ThemeControllerTest extends Mage_Backend_Utility_Controller
 {
     /** @var Magento_Filesystem */

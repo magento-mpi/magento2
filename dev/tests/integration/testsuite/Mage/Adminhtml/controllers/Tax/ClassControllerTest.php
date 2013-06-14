@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_Tax_ClassControllerTest extends Mage_Backend_Utility_Controller
 {
     /**

@@ -22,7 +22,7 @@
                 <label for="type_id"><?php echo $this->__('Gift Registry Type') ?></label>
                 <div class="input-box">
                     <select data-validate="{required:true}" name="type_id" id="type_id">
-                            <option value=""><?php echo $this->__('Please select gift registry type') ?></option>
+                            <option value=""><?php echo $this->__('Please select a gift registry type.') ?></option>
                         <?php foreach ($this->getTypeList() as $type):?>
                             <option value="<?php echo $type['value']?>"><?php echo $type['label'] ?></option>
                         <?php endforeach; ?>

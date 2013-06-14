@@ -27,7 +27,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
     {
         $this->loadLayout()->_setActiveMenu('Enterprise_GiftWrapping::sales_enterprise_giftwrapping');
 
-        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Manage Gift Wrapping'));
+        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Gift Wrapping'));
         return $this;
     }
 
@@ -49,7 +49,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
         if ($wrappingId) {
             $model->load($wrappingId);
             if (!$model->getId()) {
-                Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Wrong gift wrapping requested.'));
+                Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Please request the correct gift wrapping.'));
             }
         }
         Mage::register('current_giftwrapping_model', $model);
@@ -92,7 +92,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
         if ($formData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData()) {
             $model->addData($formData);
         }
-        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Edit Gift Wrapping "%s"', $model->getDesign()));
+        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('%s', $model->getDesign()));
         $this->renderLayout();
     }
 
@@ -118,12 +118,12 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                     try {
                         $model->attachUploadedImage('image_name');
                     } catch (Exception $e) {
-                        Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Image has not been uploaded.'));
+                        Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You have not uploaded the image.'));
                     }
                 }
 
                 $model->save();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('The gift wrapping has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You saved the gift wrapping.'));
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
@@ -135,7 +135,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Failed to save gift wrapping.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__("We couldn't save the gift wrapping."));
                 Mage::logException($e);
             }
         }
@@ -157,7 +157,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                 try {
                     $model->attachUploadedImage('image_name', true);
                 } catch (Exception $e) {
-                    Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Image was not uploaded.'));
+                    Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You have not updated the image.'));
                 }
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
@@ -165,7 +165,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Failed to save gift wrapping.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__("We couldn't save the gift wrapping."));
                 Mage::logException($e);
             }
         }
@@ -194,12 +194,12 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
             }
             $wrappingCollection->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Total of %d record(s) have been updated.', count($wrappingIds))
+                Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You updated a total of %d records.', count($wrappingIds))
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('An error occurred while updating the wrapping(s) status.'));
+            $this->_getSession()->addException($e, Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Something went wrong while updating the wrapping(s) status.'));
         }
 
         $this->_redirect('*/*/index');
@@ -224,7 +224,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                     $wrapping->delete();
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Total of %d record(s) have been deleted.', count($wrappingIds))
+                    Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You deleted a total of %d records.', count($wrappingIds))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -247,7 +247,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
         if ($wrapping->getId()) {
             try {
                 $wrapping->delete();
-                $this->_getSession()->addSuccess(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('The gift wrapping has been deleted.'));
+                $this->_getSession()->addSuccess(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You deleted the gift wrapping.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current'=>true));

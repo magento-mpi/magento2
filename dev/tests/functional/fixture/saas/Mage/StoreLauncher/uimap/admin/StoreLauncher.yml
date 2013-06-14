@@ -79,7 +79,7 @@ store_launcher:
                         buttons:
                             validate_vat_number: //button[@id='validate_vat_number']
                             vat_number_is_valid: //button[span='VAT Number is Valid']
-                            vat_number_is_invalid: //button[span='VAT Number is Invalid']
+                            vat_number_is_invalid: //button[span='Please correct the VAT number.']
                         pageelements:
                             add_store_email_addressess: //details[@id='detailsstore_info']/summary
                             additional_content: //div[@id='details-contentstore_info']

@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('rule_website', array(
-                'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Website'),
+                'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Web Site'),
                 'align'     =>'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',

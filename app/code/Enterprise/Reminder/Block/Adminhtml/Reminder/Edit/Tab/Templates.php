@@ -27,7 +27,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         $fieldset = $form->addFieldset('email_fieldset', array(
             'legend' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Email Templates'),
             'class'  => 'tree-store-scope',
-            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Emails will be sent only for specified store views. Email store view matches the store view customer was registered on.'),
+            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Only customers who registered on a store view will receive emails related to that store view.'),
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {
@@ -58,7 +58,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
 
         $fieldset = $form->addFieldset('default_label_fieldset', array(
             'legend' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Default Titles and Description'),
-            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule label and descriptions are accessible in email templates as variables, may be defined per store view.'),
+            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('You can find and edit rule label and descriptions, per store view, in email templates.'),
         ));
 
         $fieldset->addField('default_label', 'text', array(

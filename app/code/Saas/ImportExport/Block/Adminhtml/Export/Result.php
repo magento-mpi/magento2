@@ -25,13 +25,13 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
     protected $_fileHelper;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
      * @param Saas_ImportExport_Helper_Export_File $fileHelper,
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_ImportExport_Helper_Export_State $stateHelper,
         Saas_ImportExport_Helper_Export_File $fileHelper,
         array $data = array()

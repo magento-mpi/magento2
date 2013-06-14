@@ -34,14 +34,14 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
     protected $_regionModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Directory_Model_Config_Source_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Directory_Model_Config_Source_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,

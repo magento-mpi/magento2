@@ -11,8 +11,10 @@
 
 /**
  * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile
+ *
+ * @magentoAppArea adminhtml
  */
-class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends Mage_Backend_Area_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tile block

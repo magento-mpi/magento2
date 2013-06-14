@@ -11,6 +11,7 @@
 
 /**
  * Test class for Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
+ * @magentoAppArea adminhtml
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_GeneralTest
     extends PHPUnit_Framework_TestCase

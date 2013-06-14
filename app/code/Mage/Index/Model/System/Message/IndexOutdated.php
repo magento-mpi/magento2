@@ -23,7 +23,7 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotific
     protected $_urlBuilder;
 
     /**
-     * @var Mage_Core_Model_Authorization
+     * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
 
@@ -36,13 +36,13 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotific
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Index_Model_Indexer $indexer
      * @param Mage_Core_Model_UrlInterface $urlBuilder
-     * @param Mage_Core_Model_Authorization $authorization
+     * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Index_Model_Indexer $indexer,
         Mage_Core_Model_UrlInterface $urlBuilder,
-        Mage_Core_Model_Authorization $authorization
+        Magento_AuthorizationInterface $authorization
     ) {
         $this->_helperFactory = $helperFactory;
         $this->_indexer = $indexer;

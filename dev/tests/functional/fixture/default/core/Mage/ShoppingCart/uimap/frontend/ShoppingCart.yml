@@ -20,7 +20,7 @@ shopping_cart:
                         xpath: //div[@class='header']
                         links:
                             my_account: //a[@title='My Account']
-                            my_wishlist: //a[contains(@title,'My Wishlist')]
+                            my_wishlist: //a[contains(@title,'My Wish List')]
                             my_cart: //a[@title='My Cart']
                             checkout: //a[@title='Checkout']
                             log_in: //a[@title='Log In']
@@ -113,7 +113,7 @@ shopping_cart:
         links:
             checkout_with_multiple_addresses: //a[text()='Checkout with Multiple Addresses']
         messages:
-            product_added_to_cart: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% was added to your shopping cart.')]
+            product_added_to_cart: //li[normalize-space(@class)='success-msg' and contains(.,'You added %productName% to your shopping cart.')]
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
             success_applied_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'Coupon code "%couponCode%" was applied.')]
             moved_to_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% has been moved to wishlist Wishlist')]

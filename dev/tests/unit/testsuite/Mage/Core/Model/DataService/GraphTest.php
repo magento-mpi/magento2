@@ -33,7 +33,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     /**
      * @var  PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryMock;
+    protected $_invokerMock;
 
     /**
      * @var  PHPUnit_Framework_MockObject_MockObject
@@ -50,9 +50,9 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
+        $this->_invokerMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_DataService_Repository', array(), array(), "", false);
-        $this->_graph = new Mage_Core_Model_DataService_Graph($this->_factoryMock, $this->_repositoryMock);
+        $this->_graph = new Mage_Core_Model_DataService_Graph($this->_invokerMock, $this->_repositoryMock);
         $this->_dataServiceMock = (object)array();
     }
 
@@ -69,7 +69,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
-        $this->_factoryMock->expects($this->once())->method('getServiceData')->with(
+        $this->_invokerMock->expects($this->once())->method('getServiceData')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($this->_dataServiceMock));
         $this->_repositoryMock->expects($this->once())->method("add")->with(
@@ -91,7 +91,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         $this->_repositoryMock->expects($this->any())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
-        $this->_factoryMock->expects($this->any())->method('getServiceData')->with(
+        $this->_invokerMock->expects($this->any())->method('getServiceData')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($this->_dataServiceMock));
         $this->_repositoryMock->expects($this->any())->method("add")->with(
@@ -140,7 +140,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
 
     public function testGetArgumentValue()
     {
-        $this->_factoryMock->expects($this->once())->method('getArgumentValue')->with(
+        $this->_invokerMock->expects($this->once())->method('getArgumentValue')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($this->_dataServiceMock));
 

@@ -27,7 +27,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
 
     public function searchAction()
     {
-        $this->_title($this->__('Search Terms'));
+        $this->_title($this->__('Search Terms Report'));
 
         $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
 

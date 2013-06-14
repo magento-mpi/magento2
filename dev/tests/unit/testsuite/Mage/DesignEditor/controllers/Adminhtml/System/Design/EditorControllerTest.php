@@ -162,7 +162,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
 
         $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
         $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $authMock = $this->getMock('Mage_Core_Model_Authorization', array('filterAclNodes'), array(), '', false);
+        $authMock = $this->getMock('Magento_AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
         $backendSession = $this->getMock('Mage_Backend_Model_Session', array('getMessages', 'getEscapeMessages'),
             array(), '', false);
@@ -171,6 +171,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         );
 
         $inlineMock = $this->getMock('Mage_Core_Model_Translate_Inline', array(), array(), '', false);
+        $aclFilterMock = $this->getMock('Mage_Core_Model_Layout_Filter_Acl', array(), array(), '', false);
 
         return array(
             array('Mage_Core_Model_Theme_Service', $this->_getThemeService($hasCustomizedThemes)),
@@ -178,9 +179,10 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
             array('Mage_Core_Model_Config', $configMock),
             array('Mage_Core_Model_Event_Manager', $eventManager),
             array('Mage_Core_Model_StoreManager', $storeManager),
-            array('Mage_Core_Model_Authorization', $authMock),
+            array('Magento_AuthorizationInterface', $authMock),
             array('Mage_Backend_Model_Session', $backendSession),
             array('Mage_Core_Model_Translate_Inline', $inlineMock),
+            array('Mage_Core_Model_Layout_Filter_Acl', $aclFilterMock),
         );
     }
 }

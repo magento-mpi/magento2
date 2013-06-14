@@ -30,13 +30,13 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     protected $_serviceModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Resource_Website_Collection $websiteCollection
      * @param Mage_Core_Model_Theme_Service $serviceModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Resource_Website_Collection $websiteCollection,
         Mage_Core_Model_Theme_Service $serviceModel,
         array $data = array()

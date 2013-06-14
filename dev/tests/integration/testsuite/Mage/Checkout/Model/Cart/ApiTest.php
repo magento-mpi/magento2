@@ -167,6 +167,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Mage/Checkout/_files/quote_with_check_payment.php
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testCreateOrder()
     {
@@ -194,6 +195,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store carriers/flatrate/active 1
      * @magentoDataFixture Mage/Checkout/_files/quote_with_ccsave_payment.php
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testCreateOrderWithPayment()
     {
@@ -305,7 +307,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
             'cc_cid' => '000',
         );
         $errorCode = 1075;
-        $errorMessage = 'Incorrect credit card expiration date.';
+        $errorMessage = 'We found an incorrect credit card expiration date.';
         $exception = Magento_Test_Helper_Api::callWithException(
             $this,
             'shoppingCartOrderWithPayment',

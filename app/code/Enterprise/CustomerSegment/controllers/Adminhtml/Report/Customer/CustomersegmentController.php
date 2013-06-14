@@ -74,7 +74,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Wrong customer segment requested.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('You requested the wrong customer segment.'));
             }
             return false;
         }
@@ -107,7 +107,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     public function segmentAction()
     {
-        $this->_title($this->__('Customer Segments'));
+        $this->_title($this->__('Customer Segment Report'));
 
         $this->_initAction()
             ->_addContent(
@@ -122,7 +122,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     public function detailAction()
     {
-        $this->_title($this->__('Customer Segments'));
+        $this->_title($this->__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
 
