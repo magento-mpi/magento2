@@ -29,13 +29,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected $_arguments = array();
 
     /**
-     * List of not shared classes
-     *
-     * @var array
-     */
-    protected $_nonShared = array();
-
-    /**
      * Interface preferences
      *
      * @var array
@@ -79,7 +72,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @param array $parameters
      * @param array $arguments
      * @return array
-     * @throws InvalidArgumentException
      * @throws LogicException
      * @throws BadMethodCallException
      *
@@ -92,28 +84,19 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         if (isset($this->_arguments[$className])) {
             $arguments = array_replace($this->_arguments[$className], $arguments);
         }
-        $paramPosition = 0;
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
             $argument = null;
-            $hasPositionalArg = array_key_exists($paramPosition, $arguments);
-            $hasNamedArg = array_key_exists($paramName, $arguments);
-            if ($hasPositionalArg && $hasNamedArg) {
-                throw new InvalidArgumentException(
-                    'Ambiguous argument $' . $paramName . ': positional and named binding is used at the same time.'
-                );
-            }
-            if ($hasPositionalArg) {
-                $argument = $arguments[$paramPosition];
-            } else if ($hasNamedArg) {
+            if (array_key_exists($paramName, $arguments)) {
                 $argument = $arguments[$paramName];
             } else if ($paramRequired) {
-                if (!$paramType) {
+                if ($paramType) {
+                    $argument = $paramType;
+                } else {
                     throw new BadMethodCallException(
                         'Missing required argument $' . $paramName . ' for ' . $className . '.'
                     );
                 }
-                $argument = $paramType;
             } else {
                 $argument = $paramDefault;
             }
@@ -125,13 +108,36 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                 }
 
                 $this->_creationStack[$className] = 1;
-                $argument = isset($this->_nonShared[$argument]) ?
-                    $this->create($argument) :
-                    $this->get($argument);
+                if (is_array($argument)) {
+                    if (isset($argument['lazy']) && $argument['lazy']) {
+                        $instanceType = $this->_resolveInstanceType($argument['value']);
+
+                        if (isset($argument['shared']) && !$argument['shared']) {
+                            $argument = $this->_create(
+                                $instanceType . '_Proxy', array('shared' => false, 'instanceName' => $argument['value'])
+                            );
+                        } else {
+                            if (!isset($this->_proxies[$paramType][$className])) {
+                                $this->_proxies[$paramType][$className] = $this->_create(
+                                    $instanceType . '_Proxy',
+                                    array('shared' => true, 'instanceName' => $argument['value'])
+                                );
+                            }
+                            $argument = $this->_proxies[$paramType][$className];
+                        }
+                    } else if (isset($argument['shared']) && !$argument['shared']) {
+                        $argument = $this->create($argument['value']);
+                    } else {
+                        throw new InvalidArgumentException(
+                            'Invalid argument configuration provided for "' . $className . '"'
+                        );
+                    }
+                } else {
+                    $argument = $this->get($argument);
+                }
                 unset($this->_creationStack[$className]);
             }
             $resolvedArguments[] = $argument;
-            $paramPosition++;
         }
         return $resolvedArguments;
     }
@@ -322,14 +328,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                             $this->_arguments[$key] = $curConfig['parameters'];
                         }
                     }
-                    if (isset($curConfig['shared'])) {
-                        if (!$curConfig['shared'] || $curConfig['shared'] == 'false') {
-                            $this->_nonShared[$key] = 1;
-                        } else {
-                            unset($this->_nonShared[$key]);
-                        }
-                    }
-                    break;
             }
         }
     }
