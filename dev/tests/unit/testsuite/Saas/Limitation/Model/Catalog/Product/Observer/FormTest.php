@@ -57,7 +57,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
     protected function _createButton()
     {
         return new Mage_Backend_Block_Widget_Button(
-            $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false)
+            $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false)
         );
     }
 
