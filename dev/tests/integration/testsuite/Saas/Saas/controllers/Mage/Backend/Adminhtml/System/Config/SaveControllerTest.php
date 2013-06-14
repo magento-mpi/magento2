@@ -6,6 +6,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Saas_Saas_Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends Mage_Backend_Utility_Controller
 {
     /**

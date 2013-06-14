@@ -22,7 +22,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Mage_Adminhtm
      */
     protected function _toHtml()
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update')) {
+        if (!$this->_authorization->isAllowed('Enterprise_Checkout::update')) {
             return parent::_toHtml();
         }
         $layout = $this->getLayout();

@@ -68,7 +68,7 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
     {
         $codes = $this->getRequest()->getParam('code');
         if (!$codes) {
-            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('No report code specified.'));
+            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('No report code is specified.'));
         }
 
         if(!is_array($codes) && strpos($codes, ',') === false) {
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to refresh recent statistics.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t refresh recent statistics.'));
             Mage::logException($e);
         }
 
@@ -136,11 +136,11 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate();
             }
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Lifetime statistics have been updated.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We updated lifetime statistics.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to refresh lifetime statistics.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t refresh lifetime statistics.'));
             Mage::logException($e);
         }
 

@@ -169,7 +169,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnEmpty();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify Gift Card amount.');
+        $this->_runValidationWithExpectedException('Please specify a gift card amount.');
     }
 
     public function testValidateMaxAmount()
@@ -224,7 +224,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnEmpty();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify Gift Card amount.');
+        $this->_runValidationWithExpectedException('Please specify a gift card amount.');
     }
 
     public function testValidateRecipientName()
@@ -240,7 +240,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify recipient name.');
+        $this->_runValidationWithExpectedException('Please specify a recipient name.');
     }
 
     public function testValidateSenderName()
@@ -256,7 +256,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify sender name.');
+        $this->_runValidationWithExpectedException('Please specify a sender name.');
     }
 
     public function testValidateRecipientEmail()
@@ -272,7 +272,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify recipient email.');
+        $this->_runValidationWithExpectedException('Please specify a recipient email.');
     }
 
     public function testValidateSenderEmail()
@@ -288,7 +288,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify sender email.');
+        $this->_runValidationWithExpectedException('Please specify a sender email.');
     }
 
     public function testValidate()

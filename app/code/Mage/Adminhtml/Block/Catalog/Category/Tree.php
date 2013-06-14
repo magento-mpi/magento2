@@ -40,13 +40,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     /**
      * Controls class dependencies.
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param array $data
      * @param Mage_Catalog_Model_Category_Limitation $limitation
      */
-    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array(),
-                                Mage_Catalog_Model_Category_Limitation $limitation = null)
-    {
+    public function __construct(Mage_Backend_Block_Template_Context $context,
+        array $data = array(), Mage_Catalog_Model_Category_Limitation $limitation = null
+    ) {
         parent::__construct($context, $data);
         $this->_limitation = $limitation ?: Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
     }

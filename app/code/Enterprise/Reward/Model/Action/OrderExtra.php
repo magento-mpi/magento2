@@ -33,7 +33,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Earned points for order #%s.', $incrementId);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Earned points for order #%s', $incrementId);
     }
 
     /**

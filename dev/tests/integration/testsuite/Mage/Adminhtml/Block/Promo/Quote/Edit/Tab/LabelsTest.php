@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_LabelsTest extends Mage_Backend_Area_TestCase
+
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_LabelsTest extends PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {

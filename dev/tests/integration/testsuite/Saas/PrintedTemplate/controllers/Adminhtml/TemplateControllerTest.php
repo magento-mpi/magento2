@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Saas_PrintedTemplate_Adminhtml_TemplateControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testPrintedTemplateIsInstalled()

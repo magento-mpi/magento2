@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends Mage_Backend_Utility_Controller
 {
     /**

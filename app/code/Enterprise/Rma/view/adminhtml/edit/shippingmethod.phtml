@@ -29,7 +29,7 @@
             <?php if ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED): ?>
                 <button class="action- save" type="button" id="get-shipping-method-and-rates"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></button>
             <?php elseif ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED): ?>
-                <button class="action- save disabled" type="button" title="<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Enabled when authorized items require a new shipment'); ?>"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></button>
+                <button class="action- save disabled" type="button" title="<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Enabled when authorized items require a new shipment.'); ?>"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></button>
             <?php endif; ?>
             <?php if ($this->getShipment()->getShippingLabel()): ?>
                 <?php echo $this->getPrintLabelButton() ?>

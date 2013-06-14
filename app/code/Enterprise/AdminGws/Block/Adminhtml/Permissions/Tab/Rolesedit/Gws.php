@@ -10,9 +10,8 @@
 
 /**
  * Websites fieldset for admin roles edit tab
- *
  */
-class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mage_Core_Block_Template
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mage_Backend_Block_Template
 {
     /**
      * Check whether role assumes all websites permissions

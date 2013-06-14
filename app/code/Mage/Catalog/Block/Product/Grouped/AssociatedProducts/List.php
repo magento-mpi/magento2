@@ -34,12 +34,12 @@ class Mage_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Mage_Ba
     /**
      * @inheritdoc
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Registry $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_StoreManager $storeManager,
         Mage_Core_Model_Registry $registry,
         array $data = array()

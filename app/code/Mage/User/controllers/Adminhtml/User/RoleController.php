@@ -118,7 +118,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
 
         if (in_array($rid, $currentUser->getRoles()) ) {
             $this->_session->addError(
-                $this->__('Self-assigned roles cannot be deleted.')
+                $this->__('You cannot delete self-assigned roles.')
             );
             $this->_redirect('*/*/editrole', array('rid' => $rid));
             return;
@@ -128,7 +128,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
             $this->_initRole()->delete();
 
             $this->_session->addSuccess(
-                $this->__('The role has been deleted.')
+                $this->__('You deleted the role.')
             );
         } catch (Exception $e) {
             $this->_session->addError(
@@ -157,12 +157,12 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL);
+            $resource = array($this->_objectManager->get('Mage_Core_Model_Acl_RootResource')->getId());
         }
 
         $role = $this->_initRole('role_id');
         if (!$role->getId() && $rid) {
-            $this->_session->addError($this->__('This Role no longer exists.'));
+            $this->_session->addError($this->__('This role no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -193,7 +193,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
             }
 
             $this->_session->addSuccess(
-                $this->__('The role has been successfully saved.')
+                $this->__('You saved the role.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_session->addError($e->getMessage());

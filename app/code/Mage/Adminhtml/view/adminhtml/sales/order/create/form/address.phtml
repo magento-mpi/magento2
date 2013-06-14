@@ -65,7 +65,7 @@ endif; ?>
         </div>
     </div>
     <?php $hideElement = 'address-' . ($this->getIsShipping() ? 'shipping' : 'billing') . '-overlay'; ?>
-    <div style="display:none;" id="<?php echo $hideElement ?>" class="overlay"><span><?php echo $this->__('Shipping address selection is not applicable') ?></span></div>
+    <div style="display:none;" id="<?php echo $hideElement ?>" class="overlay"><span><?php echo $this->__('You don\'t need to select a shipping address.') ?></span></div>
     <script type="text/javascript">
         order.bindAddressFields('<?php echo $_fieldsContainerId ?>');
         order.bindAddressFields('<?php echo $_addressChoiceContainerId ?>');

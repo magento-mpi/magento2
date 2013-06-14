@@ -13,7 +13,7 @@
 manage_shopping_cart_price_rules:
     mca: promo_quote/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'promo_quote')]
-    title: Shopping Cart Price Rules / Promotions / Marketing / Magento Admin
+    title: Cart Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -42,14 +42,14 @@ manage_shopping_cart_price_rules:
         buttons:
             add_new_rule: //button[span='Add New Rule']
         messages: &ruleMessages
-            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
-            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
+            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rule.')]
+            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rule.')]
             error_coupon_code_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Coupon with the same code already exists.')]
             empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             enter_valid_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
-            success_generated_coupons: //li[normalize-space(@class)='success-msg' and contains(.,'%qtyGeneratedCoupons% Coupon(s) have been generated')]
+            success_generated_coupons: //li[normalize-space(@class)='success-msg' and contains(.,'%qtyGeneratedCoupons% coupon(s) have been generated.')]
             confirmation_for_delete_coupons: Are you sure you want to delete the selected coupon(s)?
             select_coupons_for_delete: Please select items.
             validation_for_field_coupon_qty: //div[@id='advice-required-entry-coupons_qty']
@@ -61,7 +61,7 @@ manage_shopping_cart_price_rules:
 
 create_shopping_cart_price_rule:
     mca: promo_quote/new/
-    title: New Rule / Promotions / Marketing / Magento Admin
+    title: New Cart Price Rule / Promotions / Marketing / Magento Admin
     uimap:
         form: &createNewRule
             tabs:

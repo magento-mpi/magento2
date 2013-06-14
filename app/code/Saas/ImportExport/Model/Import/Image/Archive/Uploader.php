@@ -35,7 +35,7 @@ class Saas_ImportExport_Model_Import_Image_Archive_Uploader
      * Upload archive
      *
      * @return string
-     * @throws RuntimeException Image Archive upload error.
+     * @throws RuntimeException Image Archive upload error
      */
     public function upload()
     {

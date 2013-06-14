@@ -23,7 +23,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
         if ($entityId = $this->getRequest()->getParam($requestParam)) {
             $entity->load($entityId);
             if (!$entity->getId()) {
-                Mage::throwException($this->__('Wrong gift registry entity requested.'));
+                Mage::throwException($this->__('Please correct the gift registry entity.'));
             }
         }
         Mage::register('current_giftregistry_entity', $entity);
@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             ));
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                ->addError($this->__('An error occurred while editing gift registry.'));
+                ->addError($this->__('Something went wrong while editing the gift registry.'));
             Mage::logException($e);
             $this->_redirect('*/customer/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
@@ -131,7 +131,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
                 }
                 if ($updatedCount) {
                     Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                        $this->__('Gift registry items have been updated.')
+                        $this->__('You updated this gift registry.')
                     );
                 }
             } catch (Mage_Core_Exception $e) {
@@ -139,7 +139,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
                 $this->_redirect('*/*/edit', array('id' => $entity->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to update gift registry items.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We couldn't update these gift registry items."));
                 Mage::logException($e);
             }
         }
@@ -183,7 +183,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
                     }
                 }
                 if (empty($emailsForSend)) {
-                    Mage::throwException($this->__('Please specify at least one email.'));
+                    Mage::throwException($this->__('Please enter at least one email address.'));
                 }
             }
             catch (Mage_Core_Exception $e) {
@@ -195,7 +195,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             }
             if ($failedCount) {
                 $this->_getSession()->addError(
-                    $this->__('Failed to send %1$d of %2$d email(s).', $failedCount, count($emailsForSend))
+                    $this->__("We couldn't send '%d of %d emails.", $failedCount, count($emailsForSend))
                 );
             }
         }
@@ -212,7 +212,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             $customerId = $model->getCustomerId();
             $model->delete();
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                $this->__('The gift registry entity has been deleted.')
+                $this->__('You deleted this gift registry entity.')
             );
         }
         catch (Mage_Core_Exception $e) {
@@ -220,7 +220,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to delete gift registry entity.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We couldn't delete this gift registry entity."));
             Mage::logException($e);
         }
         $this->_redirect('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));

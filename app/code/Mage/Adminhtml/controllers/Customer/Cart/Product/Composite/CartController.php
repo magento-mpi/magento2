@@ -47,7 +47,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
     {
         $customerId = (int) $this->getRequest()->getParam('customer_id');
         if (!$customerId) {
-            Mage::throwException($this->__('No customer id defined.'));
+            Mage::throwException($this->__('No customer ID defined.'));
         }
 
         $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {
-            Mage::throwException($this->__('Wrong quote item.'));
+            Mage::throwException($this->__('Please correct the quote items and try again.'));
         }
 
         return $this;

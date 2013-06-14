@@ -41,7 +41,7 @@ class Enterprise_SalesArchive_Model_Resource_Helper_Mysql4 extends Mage_Core_Mod
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            Mage::throwException(Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Table not found'));
+            Mage::throwException(Mage::helper('Enterprise_SalesArchive_Helper_Data')->__("We can't find the table."));
         }
 
         $columns = array();

@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Block_Abstract */
     protected $_block;
