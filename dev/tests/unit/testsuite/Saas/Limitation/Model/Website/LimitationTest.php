@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Store_Group_LimitationTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Website_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Saas_Limitation_Model_Store_Group_Limitation
+     * @var Saas_Limitation_Model_Website_Limitation
      */
     private $_model;
 
@@ -24,18 +24,14 @@ class Saas_Limitation_Model_Store_Group_LimitationTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_resource = $this->getMock('Mage_Core_Model_Resource_Store_Group', array(), array(), '', false);
+        $this->_resource = $this->getMock('Mage_Core_Model_Resource_Website', array(), array(), '', false);
         $this->_config = $this->getMock('Saas_Limitation_Model_Limitation_Config', array(), array(), '', false);
-        $this->_model = new Saas_Limitation_Model_Store_Group_Limitation($this->_config, $this->_resource);
+        $this->_model = new Saas_Limitation_Model_Website_Limitation($this->_config, $this->_resource);
     }
 
     public function testGetThreshold()
     {
-        $this->_config->expects($this->once())
-            ->method('getThreshold')
-            ->with('store_group')
-            ->will($this->returnValue(5))
-        ;
+        $this->_config->expects($this->once())->method('getThreshold')->with('website')->will($this->returnValue(5));
         $this->assertEquals(5, $this->_model->getThreshold());
     }
 

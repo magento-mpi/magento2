@@ -41,7 +41,7 @@ class Saas_Limitation_Model_Catalog_Product_LimitationTest extends PHPUnit_Frame
 
     public function testGetTotalCount()
     {
-        $this->_resource->expects($this->any())->method('countAll')->will($this->returnValue(81));
+        $this->_resource->expects($this->once())->method('countAll')->will($this->returnValue(81));
         $this->assertEquals(81, $this->_model->getTotalCount());
     }
 }

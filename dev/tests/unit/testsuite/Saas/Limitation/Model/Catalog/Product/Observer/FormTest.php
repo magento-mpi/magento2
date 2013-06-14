@@ -61,9 +61,19 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
         );
     }
 
-    public function testRemoveSavingButtonsActive()
+    /**
+     * @param bool|null $isProductNew
+     * @param PHPUnit_Framework_Constraint $qtyConstraint
+     * @dataProvider removeSavingButtonsActiveDataProvider
+     */
+    public function testRemoveSavingButtonsActive($isProductNew, PHPUnit_Framework_Constraint $qtyConstraint)
     {
-        $this->_emulateThresholdIsReached(true);
+        $this->_limitationValidator
+            ->expects($this->any())
+            ->method('exceedsThreshold')
+            ->with($this->_limitation, $qtyConstraint)
+            ->will($this->returnValue(true))
+        ;
 
         $button = $this->_createButton();
         $button->setData('options', array(
@@ -72,11 +82,19 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
             array('id' => 'duplicate-button'),
             array('id' => 'close-button'),
         ));
+
+        $product = null;
+        if ($isProductNew !== null) {
+            $product = $this->getMock('Mage_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
+            $product->expects($this->any())->method('isObjectNew')->will($this->returnValue($isProductNew));
+        }
+
         $block = $this->getMock(
             'Mage_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
         );
         $block->expects($this->once())
             ->method('getChildBlock')->with('save-split-button')->will($this->returnValue($button));
+        $block->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
         $this->_model->removeSavingButtons(new Varien_Event_Observer(array(
             'event' => new Varien_Object(array('block' => $block))
@@ -87,6 +105,15 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
             array('id' => 'close-button'),
         );
         $this->assertEquals($expectedOptions, $button->getData('options'));
+    }
+
+    public function removeSavingButtonsActiveDataProvider()
+    {
+        return array(
+            'no product'        => array(null, $this->equalTo(2)),
+            'existing product'  => array(false, $this->equalTo(1)),
+            'new product'       => array(true, $this->equalTo(2)),
+        );
     }
 
     public function testRemoveSavingButtonsInactiveRelevantBlock()

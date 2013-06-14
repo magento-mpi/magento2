@@ -30,14 +30,11 @@ class Saas_Limitation_Model_Limitation_ValidatorTest extends PHPUnit_Framework_T
     public function exceedsThresholdDataProvider()
     {
         return array(
-            'negative threshold'        => array(2, -1, 1, false),
-            'zero threshold'            => array(2, 0, 1, false),
-            'count + one > threshold'   => array(2, 1, 1, true),
-            'count + one = threshold'   => array(2, 2, 1, true),
-            'count + one < threshold'   => array(2, 3, 1, false),
-            'count + qty > threshold'   => array(2, 3, 2, true),
-            'count + qty = threshold'   => array(2, 4, 2, false),
-            'count + qty < threshold'   => array(2, 5, 2, false),
+            'negative threshold'        => array(2, -1, 3, false),
+            'zero threshold'            => array(2, 0, 3, false),
+            'count + qty < threshold'   => array(2, 6, 3, false),
+            'count + qty = threshold'   => array(2, 5, 3, false),
+            'count + qty > threshold'   => array(2, 4, 3, true),
         );
     }
 }
