@@ -18,7 +18,10 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage_Backend_Block_Widget_Form
 {
-
+    /**
+     * @inheritdoc
+     * @return $this
+     */
     protected function _prepareForm()
     {
         $attributeObject = Mage::registry('entity_attribute');
@@ -26,7 +29,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
         $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();;
-
 
         $fieldset = $form->addFieldset(
             'front_fieldset',
@@ -52,8 +54,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
 
         $fieldset->addField('is_comparable', 'select', array(
             'name' => 'is_comparable',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Comparable on Front - end'),
-            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Comparable on Front - end'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Comparable on Frontend'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Comparable on Frontend'),
             'values' => $yesnoSource,
         ));
 
@@ -73,8 +75,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
             'name' => 'is_filterable_in_search',
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__("Use In Search Results Layered Navigation"),
             'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select
-        and Price'),
+            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => $yesnoSource,
         ));
 
@@ -90,7 +91,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
             'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position in Layered Navigation'),
             'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position of attribute in layered navigation block'),
-            'class' => 'validate - digits',
         ));
 
         $fieldset->addField('is_wysiwyg_enabled', 'select', array(
@@ -112,8 +112,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
 
         $fieldset->addField('is_visible_on_front', 'select', array(
             'name'      => 'is_visible_on_front',
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Visible on Product View Page on Front - end'),
-            'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Visible on Product View Page on Front - end'),
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Visible on Catalog Pages on Frontend'),
+            'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Visible on Catalog Pages on Frontend'),
             'values'    => $yesnoSource,
         ));
 
@@ -124,6 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
             'note'      => Mage::helper('Mage_Catalog_Helper_Data')->__('Depends on design theme'),
             'values'    => $yesnoSource,
         ));
+
         $fieldset->addField('used_for_sort_by', 'select', array(
             'name'      => 'used_for_sort_by',
             'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Used for Sorting in Product Listing'),
@@ -143,11 +144,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
                 ->addFieldDependence('html_allowed_on_front', 'wysiwyg_enabled', '0')
         );
 
-
         $form->setValues($attributeObject->getData());
-
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
 

@@ -40,8 +40,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Mage_Admi
         $this->addTab(
             'labels',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Label'),
-                'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Label'),
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Labels'),
+                'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Labels'),
                 'content' => $this->getChildHtml('labels'),
             )
         );
