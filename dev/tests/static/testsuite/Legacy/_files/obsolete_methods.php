@@ -580,4 +580,30 @@ return array(
     array('validateDataArray', 'Varien_Convert_Container_Abstract'),
     array('validateFile', 'Mage_Core_Model_Design_Package'),
     array('validateOrder', 'Mage_Checkout_Model_Type_Onepage'),
+    array('substractQtyFromQuotes', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::subtractQtyFromQuotes'
+    ),
+    array('markQuotesRecollectOnCatalogRules', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogPriceRule::dispatch'
+    ),
+    array(
+        'catalogProductSaveAfter', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductSaveAfter'
+    ),
+    array(
+        'catalogProductStatusUpdate', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductStatusUpdate'
+    ),
+    array(
+        'prepareProductEditFormRecurringProfile', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer::render'
+    ),
+    array(
+        'restrictAdminBillingAgreementUsage', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_BillingAgreement::dispatch'
+    ),
+    array(
+        'customerSaveAfter', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CustomerQuote::dispatch'
+    ),
 );

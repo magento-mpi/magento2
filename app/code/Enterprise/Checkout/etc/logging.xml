@@ -15,7 +15,7 @@
             <label>Apply Coupon</label>
         </apply_coupon>
         <add_to_cart translate="label" module="Enterprise_Checkout">
-            <label>Add To Cart</label>
+            <label>Add to Cart</label>
         </add_to_cart>
     </actions>
     <enterprise_checkout translate="label">

@@ -50,7 +50,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends PHPUn
     public function testIsAddProductRestricted()
     {
         $expected = true;
-        $context = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
+        $context = $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false);
         $limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
         $limitationValidator = $this->getMock(
             'Saas_Limitation_Model_Limitation_Validator', array('exceedsThreshold')

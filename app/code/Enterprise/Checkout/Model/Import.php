@@ -134,7 +134,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                 fclose($fileHandler);
             }
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('File is corrupt.'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('The file is corrupt.'));
         }
         return $csvData;
     }
@@ -174,6 +174,6 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
      */
     protected function _getFileTypeMessageText()
     {
-        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('Only .csv file format is supported.');
+        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('This file needs to be in .csv format.');
     }
 }

@@ -39,6 +39,3 @@ $operation->setId(1);
 $operation->isObjectNew(true);
 $operation->setData($data);
 $operation->save();
-
-// Store operation instance object to use in tests
-Mage::register('_fixture/Enterprise_ImportExport_Model_Scheduled_Operation', $operation);

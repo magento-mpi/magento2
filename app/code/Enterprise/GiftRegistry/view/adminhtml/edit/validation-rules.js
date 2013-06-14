@@ -20,7 +20,7 @@
             }
         });
         return resultFlag;
-    }, 'Please use different input type for this code.');
+    }, 'Please use a different input type for this code.');
 
     $.validator.addMethod('required-option-select-rows', function(v, elm) {
         var optionContainerElm = $(elm).closest('fieldset');

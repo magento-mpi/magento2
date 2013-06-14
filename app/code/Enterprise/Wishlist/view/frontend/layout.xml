@@ -32,19 +32,19 @@
     <customer_account>
         <!-- Mage_Wishlist -->
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled"><name>wishlist</name><path>wishlist/</path><label>My Wishlists</label></action>
+            <action method="addLink" translate="label" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled"><name>wishlist</name><path>wishlist/</path><label>My Wish Lists</label></action>
         </reference>
     </customer_account>
 
     <wishlist_index_index>
         <reference name="head">
             <action method="setTitle" translate="title" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled">
-                <title>My Wishlists</title>
+                <title>My Wish Lists</title>
             </action>
         </reference>
         <reference name="customer.wishlist">
             <action method="setTitle" translate="title" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled">
-                <title>My Wishlists</title>
+                <title>My Wish Lists</title>
             </action>
             <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Management" name="customer.wishlist.management" as="top" template="view/management.phtml">
             </block>
@@ -70,7 +70,7 @@
         <label>Wishlist View (From Search)</label>
         <reference name="head">
             <action method="setTitle" translate="title" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled">
-                <title>Wishlist Info</title>
+                <title>Wish List Info</title>
             </action>
         </reference>
         <reference name="root">
@@ -113,7 +113,7 @@
                     </block>
                     <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Copy" name="customer.wishlist.item.to_wishlist" template="item/column/copy.phtml">
                         <action method="setTitle" translate="title" module="Enterprise_Wishlist">
-                            <title>Add to Wishlist</title>
+                            <title>Add to Wish List</title>
                         </action>
                     </block>
                 </block>

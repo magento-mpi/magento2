@@ -68,17 +68,17 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
             /* @var $reports Mage_Paypal_Model_Report_Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {
-                Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Nothing to fetch because of an empty configuration.'));
+                Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('We found nothing to fetch because of an empty configuration.'));
             }
             foreach ($credentials as $config) {
                 try {
                     $fetched = $reports->fetchAndSave(Mage_Paypal_Model_Report_Settlement::createConnection($config));
                     $this->_getSession()->addSuccess(
-                        Mage::helper('Mage_Paypal_Helper_Data')->__("Fetched %s report rows from '%s@%s'.", $fetched, $config['username'], $config['hostname'])
+                        Mage::helper('Mage_Paypal_Helper_Data')->__("We fetched %s report rows from '%s@%s'.", $fetched, $config['username'], $config['hostname'])
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError(
-                        Mage::helper('Mage_Paypal_Helper_Data')->__("Failed to fetch reports from '%s@%s'.", $config['username'], $config['hostname'])
+                        Mage::helper('Mage_Paypal_Helper_Data')->__("We couldn't fetch reports from '%s@%s'.", $config['username'], $config['hostname'])
                     );
                     Mage::logException($e);
                 }

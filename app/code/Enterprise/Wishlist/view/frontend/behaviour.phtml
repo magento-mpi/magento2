@@ -24,14 +24,14 @@
     <div class="window-overlay active" style="height: ${$('body').height()}px;"></div>
     <div id="${popupWishlistBlockId}" class="popup-block block undefined active">
         <div class="block-title">
-            <strong>{{if isEdit}}${$.mage.__('Edit Wishlist')}{{else}}${$.mage.__('Create New Wishlist')}{{/if}}</strong>
+            <strong>{{if isEdit}}${$.mage.__('Edit Wish List')}{{else}}${$.mage.__('Create New Wish List')}{{/if}}</strong>
             <div class="${btnCloseClass}">Close</div>
         </div>
         <div class="block-content">
             <form id="${popupWishlistFormId}" method="post" action="${url}">
                 <ul class="form-list">
                     <li>
-                        <label for="wishlist-name">${$.mage.__('Wishlist Name')}</label>
+                        <label for="wishlist-name">${$.mage.__('Wish List Name')}</label>
                         <div class="input-box">
                             <input id="wishlist-name" class="input-text" data-validate="{required:true}" type="text" name="name" maxlength="255" value="${name}">
                         </div>
@@ -40,7 +40,7 @@
                         <div class="input-box">
                             <input id="wishlist-public" type="checkbox" name="visibility" {{if isPublic}}checked=true{{/if}}">
                         </div>
-                        <label for="wishlist-public">${$.mage.__('Make This Wishlist Public')}</label>
+                        <label for="wishlist-public">${$.mage.__('Make This Wish List Public')}</label>
                     </li>
                 </ul>
                 <div class="buttons-set form-buttons">
@@ -62,7 +62,7 @@
 <script id="split-btn-tmpl" type="text/x-jQuery-tmpl">
     <div class="split-button split-button-created light clickable">
         <strong>
-            <span data-wishlist-add='{"url":"${wishlistAddUrl}"}'>Add to Wishlist</span>
+            <span data-wishlist-add='{"url":"${wishlistAddUrl}"}'>Add to Wish List</span>
         </strong>
         <a href="#" class="change" tabindex="20">Add to:</a>
         <div class="list-container">

@@ -154,7 +154,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
                 return;
             }
         }
-        $this->_session->addError($this->__('Unable to find a user to delete.'));
+        $this->_session->addError($this->__('We can\'t find a user to delete.'));
         $this->_redirect('*/*/');
     }
 

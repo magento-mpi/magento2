@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framework_TestCase
 {
     public function testGetFormHtml()
     {
@@ -18,7 +21,7 @@ class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends Mage_Backend_Area_T
         // Create block with blocking _prepateLayout(), which is used by block to instantly add 'form' child
         /** @var $block Mage_Adminhtml_Block_Widget_Form_Container */
         $block = $this->getMock('Mage_Adminhtml_Block_Widget_Form_Container', array('_prepareLayout'),
-            array(Mage::getModel('Mage_Core_Block_Template_Context'))
+            array(Mage::getModel('Mage_Backend_Block_Template_Context'))
         );
 
         $layout->addBlock($block, 'block');

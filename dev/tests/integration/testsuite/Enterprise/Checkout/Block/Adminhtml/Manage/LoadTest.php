@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */
     protected $_layout = null;

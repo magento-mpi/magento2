@@ -78,7 +78,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             $cacheFrontend->getBackend()->clean();
         }
         $this->_getSession()->addSuccess(
-            Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed.")
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__("You flushed the cache storage.")
         );
         $this->_redirect('*/*');
     }

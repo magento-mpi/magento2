@@ -96,7 +96,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                     $model->loadByQueryText($queryText);
                     if ($model->getId() && $model->getId() != $queryId) {
                         Mage::throwException(
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('Search Term with such search query already exists.')
+                            Mage::helper('Mage_Catalog_Helper_Data')->__('You already have an identical search term query.')
                         );
                     } else if (!$model->getId() && $queryId) {
                         $model->load($queryId);
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while saving the search query.')
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong while saving the search query.')
                 );
                 $hasError = true;
             }
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The search was deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You deleted the search.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 return;
             }
         }
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('Unable to find a search term to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t find a search term to delete.'));
         $this->_redirect('*/*/');
     }
 

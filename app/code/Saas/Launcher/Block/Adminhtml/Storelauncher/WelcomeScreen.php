@@ -32,13 +32,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen extends Mage_Bac
     protected $_adminUser;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_Storelauncher_Flag $flag
      * @param Mage_Backend_Model_Auth_Session $session
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_Storelauncher_Flag $flag,
         Mage_Backend_Model_Auth_Session $session,
         array $data = array()

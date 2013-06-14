@@ -33,7 +33,7 @@
                     </arguments>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='website_title'>
                         <arguments>
-                            <header translate='true' module='Mage_Core'>Website</header>
+                            <header translate='true' module='Mage_Core'>Web Site</header>
                             <align>left</align>
                             <index>name</index>
                             <filter_index>main_table.name</filter_index>

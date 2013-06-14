@@ -43,13 +43,13 @@ class Mage_AdminNotification_Block_Window extends Mage_Backend_Block_Template
     protected $_latestItem;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Backend_Model_Auth_Session $authSession
      * @param Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Backend_Model_Auth_Session $authSession,
         Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection,
         array $data = array()

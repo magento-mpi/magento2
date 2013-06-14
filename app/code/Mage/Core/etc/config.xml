@@ -119,6 +119,10 @@
         </events>
         <di>
             <preferences>
+                <Magento_Acl_CacheInterface>Mage_Core_Model_Acl_Cache</Magento_Acl_CacheInterface>
+                <Magento_AuthorizationInterface>Magento_Authorization</Magento_AuthorizationInterface>
+                <Magento_Authorization_Policy>Magento_Authorization_Policy_Default</Magento_Authorization_Policy>
+                <Magento_Authorization_RoleLocator>Magento_Authorization_RoleLocator_Default</Magento_Authorization_RoleLocator>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
                 <Mage_Core_Model_Store_ConfigInterface>Mage_Core_Model_Store_Config</Mage_Core_Model_Store_ConfigInterface>
                 <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>

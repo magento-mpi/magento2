@@ -22,7 +22,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction extend
     protected function _beforeToHtml()
     {
         $isActive = Mage::getSingleton('Enterprise_SalesArchive_Model_Config')->isArchiveActive();
-        if ($isActive && Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_SalesArchive::add')) {
+        if ($isActive && $this->_authorization->isAllowed('Enterprise_SalesArchive::add')) {
             $this->addItem('add_order_to_archive', array(
                  'label'=> Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Archive'),
                  'url'  => $this->getUrl('*/sales_archive/massAdd'),

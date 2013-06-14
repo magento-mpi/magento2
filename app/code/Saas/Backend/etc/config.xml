@@ -14,6 +14,7 @@
             <active>false</active>
             <depends>
                 <Mage_AdminNotification/>
+                <Saas_Saas/>
             </depends>
         </Saas_Backend>
     </modules>
@@ -29,11 +30,51 @@
             </adminhtml_controller_action_predispatch_start>
         </events>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Saas_Backend before="Mage_Adminhtml">Saas_Backend_Adminhtml</Saas_Backend>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <adminhtml>
         <di>
             <preferences>
                 <Mage_AdminNotification_Model_System_Message_CacheOutdated>Saas_Backend_Model_System_Message_CacheOutdated</Mage_AdminNotification_Model_System_Message_CacheOutdated>
+                <Mage_Adminhtml_Block_System_Store_Edit>Saas_Backend_Block_Adminhtml_System_Store_Edit</Mage_Adminhtml_Block_System_Store_Edit>
             </preferences>
+            <Saas_Backend_Model_Config_Source_Locale>
+                <parameters>
+                    <allowedLocaleCodes>
+                        <en_US>en_US</en_US>
+                    </allowedLocaleCodes>
+                </parameters>
+            </Saas_Backend_Model_Config_Source_Locale>
+            <Saas_Backend_Model_Config_Source_Locale_Translated>
+                <parameters>
+                    <allowedLocaleCodes>
+                        <en_US>en_US</en_US>
+                    </allowedLocaleCodes>
+                </parameters>
+            </Saas_Backend_Model_Config_Source_Locale_Translated>
+            <Saas_Saas_Model_Limitation_Specification_Composite>
+                <parameters>
+                    <specificationNames>
+                        <backend_store_view>Saas_Backend_Model_Limitation_Specification_Backend_Store_View</backend_store_view>
+                    </specificationNames>
+                </parameters>
+            </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>
+        <layout>
+            <updates>
+                <saas_system_account module="Saas_Backend">
+                    <file>system/account.xml</file>
+                </saas_system_account>
+            </updates>
+        </layout>
     </adminhtml>
 </config>

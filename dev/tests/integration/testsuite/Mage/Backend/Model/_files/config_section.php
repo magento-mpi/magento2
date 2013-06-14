@@ -22,7 +22,7 @@ return array(array ('section' => 'payment', 'groups' =>array(
                     'groups' => array(
                         'required_settings' => array(
                             'groups' => array(
-                                'express' => array(
+                                'payments_advanced' => array(
                                     'fields' => array(
                                         'business_account' => array ('value' => 'owner@example.com')
                                     )

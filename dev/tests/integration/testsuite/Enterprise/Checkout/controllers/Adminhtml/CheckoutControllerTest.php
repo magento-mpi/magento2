@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_Checkout_Adminhtml_CheckoutControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testLoadBlockAction()

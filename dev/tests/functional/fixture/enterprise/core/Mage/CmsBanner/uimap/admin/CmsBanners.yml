@@ -38,7 +38,7 @@ manage_cms_banners:
         buttons:
             add_new_banner: //button[span='Add Banner']
         messages: &bannerMessages
-            success_deleted_banner_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
+            success_deleted_banner_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedProducts% record(s) have been deleted.')]
             success_saved_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been saved.')]
             success_deleted_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been deleted.')]
             empty_content_field: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify default content for at least one store view.')]

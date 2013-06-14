@@ -174,7 +174,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
                                            array('general_customer_data' => $address),
                                            $testData);
-        $message = '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
+        $message = '"Email Address": Please enter a valid email address (for example, johndoe@domain.com.).';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);

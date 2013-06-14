@@ -672,7 +672,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         if (isset($this->_joinFields[$alias])) {
             throw Mage::exception(
                 'Mage_Eav',
-                Mage::helper('Mage_Eav_Helper_Data')->__('Joined field with this alias is already declared')
+                Mage::helper('Mage_Eav_Helper_Data')->__('A joined field with this alias is already declared.')
             );
         }
 
@@ -752,7 +752,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             if (isset($this->_joinFields[$alias])) {
                 throw Mage::exception(
                     'Mage_Eav',
-                    Mage::helper('Mage_Eav_Helper_Data')->__('A joint field with this alias (%s) is already declared', $alias)
+                    Mage::helper('Mage_Eav_Helper_Data')->__('A joint field with this alias (%s) is already declared.', $alias)
                 );
             }
             $this->_joinFields[$alias] = array(

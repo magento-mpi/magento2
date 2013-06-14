@@ -31,7 +31,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                 'id' => 'error',
                 'type' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Error'),
                 'name' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Access Denied'),
-                'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('You have not enough permissions to use this functionality.')
+                'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('You need more permissions to do this.')
             );
             $totalCount = 1;
         } else {

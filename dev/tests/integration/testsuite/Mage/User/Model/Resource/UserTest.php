@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_User_Model_Resource_User */

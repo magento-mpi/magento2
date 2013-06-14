@@ -13,7 +13,7 @@
     <adminhtml_report_product_viewed>
         <reference name="messages">
             <action method="addNotice" translate="message">
-                <message>This report depends on timezone configuration. Once timezone is changed, the lifetime statistics need to be refreshed.</message>
+                <message>This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</message>
             </action>
         </reference>
         <reference name="content">

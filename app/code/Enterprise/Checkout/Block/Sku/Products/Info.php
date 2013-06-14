@@ -114,7 +114,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                     'sku' => $item->getSku()
                 ));
                 return '<a href="' . $link . '" class="configure-popup">'
-                        . $this->__('Specify the product\'s options')
+                        . $this->__("Specify the product's options")
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper Mage_ProductAlert_Helper_Data */
@@ -125,7 +125,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                 }
 
                 $helper->setProduct($this->getItem()->getProduct());
-                $signUpLabel = $this->escapeHtml($this->__('Get notified when back in stock'));
+                $signUpLabel = $this->escapeHtml($this->__('Receive notice when item is restocked.'));
                 return '<a href="'
                     . $this->escapeHtml($helper->getSaveUrl('stock'))
                     . '" title="' . $signUpLabel . '">' . $signUpLabel . '</a>';

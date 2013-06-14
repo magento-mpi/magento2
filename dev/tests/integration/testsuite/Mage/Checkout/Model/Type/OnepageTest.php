@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea frontend
+ */
 class Mage_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
 {
     /**

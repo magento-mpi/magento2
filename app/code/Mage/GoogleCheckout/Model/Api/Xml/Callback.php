@@ -339,7 +339,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         Mage::dispatchEvent('googlecheckout_create_order_before', array('quote' => $quote));
         if ($quote->getErrorMessage()) {
             $this->getGRequest()->SendCancelOrder($this->getGoogleOrderNumber(),
-                $this->__('Order creation error'),
+                $this->__('Something went wrong creating the order.'),
                 $quote->getErrorMessage()
             );
             return;

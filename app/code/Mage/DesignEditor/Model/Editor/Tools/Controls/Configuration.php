@@ -253,7 +253,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
             }
         }
         $this->_saveViewConfiguration($configDom);
-        $this->_eventDispatcher->dispatch('save_xml_configuration', array(
+        $this->_eventDispatcher->dispatch('save_view_configuration', array(
             'configuration' => $this, 'theme' => $this->_theme
         ));
         return $this;
