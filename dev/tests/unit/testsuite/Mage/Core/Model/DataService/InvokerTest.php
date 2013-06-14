@@ -41,16 +41,16 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
     protected $_compositeMock;
 
     /**
-     * Empty data service object
+     * Empty data service array
      *
-     * @var object
+     * @var array
      */
     protected $_dataServiceMock;
 
     /**
      * Get the data service mock
      *
-     * @return mixed
+     * @return array
      */
     public function retrieveMethod()
     {
@@ -72,8 +72,9 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         $this->_invoker = new Mage_Core_Model_DataService_Invoker(
             $this->_configMock,
             $this->_objectManagerMock,
-            $this->_compositeMock);
-        $this->_dataServiceMock = (object)array();
+            $this->_compositeMock
+        );
+        $this->_dataServiceMock = array();
     }
 
     /**
@@ -94,6 +95,7 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
             ->method("get")
             ->with($this->equalTo(self::TEST_CLASS_NAME))
             ->will($this->returnValue($this));
+
         $this->assertSame(
             $this->_dataServiceMock,
             $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME)
@@ -118,9 +120,37 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
             ->method("get")
             ->with($this->equalTo(self::TEST_CLASS_NAME))
             ->will($this->returnValue($this));
+
         $this->assertSame(
             $this->_dataServiceMock,
             $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME)
         );
+    }
+
+    /**
+     * Verify getServiceData fails if something other than array is returned
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage return an array
+     */
+    public function testGetServiceDataFailsIfNotArray()
+    {
+        // This line makes sure we don't return an array
+        $this->_dataServiceMock = (object)array();
+        $classInformation = array(
+            'class'          => self::TEST_CLASS_NAME,
+            'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
+        $this->_configMock
+            ->expects($this->once())
+            ->method("getClassByAlias")
+            ->with($this->equalTo(self::TEST_DATA_SERVICE_NAME))
+            ->will($this->returnValue($classInformation));
+        $this->_objectManagerMock
+            ->expects($this->once())
+            ->method("get")
+            ->with($this->equalTo(self::TEST_CLASS_NAME))
+            ->will($this->returnValue($this));
+
+        $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME);
     }
 }

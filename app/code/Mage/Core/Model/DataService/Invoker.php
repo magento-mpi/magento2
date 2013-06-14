@@ -46,7 +46,7 @@ class Mage_Core_Model_DataService_Invoker
      * Call service method and retrieve the data from the call
      *
      * @param $sourceName
-     * @return bool|mixed
+     * @return bool|array
      */
     public function getServiceData($sourceName)
     {
@@ -65,7 +65,8 @@ class Mage_Core_Model_DataService_Invoker
      * @param $object
      * @param $methodName
      * @param $methodArguments
-     * @return mixed
+     * @throws InvalidArgumentException
+     * @return array
      */
     protected function _applyMethod($object, $methodName, $methodArguments)
     {
@@ -75,6 +76,9 @@ class Mage_Core_Model_DataService_Invoker
             $arguments = $this->_prepareArguments($methodArguments);
         }
         $result = call_user_func_array(array($object, $methodName), $arguments);
+        if (!is_array($result)) {
+            throw new InvalidArgumentException("Method call didn't return an array. Method: $methodName");
+        }
         return $result;
     }
 
@@ -88,10 +92,24 @@ class Mage_Core_Model_DataService_Invoker
     {
         $result = array();
         foreach ($argumentsList as $name => $value) {
-            // convert from '{parent.child}' format to array('parent', 'child') format
-            $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($value, '{}'));
-            $result[$name] = Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
+            $result[$name] = $this->getArgumentValue($value);
         }
         return $result;
+    }
+
+    /**
+     * Get the value for the method argument
+     *
+     * @param $path
+     * @return null
+     */
+    public function getArgumentValue($path)
+    {
+        if (preg_match("/^\{\{.*\}\}$/", $path)) {
+            // convert from '{{parent.child}}' format to array('parent', 'child') format
+            $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($path, '{}'));
+            return Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
+        }
+        return $path;
     }
 }

@@ -20,10 +20,14 @@ class Mage_Core_Model_DataService_Path_Navigator
      * @param Mage_Core_Model_DataService_Path_NodeInterface|array $root
      *        Root node in the graph from which to start the search.
      * @param array $path path to use for searching.
+     * @throws InvalidArgumentException if $root is null or if path can't be followed to a leaf node.
      * @return mixed
      */
     static public function search($root, array $path)
     {
+        if (null === $root) {
+            throw new InvalidArgumentException('Search contained null root.');
+        }
         $pathElement = array_shift($path);
 
         $childElement = null;
@@ -38,7 +42,13 @@ class Mage_Core_Model_DataService_Path_Navigator
         if (empty($path)) {
             return $childElement;
         }
-
-        return self::search($childElement, $path);
+        try {
+            return self::search($childElement, $path);
+        } catch (InvalidArgumentException $iae) {
+            throw new InvalidArgumentException(
+                'Search failed to find an intermediate node with given path: '
+                . $pathElement . '.' . join('.', $path)
+            );
+        }
     }
 }

@@ -88,7 +88,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Data reference configuration doesn't have a block to link to
      */
     public function testInitMissingNamespaces()
@@ -151,5 +151,16 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
             self::TEST_DATA_SERVICE_NAME,
             $this->_graph->getByNamespace(self::TEST_NAMESPACE)
         );
+    }
+
+    public function testGetArgumentValue()
+    {
+        $this->_factoryMock->expects($this->once())->method('getArgumentValue')->with(
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
+        )->will($this->returnValue($this->_dataServiceMock));
+
+        $argValue = $this->_graph->getArgumentValue(self::TEST_DATA_SERVICE_NAME);
+
+        $this->assertEquals($this->_dataServiceMock, $argValue);
     }
 }

@@ -75,4 +75,22 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
 
         $this->assertEquals(null, $nodeFound);
     }
+
+    /**
+     * Verify we get a proper exception when a node in the path isn't found
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage invalid.leaf
+     */
+    public function testSearchWithInvalidPath()
+    {
+        $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
+            ->disableOriginalConstructor()->getMock();
+        $leaf = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
+            ->disableOriginalConstructor()->getMock();
+
+        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'invalid.leaf'));
+
+        $this->assertEquals($leaf, $nodeFound);
+    }
 }
