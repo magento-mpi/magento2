@@ -581,6 +581,12 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 'http://store.com/sitemaps/store2/sitemap.xml'
             ),
             array(
+                'http://store.com/builds/regression/ee/',
+                '/var/www/html', '/opt/builds/regression/ee',
+                '/', 'sitemap.xml',
+                'http://store.com/builds/regression/ee/sitemap.xml'
+            ),
+            array(
                 'http://store.com/store2',
                 'c:\\http\\mage2\\', 'c:\\http\\mage2\\store2',
                 '/sitemaps/store2', 'sitemap.xml',

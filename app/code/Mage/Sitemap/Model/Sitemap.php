@@ -568,9 +568,18 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
         $documentRoot = trim(str_replace('\\', '/', $this->_getDocumentRoot()), '/');
         $baseDir = trim(str_replace('\\', '/', $this->_getBaseDir()), '/');
-        $installationFolder = trim(str_replace($documentRoot, '', $baseDir), '/');
 
-        return rtrim($url . '/' . $installationFolder, '/');
+        if (Magento_Filesystem::isPathInDirectory($baseDir, $documentRoot)) {
+            //case when basedir is in document root
+            $installationFolder = trim(str_replace($documentRoot, '', $baseDir), '/');
+            $storeDomain = rtrim($url . '/' . $installationFolder, '/');
+        } else {
+            //case when documentRoot contains symlink to basedir
+            $url = $this->_getStoreBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+            $storeDomain = rtrim($url, '/');
+        }
+
+        return $storeDomain;
     }
 
     /**
