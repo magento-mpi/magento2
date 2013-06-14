@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Path_Navigator
+ * Mage_Core_Model_DataService_Path_Navigator
  *
  * {license_notice}
  *
@@ -12,10 +12,6 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
     /** @var PHPUnit_Framework_MockObject_MockObject  Mage_Core_Model_DataService_Path_NodeInterface */
     private $_rootNode;
 
-    /**
-     * test static search method
-     * @return null
-     */
     public function testSearch()
     {
         $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
@@ -38,9 +34,6 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
         $this->assertEquals($leaf, $nodeFound);
     }
 
-    /**
-     * Test searching of path
-     */
     public function testSearchOfArray()
     {
         $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
@@ -58,9 +51,6 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
         $this->assertEquals($leaf, $nodeFound);
     }
 
-    /**
-     * Try to find a node in an empty array
-     */
     public function testSearchOfEmptyArray()
     {
         $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
@@ -77,8 +67,6 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
     }
 
     /**
-     * Verify we get a proper exception when a node in the path isn't found
-     *
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage invalid.leaf
      */

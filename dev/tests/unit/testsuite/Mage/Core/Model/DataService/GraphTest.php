@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Invoker
+ * Mage_Core_Model_DataService_Invoker
  *
  * {license_notice}
  *
@@ -31,19 +31,24 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     protected $_dataServiceMock;
 
     /**
-     * @var  Mage_Core_Model_DataService_Invoker
+     * @var  PHPUnit_Framework_MockObject_MockObject
      */
     protected $_invokerMock;
 
     /**
-     * @var  Mage_Core_Model_DataService_Repository
+     * @var  PHPUnit_Framework_MockObject_MockObject
      */
     protected $_repositoryMock;
 
     /**
-     * Create mocks and Graph object to test
+     * @return mixed
      */
-    public function setUp()
+    public function retrieveMethod()
+    {
+        return $this->_dataServiceMock;
+    }
+
+    public function setup()
     {
         $this->_invokerMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_DataService_Repository', array(), array(), "", false);
@@ -51,9 +56,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         $this->_dataServiceMock = (object)array();
     }
 
-    /**
-     * Verify the init method
-     */
     public function testInit()
     {
         $this->_repositoryMock->expects($this->once())->method('addNameInNamespace')->with(
@@ -101,9 +103,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Verify the mock object is returned
-     */
     public function testGet()
     {
         $this->_dataServiceMock = (object)array();
@@ -116,9 +115,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Verify correct mock returned for child node
-     */
     public function testGetChild()
     {
         $this->_dataServiceMock = (object)array();
@@ -131,9 +127,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Verify correct service name is returned for namespace
-     */
     public function testGetByNamespace()
     {
         $this->_repositoryMock->expects($this->once())->method('getByNamespace')->with(

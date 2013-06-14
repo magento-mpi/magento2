@@ -11,13 +11,13 @@
 class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Path to schema file
-     *
      * @var string
      */
     protected $_schemaFile;
 
-    /** @var  Mage_Core_Model_DataService_Config_Reader */
+    /**
+     * @var  Mage_Core_Model_DataService_Config_Reader
+     */
     protected $_reader;
 
     /**
@@ -25,9 +25,6 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
      */
     protected $_objectManager;
 
-    /**
-     * Create a config reader and put it in the object manager and schema file information
-     */
     public function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
@@ -35,19 +32,12 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
         $this->_schemaFile = $this->_reader->getSchemaFile();
     }
 
-    /**
-     * Delete the config reader from the object manager
-     */
     protected function tearDown()
     {
         $this->_objectManager->removeSharedInstance('Mage_Core_Model_DataService_Config_Reader');
     }
 
     /**
-     * Test individual service_calls configuration files
-     *
-     * @param string $file
-     * @param bool $dummy if this is set skip the test
      * @dataProvider serviceCallsConfigFileDataProvider
      */
     public function testServiceCallsConfigFile($file, $dummy = false)
@@ -63,13 +53,6 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
         }
     }
 
-    /**
-     * Find all service_calls.xml files.
-     *
-     * If no service_calls.xml files are found, will return an array with one element that has the dummy flag set.
-     *
-     * @return array
-     */
     public function serviceCallsConfigFileDataProvider()
     {
         $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
@@ -90,9 +73,6 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
         return $dataProviderResult;
     }
 
-    /**
-     * Test merged service_calls configuration for conformance to schema.
-     */
     public function testMergedConfiguration()
     {
         $dom = $this->_reader->getServiceCallConfig();

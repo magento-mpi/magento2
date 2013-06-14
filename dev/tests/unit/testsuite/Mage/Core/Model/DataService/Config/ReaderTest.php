@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Config_Reader
+ * Mage_Core_Model_DataService_Config_Reader
  *
  * {license_notice}
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Path_Composite
+ * Mage_Core_Model_DataService_Path_Composite
  *
  * {license_notice}
  *
@@ -9,27 +9,23 @@
  */
 class Mage_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /**
      * Names to use for testing path composite
      */
     const ITEM_ONE = 'ITEM_ONE';
     const ITEM_TWO = 'ITEM_TWO';
     const ITEM_THREE = 'ITEM_THREE';
-    /**#@-*/
 
     /** @var Mage_Core_Model_DataService_Path_Composite */
     protected $_composite;
 
     /**
      * object map for mock object manager
-     * @var
+     * @var array
      */
     protected $_map;
 
-    /**
-     * Create needed mocks and composite object to test
-     */
-    public function setUp()
+    public function setup()
     {
         /** @var $objectManagerMock Magento_ObjectManager */
         $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()->getMock();
@@ -47,7 +43,6 @@ class Mage_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framework_T
     }
 
     /**
-     * Verify correct child node is retrieved
      * @dataProvider childrenProvider
      */
     public function testGetChildNode($elementName, $expectedResult)
@@ -57,10 +52,6 @@ class Mage_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framework_T
         $this->assertEquals($expectedResult, $child);
     }
 
-    /**
-     * Generate array of names and expected node
-     * @return array
-     */
     public function childrenProvider()
     {
         return array(
