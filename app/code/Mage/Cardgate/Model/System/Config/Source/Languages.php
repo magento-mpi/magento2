@@ -37,7 +37,8 @@ class Mage_Cardgate_Model_System_Config_Source_Languages
      *
      * @return array
      */
-    public function toOptionArray() {
+    public function toOptionArray()
+    {
         return array(
             array(
                 "value" => "nl",
