@@ -59,9 +59,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             'resetpassword',
             'resetpasswordpost',
             'confirm',
-            'confirmation'
+            'confirmation',
+            'createpassword',
         );
-        $pattern = '/^(' . implode('|', $openActions) . ')/i';
+        $pattern = '/^(' . implode('|', $openActions) . ')$/i';
 
         if (!preg_match($pattern, $action)) {
             if (!$this->_getSession()->authenticate($this)) {
@@ -262,6 +263,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $this->_eventManager->dispatch('customer_register_success',
                 array('account_controller' => $this, 'customer' => $customer)
             );
+
+            $newResetPasswordLinkToken = $this->_objectManager->get('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
+            $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
 
             if ($customer->isConfirmationRequired()) {
                 $customer->sendNewAccountEmail(
@@ -595,8 +599,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function resetPasswordAction()
     {
-        $resetPasswordLinkToken = (string) $this->getRequest()->getQuery('token');
-        $customerId = (int) $this->getRequest()->getQuery('id');
+        $this->_forward('createPassword');
+    }
+
+    /**
+     * Resetting password handler
+     */
+    public function createPasswordAction()
+    {
+        $resetPasswordLinkToken = (string) $this->getRequest()->getParam('token');
+        $customerId = (int) $this->getRequest()->getParam('id');
         try {
             $this->_validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken);
             $this->loadLayout();
@@ -651,7 +663,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             foreach ($errorMessages as $errorMessage) {
                 $this->_getSession()->addError($errorMessage);
             }
-            $this->_redirect('*/*/resetpassword', array(
+            $this->_redirect('*/*/createpassword', array(
                 'id' => $customerId,
                 'token' => $resetPasswordLinkToken
             ));
@@ -668,7 +680,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $this->_redirect('*/*/login');
         } catch (Exception $exception) {
             $this->_getSession()->addException($exception, $this->__('Cannot save a new password.'));
-            $this->_redirect('*/*/resetpassword', array(
+            $this->_redirect('*/*/createpassword', array(
                 'id' => $customerId,
                 'token' => $resetPasswordLinkToken
             ));
@@ -804,6 +816,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             try {
                 $customer->setConfirmation(null);
                 $customer->save();
+
+                $customer->sendPasswordResetNotificationEmail('reset_frontend');
+
                 $this->_getSession()->setCustomer($customer)
                     ->addSuccess($this->__('The account information has been saved.'));
 

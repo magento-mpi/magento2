@@ -223,7 +223,7 @@ class Mage_Core_Model_Theme_Service
 
         $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
         $this->_configWriter->save($configPath, $themeId, $scope);
-        $this->_configCacheType->clean();
+        $this->_configCache->clean();
 
         return $this;
     }

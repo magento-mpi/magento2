@@ -45,6 +45,11 @@
                     <file>email/password_reset_confirmation.html</file>
                     <type>html</type>
                 </admin_emails_forgot_email_template>
+                <admin_emails_reset_password_template translate="label" module="Mage_User">
+                    <label>Reset Password</label>
+                    <file>email/password_reset.html</file>
+                    <type>html</type>
+                </admin_emails_reset_password_template>
             </email>
         </template>
         <di>
@@ -61,6 +66,7 @@
                 <forgot_email_template>admin_emails_forgot_email_template</forgot_email_template>
                 <forgot_email_identity>general</forgot_email_identity>
                 <password_reset_link_expiration_period>1</password_reset_link_expiration_period>
+                <reset_password_template>admin_emails_reset_password_template</reset_password_template>
             </emails>
         </admin>
     </default>
