@@ -41,14 +41,6 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     protected $_repositoryMock;
 
     /**
-     * @return mixed
-     */
-    public function retrieveMethod()
-    {
-        return $this->_dataServiceMock;
-    }
-
-    /**
      * Create mocks and Graph object to test
      */
     public function setUp()
