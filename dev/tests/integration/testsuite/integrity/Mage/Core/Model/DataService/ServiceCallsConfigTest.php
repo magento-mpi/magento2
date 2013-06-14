@@ -12,9 +12,6 @@
 class Integrity_Mage_Core_DataService_Model_ServiceCallsConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $configFile
-     * @param bool $dummy If this is set to true, then there are no real tests to run.
-     *
      * @dataProvider xmlDataProvider
      */
     public function testXmlFile($configFile, $dummy = false)
@@ -48,11 +45,6 @@ class Integrity_Mage_Core_DataService_Model_ServiceCallsConfigTest extends PHPUn
         }
     }
 
-    /**
-     * Get all the service_calls.xml files
-     *
-     * @return array
-     */
     public function xmlDataProvider()
     {
         $files = Utility_Files::init()->getConfigFiles('service_calls.xml', array());

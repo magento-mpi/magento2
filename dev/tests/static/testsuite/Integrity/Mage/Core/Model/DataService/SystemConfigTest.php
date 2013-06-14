@@ -9,6 +9,7 @@
  */
 class Integrity_Mage_Core_Model_DataService_SystemConfigTest extends PHPUnit_Framework_TestCase
 {
+    /** @var array string[] */
     protected static $_serviceCalls = array();
 
     public static function setUpBeforeClass()
@@ -31,8 +32,6 @@ class Integrity_Mage_Core_Model_DataService_SystemConfigTest extends PHPUnit_Fra
     }
 
     /**
-     * @param string $configFile
-     *
      * @dataProvider xmlDataProvider
      */
     public function testXmlFile($configFile)
@@ -55,9 +54,6 @@ class Integrity_Mage_Core_Model_DataService_SystemConfigTest extends PHPUnit_Fra
         }
     }
 
-    /**
-     * @return array
-     */
     public function xmlDataProvider()
     {
         return Utility_Files::init()->getConfigFiles('adminhtml/system.xml', array());
