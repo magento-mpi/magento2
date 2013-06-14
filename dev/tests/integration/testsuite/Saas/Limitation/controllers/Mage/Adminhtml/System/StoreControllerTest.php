@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * @magentoAppArea adminhtml
+ */
 class Saas_Limitation_Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
