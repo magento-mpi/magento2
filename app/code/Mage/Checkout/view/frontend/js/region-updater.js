@@ -142,7 +142,8 @@
         },
 
         /**
-         *Check if the selected country has a mandatory region selection
+         * Check if the selected country has a mandatory region selection
+         *
          * @param {string} country Code of the country - 2 uppercase letter for country code
          * @private
          */
