@@ -27,6 +27,8 @@ class Mage_Cardgate_CardgateControllerTest extends Magento_Test_TestCase_Control
             ->save();
 
         $order->setQuoteId($quote->getId());
+        $order->setBaseGrandTotal(12.34);
+        $order->setBaseTotalPaid(0);
         $order->save();
 
         $session = Mage::getSingleton('Mage_Checkout_Model_Session');
@@ -44,15 +46,68 @@ class Mage_Cardgate_CardgateControllerTest extends Magento_Test_TestCase_Control
         );
     }
 
-    public function testCancelActionIsContentGenerated()
+    public function testCancelActionIsRedirected()
     {
         $this->dispatch('cardgate/cardgate/cancel');
-        $this->assertContains("checkout/cart", $this->getResponse()->getHeader('Location'));
+        $this->assertRedirect($this->stringEndsWith("checkout/cart/"));
     }
 
-    public function testSuccessActionIsContentGenerated()
+    public function testSuccessActionIsRedirected()
     {
         $this->dispatch('cardgate/cardgate/success');
-        $this->assertContains("checkout/onepage/success", $this->getResponse()->getHeader('Location'));
+        $this->assertRedirect($this->stringEndsWith("checkout/onepage/success/"));
+    }
+
+    public function testControlActionNoPost()
+    {
+        $this->dispatch('cardgate/cardgate/control');
+        $this->assertEmpty($this->getResponse()->getBody());
+    }
+
+    /**
+     * Set POST data and hash for control action
+     *
+     * @param string $amount
+     * @return array
+     */
+    protected function _setControlActionData($amount)
+    {
+        $data = array();
+        $data['transaction_id'] = 1;
+        $data['currency'] = 'USD';
+        $data['amount'] = $amount;
+        $data['ref'] = '100000001';
+        $data['status'] = Mage_Sales_Model_Order::STATE_PROCESSING;
+        $data['hash'] =  md5('TEST' . $data['transaction_id'] . $data['currency'] . $data['amount'] . $data['ref']
+        . $data['status'] . '263748');
+
+        $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
+        $this->getRequest()->setPost($data);
+
+        return $data;
+    }
+
+    /**
+     * @magentoConfigFixture current_store payment/cardgate/test_mode 1
+     * @magentoConfigFixture current_store payment/cardgate/hash_key 263748
+     */
+    public function testControlActionWrongAmount()
+    {
+        $this->_setControlActionData('1212');
+
+        $this->dispatch('cardgate/cardgate/control');
+        $this->assertEmpty($this->getResponse()->getBody());
+    }
+
+    /**
+     * @magentoConfigFixture current_store payment/cardgate/test_mode 1
+     * @magentoConfigFixture current_store payment/cardgate/hash_key 263748
+     */
+    public function testControlAction()
+    {
+        $data = $this->_setControlActionData('1234');
+
+        $this->dispatch('cardgate/cardgate/control');
+        $this->assertEquals($data['transaction_id'] . '.' . $data['status'], $this->getResponse()->getBody());
     }
 }
