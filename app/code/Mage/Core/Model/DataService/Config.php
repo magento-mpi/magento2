@@ -12,43 +12,85 @@
  */
 class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_ConfigInterface
 {
+    /** Xpath to service call */
+    const SERVICE_CALLS_XPATH = '/service_calls/service_call';
 
-    /** @var Mage_Core_Model_DataService_Config_Reader */
-    protected $_configReader;
+    /** @var Mage_Core_Model_DataService_Config_Reader_Factory */
+    protected $_readerFactory;
 
-    /**
-     * @var array $_serviceCallNodes
-     */
+    /** @var  Mage_Core_Model_DataService_Config_Reader */
+    protected $_reader;
+
+    /** @var array $_serviceCallNodes */
     protected $_serviceCallNodes;
 
+    /** @var Mage_Core_Model_Config_Modules_Reader  */
+    protected $_moduleReader;
+
     /**
-     * @param Mage_Core_Model_DataService_Config_Reader $configReader
+     * @param Mage_Core_Model_DataService_Config_Reader_Factory $readerFactory
+     * @param Mage_Core_Model_Config_Modules_Reader
      */
-    public function __construct(
-        Mage_Core_Model_DataService_Config_Reader $configReader
+    public function __construct(Mage_Core_Model_DataService_Config_Reader_Factory $readerFactory,
+        Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
-        $this->_configReader = $configReader;
+        $this->_readerFactory = $readerFactory;
+        $this->_moduleReader = $moduleReader;
 
         /**
-         * @var array $serviceCallNodes
+         * Initialize service calls nodes to avoid expensive xpath calls
+         * @var DOMElement $node
          */
-        $serviceCallNodes
-            = $this->_configReader
-            ->getServiceCallConfig()
-            ->getXpath('/service_calls/service_call');
-
-        $this->_serviceCallNodes = array();
-
-        if ($serviceCallNodes) {
-            /**
-             * @var  Varien_Simplexml_Element $node
-             */
-            foreach ($serviceCallNodes as $node) {
-                $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
-            }
+        foreach($this->getServiceCalls() as $node) {
+            $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
         }
     }
 
+    /**
+     * Reader object initialization.
+     *
+     * @return Mage_Core_Model_DataService_Config_Reader
+     */
+    protected function _getReader()
+    {
+        if (is_null($this->_reader)) {
+            $serviceCallsFiles = $this->_getServiceCallsFiles();
+            $this->_reader = $this->_readerFactory->createReader(array('configFiles'  => $serviceCallsFiles));
+        }
+        return $this->_reader;
+    }
+
+    /**
+     * Retrieve list of service calls files from each module.
+     *
+     * @return array
+     */
+    protected function _getServiceCallsFiles()
+    {
+        $files = $this->_moduleReader->getModuleConfigurationFiles('service_calls.xml');
+        return (array)$files;
+    }
+
+    /**
+     * Get DOMXPath with loaded service calls inside.
+     *
+     * @return DOMXPath
+     */
+    protected function _getXPathServiceCalls()
+    {
+        $serviceCalls = $this->_getReader()->getServiceCallConfig();
+        return new DOMXPath($serviceCalls);
+    }
+
+    /**
+     * Return Service Calls.
+     *
+     * @return DOMNodeList
+     */
+    public function getServiceCalls()
+    {
+        return $this->_getXPathServiceCalls()->query(self::SERVICE_CALLS_XPATH);
+    }
 
     /**
      * Get the class information for a given service call
@@ -56,26 +98,24 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
      * @param string $alias
      * @return array
      * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function getClassByAlias($alias)
     {
         //validate that service call is defined
         if (!isset($this->_serviceCallNodes[$alias])) {
-            throw new InvalidArgumentException('Service call with name "' . $alias . '" doesn\'t exist');
+            throw new InvalidArgumentException("Service call with name '{$alias}'  doesn't exist");
         }
 
-        /**
-         * @var Mage_Core_Model_Config_Element $node
-         */
+        /** @var DOMElement $node */
         $node = $this->_serviceCallNodes[$alias];
-
         $methodArguments = array();
 
-        /**
-         * @var Mage_Core_Model_Config_Element $child
-         */
-        foreach ($node as $child) {
-            $methodArguments[$child->getAttribute('name')] = (string)$child;
+        /** @var DOMElement $child */
+        foreach ($node->childNodes as $child) {
+            if ($child instanceof DOMElement) {
+                $methodArguments[$child->getAttribute('name')] = $child->nodeValue;
+            }
         }
 
         $result = array(
@@ -86,14 +126,14 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
 
         //validate that service attribute is defined
         if (!$result['class']) {
-            throw new InvalidArgumentException('Invalid Service call ' . $alias
-                . ', service type must be defined in the "service" attribute');
+            throw new InvalidArgumentException("Invalid Service call {$alias}, "
+                . 'service type must be defined in the "service" attribute');
         }
 
         //validate that retrieval method attribute is defined
         if (!$result['retrieveMethod']) {
-            throw new LogicException('Invalid Service call ' . $alias
-                . ', retrieval method must be defined for the service ' . $result['class']);
+            throw new LogicException("Invalid Service call {$alias}, "
+                . "retrieval method must be defined for the service {$result['class']}");
         }
 
         return $result;
