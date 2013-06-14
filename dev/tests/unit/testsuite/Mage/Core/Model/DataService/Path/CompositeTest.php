@@ -29,7 +29,7 @@ class Mage_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framework_T
     /**
      * Create needed mocks and composite object to test
      */
-    public function setup()
+    public function setUp()
     {
         /** @var $objectManagerMock Magento_ObjectManager */
         $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()->getMock();

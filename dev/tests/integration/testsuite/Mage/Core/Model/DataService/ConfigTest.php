@@ -19,7 +19,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare object manager with objects to read config files.
      */
-    public function setup()
+    public function setUp()
     {
         $dirs = Mage::getObjectManager()->create(
             'Mage_Core_Model_Dir', array('baseDir' => array(BP),

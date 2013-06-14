@@ -51,7 +51,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
     /**
      * Create mocks and Graph object to test
      */
-    public function setup()
+    public function setUp()
     {
         $this->_factoryMock = $this->getMock('Mage_Core_Model_DataService_Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_DataService_Repository', array(), array(), "", false);

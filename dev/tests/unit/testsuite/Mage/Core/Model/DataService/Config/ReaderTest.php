@@ -24,7 +24,7 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
     /**
      * Prepare object manager with mocks of objects required by config reader.
      */
-    public function setup()
+    public function setUp()
     {
         $this->_modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Loader_Modules_File')
             ->disableOriginalConstructor()
