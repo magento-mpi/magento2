@@ -14,7 +14,6 @@ class Saas_Limitation_Mage_User_Adminhtml_UserControllerTest extends Mage_Backen
     {
         $this->dispatch('backend/admin/user/index');
         $response = $this->getResponse()->getBody();
-        echo $response;
         $this->assertSelectEquals('#add.disabled', 'Add New User', 1, $response);
         // @codingStandardsIgnoreStart
         $this->assertContains('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.', $response);
