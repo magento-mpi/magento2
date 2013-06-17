@@ -43,9 +43,10 @@ class Mage_Core_Model_DataService_Invoker
     }
 
     /**
-     * Call service method and retrieve the data from the call
+     * Call service method and retrieve the data (array) from the call
      *
      * @param $sourceName
+     * @throws InvalidArgumentException
      * @return bool|array
      */
     public function getServiceData($sourceName)
@@ -56,6 +57,13 @@ class Mage_Core_Model_DataService_Invoker
             $instance, $classInformation['retrieveMethod'],
             $classInformation['methodArguments']
         );
+        if (!is_array($serviceData)) {
+            $type = gettype($serviceData);
+            throw new InvalidArgumentException(
+                "Data service method calls must return an array, received {$type} instead.
+                 Called {$classInformation['class']}::{$classInformation['retrieveMethod']}"
+            );
+        }
         return $serviceData;
     }
 
@@ -65,7 +73,6 @@ class Mage_Core_Model_DataService_Invoker
      * @param $object
      * @param $methodName
      * @param $methodArguments
-     * @throws InvalidArgumentException
      * @return array
      */
     protected function _applyMethod($object, $methodName, $methodArguments)
@@ -75,11 +82,7 @@ class Mage_Core_Model_DataService_Invoker
         if (is_array($methodArguments)) {
             $arguments = $this->_prepareArguments($methodArguments);
         }
-        $result = call_user_func_array(array($object, $methodName), $arguments);
-        if (!is_array($result)) {
-            throw new InvalidArgumentException("Method call didn't return an array. Method: $methodName");
-        }
-        return $result;
+        return call_user_func_array(array($object, $methodName), $arguments);
     }
 
     /**
