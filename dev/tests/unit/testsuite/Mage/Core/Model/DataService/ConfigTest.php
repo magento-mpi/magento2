@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Core_Model_DataService_Config
+ * Mage_Core_Model_DataService_Config
  *
  * {license_notice}
  *
@@ -17,7 +17,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_DataService_Config_Reader_Factory */
     private $_readersFactoryMock;
 
-    public function setup()
+    public function setUp()
     {
         $reader = $this->getMockBuilder('Mage_Core_Model_DataService_Config_Reader')
             ->disableOriginalConstructor()

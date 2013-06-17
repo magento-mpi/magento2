@@ -14,7 +14,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_config;
 
-    public function setup()
+    public function setUp()
     {
         /** @var Mage_Core_Model_Dir $dirs */
         $dirs = Mage::getObjectManager()->create(
@@ -34,7 +34,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
          * Mock is used to disable caching, as far as Integration Tests Framework loads main
          * modules configuration first and it gets cached
          *
-         * @var Mage_Core_Model_Config_Cache $cache
+         * @var PHPUnit_Framework_MockObject_MockObject $cache
          */
         $cache = $this->getMock('Mage_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'),
             array(), '', false);

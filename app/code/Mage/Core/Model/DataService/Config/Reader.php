@@ -10,13 +10,30 @@
 class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstract
 {
     /**
+     * @var Mage_Core_Model_Config_Modules_Reader
+     */
+    private $_modulesReader;
+
+    /**
+     * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
+     * @param array $configFiles
+     */
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $modulesReader,
+        array $configFiles
+    ) {
+        parent::__construct($configFiles);
+        $this->_modulesReader = $modulesReader;
+    }
+
+    /**
      * Get absolute path to the XML-schema file
      *
      * @return string
      */
     public function getSchemaFile()
     {
-        return realpath(__DIR__ . '/../../../etc/service_calls.xsd');
+        return $this->_modulesReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'service_calls.xsd';
     }
 
     /**
@@ -42,6 +59,7 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
 
     /**
      * Get if xml files must be runtime validated
+     *
      * @return boolean
      */
     protected function _isRuntimeValidated()
@@ -51,6 +69,7 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
 
     /**
      * Retrieve Service Calls
+     *
      * @return DOMDocument
      */
     public function getServiceCallConfig()
@@ -73,6 +92,7 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
 
     /**
      * Perform xml validation
+     *
      * @return Magento_Config_XmlAbstract
      * @throws Magento_Exception if invalid XML-file passed
      */
