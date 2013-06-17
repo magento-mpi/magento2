@@ -51,7 +51,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
     public function getAddProductButtonHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Add Selected Product(s) to RMA'),
+            'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Add Selected Product(s) to returns'),
             'onclick' => "rma.addSelectedProduct()",
             'class' => 'add',
         );

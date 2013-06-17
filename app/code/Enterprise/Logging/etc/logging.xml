@@ -157,7 +157,7 @@
     </catalog_categories>
 
     <core_urlrewrites translate="label">
-        <label>URL Rewrites</label>
+        <label>URL Redirects</label>
         <expected_models>
             <Mage_Core_Model_Url_Rewrite/>
         </expected_models>
@@ -281,7 +281,7 @@
     </catalog_attributes>
 
     <catalog_attributesets translate="label">
-        <label>Catalog Attribute Sets</label>
+        <label>Catalog Product Templates</label>
         <expected_models>
             <Mage_Eav_Model_Entity_Attribute_Set/>
         </expected_models>
@@ -806,7 +806,7 @@
     </catalogrule>
 
     <salesrule translate="label">
-        <label>Shopping Cart Price Rules</label>
+        <label>Cart Price Rules</label>
         <expected_models>
             <Mage_SalesRule_Model_Rule/>
         </expected_models>
@@ -1586,7 +1586,7 @@
     </googleshopping_types>
 
     <widget_instance translate="label">
-        <label>Widget Instances</label>
+        <label>Frontend App Instance</label>
         <expected_models>
             <Mage_Widget_Model_Widget_Instance/>
         </expected_models>

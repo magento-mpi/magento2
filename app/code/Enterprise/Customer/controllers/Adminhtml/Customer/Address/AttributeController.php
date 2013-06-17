@@ -104,7 +104,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title($this->__('Manage Customer Address Attributes'));
+        $this->_title($this->__('Customer Address Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
