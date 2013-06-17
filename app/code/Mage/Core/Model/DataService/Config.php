@@ -41,7 +41,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
          * Initialize service calls nodes to avoid expensive xpath calls
          * @var DOMElement $node
          */
-        foreach($this->getServiceCalls() as $node) {
+        foreach ($this->getServiceCalls() as $node) {
             $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
         }
     }
