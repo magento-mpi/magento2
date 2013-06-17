@@ -41,7 +41,7 @@
 
     <xs:simpleType name="typeArgRestriction">
         <xs:restriction base="xs:string">
-            <xs:pattern value="\{\{.*\}\}" />
+            <xs:pattern value="^\{\{.*\}\}$|[^{}]*" />
         </xs:restriction>
     </xs:simpleType>
     <xs:complexType name="typeArg">
