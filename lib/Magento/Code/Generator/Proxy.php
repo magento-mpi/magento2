@@ -31,19 +31,7 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
      */
     protected function _getClassProperties()
     {
-        $properties = array();
-
-        // protected $_objectManager = null;
-        $properties[] = array(
-            'name'       => '_objectManager',
-            'visibility' => 'protected',
-            'docblock'   => array(
-                'shortDescription' => 'Object Manager instance',
-                'tags'             => array(
-                    array('name' => 'var', 'description' => '\Magento_ObjectManager')
-                )
-            ),
-        );
+        $properties = parent::_getClassProperties();
 
         // protected $_instanceName = null;
         $properties[] = array(
@@ -83,6 +71,8 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
     }
 
     /**
+     * Returns list of methods for class generator
+     *
      * @return array
      */
     protected function _getClassMethods()

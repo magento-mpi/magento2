@@ -167,14 +167,6 @@ abstract class Magento_Code_Generator_EntityAbstract
      */
     protected function _getClassProperties()
     {
-        // const CLASS_NAME = '<source_class_name>';
-        $className = array(
-            'name'         => 'CLASS_NAME',
-            'const'        => true,
-            'defaultValue' => $this->_getSourceClassName(),
-            'docblock'     => array('shortDescription' => 'Entity class name'),
-        );
-
         // protected $_objectManager = null;
         $objectManager = array(
             'name'       => '_objectManager',
@@ -187,7 +179,7 @@ abstract class Magento_Code_Generator_EntityAbstract
             ),
         );
 
-        return array($className, $objectManager);
+        return array($objectManager);
     }
 
     /**
@@ -195,26 +187,7 @@ abstract class Magento_Code_Generator_EntityAbstract
      *
      * @return array
      */
-    protected function _getDefaultConstructorDefinition()
-    {
-        // public function __construct(\Magento_ObjectManager $objectManager)
-        return array(
-            'name'       => '__construct',
-            'parameters' => array(
-                array('name' => 'objectManager', 'type' => '\Magento_ObjectManager'),
-            ),
-            'body' => '$this->_objectManager = $objectManager;',
-            'docblock' => array(
-                'shortDescription' => ucfirst(static::ENTITY_TYPE) . ' constructor',
-                'tags'             => array(
-                    array(
-                        'name'        => 'param',
-                        'description' => '\Magento_ObjectManager $objectManager'
-                    ),
-                ),
-            ),
-        );
-    }
+    protected abstract function _getDefaultConstructorDefinition();
 
     /**
      * Returns list of methods for class generator
