@@ -14,7 +14,7 @@ class Mage_Core_Model_DataService_RepositoryTest extends PHPUnit_Framework_TestC
      */
     protected $_repository;
 
-    public function setup()
+    public function setUp()
     {
         $this->_repository = new Mage_Core_Model_DataService_Repository();
     }
