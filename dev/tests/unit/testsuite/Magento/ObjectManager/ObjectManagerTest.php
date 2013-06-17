@@ -108,7 +108,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ),
             'Magento_Test_Di_Aggregate_Parent' => array(
                 'parameters' => array(
-                    'child' => 'Magento_Test_Di_Child_A',
+                    'child' => array('instance' => 'Magento_Test_Di_Child_A'),
                     'scalar' => 'scalarValue'
                 )
             )
@@ -152,33 +152,13 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         return array(
             'named binding' => array(
                 array(
-                    'child' => 'Magento_Test_Di_Child_A',
+                    'child' => array('instance' => 'Magento_Test_Di_Child_A'),
                     'scalar' => 'scalarValue',
                     'secondScalar' => 'secondScalarValue',
                     'secondOptionalScalar' => 'secondOptionalValue'
                 )
-            ),
-            'positional binding' => array(
-                array(
-                    2 => 'Magento_Test_Di_Child_A',
-                    'secondOptionalScalar' => 'secondOptionalValue',
-                    4 => 'secondScalarValue',
-                    3 => 'scalarValue',
-                )
-            ),
+            )
         );
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Ambiguous argument $child: positional and named binding is used at the same time.
-     */
-    public function testCreateResolveParametersAmbiguity()
-    {
-        $this->_object->create('Magento_Test_Di_Aggregate_WithOptional', array(
-            1 => 'Magento_Test_Di_Child_A',
-            'child' => 'Magento_Test_Di_Child_A',
-        ));
     }
 
     public function testGetCreatesSharedInstancesEveryTime()
@@ -228,5 +208,30 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $instance = $this->_object->create('Magento_Test_Di_Aggregate_WithOptional');
         $this->assertNull($instance->parent);
         $this->assertNull($instance->child);
+    }
+
+    public function testCreateCreatesPreconfiguredInstance()
+    {
+        $this->_object->configure(array(
+            'preferences' => array(
+                'Magento_Test_Di_Interface' => 'Magento_Test_Di_Parent',
+                'Magento_Test_Di_Parent' => 'Magento_Test_Di_Child_Circular'
+            ),
+            'customChildType' => array(
+                'parameters' => array(
+                    'scalar' => 'configuredScalar',
+                    'secondScalar' => 'configuredSecondScalar',
+                    'configuredOptionalScalar'
+                )
+            )
+        ));
+        Magento_Test_Di_Interface $interface,
+        Magento_Test_Di_Parent $parent,
+        Magento_Test_Di_Child $child,
+        $scalar,
+        $secondScalar,
+        $optionalScalar = 1,
+        $secondOptionalScalar = ''
+
     }
 }
