@@ -50,48 +50,20 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
         $this->_helper = $helper;
     }
 
-    /**
-     * Add complex type.
-     *
-     * @param string $type
-     * @param array $parentCallInfo array of callInfo from parent complex type
-     * @return string
-     * @throws LogicException
-     */
-    public function addComplexType($type, $parentCallInfo = array())
+    public function addComplexType($type)
     {
-        if (($soapType = $this->scanRegisteredTypes($type)) !== null) {
-            return $soapType;
-        }
-
-        // TODO: Temporary error-preventive measure
-        $typeData = $this->_config->getTypeData($type);
-        if (!isset($typeData['parameters'])) {
-            throw new LogicException("Type definition is invalid: $type");
-        }
-
         /** @var DOMDocument $dom */
-        $dom = $this->getContext()->toDomDocument();
-        $this->_dom = $dom;
-        $soapType = Wsdl::TYPES_NS . ':' . $type;
+        /** TODO: Use object manager instead of new */
+        $dom = new DOMDocument();
+        $dom->loadXML($type);
+        $complexTypes = $dom->getElementsByTagName('complexType');
 
-        // Register type here to avoid recursion
-        $this->getContext()->addType($type, $soapType);
-
-        $complexType = $this->_dom->createElement(Wsdl::XSD_NS . ':complexType');
-        $complexType->setAttribute('name', $type);
-        if (isset($typeData['documentation'])) {
-            $this->addAnnotation($complexType, $typeData['documentation']);
+        foreach ($complexTypes as $complexType) {
+            $complexType = $this->getContext()->toDomDocument()->importNode($complexType, true);
+            $this->getContext()->getSchema()->appendChild($complexType);
         }
-
-        if (isset($typeData['parameters']) && is_array($typeData['parameters'])) {
-            $callInfo = isset($typeData['callInfo']) ? $typeData['callInfo'] : $parentCallInfo;
-            $sequence = $this->_processParameters($typeData['parameters'], $callInfo);
-            $complexType->appendChild($sequence);
-        }
-
-        $this->getContext()->getSchema()->appendChild($complexType);
-        return $soapType;
+        /** TODO: Fix return */
+        return $type;
     }
 
     /**

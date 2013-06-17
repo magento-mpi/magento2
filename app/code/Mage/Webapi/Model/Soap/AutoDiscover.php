@@ -95,82 +95,20 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 //        }
 
         $resources = array();
-        $services = array(
-            'Mage_Catalog_Service_Product' => array(
-                'class' => 'Mage_Catalog_Service_Product',
-                'baseUrl' => '/products',
-                'operations' => array(
-                    'item' => array(
-                        'httpMethod' => 'GET',
-                        'method' => 'item',
-                        'route' => '/:entity_id',
-                    ),
-                ),
-            ),
-        );
-
-        foreach ($services as $serviceData) {
-            $resourceName = $this->_helper->translateResourceName($serviceData['class']);
+        foreach ($this->_getServices() as $serviceData) {
+            $serviceClass = $serviceData['class'];
+            $resourceName = $this->_helper->translateResourceName($serviceClass);
             $resources[$resourceName] = array('methods' => array());
-            // TODO: Add service version to $serviceData
-            foreach ($serviceData['operations'] as $operation => $operationData) {
-                /** Collect input parameters */
-                $inputParameters = array();
-                $requestFields = array(
-                    'entity_id' => array(
-                        'label' => 'Entity ID',
-                        'type' => 'integer',
-                        'required' => true,
-                        'default' => NULL,
-                        'constraints' => array(
-                            'is_integer' => array(
-                                'class' => 'Magento_Validator_Int',
-                            ),
-                        ),
-                    ),
-                );
-                foreach ($requestFields as $fieldName => $fieldData) {
-                    $inputParameters[$fieldName] = array(
-                        // TODO: Remove default values
-                        'type' => isset($fieldData['type'])
-                            ? $this->_helper->normalizeType($fieldData['type'])
-                            : 'string',
-                        'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
-                        'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
-                    );
-                }
-
+            foreach ($serviceData['operations'] as $serviceMethod) {
                 /** Collect output parameters */
-                $outputParameters = array();
-                $responseFields = array(
-                    'entity_id' => array('required' => true,),
-                    'name' => array('required' => true,),
-                    'sku' => array('required' => true,),
-                    'description' => array('required' => true,),
-                    'short_description' => array('required' => true,),
-                    'weight' => array('required' => true,)
-                );
-
-                foreach ($responseFields as $fieldName => $fieldData) {
-                    $outputParameters[$fieldName] = array(
-                        // TODO: Remove default values
-                        'type' => isset($fieldData['type'])
-                            ? $this->_helper->normalizeType($fieldData['type'])
-                            : 'string',
-                        'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
-                        'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
-                    );
-                }
-
-                $resources[$resourceName]['methods'][$operation] = array(
-                    'documentation' => '', // TODO: Get documentation
-                );
+                $outputParameters = $this->_getOutputSchema($serviceClass, $serviceMethod);
+                $inputParameters = $this->_getInputSchema($serviceClass, $serviceMethod);
                 if (!empty($inputParameters)) {
-                    $resources[$resourceName]['methods'][$operation]['interface']['in']['parameters'] =
+                    $resources[$resourceName]['methods'][$serviceMethod]['interface']['in']['schema'] =
                         $inputParameters;
                 }
                 if (!empty($outputParameters)) {
-                    $resources[$resourceName]['methods'][$operation]['interface']['out']['parameters'] =
+                    $resources[$resourceName]['methods'][$serviceMethod]['interface']['out']['schema'] =
                         $outputParameters;
                 }
             }
@@ -185,6 +123,151 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
+     * Stub method for getting service method output schema
+     *
+     * @param string $serviceName
+     * @param string $serviceMethod
+     * @return string
+     */
+    protected function _getOutputSchema($serviceName, $serviceMethod)
+    {
+        /** TODO: Replace stub with getting real output schema (using service layer) */
+        return '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                    <xsd:complexType name="CatalogProductItemResponse">
+                        <xsd:annotation>
+                            <xsd:documentation>Response container for the catalogProductItem call.</xsd:documentation>
+                            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+                        </xsd:annotation>
+                        <xsd:sequence>
+                            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="sku" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="description" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="short_description" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="weight" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:schema>';
+    }
+
+    /**
+     * Stub method for getting service method input schema
+     *
+     * @param string $serviceName
+     * @param string $serviceMethod
+     * @return string
+     */
+    protected function _getInputSchema($serviceName, $serviceMethod)
+    {
+        /** TODO: Replace stub with getting real input schema (using service layer) */
+        return '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                    <xsd:complexType name="CatalogProductItemRequest">
+                        <xsd:annotation>
+                            <xsd:documentation/>
+                            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+                        </xsd:annotation>
+                        <xsd:sequence>
+                            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:int">
+                                <xsd:annotation>
+                                    <xsd:documentation>Entity ID</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:min/>
+                                        <inf:max/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:requiredInput>Yes</inf:requiredInput>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:schema>';
+    }
+
+    /**
+     * Stub method returning the list of available SOAP services.
+     *
+     * @return array
+     */
+    protected function _getServices()
+    {
+        /** TODO: Replace stub with getting real list of services to be exposed via SOAP (using service layer) */
+        return array(
+            'Mage_Catalog_Service_Product' => array(
+                'class' => 'Mage_Catalog_Service_Product',
+                'operations' => array('item'),
+            ),
+        );
+    }
+
+    /**
      * Generate WSDL file based on requested resources.
      *
      * @param array $requestedResources
@@ -193,7 +276,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     public function generate($requestedResources, $endPointUrl)
     {
-        $this->_collectCallInfo($requestedResources);
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
 
@@ -214,7 +296,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
                 $outputMessageName = false;
                 $outputBinding = false;
-                if (isset($methodData['interface']['out']['parameters'])) {
+                if (isset($methodData['interface']['out']['schema'])) {
                     $outputBinding = $inputBinding;
                     $outputMessageName = $this->_createOperationOutput($wsdl, $operationName, $methodData);
                 }
@@ -246,28 +328,25 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _createOperationInput(Mage_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
+        /**
+         * TODO: Make sure that complex type name is taken from a single place
+         *
+         * (currently we have two sources: XSD schema
+         * and auto-generation mechanism: $this->getElementComplexTypeName($inputMessageName))
+         */
         $inputMessageName = $this->getInputMessageName($operationName);
         $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
-        $inputParameters = array();
         $elementData = array(
             'name' => $inputMessageName,
             'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
         );
-        if (isset($methodData['interface']['in']['parameters'])) {
-            $inputParameters = $methodData['interface']['in']['parameters'];
+        if (isset($methodData['interface']['in']['schema'])) {
+            $inputParameters = $methodData['interface']['in']['schema'];
+            $wsdl->addComplexType($inputParameters);
         } else {
             $elementData['nillable'] = 'true';
         }
         $wsdl->addElement($elementData);
-        $callInfo = array();
-        $callInfo['requiredInput']['yes']['calls'] = array($operationName);
-        $typeData = array(
-            'documentation' => $methodData['documentation'],
-            'parameters' => $inputParameters,
-            'callInfo' => $callInfo,
-        );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
-        $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $inputMessageName,
             array(
@@ -298,15 +377,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
             )
         );
-        $callInfo = array();
-        $callInfo['returned']['always']['calls'] = array($operationName);
-        $typeData = array(
-            'documentation' => sprintf('Response container for the %s call.', $operationName),
-            'parameters' => $methodData['interface']['out']['parameters'],
-            'callInfo' => $callInfo,
-        );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
-        $wsdl->addComplexType($complexTypeName);
+        if (isset($methodData['interface']['out']['schema'])) {
+            $outputParameters = $methodData['interface']['out']['schema'];
+            $wsdl->addComplexType($outputParameters);
+        }
         $wsdl->addMessage(
             $outputMessageName,
             array(
@@ -407,48 +481,4 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     {
         return $operationName . 'Response';
     }
-
-    /**
-     * Collect data about complex types call info.
-     * Walks through all requested resources and checks all methods 'in' and 'out' parameters.
-     *
-     * @param array $requestedResources
-     */
-    protected function _collectCallInfo($requestedResources)
-    {
-        foreach ($requestedResources as $resourceName => $resourceData) {
-            foreach ($resourceData['methods'] as $methodName => $methodData) {
-                $this->_processInterfaceCallInfo($methodData['interface'], $resourceName, $methodName);
-            }
-        }
-    }
-
-    /**
-     * Process call info data from interface.
-     *
-     * @param array $interface
-     * @param string $resourceName
-     * @param string $methodName
-     */
-    protected function _processInterfaceCallInfo($interface, $resourceName, $methodName)
-    {
-        foreach ($interface as $direction => $interfaceData) {
-            $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
-            foreach ($interfaceData['parameters'] as $parameterData) {
-                $parameterType = $parameterData['type'];
-                if (!$this->_helper->isTypeSimple($parameterType)) {
-                    $operation = $this->getOperationName($resourceName, $methodName);
-                    if ($parameterData['required']) {
-                        $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
-                    } else {
-                        $condition = ($direction == 'requiredInput') ? 'no' : 'conditionally';
-                    }
-                    $callInfo = array();
-                    $callInfo[$direction][$condition]['calls'][] = $operation;
-                    $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
-                }
-            }
-        }
-    }
-
 }
