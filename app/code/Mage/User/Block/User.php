@@ -45,20 +45,6 @@ class Mage_User_Block_User extends Mage_Backend_Block_Widget_Grid_Container
             Mage_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => $this->__('Users'),
         ));
         parent::_construct();
-    }
-
-    /**
-     * Prepare output HTML
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        Mage::dispatchEvent('permissions_user_html_before', array('block' => $this));
         $this->_addNewButton();
-        if (!$this->_resourceModel->canCreateUser()) {
-            $this->_updateButton('add', 'disabled', true);
-        }
-        return parent::_toHtml();
     }
 }
