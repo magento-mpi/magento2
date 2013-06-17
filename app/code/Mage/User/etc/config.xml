@@ -71,6 +71,13 @@
                 </parameters>
             </Magento_Acl_Builder>
         </di>
+        <layout>
+            <updates>
+                <user module="Mage_User">
+                    <file>layout.xml</file>
+                </user>
+            </updates>
+        </layout>
     </adminhtml>
     <default>
         <admin>
@@ -92,13 +99,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <layout>
-            <updates>
-                <user module="Mage_User">
-                    <file>layout.xml</file>
-                </user>
-            </updates>
-        </layout>
-    </adminhtml>
 </config>
