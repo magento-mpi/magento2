@@ -57,7 +57,7 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         return $this->_dataServiceMock;
     }
 
-    public function setup()
+    public function setUp()
     {
         $this->_configMock = $this->getMock(
             'Mage_Core_Model_DataService_ConfigInterface', array(), array(), "", false
