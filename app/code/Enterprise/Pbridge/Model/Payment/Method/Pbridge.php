@@ -227,7 +227,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         parent::validate();
         if (!$this->getPbridgeResponse('token')) {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Bridge authentication data is not present'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__("We can't find the Payment Bridge authentication data."));
         }
         return $this;
     }
@@ -382,7 +382,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             return $api->getResponse();
 
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Impossible to issue a refund transaction, because capture transaction does not exist.'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__("We can't issue a refund transaction because the capture transaction does not exist. "));
         }
     }
 
@@ -404,7 +404,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $this->_getApi()->doVoid($request);
 
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Authorization transaction is required to void.'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('You need an authorization transaction to void.'));
         }
         return $this->_getApi()->getResponse();
     }

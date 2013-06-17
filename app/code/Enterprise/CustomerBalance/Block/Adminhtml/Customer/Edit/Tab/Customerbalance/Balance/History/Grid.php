@@ -101,7 +101,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('is_customer_notified', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Customer notified?'),
+            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Customer notified'),
             'index'     => 'is_customer_notified',
             'type'      => 'options',
             'options'   => array(
@@ -114,7 +114,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('additional_info', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Additional information'),
+            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('More information'),
             'index'     => 'additional_info',
             'sortable'  => false,
         ));

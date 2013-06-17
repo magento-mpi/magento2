@@ -16,6 +16,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
 {
     public static function userAndRoleFixture()
     {
+        Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $user = Mage::getModel('Mage_User_Model_User');
         $user->setUsername('newuser')
             ->setFirstname('first_name')
@@ -38,6 +39,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
      * @param array $post
      * @dataProvider adminActionDataProvider
      * @magentoDataFixture userAndRoleFixture
+     * @magentoAppArea adminhtml
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {

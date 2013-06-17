@@ -415,6 +415,11 @@
                 </observers>
             </sales_order_place_after>
         </events>
+        <di>
+            <Mage_Sales_Model_Resource_Report>
+                <shared>0</shared>
+            </Mage_Sales_Model_Resource_Report>
+        </di>
     </global>
     <frontend>
         <secure_url>
@@ -492,31 +497,31 @@
             <catalog_product_delete_before>
                 <observers>
                     <sales_quote_observer>
-                        <class>Mage_Sales_Model_Observer</class>
-                        <method>substractQtyFromQuotes</method>
+                        <class>Mage_Sales_Model_Observer_Backend_CatalogProductQuote</class>
+                        <method>subtractQtyFromQuotes</method>
                     </sales_quote_observer>
                 </observers>
             </catalog_product_delete_before>
             <catalogrule_before_apply>
                 <observers>
                     <sales_quote_observer>
-                        <class>Mage_Sales_Model_Observer</class>
-                        <method>markQuotesRecollectOnCatalogRules</method>
+                        <class>Mage_Sales_Model_Observer_Backend_CatalogPriceRule</class>
+                        <method>dispatch</method>
                     </sales_quote_observer>
                 </observers>
             </catalogrule_before_apply>
             <catalogrule_after_apply>
                 <observers>
                     <sales_quote_observer>
-                        <class>Mage_Sales_Model_Observer</class>
-                        <method>markQuotesRecollectOnCatalogRules</method>
+                        <class>Mage_Sales_Model_Observer_Backend_CatalogPriceRule</class>
+                        <method>dispatch</method>
                     </sales_quote_observer>
                 </observers>
             </catalogrule_after_apply>
             <catalog_product_save_after>
                 <observers>
                     <sales_quote>
-                        <class>Mage_Sales_Model_Observer</class>
+                        <class>Mage_Sales_Model_Observer_Backend_CatalogProductQuote</class>
                         <method>catalogProductSaveAfter</method>
                     </sales_quote>
                 </observers>
@@ -524,7 +529,7 @@
             <catalog_product_status_update>
                 <observers>
                     <sales_quote>
-                        <class>Mage_Sales_Model_Observer</class>
+                        <class>Mage_Sales_Model_Observer_Backend_CatalogProductQuote</class>
                         <method>catalogProductStatusUpdate</method>
                     </sales_quote>
                 </observers>
@@ -532,24 +537,24 @@
             <catalog_product_edit_form_render_recurring>
                 <observers>
                     <payment>
-                        <class>Mage_Sales_Model_Observer</class>
-                        <method>prepareProductEditFormRecurringProfile</method>
+                        <class>Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer</class>
+                        <method>render</method>
                     </payment>
                 </observers>
             </catalog_product_edit_form_render_recurring>
             <payment_method_is_active>
                 <observers>
                     <sales_billing_agreement>
-                        <class>Mage_Sales_Model_Observer</class>
-                        <method>restrictAdminBillingAgreementUsage</method>
+                        <class>Mage_Sales_Model_Observer_Backend_BillingAgreement</class>
+                        <method>dispatch</method>
                     </sales_billing_agreement>
                 </observers>
             </payment_method_is_active>
             <customer_save_after>
                 <observers>
                     <customer>
-                        <class>Mage_Sales_Model_Observer</class>
-                        <method>customerSaveAfter</method>
+                        <class>Mage_Sales_Model_Observer_Backend_CustomerQuote</class>
+                        <method>dispatch</method>
                     </customer>
                 </observers>
             </customer_save_after>

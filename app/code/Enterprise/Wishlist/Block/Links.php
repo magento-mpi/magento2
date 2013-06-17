@@ -37,11 +37,11 @@ class Enterprise_Wishlist_Block_Links extends Mage_Wishlist_Block_Links
     {
         if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
             if ($count > 1) {
-                return $this->__('My Wishlists (%d items)', $count);
+                return $this->__('My Wish Lists (%d items)', $count);
             } else if ($count == 1) {
-                return $this->__('My Wishlists (%d item)', $count);
+                return $this->__('My Wish Lists (%d item)', $count);
             } else {
-                return $this->__('My Wishlists');
+                return $this->__('My Wish Lists');
             }
         } else {
             return parent::_createLabel($count);

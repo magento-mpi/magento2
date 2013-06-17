@@ -39,7 +39,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 
     public function accountsAction()
     {
-        $this->_title($this->__('New Accounts'));
+        $this->_title($this->__('New Accounts Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_customers_accounts')
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 
     public function ordersAction()
     {
-        $this->_title($this->__('Customers by Number of Orders'));
+        $this->_title($this->__('Order Count Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_customers_orders')
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 
     public function totalsAction()
     {
-        $this->_title($this->__('Customers by Orders Total'));
+        $this->_title($this->__('Order Total Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_customers_totals')
@@ -148,16 +148,16 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'accounts':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::accounts');
+                return $this->_authorization->isAllowed('Mage_Reports::accounts');
                 break;
             case 'orders':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::customers_orders');
+                return $this->_authorization->isAllowed('Mage_Reports::customers_orders');
                 break;
             case 'totals':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::totals');
+                return $this->_authorization->isAllowed('Mage_Reports::totals');
                 break;
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::customers');
+                return $this->_authorization->isAllowed('Mage_Reports::customers');
                 break;
         }
     }

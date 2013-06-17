@@ -26,12 +26,12 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
         $items = array();
 
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::global_search')) {
+        if (!$this->_authorization->isAllowed('Mage_Adminhtml::global_search')) {
             $items[] = array(
                 'id' => 'error',
                 'type' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Error'),
                 'name' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Access Denied'),
-                'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('You have not enough permissions to use this functionality.')
+                'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('You need more permissions to do this.')
             );
             $totalCount = 1;
         } else {
@@ -49,7 +49,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                 $query = $this->getRequest()->getParam('query', '');
                 foreach ($searchModules->children() as $searchConfig) {
 
-                    if ($searchConfig->acl && !Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($searchConfig->acl)){
+                    if ($searchConfig->acl && !$this->_authorization->isAllowed($searchConfig->acl)){
                         continue;
                     }
 

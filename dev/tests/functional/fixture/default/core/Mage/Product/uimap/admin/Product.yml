@@ -12,7 +12,7 @@
 manage_products:
     mca: catalog_product/
     click_xpath: //div[@class='submenu']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Inventory / Products / Magento Admin
+    title: Products / Inventory / Products / Magento Admin
     uimap: &manageProductsUimap
         form:
             fieldsets:
@@ -53,11 +53,11 @@ manage_products:
             add_new_product_split_select: //*[@data-ui-id='products-list-add-new-button-dropdown']
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
-            success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
-            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been deleted.')]
-            success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been duplicated.')]
-            success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been created.')]
-            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]
+            success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedProducts% record(s) have been deleted.')]
+            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the product.')]
+            success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'You duplicated the product.')]
+            success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'You created the product.')]
+            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the product.')]
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
             incorrect_sku_length: //*[@class='mage-error' and text()='Maximum length of this field must be equal or less than 64 symbols.']
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
@@ -68,24 +68,24 @@ manage_products:
             select_type_of_option: //*[@class='mage-error' and @for='product_option_%optionId%_type' and contains(., 'Select type of option')]
             confirmation_for_delete: Are you sure?
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
-            success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
-            success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]
+            success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyUpdatedProducts% record(s) have been updated.')]
+            success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyUpdatedAtrProducts% record(s) were updated')]
             category_name_required: //div[@id='advice-required-entry-new_category_name']
             parent_name_required: //div[@id='advice-required-entry-new_category_parent']
             parent_name_existent: //div[@id='advice-validate-parent-category-new_category_parent']
             attribute_set_html: //*[@class='mage-error' and @for='%fieldId%' and contains(., 'HTML tags are not allowed')]
-            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
+            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute set with the "%attributeSetName%" name already exists.')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Inventory / Products / Magento Admin
+    title: Products / Inventory / Products / Magento Admin
     uimap: *manageProductsUimap
 
 # Add New Product page
 new_product:
     mca: catalog_product/new/set/%setId%/type/%productType%/
-    title: New Product / Manage Products / Inventory / Products / Magento Admin
+    title: New Product / Products / Inventory / Products / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
             fieldsets: &new_product_fieldsets
@@ -96,7 +96,7 @@ new_product:
                             attribute_set_toggle: //*[@class='action-toggle']
                             attribute_set_toggle_disabled: //*[@class='action-toggle disabled']
                         fields:
-                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@calss, 'mage-suggest-state-loading'))]
+                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@class, 'mage-suggest-state-loading'))]
                         links:
                             attribute_set: //a[@role='menuitem' and text()='%attributeSet%']
                             show_all_attribute_sets: //a[@role='menuitem' and text()='Show all...']
@@ -154,7 +154,7 @@ new_product:
                                         general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
-                                        general_categories: //input[@id='category_ids-suggest'][not(@class='mage-suggest-state-loading')]
+                                        general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
@@ -282,15 +282,15 @@ new_product:
                                 grouped_associated_products:
                                     xpath: //*[@id='grouped_product_container']
                                     buttons:
-                                        add_products_to_group: //button[@id='grouped-add-products']
+                                        add_products_to_group: //button[@data-role='add-product']
                                         remove_product_from_group: //tr[td[normalize-space(text())='%productSku%']]//button[text()='Delete']
                                     fields:
-                                        associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//input[@name='qty']
+                                        associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//td[@data-column='qty']/input
                                     links:
-                                        move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='draggable-handle']
                                     pageelements:
-                                        selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
                                         grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[@data-column='sku']
+                                        selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
                             -
                                 bundle_items:
                                     xpath: //*[@id='bundle_product-wrapper']
@@ -340,7 +340,7 @@ new_product:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        add_selected_products: //button[span='Add Products']
+                                        add_selected_products: //button[span='Add Selected Products']
                                         cancel_select_products: //button[span='Cancel']
                                     links:
                                         close_select_product_grid: //a[span='close']
@@ -727,7 +727,7 @@ new_product:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
-            save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
+            save_split_select: //button[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
             save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
         messages: *productMesssages
@@ -735,7 +735,7 @@ new_product:
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/
-    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
+    title: %elementTitle% / Products / Inventory / Products / Magento Admin
     uimap: &editProduct
         form:
             fieldsets: *new_product_fieldsets
@@ -817,27 +817,27 @@ edit_product:
 
 new_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
+    title: %elementTitle% / Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 edit_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
+    title: %elementTitle% / Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 edit_duplicated_product:
     mca: catalog_product/edit/id/%id%/active_tab/%tab%/
-    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
+    title: %elementTitle% / Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
-    title: New Product / Manage Products / Inventory / Products / Magento Admin
+    title: New Product / Products / Inventory / Products / Magento Admin
     uimap: *newProduct
 
 edit_product_after_changed_attribute_set:
     mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
+    title: %elementTitle% / Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 updating_products:

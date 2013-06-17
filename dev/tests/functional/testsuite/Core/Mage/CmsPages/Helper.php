@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_CmsPages
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Helper class
  *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
 {
@@ -29,6 +20,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         $cmsVars['content'] = (isset($pageData['content'])) ? $pageData['content'] : array();
         $cmsVars['design'] = (isset($pageData['design'])) ? $pageData['design'] : array();
         $cmsVars['metaData'] = (isset($pageData['meta_data'])) ? $pageData['meta_data'] : array();
+        $cmsVars['additional_tabs'] = (isset($pageData['additional_tabs'])) ? $pageData['additional_tabs'] : array();
         return $cmsVars;
     }
 
@@ -69,6 +61,11 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
             $this->fillTab($cmsVars['design'], 'design');
         }
         $this->_cmsFillTab($cmsVars['metaData']);
+        if (isset($cmsVars['additional_tabs'])) {
+            foreach ($cmsVars['additional_tabs'] as $tabName => $data) {
+                $this->fillTab($data, $tabName);
+            }
+        }
         $this->saveForm('save_page');
     }
 
@@ -104,13 +101,13 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return bool
      */
-    public function insertWidget(array $widgetData)
+    public function insertWidget(array $widgetData, $button)
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
         if ($this->controlIsPresent('fieldset', 'wysiwyg_editor_buttons')) {
             $this->clickControl('link', 'wysiwyg_insert_widget', false);
         } else {
-            $this->clickButton('insert_widget', false);
+            $this->clickButton($button, false);
         }
         $this->waitForControlVisible('dropdown', 'widget_type');
         $this->fillFieldset($widgetData, 'widget_insertion');
@@ -142,7 +139,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
 
         $rowNames = array('Title', 'Product Name');
         $title = 'Not Selected';
-        $xpath = $this->_getControlXpath('pageelement', 'every_popup');
+        $xpath = $this->_getControlXpath('fieldset', $name);
         if (array_key_exists('category_path', $optionData)) {
             $this->addParameter('widgetParam', $xpath);
             $nodes = explode('/', $optionData['category_path']);
@@ -191,12 +188,12 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param string $variable
      */
-    public function insertVariable($variable)
+    public function insertVariable($variable, $button = 'insert_variable')
     {
         if ($this->controlIsPresent('link', 'wysiwyg_insert_variable')) {
             $this->clickControl('link', 'wysiwyg_insert_variable', false);
         } else {
-            $this->clickButton('insert_variable', false);
+            $this->clickButton($button, false);
         }
         $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));
         $this->addParameter('variableName', $variable);
@@ -298,5 +295,22 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         return $found;
+    }
+
+    /**
+     * Open CMSPage on frontend
+     *
+     * @param array $pageData
+     */
+    public function frontOpenCmsPage(array $pageData)
+    {
+        $this->addParameter('url_key', $pageData['page_information']['url_key']);
+        $this->addParameter('elementTitle', $pageData['page_information']['page_title']);
+        if (array_key_exists('content', $pageData)) {
+            if (array_key_exists('content_heading', $pageData['content'])) {
+                $this->addParameter('content_heading', $pageData['content']['content_heading']);
+            }
+        }
+        $this->frontend('test_page');
     }
 }

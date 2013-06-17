@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,9 +31,12 @@ $bodyCss = $this->getBodyClass() ? $this->getBodyClass() : '';
         <section class="page main">
             <?php echo $this->getChildHtml('columns_top') ?>
             <div class="columns">
-                <?php 
+                <?php
                     echo $this->getChildHtml('main');
+                    // Inside of <php> to avoid spaces between tags
+                    echo '<div class="column left sidebar">';
                     echo $this->getChildHtml('left');
+                    echo '</div>';
                 ?>
             </div>
         </section>

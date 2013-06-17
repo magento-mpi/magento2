@@ -28,6 +28,7 @@
         <di>
             <preferences>
                 <Saas_Saas_Model_Limitation_SpecificationInterface>Saas_Saas_Model_Limitation_Specification_Composite</Saas_Saas_Model_Limitation_SpecificationInterface>
+                <Mage_Core_Model_Cache>Saas_Saas_Model_Cache</Mage_Core_Model_Cache>
             </preferences>
             <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
@@ -36,6 +37,13 @@
             </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>
     </global>
+    <frontend>
+        <design>
+            <theme>
+                <full_name>magento2/reference</full_name>
+            </theme>
+        </design>
+    </frontend>
     <adminhtml>
         <di>
             <preferences>
@@ -53,4 +61,11 @@
             </core_config_data_save_before>
         </events>
     </adminhtml>
+    <default>
+        <web>
+             <forbiddenForRedirectAreas>
+                <vde></vde>
+            </forbiddenForRedirectAreas>
+        </web>
+    </default>
 </config>

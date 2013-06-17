@@ -18,12 +18,12 @@ class Mage_AdminNotification_Block_Grid_Renderer_Severity
     protected $_notice;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Context $context
      * @param Mage_AdminNotification_Model_Inbox $notice
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Context $context,
         Mage_AdminNotification_Model_Inbox $notice,
         array $data = array()
     ) {

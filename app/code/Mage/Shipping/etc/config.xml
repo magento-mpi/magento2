@@ -88,7 +88,7 @@
                 <price>5.00</price>
                 <title>Flat Rate</title>
                 <type>I</type>
-                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <handling_type>F</handling_type>
             </flatrate>
             <freeshipping>
@@ -98,7 +98,7 @@
                 <model>Mage_Shipping_Model_Carrier_Freeshipping</model>
                 <name>Free</name>
                 <title>Free Shipping</title>
-                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
             </freeshipping>
             <tablerate>
                 <active>0</active>
@@ -108,7 +108,7 @@
                 <model>Mage_Shipping_Model_Carrier_Tablerate</model>
                 <name>Table Rate</name>
                 <title>Best Way</title>
-                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <handling_type>F</handling_type>
             </tablerate>
         </carriers>

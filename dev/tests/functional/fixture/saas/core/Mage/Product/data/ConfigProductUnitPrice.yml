@@ -1,0 +1,17 @@
+#
+# {license_notice}
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+unitprice_default_prod_pricetab:
+    unit_price_allow_display: Yes
+    unit_price_measure_for_base_prod_pricetab: "Kilogram (kg)"
+    unit_price_measure_for_unit_prod_pricetab: "Kilogram (kg)"
+    unit_price_unit_prod_volume: 1
+    unit_price_one_item_based_prod_volume: 1
+

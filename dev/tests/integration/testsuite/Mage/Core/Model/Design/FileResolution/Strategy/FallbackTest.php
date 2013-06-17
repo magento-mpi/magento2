@@ -36,7 +36,6 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
     {
         // Prepare config with directories
         $dirs = new Mage_Core_Model_Dir(
-            Mage::getObjectManager()->get('Magento_Filesystem'),
             $this->_baseDir,
             array(),
             array(Mage_Core_Model_Dir::THEMES => $this->_viewDir)

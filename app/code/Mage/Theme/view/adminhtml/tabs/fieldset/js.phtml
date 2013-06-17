@@ -40,29 +40,27 @@
 </div>
 
 <div class="no-display" id="no-js-files-found-template">
-    <span class="filename"><?php echo $this->__('No files found') ?></span>
+    <span class="filename"><?php echo $this->__('We found no files.') ?></span>
 </div>
 
 
 <ul id="js-files-container" class="js-files-container ui-sortable" ></ul>
 
 <script type="text/javascript">
-(function($) {
-    $(function() {
-        $('.ui-sortable').sortable();
-        $('.ui-sortable').disableSelection();
+jQuery(function($) {
+    $('.ui-sortable').sortable();
+    $('.ui-sortable').disableSelection();
 
-        $('#js-files-container').themeJsList({
-            templateId : '#js-uploaded-file-template',
-            emptyTemplateId : '#no-js-files-found-template',
-            refreshFileListEvent : 'refreshJsList',
-            prefixItemId : 'js-file-'
-        });
-        $('body').trigger('refreshJsList', {
-            jsList : <?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')->jsonEncode(
-                $this->getJsFiles()->getFilesInfo()
-            ) ?>
-        });
+    $('#js-files-container').themeJsList({
+        templateId : '#js-uploaded-file-template',
+        emptyTemplateId : '#no-js-files-found-template',
+        refreshFileListEvent : 'refreshJsList',
+        prefixItemId : 'js-file-'
     });
-})(jQuery);
+    $('body').trigger(
+        'refreshJsList',
+        {jsList: <?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')
+            ->jsonEncode($this->getJsFiles()->getFilesInfo()) ?>}
+    );
+});
 </script>

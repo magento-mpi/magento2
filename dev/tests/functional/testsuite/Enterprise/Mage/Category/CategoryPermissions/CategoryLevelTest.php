@@ -69,44 +69,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
     }
 
     /**
-     * <p>Set up several permissions for category</p>
-     *
-     * @param array $testData
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5030, TL-MAGE-5040
-     */
-    public function allowAll($testData)
-    {
-        //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-            array('allow_browsing' => 'No, Redirect to Landing Page'));
-        $permission = $this->loadDataSet('Category', 'permissions_allow_all');
-        $this->addParameter('productName', $testData['product']['name']);
-        $this->addParameter('price', '$' . $testData['product']['price']);
-        $this->addParameter('catName', $testData['catName']);
-        //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
-        $this->navigate('manage_categories');
-        $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->categoryHelper()->addNewCategoryPermissions($permission);
-        $this->saveForm('save_category', false);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->flushCache();
-        $this->frontend();
-        $this->assertTrue($this->controlIsPresent('button', 'category_button'));
-        $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->categoryHelper()->frontOpenCategory($testData['catName']);
-        $this->assertTrue($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" must be present');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
-        $this->productHelper()->frontOpenProduct($testData['product']['name']);
-        $this->assertTrue($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" must be present');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
-    }
-
-    /**
      * <p>Enable Category Permissions</p>
      *
      * @param array $testData
@@ -149,6 +111,44 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
             'Radiobutton "add_to_cart_use_parent" is absent');
         $this->assertTrue($this->controlIsPresent('button', 'delete_permissions'),
             'Button "delete_permissions" is absent');
+    }
+
+    /**
+     * <p>Set up several permissions for category</p>
+     *
+     * @param array $testData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-5030, TL-MAGE-5040
+     */
+    public function allowAll($testData)
+    {
+        //Data
+        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
+            array('allow_browsing' => 'No, Redirect to Landing Page'));
+        $permission = $this->loadDataSet('Category', 'permissions_allow_all');
+        $this->addParameter('productName', $testData['product']['name']);
+        $this->addParameter('price', '$' . $testData['product']['price']);
+        $this->addParameter('catName', $testData['catName']);
+        //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->flushCache();
+        $this->frontend();
+        $this->assertTrue($this->controlIsPresent('button', 'category_button'));
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->categoryHelper()->frontOpenCategory($testData['catName']);
+        $this->assertTrue($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" must be present');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
+        $this->productHelper()->frontOpenProduct($testData['product']['name']);
+        $this->assertTrue($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" must be present');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
     }
 
     /**
@@ -214,31 +214,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
     }
 
     /**
-     * <p>Deny Browsing Category</p>
-     *
-     * @param array $testData
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5020
-     */
-    public function denyBrowsingCategory($testData)
-    {
-        //Data
-        $permission = $this->loadDataSet('Category', 'permissions_deny_browsing_category');
-        $this->addParameter('catName', $testData['catName']);
-        //Steps
-        $this->navigate('manage_categories');
-        $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->categoryHelper()->addNewCategoryPermissions($permission);
-        $this->saveForm('save_category', false);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->flushCache();
-        $this->frontend();
-        $this->assertFalse($this->controlIsPresent('button', 'category_button'));
-    }
-
-    /**
      * <p>Set up several permissions for category</p>
      *
      * @param array $testData
@@ -301,6 +276,31 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->navigate('my_wishlist');
         $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price should be absent');
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
+    }
+
+    /**
+     * <p>Deny Browsing Category</p>
+     *
+     * @param array $testData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-5020
+     */
+    public function denyBrowsingCategory($testData)
+    {
+        //Data
+        $permission = $this->loadDataSet('Category', 'permissions_deny_browsing_category');
+        $this->addParameter('catName', $testData['catName']);
+        //Steps
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->flushCache();
+        $this->frontend();
+        $this->assertFalse($this->controlIsPresent('button', 'category_button'));
     }
 
     /**

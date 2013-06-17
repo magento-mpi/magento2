@@ -11,16 +11,17 @@
 
 /**
  * Test class for Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
+ * @magentoAppArea adminhtml
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_GeneralTest
     extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
         /** @var $model Mage_Customer_Model_Attribute */
         $model = Mage::getModel('Mage_Customer_Model_Attribute');

@@ -18,20 +18,35 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->setUseContainer(true);
+    }
+
+
+    /**
      * Form preparation
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Varien_Data_Form(array('id' => 'new_category_form'));
+        $form->setUseContainer($this->getUseContainer());
 
         $form->addField('new_category_messages', 'note', array());
 
-        $fieldset = $form->addFieldset('new_category_form', array());
+        $fieldset = $form->addFieldset('new_category_form_fieldset', array());
 
         $fieldset->addField('new_category_name', 'text', array(
             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
             'required' => true,
+            'name'     => 'new_category_name',
         ));
 
         $fieldset->addField('new_category_parent', 'select', array(
@@ -40,6 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'required' => true,
             'options'  => array(),
             'class'    => 'validate-parent-category',
+            'name'     => 'new_category_parent',
         ));
 
         $this->setForm($form);
@@ -64,7 +80,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
     {
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
-        $widgetUrl = $coreHelper->jsonEncode($this->getViewFileUrl('Mage_Catalog::js/new-category-dialog.js'));
         $widgetOptions = $coreHelper->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
@@ -77,10 +92,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
         ));
         return <<<HTML
 <script>
-    head.js($widgetUrl, function () {
-        jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
-            $('#new-category').mage('newCategoryDialog', $widgetOptions);
-        });
+    jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
+        $('#new-category').mage('newCategoryDialog', $widgetOptions);
     });
 </script>
 HTML;

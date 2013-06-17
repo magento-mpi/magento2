@@ -378,7 +378,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
                     break;
                 default:
-                    Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Content Type.'));
+                    Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Content Type'));
             }
         }
         $methods = array();
@@ -603,8 +603,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
                            $checkWeight = false;
-                       } else {
-                           $itemWeight = $itemWeight * $item->getQty();
                        }
                    }
                 } else {
@@ -974,7 +972,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     }
                     if (!isset($rates[$currencyCode]) || !$totalEstimate) {
                         $totalEstimate = false;
-                        $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__("Exchange rate %s (Base Currency) -> %s not found. DHL method %s skipped", $currencyCode, $baseCurrencyCode, $dhlProductDescription);
+                        $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('We had to skip DHL method %s because we couldn\'t find exchange rate %s (Base Currency).', $currencyCode, $baseCurrencyCode, $dhlProductDescription);
                     }
                 }
             }
@@ -1203,7 +1201,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         )->getRegion();
 
         if (!$originRegion) {
-            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Region.'));
+            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Region'));
         }
 
         if ($originRegion == 'AM') {

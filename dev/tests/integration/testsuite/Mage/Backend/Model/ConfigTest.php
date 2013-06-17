@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_DataTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers Mage_Backend_Model_Config::save
@@ -73,8 +76,8 @@ class Mage_Backend_Model_Config_DataTest extends Mage_Backend_Area_TestCase
             ->setGroups($groups)
             ->save();
 
-        $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         foreach ($expected as $group => $expectedData) {
+            $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
             $_configData = $_configDataObject->setSection($group)
                 ->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {

@@ -137,12 +137,13 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
             ->method('getTable')
             ->will($this->returnValue(self::MAIN_TABLE));
 
+        $fetchStrategy = $this->getMockForAbstractClass('Varien_Data_Collection_Db_FetchStrategyInterface');
+
         $this->_collection = $this->getMock(
             'Enterprise_CatalogEvent_Model_Resource_Event_Collection',
             array('setModel'),
-            array($application, $resource),
-            '',
-            true, true);
+            array($fetchStrategy, $application, $resource)
+        );
     }
 
     protected function tearDown()

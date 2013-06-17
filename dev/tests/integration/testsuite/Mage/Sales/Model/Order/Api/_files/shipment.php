@@ -6,6 +6,7 @@
  * @license {license_link}
  */
 
+Mage::app()->loadArea('frontend');
 include 'order_with_shipping.php';
 /** @var Mage_Sales_Model_Order $order */
 

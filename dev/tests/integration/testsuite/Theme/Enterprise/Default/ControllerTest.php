@@ -22,12 +22,14 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     protected function _assertContainsJqZoom($content)
     {
         $this->assertContains('http://localhost/pub/lib/jquery/jquery.js', $content);
-        $this->assertContains('/js/jqzoom/js/jquery.jqzoom-core-pack.js', $content);
-        $this->assertContains('/js/jqzoom/css/jquery.jqzoom.css', $content);
+        $this->assertContains('/pub/lib/jquery/jqzoom/js/jquery.jqzoom-core-pack.js', $content);
+        $this->assertContains('/pub/lib/jquery/jqzoom/css/jquery.jqzoom.css', $content);
     }
 
     /**
      * @magentoConfigFixture frontend/design/theme/full_name enterprise/fixed
+     * @magentoConfigFixture current_store dev/js/merge_files 0
+     * @magentoConfigFixture current_store dev/js/minify_files 0
      */
     public function testCatalogProductView()
     {
@@ -37,6 +39,8 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
 
     /**
      * @magentoConfigFixture frontend/design/theme/full_name enterprise/fixed
+     * @magentoConfigFixture current_store dev/js/merge_files 0
+     * @magentoConfigFixture current_store dev/js/minify_files 0
      */
     public function testReviewProductList()
     {

@@ -13,6 +13,7 @@
     <modules>
         <Enterprise_AdminGws><active>true</active></Enterprise_AdminGws>
         <Enterprise_Banner><active>true</active></Enterprise_Banner>
+        <Enterprise_BannerCustomerSegment><active>true</active></Enterprise_BannerCustomerSegment>
         <Enterprise_CatalogEvent><active>true</active></Enterprise_CatalogEvent>
         <Enterprise_CatalogPermissions><active>true</active></Enterprise_CatalogPermissions>
         <Enterprise_Checkout><active>true</active></Enterprise_Checkout>
@@ -36,12 +37,13 @@
         <Enterprise_Persistent><active>true</active></Enterprise_Persistent>
         <Enterprise_PricePermissions><active>true</active></Enterprise_PricePermissions>
         <Enterprise_PromotionPermissions><active>true</active></Enterprise_PromotionPermissions>
+        <Enterprise_Queue><active>false</active></Enterprise_Queue>
         <Enterprise_Reminder><active>true</active></Enterprise_Reminder>
         <Enterprise_Reward><active>true</active></Enterprise_Reward>
         <Enterprise_Rma><active>true</active></Enterprise_Rma>
         <Enterprise_SalesArchive><active>true</active></Enterprise_SalesArchive>
         <Enterprise_Search><active>true</active></Enterprise_Search>
-        <Enterprise_Tag><active>true</active></Enterprise_Tag>
+        <Enterprise_Tag><active>false</active></Enterprise_Tag>
         <Enterprise_TargetRule><active>true</active></Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction><active>true</active></Enterprise_WebsiteRestriction>
         <Enterprise_Wishlist><active>true</active></Enterprise_Wishlist>

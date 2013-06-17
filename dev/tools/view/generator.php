@@ -46,7 +46,7 @@ try {
     $config = new Generator_Config(BP, $options);
 
     $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-    $dirs = new Mage_Core_Model_Dir($filesystem, $config->getSourceDir());
+    $dirs = new Mage_Core_Model_Dir($config->getSourceDir());
     $objectManager = new Magento_ObjectManager_ObjectManager();
 
     $themes = new Mage_Core_Model_Theme_Collection($filesystem, $objectManager, $dirs);
@@ -57,7 +57,9 @@ try {
     $generator = new Generator_CopyRule($filesystem, $themes, $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
 
+    $cssHelper = new Mage_Core_Helper_Css($filesystem, $dirs);
     $deployment = new Generator_ThemeDeployment(
+        $cssHelper,
         $config->getDestinationDir(),
         __DIR__ . '/config/permitted.php',
         __DIR__ . '/config/forbidden.php',

@@ -26,7 +26,7 @@
                 </field>
                 <field id="http_redirect" translate="label comment" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Startup Page</label>
-                    <comment>Applicable only in "Private Sales" mode.</comment>
+                    <comment>Applicable only if restriction mode is set to "Private Sales".</comment>
                     <source_model>Enterprise_WebsiteRestriction_Model_System_Config_Source_Redirect</source_model>
                 </field>
                 <field id="cms_page" translate="label" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -35,7 +35,7 @@
                 </field>
                 <field id="http_status" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>HTTP Response</label>
-                    <comment>Applicable only if restriction mode is "Website Closed". Landing page is rendered as raw HTML.</comment>
+                    <comment>Applicable only if restriction mode is set to "Website Closed". The landing page is rendered as raw HTML.</comment>
                     <source_model>Enterprise_WebsiteRestriction_Model_System_Config_Source_Http</source_model>
                 </field>
             </group>

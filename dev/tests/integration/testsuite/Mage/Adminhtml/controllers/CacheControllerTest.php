@@ -6,6 +6,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_CacheControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
@@ -117,8 +120,16 @@ class Mage_Adminhtml_CacheControllerTest extends Mage_Backend_Utility_Controller
     public function massActionsDataProvider()
     {
         return array(
-            'no types'           => array(array()),
-            'existing types'     => array(array('config', 'layout', 'block_html')),
+            'no types' => array(
+                array()
+            ),
+            'existing types' => array(
+                array(
+                    Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER,
+                    Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER,
+                    Mage_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER,
+                )
+            ),
         );
     }
 

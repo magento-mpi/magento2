@@ -33,10 +33,18 @@ return function (array $params)
         readfile($robotsFile);
         return;
     }
+    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) {
+        /**
+         * Hot fix for nginx. Zend_Controller_Request_Http::isSecure
+         * works incorrectly in nginx and it leads to infinite loop
+         */
+        $_SERVER['HTTPS'] = "on";
+    }
 
+    $appParams = $config->getApplicationParams();
     Magento_Profiler::start('mage');
-    $entryPoint = new Mage_Core_Model_EntryPoint_Http(
-        new Mage_Core_Model_Config_Primary($rootDir, $config->getApplicationParams())
+    $entryPoint = new Saas_Core_Model_EntryPoint_Http(
+        new Mage_Core_Model_Config_Primary($rootDir, $appParams)
     );
     $entryPoint->processRequest();
     Magento_Profiler::stop('mage');

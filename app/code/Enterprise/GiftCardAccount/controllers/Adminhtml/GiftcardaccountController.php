@@ -62,7 +62,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         $model = $this->_initGca();
 
         if (!$model->getId() && $id) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('This Gift Card Account no longer exists.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('This gift card account has been deleted.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -100,7 +100,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
             $id = $this->getRequest()->getParam('giftcardaccount_id');
             $model = $this->_initGca('giftcardaccount_id');
             if (!$model->getId() && $id) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('This Gift Card Account no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('This gift card account has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -136,15 +136,15 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
                 if (!is_null($sending)) {
                     if ($sending) {
-                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('The gift card account has been saved and sent.'));
+                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('You saved the gift card account.'));
                     } else {
-                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('The gift card account has been saved, but email was not sent.'));
+                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('You saved the gift card account, but an email was not sent.'));
                     }
                 } else {
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('The gift card account has been saved.'));
+                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('You saved the gift card account.'));
 
                     if ($status) {
-                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Email was not sent because the gift card account is not active.'));
+                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('An email was not sent because the gift card account is not active.'));
                     }
                 }
 
@@ -186,7 +186,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 $model->load($id);
                 $model->delete();
                 // display success message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Account has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('This gift card account has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
@@ -200,7 +200,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
             }
         }
         // display error message
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Unable to find a Gift Card Account to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__("We couldn't find a gift card account to delete."));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -230,7 +230,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addException($e, Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Unable to generate new code pool.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addException($e, Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('We were unable to generate a new code pool.'));
         }
         $this->_redirectReferer('*/*/');
     }
@@ -242,8 +242,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed('Enterprise_GiftCardAccount::customer_giftcardaccount');
+        return $this->_authorization->isAllowed('Enterprise_GiftCardAccount::customer_giftcardaccount');
     }
 
     /**
@@ -313,7 +312,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
     {
         $ids = $this->getRequest()->getParam('giftcardaccount');
         if (!is_array($ids)) {
-            $this->_getSession()->addError($this->__('Please select gift card account(s)'));
+            $this->_getSession()->addError($this->__('Please select a gift card account(s)'));
         } else {
             try {
                 foreach ($ids as $id) {
@@ -322,7 +321,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 }
 
                 $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) have been deleted.', count($ids))
+                    $this->__('You deleted a total of %s records.', count($ids))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

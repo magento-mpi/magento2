@@ -70,7 +70,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
                 Mage::getModel('Enterprise_Reward_Model_Reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The orphan points have been removed.'));
+                    ->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('You removed the orphan points.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
@@ -85,7 +85,6 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
+        return $this->_authorization->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
 }

@@ -22,7 +22,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _initCategory($getRootInstead = false)
     {
-        $this->_title($this->__('Manage Categories'));
+        $this->_title($this->__('Categories'));
 
         $categoryId = (int)$this->getRequest()->getParam('id', false);
         $storeId    = (int)$this->getRequest()->getParam('store');
@@ -160,7 +160,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
                 'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
             ));
-            $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+            $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
                 array(
                     'response' => $eventResponse,
@@ -250,7 +250,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $refreshTree = 'false';
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $category->addData($data['general']);
+            $category->addData($this->_filterCategoryPostData($data['general']));
             if (!$category->getId()) {
                 $parentId = $this->getRequest()->getParam('parent');
                 if (!$parentId) {
@@ -290,7 +290,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 parse_str($data['category_products'], $products);
                 $category->setPostedProducts($products);
             }
-            $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+            $this->_eventManager->dispatch(
                 'catalog_category_prepare_save',
                 array(
                     'category' => $category,
@@ -334,7 +334,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 }
 
                 $category->save();
-                $this->_getSession()->addSuccess($this->__('The category has been saved.'));
+                $this->_getSession()->addSuccess($this->__('You saved the category.'));
                 $refreshTree = 'true';
             } catch (Exception $e){
                 $this->_getSession()->addError($e->getMessage())->setCategoryData($data);
@@ -363,13 +363,30 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     }
 
     /**
+     * Filter category data
+     *
+     * @param array $rawData
+     * @return array
+     */
+    protected function _filterCategoryPostData(array $rawData)
+    {
+        $data = $rawData;
+        // @todo It is a workaround to prevent saving this data in category model and it has to be refactored in future
+        if (isset($data['image']) && is_array($data['image'])) {
+            $data['image_additional_data'] = $data['image'];
+            unset($data['image']);
+        }
+        return $data;
+    }
+
+    /**
      * Move category action
      */
     public function moveAction()
     {
         $category = $this->_initCategory();
         if (!$category) {
-            $this->getResponse()->setBody($this->__('Category move error'));
+            $this->getResponse()->setBody($this->__('There was a category move error.'));
             return;
         }
         /**
@@ -387,7 +404,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         } catch (Mage_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
         } catch (Exception $e){
-            $this->getResponse()->setBody($this->__('Category move error %s', $e));
+            $this->getResponse()->setBody($this->__('There was a category move error %s', $e));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
 
@@ -402,20 +419,20 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if ($categoryId) {
             try {
                 $category = $this->_objectManager->create('Mage_Catalog_Model_Category')->load($categoryId);
-                $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+                $this->_eventManager->dispatch(
                     'catalog_controller_category_delete', array('category' => $category)
                 );
 
                 $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->setDeletedPath($category->getPath());
 
                 $category->delete();
-                $this->_getSession()->addSuccess($this->__('The category has been deleted.'));
+                $this->_getSession()->addSuccess($this->__('You deleted the category.'));
             } catch (Mage_Core_Exception $e){
                 $this->_getSession()->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
                 return;
             } catch (Exception $e){
-                $this->_getSession()->addError($this->__('An error occurred while trying to delete the category.'));
+                $this->_getSession()->addError($this->__('Something went wrong while trying to delete the category.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
                 return;
             }
@@ -506,6 +523,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::categories');
+        return $this->_authorization->isAllowed('Mage_Catalog::categories');
     }
 }

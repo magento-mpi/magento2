@@ -10,8 +10,9 @@
  */
 
 $data = array(
-    'name' => 'Customer Segment 1',
-    'is_active' => '1',
+    'name'        => 'Customer Segment 1',
+    'website_ids' => array(1),
+    'is_active'   => '1',
 );
 /** @var $segment Enterprise_CustomerSegment_Model_Segment */
 $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');

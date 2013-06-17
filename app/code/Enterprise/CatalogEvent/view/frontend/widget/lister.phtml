@@ -15,7 +15,8 @@
  */
 ?>
 <div class="widget widget-events">
-    <div id="<?php echo $this->getHtmlId(); ?>" class="events-slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
+    <div id="<?php echo $this->getHtmlId(); ?>"  data-mage-init="{carousel: { pageSize: <?php echo $this->getPageSize(); ?>,scrollSize: <?php echo $this->getScrollSize() ?>,toggleInit: true}}"
+         class="events-slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
     <div class="slide-button backward">&laquo;</div>
     <div class="slider-panel"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
         <ul class="slider">
@@ -43,14 +44,11 @@
 
         <?php break;
             case 'open': ?>
-            <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>">
+            <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>" data-mage-init="{ticker: {secondsToClose: <?php echo $this->getSecondsToClose($_event); ?>}}">
                 <div class="container">
-                    <span class="days">00</span><span class="delimiter">:</span><span class="hour">00</span><span class="delimiter">:</span><span class="minute">00</span><span class="delimiter">:</span><span class="second">00</span>
+                    <span data-container="days" class="days">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="hour" class="hour">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="minute" class="minute">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="second" class="second">00</span>
                 </div>
             </div>
-            <script type="text/javascript">
-            new Enterprise.CatalogEvent.Ticker('<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
-            </script>
             <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Go To Sale') ?></span></a>
 
         <?php break;
@@ -87,33 +85,4 @@
     </div>
     <div class="slide-button inactive forward">&raquo;</div>
     </div>
-    <script type="text/javascript">
-    //<![CDATA[
-    Enterprise.WidgetSlider = Class.create(Enterprise.Slider, {
-        initializeDimensions: function () {
-            if ((this.config.slideDirection == 'horizontal' && this.sliderPanel.style.width) ||
-                (this.config.slideDirection != 'horizontal' && this.sliderPanel.style.height)) {
-                return this;
-            }
-            if (this.config.slideDirection == 'horizontal') {
-                this.sliderPanel.setStyle({width: '100%'});
-                /* this.sliderPanel.setStyle({width: this.sliderPanel.up('div.widget-events').getWidth() + 'px'}); */
-            } else {
-                var firstItem = this.items.first();
-                var offset = 0;
-                offset = (parseInt(firstItem.getStyle('margin-bottom')) + parseInt(firstItem.getStyle('margin-top'))) * (this.config.pageSize - 1);
-                this.sliderPanel.setStyle({height: (firstItem.getDimensions().height * this.config.pageSize + offset) + 'px'});
-            }
-            var dimensions = this.sliderPanel.getDimensions();
-            var sliderParent = this.sliderPanel.up();
-            sliderParent.setStyle({
-                width: dimensions.width + 'px',
-                height: dimensions.height + 'px'
-            });
-            return this;
-        }
-    });
-    new Enterprise.WidgetSlider('<?php echo $this->getHtmlId(); ?>', {pageSize: <?php echo $this->getPageSize(); ?>, scrollSize: <?php echo $this->getScrollSize() ?>});
-    //]]>
-    </script>
 </div>

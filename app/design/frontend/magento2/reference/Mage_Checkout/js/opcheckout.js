@@ -346,8 +346,6 @@
                 continueSelector: '#payment-buttons-container .button',
                 form: '#co-payment-form',
                 methodsContainer: '#checkout-payment-method-load',
-                rewardPointsCheckBoxSelector: '#use-reward-points',
-                customerBalanceCheckBoxSelector: '#use-customer-balance',
                 freeInput: {
                     tmpl: '<input id="hidden-free" type="hidden" name="payment[method]" value="free">',
                     selector: '#hidden-free'
@@ -383,12 +381,6 @@
                 .on('contentUpdated', this.options.payment.form, $.proxy(function() {
                     $(this.options.payment.form).find('dd [name^="payment["]').prop('disabled', true);
                     var checkoutPrice = this.element.find(this.options.payment.form).find('[data-checkout-price]').data('checkout-price');
-                    $(this.options.payment.customerBalanceCheckBoxSelector)
-                        .prop({'checked':this.options.customerBalanceSubstracted,
-                            'disabled':false}).change().parent().show();
-                    $(this.options.payment.rewardPointsCheckBoxSelector)
-                        .prop({'checked':this.options.rewardPointsSubstracted,
-                            'disabled':false}).change().parent().show();
                     if ($.isNumeric(checkoutPrice)) {
                         this.checkoutPrice = checkoutPrice;
                     }

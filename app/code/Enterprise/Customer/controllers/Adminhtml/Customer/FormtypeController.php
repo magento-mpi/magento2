@@ -105,7 +105,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
             catch (Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while saving the form type.'));
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__("We can't save the form type right now."));
             }
             if ($hasError) {
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
@@ -243,7 +243,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
             catch (Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while saving the form type.'));
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__("We can't save the form type right now."));
             }
 
             if ($hasError) {
@@ -265,19 +265,19 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
         $formType = $this->_initFormType();
         if ($this->getRequest()->isPost() && $formType->getId()) {
             if ($formType->getIsSystem()) {
-                $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('System form type cannot be deleted.');
+                $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('This system form type cannot be deleted.');
                 $this->_getSession()->addError($message);
             } else {
                 try {
                     $formType->delete();
-                    $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('Form type has been deleted.');
+                    $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('The form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
                 }
                 catch (Mage_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
                 catch (Exception $e) {
-                    $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while deleting the form type.');
+                    $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('Something went wrong deleting the form type.');
                     $this->_getSession()->addException($e, $message);
                 }
             }
@@ -292,8 +292,6 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(
-            Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL
-        );
+        return $this->_authorization->isAllowed(null);
     }
 }

@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_User_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**

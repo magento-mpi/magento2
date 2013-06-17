@@ -41,7 +41,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function indexAction()
     {
-        $this->_title($this->__('General'));
+        $this->_title($this->__('Invitations Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_general')
@@ -79,7 +79,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function customerAction()
     {
-        $this->_title($this->__('Customers'));
+        $this->_title($this->__('Invited Customers Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_customer')
@@ -117,7 +117,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function orderAction()
     {
-        $this->_title($this->__('Order Conversion Rate'));
+        $this->_title($this->__('Conversion Rate Report'));
 
         $this->_initAction()->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_order')
             ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'),
@@ -157,7 +157,6 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     protected function _isAllowed()
     {
         return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabled() &&
-            Mage::getSingleton('Mage_Core_Model_Authorization')
-                ->isAllowed('Enterprise_Invitation::report_enterprise_invitation');
+            $this->_authorization->isAllowed('Enterprise_Invitation::report_enterprise_invitation');
     }
 }

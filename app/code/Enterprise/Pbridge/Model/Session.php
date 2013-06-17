@@ -18,10 +18,12 @@
 class Enterprise_Pbridge_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     /**
-     * Class constructor. Initialize checkout session namespace
+     * Initialize Enterprise Pbridge session namespace
+     *
+     * @param string $sessionName
      */
-    public function __construct()
+    public function __construct($sessionName = null)
     {
-        $this->init('enterprise_pbridge');
+        $this->init('enterprise_pbridge', $sessionName);
     }
 }

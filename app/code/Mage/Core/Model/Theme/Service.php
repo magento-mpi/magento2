@@ -31,9 +31,9 @@ class Mage_Core_Model_Theme_Service
     protected $_design;
 
     /**
-     * @var Mage_Core_Model_App
+     * @var Mage_Core_Model_StoreManagerInterface
      */
-    protected $_app;
+    protected $_storeManager;
 
     /**
      * Flag that shows if theme customizations exist in Magento
@@ -64,11 +64,6 @@ class Mage_Core_Model_Theme_Service
     protected $_helper;
 
     /**
-     * @var Mage_DesignEditor_Model_Resource_Layout_Update
-     */
-    protected $_layoutUpdate;
-
-    /**
      * Application event manager
      *
      * @var Mage_Core_Model_Event_Manager
@@ -83,41 +78,48 @@ class Mage_Core_Model_Theme_Service
     protected $_configWriter;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Cache_FrontendInterface
      */
-    protected $_configCacheType;
+    protected $_configCache;
+
+    /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    protected $_layoutCache;
 
     /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Theme_CopyService $themeCopyService
      * @param Mage_Core_Model_Design_PackageInterface $design
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Helper_Data $helper
-     * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Cache_FrontendInterface $configCache
+     * @param Magento_Cache_FrontendInterface $layoutCache
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Theme_CopyService $themeCopyService,
         Mage_Core_Model_Design_PackageInterface $design,
-        Mage_Core_Model_App $app,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Helper_Data $helper,
-        Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Core_Model_Cache_Type_Config $configCacheType
+        Magento_Cache_FrontendInterface $configCache,
+        Magento_Cache_FrontendInterface $layoutCache
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_themeCopyService = $themeCopyService;
         $this->_design       = $design;
-        $this->_app          = $app;
+        $this->_storeManager = $storeManager;
         $this->_helper       = $helper;
-        $this->_layoutUpdate = $layoutUpdate;
         $this->_eventManager = $eventManager;
         $this->_configWriter = $configWriter;
-        $this->_configCacheType = $configCacheType;
+        $this->_configCache  = $configCache;
+        $this->_layoutCache  = $layoutCache;
     }
 
     /**
@@ -140,11 +142,6 @@ class Mage_Core_Model_Theme_Service
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
 
-        $stagingVersion = $theme->getStagingVersion();
-        if ($stagingVersion) {
-            $this->_themeCopyService->copy($stagingVersion, $theme);
-        }
-
         $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
         $isReassigned = false;
@@ -152,11 +149,10 @@ class Mage_Core_Model_Theme_Service
         $this->_assignThemeToStores($themeCustomization->getId(), $stores, $scope, $isReassigned);
 
         if ($isReassigned) {
-            $this->_configCacheType->clean();
+            $this->_configCache->clean();
         }
 
-        $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
-        $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
+        $this->_layoutCache->clean();
 
         $this->_eventManager->dispatch('assign_theme_to_stores_after',
             array(
@@ -183,7 +179,7 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _unassignThemeFromStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
         /** @var $config Mage_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
@@ -205,7 +201,7 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _assignThemeToStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
         if (count($stores) > 0) {
             foreach ($stores as $storeId) {
                 $this->_configWriter->save($configPath, $themeId, $scope, $storeId);
@@ -225,8 +221,9 @@ class Mage_Core_Model_Theme_Service
     {
         $scope = Mage_Core_Model_Config::SCOPE_DEFAULT;
 
-        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
         $this->_configWriter->save($configPath, $themeId, $scope);
+        $this->_configCache->clean();
 
         return $this;
     }
@@ -271,20 +268,6 @@ class Mage_Core_Model_Theme_Service
         return Mage::getSingleton('Mage_Core_Model_Config_Data')->getCollection()
             ->addFieldToFilter('scope', $scope)
             ->addFieldToFilter('path', $configPath);
-    }
-
-    /**
-     * Make temporary updates for given theme and given stores permanent
-     *
-     * @param int $themeId
-     * @param array $storeIds
-     */
-    protected function _makeTemporaryLayoutUpdatesPermanent($themeId, array $storeIds)
-    {
-        // currently all layout updates are related to theme only
-        $storeIds = array_merge($storeIds, array(Mage_Core_Model_AppInterface::ADMIN_STORE_ID));
-
-        $this->_layoutUpdate->makeTemporaryLayoutUpdatesPermanent($themeId, $storeIds);
     }
 
     /**
@@ -426,7 +409,7 @@ class Mage_Core_Model_Theme_Service
     public function getStoresByThemes()
     {
         $storesByThemes = array();
-        $stores = $this->_app->getStores();
+        $stores = $this->_storeManager->getStores();
         /** @var $store Mage_Core_Model_Store */
         foreach ($stores as $store) {
             $themeId = $this->_design->getConfigurationDesignTheme(

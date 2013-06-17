@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -311,7 +311,7 @@ Billing.prototype = {
     },
 
     /**
-        This method recieves the AJAX response on success.
+        This method receives AJAX response on success.
         There are 3 options: error, redirect or html with shipping options.
     */
     nextStep: function(transport){

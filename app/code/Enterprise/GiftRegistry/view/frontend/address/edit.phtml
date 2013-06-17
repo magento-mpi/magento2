@@ -65,7 +65,7 @@
                         <label for="address:region" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
                         <div class="input-box">
                             <select id="address:region_id" name="address[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
-                            <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                            <option value=""><?php echo $this->__('Please select a region, state or province.') ?></option>
                         </select>
                         <input type="text" id="address:region" name="address[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text <?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('region') ?>" style="display:none;" />
                     </div>

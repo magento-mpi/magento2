@@ -75,7 +75,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('name', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Product Name'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Product'),
             'index'             => 'name',
             'column_css_class'  => 'name'
         ));
@@ -95,7 +95,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Attrib. Set Name'),
+            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Attribute Set'),
             'width'             => '100px',
             'index'             => 'attribute_set_id',
             'type'              => 'options',

@@ -23,7 +23,7 @@ root_category_required:
     is_active: Yes
     is_anchor: %noValue%
     available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
+    available_product_listing: Position, Name, Price
 
 sub_category_required:
     parent_category: Default Category
@@ -31,7 +31,7 @@ sub_category_required:
     is_active: Yes
     is_anchor: %noValue%
     available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
+    available_product_listing: Position, Name, Price
 
 root_category_all: &categoryAll
     #General Information

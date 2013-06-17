@@ -28,7 +28,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
      */
     public function indexAction()
     {
-        $this->_title($this->__('Rule-based Product Relations'));
+        $this->_title($this->__('Related Products Rules'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -67,13 +67,13 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
         if ($ruleId) {
             $model->load($ruleId);
             if (!$model->getId()) {
-                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('This rule no longer exists'));
+                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New Rule'));
+        $this->_title($model->getId() ? $model->getName() : $this->__('New Related Products Rule'));
 
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
@@ -122,7 +122,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
                 if ($ruleId) {
                     $model->load($ruleId);
                     if ($ruleId != $model->getId()) {
-                        Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Wrong rule specified.'));
+                        Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please specify a correct rule.'));
                     }
                 }
 
@@ -145,7 +145,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
                 $model->save();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('The rule has been saved.')
+                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('You saved the rule.')
                 );
 
                 if ($redirectBack) {
@@ -195,7 +195,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addSuccess(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('The rule has been deleted.'));
+                    ->addSuccess(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('You deleted the rule.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -206,7 +206,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
             }
         }
         Mage::getSingleton('Mage_Adminhtml_Model_Session')
-            ->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Unable to find a page to delete'));
+            ->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__("We can't find a page to delete."));
         $this->_redirect('*/*/');
     }
 
@@ -246,7 +246,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_TargetRule::targetrule');
+        return $this->_authorization->isAllowed('Enterprise_TargetRule::targetrule');
     }
 
 }

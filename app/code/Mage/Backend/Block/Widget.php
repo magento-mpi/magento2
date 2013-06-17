@@ -69,9 +69,10 @@ class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
      * @param string $onclick
      * @param string $class
      * @param string $buttonId
+     * @param array $dataAttr
      * @return string
      */
-    public function getButtonHtml($label, $onclick, $class = '', $buttonId = null)
+    public function getButtonHtml($label, $onclick, $class = '', $buttonId = null, $dataAttr = array())
     {
         return $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
             ->setData(array(
@@ -81,6 +82,7 @@ class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
                 'type'      => 'button',
                 'id'        => $buttonId,
             ))
+            ->setDataAttribute($dataAttr)
             ->toHtml();
     }
 
@@ -88,7 +90,7 @@ class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
     {
         return '<img src="' . $this->getViewFileUrl('images/fam_link.gif')
             . '" alt="' . $this->__('Global Attribute')
-            . '" title="' . $this->__('This attribute shares the same value in all the stores')
+            . '" title="' . $this->__('This attribute shares the same value in all stores.')
             . '" class="attribute-global"/>';
     }
 }

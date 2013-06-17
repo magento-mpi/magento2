@@ -133,7 +133,7 @@ class Enterprise_GiftRegistry_Model_Observer
             if (!$type->getPrevFormat()) {
                 $type->setPrevFormat($type->getDefaultFormat());
             }
-            $type->setDefaultFormat(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Ship to recipient's address."));
+            $type->setDefaultFormat(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Ship to the recipient's address."));
         } elseif ($type->getPrevFormat()) {
             $type->setDefaultFormat($type->getPrevFormat());
         }
@@ -271,5 +271,21 @@ class Enterprise_GiftRegistry_Model_Observer
         }
 
         return $this;
+    }
+
+    /**
+     * Assign a flag to HTML head block signaling whether GiftRegistry is enabled or not
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function assignHtmlHeadRenderingFlag(Varien_Event_Observer $observer)
+    {
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = $observer->getEvent()->getLayout();
+        /** @var $blockHead Mage_Page_Block_Html_Head */
+        $blockHead = $layout->getBlock('head');
+        if ($blockHead && $this->isGiftregistryEnabled()) {
+            $blockHead->setData('giftregistry_enabled', true);
+        }
     }
 }

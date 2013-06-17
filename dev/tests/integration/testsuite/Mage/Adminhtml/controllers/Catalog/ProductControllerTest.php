@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
@@ -59,24 +62,53 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
         $this->assertRedirect($this->stringContains('/backend/admin/catalog_product/edit'));
     }
 
+    /**
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     */
+    public function testSaveActionAndNew()
+    {
+        $this->getRequest()->setPost(array('back' => 'new'));
+        $this->dispatch('backend/admin/catalog_product/save/id/1');
+        $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/new/'));
+        $this->assertSessionMessages(
+            $this->contains('The product has been saved.'), Mage_Core_Model_Message::SUCCESS
+        );
+    }
+
+    /**
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     */
+    public function testSaveActionAndDuplicate()
+    {
+        $this->getRequest()->setPost(array('back' => 'duplicate'));
+        $this->dispatch('backend/admin/catalog_product/save/id/1');
+        $this->assertRedirect(
+            $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/')
+        );
+        $this->assertRedirect($this->logicalNot(
+            $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
+        ));
+        $this->assertSessionMessages(
+            $this->contains('The product has been saved.'), Mage_Core_Model_Message::SUCCESS
+        );
+        $this->assertSessionMessages(
+            $this->contains('The product has been duplicated.'), Mage_Core_Model_Message::SUCCESS
+        );
+    }
+
     public function testIndexAction()
     {
         $this->dispatch('backend/admin/catalog_product');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of products is reached.', $body);
-    }
 
-    /**
-     * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     */
-    public function testIndexActionLimited()
-    {
-        $this->dispatch('backend/admin/catalog_product');
-        $body = $this->getResponse()->getBody();
-        $this->assertContains('Maximum allowed number of products is reached.', $body);
-        $this->assertSelectCount('#add_new_product', 0, $body,
-            '"Add Product" button should not be present on Manage Products page, if the limit is reached');
+        $this->assertSelectCount('#add_new_product', 1, $body,
+            '"Add Product" button container should be present on Manage Products page, if the limit is not  reached');
+        $this->assertSelectCount('#add_new_product-button', 1, $body,
+            '"Add Product" button should be present on Manage Products page, if the limit is not reached');
+        $this->assertSelectCount('#add_new_product-button.disabled', 0, $body,
+            '"Add Product" button should be enabled on Manage Products page, if the limit is not reached');
+        $this->assertSelectCount('#add_new_product .action-toggle', 1, $body,
+            '"Add Product" button split should be present on Manage Products page, if the limit is not reached');
     }
 
     /**
@@ -86,81 +118,12 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
     {
         $this->dispatch('backend/admin/catalog_product/edit/id/1');
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of products is reached.', $body);
+
         $this->assertSelectCount('#save-split-button', 1, $body,
             '"Save" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-new-button', 1, $body,
             '"Save & New" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-duplicate-button', 1, $body,
             '"Save & Duplicate" button isn\'t present on Edit Product page');
-    }
-
-    /**
-     * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     */
-    public function testEditActionLimited()
-    {
-        $this->dispatch('backend/admin/catalog_product/edit/id/1');
-        $body = $this->getResponse()->getBody();
-        $this->assertContains('Maximum allowed number of products is reached.', $body);
-        $this->assertSelectCount('#save-split-button', 1, $body,
-            '"Save" button isn\'t present on Edit Product page');
-        $this->assertSelectCount('#save-split-button-new-button', 0, $body,
-            '"Save & New" button should not be present on Edit Product page, if the limit is reached');
-        $this->assertSelectCount('#save-split-button-duplicate-button', 0, $body,
-            '"Save & Duplicate" should not be present on Edit Product page, if the limit is reached');
-    }
-
-    /**
-     * @magentoConfigFixture limitations/catalog_product 2
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     */
-    public function testEditActionAllowedNewProduct()
-    {
-        $this->dispatch('backend/admin/catalog_product/edit/id/1');
-        $body = $this->getResponse()->getBody();
-        $this->assertSelectCount('#save-split-button', 1, $body,
-            '"Save" button isn\'t present on Edit Product page');
-        $this->assertSelectCount('#save-split-button-new-button', 1, $body,
-            '"Save & New" button isn\'t present on Edit Product page');
-        $this->assertSelectCount('#save-split-button-duplicate-button', 1, $body,
-            '"Save & Duplicate" isn\'t present on Edit Product page');
-    }
-
-    /**
-     * @magentoConfigFixture limitations/catalog_product 2
-     */
-    public function testNewActionAllowedNewProduct()
-    {
-        /** @var $installer Mage_Catalog_Model_Resource_Setup */
-        $installer = Mage::getResourceModel(
-            'Mage_Catalog_Model_Resource_Setup',
-            array('resourceName' => 'catalog_setup')
-        );
-        $attributeSetId = $installer->getDefaultAttributeSetId('catalog_product');
-        $this->dispatch("backend/admin/catalog_product/new/set/$attributeSetId/type/simple");
-        $body = $this->getResponse()->getBody();
-        $this->assertSelectCount('#save-split-button', 1, $body,
-            '"Save" button isn\'t present on New Product page');
-        $this->assertSelectCount('#save-split-button-new-button', 1, $body,
-            '"Save & New" button isn\'t present on New Product page');
-        $this->assertSelectCount('#save-split-button-duplicate-button', 1, $body,
-            '"Save & Duplicate" button isn\'t present on New Product page');
-    }
-
-    /**
-     * @magentoConfigFixture limitations/catalog_product 1
-     */
-    public function testNewActionRestrictedNewProduct()
-    {
-        $this->dispatch('backend/admin/catalog_product/new/set/4/type/simple');
-        $body = $this->getResponse()->getBody();
-        $this->assertSelectCount('#save-split-button', 1, $body,
-            '"Save" button isn\'t present on New Product page');
-        $this->assertSelectCount('#save-split-button-new-button', 0, $body,
-            '"Save & New" button should not be present on New Product page, if last allowed product is being created');
-        $this->assertSelectCount('#save-split-button-duplicate-button', 0, $body,
-            '"Save & Duplicate" should not be present on New Product page, if last allowed product is being created');
     }
 }

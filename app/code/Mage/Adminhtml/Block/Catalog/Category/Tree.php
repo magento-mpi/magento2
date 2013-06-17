@@ -22,7 +22,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     protected $_template = 'catalog/category/tree.phtml';
 
-
     protected function _construct()
     {
         parent::_construct();

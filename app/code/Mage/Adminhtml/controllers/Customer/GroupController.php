@@ -61,7 +61,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
             $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('New Group'), Mage::helper('Mage_Customer_Helper_Data')->__('New Customer Groups'));
         }
 
-        $this->_title($currentGroup->getId() ? $currentGroup->getCode() : $this->__('New Group'));
+        $this->_title($currentGroup->getId() ? $currentGroup->getCode() : $this->__('New Customer Group'));
 
         $this->getLayout()->addBlock('Mage_Adminhtml_Block_Customer_Group_Edit', 'group', 'content')
             ->setEditMode((bool)Mage::registry('current_group')->getId());
@@ -138,6 +138,6 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Customer::group');
+        return $this->_authorization->isAllowed('Mage_Customer::group');
     }
 }

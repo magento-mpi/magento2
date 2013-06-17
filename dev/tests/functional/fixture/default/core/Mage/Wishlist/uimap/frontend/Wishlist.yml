@@ -11,8 +11,8 @@
 #
 my_wishlist:
     mca: wishlist/
-    click_xpath: //ul[@class='links']//a[contains(text(),'My Wishlist')]
-    title: My Wishlist
+    click_xpath: //ul[@class='links']//a[contains(text(),'My Wish List')]
+    title: My Wish List
     uimap: &myWishlist
         form:
             fieldsets:
@@ -21,7 +21,7 @@ my_wishlist:
                         xpath: //div[@class='my-wishlist']
                         buttons:
                             add_to_cart: //table[@id='wishlist-table']//tr[contains(.,'%productName%')]//button[span='Add to Cart']
-                            share_wishlist: //button[span='Share Wishlist']
+                            share_wishlist: //button[span='Share Wish List']
                             add_all_to_cart: //button[span='Add All to Cart']
                             update_wishlist: //button[span='Update Wishlist']
                         fields:
@@ -35,7 +35,7 @@ my_wishlist:
                             remove_item_generic: //a[@title='Remove Item']
                         pageelements:
                             product_table_head: //table[@id='wishlist-table']/thead
-                            no_items: //p[normalize-space(text())='You have no items in your wishlist.']
+                            no_items: //p[normalize-space(text())='You have no items in your wish list.']
                             price_regular: //tr[contains(.,'%productName%')]//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
                             price_old: //tr[contains(.,'%productName%')]//p[@class='old-price']/span[@class='price']
                             price_special: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price']
@@ -56,16 +56,16 @@ my_wishlist:
         messages: &wishlistMessages
             successfully_added_product: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% has been added to your wishlist.')]
             successfully_added_products: //li[normalize-space(@class)='success-msg' and contains(.,'%productQty% product(s) have been added to shopping cart:')]
-            successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'Your Wishlist has been shared.')]
+            successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'Your wish list has been shared.')]
             specify_product_links: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify product link(s) for "%productName%".')]
             specify_product_options: //li[normalize-space(@class)='error-msg' and contains(.,' option(s) for "%productName%".')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
             invalid_emails: //li[@class='error-msg' and contains(.,'Please input a valid email address.')]
-            invalid_emails_js: //div[@class='validation-advice' and @id='advice-validate-emails-email_address' and contains(.,'Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')]
+            invalid_emails_js: //div[@class='validation-advice' and @id='advice-validate-emails-email_address' and contains(.,'Please enter valid email addresses, separated by commas. For example, johndoe@domain.com, johnsmith@domain.com.')]
             required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
             specify_product_config_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product's option(s).")]
             specify_product_link: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify product link(s).")]
-            specify_product_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please select options for product.")]
+            specify_product_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please select options for the product.")]
             specify_product_quantity: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the quantity of product(s).")]
             specify_product_required_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product's required option(s).")]
         links:
@@ -73,7 +73,7 @@ my_wishlist:
 
 my_wishlist_index:
     mca: wishlist/index/index/wishlist_id/%id%/
-    title: My Wishlist
+    title: My Wish List
     uimap: *myWishlist
 
 wishlist_configure_product:
@@ -92,7 +92,7 @@ wishlist_configure_product:
                             grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
                         links:
                             downloadable_sample: //dl[@class='item-options']/dd/a[normalize-space(text())='%samplesTitle%']
-                            add_to_wishlist: //a[text()='Add to Wishlist']
+                            add_to_wishlist: //a[text()='Add to Wish List']
                             add_to_compare: //a[text()='Add to Compare']
                             email_to_friend: //a[text()='Email to a Friend']
                             first_review: //a[text()='Be the first to review this product']
@@ -152,7 +152,7 @@ wishlist_configure_product:
 
 share_wishlist:
     mca: wishlist/index/share/
-    title: Wishlist Sharing
+    title: Wish List Sharing
     uimap: &shareWishlist
         form:
             fieldsets:
@@ -160,7 +160,7 @@ share_wishlist:
                     sharing_info:
                         xpath: //form[@id='form-validate']
                         buttons:
-                            share_wishlist: //button[@title='Share Wishlist']
+                            share_wishlist: //button[@title='Share Wish List']
                         fields:
                             emails: //textarea[@name='emails']
                             message: //textarea[@name='message']
@@ -170,5 +170,5 @@ share_wishlist:
 
 share_wishlist_index:
     mca: wishlist/index/share/wishlist_id/%id%/
-    title: Wishlist Sharing
+    title: Wish List Sharing
     uimap: *shareWishlist

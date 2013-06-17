@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -91,7 +91,7 @@ if ($pos != null) {
                         </div>
                         <div class="secondary"<?php echo strpos($pos, $viewMode . '-secondary') ? $position : ''; ?>>
                             <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
-                               class="action towishlist">
+                               class="action towishlist" data-action="add-to-wishlist">
                                <span><?php echo $this->__('Add to Wishlist') ?></span>
                            </a>
                             <a href="<?php echo $this->getAddToCompareUrl($_product) ?>" class="action tocompare">
@@ -108,7 +108,7 @@ if ($pos != null) {
         head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
 </div>
-<div class="toolbar-bottom">
+<div class="toolbar bottom">
     <?php echo $this->getToolbarHtml() ?>
 </div>
 <?php endif; ?>

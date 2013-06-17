@@ -15,12 +15,13 @@
  * @package    Enterprise_CatalogEvent
  */
 
-class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons extends Mage_Adminhtml_Block_Catalog_Category_Abstract
+class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
+    extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
     /**
      * Retrieve category event
      *
-     * @return Enterprise_CatalogEvent_Model_Category
+     * @return Enterprise_CatalogEvent_Model_Event
      */
     public function getEvent()
     {
@@ -38,13 +39,13 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons exte
     /**
      * Add buttons on category edit page
      *
-     * @return Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Buttons
+     * @return Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
      */
     public function addButtons()
     {
-        if ($this->helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled() &&
-            Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CatalogEvent::events') &&
-            $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
+        if ($this->helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()
+            && $this->_authorization->isAllowed('Enterprise_CatalogEvent::events')
+            && $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
                 $url = $this->helper('Mage_Adminhtml_Helper_Data')->getUrl('*/catalog_event/edit', array(
                             'id' => $this->getEvent()->getId(),

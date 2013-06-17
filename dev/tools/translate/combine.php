@@ -65,7 +65,7 @@ class Combine
     private $_messages = array();
 
     /**
-     * Variable that indicates errors occured
+     * Variable that indicates errors occurred
      *
      * @var bool
      */

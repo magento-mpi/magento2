@@ -32,8 +32,8 @@
             }
             zipIsRange.attr('checked', zipIsRange.val() == 1);
             zipIsRange.trigger('change');
+            updater.update();
             $.ui.dialog.prototype.open.apply(this);
-
         },
         close: function() {
             $.ui.dialog.prototype.close.apply(this);
@@ -67,7 +67,7 @@
             var listItem = $(this).closest('.mselect-list-item');
             var that = listItem.children('.mselect-edit');
             var index = listItem.index(),
-                select = that.closest('.mselect-list').prev(),
+                select = that.closest('.mselect-list').prevAll('.multiselect:first'),
                 id = select.find('option').eq(index).attr('value'),
                 item;
 
@@ -92,21 +92,23 @@
                     var select = $('#tax_rate');
                     select.append('<option value="" selected="selected">' + value + '</option>');
                     var mselectItemHtml = $(options.item.replace(/%value%|%label%/gi, value)
-                            .replace(/%mselectDisabledClass%|%iseditable%|%isremovable%/gi, '')
-                            .replace(/%mselectListItemClass%/gi, options.mselectListItemClass))
-                            .find('[type=checkbox]')
-                            .attr('checked', true)
-                            .addClass(options.mselectCheckedClass)
-                            .end();
-                    var itemsWrapper = select.next().find('.' + options.mselectItemsWrapperClass + '');
+                        .replace(/%mselectDisabledClass%|%iseditable%|%isremovable%/gi, '')
+                        .replace(/%mselectListItemClass%/gi, options.mselectListItemClass))
+                        .find('[type=checkbox]')
+                        .attr('checked', true)
+                        .addClass(options.mselectCheckedClass)
+                        .end();
+                    var itemsWrapper = select.nextAll('section.block:first')
+                        .find('.' + options.mselectItemsWrapperClass + '');
                     itemsWrapper.children('.' + options.mselectListItemClass + '').length
-                            ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
-                            : itemsWrapper.prepend(mselectItemHtml);
+                        ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
+                        : itemsWrapper.prepend(mselectItemHtml);
                 }
             };
             var taxRate = $('#tax_rate'),
                 taxRateField = taxRate.parent(),
-                taxRateForm = $('#tax-rate-form');
+                taxRateForm = $('#tax-rate-form'),
+                taxRateFormElement = $('#<?php echo Mage_Adminhtml_Block_Tax_Rate_Form::FORM_ELEMENT_ID ?>');
 
             if (!this.isEntityEditable) {
                 // Override default layout of editable multiselect
@@ -169,6 +171,7 @@
                         el[el.is(':checked') ? 'addClass' : 'removeClass'](checkedClassName);
                     })
                     .on('dblclick.mselect-list-item', '.mselect-list-item label span', this.edit);
+            taxRateFormElement.mage('form').mage('validation');
 
             taxRateForm.dialogRates({
                 title: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'); ?>',
@@ -191,7 +194,9 @@
                             delete itemRateData.itemElement;
                         }
 
-                        $('body').loadingPopup();
+                        if (!taxRateFormElement.validation().valid()) {
+                            return;
+                        }
 
                         var ajaxOptions = {
                             type: 'POST',
@@ -219,7 +224,6 @@
                                 } else {
                                     alert(result.error_message);
                                 }
-                                $('body').trigger('hideLoadingPopup');
                             }
                         };
                         $.ajax(ajaxOptions);
@@ -230,6 +234,7 @@
                     'class': 'action-cancel',
                     click: function() {
                         $(this).dialogRates("close");
+                        taxRateFormElement.data('validation').clearError();
                     }
                 }]
             });

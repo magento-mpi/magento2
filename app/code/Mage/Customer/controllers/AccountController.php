@@ -259,7 +259,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $this->_validateCustomer($customer, $address);
 
             $customer->save()->setOrigData();
-            Mage::dispatchEvent('customer_register_success',
+            $this->_eventManager->dispatch('customer_register_success',
                 array('account_controller' => $this, 'customer' => $customer)
             );
 
@@ -555,7 +555,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if ($email) {
             if (!Zend_Validate::is($email, 'EmailAddress')) {
                 $this->_getSession()->setForgottenEmail($email);
-                $this->_getSession()->addError($this->__('Invalid email address.'));
+                $this->_getSession()->addError($this->__('Please correct the email address.'));
                 $this->_redirect('*/*/forgotpassword');
                 return;
             }
@@ -614,7 +614,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     /**
      * Reset forgotten password
      *
-     * Used to handle data recieved from reset forgotten password form
+     * Used to handle data received from reset forgotten password form
      *
      */
     public function resetPasswordPostAction()

@@ -12,6 +12,7 @@
 /**
  * Test class for Mage_Backend_Adminhtml_IndexController.
  *
+ * @magentoAppArea adminhtml
  */
 class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -19,20 +20,6 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      * @var Mage_Backend_Model_Auth
      */
     protected $_auth;
-
-    protected function setUp()
-    {
-        Mage::getConfig()->setCurrentAreaCode(Mage_Core_Model_App_Area::AREA_ADMINHTML);
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
-        parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        $this->_auth = null;
-        parent::tearDown();
-        Mage::getConfig()->setCurrentAreaCode(null);
-    }
 
     /**
      * Performs user login
@@ -61,8 +48,10 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
     {
         $this->dispatch('backend/admin/index/index');
         $this->assertFalse($this->getResponse()->isRedirect());
-        $expected = 'Log into Magento Admin Page';
-        $this->assertContains($expected, $this->getResponse()->getBody(), 'There is no login form');
+
+        $body = $this->getResponse()->getBody();
+        $this->assertSelectCount('form#login-form input#username[type=text]', true, $body);
+        $this->assertSelectCount('form#login-form input#login[type=password]', true, $body);
     }
 
     /**

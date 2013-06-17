@@ -11,8 +11,10 @@
 
 /**
  * Test class for Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
+ *
+ * @magentoAppArea adminhtml
  */
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest extends Mage_Backend_Area_TestCase
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest extends PHPUnit_Framework_TestCase
 {
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info */
     protected $_block;
@@ -39,10 +41,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      * Test Prepare Form in Single Store mode
      *
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      */
     public function testPrepareFormSingleStore()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $this->_block->initForm();
         $form = $this->_block->getForm();
         $this->assertEquals('base_fieldset', $form->getElement('base_fieldset')->getId());
@@ -56,10 +58,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      * Test Prepare Form in Multiple Store mode
      *
      * @magentoConfigFixture current_store general/single_store_mode/enabled 0
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      */
     public function testPrepareFormMultipleStore()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $this->_block->initForm();
         $form = $this->_block->getForm();
         $this->assertEquals('base_fieldset', $form->getElement('base_fieldset')->getId());
@@ -83,11 +85,11 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testInitForm()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->addBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');

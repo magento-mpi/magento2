@@ -22,21 +22,3 @@
         }
     });
 })(jQuery, window, document);
-
-/**
- * Need to remove when we refactor onepage checkout
- * @deprecated
- */
-document.observe('login:setMethod', function() {
-    "use strict";
-    jQuery(document).trigger('login:setMethod');
-});
-
-/**
- * Need to remove when we refactor onepage checkout
- * @deprecated
- */
-document.observe('billing-request:completed', function() {
-    "use strict";
-    jQuery(document).trigger('billing-request:completed');
-});

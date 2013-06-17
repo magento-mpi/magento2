@@ -95,6 +95,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
                     $this->fail("Attribute with title '$value' does not exist");
                 }
                 $moveElement = $this->getControlElement('link', 'unassigned_attribute');
+                $this->focusOnElement($moveElement);
                 $moveElement->click();
                 $this->moveto($moveElement);
                 $this->buttondown();
@@ -173,6 +174,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
             $this->clickControl('link', 'group_attribute', false);
             $this->moveto($assignedAttribute);
             $this->buttondown();
+            $this->focusOnElement($this->waitForControl('pageelement', 'unassigned_placeholder'));
             $this->moveto($this->getControlElement('pageelement', 'unassigned_placeholder'));
             $this->buttonup();
             if ($this->alertIsPresent()) {

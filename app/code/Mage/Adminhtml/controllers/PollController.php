@@ -65,7 +65,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 $model = Mage::getModel('Mage_Poll_Model_Poll');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The poll has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('You deleted the poll.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -75,13 +75,13 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to find a poll to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t find a poll to delete.'));
         $this->_redirect('*/*/');
     }
 
     public function saveAction()
     {
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The poll has been saved.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('You saved the poll.'));
         Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPollData(false);
         $this->_redirect('*/*/');
     }
@@ -122,7 +122,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
                 $stores = $this->getRequest()->getParam('store_ids');
                 if (!is_array($stores) || count($stores) == 0) {
-                    Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please, select "Visible in Stores" for this poll first.'));
+                    Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please indicate where this poll can be seen ("Visible In").'));
                 }
 
                 if (is_array($stores)) {
@@ -139,7 +139,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                         }
                     }
                     if (count($storeIds) === 0) {
-                        Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please, select "Visible in Stores" for this poll first.'));
+                        Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please indicate where this poll can be seen ("Visible In").'));
                     }
                     $pollModel->setStoreIds($storeIds);
                 }
@@ -147,7 +147,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 $answers = $this->getRequest()->getParam('answer');
 
                 if( !is_array($answers) || sizeof($answers) == 0 ) {
-                    Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please, add some answers to this poll first.'));
+                    Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please enter answer options for this poll.'));
                 }
 
                 if( is_array($answers) ) {
@@ -194,7 +194,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Poll::poll');
+        return $this->_authorization->isAllowed('Mage_Poll::poll');
     }
 
 }

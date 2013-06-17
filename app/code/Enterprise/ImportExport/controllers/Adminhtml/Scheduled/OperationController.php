@@ -54,8 +54,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed('Enterprise_ImportExport::enterprise_scheduled_operation');
+        return $this->_authorization->isAllowed('Enterprise_ImportExport::enterprise_scheduled_operation');
     }
 
     /**
@@ -122,7 +121,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 || !is_array($data['start_time'])
             ) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addError($this->__('Unable to save scheduled operation'));
+                    ->addError($this->__("We couldn't save the scheduled operation."));
                 $this->_redirect('*/*/*', array('_current' => true));
 
                 return;
@@ -147,7 +146,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                    $this->__('Unable to save scheduled operation')
+                    $this->__("We couldn't save the scheduled operation.")
                 );
             }
         }
@@ -176,7 +175,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                    $this->__('Unable to delete scheduled operation')
+                    $this->__('Something sent wrong deleting the scheduled operation.')
                 );
             }
         }
@@ -218,13 +217,13 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                     $operation->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('Total of %s record(s) have been deleted', count($operations))
+                    $this->__('We deleted a total of %s record(s).', count($operations))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Can not delete all items'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('We cannot delete all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -255,14 +254,14 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                         ->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('Total of %s record(s) have been updated', count($operations))
+                    $this->__('A total of %s record(s) have been updated.', count($operations))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addError($this->__('Can not change status for all items'));
+                    ->addError($this->__('We cannot change status for all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -329,7 +328,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             $area = Mage::getDesign()->getArea();
             $theme = Mage::getDesign()->getDesignTheme();
             Mage::getDesign()->setDesignTheme(
-                Mage::getStoreConfig(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME),
+                Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME),
                 Mage_Core_Model_App_Area::AREA_FRONTEND
             );
 
@@ -346,7 +345,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         if ($result) {
             $this->_getSession()
                 ->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation has been successfully run')
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('The operation ran.')
                 );
         } else {
             $this->_getSession()
@@ -370,11 +369,11 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         if ($result) {
             $this->_getSession()
                 ->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('History files have been deleted')
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('We deleted the history files.')
                 );
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to delete history files'));
+                ->addError(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Something went wrong deleting the history files.'));
         }
         $this->_redirect('*/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
     }

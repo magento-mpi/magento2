@@ -92,7 +92,7 @@
                 <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.newslettrer.problem.grid.columnSet' as='grid.columnSet'>
                     <arguments>
                         <id>problemGrid</id>
-                        <empty_text translate="true" module="Mage_Newsletter">No problems found.</empty_text>
+                        <empty_text translate="true" module="Mage_Newsletter">We found no problems.</empty_text>
                     </arguments>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='checkbox'>
                         <arguments>
@@ -122,7 +122,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='queue_start'>
                         <arguments>
-                            <header translate='true' module='Mage_Newsletter'>Queue Date Start</header>
+                            <header translate='true' module='Mage_Newsletter'>Queue Start Date</header>
                             <index>queue_start_at</index>
                             <gmtoffset>true</gmtoffset>
                             <type>datetime</type>

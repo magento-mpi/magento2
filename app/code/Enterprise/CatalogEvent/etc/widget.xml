@@ -34,7 +34,7 @@
             <width translate="label description">
                 <visible>1</visible>
                 <label>Block Custom Width</label>
-                <description>Width in Pixels. If empty, will be determined automatically</description>
+                <description>The width in pixels will be set automatically if this value is empty.</description>
                 <type>text</type>
             </width>
             <template>

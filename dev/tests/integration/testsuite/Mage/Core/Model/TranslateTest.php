@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDbIsolation enabled
+ * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
 class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 {
@@ -32,11 +32,13 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName'),
             array(
+                Mage::getSingleton('Mage_Core_Model_Dir'),
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 Mage::getSingleton('Magento_Filesystem'),
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
-                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')
+                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
+                Mage::getSingleton('Mage_Core_Helper_Css'),
             )
         );
         $this->_designModel->expects($this->any())
@@ -50,6 +52,32 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
         $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
+    }
+
+    /**
+     * @magentoDataFixture Mage/Core/_files/db_translate.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     */
+    public function testInitCaching()
+    {
+        // ensure string translation is cached
+        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND, null);
+
+        /** @var Mage_Core_Model_Resource_Translate_String $translateString */
+        $translateString = Mage::getModel('Mage_Core_Model_Resource_Translate_String');
+        $translateString->saveTranslate('Fixture String', 'New Db Translation');
+
+        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND, null);
+        $this->assertEquals(
+            'Fixture Db Translation', $this->_model->translate(array('Fixture String')),
+            'Translation is expected to be cached'
+        );
+
+        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND, null, true);
+        $this->assertEquals(
+            'New Db Translation', $this->_model->translate(array('Fixture String')),
+            'Forced load should not use cache'
+        );
     }
 
     public function testGetModulesConfig()
@@ -73,7 +101,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             $modulesConfig->$checkedNode->asXML()
         );
 
-        $this->_model->init('non_existing_area', null);
+        $this->_model->init('non_existing_area', null, true);
         $this->assertEquals(array(), $this->_model->getModulesConfig());
     }
 
@@ -113,6 +141,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @dataProvider translateDataProvider
      */
     public function testTranslate($inputText, $expectedTranslation)
@@ -133,11 +162,13 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName', 'getDesignTheme'),
             array(
+                Mage::getSingleton('Mage_Core_Model_Dir'),
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 $filesystem,
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
-                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')
+                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
+                Mage::getSingleton('Mage_Core_Helper_Css'),
             )
         );
         $this->_designModel->expects($this->any())
@@ -199,10 +230,11 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture global/locale/inheritance/en_AU en_UK
      * @magentoConfigFixture global/locale/inheritance/en_UK en_US
      * @dataProvider translateWithLocaleInheritanceDataProvider
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      */
     public function testTranslateWithLocaleInheritance($inputText, $expectedTranslation)
     {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        /** @var Mage_Core_Model_Translate $model */
         $model = Mage::getModel('Mage_Core_Model_Translate');
         $model->setLocale('en_AU');
         $model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);

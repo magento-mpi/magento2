@@ -33,25 +33,16 @@ class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     protected $_linkTracker;
 
     /**
-     * Path to template file
-     *
-     * @todo Default template specified, but it should be changed to custom one
-     * @var string
-     */
-    protected $_template = 'Mage_Backend::widget/form.phtml';
-
-    /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-
         $this->_linkTracker = $linkTracker;
     }
 
@@ -67,7 +58,7 @@ class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
         if (!isset($tile)) {
             throw new Saas_Launcher_Exception('Tile was not set.');
         }
-        return $tile->getCode();
+        return $tile->getTileCode();
     }
 
     /**
@@ -124,15 +115,15 @@ class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     public function getTrackerLink($route = '', $params = array())
     {
         $urlCode = md5($route . serialize($params));
-        $this->_linkTracker->unsetData();
-        $this->_linkTracker->load($urlCode, 'code');
-        if (!$this->_linkTracker->getId()) {
-            $this->_linkTracker->setCode($urlCode);
-            $this->_linkTracker->setUrl($route);
-            $this->_linkTracker->setParams(serialize($params));
-            $this->_linkTracker->save();
+        $linkTracker = clone $this->_linkTracker;
+        $linkTracker->load($urlCode, 'code');
+        if (!$linkTracker->getId()) {
+            $linkTracker->setCode($urlCode);
+            $linkTracker->setUrl($route);
+            $linkTracker->setParams(serialize($params));
+            $linkTracker->save();
         }
-        return $this->_linkTracker;
+        return $linkTracker;
     }
 
     /**

@@ -131,14 +131,14 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         ));
 
         $this->addColumn('min_balance', array(
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Minimum Reward Points Balance to be able to Redeem'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Threshold'),
             'index'    => 'min_points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('max_balance', array(
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Cap Reward Points Balance At'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Cap'),
             'index'    => 'max_points_balance',
             'sortable' => false,
             'align'    => 'center'

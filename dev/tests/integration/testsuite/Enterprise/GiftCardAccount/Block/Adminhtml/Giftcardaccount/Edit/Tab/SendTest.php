@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest extends PHPUnit_Framework_TestCase
 {
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send */
     protected $_block;

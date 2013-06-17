@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +14,7 @@
     <legend class="legend"><span><?php echo $this->__('Account Information') ?></span></legend><br />
     <?php echo $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Name')->setObject($this->getCustomer())->toHtml() ?>
     <div class="field email required">
-        <label for="email"><span><?php echo $this->__('Email Address') ?></span></label>
+        <label class="label" for="email"><span><?php echo $this->__('Email Address') ?></span></label>
         <div class="control">
             <input type="text" name="email" id="email" value="<?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
         </div>
@@ -44,20 +44,20 @@
 <?php endif;?>
 <fieldset class="fieldset password" style="display:none;">
     <legend class="legend"><span><?php echo $this->__('Change Password') ?></span></legend><br />
-    <div class="field password current">
-        <label for="current-password"><span><?php echo $this->__('Current Password') ?></span></label>
+    <div class="field password current required">
+        <label class="label" for="current-password"><span><?php echo $this->__('Current Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="current_password" id="current-password" />
         </div>
     </div>
-    <div class="field new password">
-        <label for="password"><span><?php echo $this->__('New Password') ?></span></label>
+    <div class="field new password required">
+        <label class="label" for="password"><span><?php echo $this->__('New Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="password" id="password" />
         </div>
     </div>
-    <div class="field confirm password">
-        <label for="confirmation"><span><?php echo $this->__('Confirm New Password') ?></span></label>
+    <div class="field confirm password required">
+        <label class="label" for="confirmation"><span><?php echo $this->__('Confirm New Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="confirmation" id="confirmation" />
         </div>

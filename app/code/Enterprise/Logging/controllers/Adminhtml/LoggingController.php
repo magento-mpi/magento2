@@ -39,8 +39,6 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function detailsAction()
     {
-        $this->_title($this->__('View Entry'));
-
         $eventId = $this->getRequest()->getParam('event_id');
         $model   = Mage::getModel('Enterprise_Logging_Model_Event')
             ->load($eventId);
@@ -48,6 +46,8 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
             $this->_redirect('*/*/');
             return;
         }
+        $this->_title($this->__("Log Entry #%d", $eventId));
+
         Mage::register('current_event', $model);
 
         $this->loadLayout();
@@ -80,7 +80,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function archiveAction()
     {
-        $this->_title($this->__('Archive'));
+        $this->_title($this->__('Admin Actions Archive'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging_backups');
@@ -118,14 +118,14 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
             case 'archive':
             case 'download':
             case 'archiveGrid':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Logging::backups');
+                return $this->_authorization->isAllowed('Enterprise_Logging::backups');
                 break;
             case 'grid':
             case 'exportCsv':
             case 'exportXml':
             case 'details':
             case 'index':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Logging::enterprise_logging_events');
+                return $this->_authorization->isAllowed('Enterprise_Logging::enterprise_logging_events');
                 break;
         }
 

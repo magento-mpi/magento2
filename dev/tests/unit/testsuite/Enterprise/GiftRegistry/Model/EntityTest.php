@@ -42,13 +42,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $helper = $this->getMock('Enterprise_GiftRegistry_Helper_Data',
             array('__', 'getRegistryLink'), array(), '', false, false
         );
-        $design = $this->getMock('Mage_Core_Model_Design_PackageInterface');
-        $loader = $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false);
-        $translateFactory = $this->getMock('Mage_Core_Model_Translate_Factory',
-            array(), array(), '', false, false);
-        $loader->expects($this->any())->method('load')->will($this->returnValue(array()));
-        $translate = $this->getMock('Mage_Core_Model_Translate', array(),
-            array($design, $loader, $translateFactory), '', true, false);
+        $translate = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
 
         $config = $this->getMock('Mage_Core_Model_Config', array('getModelInstance'), array(), '', false);
         $this->_store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
@@ -131,7 +125,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $result = $this->_model->sendShareRegistryEmails();
 
         $this->assertTrue($result->hasErrorMessage());
-        $this->assertContains('Failed to share gift registry.', $result->getErrorMessage());
+        $this->assertContains('We couldn\'t share the registry.', $result->getErrorMessage());
     }
 
     public function invalidSenderAndRecipientInfoDataProvider()
@@ -159,7 +153,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'error_message' => 'Sender data can\'t be empty.'
+                    'error_message' => 'You need to enter sender data.'
                 )
             ),
             array(
@@ -171,7 +165,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'error_message' => 'Sender data can\'t be empty.'
+                    'error_message' => 'You need to enter sender data.'
                 )
             ),
             array(
@@ -183,7 +177,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'error_message' => 'Sender data can\'t be empty.'
+                    'error_message' => 'You need to enter sender data.'
                 )
             ),
             array(
@@ -195,7 +189,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'error_message' => 'Please input a valid sender email address.'
+                    'error_message' => 'Please enter a valid sender email address.'
                 )
             )
         );
@@ -220,7 +214,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'error_message' => 'Please input a valid recipient email address.'
+                    'error_message' => 'Please enter a valid recipient email address.'
                 )
             ),
             array(
@@ -235,7 +229,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'error_message' => 'Please input a recipient name.'
+                    'error_message' => 'Please enter a recipient name.'
                 )
             ),
             array(

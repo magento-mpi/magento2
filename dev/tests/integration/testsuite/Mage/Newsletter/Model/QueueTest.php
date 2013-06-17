@@ -13,14 +13,14 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Newsletter/_files/queue.php
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @magentoConfigFixture frontend/design/theme/full_name default/demo_blue
      * @magentoConfigFixture fixturestore_store general/locale/code  de_DE
      * @magentoAppIsolation enabled
      */
     public function testSendPerSubscriber()
     {
-        $collection = new Mage_Core_Model_Resource_Theme_Collection;
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/default/demo')->getId();
         Mage::app()->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
@@ -47,12 +47,12 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @magentoDataFixture Mage/Newsletter/_files/queue.php
      * @magentoAppIsolation enabled
      */
     public function testSendPerSubscriberProblem()
     {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $mail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());

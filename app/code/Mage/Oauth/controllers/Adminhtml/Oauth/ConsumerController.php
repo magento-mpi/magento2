@@ -232,7 +232,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
                 break;
         }
 
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($resourceId);
+        return $this->_authorization->isAllowed($resourceId);
     }
 
     /**

@@ -36,7 +36,7 @@
                                     <a href="<?php echo $this->getSharedItemAddToCartUrl($item) ?>"><?php echo $this->__('Add to Cart') ?></a>
                                 <?php endif ?>
                             <?php endif; ?>
-                            <p><a href="<?php echo $this->getAddToWishlistUrl($item) ?>" onclick="setLocation(this.href); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                            <p><a href="<?php echo $this->getAddToWishlistUrl($item) ?>" onclick="setLocation(this.href); return false;" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
 
                             <div class="comment"><?php echo $this->getEscapedDescription($item) ?></div>
                         </td>
@@ -51,7 +51,7 @@
             <?php endif;?>
         </form>
         <?php else: ?>
-            <p><?php echo $this->__('Wishlist is empty now.') ?></p>
+            <p><?php echo $this->__('Wish List is empty now.') ?></p>
         <?php endif ?>
     </div>
 </div>

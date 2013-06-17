@@ -24,7 +24,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
                 Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry')
             );
 
-        $this->_title($this->__('Manage Gift Registry Types'));
+        $this->_title($this->__('Gift Registry Types'));
         return $this;
     }
 
@@ -42,7 +42,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         if ($typeId = $this->getRequest()->getParam($requestParam)) {
             $type->load($typeId);
             if (!$type->getId()) {
-                Mage::throwException($this->__('Wrong gift registry type requested.'));
+                Mage::throwException($this->__('Please correct the  gift registry ID.'));
             }
         }
         Mage::register('current_giftregistry_type', $type);
@@ -100,7 +100,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         }
 
         $this->_initAction();
-        $this->_title($this->__("Edit '%s' Gift Registry Type", $model->getLabel()));
+        $this->_title($this->__('%s', $model->getLabel()));
 
         $block = $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
@@ -153,7 +153,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
                 $model->loadPost($data);
                 $model->save();
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                        ->addSuccess($this->__('The gift registry type has been saved.'));
+                        ->addSuccess($this->__('You saved the gift registry type.'));
 
                 if ($redirectBack = $this->getRequest()->getParam('back', false)) {
                     $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
@@ -164,7 +164,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to save gift registry type.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We couldn't save this gift registry type."));
                 Mage::logException($e);
             }
         }
@@ -179,14 +179,14 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         try {
             $model = $this->_initType();
             $model->delete();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The gift registry type has been deleted.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the gift registry type.'));
         }
         catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to delete gift registry type.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We couldn't delete this gift registry type."));
             Mage::logException($e);
         }
         $this->_redirect('*/*/');
@@ -199,7 +199,6 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed('Enterprise_GiftRegistry::customer_enterprise_giftregistry');
+        return $this->_authorization->isAllowed('Enterprise_GiftRegistry::customer_enterprise_giftregistry');
     }
 }

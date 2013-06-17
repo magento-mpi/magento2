@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer
     ->setWebsiteId(1)

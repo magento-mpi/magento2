@@ -40,8 +40,8 @@ theme_list:
         buttons:
             add_new_theme: //button[span='Add New Theme']
         messages:
-            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been saved.')]
-            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
+            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the theme.')]
+            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the theme.')]
 
 # New Theme page
 new_theme:
@@ -103,7 +103,7 @@ edit_theme:
                                         css_print: //div[@id='theme_css_view_']/a[contains(text(), 'css/print.css')]
                                         css_style_ie: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles-ie.css')]
                                         css_style: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles.css')]
-                                        js_jqzoom_css_jquery: //div[@id='theme_css_view_']/a[contains(text(), 'js/jqzoom/css/jquery.jqzoom.css')]
+                                        js_jqzoom_css_jquery: //div[@id='theme_css_view_']/a[contains(text(), 'pub/lib/jquery/jqzoom/css/jquery.jqzoom.css')]
                                         mage_cms_widgets: //div[@id='theme_css_view_']/a[contains(text(), 'Mage_Cms::widgets.css')]
                                         mage_page_css_tabs: //div[@id='theme_css_view_']/a[contains(text(), 'Mage_Page::css/tabs.css')]
                                         mage_reports_widgets: //div[@id='theme_css_view_']/a[contains(text(), 'Mage_Reports::widgets.css')]
