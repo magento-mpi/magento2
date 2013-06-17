@@ -168,6 +168,10 @@ class Mage_Backend_Model_Config extends Varien_Object
             $deleteTransaction->delete();
             $saveTransaction->save();
 
+            // re-init configuration
+            $this->_eventManager->dispatch('application_process_reinit_config');
+            $this->_storeManager->reinitStores();
+
             $this->_eventManager->dispatch('admin_system_config_section_save_after', array(
                 'website' => $this->getWebsite(),
                 'store' => $this->getStore(),
