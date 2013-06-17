@@ -13,7 +13,7 @@
 reports_invitations_general:
     mca: report_invitation/
     click_xpath: //*[@id='nav']//a[contains(@href, 'report_invitation/index')]
-    title: General / Private Sales / Reports / Magento Admin
+    title: Invitations Report / Private Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
