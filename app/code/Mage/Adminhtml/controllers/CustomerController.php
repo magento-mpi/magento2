@@ -632,7 +632,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 ->ignoreInvisible(false);
             $data = $customerForm->extractData($this->getRequest(), 'account');
             $accountData = $this->getRequest()->getPost('account');
-            $data['password'] = $accountData['password'];
+            $data['password'] = isset($accountData['password']) ? $accountData['password'] : '';
             if (!$customer->getId()) {
                 $data['password'] = $customer->generatePassword();
             }
