@@ -18,6 +18,7 @@ return array(
     array('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid'),
     array('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid'),
     array('Enterprise_Logging_Block_Adminhtml_Archive_Grid'),
+    array('Enterprise_Logging_Block_Adminhtml_Index_Grid'),
     array('Enterprise_Pci_Block_Adminhtml_Locks_Grid'),
     array('Enterprise_Reminder_Block_Adminhtml_Reminder_Grid'),
     array('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid'),

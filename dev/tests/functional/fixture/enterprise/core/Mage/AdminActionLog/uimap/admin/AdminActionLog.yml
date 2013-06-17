@@ -13,7 +13,7 @@
 admin_action_log_report:
     mca: logging/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/index/')]
-    title: Admin Actions Report / Action Log / System / Magento Admin
+    title: Report / Action Log / System / Magento Admin
     uimap:
         form:
             fieldsets:
