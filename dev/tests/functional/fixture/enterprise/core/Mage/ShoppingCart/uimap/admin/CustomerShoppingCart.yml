@@ -63,25 +63,22 @@ customer_shopping_cart:
                         xpath: //div[div/h4[contains(text(),'Configure Product')]]
                         checkboxes:
                             option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
-                            custom_option_checkbox: //ul[@id="downloadable-links-list"]//input[@type='checkbox']
                         fields:
                             option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
                             option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
                             option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
                             option_field_4: //tr[td='%optionParameter%']//input[@type='text']
-                            option_field_5: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//textarea
-                            option_field_6: //tr[td='Qty']//input[@type='text']
+                            option_field_5: //*[@id='product_composite_configure_input_qty']
                         dropdowns:
-                            option_dropdown: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
-                            option_dropdown_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@name,'%optionParameter%')]
-                            option_dropdown_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
+                            option_dropdown_1: //dd[div[@class='input-box']]//select[not(contains(@class,'multiselect'))]
+                            option_dropdown_2: //div[contains(label,'%optionTitle%')]//select
                         multiselects:
                             option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
                         radiobuttons:
                             option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='radio']
                         buttons:
-                            ok: //button[contains(span, 'OK')]
-                            cancel: //button[span[contains(text(),'Cancel')]]
+                            composite_configure_ok: //button[contains(span, 'OK')]
+                            composite_configure_cancel: //button[span[contains(text(),'Cancel')]]
         buttons:
             add_selected_products_to_shopping_cart: //button[span='Add Selected Product(s) to Shopping Cart']
             clear_shop_cart: //button[@title='Clear Shopping Cart']

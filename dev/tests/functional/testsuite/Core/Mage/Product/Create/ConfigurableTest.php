@@ -591,10 +591,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             'general_attribute_1' => $defaultAttribute['admin_title'],
             'var1_attr_value1' => $defaultAttribute['option_1']['admin_option_name']
         ));
-        $searchConfigurable = $this->loadDataSet('Product', 'product_search', array(
-            'product_sku' => $configurable['general_sku'],
-            'product_visibility' => $configurable['autosettings_visibility']
-        ));
+        $searchConfigurable = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $configurable['general_sku']));
         //Preconditions
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');

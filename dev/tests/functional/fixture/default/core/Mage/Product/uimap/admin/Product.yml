@@ -211,7 +211,7 @@ new_product:
                                         chosen_parent_category_name: /div[text()='%categoryName%']
                             -
                                 product_variations:
-                                    xpath: //div[@id='super_config-wrapper']
+                                    xpath: //div[@id='super_config-wrapper' or @id='config_super_product-wrapper']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
                                         attribute_blocks_name: //input[contains(@name,'[label]')]
@@ -222,7 +222,7 @@ new_product:
                                         generate_product_variations: //button[@id='generate-variations-button' and not(@disabled)]
                                         generate_product_variations_disabled: //button[@id='generate-variations-button' and @disabled]
                                     pageelements:
-                                        product_variations_fieldset: //div[@id='config_super_product-content']
+                                        product_variations_fieldset: //div[@id='config_super_product-content' or @id='super_config-content']
                                         configurable_attributes_list: "//div[@class='mage-suggest-dropdown'][not(contains(@style,'display: none;'))]"
                             -
                                 product_variation_attribute:

@@ -44,18 +44,6 @@ system_backup:
             database_and_media_backup: //button[span='Database and Media Backup']
             database_backup: //button[span='Database Backup']
 
-# Web Services: Users page
-api_user:
-    mca: api_user/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_user/')]
-    title: Users / Web Services / System / Magento Admin
-
-# Web Services: Roles page
-api_role:
-    mca: api_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_role/')]
-    title: Roles / SOAP/XML – RPC / System / Magento Admin
-
 # Web Services: OAuth Consumers page
 oauth_consumer:
     mca: oauth_consumer/

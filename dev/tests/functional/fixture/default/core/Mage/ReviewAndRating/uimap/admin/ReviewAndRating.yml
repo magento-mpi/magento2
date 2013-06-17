@@ -168,7 +168,7 @@ add_new_review:
                         links:
                             product: //a[text()='%productName%']
                         radiobuttons:
-                            detailed_rating: //label[contains(@for,'%ratingName%')][contains(text(),'%stars% star')]
+                            detailed_rating: //label[@for='%ratingName%_%stars%']
                         dropdowns:
                             status: //select[@name='status_id']
                         multiselects:

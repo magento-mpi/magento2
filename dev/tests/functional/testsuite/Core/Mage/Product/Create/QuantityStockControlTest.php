@@ -242,6 +242,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product, 'simple', false);
+        $this->productHelper()->openProductTab('inventory');
         $this->fillTab($inventory, 'inventory');
         $this->addParameter('elementTitle', $product['general_name']);
         $this->productHelper()->saveProduct('continueEdit');
