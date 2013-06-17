@@ -74,11 +74,11 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var Mage_Core_Model_DataService_Config_Reader_Factory $dsConfigReaderFactory */
-        $dsConfigReaderFactory = Mage::getObjectManager()->create(
+        /** @var Mage_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
+        $dsCfgReaderFactory = Mage::getObjectManager()->create(
             'Mage_Core_Model_DataService_Config_Reader_Factory');
 
-        $this->_config = new Mage_Core_Model_DataService_Config($dsConfigReaderFactory, $moduleReader);
+        $this->_config = new Mage_Core_Model_DataService_Config($dsCfgReaderFactory, $moduleReader);
     }
 
     public function testGetClassByAliasOverride()
