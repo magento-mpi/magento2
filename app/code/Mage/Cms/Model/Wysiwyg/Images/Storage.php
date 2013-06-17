@@ -205,7 +205,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         $newPath = $path . DS . $name;
 
         if ($this->_filesystem->isDirectory($newPath, $path)) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('A directory with the same name already exists. Please try another folder name.'));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('We found a directory with the same name. Please try another folder name.'));
         }
 
         $this->_filesystem->createDirectory($newPath);
