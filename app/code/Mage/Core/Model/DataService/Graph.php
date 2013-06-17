@@ -66,7 +66,7 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
                 throw new InvalidArgumentException("Data service '$dataServiceName' couldn't be retrieved");
             }
             foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
-                $this->_repository->addNameInNamespace($namespaceName, $dataServiceName, $aliasInNamespace);
+                $this->_repository->setAlias($namespaceName, $dataServiceName, $aliasInNamespace);
             }
         }
         return $this;

@@ -58,7 +58,7 @@ class Mage_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
 
     public function testInit()
     {
-        $this->_repositoryMock->expects($this->once())->method('addNameInNamespace')->with(
+        $this->_repositoryMock->expects($this->once())->method('setAlias')->with(
             self::TEST_NAMESPACE,
             self::TEST_DATA_SERVICE_NAME,
             self::TEST_NAMESPACE_ALIAS

@@ -22,7 +22,9 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
         Mage_Core_Model_Config_Modules_Reader $modulesReader,
         array $configFiles
     ) {
-        parent::__construct($configFiles);
+        if (count($configFiles)) {
+            parent::__construct($configFiles);
+        }
         $this->_modulesReader = $modulesReader;
     }
 
