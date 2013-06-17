@@ -123,11 +123,11 @@
         <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
-            tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
         <copy file="${basedir}/${env.build_customization_dir}/config.yml" failonerror="true" overwrite="true"
-            tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml"/>
         <copy file="${basedir}/${env.build_customization_dir}/install.php" failonerror="true" overwrite="true"
-            tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php"/>
+              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php"/>
 
         <antcall target="_installation_requirements" inheritAll="true">
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}"/>

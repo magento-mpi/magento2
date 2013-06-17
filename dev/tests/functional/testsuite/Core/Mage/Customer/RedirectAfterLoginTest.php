@@ -68,7 +68,9 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
     {
         foreach ($customerData as $customer) {
             $this->logoutCustomer();
-            $this->frontend('customer_login');
+            $this->addParameter('referer', $this->defineParameterFromUrl('referer',
+                $this->getControlAttribute(self::FIELD_TYPE_LINK, 'log_in', 'href')));
+            $this->frontend('customer_login', false);
             $this->customerHelper()->registerCustomer($customer);
             $this->assertMessagePresent('success', 'success_registration');
         }
@@ -95,6 +97,8 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
         //Open Product Page created from PreConditions page
         $this->productHelper()->frontOpenProduct($testData['product_name']);
         //Log in as registered from PreConditions customer
+        $this->addParameter('referer', $this->defineParameterFromUrl('referer',
+            $this->getControlAttribute(self::FIELD_TYPE_LINK, 'log_in', 'href')));
         $this->customerHelper()->clickControl('link', 'log_in');
         $this->fillFieldset($testData['customer_1'], 'log_in_customer');
         $this->clickButton('login');
@@ -131,17 +135,15 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
      * Cover MAGETWO-2465
      *
      * @depends preconditionsForTests
-     * @dataProvider otherUserLogin
      * @param $testData
-     * @param $settings
      * @test
      */
-    public function redirectAfterAnotherUserLogin($settings, $testData)
+    public function redirectAfterAnotherUserLogin($testData)
     {
         //Set System-Configurations-Customer Configurations-Login options-
         //Redirect Customer to Account Dashboard after Logging in to "Yes"
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure("CustomerRedirect/$settings");
+        $this->systemConfigurationHelper()->configure('CustomerRedirect/enable_customer_configuration_redirect');
         //Go to frontend
         $this->frontend();
         $this->logoutCustomer();
@@ -150,20 +152,11 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
         //Add product to cart
         $this->productHelper()->frontOpenProduct($testData['product_name']);
         $this->productHelper()->frontAddProductToCart();
-        $this->frontend('shopping_cart');
         $this->logoutCustomer();
 
         //Login as second user
         $this->customerHelper()->frontLoginCustomer($testData['customer_2']);
         //Validate that Customer Account Dashboard page is opened
         $this->validatePage('customer_account');
-    }
-
-    public function otherUserLogin()
-    {
-        return array(
-            array('enable_customer_configuration_redirect'),
-            array('disable_customer_configuration_redirect'),
-        );
     }
 }
