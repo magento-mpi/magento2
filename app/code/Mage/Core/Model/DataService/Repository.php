@@ -12,9 +12,9 @@
 class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataService_Path_NodeInterface
 {
     /**
-     * @var array of Mage_Core_Model_DataService_Path_NodeInterface
+     * @var array
      */
-    protected $_dataServices = array();
+    protected $_serviceData = array();
 
     /**
      * @var array
@@ -62,12 +62,12 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
      * Add new service data.
      *
      * @param string $name
-     * @param Mage_Core_Model_DataService_Path_NodeInterface $dataService
+     * @param array $data
      * @return $this
      */
-    public function add($name, $dataService)
+    public function add($name, $data)
     {
-        $this->_dataServices[$name] = $dataService;
+        $this->_serviceData[$name] = $data;
         return $this;
     }
 
@@ -75,14 +75,14 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
      * Get service data by name.
      *
      * @param string $name
-     * @return Mage_Core_Model_DataService_Path_NodeInterface|null
+     * @return array|null
      */
     public function get($name)
     {
-        if (!isset($this->_dataServices[$name])) {
+        if (!isset($this->_serviceData[$name])) {
             return null;
         }
-        return $this->_dataServices[$name];
+        return $this->_serviceData[$name];
     }
 
     /**
