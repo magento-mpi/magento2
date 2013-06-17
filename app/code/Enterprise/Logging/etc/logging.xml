@@ -1685,7 +1685,7 @@
     </paypal_settlement_reports>
 
     <adminhtml_sales_recurring_profile translate="label">
-        <label>Recurring Profiles</label>
+        <label>Recurring Billing Profiles</label>
         <expected_models>
             <Mage_Sales_Model_Recurring_Profile/>
         </expected_models>

@@ -26,7 +26,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute extends Mage_Adminhtml_B
     {
         $this->_controller = 'adminhtml_rma_item_attribute';
         $this->_blockGroup = 'Enterprise_Rma';
-        $this->_headerText = Mage::helper('Enterprise_Rma_Helper_Data')->__('Manage RMA Item Attribute');
+        $this->_headerText = Mage::helper('Enterprise_Rma_Helper_Data')->__('Manage Return Item Attribute');
         $this->_addButtonLabel = Mage::helper('Enterprise_Rma_Helper_Data')->__('Add New Attribute');
         parent::_construct();
     }

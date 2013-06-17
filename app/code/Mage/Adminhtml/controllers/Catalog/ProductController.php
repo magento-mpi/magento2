@@ -42,7 +42,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _initProduct()
     {
-        $this->_title($this->__('Manage Products'));
+        $this->_title($this->__('Products'));
 
         $productId  = (int) $this->getRequest()->getParam('id');
         /** @var $product Mage_Catalog_Model_Product */
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Products'));
+        $this->_title($this->__('Products'));
         $this->_addProductLimitationMassage();
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_products');

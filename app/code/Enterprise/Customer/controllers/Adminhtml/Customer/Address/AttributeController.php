@@ -125,7 +125,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
 
             $this->_title($attributeObject->getFrontendLabel());
         } else {
-            $this->_title($this->__('New Attribute'));
+            $this->_title($this->__('New Customer Address Attribute'));
         }
 
         // restore attribute data

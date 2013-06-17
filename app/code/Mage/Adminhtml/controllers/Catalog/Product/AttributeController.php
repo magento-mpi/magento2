@@ -115,7 +115,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
         $this->_initAction();
 
-        $this->_title($id ? $model->getName() : $this->__('New Attribute'));
+        $this->_title($id ? $model->getName() : $this->__('New Product Attributes'));
 
         $item = $id ? Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute')
                     : Mage::helper('Mage_Catalog_Helper_Data')->__('New Product Attribute');

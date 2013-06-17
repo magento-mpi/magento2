@@ -77,9 +77,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
                 // restored label
                 $label = $label[0];
             }
-            return Mage::helper('Enterprise_Rma_Helper_Data')->__('Edit RMA Item Attribute "%s"', $label);
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('Edit Return Item Attribute "%s"', $label);
         } else {
-            return Mage::helper('Enterprise_Rma_Helper_Data')->__('New RMA Item Attribute');
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('New Return Item Attribute');
         }
     }
 

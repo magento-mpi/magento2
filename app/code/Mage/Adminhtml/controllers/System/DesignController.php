@@ -45,7 +45,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
             $design->load($id);
         }
 
-        $this->_title($design->getId() ? $this->__('Edit Design Change') : $this->__('New Design Change'));
+        $this->_title($design->getId() ? $this->__('Edit Store Design Change') : $this->__('New Store Design Change'));
 
         Mage::register('design', $design);
 
