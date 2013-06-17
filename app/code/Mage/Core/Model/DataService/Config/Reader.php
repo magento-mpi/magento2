@@ -70,4 +70,14 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
             '/service_calls/service_call' => 'name',
         );
     }
+
+    /**
+     * Perform xml validation
+     * @return Magento_Config_XmlAbstract
+     * @throws Magento_Exception if invalid XML-file passed
+     */
+    public function validate()
+    {
+        return $this->_performValidate();
+    }
 }

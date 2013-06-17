@@ -28,8 +28,12 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
     public function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_reader = $this->_objectManager->get('Mage_Core_Model_DataService_Config_Reader');
-        $this->_schemaFile = $this->_reader->getSchemaFile();
+        $serviceCallsFiles = $this->getServiceCallsConfigFiles();
+        if (!empty($serviceCallsFiles)) {
+            $this->_reader = $this->_objectManager->create('Mage_Core_Model_DataService_Config_Reader', array(
+                'configFiles' => $serviceCallsFiles));
+            $this->_schemaFile = $this->_reader->getSchemaFile();
+        }
     }
 
     protected function tearDown()
@@ -37,51 +41,54 @@ class Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_Te
         $this->_objectManager->removeSharedInstance('Mage_Core_Model_DataService_Config_Reader');
     }
 
-    /**
-     * @dataProvider serviceCallsConfigFileDataProvider
-     */
-    public function testServiceCallsConfigFile($file, $dummy = false)
+    public function getServiceCallsConfigFiles()
     {
-        if (!$dummy) {
-            $domConfig = new Magento_Config_Dom(file_get_contents($file));
-            $result = $domConfig->validate($this->_schemaFile, $errors);
-            $message = "Invalid XML-file: {$file}\n";
-            foreach ($errors as $error) {
-                $message .= "$error\n";
-            }
-            $this->assertTrue($result, $message);
-        }
+        return glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
     }
 
-    public function serviceCallsConfigFileDataProvider()
+    public function serviceCallsConfigFilesProvider()
     {
-        $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
-        $dataProviderResult = array();
-
-        // if no files are found, set result to a dummy array with dummy flag set
+        $fileList = $this->getServiceCallsConfigFiles();
         if (empty($fileList)) {
-            $dataProviderResult = array(
-                array("dummy", true)
-            );
-        } else {
-            // set result to array of found files
-            foreach ($fileList as $file) {
-                $dataProviderResult[$file] = array($file);
-            }
+            return array(array(false, true));
         }
 
+        $dataProviderResult = array();
+        foreach ($fileList as $file) {
+            $dataProviderResult[$file] = array($file);
+        }
         return $dataProviderResult;
     }
 
-    public function testMergedConfiguration()
+    /**
+     * @dataProvider serviceCallsConfigFilesProvider
+     */
+    public function testServiceCallsConfigFile($file, $skip = false)
     {
-        $dom = $this->_reader->getServiceCallConfig();
-        $domConfig = new Magento_Config_Dom($dom->getXmlString());
+        if ($skip) {
+            $this->markTestSkipped('There is no service_calls.xml files in the system');
+        }
+        $domConfig = new Magento_Config_Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemaFile, $errors);
-        $message = "Invalid merged service_calls config\n";
+        $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
             $message .= "$error\n";
         }
+
         $this->assertTrue($result, $message);
+    }
+
+    public function testMergedConfig()
+    {
+        if (is_null($this->_reader)) {
+            $this->markTestSkipped('There is no service_calls.xml files in the system');
+            return;
+        }
+
+        try {
+            $this->_reader->validate();
+        } catch (Magento_Exception $e) {
+            $this->fail($e->getMessage());
+        }
     }
 }

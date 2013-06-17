@@ -36,7 +36,9 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
          *
          * @var Mage_Core_Model_Config_Cache $cache
          */
-        $cache = $this->getMock('Mage_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'));
+        $cache = $this->getMock('Mage_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'),
+            array(), '', false);
+        
         $cache->expects($this->once())
             ->method('load')
             ->will($this->returnValue(false));
