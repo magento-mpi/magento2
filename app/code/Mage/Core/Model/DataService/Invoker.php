@@ -77,7 +77,6 @@ class Mage_Core_Model_DataService_Invoker
      */
     protected function _applyMethod($object, $methodName, $methodArguments)
     {
-        $result = null;
         $arguments = array();
         if (is_array($methodArguments)) {
             $arguments = $this->_prepareArguments($methodArguments);
