@@ -68,6 +68,13 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
         try {
             // TODO: $this->_authentication->authenticate();
             $route = $this->_router->match($this->_request);
+
+            // check if the operation is a secure operation & whether the request was made in HTTPS
+            if ($route->isSecure() && !$this->_request->isSecure()) {
+                // TODO: Set the right error code and replace generic Exception with right exception instance
+                throw new Exception("Operation allowed only in HTTPS", 40001);
+            }
+
             $inputData = $this->_restPresentation->fetchRequestData();
             // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
             $serviceMethod = $route->getServiceMethod();
