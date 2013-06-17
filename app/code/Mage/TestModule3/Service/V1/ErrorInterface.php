@@ -1,6 +1,13 @@
 <?php
-
-interface Mage_TestModule2_Service_V1_ErrorInterface
+/**
+ * Interface for a test service for error handling testing
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+interface Mage_TestModule3_Service_V1_ErrorInterface
 {
     public function success($request);
     public function resourceNotFoundException($request);

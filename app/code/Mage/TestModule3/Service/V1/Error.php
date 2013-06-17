@@ -1,6 +1,13 @@
 <?php
-
-class Mage_TestModule2_Service_V1_Error implements Mage_TestModule2_Service_V1_ErrorInterface
+/**
+ * Implementation of a test service for error handling testing
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+class Mage_TestModule3_Service_V1_Error implements Mage_TestModule3_Service_V1_ErrorInterface
 {
     public function success($request)
     {
