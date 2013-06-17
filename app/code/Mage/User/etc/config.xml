@@ -49,6 +49,7 @@
             <Mage_User_Model_Resource_Rules>
                 <parameters>
                     <rootResource>Mage_Core_Model_Acl_RootResource_Proxy</rootResource>
+                    <aclCache>Mage_Core_Model_Acl_Cache_Proxy</aclCache>
                 </parameters>
             </Mage_User_Model_Resource_Rules>
             <Mage_User_Model_Resource_User>
@@ -56,11 +57,6 @@
                     <aclCache>Mage_Core_Model_Acl_Cache_Proxy</aclCache>
                 </parameters>
             </Mage_User_Model_Resource_User>
-            <Mage_User_Model_Resource_Rules>
-                <parameters>
-                    <aclCache>Mage_Core_Model_Acl_Cache_Proxy</aclCache>
-                </parameters>
-            </Mage_User_Model_Resource_Rules>
             <preferences>
                 <Mage_Backend_Model_Auth_Credential_StorageInterface>Mage_User_Model_User</Mage_Backend_Model_Auth_Credential_StorageInterface>
             </preferences>
