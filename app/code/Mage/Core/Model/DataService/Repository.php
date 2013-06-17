@@ -24,17 +24,17 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
     /**
      * Assign a new name to existing namespace identified by alias.
      *
-     * @param $namespace
-     * @param $name
-     * @param $nameInNamespace
+     * @param string $namespace
+     * @param string $serviceName
+     * @param string $alias
      * @return $this
      */
-    public function addNameInNamespace($namespace, $name, $nameInNamespace)
+    public function setAlias($namespace, $serviceName, $alias)
     {
         if (isset($this->_namespaces[$namespace])) {
-            $this->_namespaces[$namespace][$name] = $nameInNamespace;
+            $this->_namespaces[$namespace][$serviceName] = $alias;
         } else {
-            $this->_namespaces[$namespace] = array($name => $nameInNamespace);
+            $this->_namespaces[$namespace] = array($serviceName => $alias);
         }
         return $this;
     }
@@ -52,8 +52,8 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
         }
         $dataServices = array();
         $dataServicesNames = $this->_namespaces[$namespace];
-        foreach ($dataServicesNames as $name => $nameInNamespace) {
-            $dataServices[$nameInNamespace] = $this->get($name);
+        foreach ($dataServicesNames as $serviceName => $alias) {
+            $dataServices[$alias] = $this->get($serviceName);
         }
         return $dataServices;
     }
@@ -61,28 +61,28 @@ class Mage_Core_Model_DataService_Repository implements Mage_Core_Model_DataServ
     /**
      * Add new service data.
      *
-     * @param string $name
+     * @param string $serviceName
      * @param array $data
-     * @return $this
+     * @return Mage_Core_Model_DataService_Repository
      */
-    public function add($name, $data)
+    public function add($serviceName, $data)
     {
-        $this->_serviceData[$name] = $data;
+        $this->_serviceData[$serviceName] = $data;
         return $this;
     }
 
     /**
      * Get service data by name.
      *
-     * @param string $name
+     * @param string $serviceName
      * @return array|null
      */
-    public function get($name)
+    public function get($serviceName)
     {
-        if (!isset($this->_serviceData[$name])) {
+        if (!isset($this->_serviceData[$serviceName])) {
             return null;
         }
-        return $this->_serviceData[$name];
+        return $this->_serviceData[$serviceName];
     }
 
     /**

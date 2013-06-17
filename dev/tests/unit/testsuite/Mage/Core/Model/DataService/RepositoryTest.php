@@ -21,14 +21,14 @@ class Mage_Core_Model_DataService_RepositoryTest extends PHPUnit_Framework_TestC
 
     public function testAddGet()
     {
-        $dataService = (object)array();
-        $name = 'name';
-        $this->assertEquals($dataService, $this->_repository->add($name, $dataService)->get($name));
+        $data = array();
+        $serviceName = 'service_name';
+        $this->assertEquals($data, $this->_repository->add($serviceName, $data)->get($serviceName));
     }
 
     public function testGet()
     {
-        $this->assertEquals(null, $this->_repository->get('name'));
+        $this->assertEquals(null, $this->_repository->get('unknown_service_name'));
     }
 
     public function testGetByNamespace()
@@ -39,34 +39,34 @@ class Mage_Core_Model_DataService_RepositoryTest extends PHPUnit_Framework_TestC
 
     public function testAddGetNamespace()
     {
-        $dataService = (object)array();
-        $nameInNamespace = 'name_in_namespace';
+        $data = array();
+        $alias = 'alias';
         $namespace = 'namespace';
-        $name = 'name';
-        $namespaceResults = $this->_repository->add($name, $dataService)
-            ->addNameInNamespace($namespace, $name, $nameInNamespace)
+        $serviceName = 'service_name';
+        $namespaceResults = $this->_repository->add($serviceName, $data)
+            ->setAlias($namespace, $serviceName, $alias)
             ->getByNamespace($namespace);
-        $this->assertEquals($dataService, $namespaceResults[$nameInNamespace]);
+        $this->assertEquals($data, $namespaceResults[$alias]);
     }
 
     public function testAddGetNamespaceAgain()
     {
-        $dataService = (object)array();
-        $nameInNamespace = 'name_in_namespace';
+        $data = array();
+        $alias = 'alias';
         $namespace = 'namespace';
-        $name = 'name';
-        $namespaceResults = $this->_repository->add($name, $dataService)
-            ->addNameInNamespace($namespace, $name, 'something_different')
-            ->addNameInNamespace($namespace, $name, $nameInNamespace)
+        $serviceName = 'service_name';
+        $namespaceResults = $this->_repository->add($serviceName, $data)
+            ->setAlias($namespace, $serviceName, 'something_different')
+            ->setAlias($namespace, $serviceName, $alias)
             ->getByNamespace($namespace);
-        $this->assertEquals($dataService, $namespaceResults[$nameInNamespace]);
+        $this->assertEquals($data, $namespaceResults[$alias]);
     }
 
     public function testGetChild()
     {
-        $dataService = (object)array();
-        $name = 'name';
-        $this->_repository->add($name, $dataService);
-        $this->assertEquals($dataService, $this->_repository->getChildNode($name));
+        $data = array();
+        $serviceName = 'service_name';
+        $this->_repository->add($serviceName, $data);
+        $this->assertEquals($data, $this->_repository->getChildNode($serviceName));
     }
 }
