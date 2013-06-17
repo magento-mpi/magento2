@@ -88,7 +88,7 @@ interface Mage_Core_Model_Design_PackageInterface
      * @param array $params
      * @return string
      */
-    public function getFilename($file, array $params = array());
+    //public function getFilename($file, array $params = array());
 
     /**
      * Get a locale file
@@ -97,7 +97,7 @@ interface Mage_Core_Model_Design_PackageInterface
      * @param array $params
      * @return string
      */
-    public function getLocaleFileName($file, array $params = array());
+    //public function getLocaleFileName($file, array $params = array());
 
     /**
      * Find a view file using fallback mechanism
@@ -106,7 +106,7 @@ interface Mage_Core_Model_Design_PackageInterface
      * @param array $params
      * @return string
      */
-    public function getViewFile($file, array $params = array());
+    //public function getViewFile($file, array $params = array());
 
     /**
      * Publish file (if needed) and return its public path
@@ -115,7 +115,7 @@ interface Mage_Core_Model_Design_PackageInterface
      * @param array $params
      * @return string
      */
-    public function getViewFilePublicPath($file, array $params = array());
+    //public function getViewFilePublicPath($file, array $params = array());
 
 
     /**
@@ -126,7 +126,7 @@ interface Mage_Core_Model_Design_PackageInterface
      * @param array $params
      * @return string
      */
-    public function getViewFileUrl($file, array $params = array());
+    //public function getViewFileUrl($file, array $params = array());
 
     /**
      * Get url to public file
@@ -136,19 +136,19 @@ interface Mage_Core_Model_Design_PackageInterface
      * @return string
      * @throws Magento_Exception
      */
-    public function getPublicFileUrl($file, $isSecure = null);
+    //public function getPublicFileUrl($file, $isSecure = null);
 
     /**
      * Return directory for theme files publication
      *
      * @return string
      */
-    public function getPublicDir();
+    //public function getPublicDir();
 
     /**
      * Render view config object for current package and theme
      *
      * @return Magento_Config_View
      */
-    public function getViewConfig();
+    //public function getViewConfig();
 }
