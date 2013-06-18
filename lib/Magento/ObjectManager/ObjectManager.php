@@ -82,7 +82,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     /**
      * Resolve constructor arguments
      *
-     * @param string $className
+     * @param string $requestedType
      * @param array $parameters
      * @param array $arguments
      * @return array
@@ -92,11 +92,11 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function _resolveArguments($className, array $parameters, array $arguments = array())
+    protected function _resolveArguments($requestedType, array $parameters, array $arguments = array())
     {
         $resolvedArguments = array();
-        if (isset($this->_arguments[$className])) {
-            $arguments = array_replace($this->_arguments[$className], $arguments);
+        if (isset($this->_arguments[$requestedType])) {
+            $arguments = array_replace($this->_arguments[$requestedType], $arguments);
         }
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
@@ -108,7 +108,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                     $argument = array('instance' => $paramType);
                 } else {
                     throw new BadMethodCallException(
-                        'Missing required argument $' . $paramName . ' for ' . $className . '.'
+                        'Missing required argument $' . $paramName . ' for ' . $requestedType . '.'
                     );
                 }
             } else {
@@ -117,21 +117,21 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
             if ($paramRequired && $paramType && !is_object($argument)) {
                 if (!is_array($argument) || !isset($argument['instance'])) {
                     throw new InvalidArgumentException(
-                        'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $className
+                        'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $requestedType
                     );
                 }
-                $instanceName = $argument['instance'];
-                if (isset($this->_creationStack[$instanceName])) {
+                $argumentType = $argument['instance'];
+                if (isset($this->_creationStack[$argumentType])) {
                     throw new LogicException(
-                        'Circular dependency: ' . $instanceName . ' depends on ' . $className . ' and viceversa.'
+                        'Circular dependency: ' . $argumentType . ' depends on ' . $requestedType . ' and viceversa.'
                     );
                 }
-                $this->_creationStack[$className] = 1;
+                $this->_creationStack[$requestedType] = 1;
 
-                $isShared = (!isset($argument['shared']) && !isset($this->_nonShared[$instanceName]))
+                $isShared = (!isset($argument['shared']) && !isset($this->_nonShared[$argumentType]))
                     || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
-                $argument = $isShared ? $this->get($instanceName) : $this->create($instanceName);
-                unset($this->_creationStack[$className]);
+                $argument = $isShared ? $this->get($argumentType) : $this->create($argumentType);
+                unset($this->_creationStack[$requestedType]);
             }
             $resolvedArguments[] = $argument;
         }
