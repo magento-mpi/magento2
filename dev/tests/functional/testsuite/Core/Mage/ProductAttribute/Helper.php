@@ -143,7 +143,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $this->fillManageOptions($attributeData);
         if (isset($attributeData['advanced_attribute_properties'])) {
             if(!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties')) {
-                $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties', false);
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'advanced_attribute_properties_section', false);
             }
             $this->fillTab($attributeData['advanced_attribute_properties'], 'properties', false);
         }
