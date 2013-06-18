@@ -346,6 +346,7 @@ class Mage_Paypal_Model_Config
                 // check for direct payments dependence
                 if ($this->isMethodActive(self::METHOD_WPP_PE_DIRECT)
                     || $this->isMethodActive(self::METHOD_PAYFLOWLINK)
+                    || $this->isMethodActive(self::METHOD_PAYFLOWADVANCED)
                 ) {
                     $result = true;
                 } elseif (!$this->isMethodActive(self::METHOD_WPP_PE_DIRECT)
@@ -1292,6 +1293,10 @@ class Mage_Paypal_Model_Config
             && $this->isMethodAvailable(self::METHOD_PAYFLOWLINK)
         ) {
             $pathPrefix = 'payment/payflow_link';
+        } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS
+            && $this->isMethodAvailable(self::METHOD_PAYFLOWADVANCED)
+        ) {
+            $pathPrefix = 'payment/payflow_advanced';
         } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS
             && !$this->isMethodAvailable(self::METHOD_WPP_PE_DIRECT)
         ) {

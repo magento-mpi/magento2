@@ -103,11 +103,11 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         $title = $this->__('Assign New Theme');
         if ($this->getHasThemeAssigned()) {
             // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a new theme for your live store. Click "Ok" to replace your current theme.');
+            $message = $this->__('You chose a new theme for your live store. Click "OK" to replace your current theme.');
             // @codingStandardsIgnoreEnd
         } else {
             // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a theme for your new store. Click "Ok" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
+            $message = $this->__('You chose a theme for your new store. Click "OK" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
             // @codingStandardsIgnoreEnd
         }
         $themeId = $themeBlock->getTheme()->getId();

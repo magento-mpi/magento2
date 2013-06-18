@@ -39,8 +39,7 @@ class Saas_ImportExport_Model_Import_Image_FileSystem
     public function moveFileToMedia($file)
     {
         $mediaDir = $this->_configuration->getMediaDir();
-        $this->_fileSystem->setIsAllowCreateDirectories(true)
-            ->ensureDirectoryExists($mediaDir);
+        $this->_fileSystem->setIsAllowCreateDirectories(true)->ensureDirectoryExists($mediaDir);
 
         $relativePath = str_replace($this->_configuration->getWorkingUnZipDir(), '', $file);
         $this->_fileSystem->rename($file, $mediaDir . $relativePath);

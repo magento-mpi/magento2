@@ -22,7 +22,7 @@ vde_design:
                             view_layout: //a[@class='vde_button view-layout']
                             back: //a[@class='vde_button' and @title='Back']
                             navigation_mode: //button[@title='Navigation Mode']
-                            assign_this_theme: //button[@title='Assign this Theme']
+                            assign_theme: //button[@title='Assign Theme']
                         dropdowns:
                             page_selector: //div[@data-ui-id='design-editor-toolbar-handles-hierarchy']/div[@class='vde_toolbar_cell_title']
                             view_options: //div[contains(text(), 'View Options')]
@@ -49,7 +49,7 @@ vde_design:
                         links:
                             remove_vde_element: //div[@data-name='%dataName%']/div[contains(@class, 'vde_element_remove')]/a
         messages:
-            confirm_assign: You are about to change this theme for your live store, are you sure want to do this?
+            confirm_assign: Are you sure you want to change the theme of your live store?
 
 vde_navigation:
     mca: system_design_editor/launch/theme_id/%themeId%/mode/navigation/

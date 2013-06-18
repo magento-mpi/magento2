@@ -45,20 +45,6 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     }
 
     /**
-     * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     */
-    public function testCreateLimitationReached()
-    {
-        $formattedData = $this->_prepareProductDataForSoap(require __DIR__ . '/_files/_data/simple_product_data.php');
-        /** @var Mage_Catalog_Model_Product_Limitation $limitation */
-        $limitation = Mage::getModel('Mage_Catalog_Model_Product_Limitation');
-        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate', $formattedData,
-            $limitation->getCreateRestrictedMessage()
-        );
-    }
-
-    /**
      * Test product resource post with all fields
      *
      * @param array $productData

@@ -2509,6 +2509,10 @@
     padding: 0;
 }
 
+.uploader-image .image.base-image:before {
+    background: none;
+}
+
 .uploader-image .file-row {
     display: table-row;
     margin: 15px 0 15px 15px;
