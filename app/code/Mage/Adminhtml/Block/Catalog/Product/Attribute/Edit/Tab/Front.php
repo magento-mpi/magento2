@@ -91,6 +91,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
             'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position in Layered Navigation'),
             'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position of attribute in layered navigation block'),
+            'class' => 'validate-digits'
         ));
 
         $fieldset->addField('is_wysiwyg_enabled', 'select', array(
