@@ -125,14 +125,9 @@ preview_theme_in_design:
                             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
                             vde_toolbar_row: //div[@id='vde_toolbar_row']
                         messages:
-<<<<<<< HEAD
-                            confirmation_for_assign_to_default_in_dm: Are you sure you want to change the design of your live store?
-                            no_change: We found no changes.
-=======
                             confirmation_for_assign_to_default_in_dm: You are about to apply current changes for your live store, are you sure want to do this?
                             assign_physical_theme_to_default_in_dm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
-                            no_change: No changes found.
->>>>>>> go-ga-dev
+                            no_change: We found no changes.
                 -
                     bottom_bar:
                         links:
