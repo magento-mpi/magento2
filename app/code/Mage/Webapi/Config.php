@@ -56,25 +56,37 @@ class Mage_Webapi_Config
     /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
 
+    /** @var Magento_Filesystem */
+    protected $_filesystem;
+
+    /** @var Mage_Core_Model_Dir */
+    protected $_dir;
+
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      * @param Mage_Webapi_Helper_Config $helper
+     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Dir $dir
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Webapi_Helper_Config $helper
+        Mage_Webapi_Helper_Config $helper,
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Dir $dir
     ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
         $this->_routeFactory = $routeFactory;
         $this->_helper = $helper;
+        $this->_filesystem = $filesystem;
+        $this->_dir = $dir;
     }
 
     /**
@@ -396,5 +408,112 @@ class Mage_Webapi_Config
             );
         }
         return $soapOperations[$soapOperation]['method'];
+    }
+
+    public function getOutputSchema($serviceClass, $serviceMethod)
+    {
+        return '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                    <xsd:complexType name="CatalogProductItemResponse">
+                        <xsd:annotation>
+                            <xsd:documentation>Response container for the catalogProductItem call.</xsd:documentation>
+                            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+                        </xsd:annotation>
+                        <xsd:sequence>
+                            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="sku" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="description" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="short_description" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="weight" minOccurs="1" maxOccurs="1" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>Default label</xsd:documentation>
+                                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                                        <inf:maxLength/>
+                                        <inf:callInfo>
+                                            <inf:callName>catalogProductItem</inf:callName>
+                                            <inf:returned>Always</inf:returned>
+                                        </inf:callInfo>
+                                    </xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:schema>';
+    }
+
+    public function getInputSchema($serviceClass, $serviceMethod)
+    {
+        $modulesDir = $this->_dir->getDir(Mage_Core_Model_Dir::MODULES);
+        /** TODO: Change pattern to match interface instead of class. Think about sub-services */
+        preg_match('/^(.+?)_(.+?)_Service_(.+?)$/', $serviceClass, $matches);
+        if (!isset($matches[0])) {
+            // TODO: Generate exception
+        }
+        $vendorNameIndex = 1;
+        $moduleNameIndex = 2;
+        $serviceNameIndex = 3;
+        $inputSchemaPath = "{$modulesDir}/{$matches[$vendorNameIndex]}/{$matches[$moduleNameIndex]}"
+            . "/etc/schema/{$matches[$serviceNameIndex]}/{$serviceMethod}Input.xml";
+        if ($this->_filesystem->isFile($inputSchemaPath)) {
+            $inputSchema = $this->_filesystem->read($inputSchemaPath);
+        } else {
+            $inputSchema = '';
+        }
+        return $inputSchema;
     }
 }

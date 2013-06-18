@@ -1,0 +1,23 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:complexType name="CatalogProductItemRequest">
+        <xsd:annotation>
+            <xsd:documentation/>
+            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>Entity ID</xsd:documentation>
+                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                        <inf:min/>
+                        <inf:max/>
+                        <inf:callInfo>
+                            <inf:callName>catalogProductItem</inf:callName>
+                            <inf:requiredInput>Yes</inf:requiredInput>
+                        </inf:callInfo>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
