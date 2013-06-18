@@ -107,6 +107,7 @@ Wishlist pages
         <label>Configure Wish list Item</label>
         <reference name="product.info">
             <block type="Mage_Wishlist_Block_Item_Configure" name="product.info.addto" as="addto" template="item/configure/addto.phtml"/>
+            <block type="Mage_Catalog_Block_Product_View_Type_Simple" name="product.info.simple" as="product_type_data" template="product/view/type/default.phtml"/>
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <action method="unsetChild"><name>product.info.addto.additional</name></action>
