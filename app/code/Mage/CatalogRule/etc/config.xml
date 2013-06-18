@@ -15,9 +15,9 @@
             <version>1.6.0.4</version>
             <active>true</active>
             <depends>
-                <Mage_Rule/>
-                <Mage_Catalog/>
-                <Mage_Customer/>
+                <Mage_Rule />
+                <Mage_Catalog />
+                <Mage_Customer />
             </depends>
         </Mage_CatalogRule>
     </modules>
@@ -57,13 +57,15 @@
         </events>
         <catalogrule>
             <related_cache_types>
-                <block_html/>
+                <block_html />
             </related_cache_types>
         </catalogrule>
         <di>
             <Mage_CatalogRule_Model_Rule_Job>
                 <parameters>
-                    <helper>Mage_CatalogRule_Helper_Data</helper>
+                    <helper>
+                        <instance type="Mage_CatalogRule_Helper_Data" />
+                    </helper>
                 </parameters>
             </Mage_CatalogRule_Model_Rule_Job>
             <Mage_CatalogRule_Model_Resource_Rule_Collection>
@@ -183,4 +185,4 @@
             </catalog_product_get_final_price>
         </events>
     </crontab>
-</config>
+</config>

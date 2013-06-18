@@ -32,7 +32,9 @@
             </preferences>
             <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
-                    <specificationFactory>Saas_Saas_Model_Limitation_Specification_Factory</specificationFactory>
+                    <specificationFactory>
+                        <instance type="Saas_Saas_Model_Limitation_Specification_Factory" />
+                    </specificationFactory>
                 </parameters>
             </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>

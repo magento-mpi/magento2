@@ -15,9 +15,9 @@
             <version>1.0.0.3</version>
             <active>true</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_Page/>
-                <Mage_Theme/>
+                <Mage_Adminhtml />
+                <Mage_Page />
+                <Mage_Theme />
             </depends>
         </Mage_DesignEditor>
     </modules>
@@ -63,7 +63,9 @@
         <di>
             <Mage_DesignEditor_Model_Resource_Layout_Update>
                 <parameters>
-                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                    <cache>
+                        <instance type="Mage_Core_Model_Cache_Type_Layout" />
+                    </cache>
                 </parameters>
             </Mage_DesignEditor_Model_Resource_Layout_Update>
         </di>
@@ -129,4 +131,4 @@
             </adminhtml>
         </routers>
     </admin>
-</config>
+</config>

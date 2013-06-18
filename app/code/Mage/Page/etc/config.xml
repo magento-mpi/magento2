@@ -15,7 +15,7 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Core/>
+                <Mage_Core />
             </depends>
         </Mage_Page>
     </modules>
@@ -23,7 +23,9 @@
         <di>
             <Mage_Core_Model_Page>
                 <parameters>
-                    <assets>Mage_Page_Model_Asset_GroupedCollection</assets>
+                    <assets>
+                        <instance type="Mage_Page_Model_Asset_GroupedCollection" />
+                    </assets>
                 </parameters>
             </Mage_Core_Model_Page>
             <Mage_Page_Model_Asset_GroupedCollection>

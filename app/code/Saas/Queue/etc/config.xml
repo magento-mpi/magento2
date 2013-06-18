@@ -38,7 +38,9 @@
             </preferences>
             <Saas_Queue_Model_Observer_Config>
                 <parameters>
-                    <config>Mage_Core_Model_Config</config>
+                    <config>
+                        <instance type="Mage_Core_Model_Config" />
+                    </config>
                 </parameters>
             </Saas_Queue_Model_Observer_Config>
         </di>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
  * {license_notice}
@@ -36,45 +36,64 @@
             <!--</Mage_Core_Model_Config>-->
             <Saas_Queue_Helper_Gearman>
                 <parameters>
-                    <config>Mage_Core_Model_Config_Primary</config>
+                    <config>
+                        <instance type="Mage_Core_Model_Config_Primary" />
+                    </config>
                 </parameters>
             </Saas_Queue_Helper_Gearman>
             <Enterprise_Queue_Helper_Gearman>
                 <parameters>
-                    <config>Mage_Core_Model_Config_Primary</config>
+                    <config>
+                        <instance type="Mage_Core_Model_Config_Primary" />
+                    </config>
                 </parameters>
             </Enterprise_Queue_Helper_Gearman>
-
             <Mage_Core_Model_Config_Locales>
                 <parameters>
-                    <storage>Saas_Core_Model_Config_Storage_Locales</storage>
+                    <storage>
+                        <instance type="Saas_Core_Model_Config_Storage_Locales" />
+                    </storage>
                 </parameters>
             </Mage_Core_Model_Config_Locales>
             <Mage_Core_Model_Config_Modules>
                 <parameters>
-                    <storage>Saas_Core_Model_Config_Storage_Modules</storage>
+                    <storage>
+                        <instance type="Saas_Core_Model_Config_Storage_Modules" />
+                    </storage>
                 </parameters>
             </Mage_Core_Model_Config_Modules>
             <Saas_Core_Model_Config_Storage_Worker>
                 <parameters>
-                    <loader>Mage_Core_Model_Config_Loader_Proxy</loader>
-                    <storageModules>Saas_Core_Model_Config_Storage_Modules</storageModules>
-                    <storageLocales>Saas_Core_Model_Config_Storage_Locales</storageLocales>
+                    <loader>
+                        <instance type="Mage_Core_Model_Config_Loader_Proxy" />
+                    </loader>
+                    <storageModules>
+                        <instance type="Saas_Core_Model_Config_Storage_Modules" />
+                    </storageModules>
+                    <storageLocales>
+                        <instance type="Saas_Core_Model_Config_Storage_Locales" />
+                    </storageLocales>
                 </parameters>
             </Saas_Core_Model_Config_Storage_Worker>
             <Saas_Core_Model_Config_Storage>
                 <parameters>
-                    <loader>Mage_Core_Model_Config_Loader_Proxy</loader>
+                    <loader>
+                        <instance type="Mage_Core_Model_Config_Loader_Proxy" />
+                    </loader>
                 </parameters>
             </Saas_Core_Model_Config_Storage>
             <Saas_Core_Model_Config_Storage_Modules>
                 <parameters>
-                    <loader>Mage_Core_Model_Config_Loader_Modules_Proxy</loader>
+                    <loader>
+                        <instance type="Mage_Core_Model_Config_Loader_Modules_Proxy" />
+                    </loader>
                 </parameters>
             </Saas_Core_Model_Config_Storage_Modules>
             <Saas_Core_Model_Config_Storage_Locales>
                 <parameters>
-                    <loader>Mage_Core_Model_Config_Loader_Locales_Proxy</loader>
+                    <loader>
+                        <instance type="Mage_Core_Model_Config_Loader_Locales_Proxy" />
+                    </loader>
                 </parameters>
             </Saas_Core_Model_Config_Storage_Locales>
             <Magento_Http_Handler_Composite>
@@ -89,7 +108,9 @@
             </Magento_Http_Handler_Composite>
             <Saas_Saas_Model_Cache>
                 <parameters>
-                    <config>Mage_Core_Model_Config_Proxy</config>
+                    <config>
+                        <instance type="Mage_Core_Model_Config_Proxy" />
+                    </config>
                 </parameters>
             </Saas_Saas_Model_Cache>
         </di>

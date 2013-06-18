@@ -15,8 +15,8 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Customer/>
-                <Mage_Catalog/>
+                <Mage_Customer />
+                <Mage_Catalog />
             </depends>
         </Mage_Wishlist>
     </modules>
@@ -58,16 +58,18 @@
         <wishlist>
             <item>
                 <product_attributes>
-                    <visibility/>
-                    <url_path/>
-                    <url_key/>
+                    <visibility />
+                    <url_path />
+                    <url_key />
                 </product_attributes>
             </item>
         </wishlist>
         <di>
             <Mage_Wishlist_Model_Resource_Item_Collection_Grid>
                 <parameters>
-                    <resource>Mage_Wishlist_Model_Resource_Item</resource>
+                    <resource>
+                        <instance type="Mage_Wishlist_Model_Resource_Item" />
+                    </resource>
                 </parameters>
             </Mage_Wishlist_Model_Resource_Item_Collection_Grid>
         </di>
@@ -165,4 +167,4 @@
             </email>
         </wishlist>
     </default>
-</config>
+</config>

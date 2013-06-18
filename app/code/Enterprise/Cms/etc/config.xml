@@ -25,12 +25,16 @@
         <di>
             <Enterprise_Cms_Model_Config>
                 <parameters>
-                    <authorization>Magento_Authorization_Proxy</authorization>
+                    <authorization>
+                        <instance type="Magento_Authorization_Proxy" />
+                    </authorization>
                 </parameters>
             </Enterprise_Cms_Model_Config>
             <Enterprise_Cms_Model_Observer>
                 <parameters>
-                    <authorization>Magento_Authorization_Proxy</authorization>
+                    <authorization>
+                        <instance type="Magento_Authorization_Proxy" />
+                    </authorization>
                 </parameters>
             </Enterprise_Cms_Model_Observer>
         </di>
@@ -73,16 +77,16 @@
                             <label>Left Column</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_left_column</layout_handle>
                             <page_layout_handles>
-                                <page_two_columns_left/>
-                                <page_three_columns/>
+                                <page_two_columns_left />
+                                <page_three_columns />
                             </page_layout_handles>
                         </left_column>
                         <right_column module="Enterprise_Cms" translate="label">
                             <label>Right Column</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_right_column</layout_handle>
                             <page_layout_handles>
-                                <page_two_columns_right/>
-                                <page_three_columns/>
+                                <page_two_columns_right />
+                                <page_three_columns />
                             </page_layout_handles>
                         </right_column>
                     </layouts>
@@ -216,4 +220,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

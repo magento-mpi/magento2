@@ -27,7 +27,9 @@
             </preferences>
             <Saas_CatalogRule_Model_Rule_Job>
                 <parameters>
-                    <helper>Mage_CatalogRule_Helper_Data</helper>
+                    <helper>
+                        <instance type="Mage_CatalogRule_Helper_Data" />
+                    </helper>
                 </parameters>
             </Saas_CatalogRule_Model_Rule_Job>
         </di>

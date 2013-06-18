@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
  * {license_notice}
@@ -32,15 +32,25 @@
             </preferences>
             <Enterprise_PageCache_Model_Processor>
                 <parameters>
-                    <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
-                    <metadata>Enterprise_PageCache_Model_Metadata_Proxy</metadata>
-                    <requestIdentifier>Enterprise_PageCache_Model_Request_Identifier_Proxy</requestIdentifier>
+                    <storeManager>
+                        <instance type="Mage_Core_Model_StoreManager_Proxy" />
+                    </storeManager>
+                    <metadata>
+                        <instance type="Enterprise_PageCache_Model_Metadata_Proxy" />
+                    </metadata>
+                    <requestIdentifier>
+                        <instance type="Enterprise_PageCache_Model_Request_Identifier_Proxy" />
+                    </requestIdentifier>
                 </parameters>
             </Enterprise_PageCache_Model_Processor>
             <Enterprise_PageCache_Model_DesignPackage_Rules>
                 <parameters>
-                    <design>Mage_Core_Model_Design_Proxy</design>
-                    <designPackage>Mage_Core_Model_Design_Package_Proxy</designPackage>
+                    <design>
+                        <instance type="Mage_Core_Model_Design_Proxy" />
+                    </design>
+                    <designPackage>
+                        <instance type="Mage_Core_Model_Design_Package_Proxy" />
+                    </designPackage>
                 </parameters>
             </Enterprise_PageCache_Model_DesignPackage_Rules>
             <Magento_Http_Handler_Composite>
@@ -55,7 +65,9 @@
             </Magento_Http_Handler_Composite>
             <Enterprise_Queue_Helper_Gearman>
                 <parameters>
-                    <config>Mage_Core_Model_Config</config>
+                    <config>
+                        <instance type="Mage_Core_Model_Config" />
+                    </config>
                 </parameters>
             </Enterprise_Queue_Helper_Gearman>
         </di>
@@ -65,4 +77,4 @@
             <queue>Enterprise_Queue_Model_ParamMapper</queue>
         </configurators>
     </global>
-</config>
+</config>

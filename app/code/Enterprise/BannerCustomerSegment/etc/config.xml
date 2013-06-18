@@ -13,8 +13,8 @@
             <version>1.0.0.0</version>
             <active>false</active>
             <depends>
-                <Enterprise_Banner/>
-                <Enterprise_CustomerSegment/>
+                <Enterprise_Banner />
+                <Enterprise_CustomerSegment />
             </depends>
         </Enterprise_BannerCustomerSegment>
     </modules>
@@ -71,7 +71,9 @@
         <di>
             <Enterprise_BannerCustomerSegment_Model_Observer>
                 <parameters>
-                    <segmentCustomer>Enterprise_CustomerSegment_Model_Customer_Proxy</segmentCustomer>
+                    <segmentCustomer>
+                        <instance type="Enterprise_CustomerSegment_Model_Customer_Proxy" />
+                    </segmentCustomer>
                 </parameters>
             </Enterprise_BannerCustomerSegment_Model_Observer>
         </di>
@@ -88,4 +90,4 @@
             </banner_edit_tab_properties_after_prepare_form>
         </events>
     </adminhtml>
-</config>
+</config>

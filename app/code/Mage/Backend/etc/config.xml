@@ -15,7 +15,7 @@
             <version>2.0.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Directory/>
+                <Mage_Directory />
             </depends>
         </Mage_Backend>
     </modules>
@@ -29,7 +29,7 @@
                     </admin>
                 </routers>
                 <frontName>backend</frontName>
-                <auth/>
+                <auth />
                 <acl>
                     <roleLocator>Mage_Backend_Model_Authorization_RoleLocator</roleLocator>
                     <policy>Magento_Authorization_Policy_Acl</policy>
@@ -49,17 +49,23 @@
             </preferences>
             <Mage_Backend_Controller_Context>
                 <parameters>
-                    <translator>Mage_Core_Model_Translate_Proxy</translator>
+                    <translator>
+                        <instance type="Mage_Core_Model_Translate_Proxy" />
+                    </translator>
                 </parameters>
             </Mage_Backend_Controller_Context>
             <Mage_Backend_Controller_Router_Default>
                 <parameters>
-                    <controllerFactory>Mage_Backend_Controller_Factory</controllerFactory>
+                    <controllerFactory>
+                        <instance type="Mage_Backend_Controller_Factory" />
+                    </controllerFactory>
                 </parameters>
             </Mage_Backend_Controller_Router_Default>
             <Mage_Backend_Adminhtml_System_Config_SaveController>
                 <parameters>
-                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                    <cache>
+                        <instance type="Mage_Core_Model_Cache_Type_Layout" />
+                    </cache>
                 </parameters>
             </Mage_Backend_Adminhtml_System_Config_SaveController>
         </di>
@@ -78,7 +84,7 @@
     <adminhtml>
         <layout>
             <updates>
-                <backend module='Mage_Backend'>
+                <backend module="Mage_Backend">
                     <file>layout.xml</file>
                 </backend>
             </updates>
@@ -107,7 +113,9 @@
             </preferences>
             <Magento_Acl_Builder>
                 <parameters>
-                    <resourceLoader>Magento_Acl_Loader_Resource</resourceLoader>
+                    <resourceLoader>
+                        <instance type="Magento_Acl_Loader_Resource" />
+                    </resourceLoader>
                 </parameters>
             </Magento_Acl_Builder>
             <Mage_Core_Model_Acl_Cache>
@@ -136,31 +144,41 @@
             </Mage_Backend_Model_Config_Structure_Element_Iterator_Group>
             <Mage_Backend_Model_Config_Structure_Element_Iterator_Field>
                 <parameters>
-                    <groupFlyweight>Mage_Backend_Model_Config_Structure_Element_Group_Proxy</groupFlyweight>
+                    <groupFlyweight>
+                        <instance type="Mage_Backend_Model_Config_Structure_Element_Group_Proxy" />
+                    </groupFlyweight>
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Iterator_Field>
             <Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper>
                 <parameters>
-                    <fieldLocator>Mage_Backend_Model_Config_Structure_Search_Proxy</fieldLocator>
+                    <fieldLocator>
+                        <instance type="Mage_Backend_Model_Config_Structure_Search_Proxy" />
+                    </fieldLocator>
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper>
             <Mage_Backend_Model_Config_Structure_Element_Tab>
                 <parameters>
-                    <childrenIterator>Mage_Backend_Model_Config_Structure_Element_Iterator_Section</childrenIterator>
+                    <childrenIterator>
+                        <instance type="Mage_Backend_Model_Config_Structure_Element_Iterator_Section" />
+                    </childrenIterator>
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Tab>
             <Mage_Backend_Model_Config_Structure_Element_Section>
                 <parameters>
-                    <childrenIterator>Mage_Backend_Model_Config_Structure_Element_Iterator_Group</childrenIterator>
+                    <childrenIterator>
+                        <instance type="Mage_Backend_Model_Config_Structure_Element_Iterator_Group" />
+                    </childrenIterator>
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Section>
             <Mage_Backend_Model_Config_Structure_Element_Group>
                 <parameters>
-                    <childrenIterator>Mage_Backend_Model_Config_Structure_Element_Iterator_Field</childrenIterator>
+                    <childrenIterator>
+                        <instance type="Mage_Backend_Model_Config_Structure_Element_Iterator_Field" />
+                    </childrenIterator>
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Group>
@@ -169,4 +187,4 @@
             </Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
         </di>
     </adminhtml>
-</config>
+</config>

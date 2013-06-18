@@ -15,7 +15,7 @@
             <version>1.12.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Wishlist/>
+                <Mage_Wishlist />
             </depends>
         </Enterprise_Wishlist>
     </modules>
@@ -31,7 +31,9 @@
         <di>
             <Enterprise_Wishlist_Model_Item_Collection>
                 <parameters>
-                    <resource>Enterprise_Wishlist_Model_Resource_Item</resource>
+                    <resource>
+                        <instance type="Enterprise_Wishlist_Model_Resource_Item" />
+                    </resource>
                 </parameters>
             </Enterprise_Wishlist_Model_Item_Collection>
         </di>
@@ -128,4 +130,4 @@
             </general>
         </wishlist>
     </default>
-</config>
+</config>

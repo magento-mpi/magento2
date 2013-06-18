@@ -15,9 +15,9 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_Customer/>
-                <Mage_Api/>
+                <Mage_Adminhtml />
+                <Mage_Customer />
+                <Mage_Api />
             </depends>
         </Enterprise_Pci>
     </modules>
@@ -56,7 +56,9 @@
         <di>
             <Enterprise_Pci_Model_Observer>
                 <parameters>
-                    <authorization>Magento_Authorization_Proxy</authorization>
+                    <authorization>
+                        <instance type="Magento_Authorization_Proxy" />
+                    </authorization>
                 </parameters>
             </Enterprise_Pci_Model_Observer>
         </di>
@@ -148,4 +150,4 @@
             </security>
         </admin>
     </default>
-</config>
+</config>

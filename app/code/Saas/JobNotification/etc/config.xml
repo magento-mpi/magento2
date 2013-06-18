@@ -63,7 +63,9 @@
         <di>
             <Saas_JobNotification_Model_Config>
                 <parameters>
-                    <config>Mage_Core_Model_Config</config>
+                    <config>
+                        <instance type="Mage_Core_Model_Config" />
+                    </config>
                 </parameters>
             </Saas_JobNotification_Model_Config>
         </di>
@@ -88,4 +90,4 @@
             </updates>
         </layout>
     </adminhtml>
-</config>
+</config>
