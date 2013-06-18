@@ -223,7 +223,7 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
             'name'       => '__construct',
             'parameters' => array(
                 array('name' => 'objectManager', 'type' => '\Magento_ObjectManager'),
-                array('name' => 'instanceName'),
+                array('name' => 'instanceName', 'defaultValue' => $this->_getSourceClassName()),
                 array('name' => 'shared', 'defaultValue' => false),
             ),
             'body' => "\$this->_objectManager = \$objectManager;" .
