@@ -18,15 +18,13 @@
                 </div>
                 <div class="main-col" id="content">
                     <div class="main-col-inner">
-                        <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+                        <div id="messages" data-role="message-container"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
                         <?php echo $this->getChildHtml('content') ?>
                     </div>
                 </div>
             </div>
       <?php else: ?>
-          <div id="messages" data-role="messages-container">
-              <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-          </div>
+          <div id="messages" data-role="message-container"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
           <?php echo $this->getChildHtml('content') ?>
       <?php endif; ?>
          </div>

@@ -56,7 +56,6 @@
                 ':disabled select, .ignore-validate select, .no-display.template select, ' +
                 ':disabled textarea, .ignore-validate textarea, .no-display.template textarea',
             errorElement: 'label',
-            errorTemplate: '[data-role=error-message-template]',
             errorUrl: typeof BASE_URL !== 'undefined' ? BASE_URL : null,
             highlight: function(element) {
                 if ($.validator.defaults.highlight && $.isFunction($.validator.defaults.highlight)) {
@@ -128,9 +127,7 @@
             if (!response.error) {
                 this._submit();
             } else {
-                if (response.message) {
-                    $(this.options.errorTemplate).tmpl(response).appendTo($('[data-role=messages-container]'));
-                }
+                $('[data-role=message-container]').html(response.message);
             }
         },
 

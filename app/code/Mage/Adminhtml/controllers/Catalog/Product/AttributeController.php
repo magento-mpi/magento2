@@ -156,9 +156,9 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                     )
                 );
             }
+
             $response->setError(true);
         }
-
         if ($this->getRequest()->has('new_attribute_set_name')) {
             $setName = $this->getRequest()->getParam('new_attribute_set_name');
             /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
@@ -166,13 +166,15 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             $attributeSet->setEntityTypeId($this->_entityTypeId)->load($setName, 'attribute_set_name');
             if ($attributeSet->getId()) {
                 $setName = $this->_objectManager->get('Mage_Core_Helper_Data')->escapeHtml($setName);
-                $response->setError(true);
-                $response->setMessage(
+                $this->_getSession()->addError(
                     $this->_objectManager->get('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $setName)
                 );
+
+                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+                $response->setError(true);
+                $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
-        
         $this->getResponse()->setBody($response->toJson());
     }
 

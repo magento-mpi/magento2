@@ -37,17 +37,13 @@
                 </div>
                 <div class="main-col" id="content">
                     <div class="main-col-inner">
-                        <div id="messages">
-                            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-                        </div>
+                        <div id="messages" data-role="message-container"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
                         <?php echo $this->getChildHtml('content') ?>
                     </div>
                 </div>
             </div>
       <?php else: ?>
-          <div id="messages" data-role="messages-container">
-            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-          </div>
+          <div id="messages" data-role="message-container"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
           <?php echo $this->getChildHtml('content') ?>
       <?php endif; ?>
          </div>
@@ -65,14 +61,5 @@
     </div>
 </div>
 <?php echo $this->getChildHtml('before_body_end') ?>
-<script type="text/x-jquery-tmpl" data-role="error-message-template">
-    <ul class="messages">
-        <li class="error-msg">
-            <ul>
-                <li>${message}</li>
-            </ul>
-        </li>
-    </ul>
-</script>
 </body>
 </html>
