@@ -81,9 +81,7 @@
             <validation>
                 <http_user_agent_skip>
                     <flash>Shockwave Flash</flash>
-                    <flash_mac>
-                        <![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]>
-</flash_mac>
+                    <flash_mac><![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]></flash_mac>
                 </http_user_agent_skip>
             </validation>
         </session>
@@ -516,4 +514,4 @@
             </core_clean_cache>
         </jobs>
     </crontab>
-</config>
+</config>
