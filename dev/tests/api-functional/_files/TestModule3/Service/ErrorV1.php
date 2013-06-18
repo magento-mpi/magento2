@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule3_Service_V1_Error implements Mage_TestModule3_Service_V1_ErrorInterface
+class Mage_TestModule3_Service_ErrorV1 implements Mage_TestModule3_Service_ErrorInterfaceV1
 {
     public function success($request)
     {

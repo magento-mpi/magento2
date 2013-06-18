@@ -20,7 +20,7 @@
     <global>
         <di>
             <preferences>
-                <Mage_TestModule3_Service_V1_ErrorInterface>Mage_TestModule3_Service_V1_Error</Mage_TestModule3_Service_V1_ErrorInterface>
+                <Mage_TestModule3_Service_ErrorInterfaceV1>Mage_TestModule3_Service_ErrorV1</Mage_TestModule3_Service_ErrorInterfaceV1>
             </preferences>
         </di>
     </global>

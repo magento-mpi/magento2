@@ -223,11 +223,11 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * Test sendResponse method with Mage_Service_ResourceNotFoundException
+     * Test sendResponse method with various exceptions
      *
-     * @dataProvider dataProviderForSendResponseError404
+     * @dataProvider dataProviderForSendResponseEexceptions
      */
-    public function testSendResponseError404($exception, $expectedResult, $assertMessage)
+    public function testSendResponseWithExceptions($exception, $expectedHttpCode, $expectedResult, $assertMessage)
     {
         /** Mock all required objects. */
         $this->_rendererMock->expects($this->any())->method('getMimeType')->will(
@@ -239,119 +239,36 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
 
         $this->_responseRest->setException($exception);
         $this->_responseRest->sendResponse();
-        $this->assertTrue($this->_responseRest->getHttpResponseCode() == Mage_Webapi_Exception::HTTP_NOT_FOUND);
+        $this->assertTrue($this->_responseRest->getHttpResponseCode() == $expectedHttpCode);
 
         $actualResponse = $this->_responseRest->getBody();
         $this->assertEquals($expectedResult, $actualResponse, $assertMessage);
     }
 
-    public function dataProviderForSendResponseError404()
+    public function dataProviderForSendResponseEexceptions()
     {
         return array(
             'Mage_Service_ResourceNotFoundException' => array(
                 new Mage_Service_ResourceNotFoundException('Resource not found', 2345),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND,
                 '{"errors":[{"code":2345,"message":"Resource not found"}]}',
                 'Response sending with Mage_Service_ResourceNotFoundException is invalid'
             ),
-        );
-    }
-
-    /**
-     * Test sendResponse method with Mage_Service_AuthorizationException
-     *
-     * @dataProvider dataProviderForSendResponseError401
-     */
-    public function testSendResponseError401($exception, $expectedResult, $assertMessage)
-    {
-        /** Mock all required objects. */
-        $this->_rendererMock->expects($this->any())->method('getMimeType')->will(
-            $this->returnValue('application/json')
-        );
-        $this->_rendererMock->expects($this->any())->method('render')->will(
-            $this->returnCallback(array($this, 'callbackForSendResponseTest'), $this->returnArgument(0))
-        );
-
-        $this->_responseRest->setException($exception);
-        $this->_responseRest->sendResponse();
-        $this->assertTrue($this->_responseRest->getHttpResponseCode() == Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
-
-        $actualResponse = $this->_responseRest->getBody();
-        $this->assertEquals($expectedResult, $actualResponse, $assertMessage);
-    }
-
-    public function dataProviderForSendResponseError401()
-    {
-        return array(
             'Mage_Service_AuthorizationException' => array(
                 new Mage_Service_AuthorizationException('Service authorization exception', 3456),
+                Mage_Webapi_Exception::HTTP_UNAUTHORIZED,
                 '{"errors":[{"code":3456,"message":"Service authorization exception"}]}',
                 'Response sending with Mage_Service_AuthorizationException is invalid'
             ),
-        );
-    }
-
-    /**
-     * Test sendResponse method with Mage_Service_Exception
-     *
-     * @dataProvider dataProviderForSendResponseError400
-     */
-    public function testSendResponseError400($exception, $expectedResult, $assertMessage)
-    {
-        /** Mock all required objects. */
-        $this->_rendererMock->expects($this->any())->method('getMimeType')->will(
-            $this->returnValue('application/json')
-        );
-        $this->_rendererMock->expects($this->any())->method('render')->will(
-            $this->returnCallback(array($this, 'callbackForSendResponseTest'), $this->returnArgument(0))
-        );
-
-        $this->_responseRest->setException($exception);
-        $this->_responseRest->sendResponse();
-        $this->assertTrue($this->_responseRest->getHttpResponseCode() == Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-
-        $actualResponse = $this->_responseRest->getBody();
-        $this->assertEquals($expectedResult, $actualResponse, $assertMessage);
-    }
-
-    public function dataProviderForSendResponseError400()
-    {
-        return array(
             'Mage_Service_Exception' => array(
                 new Mage_Service_Exception('Generic service exception', 4567),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST,
                 '{"errors":[{"code":4567,"message":"Generic service exception"}]}',
                 'Response sending with Mage_Service_Exception is invalid'
             ),
-        );
-    }
-
-    /**
-     * Test sendResponse method with any other Exception
-     *
-     * @dataProvider dataProviderForSendResponseError500
-     */
-    public function testSendResponseError500($exception, $expectedResult, $assertMessage)
-    {
-        /** Mock all required objects. */
-        $this->_rendererMock->expects($this->any())->method('getMimeType')->will(
-            $this->returnValue('application/json')
-        );
-        $this->_rendererMock->expects($this->any())->method('render')->will(
-            $this->returnCallback(array($this, 'callbackForSendResponseTest'), $this->returnArgument(0))
-        );
-
-        $this->_responseRest->setException($exception);
-        $this->_responseRest->sendResponse();
-        $this->assertTrue($this->_responseRest->getHttpResponseCode() == Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-
-        $actualResponse = $this->_responseRest->getBody();
-        $this->assertEquals($expectedResult, $actualResponse, $assertMessage);
-    }
-
-    public function dataProviderForSendResponseError500()
-    {
-        return array(
             'Exception' => array(
                 new Exception('Non service exception', 5678),
+                Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
                 '{"errors":[{"code":5678,"message":"Non service exception"}]}',
                 'Response sending with any other Exception is invalid'
             ),
