@@ -53,17 +53,17 @@
             <Mage_User_Model_Resource_Rules>
                 <parameters>
                     <rootResource>
-                        <instance type="Mage_Core_Model_Acl_RootResource_Proxy" />
+                        <instance>Mage_Core_Model_Acl_RootResource_Proxy</instance>
                     </rootResource>
                     <aclCache>
-                        <instance type="Mage_Core_Model_Acl_Cache_Proxy" />
+                        <instance>Mage_Core_Model_Acl_Cache_Proxy</instance>
                     </aclCache>
                 </parameters>
             </Mage_User_Model_Resource_Rules>
             <Mage_User_Model_Resource_User>
                 <parameters>
                     <aclCache>
-                        <instance type="Mage_Core_Model_Acl_Cache_Proxy" />
+                        <instance>Mage_Core_Model_Acl_Cache_Proxy</instance>
                     </aclCache>
                 </parameters>
             </Mage_User_Model_Resource_User>
@@ -77,10 +77,10 @@
             <Magento_Acl_Builder>
                 <parameters>
                     <ruleLoader>
-                        <instance type="Mage_User_Model_Acl_Loader_Rule" />
+                        <instance>Mage_User_Model_Acl_Loader_Rule</instance>
                     </ruleLoader>
                     <roleLoader>
-                        <instance type="Mage_User_Model_Acl_Loader_Role" />
+                        <instance>Mage_User_Model_Acl_Loader_Role</instance>
                     </roleLoader>
                 </parameters>
             </Magento_Acl_Builder>

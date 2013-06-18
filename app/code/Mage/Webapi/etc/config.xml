@@ -107,13 +107,13 @@
             <Magento_Acl_Builder>
                 <parameters>
                     <resourceLoader>
-                        <instance type="Mage_Webapi_Model_Authorization_Loader_Resource" />
+                        <instance>Mage_Webapi_Model_Authorization_Loader_Resource</instance>
                     </resourceLoader>
                     <roleLoader>
-                        <instance type="Mage_Webapi_Model_Authorization_Loader_Role" />
+                        <instance>Mage_Webapi_Model_Authorization_Loader_Role</instance>
                     </roleLoader>
                     <ruleLoader>
-                        <instance type="Mage_Webapi_Model_Authorization_Loader_Rule" />
+                        <instance>Mage_Webapi_Model_Authorization_Loader_Rule</instance>
                     </ruleLoader>
                 </parameters>
             </Magento_Acl_Builder>
@@ -124,7 +124,9 @@
             </Mage_Core_Model_Acl_Cache>
             <Mage_Core_Model_Acl_RootResource>
                 <parameters>
-                    <identifier>Mage_Webapi</identifier>
+                    <identifier>
+                        <instance>Mage_Webapi</instance>
+                    </identifier>
                 </parameters>
             </Mage_Core_Model_Acl_RootResource>
             <Mage_Webapi_Controller_Router_Route>
@@ -145,7 +147,7 @@
             <Mage_Webapi_Model_Authorization_Loader_Resource>
                 <parameters>
                     <reader>
-                        <instance type="Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader" />
+                        <instance>Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader</instance>
                     </reader>
                 </parameters>
             </Mage_Webapi_Model_Authorization_Loader_Resource>
@@ -171,4 +173,4 @@
             </updates>
         </layout>
     </adminhtml>
-</config>
+</config>

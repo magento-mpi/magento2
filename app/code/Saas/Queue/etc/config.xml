@@ -15,7 +15,7 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Enterprise_Queue/>
+                <Enterprise_Queue />
             </depends>
         </Saas_Queue>
     </modules>
@@ -26,8 +26,7 @@
                     <title>Gearman</title>
                     <servers>127.0.0.1:4730</servers>
                     <task>
-                        <params>
-                        </params>
+                        <params></params>
                     </task>
                 </gearman>
             </adapter>
@@ -39,7 +38,7 @@
             <Saas_Queue_Model_Observer_Config>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config" />
+                        <instance>Mage_Core_Model_Config</instance>
                     </config>
                 </parameters>
             </Saas_Queue_Model_Observer_Config>
@@ -85,7 +84,6 @@
         </events>
     </global>
     <workers>
-        <events>
-        </events>
+        <events></events>
     </workers>
 </config>

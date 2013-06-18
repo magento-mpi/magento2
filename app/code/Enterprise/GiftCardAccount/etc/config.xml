@@ -264,7 +264,7 @@
             <Enterprise_GiftCardAccount_Model_History>
                 <parameters>
                     <adminSession>
-                        <instance type="Mage_Backend_Model_Auth_Session_Proxy" />
+                        <instance>Mage_Backend_Model_Auth_Session_Proxy</instance>
                     </adminSession>
                 </parameters>
             </Enterprise_GiftCardAccount_Model_History>

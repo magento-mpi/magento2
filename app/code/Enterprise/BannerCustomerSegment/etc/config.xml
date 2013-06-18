@@ -72,7 +72,7 @@
             <Enterprise_BannerCustomerSegment_Model_Observer>
                 <parameters>
                     <segmentCustomer>
-                        <instance type="Enterprise_CustomerSegment_Model_Customer_Proxy" />
+                        <instance>Enterprise_CustomerSegment_Model_Customer_Proxy</instance>
                     </segmentCustomer>
                 </parameters>
             </Enterprise_BannerCustomerSegment_Model_Observer>

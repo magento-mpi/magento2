@@ -33,7 +33,7 @@
             <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
                     <specificationFactory>
-                        <instance type="Saas_Saas_Model_Limitation_Specification_Factory" />
+                        <instance>Saas_Saas_Model_Limitation_Specification_Factory</instance>
                     </specificationFactory>
                 </parameters>
             </Saas_Saas_Model_Limitation_Specification_Composite>
@@ -65,9 +65,9 @@
     </adminhtml>
     <default>
         <web>
-             <forbiddenForRedirectAreas>
-                <vde></vde>
+            <forbiddenForRedirectAreas>
+                <vde />
             </forbiddenForRedirectAreas>
         </web>
     </default>
-</config>
+</config>

@@ -137,7 +137,7 @@
             <Varien_Data_Collection_Db_FetchStrategy_Cache>
                 <parameters>
                     <cache>
-                        <instance type="Mage_Core_Model_Cache_Type_Collection" />
+                        <instance>Mage_Core_Model_Cache_Type_Collection</instance>
                     </cache>
                     <cacheIdPrefix>collection_</cacheIdPrefix>
                     <cacheLifetime>86400</cacheLifetime>
@@ -146,49 +146,49 @@
             <Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
                 <parameters>
                     <cache>
-                        <instance type="Mage_Core_Model_Cache_Type_Collection" />
+                        <instance>Mage_Core_Model_Cache_Type_Collection</instance>
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
             <Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy>
                 <parameters>
                     <cache>
-                        <instance type="Mage_Core_Model_Cache_Type_Collection" />
+                        <instance>Mage_Core_Model_Cache_Type_Collection</instance>
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy>
             <Mage_Core_Model_Resource_Store_Collection_FetchStrategy>
                 <parameters>
                     <cache>
-                        <instance type="Mage_Core_Model_Cache_Type_Collection" />
+                        <instance>Mage_Core_Model_Cache_Type_Collection</instance>
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Collection_FetchStrategy>
             <Mage_Core_Model_Resource_Website_Collection>
                 <parameters>
                     <fetchStrategy>
-                        <instance type="Mage_Core_Model_Resource_Website_Collection_FetchStrategy" />
+                        <instance>Mage_Core_Model_Resource_Website_Collection_FetchStrategy</instance>
                     </fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Website_Collection>
             <Mage_Core_Model_Resource_Website_Grid_Collection>
                 <parameters>
                     <fetchStrategy>
-                        <instance type="Mage_Core_Model_Resource_Website_Collection_FetchStrategy" />
+                        <instance>Mage_Core_Model_Resource_Website_Collection_FetchStrategy</instance>
                     </fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Website_Grid_Collection>
             <Mage_Core_Model_Resource_Store_Group_Collection>
                 <parameters>
                     <fetchStrategy>
-                        <instance type="Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy" />
+                        <instance>Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy</instance>
                     </fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Group_Collection>
             <Mage_Core_Model_Resource_Store_Collection>
                 <parameters>
                     <fetchStrategy>
-                        <instance type="Mage_Core_Model_Resource_Store_Collection_FetchStrategy" />
+                        <instance>Mage_Core_Model_Resource_Store_Collection_FetchStrategy</instance>
                     </fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Collection>
@@ -201,31 +201,31 @@
             <Mage_Core_Model_Observer>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config" />
+                        <instance>Mage_Core_Model_Config</instance>
                     </config>
                 </parameters>
             </Mage_Core_Model_Observer>
             <Mage_Core_Model_Layout_Merge>
                 <parameters>
                     <cache>
-                        <instance type="Mage_Core_Model_Cache_Type_Layout" />
+                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
                     </cache>
                 </parameters>
             </Mage_Core_Model_Layout_Merge>
             <Mage_Core_Model_Resource_Layout_Update>
                 <parameters>
                     <cache>
-                        <instance type="Mage_Core_Model_Cache_Type_Layout" />
+                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Layout_Update>
             <Mage_Core_Model_Theme_Service>
                 <parameters>
                     <configCache>
-                        <instance type="Mage_Core_Model_Cache_Type_Config" />
+                        <instance>Mage_Core_Model_Cache_Type_Config</instance>
                     </configCache>
                     <layoutCache>
-                        <instance type="Mage_Core_Model_Cache_Type_Layout" />
+                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
                     </layoutCache>
                 </parameters>
             </Mage_Core_Model_Theme_Service>

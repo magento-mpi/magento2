@@ -64,7 +64,7 @@
             <Saas_JobNotification_Model_Config>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config" />
+                        <instance>Mage_Core_Model_Config</instance>
                     </config>
                 </parameters>
             </Saas_JobNotification_Model_Config>

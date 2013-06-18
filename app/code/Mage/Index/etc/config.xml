@@ -15,7 +15,7 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Core />
+                <Mage_Core/>
             </depends>
         </Mage_Index>
     </modules>
@@ -122,10 +122,10 @@
             <Mage_AdminNotification_Model_System_MessageList>
                 <parameters>
                     <messages>
-                        <instance type="Mage_Index_Model_System_Message_IndexOutdated" />
+                        <indexer>Mage_Index_Model_System_Message_IndexOutdated</indexer>
                     </messages>
                 </parameters>
             </Mage_AdminNotification_Model_System_MessageList>
         </di>
     </adminhtml>
-</config>
+</config>

@@ -26,14 +26,14 @@
             <Enterprise_Cms_Model_Config>
                 <parameters>
                     <authorization>
-                        <instance type="Magento_Authorization_Proxy" />
+                        <instance>Magento_Authorization_Proxy</instance>
                     </authorization>
                 </parameters>
             </Enterprise_Cms_Model_Config>
             <Enterprise_Cms_Model_Observer>
                 <parameters>
                     <authorization>
-                        <instance type="Magento_Authorization_Proxy" />
+                        <instance>Magento_Authorization_Proxy</instance>
                     </authorization>
                 </parameters>
             </Enterprise_Cms_Model_Observer>

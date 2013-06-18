@@ -39,7 +39,7 @@
             <Mage_Adminhtml_Catalog_Product_AttributeController>
                 <parameters>
                     <attributeLabelCache>
-                        <instance type="Mage_Core_Model_Cache_Type_Translate" />
+                        <instance>Mage_Core_Model_Cache_Type_Translate</instance>
                     </attributeLabelCache>
                 </parameters>
             </Mage_Adminhtml_Catalog_Product_AttributeController>
@@ -198,7 +198,9 @@
         </general>
         <hints>
             <store_switcher>
-                <url><![CDATA[http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes]]></url>
+                <url>
+                    <![CDATA[http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes]]>
+</url>
                 <enabled>1</enabled>
             </store_switcher>
         </hints>
@@ -229,4 +231,4 @@
             </web>
         </admin>
     </websites>
-</config>
+</config>

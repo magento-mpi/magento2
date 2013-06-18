@@ -64,7 +64,7 @@
             <Mage_CatalogRule_Model_Rule_Job>
                 <parameters>
                     <helper>
-                        <instance type="Mage_CatalogRule_Helper_Data" />
+                        <instance>Mage_CatalogRule_Helper_Data</instance>
                     </helper>
                 </parameters>
             </Mage_CatalogRule_Model_Rule_Job>

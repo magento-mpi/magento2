@@ -12,14 +12,14 @@
 <config>
     <global>
         <install>
-            <date/>
+            <date />
         </install>
         <resources>
             <default_setup>
                 <connection>
                     <host>localhost</host>
-                    <username/>
-                    <password/>
+                    <username />
+                    <password />
                     <dbname>magento</dbname>
                     <model>mysql4</model>
                     <initStatements>SET NAMES utf8</initStatements>
@@ -83,114 +83,114 @@
                 <parameters>
                     <!-- @todo remove cache types proxy as soon as deprecated methods of Mage_Core_Model_Cache are removed -->
                     <cacheTypes>
-                        <instance type="Mage_Core_Model_Cache_Types_Proxy" />
+                        <instance>Mage_Core_Model_Cache_Types_Proxy</instance>
                     </cacheTypes>
                     <config>
-                        <instance type="Mage_Core_Model_Config_Proxy" />
+                        <instance>Mage_Core_Model_Config_Proxy</instance>
                     </config>
                 </parameters>
             </Mage_Core_Model_Cache>
             <Mage_Core_Model_Config>
                 <parameters>
                     <storage>
-                        <instance type="Mage_Core_Model_Config_Storage" />
+                        <instance>Mage_Core_Model_Config_Storage</instance>
                     </storage>
                 </parameters>
             </Mage_Core_Model_Config>
             <Mage_Core_Model_Config_Container>
                 <parameters>
                     <configCache>
-                        <instance type="Mage_Core_Model_Config_Cache_Proxy" />
+                        <instance>Mage_Core_Model_Config_Cache_Proxy</instance>
                     </configCache>
                 </parameters>
             </Mage_Core_Model_Config_Container>
             <Mage_Core_Model_Config_Resource>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config_Primary" />
+                        <instance>Mage_Core_Model_Config_Primary</instance>
                     </config>
                 </parameters>
             </Mage_Core_Model_Config_Resource>
             <Mage_Core_Model_Config_Locales>
                 <parameters>
                     <storage>
-                        <instance type="Mage_Core_Model_Config_Storage_Locales" />
+                        <instance>Mage_Core_Model_Config_Storage_Locales</instance>
                     </storage>
                 </parameters>
             </Mage_Core_Model_Config_Locales>
             <Mage_Core_Model_Config_Modules>
                 <parameters>
                     <storage>
-                        <instance type="Mage_Core_Model_Config_Storage_Modules" />
+                        <instance>Mage_Core_Model_Config_Storage_Modules</instance>
                     </storage>
                 </parameters>
             </Mage_Core_Model_Config_Modules>
             <Mage_Core_Model_Config_Storage>
                 <parameters>
                     <loader>
-                        <instance type="Mage_Core_Model_Config_Loader_Proxy" />
+                        <instance>Mage_Core_Model_Config_Loader_Proxy</instance>
                     </loader>
                 </parameters>
             </Mage_Core_Model_Config_Storage>
             <Mage_Core_Model_Config_Storage_Modules>
                 <parameters>
                     <loader>
-                        <instance type="Mage_Core_Model_Config_Loader_Modules_Proxy" />
+                        <instance>Mage_Core_Model_Config_Loader_Modules_Proxy</instance>
                     </loader>
                 </parameters>
             </Mage_Core_Model_Config_Storage_Modules>
             <Mage_Core_Model_Config_Storage_Locales>
                 <parameters>
                     <loader>
-                        <instance type="Mage_Core_Model_Config_Loader_Locales_Proxy" />
+                        <instance>Mage_Core_Model_Config_Loader_Locales_Proxy</instance>
                     </loader>
                 </parameters>
             </Mage_Core_Model_Config_Storage_Locales>
             <Mage_Core_Model_Event_Config>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config_Modules_Proxy" />
+                        <instance>Mage_Core_Model_Config_Modules_Proxy</instance>
                     </config>
                 </parameters>
             </Mage_Core_Model_Event_Config>
             <Mage_Core_Model_Translate>
                 <parameters>
                     <cache>
-                        <instance type="Mage_Core_Model_Cache_Type_Translate" />
+                        <instance>Mage_Core_Model_Cache_Type_Translate</instance>
                     </cache>
                 </parameters>
             </Mage_Core_Model_Translate>
             <Mage_Install_Model_Installer>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config_Proxy" />
+                        <instance>Mage_Core_Model_Config_Proxy</instance>
                     </config>
                 </parameters>
             </Mage_Install_Model_Installer>
             <Mage_Core_Model_Config_Invalidator>
                 <parameters>
                     <primaryConfig>
-                        <instance type="Mage_Core_Model_Config_Primary" />
+                        <instance>Mage_Core_Model_Config_Primary</instance>
                     </primaryConfig>
                     <modulesConfig>
-                        <instance type="Mage_Core_Model_Config_Modules" />
+                        <instance>Mage_Core_Model_Config_Modules</instance>
                     </modulesConfig>
                     <localesConfig>
-                        <instance type="Mage_Core_Model_Config_Locales" />
+                        <instance>Mage_Core_Model_Config_Locales</instance>
                     </localesConfig>
                 </parameters>
             </Mage_Core_Model_Config_Invalidator>
             <Mage_Core_Model_Store_StorageFactory>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config_Proxy" />
+                        <instance>Mage_Core_Model_Config_Proxy</instance>
                     </config>
                 </parameters>
             </Mage_Core_Model_Store_StorageFactory>
             <Magento_Filesystem>
                 <parameters>
                     <adapter>
-                        <instance type="Magento_Filesystem_Adapter_Local" />
+                        <instance>Magento_Filesystem_Adapter_Local</instance>
                     </adapter>
                 </parameters>
                 <shared>0</shared>
@@ -211,21 +211,21 @@
             <Mage_Core_Helper_Url>
                 <parameters>
                     <translate>
-                        <instance type="Mage_Core_Model_Translate_Proxy" />
+                        <instance>Mage_Core_Model_Translate_Proxy</instance>
                     </translate>
                 </parameters>
             </Mage_Core_Helper_Url>
             <Mage_Core_Model_Design>
                 <parameters>
                     <eventDispatcher>
-                        <instance type="Mage_Core_Model_Event_Manager_Proxy" />
+                        <instance>Mage_Core_Model_Event_Manager_Proxy</instance>
                     </eventDispatcher>
                 </parameters>
             </Mage_Core_Model_Design>
             <Mage_Core_Model_Design_Package>
                 <parameters>
                     <storeManager>
-                        <instance type="Mage_Core_Model_StoreManager_Proxy" />
+                        <instance>Mage_Core_Model_StoreManager_Proxy</instance>
                     </storeManager>
                 </parameters>
             </Mage_Core_Model_Design_Package>
@@ -235,7 +235,7 @@
             <Mage_Core_Model_Context>
                 <parameters>
                     <eventDispatcher>
-                        <instance type="Mage_Core_Model_Event_Manager_Proxy" />
+                        <instance>Mage_Core_Model_Event_Manager_Proxy</instance>
                     </eventDispatcher>
                 </parameters>
             </Mage_Core_Model_Context>

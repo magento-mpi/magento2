@@ -24,7 +24,7 @@
             <Mage_Core_Model_Page>
                 <parameters>
                     <assets>
-                        <instance type="Mage_Page_Model_Asset_GroupedCollection" />
+                        <instance>Mage_Page_Model_Asset_GroupedCollection</instance>
                     </assets>
                 </parameters>
             </Mage_Core_Model_Page>

@@ -32,7 +32,7 @@
             <Enterprise_Wishlist_Model_Item_Collection>
                 <parameters>
                     <resource>
-                        <instance type="Enterprise_Wishlist_Model_Resource_Item" />
+                        <instance>Enterprise_Wishlist_Model_Resource_Item</instance>
                     </resource>
                 </parameters>
             </Enterprise_Wishlist_Model_Item_Collection>

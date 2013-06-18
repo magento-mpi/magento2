@@ -33,23 +33,23 @@
             <Enterprise_PageCache_Model_Processor>
                 <parameters>
                     <storeManager>
-                        <instance type="Mage_Core_Model_StoreManager_Proxy" />
+                        <instance>Mage_Core_Model_StoreManager_Proxy</instance>
                     </storeManager>
                     <metadata>
-                        <instance type="Enterprise_PageCache_Model_Metadata_Proxy" />
+                        <instance>Enterprise_PageCache_Model_Metadata_Proxy</instance>
                     </metadata>
                     <requestIdentifier>
-                        <instance type="Enterprise_PageCache_Model_Request_Identifier_Proxy" />
+                        <instance>Enterprise_PageCache_Model_Request_Identifier_Proxy</instance>
                     </requestIdentifier>
                 </parameters>
             </Enterprise_PageCache_Model_Processor>
             <Enterprise_PageCache_Model_DesignPackage_Rules>
                 <parameters>
                     <design>
-                        <instance type="Mage_Core_Model_Design_Proxy" />
+                        <instance>Mage_Core_Model_Design_Proxy</instance>
                     </design>
                     <designPackage>
-                        <instance type="Mage_Core_Model_Design_Package_Proxy" />
+                        <instance>Mage_Core_Model_Design_Package_Proxy</instance>
                     </designPackage>
                 </parameters>
             </Enterprise_PageCache_Model_DesignPackage_Rules>
@@ -66,7 +66,7 @@
             <Enterprise_Queue_Helper_Gearman>
                 <parameters>
                     <config>
-                        <instance type="Mage_Core_Model_Config" />
+                        <instance>Mage_Core_Model_Config</instance>
                     </config>
                 </parameters>
             </Enterprise_Queue_Helper_Gearman>
