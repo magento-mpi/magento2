@@ -400,7 +400,7 @@
                     <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
                 <field id="forgot_email_identity" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Forgot Password Email Sender</label>
+                    <label>Forgot and Reset Email Sender</label>
                     <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="password_reset_link_expiration_period" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
