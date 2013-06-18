@@ -35,7 +35,19 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     protected $_preferences = array();
 
+    /**
+     * List of non-shared types
+     *
+     * @var array
+     */
     protected $_nonShared = array();
+
+    /**
+     * List of virtual types
+     *
+     * @var array
+     */
+    protected $_virtualTypes = array();
 
     /**
      * List of classes being created
@@ -117,28 +129,8 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                 $this->_creationStack[$className] = 1;
 
                 $isShared = (!isset($argument['shared']) && !isset($this->_nonShared[$instanceName]))
-                    || (isset($argument['shared']) && $argument['shared'] != 'false');
-                if (isset($argument['lazy']) && $argument['lazy']) {
-                    $instanceType = $this->_resolveInstanceType($instanceName);
-                    if (!$isShared) {
-                        $argument = $this->_create(
-                            $instanceType . '_Proxy',
-                            array('shared' => false, 'instanceName' => $instanceName)
-                        );
-                    } else {
-                        if (!isset($this->_proxies[$paramType][$className])) {
-                            $this->_proxies[$paramType][$className] = $this->_create(
-                                $instanceType . '_Proxy',
-                                array('shared' => true, 'instanceName' => $instanceName)
-                            );
-                        }
-                        $argument = $this->_proxies[$paramType][$className];
-                    }
-                } else if (!$isShared) {
-                    $argument = $this->create($instanceName);
-                } else {
-                    $argument = $this->get($instanceName);
-                }
+                    || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
+                $argument = $isShared ? $this->get($instanceName) : $this->create($instanceName);
                 unset($this->_creationStack[$className]);
             }
             $resolvedArguments[] = $argument;
@@ -153,7 +145,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @return string
      * @throws LogicException
      */
-    protected function _resolveClassName($className)
+    protected function _resolvePreferences($className)
     {
         $preferencePath = array();
         while (isset($this->_preferences[$className])) {
@@ -177,8 +169,8 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     protected function _resolveInstanceType($instanceName)
     {
-        while(isset($this->_virtualTypes[$instanceName])) {
-            $instanceName = $this->_preferences[$instanceName];
+        while (isset($this->_virtualTypes[$instanceName])) {
+            $instanceName = $this->_virtualTypes[$instanceName];
         }
         return $instanceName;
     }
@@ -186,7 +178,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     /**
      * Create instance with call time arguments
      *
-     * @param string $resolvedClassName
+     * @param string $requestedType
      * @param array $arguments
      * @return object
      * @throws LogicException
@@ -194,14 +186,14 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _create($resolvedClassName, array $arguments = array())
+    protected function _create($requestedType, array $arguments = array())
     {
-        $type = $this->_resolveInstanceType($resolvedClassName);
+        $type = $this->_resolveInstanceType($requestedType);
         $parameters = $this->_definitions->getParameters($type);
         if ($parameters == null) {
             return new $type();
         }
-        $args = $this->_resolveArguments($resolvedClassName, $parameters, $arguments);
+        $args = $this->_resolveArguments($requestedType, $parameters, $arguments);
 
         switch(count($args)) {
             case 1:
@@ -297,33 +289,33 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     /**
      * Create new object instance
      *
-     * @param string $className
+     * @param string $type
      * @param array $arguments
      * @return mixed
      */
-    public function create($className, array $arguments = array())
+    public function create($type, array $arguments = array())
     {
-        if (isset($this->_preferences[$className])) {
-            $className = $this->_resolveClassName($className);
+        if (isset($this->_preferences[$type])) {
+            $type = $this->_resolvePreferences($type);
         }
-        return $this->_create($className, $arguments);
+        return $this->_create($type, $arguments);
     }
 
     /**
      * Retrieve cached object instance
      *
-     * @param string $className
+     * @param string $type
      * @return mixed
      */
-    public function get($className)
+    public function get($type)
     {
-        if (isset($this->_preferences[$className])) {
-            $className = $this->_resolveClassName($className);
+        if (isset($this->_preferences[$type])) {
+            $type = $this->_resolvePreferences($type);
         }
-        if (!isset($this->_sharedInstances[$className])) {
-            $this->_sharedInstances[$className] = $this->_create($className);
+        if (!isset($this->_sharedInstances[$type])) {
+            $this->_sharedInstances[$type] = $this->_create($type);
         }
-        return $this->_sharedInstances[$className];
+        return $this->_sharedInstances[$type];
     }
 
     /**

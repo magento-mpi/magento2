@@ -215,23 +215,114 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'preferences' => array(
                 'Magento_Test_Di_Interface' => 'Magento_Test_Di_Parent',
-                'Magento_Test_Di_Parent' => 'Magento_Test_Di_Child_Circular'
+                'Magento_Test_Di_Parent' => 'Magento_Test_Di_Child'
             ),
             'customChildType' => array(
+                'type' => 'Magento_Test_Di_Aggregate_Child',
                 'parameters' => array(
                     'scalar' => 'configuredScalar',
                     'secondScalar' => 'configuredSecondScalar',
-                    'configuredOptionalScalar'
+                    'secondOptionalScalar' => 'configuredOptionalScalar'
                 )
             )
         ));
-        Magento_Test_Di_Interface $interface,
-        Magento_Test_Di_Parent $parent,
-        Magento_Test_Di_Child $child,
-        $scalar,
-        $secondScalar,
-        $optionalScalar = 1,
-        $secondOptionalScalar = ''
+        $customChild = $this->_object->get('customChildType');
+        $this->assertInstanceOf('Magento_Test_Di_Aggregate_Child', $customChild);
+        $this->assertEquals('configuredScalar', $customChild->scalar);
+        $this->assertEquals('configuredSecondScalar', $customChild->secondScalar);
+        $this->assertEquals(1, $customChild->optionalScalar);
+        $this->assertEquals('configuredOptionalScalar', $customChild->secondOptionalScalar);
+        $this->assertSame($customChild, $this->_object->get('customChildType'));
+    }
 
+    public function testParameterShareabilityConfigurationIsApplied()
+    {
+        $this->_object->configure(array(
+            'customChildType' => array(
+                'type' => 'Magento_Test_Di_Aggregate_Child',
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent'),
+                    'scalar' => 'configuredScalar',
+                    'secondScalar' => 'configuredSecondScalar',
+                )
+            )
+        ));
+        $child1 = $this->_object->create('customChildType');
+        $child2 = $this->_object->create('customChildType');
+        $this->assertNotSame($child1, $child2);
+        $this->assertSame($child1->interface, $child2->interface);
+
+        $this->_object->configure(array(
+            'customChildType' => array(
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent', 'shared' => false),
+                )
+            )
+        ));
+        $child1 = $this->_object->create('customChildType');
+        $child2 = $this->_object->create('customChildType');
+        $this->assertNotSame($child1, $child2);
+        $this->assertNotSame($child1->interface, $child2->interface);
+    }
+
+    public function testTypeShareabilityConfigurationIsApplied()
+    {
+        $this->_object->configure(array(
+            'customChildType' => array(
+                'type' => 'Magento_Test_Di_Aggregate_Child',
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent'),
+                    'scalar' => 'configuredScalar',
+                    'secondScalar' => 'configuredSecondScalar',
+                )
+            )
+        ));
+        $child1 = $this->_object->create('customChildType');
+        $child2 = $this->_object->create('customChildType');
+        $this->assertNotSame($child1, $child2);
+        $this->assertSame($child1->interface, $child2->interface);
+
+        $this->_object->configure(array(
+            'Magento_Test_Di_Parent' => array(
+                'shared' => 'false'
+            )
+        ));
+        $child1 = $this->_object->create('customChildType');
+        $child2 = $this->_object->create('customChildType');
+        $this->assertNotSame($child1, $child2);
+        $this->assertNotSame($child1->interface, $child2->interface);
+    }
+
+    public function testParameterShareabilityConfigurationOverridesTypeShareability()
+    {
+        $this->_object->configure(array(
+            'Magento_Test_Di_Parent' => array(
+                'shared' => 'false'
+            ),
+            'customChildType' => array(
+                'type' => 'Magento_Test_Di_Aggregate_Child',
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent'),
+                    'scalar' => 'configuredScalar',
+                    'secondScalar' => 'configuredSecondScalar',
+                )
+            )
+        ));
+        $child1 = $this->_object->create('customChildType');
+        $child2 = $this->_object->create('customChildType');
+        $this->assertNotSame($child1, $child2);
+        $this->assertNotSame($child1->interface, $child2->interface);
+
+        $this->_object->configure(array(
+            'customChildType' => array(
+                'parameters' => array(
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent', 'shared' => 'true'),
+                )
+            )
+        ));
+        $child1 = $this->_object->create('customChildType');
+        $child2 = $this->_object->create('customChildType');
+        $this->assertNotSame($child1, $child2);
+        $this->assertSame($child1->interface, $child2->interface);
     }
 }
