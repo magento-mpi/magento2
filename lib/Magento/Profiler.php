@@ -325,7 +325,7 @@ class Magento_Profiler
     /**
      * Parses config
      *
-     * @param array $config
+     * @param array|string $profilerConfig
      * @param string $baseDir
      * @param boolean $isAjax
      * @return array
@@ -338,44 +338,26 @@ class Magento_Profiler
         );
 
         if (is_scalar($profilerConfig)) {
-            $config['driver'] = array(
-                'output' => $isAjax ? 'firebug' : 'html'
+            $config['drivers'] = array(
+                array(
+                    'output' => $isAjax ? 'firebug' : (is_numeric($profilerConfig) ? 'html' : $profilerConfig)
+                )
             );
-        } elseif (is_array($profilerConfig)) {
+        } else {
             $config = array_merge($config, $profilerConfig);
         }
 
-        if (isset($config['drivers']) && is_array($config['drivers'])) {
-            $driverConfigs = $config['drivers'];
-        } elseif (isset($config['driver'])) {
-            $driverConfigs = array($config['driver']);
-        } else {
-            $driverConfigs = array();
-        }
-
-        if (isset($config['driverFactory'])) {
-            $driverFactory = $config['driverFactory'];
-        } else {
-            $driverFactory = new Magento_Profiler_Driver_Factory();
-        }
-
-        if (isset($config['tagFilters']) && is_array($config['tagFilters'])) {
-            $tagFilters = $config['tagFilters'];
-        } else {
-            $tagFilters = array();
-        }
-
-        if (isset($config['baseDir'])) {
-            $baseDir = $config['baseDir'];
-        } else {
-            $baseDir = null;
-        }
+        $driverConfigs = (array) (isset($config['drivers']) ? $config['drivers'] : array());
+        $driverFactory = isset($config['driverFactory'])
+            ? $config['driverFactory']
+            : new Magento_Profiler_Driver_Factory();
+        $tagFilters = (array) (isset($config['tagFilters']) ? $config['tagFilters'] : array());
 
         $result = array(
-            'driverConfigs' => self::_parseDriverConfigs($driverConfigs, $baseDir),
+            'driverConfigs' => self::_parseDriverConfigs($driverConfigs, $config['baseDir']),
             'driverFactory' => $driverFactory,
             'tagFilters' => $tagFilters,
-            'baseDir' => $baseDir
+            'baseDir' => $config['baseDir']
         );
         return $result;
     }

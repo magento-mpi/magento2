@@ -70,8 +70,9 @@ HTML;
         }
         exit;
     }
+
     if (!empty($_SERVER['MAGE_PROFILER'])) {
-        Magento_Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
+        Magento_Profiler::applyConfig($_SERVER['MAGE_PROFILER'], __DIR__, !empty($_REQUEST['isAjax']));
     }
 }
 set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
