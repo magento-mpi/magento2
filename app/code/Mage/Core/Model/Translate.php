@@ -267,6 +267,8 @@ class Mage_Core_Model_Translate
      */
     public function processAjaxPost($translate)
     {
+        Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface')
+            ->invalidateType(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
         Mage::getObjectManager()->get('Mage_Core_Model_Translate_InlineParser')
             ->processAjaxPost($translate, $this->getInlineObject());
     }
