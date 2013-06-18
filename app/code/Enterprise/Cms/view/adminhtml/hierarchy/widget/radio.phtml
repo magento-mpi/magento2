@@ -36,7 +36,7 @@ $parameters = $this->getParameters();
                 <label class="label" for="options_<?php echo $uniqueHash; ?>_anchor_text_<?php echo $store['value']; ?>"><?php echo $this->__('Anchor Custom Text'); ?></label>
                 <div class="control">
                     <input type="text" class="widget-option input-text" value="<?php echo $this->getParamValue('anchor_text_'.$store['value']); ?>" name="parameters[anchor_text_<?php echo $store['value']; ?>]" id="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text">
-                    <div id="note_options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text" class="note"><?php echo $this->__('If empty, will use the Node or Page Name'); ?></div>
+                    <div id="note_options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text" class="note"><?php echo $this->__('If this value is empty, the node or page name will be used.'); ?></div>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@ $parameters = $this->getParameters();
                 <label class="label"for="chooseroptions_<?php echo $uniqueHash; ?>_node_id_<?php echo $store['value']; ?>"></label>
                 <div class="control">
                     <span id="chooseroptions_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>node_id"></span>
-                    <button onclick="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>.choose()" class="scalable btn-chooser" type="button" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>control"><span><?php echo $this->__('Select Page or Node...'); ?></span></button>
+                    <button onclick="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>.choose()" class="scalable btn-chooser" type="button" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>control"><span><?php echo $this->__('Select a page or node.'); ?></span></button>
                 </div>
             </div>
         </fieldset>
@@ -71,7 +71,7 @@ $parameters = $this->getParameters();
 <script type="text/javascript">
 //<![CDATA[
     <?php foreach ($this->getAllStoreViews() as $store): ?>
-        <?php echo $uniqueId; ?>_<?php echo $store['value']; ?> = new WysiwygWidget.chooser("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>", "<?php echo $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId.'_'.$store['value'], 'scope_id' => $store['value'], 'scope' => ($store['value'] == 0) ? 'default' : 'store'));?>", {"buttons":{"open":"Select Page or Node...","close":"Close"}});
+        <?php echo $uniqueId; ?>_<?php echo $store['value']; ?> = new WysiwygWidget.chooser("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>", "<?php echo $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId.'_'.$store['value'], 'scope_id' => $store['value'], 'scope' => ($store['value'] == 0) ? 'default' : 'store'));?>", {"buttons":{"open":"Select a page or node.","close":"Close"}});
         if ($("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value")) {
             $("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value").advaiceContainer = "<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>advice-container";
         }

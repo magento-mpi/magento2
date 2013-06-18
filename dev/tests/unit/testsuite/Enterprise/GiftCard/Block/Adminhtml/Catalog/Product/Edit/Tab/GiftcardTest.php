@@ -22,7 +22,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest 
         $methods = array('getHelperFactory', 'getRequest', 'getLayout', 'getEventManager', 'getUrlBuilder',
             'getTranslator', 'getCache', 'getDesignPackage', 'getSession', 'getStoreConfig', 'getFrontController',
             'getDirs', 'getLogger', 'getFilesystem');
-        $contextMock = $this->getMockBuilder('Mage_Core_Block_Template_Context')
+        $contextMock = $this->getMockBuilder('Mage_Backend_Block_Template_Context')
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();

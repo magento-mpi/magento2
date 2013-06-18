@@ -430,16 +430,13 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             $this->loadLayout();
             $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $this->_initLayoutMessages('Mage_Customer_Model_Session');
-            foreach ($this->getLayout()->getAllBlocks() AS $name => $block) {
-                $test[$name] = get_class($block);
-            }
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getCheckoutSession()->addException($e, $this->__('Cannot open the overview page'));
+            $this->_getCheckoutSession()->addException($e, $this->__('We cannot open the overview page.'));
             $this->_redirect('*/*/billing');
         }
     }
@@ -506,7 +503,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             Mage::logException($e);
             Mage::helper('Mage_Checkout_Helper_Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
-            $this->_getCheckoutSession()->addError($this->__('Order place error.'));
+            $this->_getCheckoutSession()->addError($this->__('Order place error'));
             $this->_redirect('*/*/billing');
         }
     }

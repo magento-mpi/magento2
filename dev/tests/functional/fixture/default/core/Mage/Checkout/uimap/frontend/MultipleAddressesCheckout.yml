@@ -43,8 +43,8 @@ checkout_multishipping_login:
             empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
             success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
             payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
-            no_shipping: //h2[text()='%addressHeader%']//following-sibling::div[1]//p[text()='Sorry, no quotes are available for this order at this time.']
-            ship_method_unavailable: "//h2[text()='%addressHeader%']//following-sibling::div[1]//dt[text()='%shipService%']/following::dd[1]//li[normalize-space(text())='%shipService%: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']"
+            no_shipping: //h2[text()='%addressHeader%']//following-sibling::div[1]//p[text()='Sorry, no quotes are available for this order.']
+            ship_method_unavailable: "//h2[text()='%addressHeader%']//following-sibling::div[1]//dt[text()='%shipService%']/following::dd[1]//li[normalize-space(text())='%shipService%: This shipping method is not available. To use this shipping method, please contact us.']"
             paypal_alert: There was an error processing your order. Please contact us or try again later.
             shipping_alert: Please specify shipping method.
             payment_alert: Please specify payment method.
@@ -305,7 +305,7 @@ checkout_multishipping_create_billing_address:
     mca: checkout/multishipping_address/newBilling/
     title: Create Billing Address - Magento Commerce
     uimap:
-        form: 
+        form:
             fieldsets:
                 -
                     create_billing_address:
@@ -430,7 +430,7 @@ checkout_multishipping_success_order:
     mca: checkout/multishipping/success/
     title: Magento Commerce
     uimap:
-        form: 
+        form:
             fieldsets:
                 -
                     checkout_progress: *checkoutProgress

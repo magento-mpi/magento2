@@ -127,7 +127,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         $this->searchAndOpen($userSearch, 'api_roles_grid');
         //Click Delete API Role button
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
-        //Verify that message "The role has been deleted." is displayed
+        //Verify that message "You deleted the role." is displayed
         $this->assertMessagePresent('success', 'success_deleted_role');
     }
 }

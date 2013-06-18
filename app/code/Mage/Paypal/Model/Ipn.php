@@ -217,7 +217,7 @@ class Mage_Paypal_Model_Ipn
             if (strtolower($merchantEmail) != strtolower($receiverEmail)) {
                 throw new Exception(
                     sprintf(
-                        'Requested %s and configured %s merchant emails do not match.', $receiverEmail, $merchantEmail
+                        'The requested %s and configured %s merchant emails do not match.', $receiverEmail, $merchantEmail
                     )
                 );
             }
@@ -441,7 +441,7 @@ class Mage_Paypal_Model_Ipn
 
         // notify customer
         if ($invoice = $payment->getCreatedInvoice()) {
-            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about invoice #%s.', $invoice->getIncrementId());
+            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('You notified customer about invoice #%s.', $invoice->getIncrementId());
             $comment = $order->sendNewOrderEmail()->addStatusHistoryComment($message)
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -471,7 +471,7 @@ class Mage_Paypal_Model_Ipn
         $invoice = $payment->getCreatedInvoice();
         if ($invoice && !$this->_order->getEmailSent()) {
             $this->_order->sendNewOrderEmail()->addStatusHistoryComment(
-                Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about invoice #%s.', $invoice->getIncrementId())
+                Mage::helper('Mage_Paypal_Helper_Data')->__('You notified customer about invoice #%s.', $invoice->getIncrementId())
             )
             ->setIsCustomerNotified(true)
             ->save();
@@ -524,7 +524,7 @@ class Mage_Paypal_Model_Ipn
         if ($creditmemo = $payment->getCreatedCreditmemo()) {
             $creditmemo->sendEmail();
             $comment = $this->_order->addStatusHistoryComment(
-                    Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about creditmemo #%s.', $creditmemo->getIncrementId())
+                    Mage::helper('Mage_Paypal_Helper_Data')->__('You notified customer about creditmemo #%s.', $creditmemo->getIncrementId())
                 )
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -626,7 +626,7 @@ class Mage_Paypal_Model_Ipn
     protected function _createIpnComment($comment = '', $addToHistory = false)
     {
         $paymentStatus = $this->getRequestData('payment_status');
-        $message = Mage::helper('Mage_Paypal_Helper_Data')->__('IPN "%s".', $paymentStatus);
+        $message = Mage::helper('Mage_Paypal_Helper_Data')->__('IPN "%s"', $paymentStatus);
         if ($comment) {
             $message .= ' ' . $comment;
         }

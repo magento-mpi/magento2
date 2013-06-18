@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_Sales_Order_CreateTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Model instance

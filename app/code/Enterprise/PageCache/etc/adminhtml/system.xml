@@ -50,7 +50,7 @@
         <section id="web">
             <group id="cookie">
                 <field id="cookie_restriction" translate="comment">
-                    <comment>Note that to fully restrict cookies, full page caching must be disabled as well.</comment>
+                    <comment>To fully restrict cookies, you must also disable full-page caching.</comment>
                 </field>
             </group>
         </section>

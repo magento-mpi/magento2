@@ -376,18 +376,4 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $collection->addFieldToFilter('name', $categoryName);
         $this->assertCount(1, $collection->getItems());
     }
-
-    /**
-     * @magentoConfigFixture limitations/catalog_category 2
-     * @magentoDataFixture Mage/Catalog/_files/category.php
-     */
-    public function testSaveRestricted()
-    {
-        $this->setExpectedException('Mage_Core_Exception', 'Sorry, you are using all the categories your account '
-            . 'allows. To add more, first delete a category or upgrade your service.'
-        );
-        /** @var $product Mage_Catalog_Model_Category */
-        $category = Mage::getModel('Mage_Catalog_Model_Category');
-        $category->setName('test')->save();
-    }
 }

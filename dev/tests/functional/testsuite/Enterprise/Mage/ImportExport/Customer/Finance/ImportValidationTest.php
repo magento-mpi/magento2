@@ -103,17 +103,17 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
         $errorMessage[5] = array("Customer with such email and website code doesn't exist in rows: 1");
 
         $invalidValidation[0] = array(
-            "File is totally invalid. Please fix errors and re-upload file",
+            "File is totally invalid. Please fix errors and re-upload file.",
             "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
         );
 
         $invalidValidation[1] = array(
-            "File is totally invalid. Please fix errors and re-upload file",
+            "File is totally invalid. Please fix errors and re-upload file.",
             "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 2"
         );
 
         $fixFileValidation = array(
-            "Please fix errors and re-upload file"
+            "Please fix errors and re-upload file."
         );
 
         return array(

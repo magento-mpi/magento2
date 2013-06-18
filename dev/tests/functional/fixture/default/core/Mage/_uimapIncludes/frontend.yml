@@ -17,7 +17,7 @@ frontend_header:
                         xpath: //div[@class='header']
                         links:
                             my_account: //a[@title='My Account']
-                            my_wishlist: //a[contains(@title,'My Wishlist')]
+                            my_wishlist: //a[contains(@title,'My Wish List')]
                             my_cart: //a[contains(@title,'My Cart')]
                             empty_my_cart: //a[text()='My Cart']
                             checkout: //a[@title='Checkout']

@@ -11,7 +11,7 @@
 
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */?>
 
-<div id="dialog-message-assign" title="<?php echo $this->__('Select Storeviews to make your changes live:') ?>">
+<div id="dialog-message-assign" title="<?php echo $this->__('Choose the store views you want to update.') ?>" style="display:none">
     <div class="messages"></div>
     <p class="confirm_message"></p>
     <form method="post" action="">
@@ -43,23 +43,15 @@
     </form>
 </div>
 
-<div id="dialog-message-confirm">
+<div id="dialog-message-assign-single">
     <div class="dialog-message-confirm messages"></div>
     <p class="confirm_message"></p>
 </div>
 
 <script type="text/javascript">
     (function ($) {
-        $( document ).ready(function() {
+        $(document).ready(function() {
             $('body').themeAssign(<?php echo $this->getOptionsJson(); ?>);
-            var options = {
-                autoOpen:    false,
-                modal:       true,
-                width:       570,
-                dialogClass: 'vde-dialog'
-            };
-            $('#dialog-message-assign').dialog(options);
-            $('#dialog-message-confirm').dialog(options);
         });
     })(jQuery);
 </script>

@@ -232,15 +232,15 @@ onepage_checkout:
             empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
             success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
             payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
-            no_shipping: //*[@id='checkout-shipping-method-load']/p[text()='Sorry, no quotes are available for this order at this time.']
-            ship_method_unavailable: //dt[text()='%shipService%']/following::dd[1]//li[@class='error-msg'][.//text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
+            no_shipping: //*[@id='checkout-shipping-method-load']/p[text()='Sorry, no quotes are available for this order.']
+            ship_method_unavailable: //dt[text()='%shipService%']/following::dd[1]//li[@class='error-msg'][.//text()='This shipping method is not available. To use this shipping method, please contact us.']
             paypal_alert: There was an error processing your order. Please contact us or try again later.
             shipping_alert: Please specify shipping method.
             payment_alert: Please specify payment method.
             success_checkout: //h1[contains(.,'Your order has been received')]
             zero_payment: //dt[contains(label,'No Payment Information Required')]
-            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
-            captcha_alert: Incorrect CAPTCHA.
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
+            captcha_alert: Incorrect CAPTCHA
 
 onepage_checkout_success:
     mca: checkout/onepage/success/

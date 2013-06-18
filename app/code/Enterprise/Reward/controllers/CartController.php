@@ -39,7 +39,7 @@ class Enterprise_Reward_CartController extends Mage_Core_Controller_Front_Action
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
             Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                $this->__('The reward points have been removed from the order.')
+                $this->__('You removed the reward points from this order.')
             );
         } else {
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError(

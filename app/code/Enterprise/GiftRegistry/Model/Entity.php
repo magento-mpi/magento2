@@ -349,13 +349,13 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(
-                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Sender data can\'t be empty.')
+                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('You need to enter sender data.')
             );
         }
 
         if (!Zend_Validate::is($senderEmail, 'EmailAddress')) {
             return $result->setErrorMessage(
-                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid sender email address.')
+                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid sender email address.')
             );
         }
 
@@ -364,14 +364,14 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             $recipientEmail = trim($recipient['email']);
             if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
                 return $result->setErrorMessage(
-                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid recipient email address.')
+                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid recipient email address.')
                 );
             }
 
             $recipient['name'] = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
                 return $result->setErrorMessage(
-                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a recipient name.')
+                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a recipient name.')
                 );
             }
             $emails[] = $recipient;
@@ -390,11 +390,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             if ($count > 0) {
                 $result->setIsSuccess(true)
                     ->setSuccessMessage(
-                        $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('The gift registry has been shared for %d emails.', $count)
+                        $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('You shared the gift registry for %d emails.', $count)
                     );
             } else {
                 $result->setErrorMessage(
-                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Failed to share gift registry.')
+                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__("We couldn't share the registry.")
                 );
             }
         }
@@ -744,9 +744,9 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         }
 
         if (!Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct Privacy setting.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct the Privacy setting.');
         } else if (!key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
-            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct Privacy setting.');
+            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct the Privacy setting.');
         }
 
         $allCustomValues = $this->getCustomValues();
@@ -779,7 +779,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Cannot specify product.'));
+                Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('We cannot specify the product.'));
             }
 
             $product = Mage::getModel('Mage_Catalog_Model_Product')
@@ -930,12 +930,12 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
                     $stockItem->loadByProduct($model->getProductId());
                     // not Mage_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new Mage_Exception(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry item quantity specified.'));
+                        throw new Mage_Exception(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {
                 Mage::throwException(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry item ID specified.')
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the gift registry item ID.')
                 );
             }
         }

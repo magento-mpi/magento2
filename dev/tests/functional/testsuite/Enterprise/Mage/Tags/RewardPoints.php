@@ -124,7 +124,7 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->assertNotNull($this->customerHelper()->searchRewardPointsHistoryRecord(array(
             'Balance' => $rewardBalance,
             'Points' => '+' . $rewardBalance,
-            'Reason' => "For submitting tag ($tag).",
+            'Reason' => "For submitting tag ($tag)",
         )), 'Reward points history record is absent');
     }
 

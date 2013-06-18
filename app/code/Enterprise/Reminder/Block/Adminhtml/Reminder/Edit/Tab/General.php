@@ -27,7 +27,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('General Information'),
-            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Reminder emails may promote a shopping cart price rule with or without coupon. If a shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
+            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Reminder emails may promote a shopping cart price rule with or without a coupon. If a shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
         ));
 
         if ($model->getId()) {
@@ -121,7 +121,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         $fieldset->addField('schedule', 'text', array(
             'name' => 'schedule',
             'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Repeat Schedule'),
-            'note' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('In what number of days to repeat reminder email, if the rule condition still matches. Enter days, comma-separated.'),
+            'note' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Enter the number of days before email reminder rule is triggered if conditions match (comma separate, e.g., "7, 14").'),
         ));
 
         $form->setValues($model->getData());

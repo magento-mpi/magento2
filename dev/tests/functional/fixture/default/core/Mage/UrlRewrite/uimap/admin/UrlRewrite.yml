@@ -14,7 +14,7 @@
 url_rewrite_management:
     mca: urlrewrite/
     click_xpath: //*[@id='nav']//a[contains(@href, 'urlrewrite/')]
-    title: Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: URL Redirects / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -49,7 +49,7 @@ url_rewrite_management:
 
 add_new_urlrewrite_category:
     mca: urlrewrite/edit/category/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: URL Redirects / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -76,7 +76,7 @@ add_new_urlrewrite_category:
 
 add_new_urlrewrite_product:
     mca: urlrewrite/edit/product/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: "[New/Edit] URL Redirect / URL Redirect / SEO & Search / Marketing / Magento Admin"
     uimap:
         form:
             fieldsets:
@@ -104,7 +104,7 @@ add_new_urlrewrite_product:
 
 urlrewrite_product_category_selection:
     mca: urlrewrite/edit/product/%id%/category/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: "[New/Edit] URL Redirect / URL Redirect / SEO & Search / Marketing / Magento Admin"
     uimap:
         form:
             fieldsets:
@@ -120,7 +120,7 @@ urlrewrite_product_category_selection:
 
 urlrewrite_custom:
     mca: urlrewrite/edit/id/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: "[New/Edit] URL Redirect / URL Redirect / SEO & Search / Marketing / Magento Admin"
     uimap:
         form: &new_url_rewrite
             fieldsets:
@@ -144,7 +144,7 @@ urlrewrite_custom:
 
 edit_urlrewrite_product:
     mca: urlrewrite/edit/product/%id%/category/%categoryId%/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: "[New/Edit] URL Redirect / URL Redirect / SEO & Search / Marketing / Magento Admin"
     uimap:
         form: *new_url_rewrite
         buttons:
@@ -154,13 +154,13 @@ edit_urlrewrite_product:
 
 edit_urlrewrite_product_skip_category:
     mca: urlrewrite/edit/product/%id%/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: "[New/Edit] URL Redirect / URL Redirect / SEO & Search / Marketing / Magento Admin"
     uimap:
         form: *new_url_rewrite
 
 edit_urlrewrite_category:
     mca: urlrewrite/edit/category/%id%/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: "[New/Edit] URL Redirect / URL Redirect / SEO & Search / Marketing / Magento Admin"
     uimap:
         form: *new_url_rewrite
         buttons:
@@ -169,7 +169,7 @@ edit_urlrewrite_category:
 
 edit_urlrewrite_custom:
     mca: urlrewrite/edit/id/%id%/
-    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
+    title: "[New/Edit] URL Redirect / URL Redirect / SEO & Search / Marketing / Magento Admin"
     uimap:
         form: *new_url_rewrite
         buttons:

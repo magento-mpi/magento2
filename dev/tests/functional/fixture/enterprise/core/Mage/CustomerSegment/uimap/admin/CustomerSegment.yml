@@ -36,10 +36,10 @@ manage_customer_segments:
         buttons:
             add_new_segment: //button[span='Add Segment']
         messages: &customerSegmentMessages
-            success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been saved.')]
+            success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the segment.')]
             note_apply_to: //p[@id='note_apply_to']
             confirmation_for_delete: Are you sure you want to do this?
-            success_deleted_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been deleted.')]
+            success_deleted_segment: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the segment.')]
 
 # Add New Customer Segment page
 new_customer_segment:

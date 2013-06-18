@@ -15,8 +15,8 @@
             <block type="Enterprise_Tag_Block_Reward_Tooltip" name="reward.tooltip.tag" template="Enterprise_Reward::tooltip.phtml">
                 <action method="initRewardType"><type>Enterprise_Tag_Model_Reward_Action_Tag</type></action>
                 <action method="setWrapperClass"><class>reward-tag</class></action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Tag"><message>Submit a new tag now and earn %s once the tag is approved.</message></action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Tag"><message>Up to %s new tag(s) can be rewarded.</message></action>
+                <action method="setRewardMessage" translate="message" module="Enterprise_Tag"><message>Submit a new tag now and earn %s when the tag is approved.</message></action>
+                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Tag"><message>You can reward up to %s new tag(s).</message></action>
                 <action method="setIsGuestNote"><value>1</value></action>
             </block>
         </reference>

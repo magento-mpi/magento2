@@ -311,7 +311,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
              )
         ));
 
-        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::update_attributes')){
+        if ($this->_authorization->isAllowed('Mage_Catalog::update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Update Attributes'),
                 'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))

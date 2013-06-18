@@ -133,7 +133,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function getNewChildSelectOptions()
     {
         return array(
-            array('value'=>'', 'label'=>Mage::helper('Mage_Rule_Helper_Data')->__('Please choose an action to add...')),
+            array('value'=>'', 'label'=>Mage::helper('Mage_Rule_Helper_Data')->__('Please choose an action to add.')),
         );
     }
 

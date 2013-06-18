@@ -26,7 +26,7 @@
                 <div class="input-box">
                     <?php echo $this->getTypeSelectHtml() ?>
                 </div>
-                <p class="note"><?php echo $this->__('To make search results narrower, specify gift registry type prior to searching. By default, all registry types are searched.') ?></p>
+                <p class="note"><?php echo $this->__('For better search results, first choose a gift registry type. By default, we search all registry types.') ?></p>
             </li>
             <li class="fields">
                 <div class="field">
@@ -148,5 +148,5 @@
 <script type="text/javascript">(function($) {$('#giftregistry-search-results').decorate('table')})(jQuery)</script>
 <?php echo $this->getChildHtml('pager') ?>
 <?php elseif ($this->getSearchResults()): ?>
-    <?php echo $this->__('Your search returns no results.') ?>
+    <?php echo $this->__('Your search returned no results.') ?>
 <?php endif; ?>

@@ -132,7 +132,7 @@ banner_rotator_widget:
     widget_options:
         banners_to_display: Specified Banners
         restricted_baner_types: Footer
-        rotation_mode: Do not rotate, display all at once
+        rotation_mode: Display all instead of rotating.
         active_banner_filter: Yes
         banner_name: %noValue%
 

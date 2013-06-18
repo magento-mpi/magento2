@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Auth_SessionTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Model_Auth

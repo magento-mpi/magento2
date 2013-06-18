@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Adminhtml_Block_Customer_Edit_Tab_View_Accordion

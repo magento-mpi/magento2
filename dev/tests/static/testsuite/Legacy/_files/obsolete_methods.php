@@ -187,6 +187,7 @@ return array(
     array('bundlesAction', 'Mage_Adminhtml_Catalog_ProductController'),
     array('calcTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     array('callbackQueryHook', 'Mage_Core_Model_Resource_Setup'),
+    array('canCreateUser', 'Mage_User_Model_Resource_User'),
     array('canPrint', 'Mage_Checkout_Block_Onepage_Success'),
     array('canTestHeaders', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::canTestHeaders'),
     array('catalogCategoryChangeProducts', 'Mage_Catalog_Model_Product_Flat_Observer'),
@@ -320,6 +321,7 @@ return array(
     array('getMenuItemLabel', 'Mage_Admin_Model_Config'),
     array('getMergedCssUrl'),
     array('getMergedJsUrl'),
+    array('getMessageUserCreationProhibited', 'Mage_User_Model_Resource_User'),
     array('getMinQueryLenght'),
     array('getModelClassName', 'Mage_Core_Model_Config'),
     array('getModuleConfigurationFiles', 'Mage_Core_Model_Config'),
@@ -461,6 +463,7 @@ return array(
     array('isStaticFilesSigned', 'Mage_Core_Helper_Data'),
     array('isTemplateAllowedForApplication'),
     array('isThemeCompatible', 'Mage_Core_Model_Design_Package', 'Mage_Core_Model_Theme::isThemeCompatible'),
+    array('isUserSavingAllowed', 'Mage_User_Model_Resource_User'),
     array('isVerbose', 'Magento_Shell'),
     array('load', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     array('loadBase', 'Mage_Core_Model_Config'),
@@ -579,4 +582,30 @@ return array(
     array('validateDataArray', 'Varien_Convert_Container_Abstract'),
     array('validateFile', 'Mage_Core_Model_Design_Package'),
     array('validateOrder', 'Mage_Checkout_Model_Type_Onepage'),
+    array('substractQtyFromQuotes', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::subtractQtyFromQuotes'
+    ),
+    array('markQuotesRecollectOnCatalogRules', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogPriceRule::dispatch'
+    ),
+    array(
+        'catalogProductSaveAfter', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductSaveAfter'
+    ),
+    array(
+        'catalogProductStatusUpdate', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductStatusUpdate'
+    ),
+    array(
+        'prepareProductEditFormRecurringProfile', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer::render'
+    ),
+    array(
+        'restrictAdminBillingAgreementUsage', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_BillingAgreement::dispatch'
+    ),
+    array(
+        'customerSaveAfter', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CustomerQuote::dispatch'
+    ),
 );

@@ -152,17 +152,17 @@ class Mage_User_Model_User
     {
         $userNameNotEmpty = new Zend_Validate_NotEmpty();
         $userNameNotEmpty->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('User Name is required field.'),
+            Mage::helper('Mage_User_Helper_Data')->__('User Name is a required field.'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $firstNameNotEmpty = new Zend_Validate_NotEmpty();
         $firstNameNotEmpty->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('First Name is required field.'),
+            Mage::helper('Mage_User_Helper_Data')->__('First Name is a required field.'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $lastNameNotEmpty = new Zend_Validate_NotEmpty();
         $lastNameNotEmpty->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Last Name is required field.'),
+            Mage::helper('Mage_User_Helper_Data')->__('Last Name is a required field.'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $emailValidity = new Zend_Validate_EmailAddress();
@@ -201,12 +201,13 @@ class Mage_User_Model_User
         $minPassLength = self::MIN_PASSWORD_LENGTH;
         $passwordLength = new Zend_Validate_StringLength(array('min' => $minPassLength, 'encoding' => 'UTF-8'));
         $passwordLength->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Password must be at least of %d characters.', $minPassLength),
+            Mage::helper('Mage_User_Helper_Data')->__('Your password must be at least %d characters.', $minPassLength),
             Zend_Validate_StringLength::TOO_SHORT
         );
         $passwordChars = new Zend_Validate_Regex('/[a-z].*\d|\d.*[a-z]/iu');
         $passwordChars->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Password must include both numeric and alphabetic characters.'),
+            Mage::helper('Mage_User_Helper_Data')
+                ->__('Your password must include both numeric and alphabetic characters.'),
             Zend_Validate_Regex::NOT_MATCH
         );
         $validator
@@ -217,7 +218,7 @@ class Mage_User_Model_User
         if ($this->hasPasswordConfirmation()) {
             $passwordConfirmation = new Zend_Validate_Identical($this->getPasswordConfirmation());
             $passwordConfirmation->setMessage(
-                Mage::helper('Mage_User_Helper_Data')->__('Password confirmation must be same as password.'),
+                Mage::helper('Mage_User_Helper_Data')->__('Your password confirmation must match your password.'),
                 Zend_Validate_Identical::NOT_SAME
             );
             $validator->addRule($passwordConfirmation, 'password');
@@ -526,7 +527,7 @@ class Mage_User_Model_User
         if (!is_string($newToken) || empty($newToken)) {
             Mage::throwException(
                 'Mage_Core',
-                Mage::helper('Mage_User_Helper_Data')->__('Invalid password reset token.')
+                Mage::helper('Mage_User_Helper_Data')->__('Please correct the password reset token.')
             );
         }
         $this->setRpToken($newToken);

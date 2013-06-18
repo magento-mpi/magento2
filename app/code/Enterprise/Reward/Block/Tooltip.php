@@ -99,7 +99,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
                 }
             } else {
                 if ($this->hasIsGuestNote() && !$this->hasGuestNote()) {
-                    $this->setGuestNote(Mage::helper('Enterprise_Reward_Helper_Data')->__('Applies only to registered customers, may vary when logged in.'));
+                    $this->setGuestNote(Mage::helper('Enterprise_Reward_Helper_Data')->__('This applies only to registered users and may vary when a user is logged in.'));
                 }
             }
         }

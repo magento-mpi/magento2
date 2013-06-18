@@ -87,7 +87,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 } catch (Exception $e) {
                     Mage::logException($e);
                     Mage::throwException(
-                        Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid entity model')
+                        Mage::helper('Mage_ImportExport_Helper_Data')->__('Please enter a correct entity model')
                     );
                 }
                 if (!($this->_entityAdapter instanceof Mage_ImportExport_Model_Import_Entity_Abstract)
@@ -104,11 +104,11 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 if ($this->getEntity() != $this->_entityAdapter->getEntityTypeCode()) {
                     Mage::throwException(
                         Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Input entity code is not equal to entity adapter code')
+                            ->__('The input entity code is not equal to entity adapter code.')
                     );
                 }
             } else {
-                Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid entity'));
+                Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Please enter a correct entity.'));
             }
             $this->_entityAdapter->setParameters($this->getData());
         }
@@ -139,15 +139,15 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
             if (!$validationResult) {
                 if ($this->getProcessedRowsCount() == $this->getInvalidRowsCount()) {
                     $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                        ->__('File is totally invalid. Please fix errors and re-upload file');
+                        ->__('File is totally invalid. Please fix errors and re-upload file.');
                 } elseif ($this->getErrorsCount() >= $this->getErrorsLimit()) {
                     $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                        ->__('Errors limit (%d) reached. Please fix errors and re-upload file',
+                        ->__('Errors limit (%d) reached. Please fix errors and re-upload file.',
                             $this->getErrorsLimit());
                 } else {
                     if ($this->isImportAllowed()) {
                         $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Please fix errors and re-upload file');
+                            ->__('Please fix errors and re-upload file.');
                     } else {
                         $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
                             ->__('File is partially valid, but import is not possible');

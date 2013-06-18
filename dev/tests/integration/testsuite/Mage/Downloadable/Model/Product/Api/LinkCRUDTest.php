@@ -26,7 +26,6 @@ class Mage_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework
                 if ($value['type'] == 'file') {
                     $filePath = dirname(__FILE__) . '/../../../../Catalog/Model/Product/Api/_files/_data/files/'
                               . $value['file']['filename'];
-                    echo $filePath . "\n";
                     $value['file'] = array(
                         'name' => str_replace('/', '_', $value['file']['filename']),
                         'base64_content' => base64_encode(file_get_contents($filePath)),
@@ -36,7 +35,6 @@ class Mage_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework
                 if ($key == 'link' && $value['sample']['type'] == 'file') {
                     $filePath = dirname(__FILE__) . '/../../../../Catalog/Model/Product/Api/_files/_data/files/'
                               . $value['sample']['file']['filename'];
-                    echo $filePath . "\n";
                     $value['sample']['file'] = array(
                         'name' => str_replace('/', '_', $value['sample']['file']['filename']),
                         'base64_content' => base64_encode(file_get_contents($filePath))

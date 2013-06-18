@@ -110,7 +110,7 @@
                 </field>
                 <field id="centinel_api_url" translate="label comment" type="text" sortOrder="135" showInDefault="1" showInWebsite="1">
                     <label>Centinel API URL</label>
-                    <comment>If empty, a default value will be used. Custom URL may be provided by CardinalCommerce agreement.</comment>
+                    <comment>If you leave this empty, we'll use a default value. The custom URL may be provided by CardinalCommerce agreement.</comment>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="centinel">1</field>

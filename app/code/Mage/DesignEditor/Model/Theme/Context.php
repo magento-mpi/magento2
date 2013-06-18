@@ -14,16 +14,6 @@
 class Mage_DesignEditor_Model_Theme_Context
 {
     /**
-     * Session key of editable theme
-     */
-    const CURRENT_THEME_SESSION_KEY = 'vde_theme_id';
-
-    /**
-     * @var Mage_Backend_Model_Session
-     */
-    protected $_backendSession;
-
-    /**
      * @var Mage_Core_Model_Theme_Factory
      */
     protected $_themeFactory;
@@ -51,18 +41,15 @@ class Mage_DesignEditor_Model_Theme_Context
     /**
      * Initialize dependencies
      *
-     * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_CopyService $copyService
      */
     public function __construct(
-        Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_CopyService $copyService
     ) {
-        $this->_backendSession = $backendSession;
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
         $this->_copyService = $copyService;
@@ -75,7 +62,7 @@ class Mage_DesignEditor_Model_Theme_Context
      */
     public function reset()
     {
-        $this->_backendSession->unsetData(self::CURRENT_THEME_SESSION_KEY);
+        $this->_theme = null;
         return $this;
     }
 
@@ -84,21 +71,15 @@ class Mage_DesignEditor_Model_Theme_Context
      *
      * @param int $themeId
      * @return $this
+     * @throws Mage_Core_Exception
      */
-    public function setEditableThemeId($themeId)
+    public function setEditableThemeById($themeId)
     {
-        $this->_backendSession->setData(self::CURRENT_THEME_SESSION_KEY, $themeId);
+        $this->_theme = $this->_themeFactory->create();
+        if (!$this->_theme->load($themeId)->getId()) {
+            throw new Mage_Core_Exception($this->_helper->__('We can\'t find theme "%s".', $themeId));
+        }
         return $this;
-    }
-
-    /**
-     * Get theme which selected as editable in launcher
-     *
-     * @return int|null
-     */
-    public function getEditableThemeId()
-    {
-        return $this->_backendSession->getData(self::CURRENT_THEME_SESSION_KEY);
     }
 
     /**
@@ -107,17 +88,15 @@ class Mage_DesignEditor_Model_Theme_Context
      */
     public function getEditableTheme()
     {
-        if (!$this->_theme) {
-            $themeId = $this->getEditableThemeId();
-            $this->_theme = $this->_themeFactory->create();
-            if (!($themeId && $this->_theme->load($themeId)->getId())) {
-                throw new Mage_Core_Exception($this->_helper->__('Theme "%s" was not found.', $themeId));
-            }
+        if (null === $this->_theme) {
+            throw new Mage_Core_Exception($this->_helper->__('Theme has not been set'));
         }
         return $this->_theme;
     }
 
     /**
+     * Get staging theme
+     *
      * @return Mage_Core_Model_Theme
      * @throws Mage_Core_Exception
      */
@@ -125,7 +104,9 @@ class Mage_DesignEditor_Model_Theme_Context
     {
         $editableTheme = $this->getEditableTheme();
         if (!$editableTheme->isVirtual()) {
-            throw new Mage_Core_Exception($this->_helper->__('Theme "%s" is not editable.', $editableTheme->getId()));
+            throw new Mage_Core_Exception(
+                $this->_helper->__('Theme "%s" is not editable.', $editableTheme->getThemeTitle())
+            );
         }
         $stagingTheme = $editableTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
         return $stagingTheme;

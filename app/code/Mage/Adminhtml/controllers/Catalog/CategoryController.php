@@ -22,7 +22,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _initCategory($getRootInstead = false)
     {
-        $this->_title($this->__('Manage Categories'));
+        $this->_title($this->__('Categories'));
 
         $categoryId = (int)$this->getRequest()->getParam('id', false);
         $storeId    = (int)$this->getRequest()->getParam('store');
@@ -79,12 +79,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         $params['_current'] = true;
         $redirect = false;
-
-        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
-        $limitation = $this->_objectManager->get('Mage_Catalog_Model_Category_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
 
         $storeId = (int)$this->getRequest()->getParam('store');
         $parentId = (int)$this->getRequest()->getParam('parent');
@@ -340,7 +334,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 }
 
                 $category->save();
-                $this->_getSession()->addSuccess($this->__('The category has been saved.'));
+                $this->_getSession()->addSuccess($this->__('You saved the category.'));
                 $refreshTree = 'true';
             } catch (Exception $e){
                 $this->_getSession()->addError($e->getMessage())->setCategoryData($data);
@@ -392,7 +386,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         $category = $this->_initCategory();
         if (!$category) {
-            $this->getResponse()->setBody($this->__('Category move error'));
+            $this->getResponse()->setBody($this->__('There was a category move error.'));
             return;
         }
         /**
@@ -410,7 +404,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         } catch (Mage_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
         } catch (Exception $e){
-            $this->getResponse()->setBody($this->__('Category move error %s', $e));
+            $this->getResponse()->setBody($this->__('There was a category move error %s', $e));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
 
@@ -432,13 +426,13 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->setDeletedPath($category->getPath());
 
                 $category->delete();
-                $this->_getSession()->addSuccess($this->__('The category has been deleted.'));
+                $this->_getSession()->addSuccess($this->__('You deleted the category.'));
             } catch (Mage_Core_Exception $e){
                 $this->_getSession()->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
                 return;
             } catch (Exception $e){
-                $this->_getSession()->addError($this->__('An error occurred while trying to delete the category.'));
+                $this->_getSession()->addError($this->__('Something went wrong while trying to delete the category.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
                 return;
             }
@@ -529,6 +523,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::categories');
+        return $this->_authorization->isAllowed('Mage_Catalog::categories');
     }
 }

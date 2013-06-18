@@ -32,7 +32,7 @@ customer_account:
         messages: &myAccountMessages
             success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
             confirmation_for_delete: Are you sure you want to delete this tag?
-            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
+            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the tag.')]
             vat_number_message: //li[normalize-space(@class)='success-msg' and contains(.,'If you are a registered VAT customer, please click here to enter you billing address for proper VAT calculation')]
             success_validate_vat: //li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated. You will be charged tax.')]
             success_validate_intraunion_vat: "//li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated.')]"
@@ -104,7 +104,7 @@ my_account_view_tag:
                             show_per_page: //div[@class='pager']/div[@class='limiter']/select
                         links:
                             delete_tag: //p[@class='my-tag-edit']/a[span='Delete']
-                            add_to_wishlist: //tr[*//a='%productName%']//a[text()='Add to Wishlist']
+                            add_to_wishlist: //tr[*//a='%productName%']//a[text()='Add to Wish List']
                             product_name: //h2[a='%productName%']
                             back_to_tags_list: //p[@class='back-link']/a[@href]
                         pageelements:

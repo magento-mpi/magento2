@@ -46,6 +46,11 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         if (isset($pageData['meta_data'])) {
             $this->fillTab($pageData['meta_data'], 'meta_data');
         }
+        if (isset($cmsVars['additional_tabs'])) {
+            foreach ($cmsVars['additional_tabs'] as $tabName => $data) {
+                $this->fillTab($data, $tabName);
+            }
+        }        
         $this->saveForm('save_page');
     }
 
@@ -288,5 +293,22 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         return $found;
+    }
+
+    /**
+     * Open CMSPage on frontend
+     *
+     * @param array $pageData
+     */
+    public function frontOpenCmsPage(array $pageData)
+    {
+        $this->addParameter('url_key', $pageData['page_information']['url_key']);
+        $this->addParameter('elementTitle', $pageData['page_information']['page_title']);
+        if (array_key_exists('content', $pageData)) {
+            if (array_key_exists('content_heading', $pageData['content'])) {
+                $this->addParameter('content_heading', $pageData['content']['content_heading']);
+            }
+        }
+        $this->frontend('test_page');
     }
 }

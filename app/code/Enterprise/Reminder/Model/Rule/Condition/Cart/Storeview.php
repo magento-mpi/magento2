@@ -40,7 +40,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item was added to shopping cart %s store view %s', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('The item was added to shopping cart %s, store view %s.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
