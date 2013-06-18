@@ -121,7 +121,8 @@
                 regionInput.hide();
             } else {
                 if (this.options.isRegionRequired) {
-                    regionInput.removeAttr('disabled');
+                    regionInput.addClass('required-entry').removeAttr('disabled');
+                    requiredLabel.show();
                 } else {
                     if (!this.options.optionalRegionAllowed) {
                         regionInput.attr('disabled', 'disabled');
