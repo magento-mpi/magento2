@@ -61,7 +61,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportCsvAction()
     {
         $this->loadLayout();
-        $fileName   = 'log.csv';
+        $fileName = 'log.csv';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
@@ -73,7 +73,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportXmlAction()
     {
         $this->loadLayout();
-        $fileName   = 'log.csv';
+        $fileName = 'log.xml';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
