@@ -84,6 +84,10 @@
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
+        <antcall target="_product_edition">
+            <param name="product_edition_code" value="ce"/>
+        </antcall>
+
         <script language="javascript"><![CDATA[
             var parallel = project.createTask('parallel');
 
@@ -116,6 +120,7 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
+        <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
             tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
@@ -220,11 +225,9 @@
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
-        <!-- @see prepare-ee target; _product_edition_files is not suitable currently since it extrudes functional tests -->
-        <copy file="${basedir}/app/etc/modules/XEnterprise_Edition.xml.dist"
-              tofile="${basedir}/app/etc/modules/XEnterprise_Edition.xml"/>
-        <replace file="${basedir}/downloader/config.ini" token="community" value="enterprise"/>
-        <replace file="${basedir}/app/Mage.php" token="self::EDITION_COMMUNITY" value="self::EDITION_ENTERPRISE"/>
+        <antcall target="_product_edition">
+            <param name="product_edition_code" value="ee"/>
+        </antcall>
 
         <script language="javascript"><![CDATA[
             var parallel = project.createTask('parallel');
@@ -258,6 +261,7 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
+        <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
               tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
@@ -357,6 +361,10 @@
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
+        <antcall target="_product_edition">
+            <param name="product_edition_code" value="saas"/>
+        </antcall>
+
         <script language="javascript"><![CDATA[
             var parallel = project.createTask('parallel');
 
@@ -399,6 +407,7 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
+        <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
               tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
@@ -407,6 +416,10 @@
 
         <antcall target="_installation_requirements" inheritAll="true">
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}"/>
+        </antcall>
+
+        <antcall target="_product_edition">
+            <param name="product_edition_code" value="saas"/>
         </antcall>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml">
