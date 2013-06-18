@@ -118,4 +118,4 @@ customer_segment_report:
 customer_wishlist_report:
     mca: report_customer_wishlist/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
-    title: Customer Wishlist Report / Reports / Magento Admin
+    title: Customer Wishlist Report / Customers / Reports / Magento Admin
