@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_AbstractTest extends PH
      */
     public function testLimitByStoreWebsite($website)
     {
-        $select = $this->getMock('Zend_Db_Select', array('join', 'where'));
+        $select = $this->getMock('Zend_Db_Select', array('join', 'where'), array(), '', false);
         $select->expects($this->once())
             ->method('join')
             ->with(
