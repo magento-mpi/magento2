@@ -156,8 +156,8 @@
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
-                            <label>Enable Express Checkout</label>
                             <config_path>payment/paypaluk_express/active</config_path>
+                            <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Field_Hidden</frontend_model>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <frontend_class>paypal-ec-payflow-enabler</frontend_class>
                             <attribute type="shared">1</attribute>
