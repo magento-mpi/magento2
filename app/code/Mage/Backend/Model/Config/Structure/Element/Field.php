@@ -1,5 +1,7 @@
 <?php
 /**
+ * Represents a Field Element on the UI that can be configured via xml.
+ *
  * {license_notice}
  *
  * @category    Mage
@@ -7,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Backend_Model_Config_Structure_Element_Field
     extends Mage_Backend_Model_Config_Structure_ElementAbstract
 {
@@ -414,7 +415,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve the options list from the specified service call.
      *
-     * @param $sourceService
+     * @param array $sourceService
      * @return array
      */
     protected function _getOptionsFromService($sourceService)
@@ -447,7 +448,9 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     }
 
     /**
-     * @param $label an option label that should be translated
+     * Translate a label
+     *
+     * @param string $label an option label that should be translated
      * @return string the translated version of the input label
      */
     private function _translateLabel($label)
@@ -457,7 +460,9 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     }
 
     /**
-     * @param $value an option value that may contain a placeholder for a constant value
+     * Takes a string and searches for placeholders ({{CONSTANT_NAME}}) to replace with a constant value.
+     *
+     * @param string $value an option value that may contain a placeholder for a constant value
      * @return mixed|string the value after being replaced by the constant if needed
      */
     private function _fillInConstantPlaceholders($value)
@@ -471,7 +476,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve options list from source model
      *
-     * @param $sourceModel
+     * @param string $sourceModel Source model class name or class::method
      * @return array
      */
     protected function _getOptionsFromSourceModel($sourceModel)
@@ -508,8 +513,8 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve field dependencies
      *
-     * @param $fieldPrefix
-     * @param $storeCode
+     * @param string $fieldPrefix
+     * @param string $storeCode
      * @return array
      */
     public function getDependencies($fieldPrefix, $storeCode)
