@@ -108,7 +108,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
 
         try {
             $model->save();
-            $this->_getSession()->addSuccess($this->__('The user has been saved.'));
+            $this->_getSession()->addSuccess($this->__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('*/*/');
         } catch (Mage_Core_Exception $e) {

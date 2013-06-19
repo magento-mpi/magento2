@@ -38,7 +38,7 @@ api_soap_users:
         links:
             check_user: //td[normalize-space(text())='%email%']/ancestor::tr/td[normalize-space(text())='%role%']
         messages: &pageMessages
-            success_user_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
+            success_user_saved: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the user.')]
             success_user_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
             api_user_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             user_exist: //li[normalize-space(@class)='error-msg' and contains(.,'API Key already exists.')]
