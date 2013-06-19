@@ -53,7 +53,7 @@ manage_catalog_price_rules:
             empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
-            no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
+            no_price_rules: "//*[@id='promo_catalog_grid_table']//tr[td='We couldn't find any records.']"
 
 add_new_rule:
     mca: promo_catalog/new/

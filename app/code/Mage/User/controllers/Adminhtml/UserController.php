@@ -151,7 +151,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
                 $model = Mage::getModel('Mage_User_Model_User');
                 $model->setId($userId);
                 $model->delete();
-                $this->_session->addSuccess($this->__('The user has been deleted.'));
+                $this->_session->addSuccess($this->__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
             }

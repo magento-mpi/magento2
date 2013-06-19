@@ -172,7 +172,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
             if ($status && $status->getStatus()) {
                 try {
                     $status->assignState($state, $isDefault);
-                    $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You have not assigned the order status.'));
+                    $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You have assigned the order status.'));
                     $this->_redirect('*/*/');
                     return;
                 } catch (Mage_Core_Exception $e) {
