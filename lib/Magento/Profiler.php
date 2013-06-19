@@ -329,6 +329,7 @@ class Magento_Profiler
      * @param string $baseDir
      * @param boolean $isAjax
      * @return array
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected static function _parseConfig($profilerConfig, $baseDir, $isAjax)
     {
