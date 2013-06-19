@@ -69,6 +69,7 @@
                 close: function() {
                     $('#new_category_name, #new_category_parent-suggest').val('');
                     clearParentCategory();
+                    newCategoryForm.validation();
                     var validationOptions = newCategoryForm.validation('option');
                     validationOptions.unhighlight($('#new_category_parent-suggest').get(0),
                         validationOptions.errorClass, validationOptions.validClass || '');
