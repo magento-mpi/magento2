@@ -110,15 +110,18 @@ class Enterprise_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Fram
             ->will($this->returnValue($statement));
         $this->_writeAdapter->expects($this->once())
             ->method('insertMultiple')
-            ->with($this->equalTo('enterprise_customersegment_customer'),
-                $this->callback(function ($data) use ($websites) {
-                    foreach($data as $item) {
-                        if (!isset($item['website_id']) || !in_array($item['website_id'], $websites)) {
-                            return false;
+            ->with(
+                $this->equalTo('enterprise_customersegment_customer'),
+                $this->callback(
+                    function ($data) use ($websites) {
+                        foreach ($data as $item) {
+                            if (!isset($item['website_id']) || !in_array($item['website_id'], $websites)) {
+                                return false;
+                            }
                         }
+                        return true;
                     }
-                    return true;
-                })
+                )
             );
         $this->_writeAdapter->expects($this->once())
             ->method('beginTransaction');
