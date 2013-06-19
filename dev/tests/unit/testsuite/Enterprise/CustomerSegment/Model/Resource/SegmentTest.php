@@ -76,6 +76,9 @@ class Enterprise_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Fram
         );
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function testSaveCustomersFromSelect()
     {
         $select = $this->getMock('Varien_Db_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
@@ -108,21 +111,18 @@ class Enterprise_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Fram
             ->method('query')
             ->with($this->equalTo($select))
             ->will($this->returnValue($statement));
+        $callback = function ($data) use ($websites) {
+            foreach ($data as $item) {
+                if (!isset($item['website_id']) || !in_array($item['website_id'], $websites)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
         $this->_writeAdapter->expects($this->once())
             ->method('insertMultiple')
-            ->with(
-                $this->equalTo('enterprise_customersegment_customer'),
-                $this->callback(
-                    function ($data) use ($websites) {
-                        foreach ($data as $item) {
-                            if (!isset($item['website_id']) || !in_array($item['website_id'], $websites)) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-                )
-            );
+            ->with($this->equalTo('enterprise_customersegment_customer'), $this->callback($callback));
         $this->_writeAdapter->expects($this->once())
             ->method('beginTransaction');
         $this->_writeAdapter->expects($this->once())
@@ -172,13 +172,12 @@ class Enterprise_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Fram
             ->method('query')
             ->with($this->equalTo($select))
             ->will($this->returnValue($statement));
+        $callback = function ($data) use ($websites) {
+            return isset($data[0]['website_id']) && $data[0]['website_id'] === $websites[0];
+        };
         $this->_writeAdapter->expects($this->once())
             ->method('insertMultiple')
-            ->with($this->equalTo('enterprise_customersegment_customer'),
-                $this->callback(function ($data) use ($websites) {
-                    return isset($data[0]['website_id']) && $data[0]['website_id'] === $websites[0];
-                })
-            );
+            ->with($this->equalTo('enterprise_customersegment_customer'), $this->callback($callback));
         $this->_writeAdapter->expects($this->exactly(2))
             ->method('beginTransaction');
         $this->_writeAdapter->expects($this->exactly(2))
