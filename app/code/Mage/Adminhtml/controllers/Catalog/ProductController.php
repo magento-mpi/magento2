@@ -162,7 +162,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function indexAction()
     {
         $this->_title($this->__('Products'));
-        $this->_addProductLimitationMassage();
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_products');
         $this->renderLayout();
@@ -177,9 +176,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_forward('noroute');
             return;
         }
-
-        $this->_addProductLimitationMassage();
-        $this->_addGroupLimitationMessage();
 
         $product = $this->_initProduct();
 
@@ -225,9 +221,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function editAction()
     {
-        $this->_addProductLimitationMassage();
-        $this->_addGroupLimitationMessage();
-
         $productId  = (int) $this->getRequest()->getParam('id');
         $product = $this->_initProduct();
 
@@ -538,16 +531,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
             $product->validate();
 
-            /* Verify limitation */
-            $numProductsToCreate = $product->getId() ? 0 : 1;
-            $numProductsToCreate += count($variationProducts);
-            $limitation = $this->_getLimitation();
-            if ($limitation->isCreateRestricted($numProductsToCreate)) {
-                $message = Mage::helper('Mage_Catalog_Helper_Data')->__('We could not save the product. You tried to add %d products, but the most you can have is %d. To add more, please upgrade your service.');
-                $message = sprintf($message, $numProductsToCreate, $limitation->getLimit());
-                throw new Mage_Catalog_Exception($message);
-            }
-
             /**
              * @todo implement full validation process with errors returning which are ignoring now
              */
@@ -587,8 +570,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      *
      * @return array
      */
-    protected function _validateProductVariations($parentProduct, $products)
+    protected function _validateProductVariations($parentProduct, array $products)
     {
+        $this->_eventManager->dispatch(
+            'catalog_product_validate_variations_before',
+            array('product' => $parentProduct, 'variations' => $products)
+        );
         $validationResult = array();
         foreach ($products as $productData) {
             /** @var Mage_Catalog_Model_Product $product */
@@ -617,16 +604,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         return $validationResult;
-    }
-
-    /**
-     * Return product limitation model
-     *
-     * @return Mage_Catalog_Model_Product_Limitation
-     */
-    protected function _getLimitation()
-    {
-        return $this->_objectManager->get('Mage_Catalog_Model_Product_Limitation');
     }
 
     /**
@@ -822,13 +799,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
-                if ($redirectBack === 'new' || $redirectBack === 'duplicate') {
-                    $limitation = $this->_getLimitation();
-                    if ($limitation->isCreateRestricted()) {
-                        $redirectBack = true;
-                        $this->_getSession()->addError($this->__("You can't create new product."));
-                    }
-                }
+
+                $this->_eventManager->dispatch(
+                    'controller_action_catalog_product_save_entity_after',
+                    array('controller' => $this)
+                );
+
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
                     $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
@@ -1080,30 +1056,5 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->getLayout()->createBlock('Mage_Catalog_Block_Product_TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
-    }
-
-    /**
-     * In case of fully used limit on products - display message about this.
-     */
-    protected function _addProductLimitationMassage()
-    {
-
-        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
-    }
-
-    /**
-     * In case of fully used limit on groups - display message about this.
-     */
-    protected function _addGroupLimitationMessage()
-    {
-        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
-        if ($limitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
-        }
     }
 }

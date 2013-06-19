@@ -24,13 +24,6 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
     public function indexAction()
     {
         $this->_title($this->__('Users'));
-        /** @var $model Mage_User_Model_Resource_User */
-        $model = Mage::getObjectManager()->get('Mage_User_Model_Resource_User');
-        if (!$model->canCreateUser()) {
-            /** @var $session Mage_Adminhtml_Model_Session */
-            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
-            $session->addNotice($model->getMessageUserCreationProhibited());
-        }
         $this->_initAction();
         $this->renderLayout();
     }

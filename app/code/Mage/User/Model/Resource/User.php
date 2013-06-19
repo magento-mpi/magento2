@@ -412,37 +412,11 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Whether functional restrictions allow to create a new user
-     *
-     * @return bool
-     */
-    public function canCreateUser()
-    {
-        $maxUserCount = (string)Mage::getConfig()->getNode('limitations/admin_account');
-        if ('0' === $maxUserCount) {
-            return false;
-        }
-        $maxUserCount = (int)$maxUserCount;
-        return ($maxUserCount ? $this->_getTotalUserCount() < $maxUserCount : true);
-    }
-
-    /**
-     * Whether the functional limitations permit a user saving
-     *
-     * @param Mage_Core_Model_Abstract $user
-     * @return bool
-     */
-    public function isUserSavingAllowed(Mage_Core_Model_Abstract $user)
-    {
-        return (!$user->isObjectNew() || $this->canCreateUser());
-    }
-
-    /**
-     * Retrieve the total user count bypassing any restrictions/filters applied to collections
+     * Retrieve the total user count bypassing any filters applied to collections
      *
      * @return int
      */
-    protected function _getTotalUserCount()
+    public function countAll()
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select();
@@ -464,29 +438,6 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
             Zend_Validate_Callback::INVALID_VALUE
         );
 
-        $userSavingAllowance = new Zend_Validate_Callback(array($this, 'isUserSavingAllowed'));
-        $userSavingAllowance->setMessage(
-            $this->getMessageUserCreationProhibited(), Zend_Validate_Callback::INVALID_VALUE
-        );
-
-        /** @var $validator Magento_Validator_Composite_VarienObject */
-        $validator = new Magento_Validator_Composite_VarienObject;
-        $validator
-            ->addRule($userIdentity)
-            ->addRule($userSavingAllowance)
-        ;
-        return $validator;
-    }
-
-    /**
-     * Return the error message to be used when the user creation is prohibited due to the functional restrictions
-     *
-     * @return string
-     */
-    public static function getMessageUserCreationProhibited()
-    {
-        // @codingStandardsIgnoreStart
-        return Mage::helper('Mage_User_Helper_Data')->__('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.');
-        // @codingStandardsIgnoreEnd
+        return $userIdentity;
     }
 }
