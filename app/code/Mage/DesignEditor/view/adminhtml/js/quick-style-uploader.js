@@ -54,7 +54,7 @@
              * @param data
              */
             fail: function(e, data) {
-                alert($.mage.__('File extension not known or unsupported type.'));
+                alert($.mage.__('We don\'t recognize or support this file extension type.'));
             },
 
             /**
@@ -97,7 +97,7 @@
                     }
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
         },

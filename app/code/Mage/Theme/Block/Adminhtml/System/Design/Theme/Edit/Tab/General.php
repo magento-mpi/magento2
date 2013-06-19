@@ -94,8 +94,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
 
         if ($this->_isThemeEditable) {
             $themeFieldset->addField('parent_id', 'select', array(
-                'label'    => $this->__('Parent theme'),
-                'title'    => $this->__('Parent theme'),
+                'label'    => $this->__('Parent Theme'),
+                'title'    => $this->__('Parent Theme'),
                 'name'     => 'parent_id',
                 'values'   => $themesCollections->toOptionArray(!$parentTheme->getId()),
                 'required' => true,
@@ -104,8 +104,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             ));
         } else if (!empty($formData['parent_id'])) {
             $themeFieldset->addField('parent_title', 'note', array(
-                'label'    => $this->__('Parent theme'),
-                'title'    => $this->__('Parent theme'),
+                'label'    => $this->__('Parent Theme'),
+                'title'    => $this->__('Parent Theme'),
                 'name'     => 'parent_title',
                 'text'     => $parentTheme->getId() ? $parentTheme->getThemeTitle() : ''
             ));
@@ -260,7 +260,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $defaults['magento_version_from'] = Mage::getVersion();
         $defaults['magento_version_to'] = '*';
         $defaults['theme_version'] = '0.0.0.1';
-        $defaults['theme_title'] = $this->__('New theme');
+        $defaults['theme_title'] = $this->__('New Theme');
 
         return $defaults;
     }
@@ -302,7 +302,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         if ($maxImageSize) {
             return $this->__('Max image size %sM', $maxImageSize);
         } else {
-            return $this->__('System doesn\'t allow to get file upload settings');
+            return $this->__('Something is wrong with the file upload settings.');
         }
     }
 }

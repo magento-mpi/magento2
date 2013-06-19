@@ -873,7 +873,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     }
 
     /**
-     * Get total visible categories (without root category)
+     * Get total number of persistent categories in the system, excluding the default category
      *
      * @return int
      */

@@ -457,35 +457,6 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         return $this->_getData('code');
     }
 
-    /**
-     * Check functional limitations before saving an entity
-     *
-     * @return Mage_Core_Model_Abstract
-     */
-    protected function _beforeSave()
-    {
-        parent::_beforeSave();
-        $this->_enforceFunctionalLimitations();
-        return $this;
-    }
-
-    /**
-     * Throw an exception, if functional limitations are reached
-     *
-     * @throws Mage_Core_Exception
-     */
-    protected function _enforceFunctionalLimitations()
-    {
-        /** @var $limitation Mage_Core_Model_Website_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Website_Limitation');
-        if ($this->isObjectNew() && $limitation->isCreateRestricted()) {
-            $errorMessage = $limitation->getCreateRestrictedMessage();
-            $exception = new Mage_Core_Exception($errorMessage);
-            $exception->addMessage(new Mage_Core_Model_Message_Error($errorMessage));
-            throw $exception;
-        }
-    }
-
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
