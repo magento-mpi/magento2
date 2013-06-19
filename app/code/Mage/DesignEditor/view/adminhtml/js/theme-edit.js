@@ -50,7 +50,7 @@
             dialog.text.set(this.options.confirmMessage);
             dialog.title.set(this.options.title);
             var buttons = (data.confirm && data.confirm.buttons) || [{
-                text: $.mage.__('Got it'),
+                text: $.mage.__('OK'),
                 'class': 'primary',
                 click: $.proxy(this._reloadPage, this)
             }];
