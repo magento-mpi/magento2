@@ -23,7 +23,7 @@ class Mage_Core_Model_DataService_Path_Navigator
      * @throws InvalidArgumentException if $root is null or if path can't be followed to a leaf node.
      * @return mixed
      */
-    static public function search($root, array $path)
+    public function search($root, array $path)
     {
         if (null === $root) {
             throw new InvalidArgumentException('Search contained null root.');

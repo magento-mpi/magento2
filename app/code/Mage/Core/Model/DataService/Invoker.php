@@ -28,18 +28,26 @@ class Mage_Core_Model_DataService_Invoker
     protected $_composite;
 
     /**
+     * @var Mage_Core_Model_DataService_Path_Navigator
+     */
+    private $_navigator;
+
+    /**
      * @param Mage_Core_Model_DataService_ConfigInterface $config
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_DataService_Path_Composite $composite
+     * @param Mage_Core_Model_DataService_Path_Navigator $navigator
      */
     public function __construct(
         Mage_Core_Model_DataService_ConfigInterface $config,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_DataService_Path_Composite $composite
+        Mage_Core_Model_DataService_Path_Composite $composite,
+        Mage_Core_Model_DataService_Path_Navigator $navigator
     ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_composite = $composite;
+        $this->_navigator = $navigator;
     }
 
     /**
@@ -110,7 +118,7 @@ class Mage_Core_Model_DataService_Invoker
         if (preg_match("/^\{\{.*\}\}$/", $path)) {
             // convert from '{{parent.child}}' format to array('parent', 'child') format
             $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($path, '{}'));
-            return Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
+            return $this->_navigator->search($this->_composite, $pathArray);
         }
         return $path;
     }

@@ -48,6 +48,11 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
     protected $_dataServiceMock;
 
     /**
+     * @var  PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_navigator;
+
+    /**
      * Get the data service mock
      *
      * @return array
@@ -59,17 +64,23 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock(
-            'Mage_Core_Model_DataService_ConfigInterface', array(), array(), "", false
-        );
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), "", false);
-        $this->_compositeMock = $this->getMock(
-            'Mage_Core_Model_DataService_Path_Composite', array(), array(), "", false
-        );
+        $this->_configMock = $this->getMockBuilder('Mage_Core_Model_DataService_ConfigInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_compositeMock = $this->getMockBuilder('Mage_Core_Model_DataService_Path_Composite')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_navigator = $this->getMockBuilder('Mage_Core_Model_DataService_Path_Navigator')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_invoker = new Mage_Core_Model_DataService_Invoker(
             $this->_configMock,
             $this->_objectManagerMock,
-            $this->_compositeMock
+            $this->_compositeMock,
+            $this->_navigator
         );
         $this->_dataServiceMock = array();
     }
@@ -141,5 +152,18 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this));
 
         $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME);
+    }
+
+    public function testGetArgumentValue()
+    {
+        $replacementValue = 'replacementValue';
+        $this->_navigator->expects($this->once())
+            ->method('search')
+            ->with($this->_compositeMock, array('first', 'second'))
+            ->will($this->returnValue($replacementValue));
+
+        $argumentValue = $this->_invoker->getArgumentValue('{{first.second}}');
+
+        $this->assertEquals($replacementValue, $argumentValue);
     }
 }
