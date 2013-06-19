@@ -136,4 +136,44 @@ class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_T
             $this->_cacheMock, $this->_configMock, $this->_converterMock, false
         );
     }
+
+    /**
+     * Test Magento_Exception will be thrown when unknown attribute in System Configuration
+     * and schema validation is used.
+     */
+    public function testGetConfigurationLoadsConfigFromFilesAndMergeUnknownAttributeValidate()
+    {
+        $expected = array('var' => 'val');
+        $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(false));
+
+        $this->_converterMock->expects($this->any())->method('convert')->will($this->returnValue(
+                array('config' => array('system' => $expected))
+            ));
+        $filePath = dirname(dirname(__DIR__)) . '/_files';
+        $this->_configMock->expects($this->once())
+            ->method('getModuleConfigurationFiles')
+            ->will($this->returnValue(array(
+                                           $filePath . '/system_unknown_attribute_1.xml',
+                                           $filePath . '/system_unknown_attribute_2.xml')));
+
+        // setup real path to schema in config
+        $this->_configMock->expects($this->any())
+            ->method('getModuleDir')
+            ->with('etc', 'Mage_Backend')
+            ->will(
+                $this->returnValue(
+                    realpath(__DIR__ . '/../../../../../../../../../app/code/Mage/Backend/etc')
+                )
+        );
+
+        $this->_cacheMock->expects($this->any())->method('save')->with(
+            serialize($expected)
+        );
+
+        $this->setExpectedException('Magento_Exception',
+            "Element 'option', attribute 'unknown': The attribute 'unknown' is not allowed.");
+        new Mage_Backend_Model_Config_Structure_Reader(
+            $this->_cacheMock, $this->_configMock, $this->_converterMock, true
+        );
+    }
 }
