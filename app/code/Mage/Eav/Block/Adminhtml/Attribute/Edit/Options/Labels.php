@@ -37,7 +37,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backen
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_StoreManager $storeManager,
         Mage_Core_Model_Registry $registry,
         array $data = array()

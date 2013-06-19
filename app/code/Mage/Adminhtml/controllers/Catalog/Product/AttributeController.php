@@ -55,13 +55,17 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
             $this->loadLayout()
-                ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'))
+                ->_addBreadcrumb(
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'),
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog')
+                )
                 ->_addBreadcrumb(
                     Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Attributes'),
-                    Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Attributes'))
-            ;
+                    Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Attributes')
+                );
+                $this->_setActiveMenu('Mage_Catalog::catalog_attributes_attributes');
         }
-        $this->_setActiveMenu('Mage_Catalog::catalog_attributes_attributes');
+
         return $this;
     }
 
