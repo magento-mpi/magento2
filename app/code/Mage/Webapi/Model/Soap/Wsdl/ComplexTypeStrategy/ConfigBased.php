@@ -17,21 +17,14 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     /**
      * Inject XSD describing service method input/output directly into WSDL.
      *
-     * @param string $complexTypesXsd XSD describing types to be added
+     * @param DOMNode $complexTypeNode DOMNode to be added to the WSDL
      * @return string
      */
-    public function addComplexType($complexTypesXsd)
+    public function addComplexType($complexTypeNode)
     {
-        /** @var DOMDocument $dom */
-        /** TODO: Use object manager instead of new */
-        $dom = new DOMDocument();
-        $dom->loadXML($complexTypesXsd);
-        $complexTypes = $dom->getElementsByTagName('complexType');
-        foreach ($complexTypes as $complexType) {
-            $complexType = $this->getContext()->toDomDocument()->importNode($complexType, true);
-            $this->getContext()->getSchema()->appendChild($complexType);
-        }
-        /** TODO: Fix return */
-        return $complexTypesXsd;
+        $complexType = $this->getContext()->toDomDocument()->importNode($complexTypeNode, true);
+        $this->getContext()->getSchema()->appendChild($complexType);
+        //TODO: Fix return
+        return $complexTypeNode;
     }
 }

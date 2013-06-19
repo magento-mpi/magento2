@@ -65,7 +65,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
-    ) {
+    )
+    {
         $this->_apiConfig = $apiConfig;
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -101,16 +102,24 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $resources[$resourceName] = array('methods' => array());
             foreach ($serviceData['operations'] as $operationData) {
                 $serviceMethod = $operationData['method'];
-                /** Collect output parameters */
-                $outputParameters = $this->_getOutputSchema($serviceClass, $serviceMethod);
-                $inputParameters = $this->_getInputSchema($serviceClass, $serviceMethod);
-                if (!empty($inputParameters)) {
+
+                /** @var  $dom DOMDocument */
+                $dom = $this->_getServiceSchemaDOM($serviceClass);
+
+                $operationName = $this->getOperationName($resourceName, $serviceMethod);
+
+                $inputParameterName = $this->getInputMessageName($operationName);
+                $inputComplexTypeNode = $this->_getComplexTypeNode($inputParameterName, $dom);
+                if (!empty($inputComplexTypeNode)) {
                     $resources[$resourceName]['methods'][$serviceMethod]['interface']['in']['schema'] =
-                        $inputParameters;
+                        $inputComplexTypeNode;
                 }
-                if (!empty($outputParameters)) {
+
+                $outputParameterName = $this->getOutputMessageName($operationName);
+                $outputComplexTypeNode = $this->_getComplexTypeNode($outputParameterName, $dom);
+                if (!empty($outputComplexTypeNode)) {
                     $resources[$resourceName]['methods'][$serviceMethod]['interface']['out']['schema'] =
-                        $outputParameters;
+                        $outputComplexTypeNode;
                 }
             }
         }
@@ -124,29 +133,33 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Stub method for getting service method output schema
+     * Method to load Service specific XSD
      *
-     * @param string $serviceName
-     * @param string $serviceMethod
-     * @return string
+     * @param $serviceName
+     * @return DOMDocument
      */
-    protected function _getOutputSchema($serviceName, $serviceMethod)
+    protected function _getServiceSchemaDOM($serviceName)
     {
-        /** TODO: Replace stub with getting real output schema (using service layer) */
-        return $this->_newApiConfig->getOutputSchema($serviceName, $serviceMethod);
+        return $this->_newApiConfig->getServiceSchemaDOM($serviceName);
     }
 
+
     /**
-     * Stub method for getting service method input schema
-     *
-     * @param string $serviceName
-     * @param string $serviceMethod
-     * @return string
+     * @param $parameterName string Name of the input or output parameter
+     * @param $dom DOMDocument
+     * @return DOMNode
      */
-    protected function _getInputSchema($serviceName, $serviceMethod)
+    protected function _getComplexTypeNode($parameterName, $dom)
     {
-        /** TODO: Replace stub with getting real input schema (using service layer) */
-        return $this->_newApiConfig->getInputSchema($serviceName, $serviceMethod);
+        $xpath = new DOMXPath($dom);
+        /** @var $elemList DOMNodeList */
+        $elemList = $xpath->query("//xsd:complexType[@name='$parameterName']");
+        /**  @var $elem DOMElement */
+        $elem = $elemList->item(0); //item(0) returns DOMElement even though it says it returns DOMNode
+        /** @var $node DOMNode */
+        $node = $elem->cloneNode(true);
+
+        return $node;
     }
 
     /**
@@ -217,14 +230,14 @@ class Mage_Webapi_Model_Soap_AutoDiscover
          * and auto-generation mechanism: $this->getElementComplexTypeName($inputMessageName))
          */
         $inputMessageName = $this->getInputMessageName($operationName);
-        $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
+        //$complexTypeName = $this->getElementComplexTypeName($inputMessageName);
         $elementData = array(
             'name' => $inputMessageName,
-            'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
+            'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
         );
         if (isset($methodData['interface']['in']['schema'])) {
-            $inputParameters = $methodData['interface']['in']['schema'];
-            $wsdl->addComplexType($inputParameters);
+            $inputComplexTypeNode = $methodData['interface']['in']['schema'];
+            $wsdl->addComplexType($inputComplexTypeNode);
         } else {
             $elementData['nillable'] = 'true';
         }
@@ -252,16 +265,16 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected function _createOperationOutput(Mage_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
-        $complexTypeName = $this->getElementComplexTypeName($outputMessageName);
+        //$complexTypeName = $this->getElementComplexTypeName($outputMessageName);
         $wsdl->addElement(
             array(
                 'name' => $outputMessageName,
-                'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
+                'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         );
         if (isset($methodData['interface']['out']['schema'])) {
-            $outputParameters = $methodData['interface']['out']['schema'];
-            $wsdl->addComplexType($outputParameters);
+            $outputComplexTypeNode = $methodData['interface']['out']['schema'];
+            $wsdl->addComplexType($outputComplexTypeNode);
         }
         $wsdl->addMessage(
             $outputMessageName,
