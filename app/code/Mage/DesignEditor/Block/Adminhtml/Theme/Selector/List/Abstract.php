@@ -100,7 +100,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
-        $title = $this->__('Assign to a Store View');
+        $title = $this->__('Assign New Theme');
         if ($this->getHasThemeAssigned()) {
             // @codingStandardsIgnoreStart
             $message = $this->__('You chose a new theme for your live store. Click "OK" to replace your current theme.');
