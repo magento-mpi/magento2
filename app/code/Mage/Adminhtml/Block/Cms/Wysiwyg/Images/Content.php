@@ -78,8 +78,8 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => $this->helper('Mage_Cms_Helper_Data')->__('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete current folder?'),
-            'deleteFileConfirmationMessage'   => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete the selected file?'),
+            'deleteFolderConfirmationMessage' => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete this folder?'),
+            'deleteFileConfirmationMessage'   => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete this file?'),
             'targetElementId' => $this->getTargetElementId(),
             'contentsUrl'     => $this->getContentsUrl(),
             'onInsertUrl'     => $this->getOnInsertUrl(),

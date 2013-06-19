@@ -89,7 +89,7 @@
 }
 
 .vde-dialog .ui-dialog-buttonset {
-    text-align: left;
+    text-align: right;
 }
 
 /*
@@ -2507,6 +2507,10 @@
 .uploader-image .action-delete,
 .uploader-image .action-delete:active {
     padding: 0;
+}
+
+.uploader-image .image.base-image:before {
+    background: none;
 }
 
 .uploader-image .file-row {

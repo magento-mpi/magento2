@@ -221,9 +221,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _getAssignInitData()
     {
-        // @codingStandardsIgnoreStart
-        $message = $this->__("You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish");
-        // @codingStandardsIgnoreEnd
+        $message = $this->__("Are you sure you want to change the theme of your live store?");
         $title = $this->__("Assign");
 
         $data = array(

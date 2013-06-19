@@ -153,7 +153,7 @@
         </components>
     </control>
 
-    <control name="upsell_products_list" title="Upsell Products List">
+    <control name="upsell_products_list" title="Up-sell Products List">
         <type>image-sizing</type>
         <components>
             <control name="upsell_products_list-type">
@@ -241,7 +241,7 @@
         </components>
     </control>
 
-    <control name="side_column_widget_product_thumbnail" title="Side Column Widget Product thumbnail">
+    <control name="side_column_widget_product_thumbnail" title="Side Column Widget Product Thumbnail">
         <type>image-sizing</type>
         <components>
             <control name="side_column_widget_product_thumbnail-type">
@@ -263,7 +263,7 @@
         </components>
     </control>
 
-    <control name="new_products_content_widget_list" title="New Products Content Widget List View">
+    <control name="new_products_content_widget_list" title="New Products Content Widget - List View">
         <type>image-sizing</type>
         <components>
             <control name="new_products_content_widget_list-type">
@@ -285,7 +285,7 @@
         </components>
     </control>
 
-    <control name="new_products_content_widget_grid" title="New Products Content Widget Grid View">
+    <control name="new_products_content_widget_grid" title="New Products Content Widget - Grid View">
         <type>image-sizing</type>
         <components>
             <control name="new_products_content_widget_grid-type">
@@ -395,7 +395,7 @@
         </components>
     </control>
 
-    <control name="bundled_product_customization_page" title="Bundled Product - Customization Page">
+    <control name="bundled_product_customization_page" title="Bundle Product - Customization Page">
         <type>image-sizing</type>
         <components>
             <control name="bundled_product_customization_page-type">
@@ -505,7 +505,7 @@
         </components>
     </control>
 
-    <control name="customer_shared_wishlist" title="Customer's shared wishlist">
+    <control name="customer_shared_wishlist" title="Customer's Shared Wishlist">
         <type>image-sizing</type>
         <components>
             <control name="customer_shared_wishlist-type">
@@ -527,7 +527,7 @@
         </components>
     </control>
 
-    <control name="wishlist_thumbnail" title="Wishlist thumbnail">
+    <control name="wishlist_thumbnail" title="Wishlist Thumbnail">
         <type>image-sizing</type>
         <components>
             <control name="wishlist_thumbnail-type">
@@ -549,7 +549,7 @@
         </components>
     </control>
 
-    <control name="wishlist_sidebar_block" title="Wishlist sidebar block">
+    <control name="wishlist_sidebar_block" title="Wishlist Sidebar Block">
         <type>image-sizing</type>
         <components>
             <control name="wishlist_sidebar_block-type">
@@ -571,7 +571,7 @@
         </components>
     </control>
 
-    <control name="shared_wishlist_email" title="Shared Wishlist email">
+    <control name="shared_wishlist_email" title="Shared Wishlist Email">
         <type>image-sizing</type>
         <components>
             <control name="shared_wishlist_email-type">
@@ -593,7 +593,7 @@
         </components>
     </control>
 
-    <control name="customer_account_my_tags_tag_view" title="Customer Account: My Tags - Tag view">
+    <control name="customer_account_my_tags_tag_view" title="Customer Account: My Tags - Tag View">
         <type>image-sizing</type>
         <components>
             <control name="customer_account_my_tags_tag_view-type">
@@ -615,7 +615,7 @@
         </components>
     </control>
 
-    <control name="cart_cross_sell_products" title="Cart Cross Sell Products">
+    <control name="cart_cross_sell_products" title="Cart Cross-sell Products">
         <type>image-sizing</type>
         <components>
             <control name="cart_cross_sell_products-type">
@@ -637,7 +637,7 @@
         </components>
     </control>
 
-    <control name="gift_messages_checkout_thumbnail" title="Gift messages on checkout (thumbnail)">
+    <control name="gift_messages_checkout_thumbnail" title="Gift Messages on Checkout (Thumbnail)">
         <type>image-sizing</type>
         <components>
             <control name="gift_messages_checkout_thumbnail-type">
@@ -659,7 +659,7 @@
         </components>
     </control>
 
-    <control name="gift_messages_checkout_small_image" title="Gift messages on checkout (small image)">
+    <control name="gift_messages_checkout_small_image" title="Gift Messages on Checkout (Small Image)">
         <type>image-sizing</type>
         <components>
             <control name="gift_messages_checkout_small_image-type">

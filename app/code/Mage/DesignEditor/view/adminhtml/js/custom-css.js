@@ -1,6 +1,8 @@
 /**
  * {license_notice}
  *
+ * @category    design
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,9 +44,7 @@
 
         _editCustomCss: function()
         {
-            if ($.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.removeProp('disabled');
-            }
+            this.btnCssUpdate.removeProp('disabled');
         },
 
         _downloadCustomCss: function() {
@@ -68,7 +68,7 @@
                     this._prepareUpdateButton();
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
             $('.vde-tools-content').trigger('resize.vdeToolsResize');
@@ -88,8 +88,6 @@
         _prepareUpdateButton: function()
         {
             if (!$.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.prop('disabled', true);
-                this.btnUpdateDownload.add(this.btnCssDelete).fadeOut();
                 this.fileRowInfo.addClass('no-display');
             } else {
                 this.btnCssUpdate.prop('disabled', false);
