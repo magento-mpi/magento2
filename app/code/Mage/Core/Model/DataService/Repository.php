@@ -1,8 +1,8 @@
 <?php
 /**
- * DataService Repository
+ * DataService Repository stores the data and allows to retrieve for service calls.
  *
- * Stores the data and allows to retrieve for service calls.  Assigns namespaces and aliases to the service calls data.
+ * Assigns namespaces and aliases to the service calls data.
  *
  * {license_notice}
  *
