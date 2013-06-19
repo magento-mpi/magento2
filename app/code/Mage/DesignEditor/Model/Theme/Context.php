@@ -105,7 +105,7 @@ class Mage_DesignEditor_Model_Theme_Context
         $editableTheme = $this->getEditableTheme();
         if (!$editableTheme->isVirtual()) {
             throw new Mage_Core_Exception(
-                $this->_helper->__('Theme "%s" is not editable.', $editableTheme->getThemeTitle())
+                $this->_helper->__('Theme "%s" can\'t be edited.', $editableTheme->getThemeTitle())
             );
         }
         $stagingTheme = $editableTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
