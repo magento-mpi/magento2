@@ -13,7 +13,7 @@ class Saas_ImportExport_Helper_Import_Image_Configuration extends Mage_Core_Help
      * Config xml paths
      */
     const XML_PATH_TYPE_CODE = 'global/importexport/import/image/type_code';
-    const XML_PATH_FIELD_ARCHIVE_FILE_NAME = 'global/importexport/import/image/archive/file_name';
+    const XML_PATH_FIELD_ARCHIVE_FILE_NAME = 'global/importexport/import/image/archive/file_field_name';
     const XML_PATH_ARCHIVE_ALLOWED_EXTENSIONS = 'global/importexport/import/image/archive/allowed_extensions';
     const XML_PATH_IMAGE_FILENAME_LIMIT = 'global/importexport/import/image/filename_limit';
     const XML_PATH_IMAGE_ALLOWED_EXTENSIONS = 'global/importexport/import/image/allowed_extensions';
@@ -80,7 +80,7 @@ class Saas_ImportExport_Helper_Import_Image_Configuration extends Mage_Core_Help
     }
 
     /**
-     * Get media dir.
+     * Get media dir
      *
      * @return string
      */
@@ -90,7 +90,7 @@ class Saas_ImportExport_Helper_Import_Image_Configuration extends Mage_Core_Help
     }
 
     /**
-     * Get form field name
+     * Get file field name
      *
      * @return string
      */

@@ -20,7 +20,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FileName extends Magento_Va
      */
     protected $_messageTemplates = array(
         self::NAME_IS_WRONG => 'File name error',
-        self::NAME_LENGTH_TOO_BIG => 'File name is too long:',
+        self::NAME_LENGTH_TOO_BIG => 'File name is too long',
     );
 
     /**
@@ -40,7 +40,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FileName extends Magento_Va
     /**
      * Sets validator options
      *
-     * @param  array|Zend_Config $options
+     * @param array|Zend_Config $options
      * @throws InvalidArgumentException
      */
     public function __construct($options)
@@ -73,7 +73,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FileName extends Magento_Va
     /**
      * Sets the lengthLimit option
      *
-     * @param  int $lengthLimit
+     * @param int $lengthLimit
      * @throws InvalidArgumentException
      * @return Saas_ImportExport_Model_Import_Image_Validator_FileName Provides a fluent interface
      */
@@ -100,7 +100,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FileName extends Magento_Va
     /**
      * Sets the max option
      *
-     * @param  string $pattern
+     * @param string $pattern
      * @throws InvalidArgumentException
      * @return Saas_ImportExport_Model_Import_Image_Validator_FileName Provides a fluent interface
      */
@@ -117,7 +117,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FileName extends Magento_Va
     /**
      * Check file name
      *
-     * @param  mixed $value
+     * @param mixed $value
      * @return boolean
      */
     public function isValid($value)
@@ -143,7 +143,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FileName extends Magento_Va
      * Sets validation failure message templates given as an array, where the array keys are the message keys,
      * and the array values are the message template strings.
      *
-     * @param  array $messages
+     * @param array $messages
      * @return Saas_ImportExport_Model_Import_Image_Validator_FileName
      */
     public function setMessages(array $messages)

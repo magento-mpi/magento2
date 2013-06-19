@@ -52,7 +52,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         try {
             $theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL);
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
-                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
+                throw new Mage_Core_Exception($this->__('We cannot find theme "%s".', $themeId));
             }
             /** @var $cssFileModel Mage_Core_Model_Theme_Customization_Files_Css */
             $cssFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
@@ -78,7 +78,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('The theme was not found.'));
+            $this->_getSession()->addError($this->__('We cannot find the theme.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/');
         }
@@ -116,7 +116,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 $theme->setCustomization($themeJs);
 
                 $theme->saveFormData($themeData);
-                $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
+                $this->_getSession()->addSuccess($this->__('You saved the theme.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -142,7 +142,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 /** @var $theme Mage_Core_Model_Theme */
                 $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
                 if (!$theme->getId()) {
-                    throw new InvalidArgumentException(sprintf('Theme with id "%d" is not found.', $themeId));
+                    throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%d".', $themeId));
                 }
                 if (!$theme->isVirtual()) {
                     throw new InvalidArgumentException(
@@ -155,7 +155,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Cannot delete the theme.'));
+            $this->_getSession()->addException($e, $this->__('We cannot delete the theme.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         /**
@@ -177,7 +177,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('Cannot upload css file'));
+            $result = array('error' => true, 'message' => $this->__('We cannot upload the CSS file.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
@@ -197,7 +197,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
             if (!$theme->getId()) {
-                Mage::throwException($this->__('Theme with id "%d" is not found.', $themeId));
+                Mage::throwException($this->__('We cannot find a theme with id "%d".', $themeId));
             }
             $serviceModel->uploadJsFile('js_files_uploader', $theme);
 
@@ -210,7 +210,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('Cannot upload js file'));
+            $result = array('error' => true, 'message' => $this->__('We cannot upload the JS file.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
@@ -226,7 +226,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException('Theme with id ' . $themeId . ' is not found.');
+                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%d".', $themeId));
             }
 
             /** @var $filesCss Mage_Core_Model_Theme_Customization_Files_Css */
@@ -246,7 +246,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             }
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                $this->__('File "%s" is not found.', Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS));
+                $this->__('We cannot find file "%s"', Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS));
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -267,7 +267,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException(sprintf('Theme with id "%d" is not found.', $themeId));
+                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%d".', $themeId));
             }
 
             $themeCss = $helper->getCssFiles($theme);
@@ -282,7 +282,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 'value' => $themeCss[$fileName]['path']
             ));
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('File "%s" is not found.', $fileName));
+            $this->_getSession()->addException($e, $this->__('We cannot find file "%s".', $fileName));
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
