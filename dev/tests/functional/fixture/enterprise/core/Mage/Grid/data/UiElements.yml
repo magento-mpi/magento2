@@ -339,3 +339,39 @@ admin_action_log_report:
         6: Full Action Name
         7: Short Details
         8: Full Details
+
+#dataset for ui elements in Gift Card Account grid
+manage_gift_card_account:
+    fieldset:
+        customer_segment_grid: tablename
+    button:
+        reset_filter:
+        search:
+        export:
+        submit:
+    field:
+        filter_code:
+        filter_id_from:
+        filter_id_to:
+        filter_date_created_from:
+        filter_date_created_to:
+        filter_expiration_data_from:
+        filter_expiration_data_to:
+        filter_balance_from:
+        filter_balance_to:
+    dropdown:
+        filter_website:
+        filter_active:
+        filter_status:
+        actions:
+        export_to:
+    headers:
+        0: ' '
+        1: ID
+        2: Code
+        3: Website
+        4: Created
+        5: End on
+        6: Active
+        7: Status
+        8: Balance
