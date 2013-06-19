@@ -824,12 +824,7 @@
     line-height: 26px;
 }
 
-.vde-tools input[type='text'].image-width:focus {
-    border: 1px solid #30312c;
-    box-shadow: none;
-}
-
-.vde-tools input[type='text'].image-height:focus {
+.vde-tools input[type='text'].image-width:focus, .vde-tools input[type='text'].image-height:focus {
     border: 1px solid #30312c;
     box-shadow: none;
 }
