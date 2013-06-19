@@ -154,16 +154,47 @@ class Mage_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
         $this->_invoker->getServiceData(self::TEST_DATA_SERVICE_NAME);
     }
 
-    public function testGetArgumentValue()
+    public function testGetArgumentValueNoReplace()
     {
-        $replacementValue = 'replacementValue';
+        $expectedValue = 'simple_value';
+        $this->_navigator->expects($this->never())
+            ->method('search');
+
+        $argumentValue = $this->_invoker->getArgumentValue($expectedValue);
+
+        $this->assertEquals($expectedValue, $argumentValue);
+    }
+
+    public function testGetArgumentValueFullReplace()
+    {
+        $expectedValue = 'replacementValue';
         $this->_navigator->expects($this->once())
             ->method('search')
             ->with($this->_compositeMock, array('first', 'second'))
-            ->will($this->returnValue($replacementValue));
+            ->will($this->returnValue($expectedValue));
 
         $argumentValue = $this->_invoker->getArgumentValue('{{first.second}}');
 
-        $this->assertEquals($replacementValue, $argumentValue);
+        $this->assertEquals($expectedValue, $argumentValue);
+    }
+
+    public function testGetArgumentValueTwoReplace()
+    {
+        $replaceFirstSecond = 'replacementValue';
+        $replaceAnother = 'anotherValue';
+        $inputValue = 'prefix-{{first.second}}-middle-{{another}}-postfix';
+        $expectedValue = 'prefix-replacementValue-middle-anotherValue-postfix';
+        $this->_navigator->expects($this->at(0))
+            ->method('search')
+            ->with($this->_compositeMock, array('first', 'second'))
+            ->will($this->returnValue($replaceFirstSecond));
+        $this->_navigator->expects($this->at(1))
+            ->method('search')
+            ->with($this->_compositeMock, array('another'))
+            ->will($this->returnValue($replaceAnother));
+
+        $argumentValue = $this->_invoker->getArgumentValue($inputValue);
+
+        $this->assertEquals($expectedValue, $argumentValue);
     }
 }
