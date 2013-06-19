@@ -33,12 +33,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_nodePreviewStoreId;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -134,7 +134,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $fieldset->addField('node_preview', 'link', array(
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
             'href'      => '#',
-            'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('No preview available'),
+            'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview is not available.'),
         ));
 
         $yesNoOptions = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
@@ -144,7 +144,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
          */
         if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) {
             $fieldset   = $form->addFieldset('metadata_fieldset', array(
-                'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Render Metadata in HTML Head')
+                'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Render Metadata in HTML Head.')
             ));
 
 
@@ -212,7 +212,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'class'     => 'validate-digits',
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
-            'note'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('How many Links to display at once'),
+            'note'      => Mage::helper('Enterprise_Cms_Helper_Data')->__('Set the number of links to display at one time.'),
             'tabindex'  => '80'
         ));
         $pagerFieldset->addField('pager_jump', 'text', array(
@@ -242,7 +242,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuFieldset->addField('menu_visibility', 'select', array(
-            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Show in Navigation Menu'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Show in navigation menu.'),
             'name'      => 'menu_visibility',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
@@ -316,7 +316,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuFieldset->addField('top_menu_visibility', 'select', array(
-            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Show in Navigation Menu'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Show in navigation menu.'),
             'name'      => 'top_menu_visibility',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('top_menu_visibility', 'top_menu_fieldset')",
@@ -339,7 +339,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     {
         $addButtonData = array(
             'id'        => 'add_cms_pages',
-            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Add Selected Page(s) to Tree'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Add selected page(s) to the tree.'),
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
             'class'     => 'add'
         );
@@ -357,7 +357,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $buttons = array();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
-            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Remove From Tree'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Remove from tree.'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete'
         ))->toHtml();
@@ -481,7 +481,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getButtonSaveLabel()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Add To Tree');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Add to tree.');
     }
 
     /**
@@ -663,7 +663,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getLockAlertMessage()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Page lock expires in 60 seconds. Save changes to avoid possible data loss.');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('The page lock expires in 60 seconds. Save now to avoid data loss.');
     }
 
     /**

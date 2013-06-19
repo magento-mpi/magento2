@@ -6,6 +6,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Saas_Saas_Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
@@ -16,7 +19,7 @@ class Saas_Saas_Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_
      */
     public function testRemoveRestrictedOptions($action, array $restrictedOptions, array $absentSelectors)
     {
-        $this->markTestIncomplete('Incorrect parameters format. MAGETWO-8662');
+        $this->markTestIncomplete('Incorrect parameters format. MAGETWO-10538');
 
         $this->_injectCustomConverter($restrictedOptions);
 

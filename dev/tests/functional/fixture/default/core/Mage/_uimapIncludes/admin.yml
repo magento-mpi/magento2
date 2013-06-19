@@ -94,7 +94,7 @@ admin_header:
                             store_view_hint: "/../../td[@class='scope-label'][contains(.,'[STORE VIEW]')]"
                             global_view_hint: "/../../td[@class='scope-label'][contains(.,'[GLOBAL]')]"
                             website_view_hint: "/../../td[@class='scope-label'][contains(.,'[WEBSITE]')]"
-                            access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
+                            access_denied: //*[@id='page:main-container']/h1[text()='You do not have access to this.']
                             navigation_menu_items: //ul[@id='nav']/li
                             navigation_children_menu_items: //*[@id='nav']/li//ul/li[not(contains(@class,'parent'))][not(contains(@class,'column'))]
                             general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]

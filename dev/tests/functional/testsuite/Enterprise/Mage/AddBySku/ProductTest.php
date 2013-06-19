@@ -102,11 +102,11 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
      */
     public function createCustomer()
     {
-        $this->loginAdminUser();
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }
@@ -134,191 +134,176 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             $attrData['option_2']['admin_option_name'];
         $simpleProducts['simpleDisabled'] = $this->loadDataSet('Product', 'simple_sku',
             array('product_online_status' => 'Disabled'));
-        $simpleProducts['simpleCategory'] = $this->loadDataSet('Product', 'simple_sku',
+        $simple['withCategory'] = $this->loadDataSet('Product', 'simple_sku',
             array('general_categories' => $category));
-        $simpleProducts['simpleWebsite'] = $this->loadDataSet('Product', 'simple_sku',
-            array('websites' => $website));
-        $simpleProducts['simpleOutOfStock'] = $this->loadDataSet('Product', 'simple_sku',
-            array('general_stock_availability' => 'Out of Stock'));
-        $simpleProducts['simple_not_visible'] = $this->loadDataSet('Product', 'simple_sku',
-            array('autosettings_visibility' => 'Not Visible Individually'));
-        $simpleProducts['simpleNotVisibleCustom'] = $this->loadDataSet('Product', 'simple_sku',
-            array('autosettings_visibility' => 'Not Visible Individually'));
-        $simpleProducts['simpleNotVisibleCustom']['custom_options_data'][] = $customOptionsReq;
-        $simpleProducts['simpleNotRequiredCustom'] = $this->loadDataSet('Product', 'simple_sku');
-        $simpleProducts['simpleNotRequiredCustom']['custom_options_data'][] = $customOptionsNReq;
-        $simpleProducts['simpleRequiredCustom'] = $this->loadDataSet('Product', 'simple_sku');
-        $simpleProducts['simpleRequiredCustom']['custom_options_data'][] = $customOptionsReq;
-        $simpleProducts['simple_min'] = $this->loadDataSet('Product', 'simple_sku',
-            array('inventory_min_allowed_qty_default' => 'No', 'inventory_min_allowed_qty' => '5'));
-        $simpleProducts['simple_max'] = $this->loadDataSet('Product', 'simple_sku',
-            array('inventory_max_allowed_qty_default' => 'No', 'inventory_max_allowed_qty' => '5'));
-        $simpleProducts['simple_increment'] = $this->loadDataSet('Product', 'simple_sku',
-            array('inventory_enable_qty_increments_default' => 'No', 'inventory_enable_qty_increments' => 'Yes',
-                'inventory_qty_increments_default' => 'No', 'inventory_qty_increments' => '5'));
+        $simple['withWebsite'] = $this->loadDataSet('Product', 'simple_sku', array('websites' => $website));
+        $simple['simpleOutOfStock'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'general_stock_availability' => 'Out of Stock'
+        ));
+        $simple['notVisible'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'autosettings_visibility' => 'Not Visible Individually'
+        ));
+        $simple['notVisibleWithCustom'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'autosettings_visibility' => 'Not Visible Individually',
+            'custom_options_data' => array($customOptionsReq)
+        ));
+        $simple['withNotRequiredCustom'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'custom_options_data' => array($customOptionsNReq)
+        ));
+        $simple['wittRequiredCustom'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'custom_options_data' => array($customOptionsReq)
+        ));
+        $simple['simpleMin'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'inventory_min_allowed_qty_default' => 'No',
+            'inventory_min_allowed_qty' => '5'
+        ));
+        $simple['simpleMax'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'inventory_max_allowed_qty_default' => 'No',
+            'inventory_max_allowed_qty' => '5'
+        ));
+        $simple['withIncrement'] = $this->loadDataSet('Product', 'simple_sku', array(
+            'inventory_enable_qty_increments_default' => 'No',
+            'inventory_enable_qty_increments' => 'Yes',
+            'inventory_qty_increments_default' => 'No',
+            'inventory_qty_increments' => '5'
+        ));
 
         $this->navigate('manage_products');
-        foreach ($simpleProducts as $product) {
+        foreach ($simple as $product) {
             $this->productHelper()->createProduct($product);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
 
-        return $simpleProducts;
-    }
-
-    /**
-     * Creates downloadable products for tests
-     *
-     * @return array
-     */
-    protected function _createDownloadableProduct()
-    {
-        $download = $this->loadDataSet('Product', 'downloadable_product_visible');
-        $download['downloadable_information_data']['downloadable_link_1'] =
-            $this->loadDataSet('Product', 'downloadable_links');
-        $download['downloadable_information_data']['downloadable_link_2'] =
-            $this->loadDataSet('Product', 'downloadable_links');
-        $this->productHelper()->createProduct($download, 'downloadable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $download;
-    }
-
-    /**
-     * Creates bundle products for tests that are not available
-     *
-     * @param $simpleProducts
-     * @return array
-     */
-    protected function _createBundleNotAvailable($simpleProducts)
-    {
-        $bundleNotAvailable = $this->loadDataSet('Product', 'fixed_bundle_visible');
-        $bundleNotAvailable['general_bundle_items']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
-        $bundleNotAvailable['general_bundle_items']['item_1']['add_product_1']['associated_search_sku'] =
-            $simpleProducts['simpleOutOfStock']['general_sku'];
-        $bundleNotAvailable['general_bundle_items']['item_1']['add_product_2']['associated_search_sku'] =
-            $simpleProducts['simpleDisabled']['general_sku'];
-        $this->productHelper()->createProduct($bundleNotAvailable, 'bundle');
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $bundleNotAvailable;
-    }
-
-    /**
-     * Create bundle product for test (fixed)
-     *
-     * @param $simpleProducts
-     * @return array
-     */
-    protected function _createBundleFixed($simpleProducts)
-    {
-        $bundleFixed = $this->loadDataSet('Product', 'fixed_bundle_visible');
-        $bundleFixed['general_bundle_items']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
-        $bundleFixed['general_bundle_items']['item_1']['add_product_1']['associated_search_sku'] =
-            $simpleProducts['simple']['general_sku'];
-        $bundleFixed['general_bundle_items']['item_1']['add_product_2']['associated_search_sku'] =
-            $simpleProducts['simpleWithBackorders']['general_sku'];
-        $this->productHelper()->createProduct($bundleFixed, 'bundle');
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $bundleFixed;
-    }
-
-    /**
-     * Create bundle product for test (dynamic)
-     *
-     * @param $simpleProducts
-     * @return array
-     */
-    protected function _createBundleDynamic($simpleProducts)
-    {
-        $bundleDynamic = $this->loadDataSet('Product', 'dynamic_bundle_visible');
-        $bundleDynamic['general_bundle_items']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
-        $bundleDynamic['general_bundle_items']['item_1']['add_product_1']['associated_search_sku'] =
-            $simpleProducts['simple']['general_sku'];
-        $bundleDynamic['general_bundle_items']['item_1']['add_product_2']['associated_search_sku'] =
-            $simpleProducts['simpleWithBackorders']['general_sku'];
-        $this->productHelper()->createProduct($bundleDynamic, 'bundle');
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $bundleDynamic;
+        return $simple;
     }
 
     /**
      * <p>Create all products for testing SKU functionality</p>
      *
-     * @param string $website
-     * @param string $category
-     * @param string $attrData
-     *
      * @return array
      *
      * @test
-     * @depends createWebsite
-     * @depends createCategory
-     * @depends createAttribute
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function preconditionsForTests($website, $category, $attrData)
+    public function preconditionsForTests()
     {
+        $website = $this->loadDataSet('Website', 'generic_website');
+        $store = $this->loadDataSet('Store', 'generic_store', array('website' => $website['website_name']));
+        $storeView = $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $store['store_name']));
+        $category = $this->loadDataSet('Category', 'sub_category_required_permissions_deny');
+        $categoryPath = $category['parent_category'] . '/' . $category['name'];
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('Product Details' => $attrData['attribute_code']));
+        //Preconditions
         $this->loginAdminUser();
+        //Create Website
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore($website, 'website');
+        $this->assertMessagePresent('success', 'success_saved_website');
+        $this->storeHelper()->createStore($store, 'store');
+        $this->assertMessagePresent('success', 'success_saved_store');
+        $this->storeHelper()->createStore($storeView, 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+        //Create category
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->checkCategoriesPage();
+        $this->categoryHelper()->createCategory($category);
+        $this->assertMessagePresent('success', 'success_saved_category');
+        //Create and assign attribute
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet();
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->saveForm('save_attribute_set');
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        //Data
         //Custom options
         $customOptionsReq = $this->loadDataSet('Product', 'custom_options_dropdown');
         $customOptionsNReq = $this->loadDataSet('Product', 'custom_options_dropdown',
             array('custom_options_general_is_required' => 'No'));
-        //Simple products
-        $simpleProducts = $this->_createSimpleProduct(
-            $customOptionsReq, $customOptionsNReq, $website, $category, $attrData);
-        //Downloadable product
-        $download = $this->_createDownloadableProduct();
-        //Configurable products
-        $configurable = $this->loadDataSet('Product', 'configurable_product_required', null,
+        //Simple
+        $simple = $this->_createSimpleProduct($customOptionsReq, $customOptionsNReq,
+            $website['website_name'], $categoryPath, $attrData);
+        //Configurable        
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
+            array(
+                'associated_name' => $simple['simple']['general_name'],
+                'associated_sku' => $simple['simple']['general_sku']
+            ),
             array(
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'general_attribute_1' => $attrData['attribute_properties']['attribute_label']
             )
         );
+        //Downloadable
+        $download = $this->loadDataSet('Product', 'downloadable_product_visible',
+            array('downloadable_link_2' => $this->loadDataSet('Product', 'downloadable_links')));
+        //Grouped
+        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null, array(
+            'associated_1' => $simple['simple']['general_sku'],
+            'associated_2' => $simple['withBackorders']['general_sku']
+        ));
+        $groupedVisibleInd = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null, array(
+            'associated_1' => $simple['simple']['general_sku'],
+            'associated_2' => $simple['notVisible']['general_sku']
+        ));
+        //Bundle
+        $bundleItemNotAvailable = $this->loadDataSet('Product', 'bundle_item_1', null, array(
+            'bundleSku1' => $simple['simpleOutOfStock']['general_sku'],
+            'bundleSku2' => $simple['disabled']['general_sku']
+        ));
+        $bundleItemFixed = $this->loadDataSet('Product', 'bundle_item_1', null, array(
+            'bundleSku1' => $simple['simple']['general_sku'],
+            'bundleSku2' => $simple['withBackorders']['general_sku']
+        ));
+        $bundleItemDynamic = $this->loadDataSet('Product', 'bundle_item_1', null, array(
+            'bundleSku1' => $simple['simple']['general_sku'],
+            'bundleSku2' => $simple['withBackorders']['general_sku']
+        ));
+        $bundleNotAvailable = $this->loadDataSet('Product', 'fixed_bundle_visible',
+            array('item_1' => $bundleItemNotAvailable));
+        $bundleFixed = $this->loadDataSet('Product', 'fixed_bundle_visible', array('item_1' => $bundleItemFixed));
+        $bundleDynamic = $this->loadDataSet('Product', 'dynamic_bundle_visible', array('item_1' => $bundleItemDynamic));
+        //Steps
+        $this->productHelper()->createProduct($download, 'downloadable');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-        //Grouped products
-        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null, array(
-            'associated_1' => $simpleProducts['simple']['general_sku'],
-            'associated_2' => $simpleProducts['simpleWithBackorders']['general_sku']
-        ));
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $groupedVisibleInd = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null, array(
-            'associated_1' => $simpleProducts['simple']['general_sku'],
-            'associated_2' => $simpleProducts['simple_not_visible']['general_sku']
-        ));
         $this->productHelper()->createProduct($groupedVisibleInd, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
-        //Bundle products
-        $bundleNotAvailable = $this->_createBundleNotAvailable($simpleProducts);
-        $bundleFixed = $this->_createBundleFixed($simpleProducts);
-        $bundleDynamic = $this->_createBundleDynamic($simpleProducts);
+        $this->productHelper()->createProduct($bundleNotAvailable, 'bundle');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($bundleFixed, 'bundle');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($bundleDynamic, 'bundle');
+        $this->assertMessagePresent('success', 'success_saved_product');
 
-        $productData = $this->_returnSimple($simpleProducts, $customOptionsReq);
+        $productData = $this->_returnSimple($simple, $customOptionsReq);
+        $downOption = $download['downloadable_information_data']['downloadable_link_1']['downloadable_link_row_title'];
+
         $productData['download'] = array(
             'product_name' => $download['general_name'],
             'sku' => $download['general_sku'],
             'qty' => 1,
-            'Options' => array(
-                'option_1' => array(
-                    'parameters' => array(
-                        'title' => $download['downloadable_information_data']['downloadable_links_title'],
-                        'optionTitle' => $download['downloadable_information_data']['downloadable_link_1']
-                        ['downloadable_link_row_title']),
-                    'options_to_choose' => array('custom_option_checkbox' => 'Yes'))),
-            'Options_backend' => array(
-                'option_1' => array(
+            'Options' => array('option_1' => array(
+                'parameters' => array(
                     'title' => $download['downloadable_information_data']['downloadable_links_title'],
-                    'field_link' => array(
-                        'fieldType' => 'checkbox',
-                        'fieldsParameter' => $download['downloadable_information_data']['downloadable_link_1'],
-                        'fieldsValue' => 'Yes'
-                    )
-                )
+                    'optionTitle' => $downOption
+                ),
+                'options_to_choose' => array('custom_option_checkbox' => 'Yes')
+            )),
+            'Options_backend' => array('option_1' => array(
+                'title' => $download['downloadable_information_data']['downloadable_links_title'],
+                'field_link' => array(
+                    'fieldType' => 'checkbox',
+                    'fieldsParameter' => $download['downloadable_information_data']['downloadable_link_1'],
+                    'fieldsValue' => 'Yes'
+                ))
             )
         );
         $productData['configurable'] = array(
@@ -348,38 +333,28 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             'product_name' => $grouped['general_name'],
             'sku' => $grouped['general_sku'],
             'qty' => 1,
-            'Options' => array(
-                'option_1' => array(
-                    'parameters' => array(
-                        'subproductName' => $simpleProducts['simple']['general_name']),
-                    'options_to_choose' => array('grouped_subproduct_qty' => '1'
-                    )
+            'Options' => array('option_1' => array(
+                'parameters' => array('subproductName' => $simple['simple']['general_name']),
+                'options_to_choose' => array('grouped_subproduct_qty' => '1')
+            )),
+            'Options_backend' => array('option_1' => array(
+                'title' => $simple['simple']['general_name'],
+                'field_dropdown' => array(
+                    'fieldType' => 'field',
+                    'fieldParameter' => $simple['simple']['general_name'],
+                    'fieldsValue' => '1'
                 )
-            ),
-            'Options_backend' => array(
-                'option_1' => array(
-                    'title' => $simpleProducts['simple']['general_name'],
-                    'field_dropdown' => array(
-                        'fieldType' => 'field',
-                        'fieldParameter' => $simpleProducts['simple']['general_name'],
-                        'fieldsValue' => '1'
-                    )
-                )
-            )
+            ))
         );
         $productData['groupedVisibleIndividual'] = array(
             'product_name' => $groupedVisibleInd['general_name'],
             'sku' => $groupedVisibleInd['general_sku'],
             'qty' => 1,
-            'Options' => array(
-                'option_1' => array(
-                    'parameters' => array(
-                        'subproductName' => $simpleProducts['simple_not_visible']['general_name']),
-                    'options_to_choose' => array('grouped_subproduct_qty' => '1')
-                )
-            )
+            'Options' => array('option_1' => array(
+                'parameters' => array('subproductName' => $simple['notVisible']['general_name']),
+                'options_to_choose' => array('grouped_subproduct_qty' => '1')
+            ))
         );
-
         $productData['bundleNotAvailable'] = array(
             'product_name' => $bundleNotAvailable['general_name'],
             'sku' => $bundleNotAvailable['general_sku'],
@@ -389,125 +364,109 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             'product_name' => $bundleFixed['general_name'],
             'sku' => $bundleFixed['general_sku'],
             'qty' => 1,
-            'Options' => array(
-                'option_1' => array(
-                    'parameters' => array(
-                        'title' =>
-                        $bundleNotAvailable['general_bundle_items']['item_1']['bundle_items_default_title']
-                    ),
-                    'options_to_choose' => array(
-                        'custom_option_dropdown' => $simpleProducts['simple']['general_name'])
+            'Options' => array('option_1' => array(
+                'parameters' => array(
+                    'title' => $bundleFixed['general_bundle_items']['item_1']['bundle_items_default_title']
+                ),
+                'options_to_choose' => array('custom_option_dropdown' => $simple['simple']['general_name'])
+            )),
+            'Options_backend' => array('option_1' => array(
+                'title' => 'Drop-down',
+                'field_dropdown' => array(
+                    'fieldType' => 'dropdown',
+                    'fieldsValue' => $simple['simple']['general_name']
                 )
-            ),
-            'Options_backend' => array(
-                'option_1' => array(
-                    'title' => 'Drop-down',
-                    'field_dropdown' => array(
-                        'fieldType' => 'dropdown',
-                        'fieldsValue' => $simpleProducts['simple']['general_name']
-                    )
-                )
-            )
+            ))
         );
         $productData['bundleDynamic'] = array(
             'product_name' => $bundleDynamic['general_name'],
             'sku' => $bundleDynamic['general_sku'],
             'qty' => 1,
-            'Options' => array(
-                'option_1' => array(
-                    'parameters' => array(
-                        'title' =>
-                        $bundleNotAvailable['general_bundle_items']['item_1']['bundle_items_default_title']
-                    ),
-                    'options_to_choose' => array(
-                        'custom_option_dropdown' => $simpleProducts['simple']['general_name']
-                    )
+            'Options' => array('option_1' => array(
+                'parameters' => array(
+                    'title' => $bundleDynamic['general_bundle_items']['item_1']['bundle_items_default_title']
+                ),
+                'options_to_choose' => array('custom_option_dropdown' => $simple['simple']['general_name'])
+            )),
+            'Options_backend' => array('option_1' => array(
+                'title' => 'Drop-down',
+                'field_dropdown' => array(
+                    'fieldType' => 'dropdown',
+                    'fieldsValue' => $simple['simple']['general_name']
                 )
-            ),
-            'Options_backend' => array(
-                'option_1' => array(
-                    'title' => 'Drop-down',
-                    'field_dropdown' => array(
-                        'fieldType' => 'dropdown',
-                        'fieldsValue' => $simpleProducts['simple']['general_name']
-                    )
-                )
-            )
+            ))
         );
-
         return $productData;
     }
 
     /**
      * Form array with simple product data for return
      *
-     * @param $simpleProducts
+     * @param $simple
      * @param $customOptionsReq
      * @return array
      */
-    protected function _returnSimple($simpleProducts, $customOptionsReq)
+    protected function _returnSimple($simple, $customOptionsReq)
     {
         return array(
             'simple' => array(
-                'product_name' => $simpleProducts['simple']['general_name'],
-                'sku' => $simpleProducts['simple']['general_sku'],
+                'product_name' => $simple['simple']['general_name'],
+                'sku' => $simple['simple']['general_sku'],
                 'qty' => 1
             ),
             'simpleQtyEmpty' => array(
-                'product_name' => $simpleProducts['simple']['general_name'],
-                'sku' => $simpleProducts['simple']['general_sku'],
+                'product_name' => $simple['simple']['general_name'],
+                'sku' => $simple['simple']['general_sku'],
                 'qty' => 0
             ),
-            'simpleWithBackorders' => array(
-                'product_name' => $simpleProducts['simpleWithBackorders']['general_name'],
-                'sku' => $simpleProducts['simpleWithBackorders']['general_sku'],
-                'qty' => 2 * $simpleProducts['simpleWithBackorders']['general_qty']
+            'withBackorders' => array(
+                'product_name' => $simple['withBackorders']['general_name'],
+                'sku' => $simple['withBackorders']['general_sku'],
+                'qty' => 2 * $simple['withBackorders']['general_qty']
             ),
-            'simpleDisabled' => array(
-                'sku' => $simpleProducts['simpleDisabled']['general_sku'],
+            'disabled' => array(
+                'sku' => $simple['disabled']['general_sku'],
                 'qty' => 1
             ),
             'nonExistentProduct' => array(
                 'sku' => $this->generate('string', 10, ':alnum:'),
                 'qty' => 1
             ),
-            'simpleCategory' => array(
-                'sku' => $simpleProducts['simpleCategory']['general_sku'],
+            'withCategory' => array(
+                'sku' => $simple['withCategory']['general_sku'],
                 'qty' => 1
             ),
-            'simpleWebsite' => array(
-                'sku' => $simpleProducts['simpleWebsite']['general_sku'],
+            'withWebsite' => array(
+                'sku' => $simple['withWebsite']['general_sku'],
                 'qty' => 1
             ),
             'simpleOutOfStock' => array(
-                'sku' => $simpleProducts['simpleOutOfStock']['general_sku'],
+                'sku' => $simple['simpleOutOfStock']['general_sku'],
                 'qty' => 1
             ),
             'simpleNotVisible' => array(
-                'product_name' => $simpleProducts['simple_not_visible']['general_name'],
-                'sku' => $simpleProducts['simple_not_visible']['general_sku'],
+                'product_name' => $simple['notVisible']['general_name'],
+                'sku' => $simple['notVisible']['general_sku'],
                 'qty' => 1
             ),
-            'simpleNotVisibleCustom' => array(
-                'sku' => $simpleProducts['simpleNotVisibleCustom']['general_sku'],
+            'notVisibleWithCustom' => array(
+                'sku' => $simple['notVisibleWithCustom']['general_sku'],
                 'qty' => 1
             ),
-            'simpleNotRequiredCustom' => array(
-                'product_name' => $simpleProducts['simpleNotRequiredCustom']['general_name'],
-                'sku' => $simpleProducts['simpleNotRequiredCustom']['general_sku'],
+            'withNotRequiredCustom' => array(
+                'product_name' => $simple['withNotRequiredCustom']['general_name'],
+                'sku' => $simple['withNotRequiredCustom']['general_sku'],
                 'qty' => 1
             ),
-            'simpleRequiredCustom' => array(
-                'product_name' => $simpleProducts['simpleRequiredCustom']['general_name'],
-                'sku' => $simpleProducts['simpleRequiredCustom']['general_sku'],
+            'wittRequiredCustom' => array(
+                'product_name' => $simple['wittRequiredCustom']['general_name'],
+                'sku' => $simple['wittRequiredCustom']['general_sku'],
                 'qty' => 1,
                 'Options' => array(
                     'option_1' => array(
-                        'parameters' => array(
-                            'title' => $customOptionsReq['custom_options_general_title']),
+                        'parameters' => array('title' => $customOptionsReq['custom_options_general_title']),
                         'options_to_choose' => array(
-                            'custom_option_dropdown' =>
-                            $customOptionsReq['custom_option_row_1']['custom_options_title']
+                            'custom_option_dropdown' => $customOptionsReq['custom_option_row_1']['custom_options_title']
                         )
                     )
                 ),
@@ -522,24 +481,24 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
                 )
             ),
             'simpleNotEnoughQty' => array(
-                'product_name' => $simpleProducts['simple']['general_name'],
-                'sku' => $simpleProducts['simple']['general_sku'],
-                'qty' => $simpleProducts['simple']['general_qty'] + 1
+                'product_name' => $simple['simple']['general_name'],
+                'sku' => $simple['simple']['general_sku'],
+                'qty' => $simple['simple']['general_qty'] + 1
             ),
             'simpleMin' => array(
-                'product_name' => $simpleProducts['simple_min']['general_name'],
-                'sku' => $simpleProducts['simple_min']['general_sku'],
-                'qty' => $simpleProducts['simple_min']['inventory_min_allowed_qty'] - 1
+                'product_name' => $simple['simpleMin']['general_name'],
+                'sku' => $simple['simpleMin']['general_sku'],
+                'qty' => $simple['simpleMin']['inventory_min_allowed_qty'] - 1
             ),
             'simpleMax' => array(
-                'product_name' => $simpleProducts['simple_max']['general_name'],
-                'sku' => $simpleProducts['simple_max']['general_sku'],
-                'qty' => $simpleProducts['simple_max']['inventory_max_allowed_qty'] + 1
+                'product_name' => $simple['simpleMax']['general_name'],
+                'sku' => $simple['simpleMax']['general_sku'],
+                'qty' => $simple['simpleMax']['inventory_max_allowed_qty'] + 1
             ),
             'simpleIncrement' => array(
-                'product_name' => $simpleProducts['simple_increment']['general_name'],
-                'sku' => $simpleProducts['simple_increment']['general_sku'],
-                'qty' => $simpleProducts['simple_increment']['inventory_qty_increments'] + 1
+                'product_name' => $simple['withIncrement']['general_name'],
+                'sku' => $simple['withIncrement']['general_sku'],
+                'qty' => $simple['withIncrement']['inventory_qty_increments'] + 1
             )
         );
     }
@@ -566,17 +525,16 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     public function addProducts($productType, $msgShoppingCart, $msgAttentionGrid, $data, $customer)
     {
         //Preconditions
-        $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($customer);
-        }
+        $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->addBySkuHelper()->frontClearRequiredAttentionGrid();
         //Data
         $product = $data[$productType];
         //Steps
         $this->navigate('order_by_sku');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $product['sku'], 'qty' => $product['qty']));
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(
+            array(array('sku' => $product['sku'], 'qty' => $product['qty']))
+        );
         $this->clickButton('add_to_cart');
         //Verifying
         $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
@@ -584,28 +542,34 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         if (!(($msgAttentionGrid['messageOne'] != 'null') && ($msgAttentionGrid['messageTwo'] == 'null'))) {
             switch ($productType) {
                 case 'simpleNotVisible':
-                    $this->assertTrue($this->shoppingCartHelper()->
-                            frontShoppingCartHasProducts($product['product_name'], 'pageelement'),
-                        'Product name: ' . $product['product_name'] . ' is not present in shopping cart');
-                    $this->assertFalse($this->controlIsVisible('link', 'edit'), 'Edit link is present. ');
+                    $name = $product['product_name'];
+                    $this->assertTrue(
+                        $this->shoppingCartHelper()->frontShoppingCartHasProducts($name, 'pageelement'),
+                        'Product name: ' . $name . ' is not present in shopping cart'
+                    );
+                    $this->assertFalse($this->controlIsVisible('link', 'edit'), 'Edit link is present.');
                     break;
                 case 'groupedVisibleIndividual':
-                    $this->assertFalse($this->controlIsVisible('link', 'edit'), 'Edit link is present. ');
-                    $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts(
-                            $product['Options']['option_1']['parameters']['subproductName'], 'pageelement'),
-                        'Product name: ' . $product['Options']['option_1']['parameters']['subproductName']
-                            . ' is not present in shopping cart');
+                    $name = $product['Options']['option_1']['parameters']['subproductName'];
+                    $this->assertTrue(
+                        $this->shoppingCartHelper()->frontShoppingCartHasProducts($name, 'pageelement'),
+                        'Product name: ' . $name . ' is not present in shopping cart'
+                    );
+                    $this->assertFalse($this->controlIsVisible('link', 'edit'), 'Edit link is present.');
                     break;
                 case 'grouped':
-                    $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts(
-                            $product['Options']['option_1']['parameters']['subproductName'], 'pageelement'),
-                        'Product name: ' . $product['Options']['option_1']['parameters']['subproductName']
-                            . ' is not present in shopping cart');
+                    $name = $product['Options']['option_1']['parameters']['subproductName'];
+                    $this->assertTrue(
+                        $this->shoppingCartHelper()->frontShoppingCartHasProducts($name, 'pageelement'),
+                        'Product name: ' . $name . ' is not present in shopping cart'
+                    );
                     break;
                 default:
-                    $this->assertTrue($this->shoppingCartHelper()
-                            ->frontShoppingCartHasProducts($product['product_name']),
-                        'Product name: ' . $product['product_name'] . ' is not present in shopping cart');
+                    $name = $product['product_name'];
+                    $this->assertTrue(
+                        $this->shoppingCartHelper()->frontShoppingCartHasProducts($name),
+                        'Product name: ' . $name . ' is not present in shopping cart'
+                    );
                     break;
             }
             if ($msgAttentionGrid['messageOne'] == 'specify_option') {
@@ -625,72 +589,116 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     public function productListDataProvider()
     {
         return array(
-            array('simple', //simple product
+            array(
+                'simple', //simple product
                 array('type' => 'success', 'text' => 'product_added_to_cart_by_sku'),
-                array('messageOne' => 'null', 'messageTwo' => 'null')),
-            array('simpleWithBackorders', //simple product with backorders
+                array('messageOne' => 'null', 'messageTwo' => 'null')
+            ),
+            array(
+                'withBackorders', //simple product with backorders
                 array('type' => 'success', 'text' => 'product_added_to_cart_by_sku'),
-                array('messageOne' => 'null', 'messageTwo' => 'null')),
-            array('simpleDisabled', //simple disabled product
+                array('messageOne' => 'null', 'messageTwo' => 'null')
+            ),
+            array(
+                'disabled', //simple disabled product
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')),
-            array('nonExistentProduct', //nonexistent product
+                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')
+            ),
+            array(
+                'nonExistentProduct', //nonexistent product
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')),
-            array('simpleCategory', //simple product assigned to category with configured permissions [MAGETWO-3390]
+                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')
+            ),
+            array(
+                'withCategory', //simple product assigned to category with configured permissions [MAGETWO-3390]
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'product_cannot_be_added', 'messageTwo' => 'null')),
-            array('simpleWebsite', //simple product assigned to another website
+                array('messageOne' => 'product_cannot_be_added', 'messageTwo' => 'null')
+            ),
+            array(
+                'withWebsite', //simple product assigned to another website
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')),
-            array('simpleOutOfStock', //simple product which is 'Out of Stock'
+                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')
+            ),
+            array(
+                'simpleOutOfStock', //simple product which is 'Out of Stock'
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'out_of_stock', 'messageTwo' => 'null')),
-            array('simpleNotVisible', //simple product which Visibility is set to Not Visible Individually
+                array('messageOne' => 'out_of_stock', 'messageTwo' => 'null')
+            ),
+            array(
+                'simpleNotVisible', //simple product which Visibility is set to Not Visible Individually
                 array('type' => 'success', 'text' => 'product_added_to_cart_by_sku'),
-                array('messageOne' => 'null', 'messageTwo' => 'null')),
-            array('simpleNotVisibleCustom', //product with custom options, which Visibility - Not Visible Individually
+                array('messageOne' => 'null', 'messageTwo' => 'null')
+            ),
+            array(
+                'notVisibleWithCustom', //product with custom options, which Visibility - Not Visible Individually
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')),
-            array('simpleNotRequiredCustom', //simple product with custom options (is not required)
+                array('messageOne' => 'sku_not_found', 'messageTwo' => 'null')
+            ),
+            array(
+                'withNotRequiredCustom', //simple product with custom options (is not required)
                 array('type' => 'success', 'text' => 'product_added_to_cart_by_sku'),
-                array('messageOne' => 'null', 'messageTwo' => 'null')),
-            array('simpleRequiredCustom', //simple product with custom options (is required)
+                array('messageOne' => 'null', 'messageTwo' => 'null')
+            ),
+            array(
+                'wittRequiredCustom', //simple product with custom options (is required)
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('simpleNotEnoughQty', //product which there is no enough quantity in stock
+                array('messageOne' => 'specify_option', 'messageTwo' => 'link')
+            ),
+            array(
+                'simpleNotEnoughQty', //product which there is no enough quantity in stock
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'qty_not_available', 'messageTwo' => 'left_in_stock')),
-            array('simpleMin', //product with min qty = 5
+                array('messageOne' => 'qty_not_available', 'messageTwo' => 'left_in_stock')
+            ),
+            array(
+                'simpleMin', //product with min qty = 5
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'requested_qty', 'messageTwo' => 'min_qty')),
-            array('simpleMax', //product with max qty = 5
+                array('messageOne' => 'requested_qty', 'messageTwo' => 'min_qty')
+            ),
+            array(
+                'simpleMax', //product with max qty = 5
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'requested_qty', 'messageTwo' => 'max_qty')),
-            array('simpleIncrement', //product with increment qty = 5 [MAGETWO-1541]
+                array('messageOne' => 'requested_qty', 'messageTwo' => 'max_qty')
+            ),
+            array(
+                'simpleIncrement', //product with increment qty = 5 [MAGETWO-1541]
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'requested_qty', 'messageTwo' => 'qty_increment')),
-            array('download', // downloadable product
+                array('messageOne' => 'requested_qty', 'messageTwo' => 'qty_increment')
+            ),
+            array(
+                'download', // downloadable product
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('configurable', // configurable product with required options
+                array('messageOne' => 'specify_option', 'messageTwo' => 'link')
+            ),
+            array(
+                'configurable', // configurable product with required options
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('grouped',
+                array('messageOne' => 'specify_option', 'messageTwo' => 'link')
+            ),
+            array(
+                'grouped',
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('groupedVisibleIndividual', // grouped product with subitem Visibility - Not Visible Individually)
+                array('messageOne' => 'specify_option', 'messageTwo' => 'link')
+            ),
+            array(
+                'groupedVisibleIndividual', // grouped product with subItem Visibility - Not Visible Individually)
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('bundleNotAvailable', //bundle with disabled and out of stock subitems
+                array('messageOne' => 'specify_option', 'messageTwo' => 'link')
+            ),
+            array(
+                'bundleNotAvailable', //bundle with disabled and out of stock subItems
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'out_of_stock', 'messageTwo' => 'null')),
-            array('bundleFixed', // fixed bundle product
+                array('messageOne' => 'out_of_stock', 'messageTwo' => 'null')
+            ),
+            array(
+                'bundleFixed', // fixed bundle product
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('bundleDynamic', // dynamic bundle product
+                array('messageOne' => 'specify_option', 'messageTwo' => 'link')
+            ),
+            array(
+                'bundleDynamic', // dynamic bundle product
                 array('type' => 'error', 'text' => 'required_attention_product'),
-                array('messageOne' => 'specify_option', 'messageTwo' => 'link'))
+                array('messageOne' => 'specify_option', 'messageTwo' => 'link')
+            )
         );
     }
 
@@ -719,14 +727,12 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Preconditions
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->customerHelper()->openCustomer(array($customer['email']));
+        $this->customerHelper()->openCustomer(array('email' => $customer['email']));
         $this->addBySkuHelper()->openShoppingCart();
-        $this->addBySkuHelper()->removeAllItemsFromShoppingCart();
         $this->addBySkuHelper()->removeAllItemsFromAttentionTable();
+        $this->addBySkuHelper()->removeAllItemsFromShoppingCart();
         //Steps
-        $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
-        $this->waitForAjax();
-        $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product), true);
+        $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product));
         //Verifying
         $this->_verifyProductsInAttentionGrid($product, $msgShoppingCart, $msgAttentionGrid, $rule);
     }
@@ -753,29 +759,27 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Preconditions
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->customerHelper()->openCustomer(array($customer['email']));
+        $this->customerHelper()->openCustomer(array('email' => $customer['email']));
         $this->addBySkuHelper()->openShoppingCart();
-        $this->addBySkuHelper()->removeAllItemsFromShoppingCart();
         $this->addBySkuHelper()->removeAllItemsFromAttentionTable();
+        $this->addBySkuHelper()->removeAllItemsFromShoppingCart();
         //Steps
-        $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
-        $this->waitForAjax();
-        $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product), true);
+        $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product));
         //Verifying
         $this->addParameter('number', '1');
         $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
         $this->assertMessagePresent('error', $msgAttentionGrid);
-        $this->addBySkuHelper()->configureProduct($product, $msgShoppingCart, $msgAttentionGrid);
+        $this->addBySkuHelper()->configureProduct($product);
         $this->clickButton('add_to_cart_from_error', true);
         $this->pleaseWait();
-        $this->assertTrue(!$this->controlIsPresent('fieldset', 'sku_error_table'),
+        $this->assertTrue(!$this->controlIsPresent('fieldset', 'products_requiring_attention'),
             'Required Attention grid is present.');
         $gotData = $this->addBySkuHelper()->getProductInfoInTable();
         if ($productType == 'grouped') {
-            $this->assertEquals(trim($gotData['product_1']['product']),
+            $this->assertEquals(trim($gotData['product_1']['product_name']),
                 $product['Options_backend']['option_1']['field_dropdown']['fieldParameter']);
         } else {
-            $this->assertEquals(trim($gotData['product_1']['product']), $product['product_name']);
+            $this->assertEquals(trim($gotData['product_1']['product_name']), $product['product_name']);
             $this->assertEquals($gotData['product_1']['qty'], $product['qty']);
         }
     }
@@ -791,19 +795,19 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             //simple product, TL-MAGE-4052
             array('simple', null, null, 'noMessage'),
             //simple disabled product, TL-MAGE-5229
-            array('simpleDisabled', array('type' => 'error', 'text' => 'required_attention_product'),
-                'disabled_product', 'attention'),
+            array('disabled', array('type' => 'error', 'text' => 'required_attention_product'), 'disabled_product',
+                'attention'),
             //nonexistent product, TL-MAGE-4174
             array('nonExistentProduct', array('type' => 'error', 'text' => 'required_attention_product'),
                 'sku_not_found', 'attention'),
             //simple product assigned to another website, TL-MAGE-5230
-            array('simpleWebsite', array('type' => 'error', 'text' => 'required_attention_product'),
+            array('withWebsite', array('type' => 'error', 'text' => 'required_attention_product'),
                 'sku_assigned_another_website', 'attention'),
             //simple product which is 'Out of Stock', TL-MAGE-5231
-            array('simpleOutOfStock', array('type' => 'error', 'text' => 'required_attention_product'),
-                'out_of_stock', 'attention'),
+            array('simpleOutOfStock', array('type' => 'error', 'text' => 'required_attention_product'), 'out_of_stock',
+                'attention'),
             //with non-required custom options, TL-MAGE-4085
-            array('simpleNotRequiredCustom', null, null, 'enableConfigure'),
+            array('withNotRequiredCustom', null, null, 'enableConfigure'),
             //product which there is no enough quantity in stock, TL-MAGE-4127
             array('simpleNotEnoughQty', array('type' => 'error', 'text' => 'qty_not_available'), null, 'productName'),
             //product with qty less than minimum allowed in cart qty = 5, TL-MAGE-4130
@@ -857,17 +861,17 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             //simple product, TL-MAGE-4197
             array('simple', null, null, 'noMessage'),
             //simple disabled product, TL-MAGE-4171
-            array('simpleDisabled', array('type' => 'error', 'text' => 'disabled_product'), null, 'sku'),
+            array('disabled', array('type' => 'error', 'text' => 'disabled_product'), null, 'sku'),
             //nonexistent product, TL-MAGE-4179
             array('nonExistentProduct', array('type' => 'error', 'text' => 'required_attention_product'),
                 'sku_not_found', 'attention'),
             //simple product assigned to another website, TL-MAGE-5243
-            array('simpleWebsite', array('type' => 'error', 'text' => 'required_attention_product'),
+            array('withWebsite', array('type' => 'error', 'text' => 'required_attention_product'),
                 'sku_assigned_another_website', 'attention'),
             //simple product which is 'Out of Stock', TL-MAGE-4145
             array('simpleOutOfStock', array('type' => 'error', 'text' => 'out_of_stock'), null, 'sku'),
             //with non-required custom options, TL-MAGE-4123
-            array('simpleNotRequiredCustom', null, null, 'enableConfigure'),
+            array('withNotRequiredCustom', null, null, 'enableConfigure'),
             //product which there is no enough quantity in stock, TL-MAGE-4148
             array('simpleNotEnoughQty', array('type' => 'error', 'text' => 'qty_not_available'), null, 'productName'),
             //product with qty less than minimum allowed in cart qty = 5, TL-MAGE-4150
@@ -907,17 +911,17 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $this->addParameter('number', '1');
         $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
         $this->assertMessagePresent('error', $msgAttentionGrid);
-        $this->addBySkuHelper()->configureProduct($product, $msgShoppingCart, $msgAttentionGrid);
+        $this->addBySkuHelper()->configureProduct($product);
         $this->clickButton('add_to_order_from_error', true);
         $this->pleaseWait();
-        $this->assertTrue(!$this->controlIsPresent('fieldset', 'sku_error_table'),
+        $this->assertTrue(!$this->controlIsPresent('fieldset', 'products_requiring_attention'),
             'Required Attention grid is present.');
         $gotData = $this->addBySkuHelper()->getProductInfoInTable();
         if ($productType == 'grouped') {
-            $this->assertEquals(trim($gotData['product_1']['product']),
+            $this->assertEquals(trim($gotData['product_1']['product_name']),
                 $product['Options_backend']['option_1']['field_dropdown']['fieldParameter']);
         } else {
-            $this->assertEquals(trim($gotData['product_1']['product']), $product['product_name']);
+            $this->assertEquals(trim($gotData['product_1']['product_name']), $product['product_name']);
             $this->assertEquals($gotData['product_1']['qty'], $product['qty']);
         }
     }
@@ -931,7 +935,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     {
         return array(
             //simple product with custom options (is required), TL-MAGE-4094
-            array('simpleRequiredCustom',
+            array('wittRequiredCustom',
                 array('type' => 'error', 'text' => 'required_attention_product'), 'specify_option'),
             // downloadable product, TL-MAGE-4113
             array('download',
@@ -965,7 +969,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         $simple = $data['simple'];
-        $simpleNotReqCustom = $data['simpleNotRequiredCustom'];
+        $simpleNotReqCustom = $data['withNotRequiredCustom'];
         $productNonExist = array('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1);
         //Steps
         $this->loginAdminUser();
@@ -977,12 +981,12 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $this->addParameter('number', '1');
         $this->assertMessagePresent('error', 'required_attention_product');
         $gotData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
-        $this->assertEquals($gotData['product_1']['sku'], $productNonExist['sku']);
+        $this->assertEquals($gotData['product_1']['product_sku'], $productNonExist['sku']);
         $gotData = $this->addBySkuHelper()->getProductInfoInTable();
-        $this->assertEquals($gotData['product_1']['sku'], $data['simple']['sku']);
+        $this->assertEquals($gotData['product_1']['product_sku'], $data['simple']['sku']);
         $this->assertEquals($gotData['product_1']['qty'], $data['simple']['qty']);
-        $this->assertEquals($gotData['product_2']['sku'], $data['simpleNotRequiredCustom']['sku']);
-        $this->assertEquals($gotData['product_2']['qty'], $data['simpleNotRequiredCustom']['qty']);
+        $this->assertEquals($gotData['product_2']['product_sku'], $data['withNotRequiredCustom']['sku']);
+        $this->assertEquals($gotData['product_2']['qty'], $data['withNotRequiredCustom']['qty']);
     }
 
     /**
@@ -1010,7 +1014,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $this->addParameter('number', '1');
         $this->assertMessagePresent('error', 'required_attention_product');
         $gotData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
-        $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
+        $this->assertEquals($gotData['product_1']['product_sku'], $product['sku']);
         $this->assertMessagePresent('error', 'qty_sku_invalid_number');
         $this->addParameter('rowIndex', '1');
         $this->assertTrue($this->controlIsPresent('field', 'qty'), 'Qty field is disabled.');
@@ -1046,38 +1050,36 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             $this->addParameter('number', '1');
             $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
             $gotData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
-            $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
+            $this->assertEquals($gotData['product_1']['product_sku'], $product['sku']);
             $this->assertMessagePresent('error', $msgAttentionGrid);
             $this->addParameter('rowIndex', '1');
             $this->assertTrue(!$this->controlIsEditable('field', 'qty'), 'Qty field is not disabled. ');
+        } elseif ($rule === 'enableConfigure') {
+            $this->addParameter('sku', $product['sku']);
+            $this->assertTrue($this->buttonIsPresent('configure_order_item'));
         } else {
-            if ($rule === 'enableConfigure') {
-                $this->addParameter('sku', $product['sku']);
-                $this->assertTrue($this->buttonIsPresent('configure_order_item'));
-            } else {
-                if (!is_null($msgShoppingCart['type'])) {
-                    $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
-                }
-                switch ($rule) {
-                    case 'sku':
-                        $this->addParameter('sku', $product['sku']);
-                        break;
-                    case 'qty':
-                        $this->addParameter('qty', 5);
-                        break;
-                    case 'productName':
-                        $this->addParameter('productName', $product['product_name']);
-                        break;
-                    default:
-                        break;
-                }
-                $this->assertFalse($this->controlIsPresent('fieldset', 'sku_error_table'),
-                    'Required Attention grid is present');
-                $this->addParameter('number', '1');
-                $gotData = $this->addBySkuHelper()->getProductInfoInTable();
-                $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
-                $this->assertEquals($gotData['product_1']['qty'], $product['qty']);
+            if (!is_null($msgShoppingCart['type'])) {
+                $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
             }
+            switch ($rule) {
+                case 'sku':
+                    $this->addParameter('sku', $product['sku']);
+                    break;
+                case 'qty':
+                    $this->addParameter('qty', 5);
+                    break;
+                case 'productName':
+                    $this->addParameter('productName', $product['product_name']);
+                    break;
+                default:
+                    break;
+            }
+            $this->assertFalse($this->controlIsPresent('fieldset', 'products_requiring_attention'),
+                'Required Attention grid is present');
+            $this->addParameter('number', '1');
+            $gotData = $this->addBySkuHelper()->getProductInfoInTable();
+            $this->assertEquals($gotData['product_1']['product_sku'], $product['sku']);
+            $this->assertEquals($gotData['product_1']['qty'], $product['qty']);
         }
     }
 }

@@ -41,7 +41,7 @@ manage_customer_groups:
 # 'New Customer Group' Page
 create_customer_group:
     mca: customer_group/new/
-    title: New Group / Customer Groups / Other Settings / Stores / Magento Admin
+    title: New Customer Group / Customer Groups / Other Settings / Stores / Magento Admin
     uimap:
         form: &newCustomerGroupForm
             fieldsets:

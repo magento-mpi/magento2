@@ -112,7 +112,7 @@
         </antcall>
     </target>
 
-    <target name="code_legacy_tests_saas" description="Code Legacy Tests for Go Edition">
+    <target name="code_legacy_tests_saas" description="Code Legacy Tests for Saas Edition">
         <antcall>
             <param name="product_edition_code" value="saas"/>
             <target name="_product_edition"/>

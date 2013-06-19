@@ -822,6 +822,11 @@ button.primary.disabled:hover,
 }
 
 .suggest-expandable .actions-split .action-toggle {
+    display: inline-block;
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     background: none;
     border: none;
     box-shadow: none;
@@ -922,6 +927,7 @@ button.primary.disabled:hover,
 }
 
 .page-actions .suggest-expandable {
+    max-width: 500px;
     float: left;
     margin-top: 1px;
 }
@@ -1030,53 +1036,6 @@ button.primary.disabled:hover,
     display: inline-block;
     float: right;
     color: #888;
-}
-
-/* Variations Image Uploader */
-.actions-image-uploader > img {
-    float: left;
-    border: solid #b7b2a7;
-    border-width: 1px 0 1px 1px;
-    width: 32px;
-    height: 31px;
-}
-
-.eq-ie8 .actions-image-uploader .action-upload {
-    filter: none;
-}
-
-.actions-image-uploader .action-toggle,
-.actions-image-uploader .action-toggle:hover,
-.actions-image-uploader .action-toggle:active,
-.actions-image-uploader .action-toggle:focus,
-.actions-image-uploader .action-toggle[disabled] {
-    position: relative;
-    height: 33px;
-    padding-left: 2px;
-    padding-right: 2px;
-    background: #fff;
-    filter: none;
-    color: #888;
-}
-
-.actions-image-uploader.active .action-toggle {
-    border-radius: 0 5px 0 0;
-}
-
-.actions-image-uploader.active .action-toggle:after {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 1px;
-    background: #fff;
-    z-index: 991;
-    content: '';
-}
-
-.actions-image-uploader .dropdown-menu {
-    margin-top: -1px;
-    border-radius: 3px 0 3px 3px;
 }
 
 /*
@@ -1279,7 +1238,7 @@ select[disabled].multiselect > option[selected] {
     background: #6d6d6d;
 }
 
-.eq-ie8 select[disabled="disabled"][multiple="multiple"] option[selected="selected"]{
+.eq-ie8 select[disabled="disabled"][multiple="multiple"] option[selected="selected"] {
     background-color: #ddd;
 }
 
@@ -1920,18 +1879,21 @@ input.mage-error ~ .addafter {
     background-color: #fff;
 }
 
+.field.type-price .addon,
 .field-price .addon,
 .field-special_price .addon,
 .field-msrp .addon {
     direction: rtl;
 }
 
+.field.type-price .addon > *,
 .field-price .addon > *,
 .field-special_price .addon > *,
 .field-msrp .addon > * {
     direction: ltr;
 }
 
+.field.type-price .addon .addafter,
 .field-price .addon .addafter,
 .field-special_price .addon .addafter,
 .field-msrp .addon .addafter {
@@ -1939,18 +1901,21 @@ input.mage-error ~ .addafter {
     border-radius: 4px 0 0 4px;
 }
 
+.field.type-price .addon input:first-child,
 .field-price .addon input:first-child,
 .field-special_price .addon input:first-child,
 .field-msrp .addon input:first-child {
     border-radius: 0 4px 4px 0;
 }
 
+.eq-ie8 .field.type-price .addon .addafter,
 .eq-ie8 .field-price .addon .addafter,
 .eq-ie8 .field-special_price .addon .addafter,
 .eq-ie8 .field-msrp .addon .addafter {
     border-width: 1px 1px 1px 0;
 }
 
+.field.type-price input,
 .field-price input,
 .field-special_price input,
 .field-msrp input {
@@ -1958,18 +1923,21 @@ input.mage-error ~ .addafter {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
 }
 
+.field.type-price input:focus,
 .field-price input:focus,
 .field-special_price input:focus,
 .field-msrp input:focus {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
+.field.type-price input:focus ~ label.addafter,
 .field-price input:focus ~ label.addafter,
 .field-special_price input:focus ~ label.addafter,
 .field-msrp input:focus ~ label.addafter {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
+.field.type-price input ~ label.addafter strong,
 .field-price input ~ label.addafter strong,
 .field-special_price input ~ label.addafter strong,
 .field-msrp input ~ label.addafter strong {
@@ -2609,6 +2577,7 @@ table tbody tr:nth-child(odd):hover th {
     color: #676056;
     text-shadow: 0 1px 3px #c1bfbb;
 }
+
 .navigation .level-0 > a:focus {
     outline: none;
 }
@@ -2881,11 +2850,11 @@ table tbody tr:nth-child(odd):hover th {
 .navigation .level-0.item-stores:hover > a span {
     background: #31302B;
 }
+
 .navigation .level-0.item-system:hover > a span:after,
 .navigation .level-0.item-stores:hover > a span:after {
     color: #58534a;
 }
-
 
 .no-js .navigation .level-0.item-system:hover > a span,
 .navigation .level-0.item-system.hover > a span,
@@ -4848,24 +4817,21 @@ tr.dynamic-grid input.input-text {
 #up_sell_product_grid table.data,
 #related_product_grid table.data,
 #productGrid_table,
+#setGrid_table,
+#attributeGrid_table,
+.custom-options .data-table,
 .ui-dialog .data {
     word-wrap: break-word;
     table-layout: fixed;
-}
-
-.eq-ie8 #cross_sell_product_grid table.data,
-.eq-ie8 #up_sell_product_grid table.data,
-.eq-ie8 #related_product_grid table.data,
-.eq-ie8 #productGrid_table,
-.eq-ie8 .ui-dialog .data {
-    word-wrap: normal;
-    table-layout: auto;
 }
 
 #cross_sell_product_grid table.data th,
 #up_sell_product_grid table.data th,
 #related_product_grid table.data th,
 #productGrid_table th,
+#setGrid_table th,
+#attributeGrid_table th,
+.custom-options .data-table th,
 .ui-dialog .data th {
     word-wrap: normal;
     overflow: hidden;
@@ -4876,6 +4842,9 @@ tr.dynamic-grid input.input-text {
 #up_sell_product_grid table.data th > span,
 #related_product_grid table.data th > span,
 #productGrid_table th > span,
+#setGrid_table th > span,
+#attributeGrid_table th > span,
+.custom-options .data-table th > span,
 .ui-dialog .data th > span {
     white-space: normal;
 }
@@ -4889,7 +4858,8 @@ table .col-select,
 table .col-qty,
 table .col-actions,
 table .col-action,
-table .col-id {
+table .col-id,
+table .col-uqty.qty-box {
     width: 5%;
 }
 
@@ -4901,7 +4871,8 @@ table .col-position {
 }
 
 table .col-type,
-table .col-price {
+table .col-price,
+table .col-attr-name {
     width: 8%;
 }
 
@@ -4910,8 +4881,9 @@ table .col-sku {
     width: 15%;
 }
 
-table .col-attr-name {
-    width: 8%;
+table .col-attribute_code,
+table .col-frontend_label {
+    width: 25%;
 }
 
 table .col-draggable .draggable-handle {
@@ -5372,6 +5344,7 @@ table .col-draggable .draggable-handle {
 
 .attributes-edit-form .field:last-child,
 .attributes-edit-form .field-name,
+.attributes-edit-form .field.type-price,
 .attributes-edit-form .field-price,
 .attributes-edit-form .field-special_price,
 .attributes-edit-form .field-meta_title,
@@ -5401,6 +5374,7 @@ table .col-draggable .draggable-handle {
     top: 35px;
 }
 
+.attributes-edit-form .field.type-price .attribute-change-checkbox,
 .attributes-edit-form .field-price .attribute-change-checkbox,
 .attributes-edit-form .field-special_price .attribute-change-checkbox,
 .attributes-edit-form .field-msrp .attribute-change-checkbox {

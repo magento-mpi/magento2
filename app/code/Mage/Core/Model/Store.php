@@ -51,6 +51,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const XML_PATH_UNSECURE_BASE_LIB_URL    = 'web/unsecure/base_lib_url';
     const XML_PATH_SECURE_BASE_STATIC_URL   = 'web/secure/base_static_url';
     const XML_PATH_UNSECURE_BASE_STATIC_URL = 'web/unsecure/base_static_url';
+    const XML_PATH_SECURE_BASE_CACHE_URL    = 'web/secure/base_cache_url';
+    const XML_PATH_UNSECURE_BASE_CACHE_URL  = 'web/unsecure/base_cache_url';
     const XML_PATH_SECURE_BASE_MEDIA_URL    = 'web/secure/base_media_url';
     const XML_PATH_UNSECURE_BASE_MEDIA_URL  = 'web/unsecure/base_media_url';
     const XML_PATH_OFFLOADER_HEADER         = 'web/secure/offloader_header';
@@ -72,6 +74,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const URL_TYPE_LIB                    = 'lib';
     const URL_TYPE_MEDIA                  = 'media';
     const URL_TYPE_STATIC                 = 'static';
+    const URL_TYPE_CACHE                  = 'cache';
     /**#@-*/
 
     /**
@@ -299,17 +302,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             Zend_Validate_Regex::NOT_MATCH
         );
         $validator->addRule($storeCodeRule, 'code');
-
-        if ($this->isObjectNew()) {
-            /** @var $limitation Mage_Core_Model_Store_Limitation */
-            $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Limitation');
-            $storeSavingAllowance = new Zend_Validate_Callback(array($limitation, 'canCreate'));
-            $storeSavingAllowance->setMessage(
-                $limitation->getCreateRestrictionMessage(), Zend_Validate_Callback::INVALID_VALUE
-            );
-
-            $validator->addRule($storeSavingAllowance);
-        }
 
         return $validator;
     }
@@ -593,6 +585,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     if (!$url) {
                         $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
                             . $dirs->getUri(Mage_Core_Model_Dir::STATIC_VIEW);
+                    }
+                    break;
+
+                case self::URL_TYPE_CACHE:
+                    $path = $secure ? self::XML_PATH_SECURE_BASE_CACHE_URL : self::XML_PATH_UNSECURE_BASE_CACHE_URL;
+                    $url = $this->getConfig($path);
+                    if (!$url) {
+                        $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
+                            . $dirs->getUri(Mage_Core_Model_Dir::PUB_VIEW_CACHE);
                     }
                     break;
 

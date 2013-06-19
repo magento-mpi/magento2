@@ -32,11 +32,11 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $paypalErrors = array(
             'PayPal gateway rejected the request',
             'PayPal gateway has rejected request',
-            'Unable to communicate with the PayPal gateway.',
+            'We can\'t contact the PayPal gateway.',
             'Gateway error: This transaction cannot be accepted.',
             'Gateway error: Unable to read response, or response is empty',
             'Please verify the card with the issuer bank before placing the order.',
-            'There was an error processing your order. Please contact us or try again later.'
+            'Something went wrong while processing your order.'
         );
         $submitErrors = $this->getMessagesOnPage('error,validation,verification');
         foreach ($submitErrors as $error) {

@@ -101,7 +101,7 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
     {
         $this->_title($this->__('Reports'))
              ->_title($this->__('Tags'))
-             ->_title($this->__('Popular'));
+             ->_title($this->__('Popularity Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Tag::report_tags_popular')

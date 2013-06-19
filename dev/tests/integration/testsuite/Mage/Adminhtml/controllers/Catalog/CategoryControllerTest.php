@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
@@ -32,7 +35,7 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
         $this->dispatch('backend/admin/catalog_category/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(array('The category has been saved.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the category.')), Mage_Core_Model_Message::SUCCESS
         );
 
         /** @var $category Mage_Catalog_Model_Category */
@@ -283,134 +286,5 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
         $this->assertSessionMessages(
             $this->equalTo(array('Unable to save the category')), Mage_Core_Model_Message::ERROR
         );
-    }
-
-    /**
-     * Test index action
-     */
-    public function testIndexAction()
-    {
-        $this->dispatch('backend/admin/catalog_category/index');
-        $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of categories is reached.', $body);
-
-        $pattern = '/<button[^>]*add_root_category_button[^>]*>/';
-        preg_match($pattern, $body, $matches);
-        $this->assertNotEmpty($matches[0]);
-        $btnRoot = $matches[0];
-        $this->assertNotContains('display: none', $btnRoot,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
-
-        $pattern = '/<button[^>]*add_subcategory_button[^>]*>/';
-        preg_match($pattern, $body, $matches);
-        $this->assertNotEmpty($matches[0]);
-        $btnSub = $matches[0];
-        $this->assertNotContains('display: none', $btnSub,
-            '"Add Subcategory" should not be present on Categories page, if the limit is reached');
-    }
-
-    /**
-     * Test index action when maximum allowed number of categories is reached
-     *
-     * @magentoConfigFixture limitations/catalog_category 1
-     */
-    public function testIndexActionLimited()
-    {
-        $this->dispatch('backend/admin/catalog_category/index');
-        $body = $this->getResponse()->getBody();
-
-        $this->assertContains('Maximum allowed number of categories is reached.', $body);
-
-        $pattern = '/<button[^>]*add_root_category_button[^>]*>/';
-        preg_match($pattern, $body, $matches);
-        $this->assertNotEmpty($matches[0]);
-        $btnRoot = $matches[0];
-        $this->assertContains('display: none', $btnRoot,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
-
-        $pattern = '/<button[^>]*add_subcategory_button[^>]*>/';
-        preg_match($pattern, $body, $matches);
-        $this->assertNotEmpty($matches[0]);
-        $btnSub = $matches[0];
-        $this->assertContains('display: none', $btnSub,
-           '"Add Subcategory" should not be present on Categories page, if the limit is reached');
-    }
-
-    /**
-     * Test index action when limit is set but maximum allowed number of categories isn't reached
-     *
-     * @magentoConfigFixture limitations/catalog_category 2
-     */
-    public function testIndexActionLimitedAllowed()
-    {
-        $this->dispatch('backend/admin/catalog_category/index');
-        $body = $this->getResponse()->getBody();
-        $this->assertNotContains('Maximum allowed number of categories is reached.', $body);
-
-        $pattern = '/<button[^>]*add_root_category_button[^>]*>/';
-        preg_match($pattern, $body, $matches);
-        $this->assertNotEmpty($matches[0]);
-        $btnRoot = $matches[0];
-        $this->assertNotContains('display: none', $btnRoot,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
-
-        $pattern = '/<button[^>]*add_subcategory_button[^>]*>/';
-        preg_match($pattern, $body, $matches);
-        $this->assertNotEmpty($matches[0]);
-        $btnSub = $matches[0];
-        $this->assertNotContains('display: none', $btnSub,
-            '"Add Subcategory" should not be present on Categories page, if the limit is reached');
-    }
-
-    /**
-     * Test edit action
-     */
-    public function testEditAction()
-    {
-        $this->getRequest()->setParam('id', 2);
-        $this->getRequest()->setQuery('isAjax', 'true');
-        $this->dispatch('backend/admin/catalog_category/edit');
-        $body = $this->getResponse()->getBody();
-
-        $this->assertContains('$(\"add_root_category_button\").show()', $body,
-            '"Add Root Category" button isn\'t present on Categories page');
-        $this->assertContains('$(\"add_subcategory_button\").show()', $body,
-            '"Add Subcategory" button isn\'t present on Categories page');
-    }
-
-    /**
-     * Test edit action when maximum allowed number of categories is reached
-     *
-     * @magentoConfigFixture limitations/catalog_category 1
-     */
-    public function testEditActionLimited()
-    {
-        $this->getRequest()->setParam('id', 2);
-        $this->getRequest()->setQuery('isAjax', 'true');
-        $this->dispatch('backend/admin/catalog_category/edit');
-        $body = $this->getResponse()->getBody();
-
-        $this->assertContains('$(\"add_root_category_button\").hide()', $body,
-            '"Add Root Category" button should not be present on Categories page, if the limit is reached');
-        $this->assertContains('$(\"add_subcategory_button\").hide()', $body,
-            '"Add Subcategory" should not be present on Categories page, if the limit is reached');
-    }
-
-    /**
-     * Test edit action when limit is set but maximum allowed number of categories isn't reached
-     *
-     * @magentoConfigFixture limitations/catalog_category 2
-     */
-    public function testEditActionLimitedAllowed()
-    {
-        $this->getRequest()->setParam('id', 2);
-        $this->getRequest()->setQuery('isAjax', 'true');
-        $this->dispatch('backend/admin/catalog_category/edit');
-        $body = $this->getResponse()->getBody();
-
-        $this->assertContains('$(\"add_root_category_button\").show()', $body,
-            '"Add Root Category" button isn\'t present on Categories page');
-        $this->assertContains('$(\"add_subcategory_button\").show()', $body,
-            '"Add Subcategory" button isn\'t present on Categories page');
     }
 }

@@ -48,40 +48,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     }
 
     /**
-     * Get assign to store view button
-     *
-     * @return string
-     */
-    public function getAssignButtonHtml()
-    {
-        $message = "You are about to change this theme for your live store, are you sure want to do this?\n\n" .
-            'Note: copy of the current theme will be created automatically and assigned to your store, ' .
-            'so you can change your copy later as you wish';
-
-        /** @var $assignButton Mage_Backend_Block_Widget_Button */
-        $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-        $assignButton->setData(array(
-            'label'  => $this->__('Assign this Theme'),
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array(
-                        'event'     => 'assign',
-                        'target'    => 'body',
-                        'eventData' => array(
-                            'theme_id'        => $this->getThemeId(),
-                            'confirm_message' =>  $this->__($message)
-                        )
-                    ),
-                ),
-            ),
-            'class'  => 'save action-theme-assign',
-            'target' => '_blank'
-        ));
-
-        return $assignButton->toHtml();
-    }
-
-    /**
      * Get admin panel home page URL
      *
      * @return string

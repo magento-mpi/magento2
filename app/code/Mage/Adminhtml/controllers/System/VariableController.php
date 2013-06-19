@@ -80,7 +80,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
     {
         $variable = $this->_initVariable();
 
-        $this->_title($variable->getId() ? $variable->getCode() : $this->__('New Variable'));
+        $this->_title($variable->getId() ? $variable->getCode() : $this->__('New Custom Variable'));
 
         $this->_initLayout()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Variable_Edit'))
@@ -124,7 +124,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
             try {
                 $variable->save();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The custom variable has been saved.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('You saved the custom variable.')
                 );
                 if ($back) {
                     $this->_redirect('*/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
@@ -153,7 +153,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
             try {
                 $variable->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The custom variable has been deleted.')
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('You deleted the customer.')
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

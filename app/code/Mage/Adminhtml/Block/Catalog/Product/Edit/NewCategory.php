@@ -18,26 +18,18 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Limitations model
-     *
-     * @var Mage_Catalog_Model_Category_Limitation $_limitation
-     */
-
-    /**
      * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Catalog_Model_CategoryFactory $categoryFactory
      * @param array $data
-     * @param Mage_Catalog_Model_Category_Limitation $limitation
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        array $data = array(),
-        Mage_Catalog_Model_Category_Limitation $limitation = null
+        Mage_Catalog_Model_CategoryFactory $categoryFactory,
+        array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->setUseContainer(true);
-        $this->_limitation = !is_null($limitation)
-            ? $limitation
-            : Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+        $this->_categoryFactory = $categoryFactory;
     }
 
 
@@ -67,7 +59,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'options'  => $this->_getParentCategoryOptions(),
             'class'    => 'validate-parent-category',
             'name'     => 'new_category_parent',
+            // @codingStandardsIgnoreStart
             'note'     => Mage::helper('Mage_Catalog_Helper_Data')->__('If there are no custom parent categories, please use the default parent category. You can reassign the category at any time in <a href="%s" target="_blank">Products > Categories</a>.', $this->getUrl('*/catalog_category')),
+            // @codingStandardsIgnoreEnd
         ));
 
         $this->setForm($form);
@@ -80,10 +74,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
      */
     protected function _getParentCategoryOptions()
     {
-        $categoryIds = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()->getAllIds();
+        $items = $this->_categoryFactory->create()
+            ->getCollection()
+            ->addAttributeToSelect('name')
+            ->addAttributeToSort('entity_id', 'ASC')
+            ->setPageSize(3)
+            ->load()
+            ->getItems();
 
-        return count($categoryIds) == 2
-            ? array($categoryIds[1] => Mage::getModel('Mage_Catalog_Model_Category')->load($categoryIds[1])->getName())
+        return count($items) === 2
+            ? array($items[2]->getEntityId() => $items[2]->getName())
             : array();
     }
 
@@ -123,25 +123,5 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
     });
 </script>
 HTML;
-    }
-
-    /**
-     * Is create new category restricted
-     *
-     * @return bool
-     */
-    public function isCreateRestricted()
-    {
-        return $this->_limitation->isCreateRestricted();
-    }
-
-    /**
-     * Get restricted message for categories
-     *
-     * @return string
-     */
-    public function getRestrictedMessage()
-    {
-        return $this->_limitation->getCreateRestrictedMessage();
     }
 }

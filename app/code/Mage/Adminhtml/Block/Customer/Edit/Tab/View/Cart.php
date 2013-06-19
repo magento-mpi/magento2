@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
 
     public function getHeadersVisibility()
     {
-        return ($this->getCollection()->getSize() > 0);
+        return ($this->getCollection()->getSize() >= 0);
     }
 
 }

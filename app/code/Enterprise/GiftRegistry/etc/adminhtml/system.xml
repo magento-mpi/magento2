@@ -22,7 +22,7 @@
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="max_registrant" translate="label" module="Enterprise_GiftRegistry" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Max Recipients Limit</label>
+                    <label>Maximum Recipients</label>
                 </field>
             </group>
             <group id="owner_email" translate="label" module="Enterprise_GiftRegistry" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -47,7 +47,7 @@
                     <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="send_limit" translate="label" module="Enterprise_GiftRegistry" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Max Emails Allowed to be Sent at One Time</label>
+                    <label>Maximum Sent Emails Threshold</label>
                 </field>
             </group>
             <group id="update_email" translate="label" module="Enterprise_GiftRegistry" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">

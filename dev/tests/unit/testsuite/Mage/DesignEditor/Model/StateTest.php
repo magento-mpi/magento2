@@ -10,17 +10,15 @@
  */
 class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /**
      * Name of layout classes that will be used as main layout
      */
     const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
-    /**#@-*/
 
-    /**#@+
+    /**
      * Url model classes that will be used instead of Mage_Core_Model_Url in different vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
-    /**#@-*/
 
     /**#@+
      * Layout update resource models
@@ -99,7 +97,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_cacheTypes = array('type1', 'type2');
+    protected $_cacheTypeList = array('type1', 'type2');
 
     public function setUp()
     {
@@ -112,17 +110,18 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        $this->_cacheTypes = $this->getMockBuilder('Mage_Core_Model_Cache_Types')
+            ->disableOriginalConstructor()->getMock();
+
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
-            array(), '', false
-        );
+            array(), '', false);
+
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore', 'getConfig'),
-            array(), '', false
-        );
+            array(), '', false);
         $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
         $this->_themeContext = $this->getMock('Mage_DesignEditor_Model_Theme_Context',
-            array('getEditableThemeId', 'getVisibleTheme', 'reset'), array(), '', false);
+            array('getEditableTheme', 'getVisibleTheme', 'reset', 'setEditableThemeById'), array(), '', false);
         $this->_themeContext->expects($this->any())
             ->method('getVisibleTheme')
             ->will($this->returnValue($this->_theme));
@@ -131,7 +130,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             $this->_backendSession,
             $this->_layoutFactory,
             $this->_urlModelFactory,
-            $this->_cacheManager,
+            $this->_cacheTypes,
             $this->_dataHelper,
             $this->_objectManager,
             $this->_application,
@@ -144,33 +143,33 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($this->_backendSession, '_backendSession', $this->_model);
         $this->assertAttributeEquals($this->_layoutFactory, '_layoutFactory', $this->_model);
         $this->assertAttributeEquals($this->_urlModelFactory, '_urlModelFactory', $this->_model);
-        $this->assertAttributeEquals($this->_cacheManager, '_cacheManager', $this->_model);
+        $this->assertAttributeEquals($this->_cacheTypes, '_cacheTypes', $this->_model);
         $this->assertAttributeEquals($this->_dataHelper, '_dataHelper', $this->_model);
         $this->assertAttributeEquals($this->_objectManager, '_objectManager', $this->_model);
     }
 
     protected function _setAdditionalExpectations()
     {
-        $this->_dataHelper->expects($this->once())
+        $this->_dataHelper->expects($this->any())
             ->method('getDisabledCacheTypes')
-            ->will($this->returnValue($this->_cacheTypes));
+            ->will($this->returnValue($this->_cacheTypeList));
 
-        $this->_cacheManager->expects($this->at(0))
-            ->method('canUse')
+        $this->_cacheTypes->expects($this->at(0))
+            ->method('isEnabled')
             ->with('type1')
             ->will($this->returnValue(true));
-        $this->_cacheManager->expects($this->at(1))
-            ->method('banUse')
-            ->with('type1')
+        $this->_cacheTypes->expects($this->at(1))
+            ->method('setEnabled')
+            ->with('type1', false)
             ->will($this->returnSelf());
 
-        $this->_cacheManager->expects($this->at(2))
-            ->method('canUse')
+        $this->_cacheTypes->expects($this->at(2))
+            ->method('isEnabled')
             ->with('type2')
             ->will($this->returnValue(true));
-        $this->_cacheManager->expects($this->at(3))
-            ->method('banUse')
-            ->with('type2')
+        $this->_cacheTypes->expects($this->at(3))
+            ->method('setEnabled')
+            ->with('type2', false)
             ->will($this->returnSelf());
     }
 
@@ -190,8 +189,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     {
         $this->_setAdditionalExpectations();
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getPathInfo'), array(), '', false);
-
-        $controller = $this->getMock('Mage_Adminhtml_Controller_Action', array(), array(), '', false);
 
         $request->expects($this->once())
             ->method('getPathInfo')
@@ -213,6 +210,8 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->method('createLayout')
             ->with(array('area' => self::AREA_CODE), self::LAYOUT_NAVIGATION_CLASS_NAME);
 
-        $this->_model->update(self::AREA_CODE, $request, $controller);
+        $controller = $this->getMock('Mage_Adminhtml_Controller_Action', array(), array(), '', false);
+
+        $this->assertNull($this->_model->update(self::AREA_CODE, $request, $controller));
     }
 }

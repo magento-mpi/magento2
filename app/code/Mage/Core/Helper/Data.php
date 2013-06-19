@@ -22,7 +22,6 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
     const XML_PATH_IMAGE_ADAPTER                = 'dev/image/adapter';
-    const XML_PATH_STATIC_FILE_SIGNATURE        = 'dev/static/sign';
 
     const CHARS_LOWERS                          = 'abcdefghijklmnopqrstuvwxyz';
     const CHARS_UPPERS                          = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -793,16 +792,6 @@ XML;
     public function getImageAdapterType()
     {
         return Mage::getStoreConfig(self::XML_PATH_IMAGE_ADAPTER);
-    }
-
-    /**
-     * Check if static files have to be signed
-     *
-     * @return bool
-     */
-    public function isStaticFilesSigned()
-    {
-        return (bool) Mage::getStoreConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
     }
 
     /**

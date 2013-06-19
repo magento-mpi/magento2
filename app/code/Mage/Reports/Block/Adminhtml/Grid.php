@@ -137,7 +137,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
                     $collection->setInterval($from, $to);
                 }
                 catch (Exception $e) {
-                    $this->_errors[] = Mage::helper('Mage_Reports_Helper_Data')->__('Invalid date specified.');
+                    $this->_errors[] = Mage::helper('Mage_Reports_Helper_Data')->__('Invalid date specified');
                 }
             }
 

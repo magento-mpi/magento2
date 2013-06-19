@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testLoadBlockAction()

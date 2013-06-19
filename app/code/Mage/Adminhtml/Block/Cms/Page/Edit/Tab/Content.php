@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     /**
      * Returns status flag about this tab can be shown or not
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {
@@ -132,6 +132,6 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
      */
     protected function _isAllowedAction($resourceId)
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($resourceId);
+        return $this->_authorization->isAllowed($resourceId);
     }
 }

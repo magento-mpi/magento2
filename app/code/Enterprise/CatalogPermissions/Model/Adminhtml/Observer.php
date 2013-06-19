@@ -22,6 +22,19 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     protected $_indexProductQueue = array();
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(Magento_AuthorizationInterface $authorization)
+    {
+        $this->_authorization = $authorization;
+    }
+
+    /**
      * Check permissions availability for current category
      *
      * @param Varien_Event_Observer $observer
@@ -54,7 +67,9 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         $category = $observer->getEvent()->getCategory();
         /* @var $category Mage_Catalog_Model_Category */
         if ($category->hasData('permissions') && is_array($category->getData('permissions'))
-            && Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')) {
+            && $this->_authorization
+                ->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')
+        ) {
             foreach ($category->getData('permissions') as $data) {
                 $permission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission');
                 if (!empty($data['id'])) {
@@ -233,7 +248,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isEnabled()) {
             return $this;
         }
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')) {
+        if (!$this->_authorization->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')) {
             return $this;
         }
 

@@ -20,12 +20,12 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
     protected $_flag;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Saas_Index_Model_FlagFactory $flagFactory,
         array $data = array()
     ) {

@@ -1255,7 +1255,7 @@
     display: block;
     float: left;
     position: relative;
-    min-height: 300px;
+    min-height: 325px;
     width: 20%;
     font-size: 14px;
     border-left: 1px solid #cac2b5;
@@ -1454,10 +1454,49 @@
     border-bottom: none;
 }
 
+.payment-config[data-payment-method="express-checkout"] .field {
+    width: 33%;
+}
+
 .payment-config .field {
     width: 25%;
     float: left;
     margin: 0 2% 10px 0;
+}
+
+.payment-config[data-payment-method="payflow-pro"] .field,
+.payment-config[data-payment-method="payments-advanced"] .field {
+    float: none;
+}
+.payment-config .field.with-tooltip .tooltip {
+    margin: -5px 0 0 -10px;
+}
+
+.payment-config[data-payment-method="payflow-link"] .field,
+.payment-config[data-payment-method="payments-advanced"] .field {
+    float: none;
+    position: relative;
+}
+.payment-config .field.with-tooltip .tooltip {
+    margin: -27px 0 0 -10px;
+    top: 27px;
+}
+
+.payment-config[data-payment-method="payflow-link"] .field.with-tooltip .tooltip {
+    margin: -5px 0 0 -10px;
+}
+
+.payment-config .field.with-tooltip .help {
+    width: 15px;
+}
+.tooltip-content {
+    min-width: 400px;
+    margin-left: -2px;
+}
+
+.payment-config[data-payment-method="payflow-link"]  .field + .field + .actions,
+.payment-config[data-payment-method="payments-advanced"]  .field + .field + .actions {
+    width: 25%;
 }
 
 .payment-config .actions {
@@ -1470,6 +1509,11 @@
 
 .payment-config .field + .field + .actions  {
     width: 52%;
+}
+
+.payment-config[data-payment-method="payflow-pro"] .field + .field + .actions,
+.payment-config[data-payment-method="payments-advanced"] .field + .field + .actions {
+    width: 25%;
 }
 
 .price-plan {
@@ -1537,6 +1581,16 @@
 
 .payments-tab-content .payment-method {
     width: 28%;
+}
+
+.payment-config[data-payment-method="express-checkout"]  .payment-info {
+    width: 410px;
+    color: #333;
+}
+
+.field-store-paypal-express-email .control {
+    display: inline-block;
+    width: 75%;
 }
 
 /* Validation */

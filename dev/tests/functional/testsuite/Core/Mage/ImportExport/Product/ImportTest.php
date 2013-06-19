@@ -311,7 +311,7 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
                 "Custom options have different types. in rows: 1"
             ),
             'validation' => array(
-                "File is totally invalid. Please fix errors and re-upload file",
+                "File is totally invalid. Please fix errors and re-upload file.",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
             )
         ));
@@ -330,7 +330,7 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
                 "There are several existing custom options with such name. in rows: 1"
             ),
             'validation' => array(
-                "File is totally invalid. Please fix errors and re-upload file",
+                "File is totally invalid. Please fix errors and re-upload file.",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")),
         );
         $returnData[] = array($productData, array($customOptionCsv), $validation);

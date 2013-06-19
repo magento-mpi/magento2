@@ -1680,13 +1680,13 @@ system_configuration:
                                     fields:
                                         send_payment_failed_email_copy_to: //input[@name='groups[payment_failed][fields][copy_to][value]']
                                     dropdowns:
-                                        payment_failed_email_receiver: //select[@name='groups[payment_failed][fields][reciever][value]']
+                                        payment_failed_email_receiver: //select[@name='groups[payment_failed][fields][receiver][value]']
                                         payment_failed_email_sender: //select[@name='groups[payment_failed][fields][identity][value]']
                                         payment_failed_template: //select[@name='groups[payment_failed][fields][template][value]']
                                         send_payment_failed_email_copy_method: //select[@name='groups[payment_failed][fields][copy_method][value]']
                                     checkboxes:
                                         send_payment_failed_email_copy_to_use_default: //input[@name='groups[payment_failed][fields][copy_to][inherit]']
-                                        payment_failed_email_receiver_use_default: //input[@name='groups[payment_failed][fields][reciever][inherit]']
+                                        payment_failed_email_receiver_use_default: //input[@name='groups[payment_failed][fields][receiver][inherit]']
                                         payment_failed_email_sender_use_default: //input[@name='groups[payment_failed][fields][identity][inherit]']
                                         payment_failed_template_use_default: //input[@name='groups[payment_failed][fields][template][inherit]']
                                         send_payment_failed_email_copy_method_use_default: //input[@name='groups[payment_failed][fields][copy_method][inherit]']
@@ -2054,10 +2054,26 @@ system_configuration:
                                     fields:
                                         account_number: //input[@name='groups[analytics][fields][account][value]']
                                     dropdowns:
-                                        enable: //select[@name='groups[analytics][fields][active][value]']
+                                        enable_google_analytics: //select[@name='groups[analytics][fields][active][value]']
+                                        enable_content_experiments: //select[@name='groups[analytics][fields][experiments][value]']
                                     checkboxes:
                                         account_number_use_default: //input[@name='groups[analytics][fields][account][inherit]']
                                         enable_use_default: //input[@name='groups[analytics][fields][active][inherit]']
+                            -
+                                google_adwords:
+                                    xpath: //fieldset[@id='google_adwords']
+                                    links:
+                                        google_adwords_link: //parent::div//a[@id='google_adwords-head']
+                                    fields:
+                                        conversion_id: //input[@name='groups[adwords][fields][conversion_id][value]']
+                                        conversion_format: //input[@name='groups[adwords][fields][conversion_format][value]']
+                                        conversion_color: //input[@name='groups[adwords][fields][conversion_color][value]']
+                                        conversion_label: //input[@name='groups[adwords][fields][conversion_label][value]']
+                                        conversion_value: //input[@name='groups[adwords][fields][conversion_value][value]']
+                                    dropdowns:
+                                        enable_google_adwords: //select[@name='groups[adwords][fields][active][value]']
+                                        conversion_value_type: //select[@name='groups[adwords][fields][conversion_value_type][value]']
+                                        conversion_language: //select[@name='groups[adwords][fields][conversion_language][value]']
                             -
                                 google_shopping:
                                     xpath: //fieldset[@id='google_googleshopping']
@@ -3036,7 +3052,7 @@ system_configuration:
                                 paypal_solutions:
                                     xpath: //div[@class='paypal-payment-notice']
                                     links:
-                                        go_to_paypal_solutions: //a[text()='View PayPal solutions.']
+                                        go_to_paypal_solutions: //a[text()='View PayPal solutions']
                             -
                                 saved_cc:
                                     xpath: //fieldset[@id='payment_ccsave']
@@ -3761,8 +3777,10 @@ system_configuration:
             save_config: //button[@data-ui-id='content-schedule-block-save-button']
             active_paypal_method: //div[contains(@class,'section-config pp')][contains(@class,'enabled')]//button[@class='button action-configure']
         messages:
-            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
+            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the configuration.')]
             enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
+            error_save_google_adwords_color: //li[normalize-space(@class)='error-msg' and contains(.,'Conversion Color value is not valid "%color%". Please set hexadecimal 6-digit value.')]
+            error_save_google_adwords_conversion_id: //li[normalize-space(@class)='error-msg' and contains(.,'Conversion Id value is not valid "%conversionId%". Conversion Id should be an integer.')]
 
 system_configuration_tabs:
     mca: system_config/edit/section/%tabName%/

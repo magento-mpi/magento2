@@ -46,6 +46,16 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
+     * Retrieve session model
+     *
+     * @return Mage_Adminhtml_Model_Session
+     */
+    protected function _getSession()
+    {
+        return $this->_objectManager->get('Mage_Adminhtml_Model_Session');
+    }
+
+    /**
      * Display cache management grid
      */
     public function indexAction()
@@ -68,7 +78,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             $cacheFrontend->getBackend()->clean();
         }
         $this->_getSession()->addSuccess(
-            Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed.")
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__("You flushed the cache storage.")
         );
         $this->_redirect('*/*');
     }
@@ -211,20 +221,21 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function cleanMediaAction()
     {
         try {
-            Mage::getModel('Mage_Core_Model_Design_PackageInterface')->cleanMergedJsCss();
+            $this->_objectManager->get('Mage_Core_Model_Page_Asset_MergeService')
+                ->cleanMergedJsCss();
             $this->_eventManager->dispatch('clean_media_cache_after');
             $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The JavaScript/CSS cache has been cleaned.')
-            );
-        }
-        catch (Exception $e) {
-            $this->_getSession()->addException(
-                $e,
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while clearing the JavaScript/CSS cache.')
+                $this->_objectManager->get('Mage_Adminhtml_Helper_Data')->__('The JavaScript/CSS cache has been cleaned.')
             );
         }
         catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addException(
+                $e,
+                $this->_objectManager->get('Mage_Adminhtml_Helper_Data')->__('An error occurred while clearing the JavaScript/CSS cache.')
+            );
         }
         $this->_redirect('*/*');
     }

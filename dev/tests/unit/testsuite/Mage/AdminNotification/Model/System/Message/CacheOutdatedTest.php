@@ -38,7 +38,7 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPU
 
     public function setUp()
     {
-        $this->_authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false);
+        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
         $this->_urlInterfaceMock = $this->getMock('Mage_Core_Model_UrlInterface');
         $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
         $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);

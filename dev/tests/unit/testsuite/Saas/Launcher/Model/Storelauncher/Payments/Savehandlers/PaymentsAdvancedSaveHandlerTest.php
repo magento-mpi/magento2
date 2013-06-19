@@ -35,20 +35,27 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsAdvancedSa
     public function prepareDataValidInputDataProvider()
     {
         $data0 = array();
-        $data0['groups']['payflow_advanced']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data0['groups']['payflow_advanced']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data0['groups']['payflow_advanced']['fields']['user']['value'] = 'user ';
-        $data0['groups']['payflow_advanced']['fields']['pwd']['value'] = 'password ';
+        $data0['groups']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['groups']['payments_advanced']['fields']
+        = array(
+            'partner' => array('value' => 'PayPal Partner '),
+            'vendor' => array('value' => 'PayPal Vendor '),
+            'user' => array('value' => 'user '),
+            'pwd' => array('value' => 'password '),
+        );
 
-        $preparedData0 = array();
-        $preparedData0['paypal']['payflow_advanced']['fields']['partner']['value'] = 'PayPal Partner';
-        $preparedData0['paypal']['payflow_advanced']['fields']['vendor']['value'] = 'PayPal Vendor';
-        $preparedData0['paypal']['payflow_advanced']['fields']['user']['value'] = 'user';
-        $preparedData0['paypal']['payflow_advanced']['fields']['pwd']['value'] = 'password';
-        $preparedData0['paypal']['global']['fields']['payflow_advanced']['value'] = 1;
+
+        $preparedFields['partner']['value'] = 'PayPal Partner';
+        $preparedFields['vendor']['value'] = 'PayPal Vendor';
+        $preparedFields['user']['value'] = 'user';
+        $preparedFields['pwd']['value'] = 'password';
+        $preparedData0['payment']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['groups']['payments_advanced']['fields'] = $preparedFields;
+        $preparedData0['payment']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['fields']['enable_payflow_advanced']['value'] = 1;
 
         return array(
-            array($data0, $preparedData0, array('paypal')),
+            array($data0, $preparedData0, array('payment')),
         );
     }
 
@@ -60,22 +67,30 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsAdvancedSa
     public function prepareDataInvalidInputDataProvider()
     {
         $validData = array();
-        $validData['groups']['payflow_advanced']['fields']['partner']['value'] = 'PayPal Partner ';
-        $validData['groups']['payflow_advanced']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $validData['groups']['payflow_advanced']['fields']['user']['value'] = 'user ';
-        $validData['groups']['payflow_advanced']['fields']['pwd']['value'] = 'password ';
+        $validData['groups']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['groups']['payments_advanced']['fields']
+        = array(
+            'partner' => array('value' => 'PayPal Partner '),
+            'vendor' => array('value' => 'PayPal Vendor '),
+            'user' => array('value' => 'user '),
+            'pwd' => array('value' => 'password '),
+        );
 
         $data0 = $validData;
-        unset($data0['groups']['payflow_advanced']['fields']['partner']);
+        unset($data0['groups']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['groups']['payments_advanced']['fields']['partner']);
 
         $data1 = $validData;
-        unset($data1['groups']['payflow_advanced']['fields']['vendor']);
+        unset($data1['groups']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['groups']['payments_advanced']['fields']['vendor']);
 
         $data2 = $validData;
-        unset($data2['groups']['payflow_advanced']['fields']['user']);
+        unset($data2['groups']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['groups']['payments_advanced']['fields']['user']);
 
         $data3 = $validData;
-        unset($data3['groups']['payflow_advanced']['fields']['pwd']);
+        unset($data3['groups']['paypal_group_all_in_one']['groups']['payflow_advanced_us']['groups']
+            ['required_settings']['groups']['payments_advanced']['fields']['pwd']);
 
         return array(
             array($data0),

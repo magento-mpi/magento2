@@ -1,3 +1,4 @@
+
 # Magento
 #
 # {license_notice}
@@ -13,13 +14,13 @@
 manage_rma:
     mca: rma/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rma/')]
-    title: Manage RMA / Operations / Sales / Magento Admin
+    title: Returns / Operations / Sales / Magento Admin
 
 #Manage RMA Item Attribute page
 manage_rma_items_attribute:
     mca: rma_item_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rma_item_attribute/')]
-    title: Manage RMA Item Attributes / Attributes / Stores / Magento Admin
+    title: Returns Attributes / Attributes / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -40,13 +41,13 @@ manage_rma_items_attribute:
         buttons:
             add_new_attribute: //button[span='Add New Attribute']
         messages:
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The RMA item attribute has been saved.')]
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The RMA item attribute has been deleted.')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the RMA item attribute.')]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the RMA attribute.')]
 
 #New RMA Item Attribute page
 new_rma_item_attribute:
     mca: rma_item_attribute/new/
-    title: New Attribute / Manage RMA Item Attributes / Attributes / Stores / Magento Admin
+    title: New Return Attribute / Returns Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &rmaAttributeForm
             tabs:
@@ -112,14 +113,15 @@ new_rma_item_attribute:
             save_and_continue_edit: //button[@id='save_and_edit_button']
             delete_attribute: //button[@id='delete']
         messages: &rmaAttributeMessage
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists.')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute with this code already exists.')]
+            wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
             invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
             wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
             delete_confirm_message: Are you sure you want to do this?
 
 edit_rma_item_attribute:
     mca: rma_item_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage RMA Item Attributes / Attributes / Stores / Magento Admin
+    title: %elementTitle% / Returns Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *rmaAttributeForm
         buttons: *rmaAttributeButton

@@ -85,7 +85,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     /**
      * Constructor
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Website_Factory $websiteFactory
      * @param Mage_Core_Model_Store_Group_Factory $storeGroupFactory
@@ -93,7 +93,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Website_Factory $websiteFactory,
         Mage_Core_Model_Store_Group_Factory $storeGroupFactory,
@@ -241,7 +241,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      *
      * @return string
      */
-    public function getCurentStoreName()
+    public function getCurrentStoreName()
     {
         $store = $this->_storeFactory->create();
         $store->load($this->getStoreId());

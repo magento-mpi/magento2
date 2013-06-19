@@ -145,6 +145,9 @@
                 <system_search module="Mage_Adminhtml">
                     <file>search.xml</file>
                 </system_search>
+                <system_account module="Mage_Adminhtml">
+                    <file>system/account.xml</file>
+                </system_account>
             </updates>
         </layout>
         <sales>

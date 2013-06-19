@@ -81,7 +81,7 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         templateText : attributeTemplate,
         attributeId : 0,
         prefix : '<?php echo $this->getFieldPrefix() ?>',
-        usedMessage : '<?php echo $this->__('Adding more than one attribute with the same static input type is not allowed for the same gift registry type. Please select another input type for your attribute.') ?>',
+        usedMessage : '<?php echo $this->__('We found an attribute with this static input type already in the gift registry type. Please select a different input type.') ?>',
         add : function(data) {
             if(data.id == undefined){
                 data = {};

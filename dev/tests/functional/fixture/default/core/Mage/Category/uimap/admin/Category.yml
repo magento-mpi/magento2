@@ -13,7 +13,7 @@
 manage_categories:
     mca: catalog_category/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_category/')]
-    title: Categories / Manage Categories / Inventory / Products / Magento Admin
+    title: Categories / Categories / Inventory / Products / Magento Admin
     uimap: &categoryUimap
         form:
             fieldsets:
@@ -131,18 +131,18 @@ manage_categories:
             save_category: //button[@data-ui-id='category-edit-form-save-button']
             delete_category: //button[span='Delete Category']
         messages:
-            success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been saved.')]
-            success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been deleted.')]
+            success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the category.')]
+            success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the category.')]
             confirm_delete: Are you sure you want to delete this category?
 
 edit_manage_categories:
     mca: catalog_category/edit/store/0/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
-    title: Categories / Manage Categories / Inventory / Products / Magento Admin
+    title: Categories / Categories / Inventory / Products / Magento Admin
     uimap: *categoryUimap
 
 edit_category:
     mca: catalog_category/edit/store/0/id/%id%/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
-    title: %elementTitle% / Manage Categories / Inventory / Products / Magento Admin
+    title: %elementTitle% / Categories / Inventory / Products / Magento Admin
     uimap: *categoryUimap

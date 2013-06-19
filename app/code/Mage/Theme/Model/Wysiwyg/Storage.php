@@ -103,7 +103,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            throw new Mage_Core_Exception($this->_helper->__('Cannot upload file.') );
+            throw new Mage_Core_Exception($this->_helper->__('We cannot upload the file.') );
         }
 
         $this->_createThumbnail(
@@ -176,7 +176,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $newPath = $path . Magento_Filesystem::DIRECTORY_SEPARATOR . $name;
 
         if ($this->_filesystem->has($newPath)) {
-            throw new Mage_Core_Exception($this->_helper->__('A directory with the same name already exists.'));
+            throw new Mage_Core_Exception($this->_helper->__('We found a directory with the same name.'));
         }
 
         $this->_filesystem->ensureDirectoryExists($newPath);
@@ -202,16 +202,16 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $file = $this->_helper->urlDecode($file);
         $path = $this->_helper->getSession()->getStoragePath();
 
-        $_filePath = $this->_filesystem->getAbsolutePath($path . Magento_Filesystem::DIRECTORY_SEPARATOR . $file);
-        $_thumbnailPath = $this->_helper->getThumbnailDirectory($_filePath)
+        $filePath = $this->_filesystem->normalizePath($path . '/' . $file);
+        $thumbnailPath = $this->_helper->getThumbnailDirectory($filePath)
             . Magento_Filesystem::DIRECTORY_SEPARATOR
             . $file;
 
-        if ($this->_filesystem->isPathInDirectory($_filePath, $path)
-            && $this->_filesystem->isPathInDirectory($_filePath, $this->_helper->getStorageRoot())
+        if ($this->_filesystem->isPathInDirectory($filePath, $path)
+            && $this->_filesystem->isPathInDirectory($filePath, $this->_helper->getStorageRoot())
         ) {
-            $this->_filesystem->delete($_filePath);
-            $this->_filesystem->delete($_thumbnailPath);
+            $this->_filesystem->delete($filePath);
+            $this->_filesystem->delete($thumbnailPath);
         }
         return $this;
     }
@@ -226,7 +226,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
     public function getDirsCollection($currentPath)
     {
         if (!$this->_filesystem->has($currentPath)) {
-            throw new Mage_Core_Exception($this->_helper->__('A directory with the name not exists.'));
+            throw new Mage_Core_Exception($this->_helper->__('We cannot find a directory with this name.'));
         }
 
         $paths = $this->_filesystem->searchKeys($currentPath, '*');
@@ -306,7 +306,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $pathCmp = rtrim($path, Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
-            throw new Mage_Core_Exception($this->_helper->__('Cannot delete root directory %s.', $path));
+            throw new Mage_Core_Exception($this->_helper->__('We cannot delete root directory %s.', $path));
         }
 
         return $this->_filesystem->delete($path);

@@ -94,10 +94,10 @@
                     applyTo = attrContainer.data('applyTo') || [];
                 var $inputs = attrContainer.find('select, input, textarea');
                 if (applyTo.length === 0 || $.inArray(typeCode, applyTo) !== -1) {
-                    attrContainer.show();
+                    attrContainer.removeClass('not-applicable-attribute');
                     $inputs.removeClass('ignore-validate');
                 } else {
-                    attrContainer.hide();
+                    attrContainer.addClass('not-applicable-attribute');
                     $inputs.addClass('ignore-validate');
                 }
             });

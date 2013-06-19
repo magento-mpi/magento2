@@ -106,7 +106,7 @@ class Enterprise_CustomerBalance_Model_Observer
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Not enough Store Credit Amount to complete this Order.'));
+                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('You do not have enough store credit to complete this order.'));
             }
         }
 
@@ -394,7 +394,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $creditmemo->getCustomerBalanceReturnMax();
 
         if ((float)(string)$creditmemo->getCustomerBalTotalRefunded() > (float)(string)$customerBalanceReturnMax) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store credit amount cannot exceed order amount.'));
+            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('The store credit used cannot exceed order amount.'));
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {

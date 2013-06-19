@@ -13,7 +13,7 @@
 manage_customer_attributes:
     mca: customer_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_attribute')]
-    title: Manage Customer Attributes / Stores / Magento Admin
+    title: Customer Attributes / Stores / Magento Admin
     uimap:
         form: &searchCustomerAttributeGrid
             fieldsets:
@@ -36,9 +36,9 @@ manage_customer_attributes:
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &customerAttributeMessages
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer attribute has been deleted.')]
-            exists_attribute_code: //span[@data-ui-id='messages-message-error' and contains(.,'Attribute with the same code already exists.')]
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer attribute has been saved.')]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the customer attribute.')]
+            exists_attribute_code: //span[@data-ui-id='messages-message-error' and contains(.,'An attribute with this code already exists.')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the customer attribute.')]
             wrong_length_attribute_code: //label[normalize-space(@class)='mage-error' and contains(.,'Maximum length of this field must be equal or less than 21 symbols.')]
             invalid_attribute_code: //label[normalize-space(@class)='mage-error' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             error_invalid_position: //div[@id='advice-validate-digits-position']
@@ -49,7 +49,7 @@ manage_customer_attributes:
 # Add New Customer Attribute page
 new_customer_attribute:
     mca: customer_attribute/new/
-    title: New Attribute / Manage Customer Attributes / Stores / Magento Admin
+    title: New Attribute / Customer Attributes / Stores / Magento Admin
     uimap:
         form: &newCustomerAttributeForm
             tabs:
@@ -131,7 +131,7 @@ new_customer_attribute:
 # Manage customer Attributes page
 edit_customer_attribute:
     mca: customer_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage Customer Attributes / Stores / Magento Admin
+    title: %elementTitle% / Customer Attributes / Stores / Magento Admin
     uimap:
         form: &editCustomerAttributeForm
             tabs:

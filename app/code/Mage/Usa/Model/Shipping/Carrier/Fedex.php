@@ -643,7 +643,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
                    $errorTitle = (string)$xml->SoftError->Message;
                } else {
-                   $errorTitle = 'Unknown error';
+                   $errorTitle = 'Sorry, something went wrong. Please try again or contact us and we\'ll try to help.';
                }
 
                $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));

@@ -135,8 +135,8 @@ manage_invitations:
         buttons:
             add_invitations: //button[span='Add Invitations']
         messages: &invitationsMessages
-            failed_send_several_items: //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% of %numberMessagesOf% invitation(s).')]
-            failed_send: //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% invitation(s).')]
+            failed_send_several_items:  //li[normalize-space(@class)='error-msg' and contains(text()='Something went wrong sending %numberMessagesFailed% of %numberMessagesOf% invitations.')]
+            failed_send: //li[normalize-space(@class)='error-msg' and contains(text()='Something went wrong sending %numberMessagesFailed% invitations.')]
             success_send: //li[normalize-space(@class)='success-msg' and contains(.,'1 invitation(s) were sent.')]
 
 # New invitations page
@@ -294,7 +294,7 @@ manage_reward_rates:
 #New Reward Exchange Rate page
 new_reward_rate:
     mca: reward_rate/new/
-    title: New Rate / Reward Exchange Rates / Other Settings / Stores / Magento Admin
+    title: New Reward Exchange Rate / Reward Exchange Rates / Other Settings / Stores / Magento Admin
     uimap: &newRateUimap
         form:
             fieldsets:

@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $blockType

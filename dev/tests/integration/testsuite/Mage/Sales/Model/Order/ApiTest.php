@@ -14,13 +14,25 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
 {
     const STATUS_PENDING = 'pending';
 
+    protected $_order;
+
+    protected function setUp()
+    {
+        /** @var Mage_Sales_Model_Resource_Order_Collection $orderCollection */
+        $orderCollection = Mage::getObjectManager()->create('Mage_Sales_Model_Resource_Order_Collection');
+        $orders = $orderCollection->getItems();
+        $this->assertCount(2, $orders);
+        $this->_order = array_shift($orders);
+    }
+
     /**
      * Test info method of sales order API.
+     * @magentoAppArea frontend
      */
     public function testInfo()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
+        $order = $this->_order;
         $orderInfo = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderInfo',
@@ -58,7 +70,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     public function testAddComment()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
+        $order = $this->_order;
 
         $historySizeBefore = count($order->getAllStatusHistory());
         $newOrderStatus = self::STATUS_PENDING;
@@ -93,7 +105,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Legacy API is expected to support MySQL only.');
         }
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
+        $order = $this->_order;
 
         $filters = array(
             'filters' => (object)array(
@@ -131,7 +143,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     public function testCancelPendingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
+        $order = $this->_order;
 
         $order->setStatus(self::STATUS_PENDING)
             ->save();
@@ -158,7 +170,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     public function testHoldProcessingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
+        $order = $this->_order;
 
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, self::STATUS_PENDING)
             ->save();
@@ -187,7 +199,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     public function testUnhold()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
+        $order = $this->_order;
         $isUnholded = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderUnhold',

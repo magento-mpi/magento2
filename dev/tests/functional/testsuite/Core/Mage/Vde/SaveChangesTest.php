@@ -66,7 +66,7 @@ class Core_Mage_Vde_SaveChangesTest extends Mage_Selenium_TestCase
         $this->window('');
 
         // Save and apply the changes
-        $this->clickButtonAndConfirm('assign_this_theme', 'confirm_assign', false);
+        $this->clickButtonAndConfirm('assign_theme', 'confirm_assign', false);
 
         // Verify that changes are applied on frontend
         $this->frontend('quick_search');

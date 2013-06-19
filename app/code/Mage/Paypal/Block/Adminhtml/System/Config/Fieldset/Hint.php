@@ -14,7 +14,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
-    extends Mage_Backend_Block_Abstract
+    extends Mage_Backend_Block_Template
     implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_template = 'Mage_Paypal::system/config/fieldset/hint.phtml';

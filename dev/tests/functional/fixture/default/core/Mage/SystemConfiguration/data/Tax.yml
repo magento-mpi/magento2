@@ -20,7 +20,7 @@ flat_rate_for_price_verification:
                 flat_rate_price: 1.00
                 flat_rate_calculate_handling_fee: Fixed
                 flat_rate_handling_fee: %noValue%
-                flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
+                flat_rate_displayed_error_message: This shipping method is not available. To use this shipping method, please contact us.
                 flat_rate_ship_to_applicable_countries: All Allowed Countries
                 flat_rate_ship_to_specific_countries: %noValue%
                 flat_rate_show_method_if_not_applicable: %noValue%

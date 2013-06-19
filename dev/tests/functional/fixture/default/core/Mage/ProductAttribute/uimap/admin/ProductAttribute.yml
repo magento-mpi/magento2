@@ -14,7 +14,7 @@
 manage_attributes:
     mca: catalog_product_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_attribute')]
-    title: Manage Attributes / Attributes / Stores / Magento Admin
+    title: Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &searchProductAttributeGrid
             fieldsets:
@@ -41,10 +41,10 @@ manage_attributes:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &productAttributeMessages
             attribute_used_in_configurable: //li[normalize-space(@class)='error-msg' and contains(.,'This attribute is used in configurable products.')]
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been deleted.')]
-            exists_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Attribute with the same code already exists.' and not(contains(@style,'display: none;'))]
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been saved.')]
-            wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the product attribute.')]
+            exists_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='An attribute with this code already exists.']
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the product attribute.')]
+            wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.']
             invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
             error_invalid_position: //*[@class='mage-error' and @for='position' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
             delete_confirm_message: Are you sure you want to do this?
@@ -52,7 +52,7 @@ manage_attributes:
 # Add New Product Attribute page
 new_product_attribute:
     mca: catalog_product_attribute/new/
-    title: New Attribute / Manage Attributes / Magento Admin
+    title: Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &newProductAttributeForm
             tabs:
@@ -144,7 +144,7 @@ new_product_attribute:
 # Manage Product Attributes page
 edit_product_attribute:
     mca: catalog_product_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage Attributes / Magento Admin
+    title: %elementTitle% / Product Attributes / Attributes / Stores / Magento Admin
     uimap: &edit_product_attribute
         form: &editProductAttributeForm
             tabs:
@@ -223,13 +223,13 @@ edit_product_attribute_save_and_continue:
 
 new_product_attribute_save_and_continue:
     mca: catalog_product_attribute/edit/back/edit/active_tab/%tab%/
-    title: New Attribute / Manage Attributes / Magento Admin
+    title: New Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *newProductAttributeForm
 
 product_attribute:
     mca: catalog_product_attribute/edit/
-    title: New Attribute / Manage Attributes / Magento Admin
+    title: New Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *newProductAttributeForm
         buttons:

@@ -12,19 +12,18 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
  extends Mage_Adminhtml_Block_Widget
  implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-
     /**
      * @var Mage_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {

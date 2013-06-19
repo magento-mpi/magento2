@@ -19,7 +19,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 {
     public function indexAction()
     {
-        $this->_title($this->__('Transactional Emails'));
+        $this->_title($this->__('Email Templates'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -81,7 +81,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
         $template = $this->_initTemplate('id');
         if (!$template->getId() && $id) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This Email template no longer exists.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This email template no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -147,7 +147,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
             }
         }
         // display error message
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to find a Email Template to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t find an email template to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -188,7 +188,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
-        $this->_title($this->__('Transactional Emails'));
+        $this->_title($this->__('Email Templates'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('Mage_Adminhtml_Model_Email_Template');

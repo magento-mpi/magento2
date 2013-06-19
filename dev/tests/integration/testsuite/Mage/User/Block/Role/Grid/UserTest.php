@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_User_Block_Role_Grid_UserTest extends PHPUnit_Framework_TestCase
 {
     /**

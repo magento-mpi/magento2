@@ -557,4 +557,39 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
         $this->_model->setDesignTheme(Mage::getModel('Mage_Core_Model_Theme'));
     }
+
+    /**
+     * Publication of view files in development mode
+     *
+     * @param string $file
+     * @param $designParams
+     * @param string $expectedFile
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
+     * @dataProvider publishViewFileDataProvider
+     */
+    public function testGetViewFilePublicPath($file, $designParams, $expectedFile)
+    {
+        $this->_initTestTheme();
+
+        $expectedFile = $this->_model->getPublicDir() . '/' . $expectedFile;
+
+        $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
+        $this->_model->getViewFilePublicPath($file, $designParams);
+        $this->assertFileExists($expectedFile);
+    }
+
+    public function testGetViewFilePublicPathExistingFile()
+    {
+        $filePath = 'mage/mage.js';
+        $expectedFile = Mage::getSingleton('Mage_Core_Model_Dir')->getDir(Mage_Core_Model_Dir::PUB_LIB) . '/'
+            . $filePath;
+        $this->assertFileExists($expectedFile, 'Please verify existence of public library file');
+
+        $actualFile = $this->_model->getViewFilePublicPath($filePath);
+        $this->assertFileEquals($expectedFile, $actualFile);
+
+        // Nothing must have been published
+        $this->assertEmpty(glob($this->_model->getPublicDir() . '/*'));
+    }
 }

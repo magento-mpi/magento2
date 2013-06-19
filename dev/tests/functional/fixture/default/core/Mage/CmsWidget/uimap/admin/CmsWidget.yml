@@ -12,7 +12,7 @@
 manage_cms_widgets:
     mca: widget_instance/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'widget_instance/')]
-    title: Widgets / Elements / Content / Magento Admin
+    title: Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -45,7 +45,7 @@ manage_cms_widgets:
 
 create_cms_widget:
     mca: widget_instance/new/
-    title: New Instance / Widgets / Elements / Content / Magento Admin
+    title: New Frontend App Instance / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form:
             tabs:
@@ -68,7 +68,7 @@ create_cms_widget:
 
 add_widget_options:
     mca: widget_instance/edit/type/%type%/theme_id/%theme_id%/
-    title: New Instance / Widgets / Elements / Content / Magento Admin
+    title: New Frontend App Instance / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: &addWidgetOptions
             tabs:
@@ -241,7 +241,7 @@ add_widget_options:
 
 edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/
-    title: %elementTitle% / Widgets / Elements / Content / Magento Admin
+    title: %elementTitle% / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: *addWidgetOptions
         buttons:
@@ -254,7 +254,7 @@ edit_cms_widget:
 
 save_and_continue_edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Widgets / Elements / Content / Magento Admin
+    title: %elementTitle% / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: *addWidgetOptions
         buttons:

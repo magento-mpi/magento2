@@ -438,7 +438,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                         break;
                     case 5:
                         $errorTitle = $row[1];
-                        Mage::log(Mage::helper('Mage_Usa_Helper_Data')->__('Unknown error') . ': ' . $errorTitle);
+                        Mage::log(Mage::helper('Mage_Usa_Helper_Data')->__('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.') . ': ' . $errorTitle);
                         break;
                     case 6:
                         if (in_array($row[3], $allowedMethods)) {
@@ -1004,7 +1004,7 @@ XMLRequest;
                                 $cost = (float)$cost * $this->_getBaseCurrencyRate($responseCurrencyCode);
                             } else {
                                 $errorTitle = Mage::helper('Mage_Directory_Helper_Data')->__(
-                                    'Can\'t convert rate from "%s-%s".',
+                                    'We can\'t convert a rate from "%s-%s".',
                                     $responseCurrencyCode,
                                     $this->_request->getPackageCurrency()->getCode()
                                 );

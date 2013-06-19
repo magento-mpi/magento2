@@ -23,8 +23,8 @@ class Enterprise_AdminGws_Model_Observer_Abstract
      * Initialize helper
      *
      */
-    public function __construct(array $data = array())
+    public function __construct(Enterprise_AdminGws_Model_Role $role)
     {
-        $this->_role = isset($data['role']) ? $data['role'] : Mage::getSingleton('Enterprise_AdminGws_Model_Role');
+        $this->_role = $role;
     }
 }
