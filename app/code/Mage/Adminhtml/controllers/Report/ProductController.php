@@ -39,7 +39,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function soldAction()
     {
-        $this->_title($this->__('Products Ordered Report'));
+        $this->_title($this->__('Ordered Products Report'));
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_products_sold')
             ->_addBreadcrumb(

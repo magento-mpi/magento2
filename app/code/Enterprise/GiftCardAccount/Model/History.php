@@ -67,6 +67,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
+        $this->_adminSession = $adminSession;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 

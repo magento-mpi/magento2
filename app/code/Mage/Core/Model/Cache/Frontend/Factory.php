@@ -172,7 +172,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
             }
             $decoratorClass = $decoratorConfig['class'];
             $decoratorParams = isset($decoratorConfig['parameters']) ? $decoratorConfig['parameters'] : array();
-            $decoratorParams[0] = $frontend; // conventionally, first argument is a decoration subject
+            $decoratorParams['frontend'] = $frontend; // conventionally, 'frontend' argument is a decoration subject
             $frontend = $this->_objectManager->create($decoratorClass, $decoratorParams);
             if (!($frontend instanceof Magento_Cache_FrontendInterface)) {
                 throw new UnexpectedValueException('Decorator has to implement the cache frontend interface.');

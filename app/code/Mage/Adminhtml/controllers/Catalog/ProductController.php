@@ -42,7 +42,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _initProduct()
     {
-        $this->_title($this->__('Manage Products'));
+        $this->_title($this->__('Products'));
 
         $productId  = (int) $this->getRequest()->getParam('id');
         /** @var $product Mage_Catalog_Model_Product */
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Products'));
+        $this->_title($this->__('Products'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_products');
         $this->renderLayout();
@@ -796,7 +796,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAllRulesToProduct($productId);
 
-                $this->_getSession()->addSuccess($this->__('The product has been saved.'));
+                $this->_getSession()->addSuccess($this->__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(
                         $this->__('SKU for product %s has been changed to %s.', Mage::helper('Mage_Core_Helper_Data')
@@ -812,7 +812,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
-                    $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
+                    $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
                 }
 
             } catch (Mage_Core_Exception $e) {
@@ -864,7 +864,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product = $this->_initProduct();
         try {
             $newProduct = $product->duplicate();
-            $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
+            $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         } catch (Exception $e) {
             Mage::logException($e);
@@ -923,7 +923,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                         $product->delete();
                     }
                     $this->_getSession()->addSuccess(
-                        $this->__('Total of %d record(s) have been deleted.', count($productIds))
+                        $this->__('A total of %d record(s) have been deleted.', count($productIds))
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
@@ -949,7 +949,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
-                $this->__('Total of %d record(s) have been updated.', count($productIds))
+                $this->__('A total of %d record(s) have been updated.', count($productIds))
             );
         }
         catch (Mage_Core_Model_Exception $e) {
@@ -958,7 +958,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()
-                ->addException($e, $this->__('An error occurred while updating the product(s) status.'));
+                ->addException($e, $this->__('Something went wrong while updating the product(s) status.'));
         }
 
         $this->_redirect('*/*/', array('store'=> $storeId));
@@ -977,7 +977,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
             if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
                 throw new Mage_Core_Exception(
-                    $this->__('Some of the processed products have no SKU value defined. Please fill it prior to performing operations on these products.')
+                    $this->__('Please make sure to define SKU values for all processed products.')
                 );
             }
         }

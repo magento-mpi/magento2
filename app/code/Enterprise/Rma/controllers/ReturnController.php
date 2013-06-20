@@ -199,7 +199,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('Mage_Catalog_Model_Session');
         $this->getLayout()
             ->getBlock('head')
-            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #%s', Mage::registry('current_rma')->getIncrementId()));
+            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s', Mage::registry('current_rma')->getIncrementId()));
 
         $this->renderLayout();
     }

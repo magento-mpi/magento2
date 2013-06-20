@@ -15,8 +15,8 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Saas_Saas/>
-                <Mage_CatalogRule/>
+                <Saas_Saas />
+                <Mage_CatalogRule />
             </depends>
         </Saas_CatalogRule>
     </modules>
@@ -27,7 +27,9 @@
             </preferences>
             <Saas_CatalogRule_Model_Rule_Job>
                 <parameters>
-                    <helper>Mage_CatalogRule_Helper_Data</helper>
+                    <helper>
+                        <instance>Mage_CatalogRule_Helper_Data</instance>
+                    </helper>
                 </parameters>
             </Saas_CatalogRule_Model_Rule_Job>
         </di>
@@ -44,4 +46,4 @@
             </catalogrule_apply_all>
         </events>
     </global>
-</config>
+</config>

@@ -66,7 +66,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 
     protected function _clearDocBlock($classBody)
     {
-        return preg_replace('/(\/\*[\w\W]*)class/', 'class', $classBody);
+        return preg_replace('/(\/\*[\w\W]*)\nclass/', 'class', $classBody);
     }
 
     public function testGenerateClassFactoryWithoutNamespace()
