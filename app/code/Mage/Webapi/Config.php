@@ -39,9 +39,9 @@ class Mage_Webapi_Config
     protected $_moduleReader;
 
     /**
-     * @var Varien_Object
+     * @var array
      */
-    protected $_services = null;
+    protected $_services;
 
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
@@ -130,16 +130,12 @@ class Mage_Webapi_Config
             $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
-                $_array = isset($data['config']) ? $data['config'] : array();
-                $this->_services = $_array; //new Varien_Object($_array);
             } else {
                 $services = $this->_getReader()->getServices();
                 $data = $this->_toArray($services);
-
                 $this->_saveToCache(serialize($data));
-                $_array = isset($data['config']) ? $data['config'] : array();
-                $this->_services = $_array; //new Varien_Object($_array);\
             }
+            $this->_services = isset($data['config']) ? $data['config'] : array();
         }
         return $this->_services;
     }
@@ -339,6 +335,7 @@ class Mage_Webapi_Config
     /**
      * Retrieve the list of SOAP operations available in the system
      *
+     * @param array $requestedResource The list of requested resources with their versions
      * @return array <pre>
      * array(
      *     array(
@@ -348,13 +345,12 @@ class Mage_Webapi_Config
      *      ...
      * )</pre>
      */
-    protected function _getSoapOperations()
+    protected function _getSoapOperations($requestedResource)
     {
         if (null == $this->_soapOperations) {
             $this->_soapOperations = array();
-            $services = $this->getServices();
-            foreach ($services as $serviceData) {
-                $resourceName = $this->_helper->translateResourceName($serviceData['class']);
+            foreach ($this->getRequestedServices($requestedResource) as $serviceData) {
+                $resourceName = $this->_helper->translateResourceName($serviceData['class'], false);
                 foreach ($serviceData['operations'] as $method => $methodData) {
                     $operationName = $resourceName . ucfirst($method);
                     $this->_soapOperations[$operationName] = array(
@@ -368,15 +364,41 @@ class Mage_Webapi_Config
     }
 
     /**
+     * Retrieve the list of services corresponding to specified resources and their versions.
+     *
+     * @param array $requestedResources <pre>
+     * array(
+     *     'catalogProduct' => 'V1'
+     *     'customer' => 'V2
+     * )<pre/>
+     * @return array Filtered list of services
+     */
+    public function getRequestedServices($requestedResources)
+    {
+        $services = array();
+        foreach ($requestedResources as $resourceName => $resourceVersion) {
+            foreach ($this->getServices() as $serviceData) {
+                $resourceWithVersion = $this->_helper->translateResourceName($serviceData['class']);
+                if ($resourceWithVersion != $resourceName . $resourceVersion) {
+                    continue;
+                }
+                $services[] = $serviceData;
+            }
+        }
+        return $services;
+    }
+
+    /**
      * Retrieve service class name corresponding to provided SOAP operation name.
      *
      * @param string $soapOperation
+     * @param array $requestedResource The list of requested resources with their versions
      * @return string
      * @throws Mage_Webapi_Exception
      */
-    public function getClassBySoapOperation($soapOperation)
+    public function getClassBySoapOperation($soapOperation, $requestedResource)
     {
-        $soapOperations = $this->_getSoapOperations();
+        $soapOperations = $this->_getSoapOperations($requestedResource);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__(
@@ -393,12 +415,13 @@ class Mage_Webapi_Config
      * Retrieve service method name corresponding to provided SOAP operation name.
      *
      * @param string $soapOperation
+     * @param array $requestedResource The list of requested resources with their versions
      * @return string
      * @throws Mage_Webapi_Exception
      */
-    public function getMethodBySoapOperation($soapOperation)
+    public function getMethodBySoapOperation($soapOperation, $requestedResource)
     {
-        $soapOperations = $this->_getSoapOperations();
+        $soapOperations = $this->_getSoapOperations($requestedResource);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__(
@@ -423,8 +446,8 @@ class Mage_Webapi_Config
          * TODO: Check if Service specific XSD is already cached
          */
         $modulesDir = $this->_dir->getDir(Mage_Core_Model_Dir::MODULES);
-        /** TODO: Change pattern to match interface instead of class. Think about sub-services */
-        preg_match('/^(.+?)_(.+?)_Service_(.+?)$/', $serviceClass, $matches);
+        /** TODO: Change pattern to match interface instead of class. Think about sub-services. */
+        preg_match('/^(.+?)_(.+?)_Service_(.+?)(V\d+)$/', $serviceClass, $matches);
         if (!isset($matches[0])) {
             // TODO: Generate exception
         }

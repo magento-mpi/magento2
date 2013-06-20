@@ -2,7 +2,7 @@
 /**
  * TODO: Fake service for WSDL generation testing purposes.
  */
-class Mage_Catalog_Service_Product implements Mage_Catalog_Service_ProductInterface
+class Mage_Catalog_Service_ProductV1 implements Mage_Catalog_Service_ProductInterface
 {
     public function item($request)
     {
