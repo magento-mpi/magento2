@@ -26,6 +26,9 @@
         _bind: function() {
             $(window).on('resize', $.proxy(this._resizeFrame, this));
             $('body').on('refreshIframe', $.proxy(this._refreshFrame, this));
+            this.element[0].on('load', function() {
+                $('body').trigger('processStop');
+            });
         },
 
         /**
@@ -48,6 +51,17 @@
          * @private
          */
         _refreshFrame: function() {
+            // Timeout with 0 millisecond delay used because _refreshFrame is
+            // usually called within the context of an AJAX request's
+            // success/failure callback.
+            //
+            // If the timeout is removed and just trigger called, then
+            // the AJAX code will call trigger('processStop') in the event
+            // loop and stop the loader spinner from being shown.
+            window.setTimeout(function() {
+                $('body').trigger('processStart');
+            }, 0);
+
             this.element[0].contentWindow.location.reload(true);
         },
 
