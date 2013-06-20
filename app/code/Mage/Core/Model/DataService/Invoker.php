@@ -119,11 +119,10 @@ class Mage_Core_Model_DataService_Invoker
         $navigator = $this->_navigator;
         $callback = function ($matches) use ($composite, $navigator) {
             // convert from '{{parent.child}}' format to array('parent', 'child') format
-            $pathArray = explode(Mage_Core_Model_DataService_Invoker::DATASERVICE_PATH_SEPARATOR,
-                trim($matches[0], '{}'));
+            $pathArray = explode(Mage_Core_Model_DataService_Invoker::DATASERVICE_PATH_SEPARATOR, $matches[1]);
             return $navigator->search($composite, $pathArray);
         };
 
-        return preg_replace_callback('(\{\{.*?\}\})', $callback, $valueTemplate);
+        return preg_replace_callback('(\{\{(.*?)\}\})', $callback, $valueTemplate);
     }
 }
