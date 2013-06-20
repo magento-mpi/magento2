@@ -79,9 +79,6 @@ class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_T
         $this->assertEquals($expected, $model->getData());
     }
 
-    /**
-     * Test System Configuration can be loaded and merged correctly for config options attribute
-     */
     public function testGetConfigurationLoadsConfigFromFilesAndMergeIt()
     {
         $expected = array('var' => 'val');
@@ -107,27 +104,14 @@ class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_T
         $this->assertEquals($expected, $model->getData());
     }
 
-    /**
-     * Test Magento_Exception will thrown when unknown attribute in System Configuration
-     */
     public function testGetConfigurationLoadsConfigFromFilesAndMergeUnknownAttribute()
     {
-        $expected = array('var' => 'val');
-        $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(false));
-
-        $this->_converterMock->expects($this->any())->method('convert')->will($this->returnValue(
-            array('config' => array('system' => $expected))
-        ));
         $filePath = dirname(dirname(__DIR__)) . '/_files';
         $this->_configMock->expects($this->once())
             ->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array(
                 $filePath . '/system_unknown_attribute_1.xml',
                 $filePath . '/system_unknown_attribute_2.xml')));
-
-        $this->_cacheMock->expects($this->any())->method('save')->with(
-            serialize($expected)
-        );
 
         $this->setExpectedException('Magento_Exception', "More than one node matching the query: " .
         "/config/system/section[@id='customer']/group[@id='create_account']" .
@@ -137,18 +121,8 @@ class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_T
         );
     }
 
-    /**
-     * Test Magento_Exception will be thrown when unknown attribute in System Configuration
-     * and schema validation is used.
-     */
     public function testGetConfigurationLoadsConfigFromFilesAndMergeUnknownAttributeValidate()
     {
-        $expected = array('var' => 'val');
-        $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(false));
-
-        $this->_converterMock->expects($this->any())->method('convert')->will($this->returnValue(
-                array('config' => array('system' => $expected))
-            ));
         $filePath = dirname(dirname(__DIR__)) . '/_files';
         $this->_configMock->expects($this->once())
             ->method('getModuleConfigurationFiles')
@@ -164,10 +138,6 @@ class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_T
                 $this->returnValue(
                     realpath(__DIR__ . '/../../../../../../../../../app/code/Mage/Backend/etc')
                 )
-        );
-
-        $this->_cacheMock->expects($this->any())->method('save')->with(
-            serialize($expected)
         );
 
         $this->setExpectedException('Magento_Exception',
