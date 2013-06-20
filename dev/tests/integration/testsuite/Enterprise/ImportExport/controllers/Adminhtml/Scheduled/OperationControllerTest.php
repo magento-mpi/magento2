@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
@@ -85,8 +88,10 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extend
      */
     public function testEditAction($expectedContains)
     {
-        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('_fixture/Enterprise_ImportExport_Model_Scheduled_Operation');
+        /** @var $collection Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection */
+        $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection');
+        $this->assertCount(1, $collection->getItems());
+        $operation = $collection->getFirstItem();
 
         $this->dispatch('backend/admin/scheduled_operation/edit/id/' . $operation->getId());
 
@@ -103,8 +108,10 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extend
      */
     public function testCronAction()
     {
-        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('_fixture/Enterprise_ImportExport_Model_Scheduled_Operation');
+        /** @var $collection Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection */
+        $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection');
+        $this->assertCount(1, $collection->getItems());
+        $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
         $varDir = Mage::getBaseDir('var');

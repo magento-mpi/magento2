@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_GoogleShopping_Block_Adminhtml_Items_ProductTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_GoogleShopping_Block_Adminhtml_Items_ProductTest extends PHPUnit_Framework_TestCase
 {
     public function testBeforeToHtml()
     {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,9 +35,9 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
 
-        $session = $this->_getCheckout();
+        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = $this->_objectManager->create('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
 
             if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
                 $allowedOrderStates = array(
@@ -52,7 +50,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
                 } else {
                     $gotoSection = $this->_cancelPayment(strval($this->getRequest()->getParam('RESPMSG')));
                     $redirectBlock->setGotoSection($gotoSection);
-                    $redirectBlock->setErrorMsg($this->__('Payment has been declined. Please try again.'));
+                    $redirectBlock->setErrorMsg($this->__('Your payment has been declined. Please try again.'));
                 }
             }
         }
@@ -94,24 +92,13 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        /* @var $helper Mage_Paypal_Helper_Checkout */
-        $helper = Mage::helper('Mage_Paypal_Helper_Checkout');
+        $helper = $this->_objectManager->get('Mage_Paypal_Helper_Checkout');
         $helper->cancelCurrentOrder($errorMsg);
         if ($helper->restoreQuote()) {
-                //Redirect to payment step
-                $gotoSection = 'payment';
+            //Redirect to payment step
+            $gotoSection = 'payment';
         }
 
         return $gotoSection;
-    }
-
-    /**
-     * Get frontend checkout session object
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    protected function _getCheckout()
-    {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 }

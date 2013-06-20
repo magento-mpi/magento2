@@ -11,8 +11,9 @@
 
 /**
  * Test class for Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form
+ * @magentoAppArea adminhtml
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends Mage_Backend_Area_TestCase
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled

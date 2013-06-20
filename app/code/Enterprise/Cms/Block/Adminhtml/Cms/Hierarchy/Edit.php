@@ -58,6 +58,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Manage Pages Hierarchy');
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Pages Hierarchy');
     }
 }

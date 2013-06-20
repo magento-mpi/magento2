@@ -42,7 +42,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('XML Sitemaps'));
+        $this->_title($this->__('Site Map'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -61,7 +61,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('XML Sitemaps'));
+        $this->_title($this->__('Site Map'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
@@ -78,7 +78,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             }
         }
 
-        $this->_title($model->getId() ? $model->getSitemapFilename() : $this->__('New Sitemap'));
+        $this->_title($model->getId() ? $model->getSitemapFilename() : $this->__('New Site Map'));
 
         // 3. Set entered data if was error when we do save
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
@@ -226,7 +226,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         }
         // display error message
         Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-            Mage::helper('Mage_Sitemap_Helper_Data')->__('Unable to find a sitemap to delete.'));
+            Mage::helper('Mage_Sitemap_Helper_Data')->__('We can\'t find a sitemap to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -254,11 +254,11 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Mage_Sitemap_Helper_Data')->__('Unable to generate the sitemap.'));
+                    Mage::helper('Mage_Sitemap_Helper_Data')->__('Something went wrong generating the sitemap.'));
             }
         } else {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Sitemap_Helper_Data')->__('Unable to find a sitemap to generate.'));
+                Mage::helper('Mage_Sitemap_Helper_Data')->__('We can\'t find a sitemap to generate.'));
         }
 
         // go to grid

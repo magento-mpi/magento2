@@ -13,7 +13,7 @@
 <?php /* @var $captcha Mage_Core_Model_Captcha_Default */ ?>
 <?php $captcha = $this->getCaptchaModel() ?>
 <li role="<?php echo $this->getFormId()?>">
-    <label for="captcha_<?php echo $this->getFormId() ?>" class="required"><em>*</em><?php echo $this->__('Please type the letters below')?></label>
+    <label for="captcha_<?php echo $this->getFormId() ?>" class="required"><em>*</em><?php echo $this->__('Please enter the letters below')?></label>
     <div class="input-box captcha">
         <input name="<?php echo Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE ?>[<?php echo $this->getFormId()?>]" type="text" class="input-text required-entry" data-validate="{required:true}" id="captcha_<?php echo $this->getFormId() ?>" />
     </div>

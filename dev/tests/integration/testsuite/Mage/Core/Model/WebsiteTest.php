@@ -185,35 +185,4 @@ class Mage_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
             ->addIdFilter(1);
         $this->assertEquals(1, count($collection->getItems()));
     }
-
-    /**
-     * @magentoConfigFixture limitations/store 1
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation enabled
-     */
-    public function testSaveValidationLimitation()
-    {
-        $this->_model->setData(
-            array(
-                'code'              => 'test_website',
-                'name'              => 'test website',
-                'default_group_id'  => 1,
-            )
-        );
-
-        /* emulate admin store */
-        Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
-        try {
-            $this->_model->save();
-        } catch (Mage_Core_Exception $exception) {
-            $expectedErrorMessage = 'Sorry, but you can\'t add any more websites with this account.';
-            $this->assertEquals($expectedErrorMessage, $exception->getMessage());
-            $exceptionMessages = $exception->getMessages();
-            $this->assertCount(1, $exceptionMessages);
-            /** @var Mage_Core_Model_Message_Abstract $exceptionMessage */
-            $exceptionMessage = reset($exceptionMessages);
-            $this->assertInstanceOf('Mage_Core_Model_Message_Error', $exceptionMessage);
-            $this->assertEquals($expectedErrorMessage, $exceptionMessage->getCode());
-        }
-    }
 }

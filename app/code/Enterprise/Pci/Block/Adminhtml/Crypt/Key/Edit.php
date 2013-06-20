@@ -42,6 +42,6 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Mage_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Pci_Helper_Data')->__('Manage Encryption Key');
+        return Mage::helper('Enterprise_Pci_Helper_Data')->__('Encryption Key');
     }
 }

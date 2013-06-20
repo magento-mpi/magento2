@@ -187,6 +187,10 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
         $tmpDir = $dir->getDir(Mage_Core_Model_Dir::MEDIA)
             . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . 'origin';
 
+        if (!$upload->checkAllowedExtension($upload->getFileExtension())) {
+            Mage::throwException($this->_helper->__('Invalid image file type.'));
+        }
+
         if (!$upload->save($tmpDir)) {
             Mage::throwException($this->_helper->__('Image can not be saved.'));
         }

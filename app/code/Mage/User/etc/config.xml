@@ -15,7 +15,7 @@
             <version>1.6.1.4</version>
             <active>true</active>
             <depends>
-                <Mage_Backend/>
+                <Mage_Backend />
             </depends>
         </Mage_User>
     </modules>
@@ -25,10 +25,6 @@
                 <auth>
                     <credential_storage>Mage_User_Model_User</credential_storage>
                 </auth>
-                <acl>
-                    <ruleLoader>Mage_User_Model_Acl_Loader_Rule</ruleLoader>
-                    <roleLoader>Mage_User_Model_Acl_Loader_Role</roleLoader>
-                </acl>
             </adminhtml>
         </areas>
         <resources>
@@ -48,13 +44,55 @@
             </email>
         </template>
         <di>
-            <Mage_User_Model_User><shared>0</shared></Mage_User_Model_User>
-            <Mage_User_Model_Role><shared>0</shared></Mage_User_Model_Role>
+            <Mage_User_Model_User>
+                <shared>0</shared>
+            </Mage_User_Model_User>
+            <Mage_User_Model_Role>
+                <shared>0</shared>
+            </Mage_User_Model_Role>
+            <Mage_User_Model_Resource_Rules>
+                <parameters>
+                    <rootResource>
+                        <instance>Mage_Core_Model_Acl_RootResource_Proxy</instance>
+                    </rootResource>
+                    <aclCache>
+                        <instance>Mage_Core_Model_Acl_Cache_Proxy</instance>
+                    </aclCache>
+                </parameters>
+            </Mage_User_Model_Resource_Rules>
+            <Mage_User_Model_Resource_User>
+                <parameters>
+                    <aclCache>
+                        <instance>Mage_Core_Model_Acl_Cache_Proxy</instance>
+                    </aclCache>
+                </parameters>
+            </Mage_User_Model_Resource_User>
             <preferences>
                 <Mage_Backend_Model_Auth_Credential_StorageInterface>Mage_User_Model_User</Mage_Backend_Model_Auth_Credential_StorageInterface>
             </preferences>
         </di>
     </global>
+    <adminhtml>
+        <di>
+            <Magento_Acl_Builder>
+                <parameters>
+                    <ruleLoader>
+                        <instance>Mage_User_Model_Acl_Loader_Rule</instance>
+                    </ruleLoader>
+                    <roleLoader>
+                        <instance>Mage_User_Model_Acl_Loader_Role</instance>
+                    </roleLoader>
+                </parameters>
+            </Magento_Acl_Builder>
+        </di>
+        <layout>
+            <updates>
+                <user module="Mage_User">
+                    <file>layout.xml</file>
+                </user>
+            </updates>
+        </layout>
+    </adminhtml>
     <default>
         <admin>
             <emails>
@@ -75,13 +113,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <layout>
-            <updates>
-                <user module="Mage_User">
-                    <file>layout.xml</file>
-                </user>
-            </updates>
-        </layout>
-    </adminhtml>
-</config>
+</config>

@@ -14,7 +14,7 @@
         <a href="#" class="action-refresh" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Refresh') ?>" onclick="order.loadArea('sidebar_<?php echo $this->getDataId() ?>', 'sidebar_data_<?php echo $this->getDataId() ?>');return false;">Refresh</a>
         <h5><?php echo $this->getHeaderText() ?> <span class="normal">(<?php echo $this->getItemCount() ?>)</span></h5>
         <select class="sidebar-selector">
-            <option value="all">- <?php echo $this->__('All Wishlists');?> -</option>
+            <option value="all">- <?php echo $this->__('All Wish Lists');?> -</option>
             <?php foreach($this->getWishlists() as $id => $name) :?>
                 <option value="<?php echo $id;?>"><?php echo $this->escapeHtml($name);?></option>
             <?php endforeach;?>

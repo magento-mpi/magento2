@@ -171,7 +171,7 @@
                     this.element.trigger('refreshIframe');
                 }, this),
                 error: $.proxy(function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }, this)
             });
         }

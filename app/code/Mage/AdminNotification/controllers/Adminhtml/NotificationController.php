@@ -31,14 +31,14 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
                 $this->_objectManager->create('Mage_AdminNotification_Model_NotificationService')
                     ->markAsRead($notificationId);
                 $this->_session->addSuccess(
-                    Mage::helper('Mage_AdminNotification_Helper_Data')->__('The message has been marked as read.')
+                    Mage::helper('Mage_AdminNotification_Helper_Data')->__('The message has been marked as Read.')
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
-                        ->__('An error occurred while marking notification as read.')
+                        ->__("We couldn't mark the notification as Read because of an error.")
                 );
             }
 
@@ -87,14 +87,14 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
                 }
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_AdminNotification_Helper_Data')
-                        ->__('Total of %d record(s) have been marked as read.', count($ids))
+                        ->__('A total of %d record(s) have been marked as Read.', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
-                        ->__('An error occurred while marking the messages as read.')
+                        ->__("We couldn't mark the notification as Read because of an error.")
                 );
             }
         }
@@ -123,7 +123,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
             } catch (Exception $e) {
                 $this->_session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
-                        ->__('An error occurred while removing the message.')
+                        ->__("We couldn't remove the messages because of an error.")
                 );
             }
 
@@ -159,7 +159,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
             } catch (Exception $e) {
                 $session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
-                        ->__('An error occurred while removing messages.'));
+                        ->__("We couldn't remove the messages because of an error."));
             }
         }
         $this->_redirectReferer();

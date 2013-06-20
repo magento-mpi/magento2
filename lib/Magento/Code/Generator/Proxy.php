@@ -32,13 +32,38 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
     protected function _getClassProperties()
     {
         $properties = parent::_getClassProperties();
+
+        // protected $_instanceName = null;
+        $properties[] = array(
+            'name'       => '_instanceName',
+            'visibility' => 'protected',
+            'docblock'   => array(
+                'shortDescription' => 'Proxied instance name',
+                'tags'             => array(
+                    array('name' => 'var', 'description' => 'string')
+                )
+            ),
+        );
+
         $properties[] = array(
             'name'       => '_subject',
             'visibility' => 'protected',
             'docblock'   => array(
                 'shortDescription' => 'Proxied instance',
                 'tags'             => array(
-                    array('name' => 'var', 'description' => $this->_getSourceClassName())
+                    array('name' => 'var', 'description' => '\\' . $this->_getSourceClassName())
+                )
+            ),
+        );
+
+        // protected $_shared = null;
+        $properties[] = array(
+            'name'       => '_isShared',
+            'visibility' => 'protected',
+            'docblock'   => array(
+                'shortDescription' => 'Instance shareability flag',
+                'tags'             => array(
+                    array('name' => 'var', 'description' => 'bool')
                 )
             ),
         );
@@ -46,6 +71,8 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
     }
 
     /**
+     * Returns list of methods for class generator
+     *
      * @return array
      */
     protected function _getClassMethods()
@@ -56,9 +83,11 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
         $methods = array($construct);
         $methods[] = array(
             'name'     => '__sleep',
-            'body'     => 'return array(\'_subject\');',
+            'body'     => 'return array(\'_subject\', \'_isShared\');',
             'docblock' => array(
-                'shortDescription' => '@return array',
+                'tags' => array(
+                    array('name' => 'return', 'description' => 'array')
+                ),
             ),
         );
         $methods[] = array(
@@ -70,10 +99,28 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
         );
         $methods[] = array(
             'name'     => '__clone',
-            'body'     => '$this->_subject = clone $this->_objectManager->get(self::CLASS_NAME);',
+            'body'     => "\$this->_subject = clone \$this->_getSubject();",
             'docblock' => array(
                 'shortDescription' => 'Clone proxied instance',
             ),
+        );
+
+        $methods[] = array(
+            'name'       => '_getSubject',
+            'visibility' => 'protected',
+            'body'       => "if (!\$this->_subject) {\n" .
+                "    \$this->_subject = true === \$this->_isShared\n" .
+                "        ? \$this->_objectManager->create(\$this->_instanceName)\n" .
+                "        : \$this->_objectManager->get(\$this->_instanceName);\n" .
+                "}\n" .
+                "return \$this->_subject;",
+            'docblock'   => array(
+                'shortDescription' => 'Get proxied instance',
+                'tags'             => array(
+                    array('name' => 'return', 'description' => '\\' . $this->_getSourceClassName())
+                )
+            ),
+
         );
         $reflectionClass = new ReflectionClass($this->_getSourceClassName());
         $publicMethods   = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
@@ -93,8 +140,14 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
      */
     protected function _generateCode()
     {
-        $this->_classGenerator->setExtendedClass($this->_getFullyQualifiedClassName($this->_getSourceClassName()));
+        $typeName = $this->_getFullyQualifiedClassName($this->_getSourceClassName());
+        $reflection = new ReflectionClass($typeName);
 
+        if ($reflection->isInterface()) {
+            $this->_classGenerator->setImplementedInterfaces(array($typeName));
+        } else {
+            $this->_classGenerator->setExtendedClass($typeName);
+        }
         return parent::_generateCode();
     }
 
@@ -159,6 +212,44 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
     }
 
     /**
+     * Get default constructor definition for generated class
+     *
+     * @return array
+     */
+    protected function _getDefaultConstructorDefinition()
+    {
+        // public function __construct(\Magento_ObjectManager $objectManager, $instanceName, $shared = false)
+        return array(
+            'name'       => '__construct',
+            'parameters' => array(
+                array('name' => 'objectManager', 'type' => '\Magento_ObjectManager'),
+                array('name' => 'instanceName', 'defaultValue' => $this->_getSourceClassName()),
+                array('name' => 'shared', 'defaultValue' => false),
+            ),
+            'body' => "\$this->_objectManager = \$objectManager;" .
+                "\n\$this->_instanceName = \$instanceName;" .
+                "\n\$this->_isShared = \$shared;",
+            'docblock' => array(
+                'shortDescription' => ucfirst(static::ENTITY_TYPE) . ' constructor',
+                'tags'             => array(
+                    array(
+                        'name'        => 'param',
+                        'description' => '\Magento_ObjectManager $objectManager'
+                    ),
+                    array(
+                        'name'        => 'param',
+                        'description' => 'string $instanceName'
+                    ),
+                    array(
+                        'name'        => 'param',
+                        'description' => 'bool $shared'
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
      * Build proxy method body
      *
      * @param string $name
@@ -172,9 +263,6 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
         } else {
             $methodCall = sprintf('%s(%s)', $name, implode(', ', $parameters));
         }
-        return "if (!\$this->_subject) {\n" .
-            "    \$this->_subject = \$this->_objectManager->get(self::CLASS_NAME);\n" .
-            "}\n".
-            'return $this->_subject->' . $methodCall . ';';
+        return 'return $this->_getSubject()->' . $methodCall . ';';
     }
 }

@@ -89,7 +89,7 @@ admin_header:
                             store_view_hint: "/../../td[@class='scope-label'][contains(.,'[STORE VIEW]')]"
                             global_view_hint: "/../../td[@class='scope-label'][contains(.,'[GLOBAL]')]"
                             website_view_hint: "/../../td[@class='scope-label'][contains(.,'[WEBSITE]')]"
-                            access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
+                            access_denied: //*[@id='page:main-container']/h1[text()='You do not have access to this.']
                             navigation_menu_items: //ul[@id='nav']/li
                             navigation_children_menu_items: //*[@id='nav']/li//ul/li
                             general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
@@ -100,5 +100,5 @@ admin_header:
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
             general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
             general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][string-length(.)>1]"
-            no_records_found: //td[normalize-space(text())='No records found.' or contains(@class,'empty-text')]
-            specific_table_no_records_found: %tableXpath%//td[normalize-space(text())='No records found.' or contains(@class,'empty-text')]
+            no_records_found: "//td[normalize-space(text())='We couldn't find any records.' or contains(@class,'empty-text')]"
+            specific_table_no_records_found: "%tableXpath%//td[normalize-space(text())='We couldn't find any records.' or contains(@class,'empty-text')]"

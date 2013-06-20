@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */
     protected $_layout = null;

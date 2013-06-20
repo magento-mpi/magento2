@@ -18,21 +18,29 @@
 class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Launcher_Block_Adminhtml_Tile
 {
     /**
-     * @var Mage_Catalog_Model_Product_Limitation
+     * @var Saas_Limitation_Model_Limitation_Validator
+     */
+    protected $_limitationValidator;
+
+    /**
+     * @var Saas_Limitation_Model_Limitation_LimitationInterface
      */
     protected $_limitation;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Catalog_Model_Product_Limitation $limitation
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Saas_Limitation_Model_Limitation_Validator $limitationValidator
+     * @param Saas_Limitation_Model_Limitation_LimitationInterface $limitation
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Catalog_Model_Product_Limitation $limitation,
+        Mage_Backend_Block_Template_Context $context,
+        Saas_Limitation_Model_Limitation_Validator $limitationValidator,
+        Saas_Limitation_Model_Limitation_LimitationInterface $limitation,
         array $data = array()
     ) {
         parent::__construct($context, $data);
+        $this->_limitationValidator = $limitationValidator;
         $this->_limitation = $limitation;
     }
 
@@ -65,6 +73,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Laun
      */
     public function isAddProductRestricted()
     {
-        return $this->_limitation->isCreateRestricted();
+        return $this->_limitationValidator->exceedsThreshold($this->_limitation);
     }
 }

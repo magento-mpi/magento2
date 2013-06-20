@@ -45,7 +45,7 @@
                     }
                     $(element).closest('tr').find('input[type="text"]').on('focus', function(event) {
                         $(event.target).blur();
-                        alert($.mage.__('Changing quantity for gift registry items is not allowed during checkout. You can change item quantity on the Gift Registry Info page or directly in your shopping cart.'));
+                        alert($.mage.__('You can change the number of gift registry items on the Gift Registry Info page or directly in your cart, but not while in checkout.'));
                     });
                 }
             });

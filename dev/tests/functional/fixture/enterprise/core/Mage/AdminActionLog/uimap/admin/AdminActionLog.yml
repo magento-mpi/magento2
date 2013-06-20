@@ -52,7 +52,7 @@ admin_action_log_view:
 admin_action_log_archive:
     mca: logging/archive/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/archive/')]
-    title: Archive / Action Log / System / Magento Admin
+    title: Admin Actions Archive / Action Log / System / Magento Admin
     uimap:
         form:
             fieldsets:

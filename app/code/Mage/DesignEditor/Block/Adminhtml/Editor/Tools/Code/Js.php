@@ -24,12 +24,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     protected $_service;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Theme_Service $service
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Theme_Service $service,
         array $data = array()
     ) {
@@ -60,9 +60,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
             'multiple' => '',
         );
         if ($this->_service->isThemeAssignedToStore($this->getTheme())) {
-            $confirmMessage = $this->__('You are about to upload JavaScript files. '
-                . 'This will take effect immediately and might affect the design of your store if your theme '
-                . 'is assigned to the store front. Are you sure you want to do this?');
+            $confirmMessage = $this->__('These JavaScript files may change the appearance of your live store(s).'
+                . ' Are you sure you want to do this?');
             $jsConfig['onclick'] = "return confirm('{$confirmMessage}');";
         }
         $form->addField('js_files_uploader', 'js_files', $jsConfig);
@@ -79,7 +78,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     public function getConfirmMessageDelete()
     {
         return $this->__('Are you sure you want to delete this JavaScript file?'
-            . ' The results to your theme will not be reversible.');
+            . ' The changes to your theme will not be reversible.');
     }
 
     /**
@@ -89,7 +88,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getJsUploadUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/uploadjs', array('id' => $this->getTheme()->getId()));
+        return $this->getUrl('*/system_design_editor_tools/uploadjs', array('theme_id' => $this->getTheme()->getId()));
     }
 
     /**
@@ -99,7 +98,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getJsReorderUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/reorderjs', array('id' => $this->getTheme()->getId()));
+        return $this->getUrl('*/system_design_editor_tools/reorderjs', array('theme_id' => $this->getTheme()->getId()));
     }
 
     /**
@@ -110,7 +109,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     public function getJsDeleteUrl()
     {
         return $this->getUrl('*/system_design_editor_tools/deleteCustomFiles', array(
-            'id' => $this->getTheme()->getId()
+            'theme_id' => $this->getTheme()->getId()
         ));
     }
 

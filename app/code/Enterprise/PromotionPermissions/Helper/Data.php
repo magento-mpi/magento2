@@ -39,13 +39,28 @@ class Enterprise_PromotionPermissions_Helper_Data extends Mage_Core_Helper_Abstr
     const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'Enterprise_PromotionPermissions::enterprise_reminder_edit';
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Mage_Core_Helper_Context $context
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(Mage_Core_Helper_Context $context, Magento_AuthorizationInterface $authorization)
+    {
+        parent::__construct($context);
+        $this->_authorization = $authorization;
+    }
+
+    /**
      * Check if admin has permissions to edit catalog rules
      *
      * @return boolean
      */
     public function getCanAdminEditCatalogRules()
     {
-        return (boolean) Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
+        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
     }
 
     /**
@@ -55,7 +70,7 @@ class Enterprise_PromotionPermissions_Helper_Data extends Mage_Core_Helper_Abstr
      */
     public function getCanAdminEditSalesRules()
     {
-        return (boolean) Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
+        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
     }
 
     /**
@@ -65,6 +80,6 @@ class Enterprise_PromotionPermissions_Helper_Data extends Mage_Core_Helper_Abstr
      */
     public function getCanAdminEditReminderRules()
     {
-        return (boolean) Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
+        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
     }
 }

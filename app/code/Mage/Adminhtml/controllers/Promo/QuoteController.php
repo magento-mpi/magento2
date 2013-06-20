@@ -13,7 +13,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 {
     protected function _initRule()
     {
-        $this->_title($this->__('Shopping Cart Price Rules'));
+        $this->_title($this->__('Cart Price Rules'));
 
         Mage::register('current_promo_quote_rule', Mage::getModel('Mage_SalesRule_Model_Rule'));
         $id = (int)$this->getRequest()->getParam('id');
@@ -38,7 +38,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
     public function indexAction()
     {
-        $this->_title($this->__('Shopping Cart Price Rules'));
+        $this->_title($this->__('Cart Price Rules'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'), Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'))
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             }
         }
 
-        $this->_title($model->getRuleId() ? $model->getName() : $this->__('New Rule'));
+        $this->_title($model->getRuleId() ? $model->getName() : $this->__('New Cart Price Rule'));
 
         // set entered data if was error when we do save
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 if ($id) {
                     $model->load($id);
                     if ($id != $model->getId()) {
-                        Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('Wrong rule specified.'));
+                        Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('The wrong rule is specified.'));
                     }
                 }
 
@@ -197,7 +197,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             }
         }
         Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-            Mage::helper('Mage_SalesRule_Helper_Data')->__('Unable to find a rule to delete.'));
+            Mage::helper('Mage_SalesRule_Helper_Data')->__('We can\'t find a rule to delete.'));
         $this->_redirect('*/*/');
     }
 
@@ -358,19 +358,19 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 /** @var $generator Mage_SalesRule_Model_Coupon_Massgenerator */
                 $generator = $rule->getCouponMassGenerator();
                 if (!$generator->validateData($data)) {
-                    $result['error'] = Mage::helper('Mage_SalesRule_Helper_Data')->__('Not valid data provided');
+                    $result['error'] = Mage::helper('Mage_SalesRule_Helper_Data')->__('Invalid data provided');
                 } else {
                     $generator->setData($data);
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
-                    $this->_getSession()->addSuccess(Mage::helper('Mage_SalesRule_Helper_Data')->__('%s Coupon(s) have been generated', $generated));
+                    $this->_getSession()->addSuccess(Mage::helper('Mage_SalesRule_Helper_Data')->__('%s coupon(s) have been generated.', $generated));
                     $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
                     $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }
             } catch (Mage_Core_Exception $e) {
                 $result['error'] = $e->getMessage();
             } catch (Exception $e) {
-                $result['error'] = Mage::helper('Mage_SalesRule_Helper_Data')->__('An error occurred while generating coupons. Please review the log and try again.');
+                $result['error'] = Mage::helper('Mage_SalesRule_Helper_Data')->__('Something went wrong while generating coupons. Please review the log and try again.');
                 Mage::logException($e);
             }
         }

@@ -51,7 +51,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Adm
      */
     public function getHeader()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Currency Symbols');
+        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Currency Symbols');
     }
 
     /**

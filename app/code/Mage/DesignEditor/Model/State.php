@@ -13,22 +13,20 @@
  */
 class Mage_DesignEditor_Model_State
 {
-    /**#@+
+    /**
      * Name of layout classes that will be used as main layout
      */
     const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
-    /**#@-*/
 
     /**
      * Url model classes that will be used instead of Mage_Core_Model_Url in navigation vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
 
-    /**#@+
+    /**
      * Import behaviors
      */
     const MODE_NAVIGATION = 'navigation';
-    /**#@-*/
 
     /**#@+
      * Session keys
@@ -55,9 +53,9 @@ class Mage_DesignEditor_Model_State
     /**
      * Application Cache Manager
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_Cache_Types
      */
-    protected $_cacheManager;
+    protected $_cacheTypes;
 
     /**
      * @var Mage_DesignEditor_Helper_Data
@@ -83,7 +81,7 @@ class Mage_DesignEditor_Model_State
      * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_App $application
@@ -93,7 +91,7 @@ class Mage_DesignEditor_Model_State
         Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Cache_Types $cacheTypes,
         Mage_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_App $application,
@@ -102,7 +100,7 @@ class Mage_DesignEditor_Model_State
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
         $this->_urlModelFactory = $urlModelFactory;
-        $this->_cacheManager    = $cacheManager;
+        $this->_cacheTypes      = $cacheTypes;
         $this->_dataHelper      = $dataHelper;
         $this->_objectManager   = $objectManager;
         $this->_application     = $application;
@@ -117,10 +115,15 @@ class Mage_DesignEditor_Model_State
      */
     public function update($areaCode, Mage_Core_Controller_Request_Http $request)
     {
-        $this->_backendSession->setData(self::CURRENT_URL_SESSION_KEY, $request->getPathInfo());
-        $this->_backendSession->setData(self::CURRENT_MODE_SESSION_KEY, self::MODE_NAVIGATION);
-        $this->_injectUrlModel(self::MODE_NAVIGATION);
-        $this->_injectLayout(self::MODE_NAVIGATION, $areaCode);
+        $mode = $request->getAlias('editorMode') ?: self::MODE_NAVIGATION;
+        $this->_themeContext->setEditableThemeById($request->getAlias('themeId'));
+
+        if (!$request->isAjax()) {
+            $this->_backendSession->setData(self::CURRENT_URL_SESSION_KEY, $request->getPathInfo());
+            $this->_backendSession->setData(self::CURRENT_MODE_SESSION_KEY, $mode);
+        }
+        $this->_injectUrlModel($mode);
+        $this->_injectLayout($mode, $areaCode);
         $this->_setTheme();
         $this->_disableCache();
     }
@@ -172,7 +175,7 @@ class Mage_DesignEditor_Model_State
      */
     protected function _setTheme()
     {
-        if ($this->_themeContext->getEditableThemeId()) {
+        if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
             $this->_application->getStore()->setConfig(
                 Mage_Core_Model_Design_Package::XML_PATH_THEME_ID,
@@ -191,8 +194,8 @@ class Mage_DesignEditor_Model_State
     protected function _disableCache()
     {
         foreach ($this->_dataHelper->getDisabledCacheTypes() as $cacheCode) {
-            if ($this->_cacheManager->canUse($cacheCode)) {
-                $this->_cacheManager->banUse($cacheCode);
+            if ($this->_cacheTypes->isEnabled($cacheCode)) {
+                $this->_cacheTypes->setEnabled($cacheCode, false);
             }
         }
     }

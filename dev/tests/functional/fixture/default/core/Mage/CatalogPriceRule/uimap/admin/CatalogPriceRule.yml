@@ -45,19 +45,19 @@ manage_catalog_price_rules:
             success_saved_rule: //li[@class='success-msg']//span[text() = 'The rule has been saved.']
             success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
             success_applied_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rules have been applied.')]
-            notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')]
+            notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please click "Apply Rules" to see how they affect your catalog.')]
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
-            invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving the rule data. Please review the log and try again.')]
-            invalid_discount_amount: //label[(@for)='rule_discount_amount' and contains(.,'Please select one of the above options.')]
-            invalid_sub_discount_amount: //label[(@for)='rule_sub_discount_amount' and contains(.,'Please select one of the above options.')]
+            invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'Something went wrong saving the rule. Please review the log and try again.')]
+            invalid_discount_amount: //label[(@for)='rule_discount_amount' and contains(.,'Please select one of these options.')]
+            invalid_sub_discount_amount: //label[(@for)='rule_sub_discount_amount' and contains(.,'Please select one of these options.')]
             empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
-            no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
+            no_price_rules: "//*[@id='promo_catalog_grid_table']//tr[td='We couldn't find any records.']"
 
 add_new_rule:
     mca: promo_catalog/new/
-    title: New Rule / Catalog Price Rules / Promotions / Marketing / Magento Admin
+    title: New Catalog Price Rule / Catalog Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form: &addNewRule
             tabs:

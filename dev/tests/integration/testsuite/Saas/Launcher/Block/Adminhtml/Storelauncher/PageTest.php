@@ -11,8 +11,10 @@
 
 /**
  * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Page
+ *
+ * @magentoAppArea adminhtml
  */
-class Saas_Launcher_Block_Adminhtml_Storelauncher_PageTest extends Mage_Backend_Area_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_PageTest extends PHPUnit_Framework_TestCase
 {
     public function testGetPage()
     {

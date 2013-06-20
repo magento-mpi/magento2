@@ -145,8 +145,8 @@ my_invitations:
                         buttons:
                             send_invitation: //a[@class='button' and contains(.,'Send Invitations')]
         messages:
-            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'Invitation for %email% has been sent.')]
-            failed_send: //li[normalize-space(@class)='error-msg' and contains(.,'Failed to send email to %email%.')]
+            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'You sent the invitation for %email%.')]
+            failed_send: //li[normalize-space(@class)='error-msg' and contains(.,'Something went wrong sending an email to %email%.')]
 
 my_invitations_send:
     mca: invitation/index/send/

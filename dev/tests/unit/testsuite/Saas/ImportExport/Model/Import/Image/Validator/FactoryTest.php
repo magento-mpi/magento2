@@ -44,11 +44,13 @@ class Saas_ImportExport_Model_Import_Image_Validator_FactoryTest extends PHPUnit
             array(), '', false);
         $this->_helperMock = $this->getMock('Saas_ImportExport_Helper_Data', array(), array(), '', false);
         $this->_helperMock->expects($this->any())->method('__')->with($this->isType('string'))
-            ->will($this->returnCallback(function () {
-                $args = func_get_args();
-                $translated = array_shift($args);
-                return vsprintf($translated, $args);
-            }));
+            ->will($this->returnCallback(
+                function () {
+                    $args = func_get_args();
+                    $translated = array_shift($args);
+                    return vsprintf($translated, $args);
+                }
+            ));
 
         $this->_validatorBuilderFactoryMock = $this->getMock('Magento_Validator_BuilderFactory', array('create'),
             array(), '', false);
@@ -72,14 +74,14 @@ class Saas_ImportExport_Model_Import_Image_Validator_FactoryTest extends PHPUnit
         $filenameLimit = 255;
         $allowedExtensions = array('png', 'gif', 'jpg', 'jpe', 'jpeg');
         $sizeLimit = 100000;
-        $allowedMimetypes = array('image/png', 'image/gif', 'image/jpeg', 'headerCheck' => true);
+        $allowedMimetypes = array('image/png', 'image/gif', 'image/jpeg');
         $widthLimit = 500;
         $heightLimit = 500;
 
-        $messageFilenameWrong = 'File name error (only latin a-z, A-Z, 0-9, `-` and `_` symbols are allowed in file`s'
-            . ' and folder`s names) in:';
+        $messageFilenameWrong = "File name error (only latin a-z, A-Z, 0-9, '-' and '_' symbols are allowed in files"
+            . " and folders names) in:";
         $messageFilenameLimit = 'File name is too long:';
-        $extensionsString = '`' . implode('`, `', array_values($allowedExtensions)) . '`';
+        $extensionsString = "'" . implode("', '", array_values($allowedExtensions)) . "'";
         $messageWrongImage = sprintf('Unsupported image format (only %s image file types are allowed) in:',
             $extensionsString);
         $messageFileSizeNotFound = 'File error for:';
@@ -101,7 +103,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FactoryTest extends PHPUnit
 
         $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
             ->with(array(
-                array(
+                'constraints' => array(
                     array(
                         'alias' => 'FileName',
                         'type' => '',
