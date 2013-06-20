@@ -16,14 +16,7 @@ class Draft4Test extends BaseDraftTestCase
     {
         return array(
             // Not Yet Implemented
-            'allOf.json',
-            'anyOf.json',
             'definitions.json',
-            'maxProperties.json',
-            'minProperties.json',
-            'multipleOf.json',
-            'not.json',
-            'oneOf.json',
             // Partially Implemented
             'ref.json',
             'refRemote.json',
