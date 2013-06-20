@@ -179,7 +179,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * @return array
      * @throws InvalidArgumentException When class is not valid API resource.
      */
-    public function getResourceNameParts($className, $preserveVersion)
+    public function getResourceNameParts($className, $preserveVersion = false)
     {
         if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];

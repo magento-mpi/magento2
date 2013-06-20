@@ -447,25 +447,24 @@ class Mage_Webapi_Config
          */
         $modulesDir = $this->_dir->getDir(Mage_Core_Model_Dir::MODULES);
         /** TODO: Change pattern to match interface instead of class. Think about sub-services. */
-        preg_match('/^(.+?)_(.+?)_Service_(.+?)(V\d+)$/', $serviceClass, $matches);
-        if (!isset($matches[0])) {
-            // TODO: Generate exception
+        if (!preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $serviceClass, $matches)) {
+            // TODO: Generate exception when error handling strategy is defined
         }
-        $vendorNameIndex = 1;
-        $moduleNameIndex = 2;
-        $serviceNameIndex = 3;
-        $inputSchemaPath = "{$modulesDir}/{$matches[$vendorNameIndex]}/{$matches[$moduleNameIndex]}"
-            . "/etc/schema/{$matches[$serviceNameIndex]}.xsd";
-        if ($this->_filesystem->isFile($inputSchemaPath)) {
-            $schema = $this->_filesystem->read($inputSchemaPath);
+        $vendorName = $matches[1];
+        $moduleName = $matches[2];
+        /** Convert "_Catalog_Attribute" into "Catalog/Attribute" */
+        $servicePath = str_replace('_', '/', ltrim($matches[3], '_'));
+        $version = $matches[4];
+        $schemaPath = "{$modulesDir}/{$vendorName}/{$moduleName}/etc/schema/{$servicePath}{$version}.xsd";
+        if ($this->_filesystem->isFile($schemaPath)) {
+            $schema = $this->_filesystem->read($schemaPath);
         } else {
             $schema = '';
         }
-
         //TODO: Should happen only once the cache is in place
-        $dom = new DOMDocument();
-        $dom->loadXML($schema);
-
-        return $dom;
+        /** TODO: Use object manager instead of direct DOMDocument instantiation */
+        $serviceSchema = new DOMDocument();
+        $serviceSchema->loadXML($schema);
+        return $serviceSchema;
     }
 }
