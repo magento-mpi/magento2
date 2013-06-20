@@ -116,7 +116,7 @@
                             <width>100</width>
                             <column_css_class>col-store</column_css_class>
                             <header_css_class>col-store</header_css_class>
-                            <options type="options">Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Website</options>
+                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_created">

@@ -2,20 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Enterprice
- * @package     Enterprice_Reminder
+ * @category    Enterprise
+ * @package     Enterprise_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Statuses option array
- *
- * @category   Enterprise
- * @package    Enterprice_Reminder
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Reminder_Model_Reminder_Options_Website implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Website_OptionHash
+    implements Mage_Core_Model_Option_ArrayInterface
 {
 
     /**
@@ -34,7 +28,7 @@ class Enterprise_Reminder_Model_Reminder_Options_Website implements Mage_Core_Mo
     }
 
     /**
-     * Return website array
+     * Return websites array
      *
      * @return array
      */
