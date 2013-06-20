@@ -28,24 +28,32 @@ class Mage_Core_Model_DataService_Invoker
     protected $_composite;
 
     /**
+     * @var Mage_Core_Model_DataService_Path_Navigator
+     */
+    private $_navigator;
+
+    /**
      * @param Mage_Core_Model_DataService_ConfigInterface $config
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_DataService_Path_Composite $composite
+     * @param Mage_Core_Model_DataService_Path_Navigator $navigator
      */
     public function __construct(
         Mage_Core_Model_DataService_ConfigInterface $config,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_DataService_Path_Composite $composite
+        Mage_Core_Model_DataService_Path_Composite $composite,
+        Mage_Core_Model_DataService_Path_Navigator $navigator
     ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_composite = $composite;
+        $this->_navigator = $navigator;
     }
 
     /**
      * Call service method and retrieve the data (array) from the call
      *
-     * @param $sourceName
+     * @param string $sourceName
      * @throws InvalidArgumentException
      * @return bool|array
      */
@@ -70,9 +78,9 @@ class Mage_Core_Model_DataService_Invoker
     /**
      * Invoke method configured for service call
      *
-     * @param $object
-     * @param $methodName
-     * @param $methodArguments
+     * @param Object $object
+     * @param string $methodName
+     * @param array $methodArguments
      * @return array
      */
     protected function _applyMethod($object, $methodName, $methodArguments)
@@ -87,7 +95,7 @@ class Mage_Core_Model_DataService_Invoker
     /**
      * Prepare  values for the method params
      *
-     * @param $argumentsList
+     * @param array $argumentsList
      * @return array
      */
     protected function _prepareArguments($argumentsList)
@@ -102,16 +110,20 @@ class Mage_Core_Model_DataService_Invoker
     /**
      * Get the value for the method argument
      *
-     * @param $path
+     * @param string $valueTemplate
      * @return null
      */
-    public function getArgumentValue($path)
+    public function getArgumentValue($valueTemplate)
     {
-        if (preg_match("/^\{\{.*\}\}$/", $path)) {
+        $composite = $this->_composite;
+        $navigator = $this->_navigator;
+        $callback = function ($matches) use ($composite, $navigator) {
             // convert from '{{parent.child}}' format to array('parent', 'child') format
-            $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($path, '{}'));
-            return Mage_Core_Model_DataService_Path_Navigator::search($this->_composite, $pathArray);
-        }
-        return $path;
+            $pathArray = explode(Mage_Core_Model_DataService_Invoker::DATASERVICE_PATH_SEPARATOR,
+                trim($matches[0], '{}'));
+            return $navigator->search($composite, $pathArray);
+        };
+
+        return preg_replace_callback('(\{\{.*?\}\})', $callback, $valueTemplate);
     }
 }

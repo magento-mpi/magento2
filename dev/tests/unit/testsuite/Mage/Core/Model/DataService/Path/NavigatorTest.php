@@ -12,6 +12,16 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
     /** @var PHPUnit_Framework_MockObject_MockObject  Mage_Core_Model_DataService_Path_NodeInterface */
     private $_rootNode;
 
+    /**
+     * @var Mage_Core_Model_DataService_Path_Navigator
+     */
+    private $_navigator;
+
+    public function setUp()
+    {
+        $this->_navigator = new Mage_Core_Model_DataService_Path_Navigator();
+    }
+
     public function testSearch()
     {
         $this->_rootNode = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
@@ -29,7 +39,7 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
             ->with('leaf')
             ->will($this->returnValue($leaf));
 
-        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'branch.leaf'));
+        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
 
         $this->assertEquals($leaf, $nodeFound);
     }
@@ -46,7 +56,7 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
             ->with('branch')
             ->will($this->returnValue($branch));
 
-        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'branch.leaf'));
+        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
 
         $this->assertEquals($leaf, $nodeFound);
     }
@@ -61,7 +71,7 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
             ->with('branch')
             ->will($this->returnValue($branch));
 
-        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'branch.leaf'));
+        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'branch.leaf'));
 
         $this->assertEquals(null, $nodeFound);
     }
@@ -77,7 +87,7 @@ class Mage_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_T
         $leaf = $this->getMockBuilder('Mage_Core_Model_DataService_Path_NodeInterface')
             ->disableOriginalConstructor()->getMock();
 
-        $nodeFound = Mage_Core_Model_DataService_Path_Navigator::search($this->_rootNode, explode('.', 'invalid.leaf'));
+        $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'invalid.leaf'));
 
         $this->assertEquals($leaf, $nodeFound);
     }

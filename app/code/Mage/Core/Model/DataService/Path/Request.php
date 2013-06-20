@@ -11,7 +11,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_DataService_Request implements Mage_Core_Model_DataService_Path_NodeInterface
+class Mage_Core_Model_DataService_Path_Request implements Mage_Core_Model_DataService_Path_NodeInterface
 {
     /**
      * @var Mage_Core_Controller_Request_Http
