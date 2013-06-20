@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
     protected function _construct()
     {
         $this->_controller  = 'system_store';
-        $this->_headerText  = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Stores');
+        $this->_headerText  = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Stores');
         parent::_construct();
     }
 

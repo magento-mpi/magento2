@@ -71,7 +71,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_Factory
         // https://jira.corp.x.com/browse/MAGETWO-10439
         /** @var Magento_Validator_Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(array(
-            array(
+            'constraints' => array(
                 array(
                     'alias' => 'FileName',
                     'type' => '',

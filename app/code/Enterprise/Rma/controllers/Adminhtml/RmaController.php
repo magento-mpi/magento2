@@ -20,7 +20,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $this->loadLayout()
             ->_setActiveMenu('Enterprise_Rma::sales_enterprise_rma_rma');
 
-        $this->_title($this->__('RMA'));
+        $this->_title($this->__('Returns'));
         return $this;
     }
 
