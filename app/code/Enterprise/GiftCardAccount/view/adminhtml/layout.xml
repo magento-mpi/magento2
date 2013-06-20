@@ -101,7 +101,7 @@
                             <index>giftcardaccount_id</index>
                             <width>30</width>
                         </arguments>
-                    </block>Mage_Backend_Block_Widget_Grid_Massaction
+                    </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
                             <header translate="true" module="Enterprise_GiftCardAccount">Code</header>
