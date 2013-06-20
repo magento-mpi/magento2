@@ -211,8 +211,8 @@
             <Mage_Core_Model_DataService_Path_Composite>
                 <parameters>
                     <items>
-                        <data><instance>Mage_Core_Model_DataService_Repository</instance></data>
-                        <request><instance>Mage_Core_Model_DataService_Path_Request</instance></request>
+                        <data>Mage_Core_Model_DataService_Repository</data>
+                        <request>Mage_Core_Model_DataService_Path_Request</request>
                     </items>
                 </parameters>
             </Mage_Core_Model_DataService_Path_Composite>
