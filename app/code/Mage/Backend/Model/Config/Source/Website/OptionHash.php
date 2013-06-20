@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_GiftCardAccount
+ * @category    Mage
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,6 @@
 class Mage_Backend_Model_Config_Source_Website_OptionHash
     implements Mage_Core_Model_Option_ArrayInterface
 {
-
     /**
      * System Store Model
      *
@@ -37,3 +36,5 @@ class Mage_Backend_Model_Config_Source_Website_OptionHash
         return $this->_systemStore->getWebsiteOptionHash();
     }
 }
+
+
