@@ -43,7 +43,7 @@ class Mage_Core_Model_DataService_Path_Navigator
             return $childElement;
         }
         try {
-            return self::search($childElement, $path);
+            return $this->search($childElement, $path);
         } catch (InvalidArgumentException $iae) {
             throw new InvalidArgumentException(
                 'Search failed to find an intermediate node with given path: '
