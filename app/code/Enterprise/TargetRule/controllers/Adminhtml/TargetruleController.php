@@ -58,7 +58,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
      */
     public function editAction()
     {
-        $this->_title($this->__('Rule-based Product Relations'));
+        $this->_title($this->__('Related Products Rule'));
 
         /* @var $model Enterprise_TargetRule_Model_Rule */
         $model  = Mage::getModel('Enterprise_TargetRule_Model_Rule');

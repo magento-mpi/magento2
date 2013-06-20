@@ -56,7 +56,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
             $this->_addButton('close', array(
                 'label'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Close'),
                 'onclick'   => 'confirmSetLocation(\''
-                                . Mage::helper('Enterprise_Rma_Helper_Data')->__('Are you sure you want to close this RMA request?')
+                                . Mage::helper('Enterprise_Rma_Helper_Data')->__('Are you sure you want to close this returns request?')
                                 .'\', \'' . $this->getCloseUrl().'\')'
                 )
             );
@@ -124,7 +124,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
     public function getHeaderText()
     {
         if ($this->getRma()->getId()) {
-            return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #%s - %s', intval($this->getRma()->getIncrementId()), $this->getRma()->getStatusLabel());
+            return Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s - %s', intval($this->getRma()->getIncrementId()), $this->getRma()->getStatusLabel());
         }
 
         return '';

@@ -37,7 +37,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
     public function editAction()
     {
-        $this->_title($this->__('Manage Attribute Sets'));
+        $this->_title($this->__('Product Templates'));
 
         $this->_setTypeId();
         $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')

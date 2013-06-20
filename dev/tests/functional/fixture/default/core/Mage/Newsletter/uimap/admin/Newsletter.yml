@@ -186,7 +186,7 @@ newsletter_queue_edit:
 newsletter_problem_reports:
     mca: newsletter_problem/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_problem/')]
-    title: Newsletter Problems / Marketing / Reports / Magento Admin
+    title: Newsletter Problems Report / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

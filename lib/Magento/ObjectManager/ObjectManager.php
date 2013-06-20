@@ -29,18 +29,25 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected $_arguments = array();
 
     /**
-     * List of not shared classes
+     * Interface preferences
+     *
+     * @var array
+     */
+    protected $_preferences = array();
+
+    /**
+     * List of non-shared types
      *
      * @var array
      */
     protected $_nonShared = array();
 
     /**
-     * Interface preferences
+     * List of virtual types
      *
      * @var array
      */
-    protected $_preferences = array();
+    protected $_virtualTypes = array();
 
     /**
      * List of classes being created
@@ -75,63 +82,58 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     /**
      * Resolve constructor arguments
      *
-     * @param string $className
+     * @param string $requestedType
      * @param array $parameters
      * @param array $arguments
      * @return array
-     * @throws InvalidArgumentException
      * @throws LogicException
      * @throws BadMethodCallException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function _resolveArguments($className, array $parameters, array $arguments = array())
+    protected function _resolveArguments($requestedType, array $parameters, array $arguments = array())
     {
         $resolvedArguments = array();
-        if (isset($this->_arguments[$className])) {
-            $arguments = array_replace($this->_arguments[$className], $arguments);
+        if (isset($this->_arguments[$requestedType])) {
+            $arguments = array_replace($this->_arguments[$requestedType], $arguments);
         }
-        $paramPosition = 0;
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
             $argument = null;
-            $hasPositionalArg = array_key_exists($paramPosition, $arguments);
-            $hasNamedArg = array_key_exists($paramName, $arguments);
-            if ($hasPositionalArg && $hasNamedArg) {
-                throw new InvalidArgumentException(
-                    'Ambiguous argument $' . $paramName . ': positional and named binding is used at the same time.'
-                );
-            }
-            if ($hasPositionalArg) {
-                $argument = $arguments[$paramPosition];
-            } else if ($hasNamedArg) {
+            if (array_key_exists($paramName, $arguments)) {
                 $argument = $arguments[$paramName];
             } else if ($paramRequired) {
-                if (!$paramType) {
+                if ($paramType) {
+                    $argument = array('instance' => $paramType);
+                } else {
                     throw new BadMethodCallException(
-                        'Missing required argument $' . $paramName . ' for ' . $className . '.'
+                        'Missing required argument $' . $paramName . ' for ' . $requestedType . '.'
                     );
                 }
-                $argument = $paramType;
             } else {
                 $argument = $paramDefault;
             }
             if ($paramRequired && $paramType && !is_object($argument)) {
-                if (isset($this->_creationStack[$argument])) {
-                    throw new LogicException(
-                        'Circular dependency: ' . $argument . ' depends on ' . $className . ' and viceversa.'
+                if (!is_array($argument) || !isset($argument['instance'])) {
+                    throw new InvalidArgumentException(
+                        'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $requestedType
                     );
                 }
+                $argumentType = $argument['instance'];
+                if (isset($this->_creationStack[$argumentType])) {
+                    throw new LogicException(
+                        'Circular dependency: ' . $argumentType . ' depends on ' . $requestedType . ' and viceversa.'
+                    );
+                }
+                $this->_creationStack[$requestedType] = 1;
 
-                $this->_creationStack[$className] = 1;
-                $argument = isset($this->_nonShared[$argument]) ?
-                    $this->create($argument) :
-                    $this->get($argument);
-                unset($this->_creationStack[$className]);
+                $isShared = (!isset($argument['shared']) && !isset($this->_nonShared[$argumentType]))
+                    || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
+                $argument = $isShared ? $this->get($argumentType) : $this->create($argumentType);
+                unset($this->_creationStack[$requestedType]);
             }
             $resolvedArguments[] = $argument;
-            $paramPosition++;
         }
         return $resolvedArguments;
     }
@@ -143,7 +145,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @return string
      * @throws LogicException
      */
-    protected function _resolveClassName($className)
+    protected function _resolvePreferences($className)
     {
         $preferencePath = array();
         while (isset($this->_preferences[$className])) {
@@ -160,9 +162,23 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     }
 
     /**
+     * Resolve instance name
+     *
+     * @param string $instanceName
+     * @return string
+     */
+    protected function _resolveInstanceType($instanceName)
+    {
+        while (isset($this->_virtualTypes[$instanceName])) {
+            $instanceName = $this->_virtualTypes[$instanceName];
+        }
+        return $instanceName;
+    }
+
+    /**
      * Create instance with call time arguments
      *
-     * @param string $resolvedClassName
+     * @param string $requestedType
      * @param array $arguments
      * @return object
      * @throws LogicException
@@ -170,101 +186,102 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _create($resolvedClassName, array $arguments = array())
+    protected function _create($requestedType, array $arguments = array())
     {
-        $parameters = $this->_definitions->getParameters($resolvedClassName);
+        $type = $this->_resolveInstanceType($requestedType);
+        $parameters = $this->_definitions->getParameters($type);
         if ($parameters == null) {
-            return new $resolvedClassName();
+            return new $type();
         }
-        $args = $this->_resolveArguments($resolvedClassName, $parameters, $arguments);
+        $args = $this->_resolveArguments($requestedType, $parameters, $arguments);
 
         switch(count($args)) {
             case 1:
-                return new $resolvedClassName($args[0]);
+                return new $type($args[0]);
 
             case 2:
-                return new $resolvedClassName($args[0], $args[1]);
+                return new $type($args[0], $args[1]);
 
             case 3:
-                return new $resolvedClassName($args[0], $args[1], $args[2]);
+                return new $type($args[0], $args[1], $args[2]);
 
             case 4:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3]);
+                return new $type($args[0], $args[1], $args[2], $args[3]);
 
             case 5:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4]);
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4]);
 
             case 6:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4], $args[5]);
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5]);
 
             case 7:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
 
             case 8:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7]
                 );
 
             case 9:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8]
                 );
 
             case 10:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9]
                 );
 
             case 11:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10]
                 );
 
             case 12:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10], $args[11]
                 );
 
             case 13:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10], $args[11], $args[12]
                 );
 
             case 14:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10], $args[11], $args[12], $args[13]
                 );
 
             case 15:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10], $args[11], $args[12], $args[13], $args[14]
                 );
 
             case 16:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10], $args[11], $args[12], $args[13], $args[14], $args[15]
                 );
 
             case 17:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16]
                 );
 
             case 18:
-                return new $resolvedClassName(
+                return new $type(
                     $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
                     $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16], $args[17]
                 );
 
             default:
-                $reflection = new \ReflectionClass($resolvedClassName);
+                $reflection = new \ReflectionClass($type);
                 return $reflection->newInstanceArgs($args);
         }
     }
@@ -272,33 +289,33 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     /**
      * Create new object instance
      *
-     * @param string $className
+     * @param string $type
      * @param array $arguments
      * @return mixed
      */
-    public function create($className, array $arguments = array())
+    public function create($type, array $arguments = array())
     {
-        if (isset($this->_preferences[$className])) {
-            $className = $this->_resolveClassName($className);
+        if (isset($this->_preferences[$type])) {
+            $type = $this->_resolvePreferences($type);
         }
-        return $this->_create($className, $arguments);
+        return $this->_create($type, $arguments);
     }
 
     /**
      * Retrieve cached object instance
      *
-     * @param string $className
+     * @param string $type
      * @return mixed
      */
-    public function get($className)
+    public function get($type)
     {
-        if (isset($this->_preferences[$className])) {
-            $className = $this->_resolveClassName($className);
+        if (isset($this->_preferences[$type])) {
+            $type = $this->_resolvePreferences($type);
         }
-        if (!isset($this->_sharedInstances[$className])) {
-            $this->_sharedInstances[$className] = $this->_create($className);
+        if (!isset($this->_sharedInstances[$type])) {
+            $this->_sharedInstances[$type] = $this->_create($type);
         }
-        return $this->_sharedInstances[$className];
+        return $this->_sharedInstances[$type];
     }
 
     /**
@@ -315,6 +332,9 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                     break;
 
                 default:
+                    if (isset($curConfig['type'])) {
+                        $this->_virtualTypes[$key] = $curConfig['type'];
+                    }
                     if (isset($curConfig['parameters'])) {
                         if (isset($this->_arguments[$key])) {
                             $this->_arguments[$key] = array_replace($this->_arguments[$key], $curConfig['parameters']);
