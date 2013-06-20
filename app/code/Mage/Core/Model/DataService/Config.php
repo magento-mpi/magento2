@@ -36,14 +36,21 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     ) {
         $this->_readerFactory = $readerFactory;
         $this->_moduleReader = $moduleReader;
+        $this->_indexServiceCallNodes();
+    }
 
-        /**
-         * Initialize service calls nodes to avoid expensive xpath calls
-         * @var DOMElement $node
-         */
+    /**
+     * Build an index of service calls nodes to avoid expensive xpath calls
+     *
+     * @return $this
+     */
+    private function _indexServiceCallNodes()
+    {
+        /** @var DOMElement $node */
         foreach ($this->getServiceCalls() as $node) {
             $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
         }
+        return $this;
     }
 
     /**
