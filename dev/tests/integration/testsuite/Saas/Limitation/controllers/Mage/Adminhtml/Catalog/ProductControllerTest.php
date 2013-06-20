@@ -159,7 +159,7 @@ class Saas_Limitation_Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_
             $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
         );
         $this->assertSessionMessages(
-            $this->contains('The product has been saved.'), Mage_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), Mage_Core_Model_Message::SUCCESS
         );
         $this->assertSessionMessages($this->contains("You can't create new product."), Mage_Core_Model_Message::ERROR);
     }
@@ -176,7 +176,7 @@ class Saas_Limitation_Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_
             $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
         );
         $this->assertSessionMessages(
-            $this->contains('The product has been saved.'), Mage_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), Mage_Core_Model_Message::SUCCESS
         );
         $this->assertSessionMessages($this->contains("You can't create new product."), Mage_Core_Model_Message::ERROR);
     }
