@@ -42,7 +42,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     /**
      * Build an index of service calls nodes to avoid expensive xpath calls
      *
-     * @return $this
+     * @return Mage_Core_Model_DataService_Config $this
      */
     private function _indexServiceCallNodes()
     {

@@ -124,8 +124,8 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
         Mage::register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
-            ? Mage::helper('Enterprise_Rma_Helper_Data')->__('Edit RMA Item Attribute')
-            : Mage::helper('Enterprise_Rma_Helper_Data')->__('New RMA Item Attribute');
+            ? Mage::helper('Enterprise_Rma_Helper_Data')->__('Edit Return Item Attribute')
+            : Mage::helper('Enterprise_Rma_Helper_Data')->__('New Return Item Attribute');
 
         $this->_initAction()
             ->_addBreadcrumb($label, $label)

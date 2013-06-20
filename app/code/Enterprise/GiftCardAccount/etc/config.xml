@@ -15,9 +15,9 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-                <Enterprise_CustomerBalance/>
+                <Mage_Sales />
+                <Mage_Checkout />
+                <Enterprise_CustomerBalance />
             </depends>
         </Enterprise_GiftCardAccount>
     </modules>
@@ -263,7 +263,9 @@
         <di>
             <Enterprise_GiftCardAccount_Model_History>
                 <parameters>
-                    <adminSession>Mage_Backend_Model_Auth_Session_Proxy</adminSession>
+                    <adminSession>
+                        <instance>Mage_Backend_Model_Auth_Session_Proxy</instance>
+                    </adminSession>
                 </parameters>
             </Enterprise_GiftCardAccount_Model_History>
         </di>
@@ -392,4 +394,4 @@
             </enterprise_giftcardaccount_generage_codes_pool>
         </jobs>
     </crontab>
-</config>
+</config>
