@@ -36,6 +36,13 @@
                 </sitemap_generate_error_email_template>
             </email>
         </template>
+        <di>
+            <Mage_Sitemap_Model_Sitemap>
+                <parameters>
+                    <resource>Mage_Sitemap_Model_Resource_Sitemap</resource>
+                </parameters>
+            </Mage_Sitemap_Model_Sitemap>
+        </di>
     </global>
     <adminhtml>
         <translate>
