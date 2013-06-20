@@ -9,7 +9,11 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Image_AdapterFactoryTest extends Mage_Backend_Area_TestCase
+/**
+ * Test class for Mage_Core_Model_Image_AdapterFactory
+ * @magentoAppArea adminhtml
+ */
+class Mage_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {

@@ -106,13 +106,13 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected $_urlModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Url $urlModel,
         array $data = array()

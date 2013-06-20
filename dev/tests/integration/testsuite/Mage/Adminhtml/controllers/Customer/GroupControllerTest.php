@@ -11,9 +11,26 @@
 
 /**
  * @magentoAppArea adminhtml
+ * @magentoDataFixture customerGroupDataFixture
  */
 class Mage_Adminhtml_Customer_GroupControllerTest extends Mage_Backend_Utility_Controller
 {
+    protected static $_customerGroupId;
+
+    public static function customerGroupDataFixture()
+    {
+        /** @var Mage_Customer_Model_Group $group */
+        $group = Mage::getModel('Mage_Customer_Model_Group');
+
+        $groupData = array(
+            'customer_group_code' => 'New Customer Group',
+            'tax_class_id' => 3
+        );
+        $group->setData($groupData);
+        $group->save();
+        self::$_customerGroupId = $group->getId();
+    }
+
     public function testNewAction()
     {
         $this->dispatch('backend/admin/customer_group/new');
@@ -21,18 +38,9 @@ class Mage_Adminhtml_Customer_GroupControllerTest extends Mage_Backend_Utility_C
         $this->assertRegExp('/<h1 class\="title">\s*New Customer Group\s*<\/h1>/', $responseBody);
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/customer_group_sample.php
-     */
     public function testDeleteActionExistingGroup()
     {
-        /** @var $registry Mage_Core_Model_Registry */
-        $registry = Mage::getObjectManager()->get('Mage_Core_Model_Registry');
-        /** @var $group Mage_Customer_Model_Group */
-        $group = $registry->registry('_fixture/Mage_Customer_Model_Group');
-
-        $this->getRequest()->setParam('id', $group->getId());
+        $this->getRequest()->setParam('id', self::$_customerGroupId);
         $this->dispatch('backend/admin/customer_group/delete');
 
         /**
@@ -43,9 +51,6 @@ class Mage_Adminhtml_Customer_GroupControllerTest extends Mage_Backend_Utility_C
         );
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testDeleteActionNonExistingGroupId()
     {
         $this->getRequest()->setParam('id', 10000);
