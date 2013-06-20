@@ -39,7 +39,7 @@
         <di>
             <Mage_Sitemap_Model_Sitemap>
                 <parameters>
-                    <resource>Mage_Sitemap_Model_Resource_Sitemap</resource>
+                    <resource><instance>Mage_Sitemap_Model_Resource_Sitemap</instance></resource>
                 </parameters>
             </Mage_Sitemap_Model_Sitemap>
         </di>
