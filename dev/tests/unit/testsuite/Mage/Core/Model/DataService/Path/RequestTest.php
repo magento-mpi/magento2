@@ -1,13 +1,13 @@
 <?php
 /**
- * Mage_Core_Model_DataService_Request
+ * Mage_Core_Model_DataService_Path_Request
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_DataService_RequestTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_DataService_Path_RequestTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -23,7 +23,7 @@ class Mage_Core_Model_DataService_RequestTest extends PHPUnit_Framework_TestCase
         $requestMock->expects($this->once())
             ->method('getParams')
             ->will($this->returnValue(self::SOME_INTERESTING_PARAMS));
-        $requestVisitor = new Mage_Core_Model_DataService_Request($requestMock);
+        $requestVisitor = new Mage_Core_Model_DataService_Path_Request($requestMock);
         $this->assertEquals(self::SOME_INTERESTING_PARAMS, $requestVisitor->getChildNode('params'));
     }
 
@@ -32,7 +32,7 @@ class Mage_Core_Model_DataService_RequestTest extends PHPUnit_Framework_TestCase
         $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')->disableOriginalConstructor()
             ->getMock();
 
-        $requestVisitor = new Mage_Core_Model_DataService_Request($requestMock);
+        $requestVisitor = new Mage_Core_Model_DataService_Path_Request($requestMock);
         $this->assertEquals(null, $requestVisitor->getChildNode('foo'));
     }
 }
