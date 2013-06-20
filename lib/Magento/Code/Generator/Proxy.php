@@ -110,8 +110,8 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
             'visibility' => 'protected',
             'body'       => "if (!\$this->_subject) {\n" .
                 "    \$this->_subject = true === \$this->_isShared\n" .
-                "        ? \$this->_objectManager->create(\$this->_instanceName)\n" .
-                "        : \$this->_objectManager->get(\$this->_instanceName);\n" .
+                "        ? \$this->_objectManager->get(\$this->_instanceName)\n" .
+                "        : \$this->_objectManager->create(\$this->_instanceName);\n" .
                 "}\n" .
                 "return \$this->_subject;",
             'docblock'   => array(
@@ -224,7 +224,7 @@ class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
             'parameters' => array(
                 array('name' => 'objectManager', 'type' => '\Magento_ObjectManager'),
                 array('name' => 'instanceName', 'defaultValue' => $this->_getSourceClassName()),
-                array('name' => 'shared', 'defaultValue' => false),
+                array('name' => 'shared', 'defaultValue' => true),
             ),
             'body' => "\$this->_objectManager = \$objectManager;" .
                 "\n\$this->_instanceName = \$instanceName;" .
