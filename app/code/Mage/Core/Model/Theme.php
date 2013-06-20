@@ -434,9 +434,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeDelete()
     {
-        /** @var $service Mage_Core_Model_Theme_Service */
-        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        if (!$this->isDeletable() || $service->isThemeAssignedToStore($this)) {
+        /** @var $themeConfig Mage_Theme_Model_Config */
+        $themeConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
+        if (!$this->isDeletable() || $themeConfig->isThemeAssignedToStore($this)) {
             throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->getThemeImage()->removePreviewImage();
@@ -455,9 +455,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _checkAssignedThemeChanged()
     {
-        /** @var $service Mage_Core_Model_Theme_Service */
-        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        if ($service->isThemeAssignedToStore($this)) {
+        /** @var $themeConfig Mage_Theme_Model_Config */
+        $themeConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
+        if ($themeConfig->isThemeAssignedToStore($this)) {
             $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
         }
         return $this;

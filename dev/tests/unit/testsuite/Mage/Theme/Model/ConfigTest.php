@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Mage_Theme
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test theme service model
+ * Test theme config model
  */
-class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
+class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -45,7 +45,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     protected $_layoutCacheMock;
 
     /**
-     * @var Mage_Core_Model_Theme_Service
+     * @var Mage_Theme_Model_Config
      */
     protected $_model;
 
@@ -66,16 +66,15 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         );
         $this->_configCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
-        $this->_model = new Mage_Core_Model_Theme_Service(
-            $this->_themeFactoryMock,
-            $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false),
-            $this->_designPackageMock,
-            $this->_storeManagerMock,
-            $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+        $this->_model = new Mage_Theme_Model_Config(
+            $this->getMock('Mage_Core_Model_Config_Data', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface'),
+            $this->_themeFactoryMock,
+            $this->_storeManagerMock,
+            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
             $this->_configCacheMock,
-            $this->_layoutCacheMock
+            $this->_layoutCacheMock,
+            $this->_designPackageMock
         );
     }
 
@@ -86,34 +85,6 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_configCacheMock = null;
         $this->_layoutCacheMock = null;
         $this->_model = null;
-    }
-
-    /**
-     * @dataProvider isCustomizationsExistDataProvider
-     * @param int $countVirtualThemes
-     * @param bool $expectedResult
-     */
-    public function testIsCustomizationsExist($countVirtualThemes, $expectedResult)
-    {
-        $themeCollectionMock = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Collection')
-            ->disableOriginalConstructor()
-            ->setMethods(array('addTypeFilter', 'getSize'))
-            ->getMock();
-
-        $themeCollectionMock->expects($this->once())
-            ->method('addTypeFilter')
-            ->with(Mage_Core_Model_Theme::TYPE_VIRTUAL)
-            ->will($this->returnValue($themeCollectionMock));
-
-        $themeCollectionMock->expects($this->once())
-            ->method('getSize')
-            ->will($this->returnValue($countVirtualThemes));
-
-        $this->_themeMock->expects($this->once())
-            ->method('getCollection')
-            ->will($this->returnValue($themeCollectionMock));
-
-        $this->assertEquals($expectedResult, $this->_model->isCustomizationsExist());
     }
 
     /**
@@ -141,12 +112,12 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(false));
 
-        $this->_model->reassignThemeToStores(-1);
+        $this->_model->assignToStore(-1);
     }
 
     /**
-     * @covers Mage_Core_Model_Theme_Service::getAssignedThemeCustomizations
-     * @covers Mage_Core_Model_Theme_Service::getUnassignedThemeCustomizations
+     * @covers Mage_Theme_Model_Config::getAssignedThemeCustomizations
+     * @covers Mage_Theme_Model_Config::getUnassignedThemeCustomizations
      * @dataProvider getAssignedUnassignedThemesDataProvider
      * @param array $stores
      * @param array $themes
@@ -193,10 +164,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
                     return $params['store']->getId();
                 }
             ));
-        $helperMock = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
-        $layoutUpdateMock = $this->getMock('Mage_DesignEditor_Model_Resource_Layout_Update', array(), array(), '',
-            false
-        );
+
         $eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '',
             false
         );
@@ -207,18 +175,24 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('Mage_Core_Model_Theme', array(), array(), '', false)));
 
         $writerMock = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface', array(), array(), '', false);
-        $copyServiceMock = $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false);
-        /** @var $themeService Mage_Core_Model_Theme_Service */
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('_getThemeCustomizations'), array(
-            $themeFactoryMock, $copyServiceMock, $designMock, $appMock, $helperMock,
-            $eventManagerMock, $writerMock, $this->_configCacheMock, $this->_layoutCacheMock
+        $configDataMock = $this->getMock('Mage_Core_Model_Config_Data', array(), array(), '', false);
+        /** @var $themeConfig Mage_Theme_Model_Config */
+        $themeConfig = $this->getMock('Mage_Theme_Model_Config', array('_getThemeCustomizations'), array(
+            $configDataMock,
+            $writerMock,
+            $themeFactoryMock,
+            $appMock,
+            $eventManagerMock,
+            $this->_configCacheMock,
+            $this->_layoutCacheMock,
+            $designMock
         ));
-        $themeService->expects($this->once())
+        $themeConfig->expects($this->once())
             ->method('_getThemeCustomizations')
             ->will($this->returnValue($themesMock));
 
-        $assignedThemes = $themeService->getAssignedThemeCustomizations();
-        $unassignedThemes = $themeService->getUnassignedThemeCustomizations();
+        $assignedThemes = $themeConfig->getAssignedThemeCustomizations();
+        $unassignedThemes = $themeConfig->getUnassignedThemeCustomizations();
 
         $assignedData = array();
         foreach ($assignedThemes as $theme) {

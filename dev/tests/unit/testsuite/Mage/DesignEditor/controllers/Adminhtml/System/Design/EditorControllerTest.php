@@ -84,31 +84,49 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
     }
 
     /**
-     * Return mocked theme service model
+     * Return mocked theme factory model
      *
-     * @param  bool $hasCustomizedThemes
-     * @return Mage_Core_Model_Theme_Service
+     * @param int $countCustomization
+     * @return Mage_Core_Model_Theme_Factory
      */
-    protected function _getThemeService($hasCustomizedThemes)
+    protected function _getThemeFactory($countCustomization)
     {
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service',
-            array('isCustomizationsExist'), array(), '', false);
+        $themeCollectionMock = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('addTypeFilter', 'getSize'))
+            ->getMock();
 
-        $themeService->expects($this->any())
-            ->method('isCustomizationsExist')
-            ->will($this->returnValue($hasCustomizedThemes));
+        $themeCollectionMock->expects($this->once())
+            ->method('addTypeFilter')
+            ->with(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ->will($this->returnValue($themeCollectionMock));
 
-        return $themeService;
+        $themeCollectionMock->expects($this->once())
+            ->method('getSize')
+            ->will($this->returnValue($countCustomization));
+
+        /** @var $themeMock Mage_Core_Model_Theme */
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $themeMock->expects($this->once())
+            ->method('getCollection')
+            ->will($this->returnValue($themeCollectionMock));
+
+        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $themeFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($themeMock));
+
+        return $themeFactory;
     }
 
     /**
      * @covers Mage_DesignEditor_Adminhtml_System_Design_EditorController::indexAction
      * @dataProvider indexActionDataProvider
      */
-    public function testIndexAction($hasCustomizedThemes)
+    public function testIndexAction($countCustomization)
     {
         $this->_objectManagerMock->expects($this->any())->method('get')
-            ->will($this->returnValueMap($this->_getObjectManagerMap($hasCustomizedThemes, 'index')));
+            ->will($this->returnValueMap($this->_getObjectManagerMap($countCustomization, 'index')));
         $this->assertNull($this->_model->indexAction());
     }
 
@@ -118,8 +136,8 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
     public function indexActionDataProvider()
     {
         return array(
-            array(true),
-            array(false)
+            array(4),
+            array(0)
         );
     }
 
@@ -127,10 +145,10 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
      * @covers Mage_DesignEditor_Adminhtml_System_Design_EditorController::firstEntranceAction
      * @dataProvider firstEntranceActionDataProvider
      */
-    public function testFirstEntranceAction($hasCustomizedThemes)
+    public function testFirstEntranceAction($countCustomization)
     {
         $this->_objectManagerMock->expects($this->any())->method('get')
-            ->will($this->returnValueMap($this->_getObjectManagerMap($hasCustomizedThemes)));
+            ->will($this->returnValueMap($this->_getObjectManagerMap($countCustomization)));
         $this->assertNull($this->_model->firstEntranceAction());
     }
 
@@ -140,16 +158,16 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
     public function firstEntranceActionDataProvider()
     {
         return array(
-            array(true),
-            array(false)
+            array(3),
+            array(0)
         );
     }
 
     /**
-     * @param bool $hasCustomizedThemes
+     * @param int $countCustomization
      * @return array
      */
-    protected function _getObjectManagerMap($hasCustomizedThemes)
+    protected function _getObjectManagerMap($countCustomization)
     {
         $translate = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
         $translate->expects($this->any())->method('translate')
@@ -174,7 +192,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         $aclFilterMock = $this->getMock('Mage_Core_Model_Layout_Filter_Acl', array(), array(), '', false);
 
         return array(
-            array('Mage_Core_Model_Theme_Service', $this->_getThemeService($hasCustomizedThemes)),
+            array('Mage_Core_Model_Theme_Factory', $this->_getThemeFactory($countCustomization)),
             array('Mage_Core_Model_Translate', $translate),
             array('Mage_Core_Model_Config', $configMock),
             array('Mage_Core_Model_Event_Manager', $eventManager),

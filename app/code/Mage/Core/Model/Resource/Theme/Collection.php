@@ -157,4 +157,25 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
         }
         return $this;
     }
+
+    /**
+     * Return frontend physical theme collection.
+     * All themes or per page if set page and page size (page size is optional)
+     *
+     * @param int $page
+     * @param int $pageSize
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function getPhysicalThemes(
+        $page = null,
+        $pageSize = Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE
+    ) {
+
+        $this->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_PHYSICAL);
+        if ($page) {
+            $this->setPageSize($pageSize)->setCurPage($page);
+        }
+        return $this;
+    }
 }

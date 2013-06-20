@@ -25,24 +25,24 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     protected $_websiteCollection;
 
     /**
-     * @var Mage_Core_Model_Theme_Service
+     * @var Mage_Theme_Model_Config
      */
-    protected $_serviceModel;
+    protected $_themeConfig;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Resource_Website_Collection $websiteCollection
-     * @param Mage_Core_Model_Theme_Service $serviceModel
+     * @param Mage_Theme_Model_Config $themeConfig
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Resource_Website_Collection $websiteCollection,
-        Mage_Core_Model_Theme_Service $serviceModel,
+        Mage_Theme_Model_Config $themeConfig,
         array $data = array()
     ) {
         $this->_websiteCollection = $websiteCollection;
-        $this->_serviceModel = $serviceModel;
+        $this->_themeConfig = $themeConfig;
 
         parent::__construct($context, $data);
     }
@@ -127,11 +127,11 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
             function ($theme) {
                 return $theme->getId();
             },
-            $this->_serviceModel->getAssignedThemeCustomizations()
+            $this->_themeConfig->getAssignedThemeCustomizations()
         );
 
         $storesByThemes = array();
-        foreach ($this->_serviceModel->getStoresByThemes() as $themeId => $stores) {
+        foreach ($this->_themeConfig->getStoresByThemes() as $themeId => $stores) {
             /* NOTE
                 We filter out themes not included to $assignedThemeIds array so we only get actually "assigned"
                 themes. So if theme is assigned to store or website and used by store-view only via config fall-back
@@ -160,7 +160,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     {
         $isMultipleMode = false;
         $tmpStore = null;
-        foreach ($this->_serviceModel->getStoresByThemes() as $stores) {
+        foreach ($this->_themeConfig->getStoresByThemes() as $stores) {
             /** @var $store Mage_Core_Model_Store */
             foreach ($stores as $store) {
                 if ($tmpStore === null) {

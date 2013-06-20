@@ -18,35 +18,6 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
 {
     /**
-     * @var Mage_Core_Model_Theme_Service
-     */
-    protected $_serviceModel;
-
-    /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Theme_Service $serviceModel
-     * @param array $data
-     */
-    public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Theme_Service $serviceModel,
-        array $data = array()
-    ) {
-        $this->_serviceModel = $serviceModel;
-        parent::__construct($context, $data);
-    }
-
-    /**
-     * Get service model
-     *
-     * @return Mage_Core_Model_Theme_Service
-     */
-    protected function _getServiceModel()
-    {
-        return $this->_serviceModel;
-    }
-
-    /**
      * Get tab title
      *
      * @return string

@@ -346,4 +346,39 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
             ),
         );
     }
+
+    /**
+     * @covers Mage_Core_Model_Resource_Theme_Collection::getPhysicalThemes
+     */
+    public function testGetPhysicalThemesPerPage()
+    {
+        $collection = $this->_getThemesCollection()
+            ->getPhysicalThemes(1, Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
+
+        $this->assertLessThanOrEqual(
+            Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE, $collection->count()
+        );
+
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($collection as $theme) {
+            $this->assertEquals(Mage_Core_Model_App_Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(Mage_Core_Model_Theme::TYPE_PHYSICAL, $theme->getType());
+        }
+    }
+
+    /**
+     * @covers Mage_Core_Model_Resource_Theme_Collection::getPhysicalThemes
+     */
+    public function testGetPhysicalThemes()
+    {
+        $collection = $this->_getThemesCollection()->getPhysicalThemes();
+
+        $this->assertGreaterThan(0, $collection->count());
+
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($collection as $theme) {
+            $this->assertEquals(Mage_Core_Model_App_Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(Mage_Core_Model_Theme::TYPE_PHYSICAL, $theme->getType());
+        }
+    }
 }

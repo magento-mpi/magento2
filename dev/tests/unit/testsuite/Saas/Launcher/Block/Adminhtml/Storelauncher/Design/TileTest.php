@@ -24,9 +24,9 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     /**
      * Theme Service mock
      *
-     * @var Mage_Core_Model_Theme_Service|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Theme_Factory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_themeServiceMock;
+    protected $_themeFactoryMock;
 
     /**
      * Store mock
@@ -58,8 +58,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
 
-        $this->_themeServiceMock = $this->getMock('Mage_Core_Model_Theme_Service',
-            array('getAllThemes', 'getThemeById'), array(), '', false);
+        $this->_themeFactoryMock = $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false);
 
         $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
 
@@ -68,7 +67,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
         $arguments = array(
             'storeConfig' => $config,
             'launcherHelper' => $this->_launcherHelperMock,
-            'themeService' => $this->_themeServiceMock,
+            'themeFactory' => $this->_themeFactoryMock,
         );
 
         $this->_tileBlock = $objectManagerHelper->getObject(
@@ -149,16 +148,21 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
      */
     public function testGetThemeName($store, $themeId, $themeExists, $expected)
     {
-        $theme = $this->getMock('Mage_Core_Model_Theme', array('getThemeTitle'), array(), '', false);
+        $theme = $this->getMock('Mage_Core_Model_Theme', array('getThemeTitle', 'load'), array(), '', false);
 
         if ($themeExists) {
+            $theme->expects($this->once())
+                ->method('load')
+                ->with($this->equalTo($themeId))
+                ->will($this->returnSelf());
+
+
             $theme->expects($this->once())
                 ->method('getThemeTitle')
                 ->will($this->returnValue('Magento Demo'));
 
-            $this->_themeServiceMock->expects($this->once())
-                ->method('getThemeById')
-                ->with($this->equalTo($themeId))
+            $this->_themeFactoryMock->expects($this->once())
+                ->method('create')
                 ->will($this->returnValue($theme));
         }
 

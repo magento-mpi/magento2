@@ -38,28 +38,28 @@ class Mage_Core_Model_Theme_Domain_Virtual
     protected $_themeCopyService;
 
     /**
-     * Theme service model
+     * Theme config model
      *
-     * @var Mage_Core_Model_Theme_Service
+     * @var Mage_Theme_Model_Config
      */
-    protected $_service;
+    protected $_themeConfig;
 
     /**
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Theme_CopyService $themeCopyService
-     * @param Mage_Core_Model_Theme_Service $service
+     * @param Mage_Theme_Model_Config $themeConfig
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Theme_CopyService $themeCopyService,
-        Mage_Core_Model_Theme_Service $service
+        Mage_Theme_Model_Config $themeConfig
     ) {
         $this->_theme = $theme;
         $this->_themeFactory = $themeFactory;
         $this->_themeCopyService = $themeCopyService;
-        $this->_service = $service;
+        $this->_themeConfig = $themeConfig;
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_Core_Model_Theme_Domain_Virtual
      */
     public function isAssigned()
     {
-        return $this->_service->isThemeAssignedToStore($this->_theme);
+        return $this->_themeConfig->isThemeAssignedToStore($this->_theme);
     }
 
     /**

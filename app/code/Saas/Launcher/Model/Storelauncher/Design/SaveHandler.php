@@ -48,9 +48,9 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
 
 
     /**
-     * @var Mage_Core_Model_Theme_Service
+     * @var Mage_Theme_Model_Config
      */
-    protected $_themeService;
+    protected $_themeConfig;
 
     /**
      * @param Mage_Core_Model_Config $config
@@ -59,7 +59,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
      * @param Saas_Launcher_Helper_Data $helperLauncher
-     * @param Mage_Core_Model_Theme_Service $themeService
+     * @param Mage_Theme_Model_Config $themeConfig
      */
     public function __construct(
         Mage_Core_Model_Config $config,
@@ -68,14 +68,14 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
         Mage_Backend_Model_Config_Loader $configLoader,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo,
-        Mage_Core_Model_Theme_Service $themeService
+        Mage_Theme_Model_Config $themeConfig
     ) {
         parent::__construct($config, $backendConfigModel);
         $this->_configLoader = $configLoader;
         $this->_configWriter = $configWriter;
         $this->_modelLogo = $modelLogo;
         $this->_helperLauncher = $helperLauncher;
-        $this->_themeService = $themeService;
+        $this->_themeConfig = $themeConfig;
     }
 
 
@@ -104,7 +104,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
             throw new Saas_Launcher_Exception('Theme is required.');
         }
         $store = $this->_helperLauncher->getCurrentStoreView();
-        $theme = $this->_themeService->reassignThemeToStores(
+        $theme = $this->_themeConfig->assignToStore(
             $data['groups']['design']['theme']['fields']['theme_id']['value'],
             array($this->_helperLauncher->getCurrentStoreView()->getId())
         );

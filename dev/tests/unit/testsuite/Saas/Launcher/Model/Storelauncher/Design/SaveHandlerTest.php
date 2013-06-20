@@ -41,11 +41,11 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     protected $_modelLogo;
 
     /**
-     * Logo backend config model
+     * Theme Config model
      *
-     * @var Mage_Core_Model_Theme_Service|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Theme_Model_Config|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_themeService;
+    protected $_themeConfig;
 
     protected function setUp()
     {
@@ -119,11 +119,11 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->getMock();
         $themeMock->expects($this->any())->method('getId')->will($this->returnValue(20));
 
-        $this->_themeService = $this->getMockBuilder('Mage_Core_Model_Theme_Service')
+        $this->_themeConfig = $this->getMockBuilder('Mage_Theme_Model_Config')
             ->disableOriginalConstructor()
-            ->setMethods(array('reassignThemeToStores'))
+            ->setMethods(array('assignToStore'))
             ->getMock();
-        $this->_themeService->expects($this->any())->method('reassignThemeToStores')
+        $this->_themeConfig->expects($this->any())->method('assignToStore')
             ->with($this->equalTo(1), $this->equalTo(array(1)))
             ->will($this->returnValue($themeMock));
 
@@ -146,7 +146,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             $this->_configLoader,
             $this->_configWriter,
             $this->_modelLogo,
-            $this->_themeService
+            $this->_themeConfig
         );
     }
 

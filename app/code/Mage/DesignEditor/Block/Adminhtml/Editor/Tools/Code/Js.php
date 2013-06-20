@@ -19,22 +19,22 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * @var Mage_Core_Model_Theme_Service
+     * @var Mage_Theme_Model_Config
      */
-    protected $_service;
+    protected $_themeConfig;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Theme_Service $service
+     * @param Mage_Theme_Model_Config $themeConfig
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Theme_Service $service,
+        Mage_Theme_Model_Config $themeConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_service = $service;
+        $this->_themeConfig = $themeConfig;
     }
 
     /**
@@ -59,7 +59,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
             'accept'   => 'application/x-javascript',
             'multiple' => '',
         );
-        if ($this->_service->isThemeAssignedToStore($this->getTheme())) {
+        if ($this->_themeConfig->isThemeAssignedToStore($this->getTheme())) {
             $confirmMessage = $this->__('These JavaScript files may change the appearance of your live store(s).'
                 . ' Are you sure you want to do this?');
             $jsConfig['onclick'] = "return confirm('{$confirmMessage}');";

@@ -73,11 +73,25 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             )
         );
 
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('getPhysicalThemes'), array(), '', false);
-
-        $themeService->expects($this->any())
+        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollectionMock */
+        $themeCollectionMock = $this->getMock(
+            'Mage_Core_Model_Resource_Theme_Collection', array('getPhysicalThemes'), array(), '', false
+        );
+        $themeCollectionMock->expects($this->any())
             ->method('getPhysicalThemes')
-            ->will($this->returnValue($this->_getThemes()));
+            ->will($this->returnValue( $this->_getThemes()));
+
+
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection'), array(), '', false);
+        $themeMock->expects($this->any())
+            ->method('getCollection')
+            ->will($this->returnValue($themeCollectionMock));
+
+        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+
+        $themeFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($themeMock));
 
         $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->any())
@@ -111,7 +125,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             'layout' => $layout,
             'storeConfig' => $config,
             'helperFactory' => $helperFactoryMock,
-            'themeService' => $themeService,
+            'themeFactory' => $themeFactory,
             'objectManager' => $this->_objectManagerMock
         );
 
