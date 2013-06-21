@@ -66,6 +66,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     protected $_template;
 
     /**
+     * @var Mage_Core_Model_TemplateEngine_Factory
+     */
+    protected $_tmplEngineFactory;
+    
+    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param array $data
      */
@@ -74,6 +79,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $this->_dirs = $context->getDirs();
         $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
+        $this->_tmplEngineFactory = $context->getEngineFactory();
         parent::__construct($context, $data);
     }
 
@@ -201,9 +207,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $viewShortPath = str_replace($this->_dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $fileName);
         Magento_Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
-        // EXTR_SKIP protects from overriding
-        // already defined variables
-        extract ($this->_viewVars, EXTR_SKIP);
+
         $do = $this->getDirectOutput();
 
         if (!$do) {
@@ -231,7 +235,9 @@ HTML;
                 || Magento_Filesystem::isPathInDirectory($fileName, $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
-                include $fileName;
+                $extension = pathinfo($fileName, PATHINFO_EXTENSION); 
+                $templateEngine = $this->_tmplEngineFactory->get($extension);
+                echo $templateEngine->render($this, $fileName, $this->_viewVars);
             } else {
                 $this->_logger->log("Invalid template file: '{$fileName}'", Zend_Log::CRIT);
             }

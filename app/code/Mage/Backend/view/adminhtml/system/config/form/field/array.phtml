@@ -13,7 +13,7 @@
 $_htmlId = $this->getHtmlId() ? $this->getHtmlId() : '_' . uniqid();
 
 $_colspan = 2;
-if (!$this->_addAfter) {
+if (!$this->isAddAfter()) {
     $_colspan -= 1;
 }
 $_colspan = $_colspan > 1 ? 'colspan="' . $_colspan . '"' : '';
@@ -24,17 +24,17 @@ $_colspan = $_colspan > 1 ? 'colspan="' . $_colspan . '"' : '';
         <tbody>
 
             <tr class="headings" id="headings<?php echo $_htmlId ?>">
-<?php foreach ($this->_columns as $columnName => $column):?>
+<?php foreach ($this->getColumns() as $columnName => $column):?>
                 <th><?php echo $column['label'] ?></th>
 <?php endforeach;?>
                 <th <?php echo $_colspan?>></th>
             </tr>
 
             <tr id="addRow<?php echo $_htmlId ?>">
-                <td colspan="<?php echo count($this->_columns) ?>"></td>
+                <td colspan="<?php echo count($this->getColumns()) ?>"></td>
                 <td <?php echo $_colspan?>>
                     <button style="" onclick="" class="scalable add" type="button" id="addToEndBtn<?php echo $_htmlId ?>">
-                        <span><span><span><?php echo $this->_addButtonLabel ?></span></span></span>
+                        <span><span><span><?php echo $this->getAddButtonLabel() ?></span></span></span>
                     </button>
                 </td>
             </tr>
@@ -45,7 +45,7 @@ $_colspan = $_colspan > 1 ? 'colspan="' . $_colspan . '"' : '';
 </div>
 <div id="empty<?php echo $_htmlId ?>">
     <button style="" onclick="" class="scalable add" type="button" id="emptyAddBtn<?php echo $_htmlId ?>">
-        <span><span><span><?php echo $this->_addButtonLabel ?></span></span></span>
+        <span><span><span><?php echo $this->getAddButtonLabel() ?></span></span></span>
     </button>
 </div>
 
@@ -56,12 +56,12 @@ var arrayRow<?php echo $_htmlId ?> = {
     // define row prototypeJS template
     template : new Template(
         '<tr id="#{_id}">'
-<?php foreach ($this->_columns as $columnName => $column):?>
+<?php foreach ($this->getColumns() as $columnName => $column):?>
             +'<td>'
-                +'<?php echo $this->_renderCellTemplate($columnName)?>'
+                +'<?php echo $this->renderCellTemplate($columnName)?>'
             +'<\/td>'
 <?php endforeach;?>
-<?php if ($this->_addAfter):?>
+<?php if ($this->isAddAfter()):?>
             +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><span><span><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Add after') ?><\/span><\/span><\/span><\/button><\/td>'
 <?php endif;?>
             +'<td><button onclick="arrayRow<?php echo $_htmlId ?>.del(\'#{_id}\')" class="scalable delete" type="button"><span><span><span><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Delete') ?><\/span><\/span><\/span><\/button><\/td>'
@@ -76,7 +76,7 @@ var arrayRow<?php echo $_htmlId ?> = {
         if (rowData == false) {
             var d = new Date();
             var templateValues = {
-<?php foreach ($this->_columns as $columnName => $column):?>
+<?php foreach ($this->getColumns() as $columnName => $column):?>
                 <?php echo $columnName ?> : '',
 <?php endforeach;?>
                 _id : '_' + d.getTime() + '_' + d.getMilliseconds()
@@ -103,7 +103,7 @@ var arrayRow<?php echo $_htmlId ?> = {
             }
         }
 
-<?php if ($this->_addAfter):?>
+<?php if ($this->isAddAfter()):?>
         Event.observe('addAfterBtn' + templateValues._id, 'click', this.add.bind(this, '', templateValues._id));
 <?php endif;?>
 

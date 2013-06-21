@@ -14,8 +14,8 @@
 <script type="text/javascript">
 //<![CDATA[
     var _gaq = _gaq || [];
-    <?php echo $this->_getPageTrackingCode($accountId) ?>
-    <?php echo $this->_getOrdersTrackingCode() ?>
+    <?php echo $this->getPageTrackingCode($accountId) ?>
+    <?php echo $this->getOrdersTrackingCode() ?>
 
     (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

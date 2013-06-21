@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesusers extends Mage_Adminhtml_Block_Widge
         return parent::_prepareLayout();
     }
 
-    protected function _getGridHtml()
+    public function getGridHtml()
     {
         return $this->getChildHtml('userGrid');
     }

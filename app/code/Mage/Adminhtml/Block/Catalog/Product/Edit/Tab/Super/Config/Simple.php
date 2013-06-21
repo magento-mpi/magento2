@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         $form = new Varien_Data_Form();
 
         $form->setFieldNameSuffix('simple_product');
-        $form->setDataObject($this->_getProduct());
+        $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('simple_product', array(
             'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Quick simple product creation')
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
         $attributes = Mage::getModel('Mage_Catalog_Model_Product')
             ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
-            ->setAttributeSetId($this->_getProduct()->getAttributeSetId())
+            ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();
 
         /* Standart attributes */
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
                 && !in_array(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
                 // If not used in configurable
                 && !in_array($attribute->getId(),
-                    $this->_getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->_getProduct()))
+                    $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct()))
                 )
                 // Or in additional
                 || in_array($attribute->getAttributeCode(), $attributesConfig['additional'])
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
                 if (in_array($attributeCode, $attributesConfig['autogenerate'])) {
                     $element->setDisabled('true');
-                    $element->setValue($this->_getProduct()->getData($attributeCode));
+                    $element->setValue($this->getProduct()->getData($attributeCode));
                     $element->setAfterElementHtml(
                          '<input type="checkbox" id="simple_product_' . $attributeCode . '_autogenerate" '
                          . 'name="simple_product[' . $attributeCode . '_autogenerate]" value="1" '
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         }
 
         /* Configurable attributes */
-        $usedAttributes = $this->_getProduct()->getTypeInstance()->getUsedProductAttributes($this->_getProduct());
+        $usedAttributes = $this->getProduct()->getTypeInstance()->getUsedProductAttributes($this->getProduct());
         foreach ($usedAttributes as $attribute) {
             $attributeCode =  $attribute->getAttributeCode();
             $fieldset->addField( 'simple_product_' . $attributeCode, 'select',  array(
@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getProduct()
+    public function getProduct()
     {
         if (!$this->_product) {
             $this->_product = Mage::registry('current_product');
