@@ -70,7 +70,7 @@ class Mage_GoogleAdwords_Model_Validator_ColorFactoryTest extends PHPUnit_Framew
 
         $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
             ->with(array(
-                array(
+                'constraints' => array(
                     array(
                         'alias' => 'Regex',
                         'type' => '',
@@ -107,7 +107,7 @@ class Mage_GoogleAdwords_Model_Validator_ColorFactoryTest extends PHPUnit_Framew
 
         $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
             ->with(array(
-                array(
+                'constraints' => array(
                     array(
                         'alias' => 'Int',
                         'type' => '',

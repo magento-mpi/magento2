@@ -52,7 +52,7 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
     {
         //Steps
         $trLocator = $this->search(array('No'), 'manage_coupons_grid');
-        $this->assertNotNull($trLocator, 'No records found.');
+        $this->assertNotNull($trLocator, "We couldn't find any records.");
         $columnId = $this->getColumnIdByName('Coupon Code');
         $couponCode = trim($this->getChildElement($this->getElement($trLocator), '//td[' . $columnId . ']')->text());
         $xpathCouponCode = $this->formSearchXpath(array('filter_coupon_code' => $couponCode));

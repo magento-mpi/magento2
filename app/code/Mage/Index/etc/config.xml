@@ -29,9 +29,7 @@
             </index_setup>
         </resources>
         <index>
-            <indexer>
-
-            </indexer>
+            <indexer></indexer>
         </index>
         <events>
             <store_save_commit_after>

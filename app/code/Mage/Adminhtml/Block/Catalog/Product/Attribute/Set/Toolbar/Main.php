@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
 
     protected function _getHeader()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Attribute Sets');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Product Templates');
     }
 
     protected function _toHtml()
