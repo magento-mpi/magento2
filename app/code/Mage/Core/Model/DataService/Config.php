@@ -62,7 +62,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
     {
         if (is_null($this->_reader)) {
             $serviceCallsFiles = $this->_getServiceCallsFiles();
-            $this->_reader = $this->_readerFactory->createReader(array('configFiles'  => $serviceCallsFiles));
+            $this->_reader = $this->_readerFactory->createReader($serviceCallsFiles);
         }
         return $this->_reader;
     }
@@ -74,8 +74,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
      */
     protected function _getServiceCallsFiles()
     {
-        $files = $this->_moduleReader->getModuleConfigurationFiles('service_calls.xml');
-        return (array)$files;
+        return $this->_moduleReader->getModuleConfigurationFiles('service_calls.xml');
     }
 
     /**

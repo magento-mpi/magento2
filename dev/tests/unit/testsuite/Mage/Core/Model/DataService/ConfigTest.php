@@ -41,6 +41,9 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
             ->disableOriginalConstructor()
             ->getMock();
+        $modulesReaderMock->expects($this->any())
+            ->method('getModuleConfigurationFiles')
+            ->will($this->returnValue(array()));
 
         $this->_dataServiceConfig = new Mage_Core_Model_DataService_Config(
             $this->_readersFactoryMock, $modulesReaderMock);
