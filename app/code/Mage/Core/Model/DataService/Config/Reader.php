@@ -35,7 +35,7 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
      */
     public function getSchemaFile()
     {
-        return $this->_modulesReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'service_calls.xsd';
+        return $this->_modulesReader->getModuleDir('etc', 'Mage_Core') . '/service_calls.xsd';
     }
 
     /**

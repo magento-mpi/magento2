@@ -21,7 +21,7 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
     public function setUp()
     {
         $path = array(__DIR__, '..', '_files', 'service_calls.xml');
-        $path = realpath(implode(DIRECTORY_SEPARATOR, $path));
+        $path = realpath(implode('/', $path));
         $this->_modulesReaderMock = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
             ->disableOriginalConstructor()
             ->getMock();

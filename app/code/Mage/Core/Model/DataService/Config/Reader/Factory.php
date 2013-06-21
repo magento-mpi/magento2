@@ -23,13 +23,14 @@ class Mage_Core_Model_DataService_Config_Reader_Factory
     }
 
     /**
-     * Return new Mage_Core_Model_DataService_Config_Reader
+     * Create new Mage_Core_Model_DataService_Config_Reader by array of configuration files
      *
-     * @param array $arguments
+     * @param array $configFiles
      * @return Mage_Core_Model_DataService_Config_Reader
      */
-    public function createReader(array $arguments = array())
+    public function createReader(array $configFiles)
     {
-        return $this->_objectManager->create('Mage_Core_Model_DataService_Config_Reader', $arguments);
+        return $this->_objectManager->create('Mage_Core_Model_DataService_Config_Reader',
+            array('configFiles'  => $configFiles));
     }
 }
