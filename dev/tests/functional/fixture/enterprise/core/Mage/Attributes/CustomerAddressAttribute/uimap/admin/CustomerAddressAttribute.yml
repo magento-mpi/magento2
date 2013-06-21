@@ -14,7 +14,7 @@
 manage_customer_address_attributes:
     mca: customer_address_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_address_attribute')]
-    title: Manage Customer Address Attributes / Attributes / Stores / Magento Admin
+    title: Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &searchCustomerAttributeGrid
             fieldsets:
@@ -39,9 +39,9 @@ manage_customer_address_attributes:
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &addressAttributeMessages
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer address attribute has been deleted.')]
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists.')]
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer address attribute has been saved.')]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the customer address attribute.')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute with this code already exists.')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the customer address attribute.')]
             wrong_length_attribute_code: //label[@class="mage-error" and contains(.,'Maximum length of this field must be equal or less than')]
             invalid_attribute_code: //label[@class="mage-error" and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             error_invalid_position: //div[@id='advice-validate-digits-position']
@@ -53,7 +53,7 @@ manage_customer_address_attributes:
 # Add New Address Attribute page
 new_customer_address_attribute:
     mca: customer_address_attribute/new/
-    title: New Attribute / Manage Customer Address Attributes / Attributes / Stores / Magento Admin
+    title: New Customer Address Attribute / Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &newAddressAttributeForm
             tabs:
@@ -86,6 +86,7 @@ new_customer_address_attribute:
                                         maximum_image_file_size: "//input[@id='max_file_size']"
                                         maximum_image_width: "//input[@id='max_image_width']"
                                         maximum_image_height:  "//input[@id='max_image_heght']"
+                                        attribute_label: //input[@name='frontend_label[0]']
                                     required: [attribute_code, lines_count]
                             -
                                 frontend_properties:
@@ -105,9 +106,8 @@ new_customer_address_attribute:
                                 manage_titles:
                                     xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
-                                        admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
+                                    required: [attribute_label]
                             -
                                 manage_options:
                                     xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
@@ -119,10 +119,10 @@ new_customer_address_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         store_view_titles: //input[@name='option[value][option_%fieldOptionNumber%][1]']
-                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //td[@class='col-draggable']/input
                                     pageelements:
-                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        manage_options_option: //*[@data-role='options-container']/tr
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
@@ -135,7 +135,7 @@ new_customer_address_attribute:
 # Manage Customer Address  Attributes page
 edit_customer_address_attribute:
     mca: customer_address_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage Customer Address Attributes / Attributes / Stores / Magento Admin
+    title: %elementTitle% / Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &editAddressAttributeForm
             tabs:
@@ -149,9 +149,8 @@ edit_customer_address_attribute:
                                 manage_titles:
                                     xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
-                                        admin_title: //input[@name='frontend_label[%storeViewNumber%]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
+                                    required: [attribute_label]
                             -
                                 manage_options:
                                     xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
@@ -162,10 +161,10 @@ edit_customer_address_attribute:
                                         is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
-                                        option_position: //input[@name='option[order][%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //tr/td[3]/input
                                     pageelements:
-                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        manage_options_option: //*[@data-role='options-container']/tr
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:

@@ -11,12 +11,12 @@
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_CatalogRule_Model_Resource_Rule_Collection $ruleCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_CatalogRule_Model_Resource_Rule_Collection $ruleCollection,
         array $data = array()
     ) {

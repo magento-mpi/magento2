@@ -44,18 +44,6 @@ system_backup:
             database_and_media_backup: //button[span='Database and Media Backup']
             database_backup: //button[span='Database Backup']
 
-# Web Services: Users page
-api_user:
-    mca: api_user/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_user/')]
-    title: Users / Web Services / System / Magento Admin
-
-# Web Services: Roles page
-api_role:
-    mca: api_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_role/')]
-    title: Roles / SOAP/XML – RPC / System / Magento Admin
-
 # Web Services: OAuth Consumers page
 oauth_consumer:
     mca: oauth_consumer/
@@ -78,7 +66,7 @@ oauth_admin_token:
 system_design:
     mca: system_design/
     click_xpath: //div[@class='submenu']//a[contains(@href, 'system_design/')]
-    title: Design / Design / Content / Magento Admin
+    title: Store Design / Design / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -104,7 +92,7 @@ system_design:
 # Add Design Change
 new_system_design:
     mca: system_design/new/
-    title: New Design Change / Design / Design / Content / Magento Admin
+    title: New Store Design Change / Store Design / Design / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -118,7 +106,7 @@ new_system_design:
 system_design_editor:
     mca: system_design_editor/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design_editor/')]
-    title: Editor / Design / System / Magento Admin
+    title: Store Designer / Design / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -132,19 +120,19 @@ system_design_editor:
 system_currency:
     mca: system_currency/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currency/')]
-    title: Manage Currency Rates / Currency / Stores / Magento Admin
+    title: Currency Rates / Currency / Stores / Magento Admin
 
 # Manage Currency symbols:
 system_currencysymbol:
     mca: system_currencysymbol/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currencysymbol/')]
-    title: Manage Currency Symbols / Currency / Stores / Magento Admin
+    title: Currency Symbols / Currency / Stores / Magento Admin
 
 #Transactional email
 system_email_template:
     mca: system_email_template/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_email_template')]
-    title: Transactional Emails / Communications / Marketing / Magento Admin
+    title: Email Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -177,7 +165,7 @@ system_email_template:
 #Add New transactional email
 new_email_template:
     mca: system_email_template/new/
-    title: New Template / Transactional Emails / Communications / Marketing / Magento Admin
+    title: New Template / Email Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -218,7 +206,7 @@ new_email_template:
 #Edit transactional email
 edit_email_template:
     mca: system_email_template/edit/id/%id%/
-    title: %elementTitle% / Transactional Emails / Communications / Marketing / Magento Admin
+    title: %elementTitle% / Email Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -257,4 +245,4 @@ system_custom_variables:
 system_package_extentions:
      mca: extension_custom/
      click_xpath: //ul[@id='nav']//a[contains(@href, 'extension_custom/')]
-     title: Edit Extension / Magento Connect / System / Magento Admin
+     title: Extension / Magento Connect / System / Magento Admin

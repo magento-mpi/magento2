@@ -389,7 +389,7 @@ bundle_item_1: &itemMultipleSelect
         # Data to search
         associated_search_id: %noValue%
         associated_search_name: %noValue%
-        associated_search_sku: %noValue%
+        associated_search_sku: %bundleSku1%
         associated_search_price_from: %noValue%
         associated_search_price_to: %noValue%
         # Data to fill in
@@ -398,7 +398,17 @@ bundle_item_1: &itemMultipleSelect
         selection_item_default_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
-    add_product_2: *bundleProduct
+    add_product_2:
+        associated_search_id: %noValue%
+        associated_search_name: %noValue%
+        associated_search_sku: %bundleSku2%
+        associated_search_price_from: %noValue%
+        associated_search_price_to: %noValue%
+        selection_item_price: %noValue%
+        selection_item_price_type: %noValue%
+        selection_item_default_qty: %noValue%
+        selection_item_position: %noValue%
+        selection_item_default: %noValue%
 
 bundle_item_2: &itemDropdown
     bundle_items_default_title: Drop-down

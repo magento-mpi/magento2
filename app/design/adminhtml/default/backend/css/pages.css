@@ -37,7 +37,7 @@
 
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
-.adminhtml-sales-order-create-index .page-actions-inner .cancel:hover{
+.adminhtml-sales-order-create-index .page-actions-inner .cancel:hover {
     color: #000;
 }
 
@@ -159,17 +159,17 @@
 }
 
 .address-list li.active:before {
-    color:#d9d2ca;
+    color: #d9d2ca;
     right: -11px;
     z-index: 1;
 }
 
-.address-list li.adress-list-actions:before,
-.address-list li.adress-list-actions:after {
+.address-list li.address-list-actions:before,
+.address-list li.address-list-actions:after {
     display: none;
 }
 
-.address-list li.adress-list-actions {
+.address-list li.address-list-actions {
     padding: 20px 0 0 0;
     border: 0;
     background: none;
@@ -177,7 +177,7 @@
     cursor: default;
 }
 
-.address-list li.adress-list-actions:first-child {
+.address-list li.address-list-actions:first-child {
     padding: 0;
 }
 
@@ -249,28 +249,34 @@
 .inviter_information {
     width: 48.9362%;
 }
+
 .invitee_information {
     float: left;
 }
+
 .inviter_information {
     float: right;
 }
+
 .invitation_information .data-table th,
 .invitee_information .data-table th,
 .inviter_information .data-table th {
     width: 20%;
     white-space: nowrap;
 }
+
 .invitation_information .data-table textarea,
 .invitation_information .data-table input {
     width: 100%;
 }
+
 .invitations-history ul {
     margin: 0;
     padding-left: 25px;
 }
+
 .invitations-history ul .status:before {
-    display:inline-block;
+    display: inline-block;
     content: "|";
     margin: 0 10px;
 }
@@ -291,6 +297,7 @@
 .field-poll_answers_container .action-add {
     margin-top: 7px;
 }
+
 .field-poll_answers_container .data-table tbody tr td {
     vertical-align: top;
 }
@@ -975,6 +982,7 @@
 .adminhtml-report-product-lowstock .range-line {
     display: inline-block;
 }
+
 .adminhtml-report-product-lowstock .range-line:first-child {
     margin-right: 5px;
 }
@@ -1007,20 +1015,20 @@
     Newsletter Templates
 -------------------------------------- */
 .adminhtml-newsletter-template-index .col-id {
-     width: 35px;
+    width: 35px;
 }
 
 .adminhtml-newsletter-template-index .col-actions {
-     width: 80px;
+    width: 80px;
 }
 
 .adminhtml-newsletter-template-index .col-type {
-     width: 100px;
+    width: 100px;
 }
 
 .adminhtml-newsletter-template-index .col-added,
 .adminhtml-newsletter-template-index .col-updated {
-     width: 140px;
+    width: 140px;
 }
 
 [class^=' adminhtml-newsletter-'] .buttons-set {
@@ -1156,7 +1164,7 @@
 }
 
 .tax-rate-popup .field-rate label.mage-error {
-    display:block;
+    display: block;
 }
 
 .tax-rate-popup .tax-rate-titles-note-td {
@@ -1190,7 +1198,7 @@
     Attribute Mapping
 -------------------------------------- */
 .field-attributes_box .control-value {
-    width:100%;
+    width: 100%;
 }
 
 .adminhtml-googleshopping-types-new #attribute_set {
@@ -1205,7 +1213,7 @@
     Dashboard
 -------------------------------------- */
 .dashboard-inner {
-    border:1px solid #ccc;
+    border: 1px solid #ccc;
 }
 
 .dashboard-container .dashboard-diagram {
@@ -1388,11 +1396,25 @@
     border: 1px solid #c0bbaf;
 }
 
-.order-search-items thead th:nth-child(1) { width: 60px; }
-.order-search-items thead th:nth-child(3) { width: 80px; }
-.order-search-items thead th:nth-child(4) { width: 100px; }
-.order-search-items thead th:nth-child(5) { width: 55px; }
-.order-search-items thead th:nth-child(6) { width: 1px; }
+.order-search-items thead th:nth-child(1) {
+    width: 60px;
+}
+
+.order-search-items thead th:nth-child(3) {
+    width: 80px;
+}
+
+.order-search-items thead th:nth-child(4) {
+    width: 100px;
+}
+
+.order-search-items thead th:nth-child(5) {
+    width: 55px;
+}
+
+.order-search-items thead th:nth-child(6) {
+    width: 1px;
+}
 
 .adminhtml-rma-new .order-totals,
 .order-comments-history .order-comments-history,
@@ -1406,7 +1428,7 @@
     margin: 17px 0;
 }
 
-[class^=" adminhtml-sales-order-"] .order-billing-address .control + label ,
+[class^=" adminhtml-sales-order-"] .order-billing-address .control + label,
 [class^=" adminhtml-sales-order-"] .order-shipping-address .control + label {
     margin: 17px 0 0;
 }
@@ -1494,15 +1516,15 @@
     background: #f58227;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ODIyNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMDcyMWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f58227), color-stop(100%,#f0721c));
-    background: -webkit-linear-gradient(top, #f58227 0%,#f0721c 100%);
-    background: -o-linear-gradient(top, #f58227 0%,#f0721c 100%);
-    background: -ms-linear-gradient(top, #f58227 0%,#f0721c 100%);
-    background: linear-gradient(to bottom, #f58227 0%,#f0721c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f58227), color-stop(100%, #f0721c));
+    background: -webkit-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: -o-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: -ms-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: linear-gradient(to bottom, #f58227 0%, #f0721c 100%);
     border: 1px solid #e4731c;
     border-radius: 5px;
     margin: 0 20px 0 0;
-    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, .1);
     color: #fff;
     margin-top: 7px;
     margin-bottom: 8px;
@@ -1522,19 +1544,19 @@
     background: #e47821;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZTY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e47821), color-stop(100%,#de6817));
-    background: -webkit-linear-gradient(top, #e47821 0%,#de6817 100%);
-    background: -o-linear-gradient(top, #e47821 0%,#de6817 100%);
-    background: -ms-linear-gradient(top, #e47821 0%,#de6817 100%);
-    background: linear-gradient(to bottom, #e47821 0%,#de6817 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e47821), color-stop(100%, #de6817));
+    background: -webkit-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: -o-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: -ms-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: linear-gradient(to bottom, #e47821 0%, #de6817 100%);
 }
 
 .eq-ie8 .adminhtml-sales-order-create-index #order-data .fieldset-wrapper .actions .action-add {
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58227', endColorstr='#f0721c',GradientType=0 );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f58227', endColorstr='#f0721c', GradientType=0);
 }
 
 .eq-ie8 .adminhtml-sales-order-create-index #order-data .fieldset-wrapper .action-add:hover {
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e47821', endColorstr='#de6817',GradientType=0 );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e47821', endColorstr='#de6817', GradientType=0);
 }
 
 .adminhtml-sales-order-create-index #order-data .fieldset-wrapper .actions .action-delete {
@@ -1543,9 +1565,15 @@
 
 /* ----------------------------------- */
 
-#order-data .page-actions { padding-top: 0; }
+#order-data .page-actions {
+    padding-top: 0;
+}
 
-#order-data .store-switcher { margin: -46px 0 0; position: relative; width: 50%; }
+#order-data .store-switcher {
+    margin: -46px 0 0;
+    position: relative;
+    width: 50%;
+}
 
 .create-order-sidebar-container > div + div {
     border-top: 1px solid #ededed;
@@ -1594,8 +1622,13 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.customer-current-activity .data-table .icon-remove:before { content: "\e07f"; }
-.customer-current-activity .data-table .icon-add:before    { content: "\e071"; }
+.customer-current-activity .data-table .icon-remove:before {
+    content: "\e07f";
+}
+
+.customer-current-activity .data-table .icon-add:before {
+    content: "\e071";
+}
 
 .customer-current-activity .auto-scroll {
     overflow: auto;
@@ -1999,6 +2032,7 @@ table.items-to-invoice tbody tr:hover td {
     text-align: right;
     width: 60px;
 }
+
 [class^=" adminhtml-sales-order-"] .order-subtotal .label {
     width: 80%;
 }
@@ -2082,6 +2116,7 @@ table.items-to-invoice tbody tr:hover td {
 .col-product .product_to_add {
     float: right;
 }
+
 /*
     Packaging for Shipping Popup
 -------------------------------------- */
@@ -2590,9 +2625,11 @@ table.items-to-invoice tbody tr:hover td {
 .fieldset .field-rule_use_auto_generation {
     margin-bottom: 0;
 }
+
 .field-rule_use_auto_generation .label {
     margin-left: 5px;
 }
+
 .field-rule_use_auto_generation .nested {
     margin-bottom: 29px;
 }
@@ -2615,6 +2652,13 @@ table.items-to-invoice tbody tr:hover td {
 .control > [name="product[url_key_create_redirect]"] + .label,
 .control > [name="general[url_key_create_redirect]"] + .label {
     width: auto;
+}
+
+/*
+    New Product Attribute Set
+-------------------------------------- */
+.field-skeleton_set .select {
+    width: 100%;
 }
 
 /*

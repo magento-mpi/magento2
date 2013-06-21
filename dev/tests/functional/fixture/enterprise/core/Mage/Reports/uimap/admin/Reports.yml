@@ -13,7 +13,7 @@
 reports_invitations_general:
     mca: report_invitation/
     click_xpath: //*[@id='nav']//a[contains(@href, 'report_invitation/index')]
-    title: General / Private Sales / Reports / Magento Admin
+    title: Invitations Report / Private Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -42,7 +42,7 @@ reports_invitations_general:
 reports_invitations_customers:
     mca: report_invitation/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/customer/')]
-    title: Customers / Private Sales / Reports / Magento Admin
+    title: Invited Customers Report / Private Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -67,7 +67,7 @@ reports_invitations_customers:
 invitations_order_conversion_rate:
     mca: report_invitation/order/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/order/')]
-    title: Order Conversion Rate / Private Sales / Reports / Magento Admin
+    title: Conversion Rate Report / Private Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -85,7 +85,7 @@ invitations_order_conversion_rate:
 customer_segment_report:
     mca: report_customer_customersegment/segment/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_customersegment/segment/')]
-    title: Customer Segments / Customers / Reports / Magento Admin
+    title: Customer Segment Report / Customers / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -113,8 +113,8 @@ customer_segment_report:
                             select_visible: //a[text()='Select Visible']
                             unselect_visible: //a[text()='Unselect Visible']
 
-# Customer's Wishlist Report page
+# Customer's Wish list Report page
 customer_wishlist_report:
     mca: report_customer_wishlist/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
-    title: Customer's wishlists / Reports / Magento Admin
+    title: Customer Wishlist Report / Customers / Reports / Magento Admin

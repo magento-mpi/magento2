@@ -299,18 +299,18 @@ class Mage_Paypal_Model_Info
     {
         switch ($code) {
             case 'address':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Customer did not include a confirmed address.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('This customer did not include a confirmed address.');
             case 'authorization':
             case 'order':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment is authorized but not settled.');
             case 'echeck':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment eCheck is not yet cleared.');
             case 'intl':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant holds a non-U.S. account and does not have a withdrawal mechanism.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The merchant holds a non-U.S. account and does not have a withdrawal mechanism.');
             case 'multi-currency': // break is intentionally omitted
             case 'multi_currency': // break is intentionally omitted
             case 'multicurrency':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment curency does not match any of the merchant\'s balances currency.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment currency does not match any of the merchant\'s balances currency.');
             case 'paymentreview':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('The payment is pending while it is being reviewed by PayPal for risk.');
             case 'unilateral':
@@ -322,7 +322,7 @@ class Mage_Paypal_Model_Info
             case 'none': // break is intentionally omitted
             case 'other': // break is intentionally omitted
             default:
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Unknown reason. Please contact PayPal customer service.');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Sorry, but something went wrong. Please contact PayPal customer service.');
         }
     }
 
@@ -525,7 +525,7 @@ class Mage_Paypal_Model_Info
             case 'YN':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched Address only (no ZIP)');
             case 'B': // international "A"
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched Address only (no ZIP). International');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Matched Address only (no ZIP) International');
             case 'N':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('No Details matched');
             case 'C': // international "N"

@@ -2,8 +2,10 @@
 # Glob patterns are supported
 #
 app/bootstrap.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Attributes/Search.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/Mage/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
@@ -11,9 +13,6 @@ app/code/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/Mage/Adminhtml/Model/Observer.php
 app/code/Mage/Adminhtml/Block/Urlrewrite
 app/code/Mage/Adminhtml/Block/Page/System/Config/Robots/Reset.php
-app/code/Mage/Adminhtml/Block/Catalog/Product/Button/Add.php
-app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
-app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/Mage/Adminhtml/Block/System/Store/Edit
 app/code/Mage/Adminhtml/Block/System/Store/Edit.php
 app/code/Mage/Adminhtml/controllers/Report/CustomerController.php
@@ -21,8 +20,8 @@ app/code/Mage/Adminhtml/controllers/Report/ProductController.php
 app/code/Mage/Adminhtml/controllers/UrlrewriteController.php
 app/code/Mage/Api/Model/Cache/Type.php
 app/code/Mage/Backend
+app/code/Mage/Cardgate
 app/code/Mage/Catalog/Block/Product/Configurable
-app/code/Mage/Catalog/Model/Product/Limitation.php
 app/code/Mage/Catalog/Block/Product/Grouped
 app/code/Mage/Catalog/Block/Product/TemplateSelector.php
 app/code/Mage/Catalog/Model/Resource/Product/Collection

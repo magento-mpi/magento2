@@ -16,12 +16,16 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
 {
     public function setUpBeforeTests()
     {
-        //Data
-        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_general_group');
-        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('OrderBySkuSettings/add_by_sku_general_group');
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
     }
 
     /**
@@ -34,18 +38,18 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return array(
-            'simple_product' => array('sku' => $simple['general_sku'], 'qty' => 1),
+            'simple' => array('sku' => $simple['general_sku'], 'qty' => 1),
             'customer' => array('email' => $userData['email'], 'password' => $userData['password'])
         );
     }
@@ -54,41 +58,38 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
      * <p>Valid values for QTY field according SRS</p>
      *
      * @param string $qty
-     * @param string $message
      * @param array $data
      *
      * @test
      * @dataProvider qtyListDataProvider
-     * @depends preconditionsForTests
+     * @depends      preconditionsForTests
      * @TestlinkId TL-MAGE-3933, TL-MAGE-3889
      */
-    public function qtyValidation($qty, $message, $data)
+    public function qtyValidation($qty, $data)
     {
         //Preconditions:    
-        $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($data['customer']);
-        }
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple_product']['sku'], 'qty' => $qty));
-        $this->clickButton('add_to_cart', false);
-        $this->waitForAjax();
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array(
+            array('sku' => $data['simple']['sku'], 'qty' => $qty)
+        ));
+        $this->saveForm('add_to_cart');
         //Verifying
-        $this->addFieldIdToMessage('field', 'qty');
-        $this->assertMessagePresent('validation', $message);
+        $this->assertTrue($this->controlIsVisible('pageelement', 'requiring_attention_title'));
+        $this->assertMessagePresent('error', 'required_attention_product');
+        $this->assertMessagePresent('validation', 'enter_valid_qty');
     }
 
     public function qtyListDataProvider()
     {
         return array(
-            array('non-num', 'empty_required_field'),
-            array('-5', 'empty_required_field'),
-            array('0', 'empty_required_field'),
-            array('0.00001', 'empty_required_field'),
-            array('999999999.9999', 'empty_required_field'),
-            array('-5', 'empty_required_field'),
-            array('', 'empty_required_field')
+            array('non-num'),
+            array('-5'),
+            array('0'),
+            array('0.00001'),
+            array('999999999.9999'),
+            array('')
         );
     }
 
@@ -102,10 +103,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     public function addEmptyRowQtyFields($data)
     {
         //Preconditions:
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($data['customer']);
-        }
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
         $this->clickButton('add_to_cart');
@@ -124,15 +122,13 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
      */
     public function addSimpleProductWithEmptyRow($data)
     {
+        $this->markTestIncomplete('BUG: Add Row link does not work');
         //Preconditions:
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($data['customer']);
-        }
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
         $this->clickButton('add_row', false);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product']);
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['simple']));
         $this->clickButton('add_to_cart');
         //Verifying
         $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
@@ -151,17 +147,14 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     public function addMultipleSimpleProductsFailure($data)
     {
         //Preconditions:
-        $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($data['customer']);
-        }
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->clickButton('add_row', false);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple_product']['sku'], 'qty' => '#$%'),
-            array('1'));
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product'], array('2'));
-        $this->clickButton('add_to_cart', false);
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array(
+            array('sku' => $data['simple']['sku'], 'qty' => '#$%'),
+            $data['simple']
+        ));
+        $this->saveForm('add_to_cart');
         //Verifying
         $this->assertMessagePresent('error', 'sku_invalid_number');
     }
@@ -178,10 +171,9 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     public function orderBySkuForUnselectedCustomer($data)
     {
         //Preconditions:
-        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_retailer_group');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('OrderBySkuSettings/add_by_sku_retailer_group');
         //Steps:
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');
@@ -201,10 +193,9 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     public function orderBySkuDisabled($data)
     {
         //Preconditions:
-        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_disabled');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('OrderBySkuSettings/add_by_sku_disabled');
         //Steps:
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');

@@ -329,7 +329,8 @@ class Mage_Paypal_Model_Config
                 }
                 // check for direct payments dependence
                 if ($this->isMethodActive(self::METHOD_WPP_DIRECT)
-                    || $this->isMethodActive(self::METHOD_WPP_PE_DIRECT)) {
+                    || $this->isMethodActive(self::METHOD_WPP_PE_DIRECT)
+                ) {
                     $result = false;
                 }
                 break;
@@ -343,10 +344,14 @@ class Mage_Paypal_Model_Config
                 break;
             case self::METHOD_WPP_PE_EXPRESS:
                 // check for direct payments dependence
-                if ($this->isMethodActive(self::METHOD_WPP_PE_DIRECT)) {
+                if ($this->isMethodActive(self::METHOD_WPP_PE_DIRECT)
+                    || $this->isMethodActive(self::METHOD_PAYFLOWLINK)
+                    || $this->isMethodActive(self::METHOD_PAYFLOWADVANCED)
+                ) {
                     $result = true;
                 } elseif (!$this->isMethodActive(self::METHOD_WPP_PE_DIRECT)
-                          && !$this->isMethodActive(self::METHOD_PAYFLOWPRO)) {
+                    && !$this->isMethodActive(self::METHOD_PAYFLOWPRO)
+                ) {
                     $result = false;
                 }
                 break;
@@ -1285,7 +1290,16 @@ class Mage_Paypal_Model_Config
         $pathPrefix = 'paypal/wpuk';
         // Use PUMP credentials from Verisign for EC when Direct Payments are unavailable
         if ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS
-            && !$this->isMethodAvailable(self::METHOD_WPP_PE_DIRECT)) {
+            && $this->isMethodAvailable(self::METHOD_PAYFLOWLINK)
+        ) {
+            $pathPrefix = 'payment/payflow_link';
+        } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS
+            && $this->isMethodAvailable(self::METHOD_PAYFLOWADVANCED)
+        ) {
+            $pathPrefix = 'payment/payflow_advanced';
+        } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS
+            && !$this->isMethodAvailable(self::METHOD_WPP_PE_DIRECT)
+        ) {
             $pathPrefix = 'payment/verisign';
         } elseif ($this->_methodCode == self::METHOD_PAYFLOWADVANCED
             || $this->_methodCode == self::METHOD_PAYFLOWLINK

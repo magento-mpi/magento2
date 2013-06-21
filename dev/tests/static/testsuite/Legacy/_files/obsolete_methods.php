@@ -39,6 +39,7 @@ return array(
     array('_decodeInput', 'Mage_Adminhtml_Catalog_ProductController'),
     array('_emailOrderConfirmation', 'Mage_Checkout_Model_Type_Abstract'),
     array('_escapeValue', 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract'),
+    array('_filterPostData', 'Mage_Adminhtml_Catalog_Product_AttributeController'),
     array('_generateCssHtml', 'Mage_Page_Block_Html_Head'),
     array('_generateJsHtml', 'Mage_Page_Block_Html_Head'),
     array('_getAddressTaxRequest', 'Mage_Tax_Model_Sales_Total_Quote_Shipping'),
@@ -187,6 +188,7 @@ return array(
     array('bundlesAction', 'Mage_Adminhtml_Catalog_ProductController'),
     array('calcTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     array('callbackQueryHook', 'Mage_Core_Model_Resource_Setup'),
+    array('canCreateUser', 'Mage_User_Model_Resource_User'),
     array('canPrint', 'Mage_Checkout_Block_Onepage_Success'),
     array('canTestHeaders', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::canTestHeaders'),
     array('catalogCategoryChangeProducts', 'Mage_Catalog_Model_Product_Flat_Observer'),
@@ -241,7 +243,7 @@ return array(
     array('getAclResourceList', 'Mage_Admin_Model_Config'),
     array('getAclResourceTree', 'Mage_Admin_Model_Config'),
     array('getAddNewButtonHtml', 'Mage_Adminhtml_Block_Catalog_Product'),
-    array('getAddNewButtonHtml', 'Mage_Adminhtml_Block_System_Store_Store'),
+    array('getAddNewButtonHtml', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getAddToCartItemUrl', 'Mage_Wishlist_Block_Customer_Sidebar'),
     array('getAddToCartUrlBase64', '', '_getAddToCartUrl'),
     array('getAllEntityIds', 'Mage_Rss_Model_Resource_Order'),
@@ -320,6 +322,7 @@ return array(
     array('getMenuItemLabel', 'Mage_Admin_Model_Config'),
     array('getMergedCssUrl'),
     array('getMergedJsUrl'),
+    array('getMessageUserCreationProhibited', 'Mage_User_Model_Resource_User'),
     array('getMinQueryLenght'),
     array('getModelClassName', 'Mage_Core_Model_Config'),
     array('getModuleConfigurationFiles', 'Mage_Core_Model_Config'),
@@ -333,6 +336,7 @@ return array(
     array('getOption', 'Mage_Captcha_Helper_Data', 'Mage_Core_Model_Dir::getDir()'),
     array('getOptions', 'Mage_Core_Model_Config'),
     array('getOptions', 'Mage_Core_Model_Design_Source_Design', 'Mage_Core_Model_Theme::getThemeCollectionOptionArray'),
+    array('getOptionValues', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getOrderHtml', 'Mage_GoogleAnalytics_Block_Ga'),
     array('getOrderId', 'Mage_Checkout_Block_Onepage_Success'),
     array('getOrderId', 'Mage_Shipping_Block_Tracking_Popup'),
@@ -396,6 +400,7 @@ return array(
     array('getStoreButtonsHtml', 'Mage_Backend_Block_System_Config_Tabs'),
     array('getStoreCurrency', 'Mage_Sales_Model_Order'),
     array('getStoreSelectOptions', 'Mage_Backend_Block_System_Config_Tabs'),
+    array('getStores', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getSuggestedZeroDate'),
     array('getSuggestionsByQuery'),
     array('getSysTmpDir'),
@@ -461,6 +466,7 @@ return array(
     array('isStaticFilesSigned', 'Mage_Core_Helper_Data'),
     array('isTemplateAllowedForApplication'),
     array('isThemeCompatible', 'Mage_Core_Model_Design_Package', 'Mage_Core_Model_Theme::isThemeCompatible'),
+    array('isUserSavingAllowed', 'Mage_User_Model_Resource_User'),
     array('isVerbose', 'Magento_Shell'),
     array('load', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     array('loadBase', 'Mage_Core_Model_Config'),
@@ -579,4 +585,38 @@ return array(
     array('validateDataArray', 'Varien_Convert_Container_Abstract'),
     array('validateFile', 'Mage_Core_Model_Design_Package'),
     array('validateOrder', 'Mage_Checkout_Model_Type_Onepage'),
+    array('_prepareOptionValues', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
+    array('_getOptionValuesCollection', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
+    array(' _prepareSystemAttributeOptionValues', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
+    array('_prepareUserDefinedAttributeOptionValues', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
+    array('getLabelValues', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
+    array('getStoreOptionValues', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
+    array('getAttributeObject', 'Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
+
+    array('substractQtyFromQuotes', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::subtractQtyFromQuotes'
+    ),
+    array('markQuotesRecollectOnCatalogRules', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogPriceRule::dispatch'
+    ),
+    array(
+        'catalogProductSaveAfter', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductSaveAfter'
+    ),
+    array(
+        'catalogProductStatusUpdate', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductStatusUpdate'
+    ),
+    array(
+        'prepareProductEditFormRecurringProfile', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer::render'
+    ),
+    array(
+        'restrictAdminBillingAgreementUsage', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_BillingAgreement::dispatch'
+    ),
+    array(
+        'customerSaveAfter', 'Mage_Sales_Model_Observer',
+        'Mage_Sales_Model_Observer_Backend_CustomerQuote::dispatch'
+    ),
 );

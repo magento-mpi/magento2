@@ -86,12 +86,12 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
             $success = true;
             if (!$count) {
                 $success = false;
-                $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please specify the quantity of items that you want to add to cart.'));
+                $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the quantity of items to add to cart.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__($e->getMessage()));
         } catch (Exception $e) {
-            $session->addException($e, Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Cannot add item to shopping cart'));
+            $session->addException($e, Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('We cannot add this item to your shopping cart.'));
             Mage::logException($e);
         }
         if (!$success) {

@@ -24,19 +24,23 @@ class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
     protected $_salesArchiveConfig;
 
     /**
-     * @var Mage_Core_Model_Authorization $_authModel
+     * @var Magento_AuthorizationInterface $_authModel
      */
     protected $_authorizationModel;
 
     /**
+     * @param Enterprise_SalesArchive_Model_Config $config
+     * @param Magento_AuthorizationInterface $authorization
      * @param array $data
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct($data = array())
-    {
-        $this->_salesArchiveConfig = isset($data['sales_archive_config']) ?
-            $data['sales_archive_config'] : Mage::getSingleton('Enterprise_SalesArchive_Model_Config');
-        $this->_authorizationModel = isset($data['authorizationModel']) ?
-            $data['authorizationModel'] : Mage::getSingleton('Mage_Core_Model_Authorization');
+    public function __construct(
+        Enterprise_SalesArchive_Model_Config $config,
+        Magento_AuthorizationInterface $authorization,
+        $data = array()
+    ) {
+        $this->_salesArchiveConfig = $config;
+        $this->_authorizationModel = $authorization;
     }
 
     /**

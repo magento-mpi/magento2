@@ -93,7 +93,7 @@
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy To</label>
-                    <comment>Comma-separated.</comment>
+                    <comment>Comma-separated</comment>
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy Method</label>
@@ -120,7 +120,7 @@
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Authorization Email Copy To</label>
-                    <comment>Comma-separated.</comment>
+                    <comment>Comma-separated</comment>
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Authorization Email Copy Method</label>
@@ -147,7 +147,7 @@
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Comment Email Copy To</label>
-                    <comment>Comma-separated.</comment>
+                    <comment>Comma-separated</comment>
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy Method</label>
@@ -174,7 +174,7 @@
                 </field>
                 <field id="copy_to" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Comment Email Copy To</label>
-                    <comment>Comma-separated.</comment>
+                    <comment>Comma-separated</comment>
                 </field>
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy Method</label>

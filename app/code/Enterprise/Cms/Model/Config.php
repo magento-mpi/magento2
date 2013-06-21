@@ -35,6 +35,19 @@ class Enterprise_Cms_Model_Config
         ));
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(Magento_AuthorizationInterface $authorization)
+    {
+        $this->_authorization = $authorization;
+    }
+
+    /**
      * Retrieves attributes for passed cms
      * type excluded from revision control.
      *
@@ -82,7 +95,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserPublishRevision()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::publish_revision');
+        return $this->_authorization->isAllowed('Enterprise_Cms::publish_revision');
     }
 
     /**
@@ -92,7 +105,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserDeletePage()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::page_delete');
+        return $this->_authorization->isAllowed('Mage_Cms::page_delete');
     }
 
     /**
@@ -102,7 +115,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserSavePage()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::save');
+        return $this->_authorization->isAllowed('Mage_Cms::save');
     }
 
     /**
@@ -112,7 +125,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserSaveRevision()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::save_revision');
+        return $this->_authorization->isAllowed('Enterprise_Cms::save_revision');
     }
 
     /**
@@ -122,7 +135,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserDeleteRevision()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::delete_revision');
+        return $this->_authorization->isAllowed('Enterprise_Cms::delete_revision');
     }
 
     /**

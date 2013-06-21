@@ -18,7 +18,7 @@
 <?php if ($maxPerSend): ?>
 <form id="invitationForm" action="" method="post">
     <div class="fieldset">
-    <h2 class="legend"><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invite your friends by entering their email addresses below'); ?></h2>
+    <h2 class="legend"><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invite your friends by entering their email addresses.'); ?></h2>
         <ul class="form-list">
             <?php $_perRow = ceil($maxPerSend/3); for($_index = 1; $_index <= $maxPerSend; $_index ++): ?>
             <li>

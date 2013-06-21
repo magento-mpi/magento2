@@ -33,6 +33,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $productAttributes = $this->loadDataSet('ProductAttribute', 'product_attributes_for_changing_template');
         $productAttributes['assignedAttribute'] = $this->loadDataSet('ProductAttribute',
             'product_attribute_dropdown_with_options');
+        $assignedCode = $productAttributes['assignedAttribute']['advanced_attribute_properties']['attribute_code'];
         $groupName = $this->generate('string', 5, ':lower:') . '_test_group';
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
         $attributeCodes = array();
@@ -42,9 +43,10 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
             $this->productAttributeHelper()->createAttribute($attribute);
             $this->assertMessagePresent('success', 'success_saved_attribute');
             if ($name == 'assignedAttribute') {
-                $attributeSet['associated_attributes']['Product Details'] = $attribute['attribute_code'];
+                $attributeSet['associated_attributes']['Product Details'] =
+                    $attribute['advanced_attribute_properties']['attribute_code'];
             } else {
-                $attributeCodes[] = $attribute['attribute_code'];
+                $attributeCodes[] = $attribute['advanced_attribute_properties']['attribute_code'];
             }
         }
         //Create attribute set
@@ -55,7 +57,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
 
         return array(
             'attributeSetName' => $attributeSet['set_name'],
-            'assignedAttribute' => $productAttributes['assignedAttribute']['attribute_code'],
+            'assignedAttribute' => $assignedCode,
             'tabName' => $groupName,
             'attributeCodes' => $attributeCodes,
         );
@@ -270,7 +272,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Data
         $product = $this->loadDataSet('Product', 'simple_product_required',
             array('product_attribute_set' => $attributeSetData['attributeSetName']));
-        $attribute = array('values_required' => 'Yes');
+        $attribute = array('attribute_properties' => array('values_required' => 'Yes'));
         //Preconditions
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->editAttribute($attributeSetData['assignedAttribute'], $attribute);
@@ -283,43 +285,6 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is absent');
         $this->productHelper()->changeAttributeSet('Default');
-        $this->productHelper()->saveProduct();
-        $this->assertMessagePresent('success', 'success_saved_product');
-    }
-
-    /**
-     * Change attribute set with product related attributes
-     *
-     * @param array $attributeSetData
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6901
-     */
-    public function withProductRelatedAttribute(array $attributeSetData)
-    {
-        //Data
-        $product = $this->loadDataSet('Product', 'virtual_product_required',
-            array('product_attribute_set' => $attributeSetData['attributeSetName']));
-        $attribute = array('apply_to' => 'Selected Product Types', 'apply_product_types' => 'Virtual Product');
-        //Preconditions
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->editAttribute($attributeSetData['assignedAttribute'], $attribute);
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->selectTypeProduct('simple');
-        $this->productHelper()->changeAttributeSet($product['product_attribute_set']);
-        //Verifying
-        $this->addParameter('attributeCodeDropdown', $attributeSetData['assignedAttribute']);
-        $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is present');
-        $this->fillCheckbox('general_weight_and_type_switcher', 'Yes');
-        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is absent');
-        $this->productHelper()->changeAttributeSet('Default');
-        $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is present');
-        $this->productHelper()->fillProductInfo($product);
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }

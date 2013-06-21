@@ -15,7 +15,7 @@
 manage_tax_zones_and_rates:
     mca: tax_rate/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate') and not(contains(@href, 'importExport'))]
-    title: Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
+    title: Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &searchTaxRatesGrid
             fieldsets:
@@ -48,7 +48,7 @@ manage_tax_zones_and_rates:
 # 'New Tax Rate' Page
 create_tax_rate:
     mca: tax_rate/add/
-    title: New Rate / Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
+    title: New Tax Rate / Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &newTaxRatesForm
             fieldsets:
@@ -81,7 +81,7 @@ create_tax_rate:
             save_rate: //button[@data-ui-id='tax-rate-toolbar-save-savebutton']
         messages: &newTaxRateMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
-            error_delete_tax_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Tax rate cannot be removed. It exists in tax rule')]
+            error_delete_tax_rate: //li[normalize-space(@class)='error-msg' and contains(.,'The tax rate cannot be removed. It exists in a tax rule.')]
             enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
             enter_valid_digits: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please enter a valid number in this field.')]
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
@@ -91,7 +91,7 @@ create_tax_rate:
 # 'Edit Tax Rate' Page
 edit_tax_rate:
     mca: tax_rate/edit/rate/%rate%/
-    title: %elementTitle% / Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
+    title: %elementTitle% / Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &editTaxRatesForm
             fieldsets:
@@ -126,7 +126,7 @@ edit_tax_rate:
 manage_import_export_tax_rates:
     mca: tax_rate/importExport/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate/import')]
-    title: Import and Export Tax Rates / Manage Tax Zones and Rates / Data Transfer / System / Magento Admin
+    title: Import and Export Tax Rates / Tax Zones and Rates / Data Transfer / System / Magento Admin
     uimap:
         form: &salesImportExportTaxRates
             fieldsets:
@@ -151,7 +151,7 @@ manage_import_export_tax_rates:
 manage_tax_rule:
     mca: tax_rule/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rule')]
-    title: Manage Tax Rules / Taxes / Stores / Magento Admin
+    title: Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: &searchTaxRulesGrid
             fieldsets:
@@ -184,7 +184,7 @@ manage_tax_rule:
 # Add New Tax Rule page
 create_tax_rule:
     mca: tax_rule/new/
-    title: New Rule / Manage Tax Rules / Taxes / Stores / Magento Admin
+    title: New Rule / Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: &create_tax_rule-form
             fieldsets:
@@ -232,14 +232,14 @@ create_tax_rule:
             confirmation_for_delete_rule: Are you sure you want to do this?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
             confirmation_for_delete_class: Do you really want to delete this tax class?
-            used_in_rule_error: You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.
-            used_in_customer_group_error: You cannot delete this tax class as it is used for 1 customer group(s).
+            used_in_rule_error: You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.
+            used_in_customer_group_error: You cannot delete this tax class because it is used for 1 customer group(s).
             used_in_product_error: You cannot delete this tax class as it is used for 1 product(s).
 
 # Edit Tax Rule page
 edit_tax_rule:
     mca: tax_rule/edit/rule/%rule%/
-    title: %elementTitle% / Manage Tax Rules / Taxes / Stores / Magento Admin
+    title: %elementTitle% / Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: *create_tax_rule-form
         buttons:

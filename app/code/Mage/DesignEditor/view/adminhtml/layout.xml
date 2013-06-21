@@ -12,10 +12,12 @@
 <layout>
     <adminhtml_system_design_editor_index>
         <reference name="head">
+            <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-delete.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-edit.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
@@ -36,16 +38,19 @@
                     </block>
                 </block>
             </block>
+            <block type="Mage_Backend_Block_Template" name="theme.dialog" template="Mage_DesignEditor::dialog.phtml" />
+            <block type="Mage_Backend_Block_Template" name="theme.dialog.edit" template="Mage_DesignEditor::theme/selector/theme_edit.phtml" />
             <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml" />
         </reference>
     </adminhtml_system_design_editor_index>
 
     <adminhtml_system_design_editor_firstentrance>
         <reference name="head">
+            <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-edit.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
@@ -54,6 +59,8 @@
                     <block type="Mage_DesignEditor_Block_Adminhtml_Theme" name="design.editor.theme" as="theme" template="Mage_DesignEditor::theme/available.phtml" />
                 </block>
             </block>
+            <block type="Mage_Backend_Block_Template" name="theme.dialog" template="Mage_DesignEditor::dialog.phtml" />
+            <block type="Mage_Backend_Block_Template" name="theme.dialog.edit" template="Mage_DesignEditor::theme/selector/theme_edit.phtml" />
             <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml" />
         </reference>
     </adminhtml_system_design_editor_firstentrance>
@@ -80,8 +87,8 @@
             <action method="addJs"><file>Mage_DesignEditor::js/tools-panel.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/custom-css.js</file></action>
             <action method="addJs"><file>Mage_Theme::js/custom-js-list.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/vde-frame.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-save.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/image-sizing.js</file></action>
@@ -90,7 +97,6 @@
             <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-uploader.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/theme-init.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/message.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/tools-files.js</file></action>
@@ -99,6 +105,7 @@
             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
                 <block type="Mage_Backend_Block_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml">
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit" name="design_editor_toolbar_buttons_edit" template="Mage_DesignEditor::editor/toolbar/buttons/edit.phtml" />
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save" />
                     </block>
                 </block>
@@ -131,6 +138,7 @@
                     </block>
                 </block>
             </block>
+            <block type="Mage_Backend_Block_Template" name="theme.dialog" template="Mage_DesignEditor::dialog.phtml" />
         </reference>
     </adminhtml_system_design_editor_launch>
 
@@ -152,10 +160,4 @@
         <block name="editor_files.files" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files" template="Mage_DesignEditor::editor/tools/files/content/files.phtml" output="1" />
     </adminhtml_system_design_editor_files_contents>
 
-    <adminhtml_system_design_editor_preview>
-        <update handle="adminhtml_system_design_editor_launch"/>
-        <reference name="design_editor_toolbar">
-                <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/preview_buttons.phtml" />
-        </reference>
-    </adminhtml_system_design_editor_preview>
 </layout>

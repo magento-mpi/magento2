@@ -18,7 +18,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_System_Config_Form_Field
-    extends Mage_Backend_Block_Abstract
+    extends Mage_Backend_Block_Template
     implements Varien_Data_Form_Element_Renderer_Interface
 {
     /**
@@ -29,12 +29,12 @@ class Mage_Backend_Block_System_Config_Form_Field
     protected $_application;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_App $application
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_App $application,
         array $data = array()
     ) {

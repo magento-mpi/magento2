@@ -46,7 +46,7 @@ newsletter_subscribers:
                         pageelements:
                             poll_grid_head: //div[@id='subscriberGrid']//thead/tr[@class='headings']
         messages: &subscribersMesssages
-            success_update: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyOfRecords% record(s) were updated')]
+            success_update: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyOfRecords% record(s) were updated')]
             success_delete: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyOfRecords% record(s) were deleted')]
             select_items_to_action: Please select items.
 
@@ -184,7 +184,7 @@ newsletter_queue_edit:
 newsletter_problem_reports:
     mca: newsletter_problem/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_problem/')]
-    title: Newsletter Problems / Marketing / Reports / Magento Admin
+    title: Newsletter Problems Report / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

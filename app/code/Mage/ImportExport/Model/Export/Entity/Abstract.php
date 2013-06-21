@@ -165,6 +165,20 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     }
 
     /**
+     * Get header columns
+     *
+     * @return array
+     */
+    abstract protected function _getHeaderColumns();
+
+    /**
+     * Get entity collection
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    abstract protected function _getEntityCollection();
+
+    /**
      * Get attributes codes which are appropriate for export.
      *
      * @return array
@@ -394,7 +408,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
         foreach ($this->_errors as $errorCode => $errorRows) {
             $message = isset($this->_messageTemplates[$errorCode])
                 ? $translator->__($this->_messageTemplates[$errorCode])
-                : $translator->__("Invalid value for '%s' column", $errorCode);
+                : $translator->__("Please correct the value for '%s' column", $errorCode);
             $messages[$message] = $errorRows;
         }
         return $messages;
@@ -449,7 +463,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     public function getWriter()
     {
         if (!$this->_writer) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('No writer specified'));
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Please specify writer.'));
         }
         return $this->_writer;
     }

@@ -13,7 +13,7 @@
 manage_encryption_key:
     mca: crypt_key/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'crypt_key/')]
-    title: Manage Encription Key / Other Settings / System / Magento Admin
+    title: Encryption Key / Other Settings / System / Magento Admin
 
 # Permissions Locked administrators page
 permissions_locked_users:

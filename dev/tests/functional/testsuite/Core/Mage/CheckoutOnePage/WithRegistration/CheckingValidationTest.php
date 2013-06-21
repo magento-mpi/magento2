@@ -216,7 +216,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
                 'billing_email' => $wrongValue
             )
         );
-        $message = '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
+        $message = 'Please enter a valid email address (for example, johndoe@domain.com.).';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);

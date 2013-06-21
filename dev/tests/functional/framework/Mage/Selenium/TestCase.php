@@ -4443,6 +4443,105 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get actual item order position
+     *
+     * @param $fieldType
+     * @param $fieldName
+     *
+     * @return array
+     */
+    public function getActualItemOrder($fieldType, $fieldName)
+    {
+        $actualOrder = array();
+        $blocks = $this->getControlElements($fieldType, $fieldName, null, false);
+        $position = 1;
+        /** @var $item PHPUnit_Extensions_Selenium2TestCase_Element */
+        foreach ($blocks as $item) {
+            $key = $fieldType == self::FIELD_TYPE_INPUT
+                ? (!$item->displayed() ? preg_replace('/\D+/', '', $item->attribute('name')) : $item->value())
+                : $item->text();
+            $actualOrder[$key] = $position++;
+        }
+
+        return $actualOrder;
+    }
+
+    /**
+     * Reorder blocks according to desired position
+     *
+     * @param array $orderedBlocks
+     * @param string $blockId
+     * @param string $draggableElement
+     * @param string $fieldName
+     */
+    public function orderBlocks(array $orderedBlocks, $blockId, $draggableElement, $fieldName)
+    {
+        $fieldType = $blockId == 'productSku' ? self::FIELD_TYPE_PAGEELEMENT : self::FIELD_TYPE_INPUT;
+        $actualOrder = $this->getActualItemOrder($fieldType, $fieldName);
+        if (count($orderedBlocks) < 2) {
+            return;
+        }
+        foreach ($orderedBlocks as $key => $value) {
+            if (isset($actualOrder[$key]) && $value != $actualOrder[$key] && $value != 'noValue') {
+                $this->addParameter($blockId, $key);
+                $attributeBlock1 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
+                $exchangeBlockName = array_search($value, $actualOrder);
+                if ($exchangeBlockName === false) {
+                    $this->fail('Block ' . $key . ' can not be moved to ' . $value . ' position');
+                }
+                $this->addParameter($blockId, array_search($value, $actualOrder));
+                $attributeBlock2 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
+                $locationBeforeMove = $attributeBlock2->location();
+                $attempts = 2;
+                while ($attempts > 0) {
+                    $this->moveto($attributeBlock1);
+                    $this->buttondown();
+                    $this->moveto($attributeBlock2);
+                    $this->buttonup();
+                    $locationAfterMove = $attributeBlock2->location();
+                    $attempts--;
+                    if ($locationBeforeMove['y'] != $locationAfterMove['y']) {
+                        break;
+                    } elseif ($attempts <= 0) {
+                        $this->fail('Block position was not changed.');
+                    }
+                }
+                $actualOrder = $this->getActualItemOrder($fieldType, $fieldName);
+            }
+        }
+    }
+
+    /**
+     * Verify block sort order
+     *
+     * @param array $blockOrder
+     * @param string $fieldName
+     */
+    public function verifyBlocksOrder(array $blockOrder, $fieldName)
+    {
+        $fieldType = preg_match('/assigned_products$/', $fieldName)
+            ? self::FIELD_TYPE_PAGEELEMENT
+            : self::FIELD_TYPE_INPUT;
+        $actualOrder = $this->getActualItemOrder($fieldType, $fieldName);
+        //Reorder item order considering duplication and empty position values
+        $expectedOrder = array_keys($blockOrder);
+        foreach ($blockOrder as $key => $value) {
+            if ($value != 'noValue') {
+                $keyToRemove = array_search($key, $expectedOrder);
+                unset($expectedOrder[$keyToRemove]);
+                if (isset($expectedOrder[$value - 1])) {
+                    array_splice($expectedOrder, $value - 1, 0, $key);
+                } else {
+                    $expectedOrder[$value - 1] = $key;
+                }
+            }
+        }
+        if (array_diff(array_keys($actualOrder), $expectedOrder)) {
+            $this->addVerificationMessage('Invalid block order');
+        }
+    }
+
+    /**
      * Wait till window will close
      *
      * @param int $countBeforeClose

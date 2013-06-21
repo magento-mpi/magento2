@@ -97,8 +97,11 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      */
     protected function _prepareVdeRequest(Mage_Core_Controller_Request_Http $request)
     {
-        $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
-        $noVdePath = substr($request->getPathInfo(), strlen($vdeFrontName) + 1) ?: '/';
+        list($vdeFrontName, $designMode, $themeId) = explode('/', trim($request->getPathInfo(), '/'));
+        $request->setAlias('editorMode', $designMode);
+        $request->setAlias('themeId', (int)$themeId);
+        $vdePath = implode('/', array($vdeFrontName, $designMode, $themeId));
+        $noVdePath = substr($request->getPathInfo(), strlen($vdePath) + 1) ?: '/';
         $request->setPathInfo($noVdePath);
         return $this;
     }

@@ -29,7 +29,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
             'legend'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Conditions'),
-            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule will work only if at least one condition is specified.'),
+            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('You need to set at least one condition for this rule to work.'),
         ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(

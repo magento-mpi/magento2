@@ -79,9 +79,9 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType, array('show_on_frontend' => 'Yes'));
         $this->addParameter('orderId', $testData['order_id']);
-        $this->addParameter('attributeCode', $attrData['attribute_code']);
+        $this->addParameter('attributeCode', $attrData['attribute_properties']['attribute_code']);
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
@@ -120,9 +120,9 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType, array('show_on_frontend' => 'No'));
         $this->addParameter('orderId', $testData['order_id']);
-        $this->addParameter('attributeCode', $attrData['attribute_code']);
+        $this->addParameter('attributeCode', $attrData['attribute_properties']['attribute_code']);
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
@@ -159,6 +159,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
     public function systemAttributeNotShowOnFrontend($attributeLabel, $attributeName, $testData)
     {
         //Data
+        $this->addParameter('attribute_attribute_label', $attributeLabel);
         $this->addParameter('elementTitle', $attributeLabel);
         $this->addParameter('orderId', $testData['order_id']);
         //Steps

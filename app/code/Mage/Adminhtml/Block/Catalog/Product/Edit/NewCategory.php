@@ -18,27 +18,19 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Category factory model
-     *
-     * @var Mage_Catalog_Model_CategoryFactory
-     */
-    protected $_categoryFactory;
-    
-    /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param array $data
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Catalog_Model_CategoryFactory $categoryFactory
+     * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        array $data = array(),
-        Mage_Catalog_Model_CategoryFactory $categoryFactory
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Catalog_Model_CategoryFactory $categoryFactory,
+        array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->setUseContainer(true);
         $this->_categoryFactory = $categoryFactory;
     }
-
 
     /**
      * Form preparation

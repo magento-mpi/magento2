@@ -5,8 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends Mage_Backend_Area_TestCase
+/**
+ * Test class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest
+ *
+ * @magentoAppArea adminhtml
+ */
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture limitations/catalog_product 1

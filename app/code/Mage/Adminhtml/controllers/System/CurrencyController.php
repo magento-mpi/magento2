@@ -37,7 +37,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Currency Rates'));
+        $this->_title($this->__('Currency Rates'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_CurrencySymbol::system_currency_rates');
@@ -51,14 +51,14 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
             if( !$service ) {
-                throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid Import Service Specified'));
+                throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please specify a correct Import Service.'));
             }
             try {
                 $importModel = Mage::getModel(
                     Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray()
                 );
             } catch (Exception $e) {
-                Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to initialize import model'));
+                Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t initialize the import model.'));
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
@@ -89,7 +89,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
                         $value = abs(Mage::getSingleton('Mage_Core_Model_LocaleInterface')->getNumber($value));
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
-                            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
+                            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please correct the input data for %s => %s rate', $currencyCode, $currencyTo));
                         }
                     }
                 }

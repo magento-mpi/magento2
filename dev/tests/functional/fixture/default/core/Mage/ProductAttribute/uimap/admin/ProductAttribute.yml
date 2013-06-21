@@ -14,7 +14,7 @@
 manage_attributes:
     mca: catalog_product_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_attribute')]
-    title: Manage Attributes / Attributes / Stores / Magento Admin
+    title: Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &searchProductAttributeGrid
             fieldsets:
@@ -41,10 +41,10 @@ manage_attributes:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &productAttributeMessages
             attribute_used_in_configurable: //li[normalize-space(@class)='error-msg' and contains(.,'This attribute is used in configurable products.')]
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been deleted.')]
-            exists_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Attribute with the same code already exists.' and not(contains(@style,'display: none;'))]
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been saved.')]
-            wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the product attribute.')]
+            exists_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='An attribute with this code already exists.']
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the product attribute.')]
+            wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.']
             invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
             error_invalid_position: //*[@class='mage-error' and @for='position' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
             delete_confirm_message: Are you sure you want to do this?
@@ -52,37 +52,71 @@ manage_attributes:
 # Add New Product Attribute page
 new_product_attribute:
     mca: catalog_product_attribute/new/
-    title: New Attribute / Manage Attributes / Magento Admin
+    title: New Product Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &newProductAttributeForm
             tabs:
                 -
-                    properties: &productAttributeProperties
+                    properties:
                         xpath: //a[@id='product_attribute_tabs_main']
                         fieldsets:
                             -
-                                attribute_properties:
+                                attribute_properties: &productAttributeProperties
                                     xpath: //*[@id='base_fieldset']
+                                    fields:
+                                        attribute_label: //input[@id='attribute_label']
                                     dropdowns:
-                                        scope: //select[@id='is_global']
                                         catalog_input_type_for_store_owner: //select[@id='frontend_input']
-                                        default_yesno_value: //select[@id='default_value_yesno']
-                                        unique_value: //select[@id='is_unique']
                                         values_required: //select[@id='is_required']
-                                        input_validation_for_store_owner: //select[@id='frontend_class']
-                                        apply_to: //select[@onchange='toggleApplyVisibility(this)']
-                                        use_to_create_configurable_product: //select[@id='is_configurable']
+                            -
+                                manage_options: &productAttributeManageOptions
+                                    xpath: //*[@id='manage-options-panel' and not(@style='display: none;')]
+                                    buttons:
+                                        add_option: //button[@id='add_new_option_button']
+                                        delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
+                                    checkboxes:
+                                        is_default: //input[@name='default[]' and @value='option_%fieldOptionNumber%']
+                                    fields:
+                                        admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
+                                        options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //td[@class='col-draggable']/input
+                                    pageelements:
+                                        manage_options_option: //*[@data-role='options-container']/tr
+                                        is_default_option_index: //tr[%index%]//input[@class='input-radio']
+                                    links:
+                                        move_attribute_option_row: //*[@class='draggable-handle' and ../input[@name='option[order][option_%fieldOptionNumber%]']]
+                            -
+                                advanced_attribute_properties: &productAttributeAdvancedProperties
+                                    xpath: //*[@id='advanced_fieldset-wrapper']
                                     fields:
                                         attribute_code: //input[@id='attribute_code']
                                         default_text_field_value: //input[@id='default_value_text']
                                         default_text_area_value: //textarea[@id='default_value_textarea']
                                         default_date_value: //input[@id='default_value_date']
                                         default_price_value: //input[@id='default_value_text']
-                                    multiselects:
-                                        apply_product_types: "//select[@id='apply_to' and not(contains(@class,'no-display'))]"
-                                    required: [attribute_code, apply_product_types]
+                                    dropdowns:
+                                        scope: //select[@id='is_global']
+                                        default_yesno_value: //select[@id='default_value_yesno']
+                                        unique_value: //select[@id='is_unique']
+                                        input_validation: //select[@id='frontend_class']
+                                        use_to_create_configurable_product: //select[@id='is_configurable']
+                        pageelements:
+                            advanced_attribute_properties_section: //*[@id='advanced_fieldset-wrapper']/*[@class='fieldset-wrapper-title']//span
+                -
+                    manage_labels_options: &productAttributeManageLabels
+                        xpath: //a[@id='product_attribute_tabs_labels']
+                        fieldsets:
                             -
-                                frontend_properties:
+                                manage_titles: &productAttributeManageTitles
+                                    xpath: //*[@id='manage-titles-wrapper']
+                                    fields:
+                                        titles_by_store_name: //td[%storeViewNumber%]/input
+                -
+                    frontend_properties: &productAttributeFrontendProperties
+                        xpath: //a[@id='product_attribute_tabs_front']
+                        fieldsets:
+                            -
+                                frontend_properties: &productAttributeFrontendPropertiesFieldset
                                     xpath: //*[@id='front_fieldset']
                                     dropdowns:
                                         use_in_quick_search: //select[@id='is_searchable']
@@ -98,33 +132,6 @@ new_product_attribute:
                                         used_for_sorting_in_product_listing: //select[@id='used_for_sort_by']
                                     fields:
                                         position: //input[@id='position']
-                -
-                    manage_labels_options:
-                        xpath: //a[@id='product_attribute_tabs_labels']
-                        fieldsets:
-                            -
-                                manage_titles:
-                                    xpath: //fieldset[contains(.//@id,'attribute-labels-table')]
-                                    fields:
-                                        admin_title: //input[@name='frontend_label[0]']
-                                        titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
-                            -
-                                manage_options:
-                                    xpath: "//*[@id='manage-options-panel' and not(@style='display: none;')]//thead"
-                                    buttons:
-                                        add_option: /..//button[@id='add_new_option_button']
-                                        delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
-                                    checkboxes:
-                                        is_default: //input[@name='default[]' and @value='option_%fieldOptionNumber%']
-                                    fields:
-                                        admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
-                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                                        options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
-                                    pageelements:
-                                        manage_options_option: //tr[contains(@class,'option-row')]
-                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
-                                    required: [admin_option_name]
         buttons:
             back: //button[@data-ui-id='attribute-edit-content-back-button']
             reset: //button[@data-ui-id='attribute-edit-content-reset-button']
@@ -137,23 +144,16 @@ new_product_attribute:
 # Manage Product Attributes page
 edit_product_attribute:
     mca: catalog_product_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage Attributes / Magento Admin
+    title: %elementTitle% / Product Attributes / Attributes / Stores / Magento Admin
     uimap: &edit_product_attribute
         form: &editProductAttributeForm
             tabs:
                 -
-                    properties: *productAttributeProperties
-                -
-                    manage_labels_options:
-                        xpath: //a[@id='product_attribute_tabs_labels']
+                    properties:
+                        xpath: //a[@id='product_attribute_tabs_main']
                         fieldsets:
                             -
-                                manage_titles:
-                                    xpath: //fieldset[contains(.//@id,'attribute-labels-table')]
-                                    fields:
-                                        admin_title: //input[@name='frontend_label[0]']
-                                        titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
+                                attribute_properties: *productAttributeProperties
                             -
                                 manage_options:
                                     xpath: //div[@id='manage-options-panel']
@@ -162,18 +162,25 @@ edit_product_attribute:
                                         delete_option: //td[contains(input/@name,'option[delete][%fieldOptionNumber%]')]/button
                                     checkboxes:
                                         is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
-                                        default_value: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-radio']
+                                        default_value: //tr[%rowNumber%]//input[@class='input-radio']
                                         default_value_by_option_name: //tr[td//input/@value='%optionName%']//input[@type='radio']
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]' or @name='option[value][option_%fieldOptionNumber%][0]']
-                                        admin_option_name_disabled: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-text required-option' and @disabled='disabled']
-                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]' or @name='option[order][%fieldOptionNumber%]']
+                                        admin_option_name_disabled: //tr[%rowNumber%]//input[@class='input-text required-option' and @disabled='disabled']
                                         options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //tr/td[3]/input
                                     pageelements:
-                                        option_line: //tr[contains(@class,'option-row')]
-                                        manage_options_option: //tr[contains(@class,'option-row')]
-                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
-                                    required: [admin_option_name]
+                                        manage_options_option: //*[@data-role='options-container']/tr
+                                        is_default_option_index: //tr[%index%]//input[@class='input-radio']
+                            -
+                                advanced_attribute_properties: *productAttributeAdvancedProperties
+                        pageelements:
+                            advanced_attribute_properties_section: //*[@id='advanced_fieldset-wrapper']/*[@class='fieldset-wrapper-title']//span
+
+                -
+                    manage_labels_options: *productAttributeManageLabels
+                -
+                    frontend_properties: *productAttributeFrontendProperties
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -182,20 +189,47 @@ edit_product_attribute:
             save_and_continue_edit: //button[@data-ui-id='attribute-edit-content-save-and-edit-button-button']
         messages: *productAttributeMessages
 
+# Add New Product Attribute from product page
+new_product_attribute_from_product_page:
+    mca: catalog_product_attribute/new/group/%tab%/store/%storeId%/type/%productType%/popup/1/?set=%setId%
+    title: New Attribute / Manage Attributes / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    attribute_properties: *productAttributeProperties
+                -
+                    manage_options: *productAttributeManageOptions
+                -
+                    advanced_attribute_properties: *productAttributeAdvancedProperties
+                -
+                    manage_titles: *productAttributeManageTitles
+                -
+                    frontend_properties: *productAttributeFrontendPropertiesFieldset
+        pageelements:
+            advanced_attribute_properties_section: //*[@id='advanced_fieldset-wrapper']/*[@class='fieldset-wrapper-title']//span
+            manage_titles_section: //*[@id='manage-titles-wrapper']/*[@class='fieldset-wrapper-title']//span
+            frontend_properties_section: //*[@id='front_fieldset-wrapper']/*[@class='fieldset-wrapper-title']//span
+        buttons:
+            reset: //button[@id='reset']
+            save_attribute: //button[@id='save']
+            save_in_new_attribute_set: //button[@id='save_in_new_set']
+        messages: *productAttributeMessages
+
 edit_product_attribute_save_and_continue:
     mca: catalog_product_attribute/edit/attribute_id/%id%/back/edit/active_tab/%tab%
-    title: %elementTitle% / Manage Attributes / Magento Admin
+    title: ~
     uimap: *edit_product_attribute
 
 new_product_attribute_save_and_continue:
     mca: catalog_product_attribute/edit/back/edit/active_tab/%tab%/
-    title: New Attribute / Manage Attributes / Magento Admin
+    title: New Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *newProductAttributeForm
 
 product_attribute:
     mca: catalog_product_attribute/edit/
-    title: New Attribute / Manage Attributes / Magento Admin
+    title: New Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *newProductAttributeForm
         buttons:

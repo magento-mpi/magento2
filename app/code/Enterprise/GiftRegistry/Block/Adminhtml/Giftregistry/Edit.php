@@ -30,7 +30,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
                 )
             ));
 
-            $confirmMessage = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?");
+            $confirmMessage = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("If you delete this gift registry type, you also delete customer registries that use this type. Do you want to continue?");
             $this->_updateButton('delete', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete'));
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'

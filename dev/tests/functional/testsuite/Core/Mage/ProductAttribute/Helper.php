@@ -18,22 +18,143 @@
  */
 class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
 {
+    #*********************************************************************************
+    #*                      Creation attribute helper methods                        *
+    #*********************************************************************************
+
     /**
      * Action_helper method for Create Attribute
      * Preconditions: 'Manage Attributes' page is opened.
      *
-     * @param array $attrData Array which contains DataSet for filling of the current form
+     * @param array $attributeData Array which contains DataSet for filling of the current form
      */
-    public function createAttribute($attrData)
+    public function createAttribute($attributeData)
     {
         $this->clickButton('add_new_attribute');
-        $this->fillTab($attrData, 'properties', false);
-        if (!$this->fillTab($attrData, 'manage_labels_options', false)) {
-            $this->openTab('manage_labels_options');
-        }
-        $this->storeViewTitles($attrData);
-        $this->attributeOptions($attrData);
+        $this->fillAttributeTabs($attributeData);
         $this->saveForm('save_attribute');
+    }
+
+    /**
+     * Edit product attribute
+     *
+     * @param string $attributeCode
+     * @param array $editedData
+     */
+    public function editAttribute($attributeCode, array $editedData)
+    {
+        $this->openAttribute(array('attribute_code' => $attributeCode));
+        $this->fillAttributeTabs($editedData);
+        $this->saveForm('save_attribute');
+    }
+
+    /**
+     * Create Attribute from product page.
+     * Preconditions: Product page is opened.
+     *
+     * @param array $attrData
+     * @param string $saveInAttributeSet
+     */
+    public function createAttributeOnProductTab($attrData, $saveInAttributeSet = '')
+    {
+        //Steps Click 'Create New Attribute' button.
+        $saveButton = $saveInAttributeSet ? 'save_in_new_attribute_set' : 'save_attribute';
+        $currentPage = $this->getCurrentPage();
+        $this->addParameter('tab', $this->getControlAttribute('tab', $this->_getActiveTabUimap()->getTabId(), 'name'));
+        $this->clickButton('add_attribute', false);
+        $this->waitForControlVisible('button', 'create_new_attribute');
+        $this->clickButton('create_new_attribute', false);
+        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'add_new_attribute_iframe');
+        $this->pleaseWait();
+        $this->frame('create_new_attribute_container');
+        $this->setCurrentPage('new_product_attribute_from_product_page');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'attribute_properties');
+
+        $this->fillForm($attrData['attribute_properties']);
+        $this->fillManageOptions($attrData);
+        if (isset($attrData['advanced_attribute_properties'])) {
+            if (!$this->isControlExpanded(self::FIELD_TYPE_PAGEELEMENT, 'advanced_attribute_properties_section')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'advanced_attribute_properties_section', false);
+            }
+            $this->fillForm($attrData['advanced_attribute_properties']);
+        }
+        if (isset($attrData['store_view_titles'])) {
+            if (!$this->isControlExpanded(self::FIELD_TYPE_PAGEELEMENT, 'manage_titles_section')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'manage_titles_section', false);
+            }
+            $this->storeViewTitles($attrData);
+        }
+        if (isset($attrData['frontend_properties'])) {
+            if (!$this->isControlExpanded(self::FIELD_TYPE_PAGEELEMENT, 'frontend_properties_section')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'frontend_properties_section', false);
+            }
+            $this->fillForm($attrData['frontend_properties']);
+        }
+
+        $waitCondition = $this->getBasicXpathMessagesExcludeCurrent(array('error', 'validation'));
+        if (isset($attrData['advanced_attribute_properties']['attribute_code'])) {
+            $this->addParameter('elementId',
+                'attribute-' . $attrData['advanced_attribute_properties']['attribute_code'] . '-container');
+            $waitCondition[] = $this->_getControlXpath('pageelement', 'element_by_id');
+        }
+        $this->clickButton($saveButton, false);
+        if ($saveInAttributeSet) {
+            $this->alertText($saveInAttributeSet);
+            $this->acceptAlert();
+        }
+        $this->waitForElementVisible($waitCondition);
+        $this->frame(null);
+        $this->setCurrentPage($currentPage);
+    }
+
+    /**
+     * Add existing product attribute from product page
+     *
+     * @param string $attributeName
+     * @param string|null $attributeCode
+     */
+    public function addAttributeOnProductTab($attributeName, $attributeCode = null)
+    {
+        $this->addParameter('tab', $this->getControlAttribute('tab', $this->_getActiveTabUimap()->getTabId(), 'name'));
+        $this->clickButton('add_attribute', false);
+        $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_search');
+        $this->fillSearchAttributeField($attributeName, $attributeCode);
+        $this->selectAttribute();
+    }
+
+    /**
+     * Enter attribute name to searchable control
+     *
+     * @param string $attributeName
+     * @param string|null $attributeCode
+     */
+    public function fillSearchAttributeField($attributeName, $attributeCode = null)
+    {
+        $attributeField = $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_search');
+        $attributeField->click();
+        $this->waitForControlVisible('button', 'create_new_attribute');
+        $attributeField->value($attributeName);
+        $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_search');
+        $attributeData = '"label":"' . $attributeName . '"';
+        $attributeData .= ($attributeCode) ? '"code":"' . $attributeCode . '"' : '';
+        $this->addParameter('attributeData', $attributeData);
+    }
+
+    /**
+     * Select searched attribute via searchable suggest control
+     */
+    public function selectAttribute()
+    {
+        if (!$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_no_records')
+            || $this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute')
+        ) {
+            $attribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'attribute');
+            $this->moveto($attribute);
+            $attribute->click();
+            $this->pleaseWait();
+        } else {
+            $this->fail('Attribute can not be found.');
+        }
     }
 
     /**
@@ -59,57 +180,68 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $this->validatePage('edit_product_attribute');
     }
 
+    #*********************************************************************************
+    #*                         Fill in attribute helper methods                      *
+    #*********************************************************************************
     /**
-     * Verify all data in saved Attribute.
-     * Preconditions: Attribute page is opened.
+     * Fill in attribute data
      *
-     * @param array $attrData
+     * @param array $attributeData
      */
-    public function verifyAttribute($attrData)
+    public function fillAttributeTabs(array $attributeData)
     {
-        $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->getParsedMessages());
-        $this->openTab('manage_labels_options');
-        $this->storeViewTitles($attrData, 'manage_titles', 'verify');
-        $this->attributeOptions($attrData, 'verify');
+        if (isset($attributeData['attribute_properties'])) {
+            $this->fillTab($attributeData['attribute_properties'], 'properties', false);
+        }
+        $this->fillManageOptions($attributeData);
+        if (isset($attributeData['advanced_attribute_properties'])) {
+            if(!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'advanced_attribute_properties_section', false);
+            }
+            $this->fillTab($attributeData['advanced_attribute_properties'], 'properties', false);
+        }
+        if (isset($attributeData['store_view_titles'])) {
+            $this->openTab('manage_labels_options');
+            $this->storeViewTitles($attributeData);
+        }
+        if (isset($attributeData['frontend_properties'])) {
+            $this->openTab('frontend_properties');
+            $this->fillTab($attributeData['frontend_properties'], 'frontend_properties', false);
+        }
     }
 
     /**
-     * Create Attribute from product page.
-     * Preconditions: Product page is opened.
+     * Fill Manage options for Dropdown and Multiple Select Attributes
      *
-     * @param array $attrData
-     * @param string $saveInAttributeSet
+     * @param $attribute
      */
-    public function createAttributeOnProductTab($attrData, $saveInAttributeSet = '')
+    public function fillManageOptions($attribute)
     {
-        //Steps Click 'Create New Attribute' button.
-        $saveButton = $saveInAttributeSet ? 'save_in_new_attribute_set' : 'save_attribute';
-        $currentPage = $this->getCurrentPage();
-        $this->clickButton('create_new_attribute', false);
-        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'add_new_attribute_iframe');
-        $this->pleaseWait();
-        $this->frame('create_new_attribute_container');
-        $this->setCurrentPage('new_product_attribute');
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'attribute_properties');
-        $this->fillTab($attrData, 'properties', false);
-        if (!$this->fillTab($attrData, 'manage_labels_options', false)) {
-            $this->openTab('manage_labels_options');
+        $options = preg_grep('/^option_\d+$/', array_keys($attribute));
+        if (empty($options)) {
+            return;
         }
-        $this->storeViewTitles($attrData);
-        $this->attributeOptions($attrData);
-        $waitCondition = $this->getBasicXpathMessagesExcludeCurrent(array('error', 'validation'));
-        if (isset($attrData['attribute_code'])) {
-            $this->addParameter('elementId', 'attribute-' . $attrData['attribute_code'] . '-container');
-            $waitCondition[] = $this->_getControlXpath('pageelement', 'element_by_id');
+        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'manage_options'));
+        $optionCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'manage_options_option');
+        $optionOrder = array();
+        foreach ($options as $option) {
+            if (!is_array($attribute[$option])) {
+                $this->fail('Invalid data is provided for filling attribute options.');
+            }
+            $this->clickButton('add_option', false);
+            $this->addParameter('fieldOptionNumber', $optionCount);
+            $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'admin_option_name');
+            if (isset($attribute[$option]['option_position'])) {
+                $optionOrder[$optionCount] = $attribute[$option]['option_position'];
+                unset($attribute[$option]['option_position']);
+            } else {
+                $optionOrder[$optionCount] = 'noValue';
+            }
+            $this->storeViewTitles($attribute[$option], 'manage_options');
+            $this->fillFieldset($attribute[$option], 'manage_options');
+            $optionCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'manage_options_option');
         }
-        $this->clickButton($saveButton, false);
-        if ($saveInAttributeSet) {
-            $this->alertText($saveInAttributeSet);
-            $this->acceptAlert();
-        }
-        $this->waitForElementVisible($waitCondition);
-        $this->frame(null);
-        $this->setCurrentPage($currentPage);
+        $this->orderBlocks($optionOrder, 'fieldOptionNumber', 'move_attribute_option_row', 'option_orders');
     }
 
     /**
@@ -122,12 +254,9 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function storeViewTitles($attrData, $fieldsetName = 'manage_titles', $action = 'fill')
     {
         $name = 'store_view_titles';
-        $columnShift = $fieldsetName == 'manage_options' ? 1 : 0;
-        if (isset($attrData['admin_title'])) {
-            $attrData[$name]['Admin'] = $attrData['admin_title'];
-        }
+        $columnShift = $fieldsetName == 'manage_options' ? 2 : 0;
         if (array_key_exists($name, $attrData) && is_array($attrData[$name])) {
-            $this->addParameter('tableHeadXpath', $this->_getControlXpath('fieldset', $fieldsetName));
+            $this->addParameter('tableHeadXpath', $this->_getControlXpath('fieldset', $fieldsetName) . '//thead');
             $qtyStore = $this->getControlCount('pageelement', 'table_column');
             foreach ($attrData[$name] as $storeViewName => $storeViewValue) {
                 $number = -1;
@@ -160,111 +289,66 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         }
     }
 
+    #*********************************************************************************
+    #*                    Verification attribute helper methods                      *
+    #*********************************************************************************
     /**
-     * Fill or Verify Options for Dropdown and Multiple Select Attributes
+     * Verify all data in saved Attribute.
+     * Preconditions: Attribute page is opened.
      *
      * @param array $attrData
-     * @param string $action
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function attributeOptions($attrData, $action = 'fill')
+    public function verifyAttribute($attrData)
     {
-        $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
-        $number = 1;
-        foreach ($attrData as $fKey => $dValue) {
-            if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
-                if ($this->controlIsPresent('fieldset', 'manage_options')) {
-                    switch ($action) {
-                        case 'fill':
-                            $this->addParameter('fieldOptionNumber', $optionCount);
-                            $this->clickButton('add_option', false);
-                            $this->waitForControlEditable('field', 'option_position');
-                            $this->storeViewTitles($attrData[$fKey], 'manage_options');
-                            $this->fillFieldset($attrData[$fKey], 'manage_options');
-                            $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
-                            break;
-                        case 'verify':
-                            if ($optionCount-- > 0) {
-                                $this->addParameter('index', $number++);
-                                $optionNumber = $this->getControlAttribute('pageelement', 'is_default_option_index',
-                                    'selectedValue');
-                                $this->addParameter('fieldOptionNumber', $optionNumber);
-                                $this->assertTrue($this->verifyForm($attrData[$fKey], 'manage_labels_options'),
-                                    $this->getParsedMessages());
-                                $this->storeViewTitles($attrData[$fKey], 'manage_options', 'verify');
-                            }
-                            break;
-                    }
-                }
-            }
+        if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties')) {
+            $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_attribute_properties', false);
+        }
+        $this->verifyForm($attrData, 'properties');
+        $this->verifyManageOptions($attrData);
+        if (isset($attrData['store_view_titles'])) {
+            $this->openTab('manage_labels_options');
+            $this->storeViewTitles($attrData, 'manage_titles', 'verify');
+        }
+        if (isset($attrData['frontend_properties'])) {
+            $this->openTab('frontend_properties');
+            $this->verifyForm($attrData['frontend_properties'], 'frontend_properties');
         }
     }
 
     /**
-     * Define Attribute Id
+     * Verify Manage options for Dropdown and Multiple Select Attributes
      *
-     * @param array $searchData
-     *
-     * @return int
+     * @param array $attribute
      */
-    public function defineAttributeId(array $searchData)
+    public function verifyManageOptions($attribute)
     {
-        $this->navigate('manage_attributes');
-        $attrXpath = $this->search($searchData, 'attributes_grid');
-        $this->assertNotEquals(null, $attrXpath);
-
-        return $this->defineIdFromTitle($attrXpath);
-    }
-
-    /**
-     * Set default value for dropdown attribute and verify admin values if $isCheck = true
-     *
-     * @param array $attributeData
-     * @param bool $isCheck
-     *
-     * @return array
-     */
-    public function processAttributeValue(array $attributeData, $isCheck = true)
-    {
-        $options = array();
-        $this->openTab('manage_labels_options');
-        if ($isCheck) {
-            $optionCount = $this->getControlCount('pageelement', 'option_line');
-            $identifier = 0;
-            foreach ($attributeData as $key => $value) {
-                if ($this->_hasOptions($key, $value, $optionCount)) {
-                    $options[$identifier++] = $value;
-                    $optionCount--;
-                    unset($attributeData[$key]);
-                }
+        $options = preg_grep('/^option_\d+$/', array_keys($attribute));
+        if (empty($options)) {
+            return;
+        }
+        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'manage_options'));
+        $optionCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'manage_options_option');
+        $optionOrder = array();
+        foreach ($options as $option) {
+            $optionOrder[$attribute[$option]['admin_option_name']] = isset($attribute[$option]['option_position'])
+                ? $attribute[$option]['option_position']
+                : 'noValue';
+        }
+        $this->verifyBlocksOrder($optionOrder, 'option_orders');
+        $itemDataOrder = $this->getActualItemOrder(self::FIELD_TYPE_INPUT, 'option_orders');
+        foreach ($options as $option) {
+            if (!is_array($attribute[$option])) {
+                $this->fail('Invalid data is provided for filling attribute options.');
             }
-            $locator = "//input[@class='input-text required-option' and @disabled='disabled']";
-            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $optionLine */
-            foreach ($this->getControlElements('pageelement', 'option_line') as $key => $optionLine) {
-                $admin = $this->getChildElement($optionLine, $locator);
-                $currentValue = trim($admin->value());
-                if (!isset($options[$key]) || !isset($options[$key]['admin_option_name'])) {
-                    $this->addVerificationMessage('Admin Option Name for option with index ' . ($key + 1)
-                        . ' is not set. Exist more options than specified.');
-                    continue;
-                }
-                if ($options[$key]['admin_option_name'] != $currentValue) {
-                    $this->addVerificationMessage('Admin value attribute label is wrong. Expected="'
-                        . $options[$key]['admin_option_name'] . '" Actual="' . $currentValue . '"');
-                }
-            }
-            if (isset($attributeData['default_value'])) {
-                $this->addParameter('optionName', $attributeData['default_value']);
-                if (!$this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue')) {
-                    $this->addVerificationMessage($attributeData['default_value'] . ' is not set as default value');
-                }
+            if ($optionCount-- > 0) {
+                $this->addParameter('index', $itemDataOrder[$attribute[$option]['admin_option_name']]);
+                $optionNumber = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'is_default_option_index',
+                    'selectedValue');
+                $this->addParameter('fieldOptionNumber', $optionNumber);
+                $this->assertTrue($this->verifyForm($attribute[$option]), $this->getParsedMessages());
+                $this->storeViewTitles($attribute[$option], 'manage_options', 'verify');
             }
         }
-        if (isset($attributeData['set_default_value'])) {
-            $this->addParameter('optionName', $attributeData['set_default_value']);
-            $this->fillCheckbox('default_value_by_option_name', 'Yes');
-        }
-        return $attributeData;
     }
 
     /**
@@ -279,8 +363,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     protected function _hasOptions($key, $value, $option)
     {
         return preg_match('/^option_/', $key) && is_array($value)
-            && $this->controlIsPresent('fieldset', 'manage_options')
-            && $option > 0;
+               && $this->controlIsPresent('fieldset', 'manage_options')
+               && $option > 0;
     }
 
     /**
@@ -292,9 +376,10 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifySystemAttribute($attributeData)
     {
-        $this->openTab('manage_labels_options');
-        $withoutOptions = $this->processAttributeValue($attributeData);
-        $this->storeViewTitles($withoutOptions, 'manage_titles', 'verify');
+        $this->openTab('properties');
+        $setDeFaultValue = isset($attributeData['default_value']);
+        $dataWithoutOptions = $this->processAttributeValue($attributeData, true, $setDeFaultValue);
+        $this->storeViewTitles($dataWithoutOptions, 'manage_titles', 'verify');
         if ($this->buttonIsPresent('add_option')) {
             $this->addVerificationMessage('"Add Option" button is present');
         }
@@ -305,20 +390,55 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Edit product attribute
+     * Set default value for dropdown attribute and verify admin values if $isCheck = true
      *
-     * @param string $attributeCode
-     * @param array $editedData
+     * @param array $attributeData
+     * @param bool $isCheck
+     *
+     * @return array
      */
-    public function editAttribute($attributeCode, array $editedData)
+    public function processAttributeValue(array $attributeData, $isCheck = true)
     {
-        $this->openAttribute(array('attribute_code' => $attributeCode));
-        $this->fillTab($editedData, 'properties', false);
-        if (!$this->fillTab($editedData, 'manage_labels_options', false)) {
-            $this->openTab('manage_labels_options');
+        $options = array();
+        $this->openTab('properties');
+        if ($isCheck) {
+            $optionLines = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'manage_options_option');
+            $optionCount = count($optionLines);
+            $identifier = 0;
+            foreach ($attributeData as $key => $value) {
+                if ($this->_hasOptions($key, $value, $optionCount)) {
+                    $options[$identifier++] = $value;
+                    $optionCount--;
+                    unset($attributeData[$key]);
+                }
+            }
+            $locator = "//input[@class='input-text required-option' and @disabled='disabled']";
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $optionLine */
+            foreach ($optionLines as $key => $optionLine) {
+                $admin = $this->getChildElement($optionLine, $locator);
+                $currentValue = trim($admin->value());
+                if (!isset($options[$key]) || !isset($options[$key]['admin_option_name'])) {
+                    $this->addVerificationMessage('Admin Option Name for option with index ' . ($key + 1)
+                        . ' is not set. Exist more options than specified.');
+                    continue;
+                }
+                if ($options[$key]['admin_option_name'] != $currentValue) {
+                    $this->addVerificationMessage('Admin value attribute label is wrong. Expected="'
+                        . $options[$key]['admin_option_name'] . '" Actual="' . $currentValue . '"');
+                }
+            }
+            if (isset($attributeData['default_value'])) {
+                $this->addParameter('optionName', $attributeData['default_value']);
+                $this->fillCheckbox('default_value_by_option_name', 'Yes');
+                if (!$this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue')) {
+                    $this->addVerificationMessage($attributeData['default_value'] . ' is not set as default value');
+                }
+            }
         }
-        $this->storeViewTitles($editedData);
-        $this->attributeOptions($editedData);
-        $this->saveForm('save_attribute');
+        if (isset($attributeData['set_default_value'])) {
+            $this->addParameter('optionName', $attributeData['set_default_value']);
+            $this->fillCheckbox('default_value_by_option_name', 'Yes');
+        }
+        return $attributeData;
     }
 }

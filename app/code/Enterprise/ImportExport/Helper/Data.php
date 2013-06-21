@@ -30,14 +30,14 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
         switch ($type) {
             case 'import':
                 if ($action == 'edit') {
-                    $title = $this->__('Edit Scheduled Import');
+                    $title = $this->__('Scheduled Import');
                 } else {
                     $title = $this->__('New Scheduled Import');
                 }
                 break;
             case 'export':
                 if ($action == 'edit') {
-                    $title = $this->__('Edit Scheduled Export');
+                    $title = $this->__('Scheduled Export');
                 } else {
                     $title = $this->__('New Scheduled Export');
                 }
@@ -58,10 +58,10 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
         $message = '';
         switch ($type) {
             case 'import':
-                $message = $this->__('The scheduled import has been saved.');
+                $message = $this->__('We saved the scheduled import.');
                 break;
             case 'export':
-                $message = $this->__('The scheduled export has been saved.');
+                $message = $this->__('We saved the scheduled report.');
                 break;
         }
 
@@ -79,10 +79,10 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
         $message = '';
         switch ($type) {
             case 'import':
-                $message = $this->__('The scheduled import has been deleted.');
+                $message = $this->__('We deleted the scheduled import.');
                 break;
             case 'export':
-                $message = $this->__('The scheduled export has been deleted.');
+                $message = $this->__('We deleted the scheduled export.');
                 break;
         }
 

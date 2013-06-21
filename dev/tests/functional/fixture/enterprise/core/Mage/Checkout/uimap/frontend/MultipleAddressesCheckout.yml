@@ -13,7 +13,7 @@ checkout_multishipping_addresses:
     title: Ship to Multiple Addresses - Magento Enterprise Edition
     uimap:
         messages: &checkoutMessages
-            ship_method_unavailable: "//h2[text()='%addressHeader%']//following-sibling::div[1]//dt[text()='%shipService%']/following::dd[1]//li[strong='%shipService%: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']"
+            ship_method_unavailable: "//h2[text()='%addressHeader%']//following-sibling::div[1]//dt[text()='%shipService%']/following::dd[1]//li[strong='%shipService%: This shipping method is not available. To use this shipping method, please contact us.']"
 
 checkout_multishipping_addresses_post:
     title: Ship to Multiple Addresses - Magento Enterprise Edition

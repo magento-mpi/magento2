@@ -483,7 +483,15 @@ Layout handle for configurable products
 
     <adminhtml_catalog_product_attribute_edit>
         <reference name="left">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs">
+                <container label="Main" as="main">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="base" />
+                    <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced" />
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options" />
+                </container>
+                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels" />
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front" />
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit" name="attribute_edit_content"></block>
@@ -492,6 +500,22 @@ Layout handle for configurable products
             <block type="Mage_Adminhtml_Block_Template" name="attribute_edit_js" template="catalog/product/attribute/js.phtml"></block>
         </reference>
     </adminhtml_catalog_product_attribute_edit>
+
+    <adminhtml_catalog_product_attribute_edit_popup>
+        <remove name="left" />
+        <reference name="attribute_edit_content">
+            <arguments>
+                <template>Mage_Adminhtml::catalog/product/attribute/form.phtml</template>
+            </arguments>
+            <container as="form" label="Form">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="main" />
+                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options" />
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options" />
+                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels" />
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front-options" />
+            </container>
+        </reference>
+    </adminhtml_catalog_product_attribute_edit_popup>
 
     <adminhtml_catalog_category_edit>
         <update handle="editor"/>

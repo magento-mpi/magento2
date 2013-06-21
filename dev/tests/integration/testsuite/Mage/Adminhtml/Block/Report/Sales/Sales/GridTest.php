@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Report_Sales_Sales_GridTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Block_Report_Sales_Sales_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Creates and inits block

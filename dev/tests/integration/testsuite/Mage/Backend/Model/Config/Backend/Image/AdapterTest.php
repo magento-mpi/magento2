@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Backend_Image_AdapterTest extends Mage_Backend_Area_TestCase
+class Mage_Backend_Model_Config_Backend_Image_AdapterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Model_Config_Backend_Image_Adapter

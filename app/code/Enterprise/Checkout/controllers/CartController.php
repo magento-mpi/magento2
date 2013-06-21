@@ -141,7 +141,7 @@ class Enterprise_Checkout_CartController
 
         if ($removed) {
             $this->_getSession()->addSuccess(
-                $this->__('Item was successfully removed.')
+                $this->__('You removed the item.')
             );
         }
 
@@ -157,7 +157,7 @@ class Enterprise_Checkout_CartController
     {
         $this->_getFailedItemsCart()->removeAllAffectedItems();
         $this->_getSession()->addSuccess(
-            $this->__('Items were successfully removed.')
+            $this->__('You removed the items.')
         );
         $this->_redirect('checkout/cart');
     }
@@ -190,7 +190,7 @@ class Enterprise_Checkout_CartController
             $this->_redirect('*');
             return;
         } catch (Exception $e) {
-            $this->_getCustomerSession()->addError($this->__('Cannot configure product'));
+            $this->_getCustomerSession()->addError($this->__('You cannot configure a product.'));
             Mage::logException($e);
             $this->_redirect('*');
             return;
@@ -221,7 +221,7 @@ class Enterprise_Checkout_CartController
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
                     $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
-                    $message = $this->__('%s was added to your shopping cart.', $productName);
+                    $message = $this->__('You added %s to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }
             }
@@ -229,7 +229,7 @@ class Enterprise_Checkout_CartController
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Cannot add product'));
+            $this->_getSession()->addError($this->__('You cannot add a product.'));
             Mage::logException($e);
             $hasError = true;
         }

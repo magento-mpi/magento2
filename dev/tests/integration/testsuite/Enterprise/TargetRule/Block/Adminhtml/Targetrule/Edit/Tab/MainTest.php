@@ -11,8 +11,10 @@
 
 /**
  * Test class for Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
+ *
+ * @magentoAppArea adminhtml
  */
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends Mage_Backend_Area_TestCase
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled

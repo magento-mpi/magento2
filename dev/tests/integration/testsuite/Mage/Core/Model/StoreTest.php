@@ -306,30 +306,4 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
-
-    /**
-     * @magentoConfigFixture limitations/store 1
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation enabled
-     */
-    public function testSaveValidationLimitation()
-    {
-        // @codingStandardsIgnoreStart
-        $this->setExpectedException('Mage_Core_Exception', 'Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
-        // @codingStandardsIgnoreEnd
-        $this->_model->setData(
-            array(
-                'code'          => 'test',
-                'website_id'    => 1,
-                'group_id'      => 1,
-                'name'          => 'test name',
-                'sort_order'    => 0,
-                'is_active'     => 1
-            )
-        );
-
-        /* emulate admin store */
-        Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
-        $this->_model->save();
-    }
 }

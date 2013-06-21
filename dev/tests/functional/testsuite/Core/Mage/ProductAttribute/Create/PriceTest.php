@@ -84,38 +84,23 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking validation for required fields are EMPTY
-     *
-     * @param string $emptyField
-     * @param string $fieldType
-     * @param string $fieldValue
+     * Checking validation for required field 'Attribute Label'
      *
      * @test
-     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3552
      */
-    public function withRequiredFieldsEmpty($emptyField, $fieldType, $fieldValue)
+    public function withRequiredAttributeLabelEmpty()
     {
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
-            array($emptyField => $fieldValue));
+            array('attribute_label' => '%noValue%'));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $emptyField = ($emptyField != 'apply_to') ? $emptyField : 'apply_product_types';
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->addFieldIdToMessage('field', 'attribute_label');
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
-
-    public function withRequiredFieldsEmptyDataProvider()
-    {
-        return array(
-            array('attribute_code', 'field', '%noValue%'),
-            array('admin_title', 'field', '%noValue%'),
-            array('apply_to', 'multiselect', 'Selected Product Types')
-        );
     }
 
     /**
@@ -198,10 +183,11 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
-            array('admin_title' => $this->generate('string', 32, ':punct:')));
-        $attrData['admin_title'] = preg_replace('/<|>/', '', $attrData['admin_title']);
+            array('attribute_label' => $this->generate('string', 32, ':punct:')));
+        $attrData['attribute_properties']['attribute_label'] =
+            preg_replace('/<|>/', '', $attrData['attribute_properties']['attribute_label']);
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code' => $attrData['attribute_code']));
+            array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -223,12 +209,12 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
-            array('attribute_code' => $this->generate('string', 30, ':lower:'),
-                  'admin_title'    => $this->generate('string', 255, ':alnum:'),
-                  'position'       => 2147483647));
+            array('attribute_code'  => $this->generate('string', 30, ':lower:'),
+                  'attribute_label' => $this->generate('string', 255, ':alnum:'),
+                  'position'        => 2147483647));
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code'  => $attrData['attribute_code'],
-                  'attribute_label' => $attrData['admin_title']));
+            array('attribute_code'  => $attrData['advanced_attribute_properties']['attribute_code'],
+                  'attribute_label' => $attrData['attribute_properties']['attribute_label']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying

@@ -35,7 +35,7 @@ Customer account pages, rendered for all tabs in dashboard
     <customer_account>
         <!-- Mage_Wishlist -->
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Mage_Wishlist" ifconfig="wishlist/general/active"><name>wishlist</name><path>wishlist/</path><label>My Wishlist</label></action>
+            <action method="addLink" translate="label" module="Mage_Wishlist" ifconfig="wishlist/general/active"><name>wishlist</name><path>wishlist/</path><label>My Wish List</label></action>
         </reference>
     </customer_account>
 
@@ -54,13 +54,13 @@ Wishlist pages
 -->
 
     <wishlist_index_index translate="label" type="page" parent="customer_account_index">
-        <label>Customer My Account My Wishlist</label>
+        <label>Customer My Account My Wish List</label>
         <!-- Mage_Wishlist -->
         <update handle="customer_account" />
         <reference name="my.account.wrapper">
             <block type="Mage_Wishlist_Block_Customer_Wishlist" name="customer.wishlist" template="view.phtml">
                 <action method="setTitle" translate="title">
-                    <title>My Wishlist</title>
+                    <title>My Wish List</title>
                 </action>
                 <block type="Mage_Wishlist_Block_Customer_Wishlist_Items" name="customer.wishlist.items" as="items" template="item/list.phtml">
                     <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="item/column/image.phtml" />
@@ -90,7 +90,7 @@ Wishlist pages
     </wishlist_index_index>
 
     <wishlist_index_share translate="label" type="page" parent="wishlist_index_index">
-        <label>Customer My Account Wishlist Sharing Form</label>
+        <label>Customer My Account Wish List Sharing Form</label>
         <!-- Mage_Wishlist -->
         <update handle="customer_account" />
         <reference name="my.account.wrapper">

@@ -120,7 +120,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             && !(isset($flagData['timeout_reached']) && $flagData['timeout_reached'])
                         ) {
                             Mage::logException(new Mage_Exception(
-                                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Timeout limit for response from synchronize process was reached.')
+                                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The timeout limit for response from synchronize process was reached.')
                             ));
 
                             $state = Mage_Core_Model_File_Storage_Flag::STATE_FINISHED;

@@ -38,7 +38,9 @@
         <di>
             <Mage_Adminhtml_Catalog_Product_AttributeController>
                 <parameters>
-                    <attributeLabelCache>Mage_Core_Model_Cache_Type_Translate</attributeLabelCache>
+                    <attributeLabelCache>
+                        <instance>Mage_Core_Model_Cache_Type_Translate</instance>
+                    </attributeLabelCache>
                 </parameters>
             </Mage_Adminhtml_Catalog_Product_AttributeController>
         </di>
@@ -145,16 +147,19 @@
                 <system_search module="Mage_Adminhtml">
                     <file>search.xml</file>
                 </system_search>
+                <system_account module="Mage_Adminhtml">
+                    <file>system/account.xml</file>
+                </system_account>
             </updates>
         </layout>
         <sales>
             <order>
                 <create>
                     <available_product_types>
-                        <simple/>
-                        <virtual/>
-                        <configurable/>
-                        <grouped/>
+                        <simple />
+                        <virtual />
+                        <configurable />
+                        <grouped />
                     </available_product_types>
                 </create>
             </order>

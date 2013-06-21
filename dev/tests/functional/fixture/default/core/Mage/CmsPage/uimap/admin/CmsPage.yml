@@ -12,7 +12,7 @@
 manage_cms_pages:
     mca: cms_page/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_page/')]
-    title: Manage Content / Elements / Content / Magento Admin
+    title: Pages / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -44,7 +44,7 @@ manage_cms_pages:
         messages: &pageMessages
             success_saved_cms_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been saved.')]
             success_deleted_cms_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been deleted.')]
-            invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
+            invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot be made of only numbers.')]
             existing_url_key: //li[normalize-space(@class)='error-msg' and contains(.,'A page URL key for specified store already exists.')]
             invalid_urk_key_spec_sym: //label[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page".']
             confirmation_for_delete: Are you sure you want to do this?

@@ -44,16 +44,19 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $dropDown = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $multiSelect = $this->loadDataSet('ProductAttribute', 'product_attribute_multiselect_with_options');
         $price = $this->loadDataSet('ProductAttribute', 'product_attribute_price');
-        $attributes = array($dropDown['attribute_code'], $multiSelect['attribute_code'], $price['attribute_code']);
+        $dropDownCode = $dropDown['advanced_attribute_properties']['attribute_code'];
+        $multiSelectCode = $multiSelect['advanced_attribute_properties']['attribute_code'];
+        $priceCode = $price['advanced_attribute_properties']['attribute_code'];
+        $attributes = array($dropDownCode, $multiSelectCode, $priceCode);
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('associated_attributes' => array('Product Details' => $attributes)));
         $simpleWithAttributes = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $anchorCategoryPath . '/' . $anchorSubCategory['name'],
                 'product_attribute_set' => $attributeSet['set_name']));
-        $simpleWithAttributes['general_user_attr']['dropdown'][$dropDown['attribute_code']] =
+        $simpleWithAttributes['general_user_attr']['dropdown'][$dropDownCode] =
             $dropDown['option_1']['admin_option_name'];
-        $simpleWithAttributes['general_user_attr']['field'][$price['attribute_code']] = '999';
-        $simpleWithAttributes['general_user_attr']['multiselect'][$multiSelect['attribute_code']] =
+        $simpleWithAttributes['general_user_attr']['field'][$priceCode] = '999';
+        $simpleWithAttributes['general_user_attr']['multiselect'][$multiSelectCode] =
             $multiSelect['option_2']['admin_option_name'];
         $simpleWithoutAttrs = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $anchorCategoryPath));
@@ -90,9 +93,9 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
             'simpleNonAnchor' => $simpleWithoutAttrs['general_name'],
             'multiselectOptionName' => $multiSelect['option_2']['store_view_titles']['Default Store View'],
             'dropdownOptionName' => $dropDown['option_1']['store_view_titles']['Default Store View'],
-            'multiselectCode' => $multiSelect['attribute_code'],
-            'dropdownCode' => $dropDown['attribute_code'],
-            'priceCode' => $price['attribute_code'],
+            'multiselectCode' => $multiSelectCode,
+            'dropdownCode' => $dropDownCode,
+            'priceCode' => $priceCode,
             'anchorCategory' => $anchorCategory['name'],
             'anchorSubCategory' => $anchorSubCategory['name'],
             'nonAnchorCategory' => $nonAnchorCategory['name']

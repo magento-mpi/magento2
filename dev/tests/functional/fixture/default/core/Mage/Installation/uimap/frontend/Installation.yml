@@ -80,7 +80,7 @@ configuration:
             invalid_base_url: //div[@id='advice-validate-url-base_url']
             invalid_admin_path: //div[@id='advice-validate-data-admin_frontname']
             invalid_tables_prefix: //div[@id='advice-validate-data-prefix']
-            database_connection_error: //li[normalize-space(@class)='error-msg' and contains(.,'Database connection error.')]
+            database_connection_error: //li[normalize-space(@class)='error-msg' and contains(.,'Something went wrong while connecting to the database.')]
 
 create_admin_account:
     mca: install/wizard/administrator/

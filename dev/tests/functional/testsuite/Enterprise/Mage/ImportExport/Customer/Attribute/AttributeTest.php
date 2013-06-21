@@ -45,11 +45,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 4
         $this->importExportHelper()->customerFilterAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code'])
         );
         //Step 5
         $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code']),
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
@@ -72,11 +72,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         //step1
         $this->navigate('manage_customer_attributes');
         $this->attributesHelper()->openAttribute(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
+            array('attribute_code'=>$attrData['attribute_properties']['attribute_code'])
         );
         //Change label
-        $attrData['manage_labels_options']['admin_title'] =
-            'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
+        $attrData['attribute_properties']['attribute_label'] = 'Text_Field_Admin_'
+            . $this->generate('string', 5, ':lower:');
         $this->attributesHelper()->fillForm($attrData, 'manage_labels_options');
         $this->attributesHelper()->saveForm('save_attribute');
         //Verifying
@@ -86,11 +86,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 4
         $this->importExportHelper()->customerFilterAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code'])
         );
         //Step 5
         $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code']),
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
@@ -113,8 +113,7 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         //step1
         $this->navigate('manage_customer_attributes');
         $this->attributesHelper()->openAttribute(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
-        );
+            array('attribute_code'=>$attrData['attribute_properties']['attribute_code']));
         //Delete attribute
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
@@ -124,11 +123,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 5
         $this->importExportHelper()->customerFilterAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code'])
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code'])
         );
         //Step 6
         $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_code' => $attrData['properties']['attribute_code']),
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']),
             'grid_and_filter'
         );
         $this->assertNull($isFound, 'Attribute was found after deleting');
@@ -150,10 +149,11 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_textfield',
             array('values_required' => 'No', 'default_value' => 'default text ' . $this->generate('string', 5)));
         $this->attributesHelper()->createAttribute($attrData);
-        $this->addParameter('attribute_name', $attrData['properties']['attribute_code']);
+        $this->addParameter('attribute_name', $attrData['attribute_properties']['attribute_code']);
         $this->navigate('manage_customers');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $userData[$attrData['properties']['attribute_code']] = $attrData['properties']['default_value'];
+        $userData[$attrData['attribute_properties']['attribute_code']] =
+            $attrData['attribute_properties']['default_value'];
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps 1-2
@@ -162,7 +162,10 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step3
         $this->importExportHelper()->setFilter(
-            array($attrData['properties']['attribute_code'] => $userData[$attrData['properties']['attribute_code']])
+            array(
+                 $attrData['attribute_properties']['attribute_code'] =>
+                    $userData[$attrData['attribute_properties']['attribute_code']]
+            )
         );
         //Step4-5
         $report = $this->importExportHelper()->export();

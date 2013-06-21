@@ -48,7 +48,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('There was an error saving tax class.'),
+                'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('Something went wrong saving this tax class.'),
                 'class_id' => '',
                 'class_name' => ''
             ));
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this tax class.')
+                'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('Something went wrong deleting this tax class.')
             ));
         }
         $this->getResponse()->setBody($responseContent);

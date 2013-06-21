@@ -19,9 +19,7 @@
 class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Action_helper method for Create Customer Attribute
-     *
-     * Preconditions: 'Manage Customer Attributes' page is opened.
+     * Action_helper method for Create Customer/Rma Attribute
      *
      * @param array $attrData Array which contains DataSet for filling of the current form
      */
@@ -33,20 +31,24 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Filling tabs
+     * Filling tabs for customer/rma attribute
      *
      * @param string|array $attrData
      */
     public function fillTabs($attrData)
     {
         $attrData = $this->fixtureDataToArray($attrData);
-        $optionsTab = (isset($attrData['manage_labels_options'])) ? $attrData['manage_labels_options'] : array();
-        if (isset($attrData['properties'])) {
-            $this->fillTab($attrData['properties'], 'properties');
+        if (isset($attrData['attribute_properties'])) {
+            $this->fillTab($attrData['attribute_properties'], 'properties');
         }
-        $this->openTab('manage_labels_options');
-        $this->productAttributeHelper()->storeViewTitles($optionsTab);
-        $this->productAttributeHelper()->attributeOptions($optionsTab);
+        if (isset($attrData['frontend_properties'])) {
+            $this->fillTab($attrData['frontend_properties'], 'properties');
+        }
+        if (isset($attrData['manage_labels_options'])) {
+            $this->openTab('manage_labels_options');
+            $this->productAttributeHelper()->storeViewTitles($attrData['manage_labels_options']);
+            $this->productAttributeHelper()->fillManageOptions($attrData['manage_labels_options']);
+        }
     }
 
     /**
@@ -70,5 +72,20 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
         //Open attribute
         $this->url($attributeUrl);
         $this->validatePage();
+    }
+
+    /**
+     * Verify data for customer/rma attribute
+     *
+     * @param array $attributeData
+     */
+    public function verifyAttribute(array $attributeData)
+    {
+        $this->verifyForm($attributeData, 'properties');
+        if (isset($attributeData['manage_labels_options'])) {
+            $this->openTab('manage_labels_options');
+            $this->productAttributeHelper()->storeViewTitles($attributeData, 'manage_titles', 'verify');
+            $this->productAttributeHelper()->verifyManageOptions($attributeData);
+        }
     }
 }

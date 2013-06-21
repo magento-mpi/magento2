@@ -22,14 +22,18 @@ orders_and_returns:
                         fields:
                             order_id: //*[@id='oar-order-id']
                             billing_last_name: //*[@id='oar-billing-lastname']
-                            email: //*[@id='oar_email']
-                            zip: //*[@id='oar_zip']
+                            email: //*[@id='oar-email']
+                            zip: //*[@id='oar-zip']
                         dropdowns:
                             search_type_id: //*[@id='quick-search-type-id']
                         buttons:
                             continue: //button[span='Continue']
         messages:
-            incorrect_data: //li[normalize-space(@class)='error-msg' and contains(.,'Entered data is incorrect. Please try again.')]
+            incorrect_data: //li[normalize-space(@class)='error-msg' and contains(.,'You entered incorrect data. Please try again.')]
+            empty_order_id: //*[@id='advice-required-entry-oar_order_id']
+            empty_billing_last_name: //*[@id='advice-required-entry-oar_billing_lastname']
+            empty_email: //*[@id='advice-required-entry-oar_email']
+            empty_zip: //*[@id='advice-required-entry-oar_zip']
 
 guest_view_order:
     mca: /sales/guest/view/

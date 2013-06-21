@@ -107,7 +107,7 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_TextAreaTest ex
         return array(
             array('attribute_code', 1),
             array('sort_order', 1),
-            array('admin_title', 1)
+            array('attribute_label', 1)
         );
     }
 
@@ -157,20 +157,20 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_TextAreaTest ex
     {
         //Data
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_textarea',
-            array('admin_title' => $this->generate('string', 32, ':punct:')));
-        $attrData['manage_labels_options']['admin_title'] = preg_replace('/<|>/', '',
-            $attrData['manage_labels_options']['admin_title']);
+            array('attribute_label' => $this->generate('string', 32, ':punct:')));
+        $attrData['attribute_properties']['attribute_label'] =
+            preg_replace('/<|>/', '', $attrData['attribute_properties']['attribute_label']);
         $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
-            array('attribute_code' => $attrData['properties']['attribute_code']));
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
+        $this->addParameter('elementTitle', $attrData['attribute_properties']['attribute_label']);
         $this->attributesHelper()->openAttribute($searchData);
         //Verifying
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 
     /**
@@ -183,22 +183,20 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_TextAreaTest ex
     public function withLongValues()
     {
         //Data
-        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_textarea', array(
-            'attribute_code' => $this->generate('string', 21, ':lower:'),
-            'admin_title' => $this->generate('string', 255, ':alnum:')
-        ));
-        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data', array(
-            'attribute_code' => $attrData['properties']['attribute_code'],
-            'attribute_label' => $attrData['manage_labels_options']['admin_title']
-        ));
+        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_textarea',
+            array('attribute_code'  => $this->generate('string', 21, ':lower:'),
+                  'attribute_label' => $this->generate('string', 255, ':alnum:')));
+        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
+            array('attribute_code'  => $attrData['attribute_properties']['attribute_code'],
+                  'attribute_label' => $attrData['attribute_properties']['attribute_label']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
+        $this->addParameter('elementTitle', $attrData['attribute_properties']['attribute_label']);
         $this->attributesHelper()->openAttribute($searchData);
         //Verifying
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 }

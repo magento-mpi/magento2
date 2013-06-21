@@ -11,6 +11,8 @@
 
 /**
  * Test class for Mage_User_Adminhtml_User_RoleController.
+ *
+ * @magentoAppArea adminhtml
  */
 class Mage_User_Adminhtml_User_RoleControllerTest extends Mage_Backend_Utility_Controller
 {

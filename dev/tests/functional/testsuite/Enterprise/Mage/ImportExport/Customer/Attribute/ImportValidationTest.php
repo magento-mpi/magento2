@@ -51,7 +51,7 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_ImportValidationTest exten
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_yesno',
             array('values_required' => 'No'));
         $this->attributesHelper()->createAttribute($attrData);
-        $customerData[$attrData['properties']['attribute_code']] = 'gf13gh';
+        $customerData[$attrData['attribute_properties']['attribute_code']] = $this->generate('string', 5);
         $this->navigate('import');
         //Step 1
         $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
@@ -62,7 +62,7 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_ImportValidationTest exten
         //Check import
         $validationMessage['validation']['error'] = str_replace(
             '%attribute_id%',
-            $attrData['properties']['attribute_code'],
+            $attrData['attribute_properties']['attribute_code'],
             $validationMessage['validation']['error']
         );
         $this->assertEquals($validationMessage, $importReport,
@@ -83,7 +83,7 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_ImportValidationTest exten
                         "Invalid value for '%attribute_id%' in rows: 1"
                     ),
                     'validation' => array(
-                        "File is totally invalid. Please fix errors and re-upload file",
+                        "File is totally invalid. Please fix errors and re-upload file.",
                         "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
                     )
                 )

@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Widget_ContainerTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCase
 {
     public function testGetButtonsHtml()
     {

@@ -84,7 +84,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Bloc
         $this->getMassactionBlock()->addItem('refresh', array(
              'label'    => $this->__('Synchronize'),
              'url'      => $this->getUrl('*/*/refresh', array('_current'=>true)),
-             'confirm'  => $this->__('This action will update items attributes and remove the items which are not available in Google Content. If an attributes was deleted from mapping, it will be deleted from Google too. Continue?')
+             'confirm'  => $this->__('This action will update items\' attributes and remove items that are not available in Google Content. If an attribute was deleted from the mapping, it will also be deleted from Google. Do you want to continue?')
         ));
         return $this;
     }

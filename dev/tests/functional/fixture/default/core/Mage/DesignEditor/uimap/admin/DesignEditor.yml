@@ -24,7 +24,6 @@ design_editor_selector:
                                 available_themes_content:
                                     xpath: //div[@id='theme_selector_tabs_available_themes_content']
                                     pageelements:
-                                        header_available_themes: //h3[contains(.,'Choose a theme to start with')]
                                         theme_list: //div[@class='infinite_scroll']
                                         theme_list_elements: //div[@class='infinite_scroll']/ul/li
                                         thumbnail: //li[@id='%themeId%']//div[@class='theme-content']
@@ -73,6 +72,18 @@ design_editor_selector:
                                         theme_title: //li[@id='theme-id-%id%']/div[@class='theme-assigned-data']/h4[@class='theme-title']
         messages:
             confirmation_for_delete: Are you sure you want to do this?
+            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
+            confirmation_for_assign_to_default: You are about to assign this theme to your live store. Are you sure you want to do that?
+        buttons:
+            assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Store View')]
+            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
+            delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
+            preview_demo_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Theme Demo')]
+            preview_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Preview Theme')]
+            store_assign_done: //div[@id='store-view-window']//button[contains(@title, 'Assign')]
+            store_assign_close: //div[@id='store-view-window']//div[contains (@class, 'actions')]//span[contains(@title, 'Close')]
+            store_assign_close_x: //div[@id='store-view-window']//div[contains (@class, 'popup')]//span[contains(@class, 'action-close-popup')]
+            duplicate_theme: //li[@id='theme-id-%id%']//button[@class='action-duplicate']
 
 design_editor_selector_first_assign:
     mca: system_design_editor/#theme_selector_tabs_available_themes_content
@@ -95,8 +106,8 @@ preview_theme_in_navigation:
             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
             assign: //button[contains(@title, 'Assign')]
         messages:
-            confirmation_for_assign_to_default_in_nm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
-            confirmation_for_assign_to_default: You are about to apply current changes for your live store, are you sure want to do this?
+            confirmation_for_assign_to_default_in_nm: "Are you sure you want to change the theme of your live store?"
+            confirmation_for_assign_to_default: Are you sure you want to change the design of your live store?
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
@@ -116,7 +127,7 @@ preview_theme_in_design:
                         messages:
                             confirmation_for_assign_to_default_in_dm: You are about to apply current changes for your live store, are you sure want to do this?
                             assign_physical_theme_to_default_in_dm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
-                            no_change: No changes found.
+                            no_change: We found no changes.
                 -
                     bottom_bar:
                         links:

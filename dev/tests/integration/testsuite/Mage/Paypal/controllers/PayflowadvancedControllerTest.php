@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Paypal
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,7 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
     {
         parent::setUp();
 
-        $order = Mage::getModel('Mage_Sales_Model_Order');
+        $order = $this->_objectManager->create('Mage_Sales_Model_Order');
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(Mage_Paypal_Model_Config::METHOD_PAYFLOWADVANCED);
 
@@ -29,7 +26,7 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
         $order->setQuoteId($quote->getId());
         $order->save();
 
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session = $this->_objectManager->create('Mage_Checkout_Model_Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastQuoteId($order->getQuoteId());
     }
@@ -75,5 +72,31 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
             '<form id="token_form" method="POST" action="https://payflowlink.paypal.com/">',
             $this->getResponse()->getBody()
         );
+    }
+
+    /**
+     * @magentoDataFixture Mage/Paypal/_files/quote_payment_payflow.php
+     * @magentoConfigFixture current_store payment/paypal_payflow/active 1
+     * @magentoConfigFixture current_store paypal/general/business_account merchant_2012050718_biz@example.com
+     */
+    public function testCancelAction()
+    {
+        $order = $this->_objectManager->create('Mage_Sales_Model_Order');
+        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');
+
+        $quote = $this->_objectManager->create('Mage_Sales_Model_Quote');
+        $quote->load('test02', 'reserved_order_id');
+        $order->load('100000001', 'increment_id')
+            ->setQuoteId($quote->getId())
+            ->save();
+        $session->setQuoteId($quote->getId());
+        $session->setPaypalStandardQuoteId($quote->getId())
+            ->setLastRealOrderId('100000001');
+        $this->dispatch('paypal/payflow/cancelpayment');
+
+        $order->load('100000001', 'increment_id');
+        $this->assertEquals('canceled', $order->getState());
+        $this->assertEquals($session->getQuote()->getGrandTotal(), $quote->getGrandTotal());
+        $this->assertEquals($session->getQuote()->getItemsCount(), $quote->getItemsCount());
     }
 }

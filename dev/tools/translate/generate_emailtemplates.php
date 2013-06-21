@@ -99,7 +99,7 @@ class Generate
     protected $_action = null;
 
     /**
-     * Variable that indicates errors occured
+     * Variable that indicates errors occurred
      *
      * @var bool
      */

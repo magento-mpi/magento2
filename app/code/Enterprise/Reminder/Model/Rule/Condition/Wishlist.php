@@ -88,7 +88,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('The wish list is not empty and abandoned %s %s days and %s of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -103,7 +103,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Root wishlist condition should have days value at least 1.'));
+            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('The root wish list condition should have a days value of 1 or greater.'));
         }
 
         $wishlistTable = $this->getResource()->getTable('wishlist');

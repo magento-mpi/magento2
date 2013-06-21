@@ -56,7 +56,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 $attributes = $product->getAttributes($group->getId(), true);
 
                 foreach ($attributes as $key => $attribute) {
-                    if (!$attribute->getIsVisible()) {
+                    $applyTo = $attribute->getApplyTo();
+                    if (!$attribute->getIsVisible()
+                        || (!empty($applyTo) && !in_array($product->getTypeId(), $applyTo))
+                    ) {
                         unset($attributes[$key]);
                     }
                 }
@@ -164,7 +167,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
             if ($this->getRequest()->getParam('id')) {
                 if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
-                    if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Review::reviews_all')){
+                    if ($this->_authorization->isAllowed('Mage_Review::reviews_all')){
                         $this->addTab('product-reviews', array(
                             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Reviews'),
                             'url'   => $this->getUrl('*/*/reviews', array('_current' => true)),

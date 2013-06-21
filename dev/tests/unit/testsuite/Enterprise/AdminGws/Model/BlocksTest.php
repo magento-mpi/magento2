@@ -18,7 +18,9 @@ class Enterprise_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Enterprise_AdminGws_Model_Blocks(array('role' => new Varien_Object()));
+        $this->_model = new Enterprise_AdminGws_Model_Blocks(
+            $this->getMock('Enterprise_AdminGws_Model_Role', array(), array(), '', false)
+        );
     }
 
     public function testDisableTaxRelatedMultiselects()

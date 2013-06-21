@@ -46,7 +46,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
         //Data
         $attributeData = $this->loadDataSet('SystemAttributes', $attributeCode);
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code' => $attributeData['attribute_code']));
+            array('attribute_code' => $attributeData['advanced_attribute_properties']['attribute_code']));
         if ($attributeCode == 'status') {
             $searchData['attribute_label'] = 'Status';
         }

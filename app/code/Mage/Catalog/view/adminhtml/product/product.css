@@ -570,46 +570,84 @@
     margin-bottom: 10px;
 }
 
+/* Variations Image Uploader */
+.eq-ie8 .actions-image-uploader .action-upload {
+    filter: none;
+}
+
+.actions-image-uploader .action-toggle,
+.actions-image-uploader .action-toggle:hover,
+.actions-image-uploader .action-toggle:active,
+.actions-image-uploader .action-toggle:focus,
+.actions-image-uploader .action-toggle[disabled] {
+    position: relative;
+    height: 33px;
+    padding-left: 2px;
+    padding-right: 2px;
+    background: #fff;
+    filter: none;
+    color: #888;
+}
+
+.actions-image-uploader.active .action-toggle {
+    border-radius: 0 5px 0 0;
+}
+
+.actions-image-uploader.active .action-toggle:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: #fff;
+    z-index: 991;
+    content: '';
+}
+
+.actions-image-uploader .dropdown-menu {
+    margin-top: -1px;
+    border-radius: 3px 0 3px 3px;
+}
+
+#product-variations-matrix .variation-image {
+    position: relative;
+    border: 0;
+    width: 32px;
+    height: 32px;
+    z-index: 2;
+}
+
 #product-variations-matrix .action-upload {
+    position: relative;
+    border: 1px solid #b7b2a7;
     background: #fff;
     border-radius: 0;
     padding: 0;
     width: 31px;
     height: 31px;
-    line-height: 30px;
+    line-height: 31px;
     text-align: center;
     color: #9f9a91;
     overflow: hidden;
     cursor: default;
-    border: 0;
     filter: none;
 }
 
 #product-variations-matrix .action-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 31px;
+    height: 31px;
     background: none;
-    border: 0;
-    overflow: hidden;
-    top: -1px;
-    right: -1px;
-    bottom: -1px;
-    left: -1px;
-    z-index: 2;
-}
-
-#product-variations-matrix .action-upload input[type="file"] {
-    opacity: 0;
-    background: none;
-    border: none;
+    border: 500px solid transparent;
+    font-size: 10em;
+    z-index: 3;
+    cursor: pointer;
 }
 
 #product-variations-matrix .action-upload:hover {
     color: #7e7e7e;
-}
-
-.lt-ie10 #product-variations-matrix .action-upload input[type="file"] {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    width: 33px;
-    height: 33px;
 }
 
 #product-variations-matrix .action-upload:before {
@@ -626,12 +664,22 @@
     right: 0;
     bottom: 0;
     z-index: 1;
-    border: 1px solid #b7b2a7;
     text-align: center;
 }
 
 #product-variations-matrix .action-upload.loading:before {
     content: '';
+}
+
+#product-variations-matrix .action-upload.loading:after {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    width: 31px;
+    height: 31px;
+    z-index: 4;
 }
 
 #product-variations-matrix .action-upload span,
@@ -838,6 +886,10 @@
 
 .new-variation-set {
     margin-left: 2.127659574%;
+}
+
+.not-applicable-attribute {
+    display: none;
 }
 
 .attribute-selector {

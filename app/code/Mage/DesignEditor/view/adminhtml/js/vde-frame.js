@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 
+/*jshint jquery:true*/
 (function($) {
     /**
      * Widget vde frame
@@ -27,6 +28,11 @@
             $('body').on('refreshIframe', $.proxy(this._refreshFrame, this));
         },
 
+        /**
+         * Calculate and set frame height
+         *
+         * @private
+         */
         _resizeFrame: function() {
             var windowHeight = $(window).innerHeight(),
                 vdeToolbarHeight = $(this.options.vdeToolbar).outerHeight(true),
@@ -36,10 +42,20 @@
             this.element.height(frameHeight);
         },
 
+        /**
+         * Reload frame
+         *
+         * @private
+         */
         _refreshFrame: function() {
             this.element[0].contentWindow.location.reload(true);
         },
 
+        /**
+         * Initialize frame
+         *
+         * @private
+         */
         _initFrame: function() {
             this._resizeFrame();
         }

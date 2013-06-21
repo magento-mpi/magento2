@@ -59,7 +59,7 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
             'path'
         );
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            Mage::throwException(Mage::helper('Enterprise_Search_Helper_Data')->__('Unable to perform search because of search engine missed configuration.'));
+            Mage::throwException(Mage::helper('Enterprise_Search_Helper_Data')->__('We were unable to perform the search because a search engine misconfiguration.'));
         }
 
         $this->setUserLogin($options['login']);

@@ -145,8 +145,8 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
         $setData = $this->loadDataSet('AttributeSet', 'attribute_set');
         $attrCodes = array();
         foreach ($attrData as $value) {
-            if (is_array($value) && array_key_exists('attribute_code', $value)) {
-                $attrCodes[] = $value['attribute_code'];
+            if (is_array($value) && array_key_exists('attribute_code', $value['advanced_attribute_properties'])) {
+                $attrCodes[] = $value['advanced_attribute_properties']['attribute_code'];
             }
         }
         $setData['associated_attributes'][$groupName] = $attrCodes;

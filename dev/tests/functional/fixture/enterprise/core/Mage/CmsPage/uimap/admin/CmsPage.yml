@@ -12,7 +12,7 @@
 manage_pages_hierarchy:
     mca: cms_hierarchy/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_hierarchy/')]
-    title: Manage Hierarchy / Elements / Content / Magento Admin
+    title: Hierarchy / Elements / Content / Magento Admin
     uimap: ~
 
 create_cms_page:

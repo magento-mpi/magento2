@@ -13,7 +13,7 @@
 manage_automated_email_reminder_rules:
     mca: reminder/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'reminder')]
-    title: Reminder Rules / Communications / Marketing / Magento Admin
+    title: Email Reminders / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -39,11 +39,11 @@ manage_automated_email_reminder_rules:
         buttons:
             add_new_rule: //button[span='Add New Rule']
         messages: &messages
-            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The reminder rule has been saved.')]
+            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the reminder rule.')]
 
 create_automated_email_reminder_rule:
     mca: reminder/new/
-    title: New Rule / Reminder Rules / Communications / Marketing / Magento Admin
+    title: New Reminders Rule / Email Reminders / Communications / Marketing / Magento Admin
     uimap:
         form: &createNewRule
             tabs:
@@ -87,7 +87,7 @@ create_automated_email_reminder_rule:
 
 edit_automated_email_reminder_rules:
     mca: reminder/edit/id/%id%/back/edit/active_tab/general_section/
-    title: %elementTitle% / Reminder Rules / Communications / Marketing / Magento Admin
+    title: %elementTitle% / Email Reminders / Communications / Marketing / Magento Admin
     uimap:
         form: *createNewRule
         buttons:
