@@ -242,7 +242,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image. Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -279,7 +280,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image. Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -323,7 +325,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image. Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -367,7 +370,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image. Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -396,7 +400,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong saving quick style "%s."', 'some_style_id');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
