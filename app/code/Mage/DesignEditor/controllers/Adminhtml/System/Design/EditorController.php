@@ -40,8 +40,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $this->loadLayout();
             /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-            $collection = $this->_objectManager->get('Mage_Core_Model_Resource_Theme_Collection');
-            $collection->getPhysicalThemes($page, $pageSize);
+            $collection = $this->_objectManager->get('Mage_Core_Model_Resource_Theme_Collection')
+                ->filterPhysicalThemes($page, $pageSize);
 
             /** @var $availableThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */
             $availableThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
@@ -70,8 +70,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $themeContext->setEditableThemeById($themeId);
             $launchedTheme = $themeContext->getEditableTheme();
             if ($launchedTheme->isPhysical()) {
-                $lunchedTheme = $this->_getThemeCustomization($launchedTheme);
-                $this->_redirect($this->getUrl('*/*/*', array('theme_id' => $lunchedTheme->getId())));
+                $launchedTheme = $launchedTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_PHYSICAL)
+                    ->createVirtualTheme($launchedTheme);
+                $this->_redirect($this->getUrl('*/*/*', array('theme_id' => $launchedTheme->getId())));
                 return;
             }
             $editableTheme = $themeContext->getStagingTheme();

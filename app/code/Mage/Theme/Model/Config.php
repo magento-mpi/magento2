@@ -61,7 +61,7 @@ class Mage_Theme_Model_Config
      * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_assignedThemeC;
+    protected $_assignedTheme;
 
     /**
      * Theme customizations which are not assigned to store views or as default
@@ -69,7 +69,7 @@ class Mage_Theme_Model_Config
      * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_unassignedThemeC;
+    protected $_unassignedTheme;
 
     /**
      * @param Mage_Core_Model_Config_Data $configData
@@ -114,8 +114,7 @@ class Mage_Theme_Model_Config
         $themeId,
         array $stores = array(),
         $scope = Mage_Core_Model_Config::SCOPE_STORES
-    )
-    {
+    ) {
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_themeFactory->create()->load($themeId);
         if (!$theme->getId()) {
@@ -156,7 +155,9 @@ class Mage_Theme_Model_Config
      */
     protected function _getThemeCustomization($theme)
     {
-        $themeCustomization = $theme->isVirtual() ? $theme : $this->_themeFactory->createThemeCustomization($theme);
+        $themeCustomization = $theme->isVirtual()
+            ? $theme
+            : $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
         return $themeCustomization;
     }
 
@@ -251,10 +252,10 @@ class Mage_Theme_Model_Config
      */
     public function getAssignedThemeCustomizations()
     {
-        if (is_null($this->_assignedThemeC)) {
+        if (is_null($this->_assignedTheme)) {
             $this->_prepareThemeCustomizations();
         }
-        return $this->_assignedThemeC;
+        return $this->_assignedTheme;
     }
 
     /**
@@ -265,10 +266,10 @@ class Mage_Theme_Model_Config
      */
     public function getUnassignedThemeCustomizations()
     {
-        if (is_null($this->_unassignedThemeC)) {
+        if (is_null($this->_unassignedTheme)) {
             $this->_prepareThemeCustomizations();
         }
-        return $this->_unassignedThemeC;
+        return $this->_unassignedTheme;
     }
 
     /**
@@ -286,15 +287,15 @@ class Mage_Theme_Model_Config
         $themeCustomizations = $this->_getThemeCustomizations();
         $assignedThemes = $this->getStoresByThemes();
 
-        $this->_assignedThemeC = array();
-        $this->_unassignedThemeC = array();
+        $this->_assignedTheme = array();
+        $this->_unassignedTheme = array();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCustomizations as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);
-                $this->_assignedThemeC[$theme->getId()] = $theme;
+                $this->_assignedTheme[$theme->getId()] = $theme;
             } else {
-                $this->_unassignedThemeC[$theme->getId()] = $theme;
+                $this->_unassignedTheme[$theme->getId()] = $theme;
             }
         }
         return $this;
