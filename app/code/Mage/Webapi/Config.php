@@ -272,8 +272,10 @@ class Mage_Webapi_Config
                 $reflection = new ReflectionClass($serviceData['class']);
                 foreach ($reflection->getMethods() as $method) {
                     /** TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST */
-                    $this->_soapServices[$serviceData['class']]['operations'][$method->getName()]
-                        = array('method' => $method->getName());
+                    $this->_soapServices[$serviceData['class']]['operations'][$method->getName()] = array(
+                        'method' => $method->getName(),
+                        'inputRequired' => (bool)$method->getNumberOfParameters()
+                    );
                     $this->_soapServices[$serviceData['class']]['class'] = $serviceData['class'];
                 };
             };

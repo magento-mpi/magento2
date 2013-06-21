@@ -382,11 +382,19 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $inputComplexType = $this->_getComplexTypeNode($inputParameterName, $payloadSchemaDom);
             if (!empty($inputComplexType)) {
                 $resourceData['methods'][$serviceMethod]['interface']['in']['schema'] = $inputComplexType;
+            } else if ($operationData['inputRequired']) {
+                // TODO: throw proper exception according to new error handling strategy
+                throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
+                    . "must have '{$inputParameterName}' complex type defined in its schema.");
             }
             $outputParameterName = $this->getOutputMessageName($operationName);
             $outputComplexType = $this->_getComplexTypeNode($outputParameterName, $payloadSchemaDom);
             if (!empty($outputComplexType)) {
                 $resourceData['methods'][$serviceMethod]['interface']['out']['schema'] = $outputComplexType;
+            } else {
+                // TODO: throw proper exception according to new error handling strategy
+                throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
+                    . "must have '{$outputParameterName}' complex type defined in its schema.");
             }
         }
         return $resourceData;
