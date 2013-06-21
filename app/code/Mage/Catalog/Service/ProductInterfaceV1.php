@@ -5,4 +5,6 @@
 interface Mage_Catalog_Service_ProductInterfaceV1
 {
     public function item($request);
+
+    public function soapOnlyMethod();
 }

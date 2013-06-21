@@ -364,34 +364,30 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _prepareResourceData($resourceName, $resourceVersion)
     {
-        foreach ($this->_newApiConfig->getServices() as $serviceData) {
-            $serviceClass = $serviceData['class'];
-            if ($this->_helper->translateResourceName($serviceClass) != $resourceName . $resourceVersion) {
-                continue;
-            }
-
-            $resourceData = array('methods' => array());
-            foreach ($serviceData['operations'] as $operationData) {
-                $serviceMethod = $operationData['method'];
-                /** @var $payloadSchemaDom DOMDocument */
-                $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
-                $operationName = $this->getOperationName($resourceName, $serviceMethod);
-                $inputParameterName = $this->getInputMessageName($operationName);
-                $inputComplexType = $this->_getComplexTypeNode($inputParameterName, $payloadSchemaDom);
-                if (!empty($inputComplexType)) {
-                    $resourceData['methods'][$serviceMethod]['interface']['in']['schema'] = $inputComplexType;
-                }
-                $outputParameterName = $this->getOutputMessageName($operationName);
-                $outputComplexType = $this->_getComplexTypeNode($outputParameterName, $payloadSchemaDom);
-                if (!empty($outputComplexType)) {
-                    $resourceData['methods'][$serviceMethod]['interface']['out']['schema'] = $outputComplexType;
-                }
-            }
-            break;
-        }
-        if (!isset($resourceData)) {
-            // TODO: Throw Proper Exception
+        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($resourceName => $resourceVersion));
+        if (empty($requestedServices)) {
+            // TODO: throw proper exception according to new error handling strategy
             throw new LogicException("Version '$resourceVersion' of resource '$resourceName' is not available.");
+        }
+        /** $requestedServices is expected to contain exactly one item */
+        $serviceData = reset($requestedServices);
+        $resourceData = array('methods' => array());
+        $serviceClass = $serviceData['class'];
+        foreach ($serviceData['operations'] as $operationData) {
+            $serviceMethod = $operationData['method'];
+            /** @var $payloadSchemaDom DOMDocument */
+            $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
+            $operationName = $this->getOperationName($resourceName, $serviceMethod);
+            $inputParameterName = $this->getInputMessageName($operationName);
+            $inputComplexType = $this->_getComplexTypeNode($inputParameterName, $payloadSchemaDom);
+            if (!empty($inputComplexType)) {
+                $resourceData['methods'][$serviceMethod]['interface']['in']['schema'] = $inputComplexType;
+            }
+            $outputParameterName = $this->getOutputMessageName($operationName);
+            $outputComplexType = $this->_getComplexTypeNode($outputParameterName, $payloadSchemaDom);
+            if (!empty($outputComplexType)) {
+                $resourceData['methods'][$serviceMethod]['interface']['out']['schema'] = $outputComplexType;
+            }
         }
         return $resourceData;
     }

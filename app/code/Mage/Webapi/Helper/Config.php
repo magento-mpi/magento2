@@ -170,9 +170,9 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * Identify the list of resource name parts including subresources using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Mage_Customer_Service_Customer_AddressV1' => array('Customer', 'Address', 'V1') <br/>
-     * - 'Vendor_Customer_Service_Customer_AddressV1' => array('VendorCustomer', 'Address', 'V1) <br/>
-     * - 'Mage_Catalog_Service_ProductV2' => array('Catalog', 'Product', 'V2')
+     * - 'Mage_Customer_Service_Customer_AddressInterfaceV1' => array('Customer', 'Address', 'V1') <br/>
+     * - 'Vendor_Customer_Service_Customer_AddressInterfaceV1' => array('VendorCustomer', 'Address', 'V1) <br/>
+     * - 'Mage_Catalog_Service_ProductInterfaceV2' => array('Catalog', 'Product', 'V2')
      *
      * @param string $className
      * @param bool $preserveVersion Should version be preserved during class name conversion into resource name

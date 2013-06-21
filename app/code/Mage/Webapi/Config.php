@@ -41,7 +41,15 @@ class Mage_Webapi_Config
     /**
      * @var array
      */
-    protected $_services;
+    protected $_restServices;
+
+    /**
+     * SOAP services should be stored separately as the list of available operations
+     * is collected using reflection, not taken from config as for REST
+     *
+     * @var  array
+     */
+    protected $_soapServices;
 
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
@@ -124,9 +132,9 @@ class Mage_Webapi_Config
      *
      * @return array
      */
-    public function getServices()
+    public function getRestServices()
     {
-        if (null === $this->_services) {
+        if (null === $this->_restServices) {
             $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
@@ -135,9 +143,9 @@ class Mage_Webapi_Config
                 $data = $this->_toArray($services);
                 $this->_saveToCache(serialize($data));
             }
-            $this->_services = isset($data['config']) ? $data['config'] : array();
+            $this->_restServices = isset($data['config']) ? $data['config'] : array();
         }
-        return $this->_services;
+        return $this->_restServices;
     }
 
     /**
@@ -239,13 +247,38 @@ class Mage_Webapi_Config
      * @param string $serviceName Name
      * @throws InvalidArgumentException if the service does not exist
      */
-    public function getService($serviceName)
+    public function getRestService($serviceName)
     {
-        if (isset($this->_services[$serviceName])) {
-            return $this->_services[$serviceName];
+        if (isset($this->_restServices[$serviceName])) {
+            return $this->_restServices[$serviceName];
         }
 
         throw new InvalidArgumentException("Service $serviceName does not exists");
+    }
+
+    /**
+     * Collect the list of services with their operations available in SOAP.
+     * The list of services is taken from webapi.xml configuration files.
+     * The list of methods in contrast to REST is taken from PHP Interface using reflection.
+     *
+     * @return array
+     */
+    public function getSoapServices()
+    {
+        /** TODO: Implement caching if this approach is approved */
+        if (is_null($this->_soapServices)) {
+            $this->_soapServices = array();
+            foreach ($this->getRestServices() as $serviceData) {
+                $reflection = new ReflectionClass($serviceData['class']);
+                foreach ($reflection->getMethods() as $method) {
+                    /** TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST */
+                    $this->_soapServices[$serviceData['class']]['operations'][$method->getName()]
+                        = array('method' => $method->getName());
+                    $this->_soapServices[$serviceData['class']]['class'] = $serviceData['class'];
+                };
+            };
+        }
+        return $this->_soapServices;
     }
 
     /**
@@ -257,7 +290,7 @@ class Mage_Webapi_Config
      */
     public function getOperation($serviceName, $operation)
     {
-        $service = $this->getService($serviceName);
+        $service = $this->getRestService($serviceName);
 
         if (isset($service[self::KEY_OPERATIONS][$operation])) {
             return $service[self::KEY_OPERATIONS][$operation];
@@ -279,7 +312,7 @@ class Mage_Webapi_Config
         $httpMethod = $request->getHttpMethod();
 
         $routes = array();
-        foreach ($this->getServices() as $serviceName => $serviceData) {
+        foreach ($this->getRestServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
             if ($serviceBaseUrl != null && strtolower($serviceBaseUrl) != strtolower($serviceData['baseUrl'])) {
                 // baseurl does not match, just skip this service
@@ -349,9 +382,9 @@ class Mage_Webapi_Config
     {
         if (null == $this->_soapOperations) {
             $this->_soapOperations = array();
-            foreach ($this->getRequestedServices($requestedResource) as $serviceData) {
+            foreach ($this->getRequestedSoapServices($requestedResource) as $serviceData) {
                 $resourceName = $this->_helper->translateResourceName($serviceData['class'], false);
-                foreach ($serviceData['operations'] as $method => $methodData) {
+                foreach ($serviceData[self::KEY_OPERATIONS] as $method => $methodData) {
                     $operationName = $resourceName . ucfirst($method);
                     $this->_soapOperations[$operationName] = array(
                         'class' => $serviceData['class'],
@@ -373,16 +406,18 @@ class Mage_Webapi_Config
      * )<pre/>
      * @return array Filtered list of services
      */
-    public function getRequestedServices($requestedResources)
+    public function getRequestedSoapServices($requestedResources)
     {
         $services = array();
         foreach ($requestedResources as $resourceName => $resourceVersion) {
-            foreach ($this->getServices() as $serviceData) {
+            foreach ($this->getSoapServices() as $serviceData) {
                 $resourceWithVersion = $this->_helper->translateResourceName($serviceData['class']);
                 if ($resourceWithVersion != $resourceName . $resourceVersion) {
                     continue;
                 }
                 $services[] = $serviceData;
+                /** Current service was found so no need to continue search */
+                break;
             }
         }
         return $services;

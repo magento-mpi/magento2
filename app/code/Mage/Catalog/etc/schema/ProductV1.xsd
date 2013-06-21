@@ -100,4 +100,14 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+    <xsd:complexType name="catalogProductSoapOnlyMethodResponse">
+        <xsd:annotation>
+            <xsd:documentation>Response container for method available via SOAP only.</xsd:documentation>
+            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:string">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
 </xsd:schema>
