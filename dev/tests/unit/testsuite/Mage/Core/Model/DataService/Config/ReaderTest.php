@@ -37,8 +37,8 @@ class Mage_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_Te
      */
     public function testGetSchemaFile()
     {
-        $etcDir = str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Mage/Core/etc');
-        $expectedPath = $etcDir . DIRECTORY_SEPARATOR . 'service_calls.xsd';
+        $etcDir = 'app/code/Mage/Core/etc';
+        $expectedPath = $etcDir . '/service_calls.xsd';
         $this->_modulesReaderMock->expects($this->any())->method('getModuleDir')
             ->with('etc', 'Mage_Core')
             ->will($this->returnValue($etcDir));

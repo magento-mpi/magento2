@@ -111,7 +111,7 @@ class Mage_Core_Model_DataService_Invoker
      * Get the value for the method argument
      *
      * @param string $valueTemplate
-     * @return null
+     * @return mixed
      */
     public function getArgumentValue($valueTemplate)
     {
