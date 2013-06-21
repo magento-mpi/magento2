@@ -36,7 +36,7 @@ class Mage_Core_Model_DataService_Graph implements Mage_Core_Model_DataService_P
      * Get the value for the method argument
      *
      * @param $path
-     * @return null
+     * @return mixed
      */
     public function getArgumentValue($path)
     {
