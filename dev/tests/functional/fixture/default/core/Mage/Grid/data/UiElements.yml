@@ -602,3 +602,27 @@ manage_ratings:
         1: Rating Name
         2: Sort Order
         3: Is Active
+
+#dataset for ui elements for Frontend Apps grid
+manage_cms_widgets:
+    fieldset:
+        cms_widgets_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        add_new_widget_instance: ~
+    field:
+        page: ~
+        filter_widget_id: ~
+        filter_title: ~
+        filter_sort_order: ~
+    dropdown:
+        view_per_page: ~
+        filter_type: ~
+        filter_design_package_theme: ~
+    headers:
+        0: Widget ID
+        1: Widget Instance
+        2: Type
+        3: Design Theme
+        4: Sort Order

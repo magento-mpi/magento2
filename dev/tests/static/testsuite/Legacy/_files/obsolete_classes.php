@@ -686,6 +686,7 @@ return array(
     array('Mage_User_Model_Resource_Roles'),
     array('Mage_User_Model_Resource_Roles_Collection'),
     array('Mage_User_Model_Resource_Roles_User_Collection'),
+    array('Mage_Widget_Block_Adminhtml_Widget_Instance_Grid'),
     array('Mage_Wishlist_Model_Resource_Product_Collection'),
     array('Varien_Convert_Action'),
     array('Varien_Convert_Action_Abstract'),
