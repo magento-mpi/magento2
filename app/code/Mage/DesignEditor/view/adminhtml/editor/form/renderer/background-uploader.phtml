@@ -46,7 +46,7 @@ $element = $this->getElement();
                 value:       '<?php echo $imageUploader->getValue(); ?>',
                 url:         '<?php echo $this->getImageUploadUrl(); ?>',
                 remove_url:  '<?php echo $this->getImageRemoveUrl(); ?>',
-                tile_available:'<?php echo $element->getTileAvailable(); ?>'
+                tile_available:'<?php echo $element->isTileAvailable(); ?>'
             });
         })(jQuery);
     </script>

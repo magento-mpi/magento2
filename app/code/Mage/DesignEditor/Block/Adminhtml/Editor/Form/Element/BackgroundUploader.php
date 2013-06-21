@@ -119,7 +119,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
      *
      * @return bool
      */
-    public function getTileAvailable()
+    public function isTileAvailable()
     {
         return $this->getCheckboxElement()->getData('value') != 'disabled';
     }
