@@ -33,12 +33,18 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider formatDateDataProvider
+     *
+     * expectedFormat is to be in the Y-m-d type format for the date you are expecting,
+     * expectedResult is if a specific date is expected.
      */
-    public function testFormatDate($date, $includeTime, $expectedFormat)
+    public function testFormatDate($date, $includeTime, $expectedFormat, $expectedResult = null)
     {
-        $expectedResult = '';
         if ($expectedFormat != '') {
             $expectedResult = date($expectedFormat);
+        } else {
+            if ($expectedResult === null) {
+                $expectedResult = '';
+            }
         }
         $actual = Varien_Date::formatDate($date, $includeTime);
         $this->assertEquals($expectedResult, $actual);
@@ -49,6 +55,8 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
      */
     public function formatDateDataProvider()
     {
+        // Do not call date here as it can be called much earlier than when testFormatDate executes thus causing a
+        // discrepancy in the actual vs expected time. See MAGETWO-10296
         return array(
             'null' => array(null, false, ''),
             'null' => array(null, true, ''),
@@ -56,8 +64,12 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
             'Bool true' => array(true, true, 'Y-m-d H:i:s'),
             'Bool false' => array(false, false, ''),
             'Bool false' => array(false, true, ''),
-            'Zend Date' => array(new Zend_Date(), false, 'Y-m-d'),
-            'Zend Date including Time' => array(new Zend_Date(), true, 'Y-m-d H:i:s'),
+            'Zend Date' => array(new Zend_Date('June 21, 2013'), false, '', '2013-06-21'),
+            'Zend Date including Time' => array(
+                new Zend_Date('June 21, 2013 2:37:42 pm'),
+                true,
+                '',
+                '2013-06-21 14:37:42'),
         );
     }
 }
