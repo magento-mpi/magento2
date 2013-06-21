@@ -122,10 +122,23 @@ new_product:
                             cancel: //*[contains(@id,'close-button')]
                             confirm: //*[contains(@id,'confirm-button')]
                 -
-                    add_attribute:
+                    add_new_attribute:
                         xpath: //div[div/span='New Attribute']
                         pageelements:
                             add_new_attribute_iframe: //iframe[@id='create_new_attribute_container']
+                -
+                    add_attribute:
+                        xpath: //*[@id='product_info_tabs_%tab%_content']//div[@class='actions']
+                        buttons:
+                            add_attribute: //div[@id='product-attribute-search-container']//button[@class='action-toggle action-choose']
+                            create_new_attribute: //button[contains(@data-ui-id, 'catalog-product-edit-tab-attributes-create')]
+                        fields:
+                            attribute_search: //*[@data-role='product-attribute-search' and not(contains(@class, 'mage-suggest-state-loading'))]
+                        links:
+                            attribute: //div[@class='mage-suggest-dropdown']//li[contains(@data-suggest-option, '%attributeData%')]/a
+                        pageelements:
+                            attribute_suggest_list: //div[@class='mage-suggest-dropdown']
+                            attribute_no_records: //div[@class='mage-suggest-dropdown']/*[@class='mage-suggest-no-records']
             tabs:
                 -
                     general: &generalTab
@@ -135,7 +148,6 @@ new_product:
                                 product_general:
                                     xpath: //div[*/*/span='Product Details']
                                     buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         new_category: //button[span='New Category']
                                     dropdowns:
                                         general_tax_class: //select[@id='tax_class_id']
@@ -423,8 +435,6 @@ new_product:
                             -
                                 product_meta_information:
                                     xpath: //div[*/*/span='Search Optimization']
-                                    buttons:
-                                        create_new_attribute: //button[span='Add Attribute']
                                     fields:
                                         meta_information_meta_title: //input[@id='meta_title']
                                         meta_information_meta_keywords: //textarea[@id='meta_keyword']
