@@ -65,8 +65,6 @@ class Saas_ImportExport_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Clean page cache
-     *
-     * @return void
      */
     public function cleanPageCache()
     {

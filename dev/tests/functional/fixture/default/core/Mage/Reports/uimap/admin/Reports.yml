@@ -127,7 +127,7 @@ report_shopcart_abandoned:
 report_sales_bestsellers:
     mca: report_sales/bestsellers/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/bestsellers/')]
-    title: Bestsellers / Products / Reports / Magento Admin
+    title: Best Sellers Report / Products / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

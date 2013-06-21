@@ -25,7 +25,7 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Reports::report_customers')
+            ->_setActiveMenu('Enterprise_Wishlist::report_customers_wishlist')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports'),
                 Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports')

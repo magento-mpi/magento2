@@ -10,6 +10,11 @@
 class Saas_ImportExport_Model_Import_Image_Result
 {
     /**
+     * Message indent
+     */
+    const MESSAGE_INDENT = '&nbsp;&nbsp;&nbsp;&nbsp;';
+
+    /**
      * @var array
      */
     protected $_result = array(
@@ -22,7 +27,6 @@ class Saas_ImportExport_Model_Import_Image_Result
      */
     protected $_helper;
 
-
     /**
      * @param Saas_ImportExport_Helper_Data $helper
      */
@@ -32,7 +36,7 @@ class Saas_ImportExport_Model_Import_Image_Result
     }
 
     /**
-     * Add invalid file
+     * Add valid file
      *
      * @param string $file
      */
@@ -51,10 +55,9 @@ class Saas_ImportExport_Model_Import_Image_Result
      */
     public function addInvalid($file, $message)
     {
-        $indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
         $this->_result['invalid'][] = array(
             'file' => basename($file),
-            'message' => is_array($message) ? implode(';<br />' . $indent, $message) : $message,
+            'message' => is_array($message) ? implode(';<br />' . self::MESSAGE_INDENT, $message) : $message,
         );
     }
 
@@ -67,7 +70,7 @@ class Saas_ImportExport_Model_Import_Image_Result
     {
         $result = '';
         if ($this->_result['invalid']) {
-            $indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
+            $indent = self::MESSAGE_INDENT;
             $result = $this->_helper->__('Product images errors (next image files will be ignored):');
 
             foreach ($this->_result['invalid'] as $file) {
@@ -80,11 +83,11 @@ class Saas_ImportExport_Model_Import_Image_Result
     /**
      * Get upload summary information
      *
-     * @return string
+     * @return array
      */
     public function getUploadSummary()
     {
-        $indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
+        $indent = self::MESSAGE_INDENT;
         $totalValid = count($this->_result['valid']);
         $totalInvalid = count($this->_result['invalid']);
         $totalImages = $totalValid + $totalInvalid;

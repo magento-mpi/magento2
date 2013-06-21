@@ -29,27 +29,4 @@ class Mage_Core_Model_Store_GroupTest extends PHPUnit_Framework_TestCase
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);
     }
-
-    /**
-     * @magentoConfigFixture limitations/store_group 1
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation enabled
-     * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage You are using the maximum number of stores allowed.
-     */
-    public function testSaveValidationLimitation()
-    {
-        $this->_model->setData(
-            array(
-                'website_id'       => 0,
-                'name'             => 'test store',
-                'root_category_id' => 2,
-                'default_store_id' => 0
-            )
-        );
-
-        /* emulate admin store */
-        Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
-        $this->_model->save();
-    }
 }

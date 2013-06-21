@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry extends Mage_Adminhtm
     {
         $this->_controller = 'adminhtml_giftregistry';
         $this->_blockGroup = 'Enterprise_GiftRegistry';
-        $this->_headerText = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Manage Gift Registry Types');
+        $this->_headerText = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Types');
         $this->_addButtonLabel = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add Gift Registry Type');
         parent::_construct();
     }

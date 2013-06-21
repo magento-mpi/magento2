@@ -31,7 +31,7 @@
                     var progressTmpl = $('#js-file-uploader-template').children(':first').clone();
                     progressTmpl.attr('id', data.fileId);
                     var fileSize = typeof(file.size) == "undefined"
-                        ? $.mage.__('size was not detected')
+                        ? $.mage.__('We cannot detect a size.')
                         : byteConvert(file.size);
                     var fileInfoHtml = progressTmpl.html().replace('{{size}}', fileSize)
                         .replace('{{name}}', file.name);
@@ -96,7 +96,7 @@
                 $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
 
                 $(this).val('');
-                alert($.mage.__('File extension not known or unsupported type.'));
+                alert($.mage.__("We don't recognize this file extension."));
             }
         });
 

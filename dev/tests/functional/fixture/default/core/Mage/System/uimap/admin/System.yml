@@ -78,7 +78,7 @@ oauth_admin_token:
 system_design:
     mca: system_design/
     click_xpath: //div[@class='submenu']//a[contains(@href, 'system_design/')]
-    title: Design / Design / Content / Magento Admin
+    title: Store Design / Design / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -104,7 +104,7 @@ system_design:
 # Add Design Change
 new_system_design:
     mca: system_design/new/
-    title: New Store Design Change / Design / Design / Content / Magento Admin
+    title: New Store Design Change / Store Design / Design / Content / Magento Admin
     uimap:
         form:
             fieldsets:

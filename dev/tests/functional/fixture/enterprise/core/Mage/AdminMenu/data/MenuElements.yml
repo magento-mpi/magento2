@@ -57,7 +57,6 @@ menu:
         xml_sitemap: ~
 #     User Content group
         manage_all_reviews: ~
-        all_tags: ~
 
     content:
 #     Elements group
@@ -66,7 +65,6 @@ menu:
         manage_cms_static_blocks: ~
         manage_cms_banners: ~
         manage_cms_widgets: ~
-        poll_manager: ~
 #     Design group
         design_editor_selector: ~
         theme_list: ~
@@ -81,10 +79,6 @@ menu:
 #     Reviews group
         report_review_customer: ~
         report_review_product: ~
-#     Tags group
-        report_tag_customer: ~
-        report_tag_product: ~
-        report_tag_popular: ~
 #     Sales group
         reports_sales_sales: ~
         report_sales_tax: ~
@@ -147,7 +141,7 @@ menu:
         system_package_extentions: ~
 #     SOAP/XML - RPC group
         api_users: ~
-        api_role: ~
+        api_soap_roles_management: ~
 #     REST group
         api_users: ~
         api_roles_management: ~

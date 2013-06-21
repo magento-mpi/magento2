@@ -35,7 +35,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Mage_Adminhtml_B
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA Items');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Items');
     }
 
     /**
