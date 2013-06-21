@@ -39,6 +39,7 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
      */
     public function testFormatDate($date, $includeTime, $expectedFormat, $expectedResult = null)
     {
+        $actual = Varien_Date::formatDate($date, $includeTime);
         if ($expectedFormat != '') {
             $expectedResult = date($expectedFormat);
         } else {
@@ -46,7 +47,6 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
                 $expectedResult = '';
             }
         }
-        $actual = Varien_Date::formatDate($date, $includeTime);
         $this->assertEquals($expectedResult, $actual);
     }
 
@@ -64,12 +64,14 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
             'Bool true' => array(true, true, 'Y-m-d H:i:s'),
             'Bool false' => array(false, false, ''),
             'Bool false' => array(false, true, ''),
-            'Zend Date' => array(new Zend_Date('June 21, 2013'), false, '', '2013-06-21'),
+            // Date is called here since Zend_Date is getting the time at this point. To ensure they match it
+            // needs to be called here.
+            'Zend Date' => array(new Zend_Date(), false, '', date('Y-m-d')),
             'Zend Date including Time' => array(
-                new Zend_Date('June 21, 2013 2:37:42 pm'),
+                new Zend_Date(),
                 true,
                 '',
-                '2013-06-21 14:37:42'),
+                date('Y-m-d H:i:s')),
         );
     }
 }
