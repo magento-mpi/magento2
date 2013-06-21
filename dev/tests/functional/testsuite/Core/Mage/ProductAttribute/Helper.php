@@ -60,6 +60,9 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         //Steps Click 'Create New Attribute' button.
         $saveButton = $saveInAttributeSet ? 'save_in_new_attribute_set' : 'save_attribute';
         $currentPage = $this->getCurrentPage();
+        $this->addParameter('tab', $this->getControlAttribute('tab', $this->_getActiveTabUimap()->getTabId(), 'name'));
+        $this->clickButton('add_attribute', false);
+        $this->waitForControlVisible('button', 'create_new_attribute');
         $this->clickButton('create_new_attribute', false);
         $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'add_new_attribute_iframe');
         $this->pleaseWait();
@@ -102,6 +105,56 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForElementVisible($waitCondition);
         $this->frame(null);
         $this->setCurrentPage($currentPage);
+    }
+
+    /**
+     * Add existing product attribute from product page
+     *
+     * @param string $attributeName
+     * @param string|null $attributeCode
+     */
+    public function addAttributeOnProductTab($attributeName, $attributeCode = null)
+    {
+        $this->addParameter('tab', $this->getControlAttribute('tab', $this->_getActiveTabUimap()->getTabId(), 'name'));
+        $this->clickButton('add_attribute', false);
+        $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_search');
+        $this->fillSearchAttributeField($attributeName, $attributeCode);
+        $this->selectAttribute();
+    }
+
+    /**
+     * Enter attribute name to searchable control
+     *
+     * @param string $attributeName
+     * @param string|null $attributeCode
+     */
+    public function fillSearchAttributeField($attributeName, $attributeCode = null)
+    {
+        $attributeField = $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_search');
+        $attributeField->click();
+        $this->waitForControlVisible('button', 'create_new_attribute');
+        $attributeField->value($attributeName);
+        $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_search');
+        $attributeData = '"label":"' . $attributeName . '"';
+        $attributeData .= ($attributeCode) ? '"code":"' . $attributeCode . '"' : '';
+        $this->addParameter('attributeData', $attributeData);
+    }
+
+    /**
+     * Select searched attribute via searchable suggest control
+     */
+    public function selectAttribute()
+    {
+        if (!$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_no_records')
+            || $this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute')
+        ) {
+            $attribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'attribute');
+            $this->moveto($attribute);
+            $attribute->click();
+            $this->pleaseWait();
+        } else {
+            $this->fail('Attribute can not be found.');
+        }
     }
 
     /**
