@@ -10,4 +10,9 @@ class Mage_Catalog_Service_Product implements Mage_Catalog_Service_ProductInterf
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($request['entity_id']);
         return $product->getData();
     }
+
+    public function soapOnlyMethod()
+    {
+        return array('is_success' => true);
+    }
 }

@@ -106,8 +106,7 @@
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:string">
-            </xsd:element>
+            <xsd:element name="is_success" minOccurs="1" maxOccurs="1" type="xsd:boolean"/>
         </xsd:sequence>
     </xsd:complexType>
 </xsd:schema>

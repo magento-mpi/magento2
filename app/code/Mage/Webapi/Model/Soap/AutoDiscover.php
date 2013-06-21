@@ -380,13 +380,17 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $operationName = $this->getOperationName($resourceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
             $inputComplexType = $this->_getComplexTypeNode($inputParameterName, $payloadSchemaDom);
-            if (!empty($inputComplexType)) {
-                $resourceData['methods'][$serviceMethod]['interface']['in']['schema'] = $inputComplexType;
-            } else if ($operationData['inputRequired']) {
-                // TODO: throw proper exception according to new error handling strategy
-                throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
-                    . "must have '{$inputParameterName}' complex type defined in its schema.");
+            if (empty($inputComplexType)) {
+                if ($operationData['inputRequired']) {
+                    // TODO: throw proper exception according to new error handling strategy
+                    throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
+                        . "must have '{$inputParameterName}' complex type defined in its schema.");
+                } else {
+                    /** Generate empty input request to make WSDL compliant with WS-I basic profile */
+                    $inputComplexType = $this->_generateEmptyComplexType($inputParameterName);
+                }
             }
+            $resourceData['methods'][$serviceMethod]['interface']['in']['schema'] = $inputComplexType;
             $outputParameterName = $this->getOutputMessageName($operationName);
             $outputComplexType = $this->_getComplexTypeNode($outputParameterName, $payloadSchemaDom);
             if (!empty($outputComplexType)) {
@@ -398,5 +402,24 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             }
         }
         return $resourceData;
+    }
+
+    /**
+     * Generate empty complex type with the specified name.
+     *
+     * @param string $complexTypeName
+     * @return DOMElement
+     */
+    protected function _generateEmptyComplexType($complexTypeName)
+    {
+        $domDocument = new DOMDocument("1.0");
+        $complexTypeNode = $domDocument->createElement('xsd:complexType');
+        $complexTypeNode->setAttribute('name', $complexTypeName);
+        $xsdNamespace = 'http://www.w3.org/2001/XMLSchema';
+        $complexTypeNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xsd', $xsdNamespace);
+        $domDocument->appendChild($complexTypeNode);
+        $sequenceNode = $domDocument->createElement('xsd:sequence');
+        $complexTypeNode->appendChild($sequenceNode);
+        return $complexTypeNode;
     }
 }
