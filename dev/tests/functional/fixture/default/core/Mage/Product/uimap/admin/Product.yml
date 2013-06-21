@@ -130,7 +130,7 @@ new_product:
                     add_attribute:
                         xpath: //*[@id='product_info_tabs_%tab%_content']//div[@class='actions']
                         buttons:
-                            add_attribute: //div[@id='product-attribute-search-container']//button[@class='action-toggle action-choose']
+                            add_attribute: //div[@id='product-attribute-search-container']//button[@data-action='choose']
                             create_new_attribute: //button[@title='New Attribute']
                         fields:
                             attribute_search: //*[@data-role='product-attribute-search' and not(contains(@class, 'mage-suggest-state-loading'))]

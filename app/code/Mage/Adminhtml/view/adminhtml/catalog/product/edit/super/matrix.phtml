@@ -81,7 +81,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     $product = $productByUsedAttributes[$key];
                     ?>
 
-                <tr class="<?php echo $isEven ? 'even' : '' ?>">
+                <tr data-role="row" class="<?php echo $isEven ? 'even' : '' ?>">
                     <td class="col-display" data-column="display">
                         <input type="checkbox" name="associated_product_ids[]" data-column="entity_id"
                                value="<?php echo $product->getId()?>" class="checkbox"
@@ -99,14 +99,14 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         </div>
                         <?php if ($image): ?>
                             <img src="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getImageUrl($product)?>"
-                                 class="variation-image" />
+                                 class="variation" data-role="image"/>
                         <?php endif; ?>
                     </td>
                     <td class="col-name" data-column="name">
                         <a href="<?php echo $this->getEditProductUrl($product->getId())?>"
                            target="_blank"><?php echo $this->escapeHtml($product->getName())?></a>
 
-                        <button type="button" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
+                        <button type="button" data-action="choose" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
                                 data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
@@ -147,7 +147,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     $checked = $this->_getProduct()->getId() && !$this->_getProduct()->dataHasChangedFor('type_id') ? '' : ' checked="checked"';
                     $disabled = $this->_getProduct()->getId() && !$this->_getProduct()->dataHasChangedFor('type_id') ? ' disabled="disabled"' : '';
                     ?>
-                <tr class="<?php echo $isEven ? 'even' : '' ?>">
+                <tr data-role="row" class="<?php echo $isEven ? 'even' : '' ?>">
                     <td class="col-display" data-column="display">
                         <input type="checkbox" name="associated_product_ids[]" value=""
                                class="checkbox" data-column="entity_id" <?php echo $checked?> />
@@ -161,9 +161,9 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                        title="<?php echo $this->__('Upload Image'); ?>" />
                                 <input id="variations-matrix-<?php echo $key?>-image"
                                        name="variations-matrix[<?php echo $key?>][image]"
-                                       value="" type="hidden" <?php echo $disabled;?>/>
+                                       type="hidden" <?php echo $disabled;?>/>
                             </div>
-                            <button type="button" class="action-toggle" data-toggle="dropdown" data-mage-init="{dropdown:{}}">
+                            <button type="button" class="action-toggle no-display" data-toggle="dropdown" data-mage-init="{dropdown:{}}">
                                 <span><?php echo $this->__('Select'); ?></span>
                             </button>
                             <ul class="dropdown-menu">
@@ -182,7 +182,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
                                value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
 
-                        <button type="button" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
+                        <button type="button" data-action="choose" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
                                 data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
@@ -245,10 +245,12 @@ $productByUsedAttributes = $this->getAssociatedProducts();
         </table>
     </div>
 </div>
+<script data-template-for="variation-image" type="text/x-jquery-tmpl">
+    <img src="${url}" class="variation" data-role="image"/>
+</script>
 <script type="text/javascript">
 jQuery(function ($) {
     var matrix = $('[data-role=product-variations-matrix]');
-
     matrix.find('[data-action=upload-image] [name=image]').each(function() {
         $(this).fileupload({
             dataType: 'json',
@@ -260,33 +262,34 @@ jQuery(function ($) {
                 }
                 if (!data.result.error) {
                     var parentElement = $(event.target).closest('[data-column=image]'),
-                        uploaderControl = $('.actions-image-uploader .action-upload', parentElement),
-                        imageElement = parentElement.find('img');
+                        uploaderControl = parentElement.find('[data-action=upload-image]'),
+                        imageElement = parentElement.find('[data-role=image]');
 
                     if (imageElement.length) {
                         imageElement.attr('src', data.result.url);
                     } else {
-                        $.tmpl('<img src="${url}" class="variation-image"/>', data.result).prependTo(uploaderControl);
+                        $.tmpl(matrix.find('[data-template-for=variation-image]').html(), data.result)
+                            .prependTo(uploaderControl);
                     }
-                    parentElement.find('input[id$="image"]').val(data.result.file);
+                    parentElement.find('[name$="[image]"]').val(data.result.file);
+                    parentElement.find('[data-toggle=dropdown]').show();
                 } else {
                     alert($.mage.__('File extension not known or unsupported type.'));
                 }
             },
             start: function(event) {
-                var uploaderContainer = $(event.target).closest('[data-action=upload-image]');
-                uploaderContainer.addClass('loading');
+                $(event.target).closest('[data-action=upload-image]').addClass('loading');
             },
             stop: function(event) {
-                var uploaderContainer = $(event.target).closest('[data-action=upload-image]');
-                uploaderContainer.removeClass('loading');
+                $(event.target).closest('[data-action=upload-image]').removeClass('loading');
             }
         });
     });
     matrix.find('[data-action=no-image]').click(function (event) {
         var parentElement = $(event.target).closest('[data-column=image]');
-        parentElement.find('img').remove();
-        parentElement.find('[data-toggle=dropdown]').trigger('close.dropdown');
+        parentElement.find('[data-role=image]').remove();
+        parentElement.find('[name$="[image]"]').val('');
+        parentElement.find('[data-toggle=dropdown]').trigger('close.dropdown').hide();
     });
 });
 </script>

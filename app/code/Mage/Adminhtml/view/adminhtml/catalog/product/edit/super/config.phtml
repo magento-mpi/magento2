@@ -138,7 +138,7 @@ jQuery(function($) {
             $(this).closest('tr').find('input[type!=checkbox],button')
                 .prop('disabled', !$(this).is(':checked'));
         })
-        .on('click', '.action-choose', function(event) {
+        .on('click', '[data-action=choose]', function(event) {
             event.preventDefault();
             var grid = window.<?php echo $this->getGridJsObject() ?>;
             var $button = $(this);
@@ -163,13 +163,13 @@ jQuery(function($) {
                     columnSelectorTemplate = '[data-column="%s"]';
 
                 if ($gridRow.find(columnSelectorTemplate.replace('%s', 'entity_id')).length) {
-                    var $matrixRow = $button.parents('tr');
+                    var $matrixRow = $button.parents('[data-role=row]');
 
                     $.each('name,sku,qty,weight,entity_id'.split(','), function () {
                         var columnSelector = columnSelectorTemplate.replace('%s', this),
                             target = $matrixRow.find(columnSelector),
                             value = $.trim($gridRow.find(columnSelector).text()),
-                            button = target.find('.action-choose');
+                            button = target.find('[data-action=choose]');
 
                         target[target.is('input[type=checkbox]') ? 'val' : 'text'](value).append(button);
                     });
@@ -177,16 +177,16 @@ jQuery(function($) {
                     $matrixRow.find(columnSelectorTemplate.replace('%s', 'entity_id'))
                         .prop({checked: true, disabled: false});
 
-                    var parentElement = $matrixRow.find('.col-image'),
-                        uploaderControl = $('.actions-image-uploader .action-upload', parentElement),
-                        imageElement = $matrixRow.find('img');
+                    var parentElement = $matrixRow.find('[data-column=image]'),
+                        uploaderControl = parentElement.find('[data-action=upload-image]', parentElement),
+                        imageElement = $matrixRow.find('[data-role=image]');
 
                     if (imageElement.length) {
                         imageElement.attr('src', $gridRow.find('[data-role=image-url]').val());
                     } else {
-                        $('<img>', {
-                            src: $gridRow.find('[data-role=image-url]').val(),
-                            'class': "variation-image"
+                        var matrix = $('[data-role=product-variations-matrix]');
+                        $.tmpl(matrix.find('[data-template-for=variation-image]').html(), {
+                            url: $gridRow.find('[data-role=image-url]').val()
                         }).prependTo(uploaderControl);
                     }
 
