@@ -484,7 +484,7 @@ Layout handle for configurable products
     <adminhtml_catalog_product_attribute_edit>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs">
-                <container label="Main" as="main">
+                <container label="Main" name="main">
                     <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="base" />
                     <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced" />
                     <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options" />
@@ -507,7 +507,7 @@ Layout handle for configurable products
             <arguments>
                 <template>Mage_Adminhtml::catalog/product/attribute/form.phtml</template>
             </arguments>
-            <container as="form" label="Form">
+            <container name="form" label="Form">
                 <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="main" />
                 <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options" />
                 <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options" />

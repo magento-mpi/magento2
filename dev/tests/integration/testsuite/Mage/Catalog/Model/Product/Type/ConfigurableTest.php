@@ -258,9 +258,9 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
             'attributes',
             serialize(array($attribute['attribute_id'] => $optionValueId))
         );
-        /** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $configurableAttributes */
-        $configurableAttributes = $this->_model->getConfigurableAttributes($this->_product);
-        $attribute = $configurableAttributes->getFirstItem();
+        /** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $configurableAttr */
+        $configurableAttr = $this->_model->getConfigurableAttributes($this->_product);
+        $attribute = $configurableAttr->getFirstItem();
 
         $attribute->getProductAttribute()->setStoreLabel('store label');
         $info = $this->_model->getSelectedAttributesInfo($this->_product);
