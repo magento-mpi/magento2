@@ -10,7 +10,7 @@
  */
 
 class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_TestCase
-{    
+{
     /**
      * @var Mage_Backend_Model_Config_Structure_Reader
      */
