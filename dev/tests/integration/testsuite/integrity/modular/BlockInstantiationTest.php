@@ -28,6 +28,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
         $this->assertNotEmpty($module);
         $this->assertTrue(class_exists($class), "Block class: {$class}");
         Mage::getConfig()->setCurrentAreaCode($area);
+        echo($module . ' ' . $class . ' ' . $area);
         $block = Mage::getModel($class);
         $this->assertNotNull($block);
     }
