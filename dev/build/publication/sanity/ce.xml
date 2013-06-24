@@ -147,6 +147,7 @@
         </item>
         <item>
             <word>saas</word>
+            <word>enterprise</word>
             <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
         </item>
     </whitelist>
