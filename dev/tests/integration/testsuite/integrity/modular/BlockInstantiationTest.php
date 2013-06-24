@@ -41,6 +41,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
         $blockClass = '';
         $skipBlocks = array(
             // blocks with abstract constructor arguments
+            'Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit',
             'Mage_Adminhtml_Block_System_Email_Template',
             'Mage_Adminhtml_Block_System_Email_Template_Edit',
             'Mage_Backend_Block_System_Config_Edit',
