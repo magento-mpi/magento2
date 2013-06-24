@@ -55,6 +55,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Mage_Sales_Block_Adminhtml_Billing_Agreement_View',
             'Mage_User_Block_Role_Tab_Edit',
             'Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer',
         );
 
         try {
