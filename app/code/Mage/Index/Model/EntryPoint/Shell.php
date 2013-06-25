@@ -41,6 +41,7 @@ class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstra
      */
     protected function _processRequest()
     {
+        $this->_objectManager->get('Mage_Core_Model_App');
         /** @var $shell Mage_Index_Model_Shell */
         $shell = $this->_objectManager->create('Mage_Index_Model_Shell', array('entryPoint' => $this->_entryFileName));
         $shell->run();
