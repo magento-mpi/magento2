@@ -293,6 +293,11 @@
                 </product>
             </catalog>
         </session>
+        <di>
+            <preferences>
+                <Mage_Catalog_Service_ProductInterfaceV1>Mage_Catalog_Service_Product</Mage_Catalog_Service_ProductInterfaceV1>
+            </preferences>
+        </di>
     </global>
     <adminhtml>
         <translate>
