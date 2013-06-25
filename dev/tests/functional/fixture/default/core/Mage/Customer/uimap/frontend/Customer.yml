@@ -134,13 +134,4 @@ customer_login_refer:
     mca: customer/account/login/referer/%referer%/
     title: Customer Login
     uimap:
-        form:
-            fieldsets:
-                -
-                    log_in_customer:
-                        xpath:
-                        buttons:
-                            login: //button[span='Login']
-                        fields:
-                            email: //input[@id='email']
-                            password: //input[@id='pass']
+        form: *customerLogin

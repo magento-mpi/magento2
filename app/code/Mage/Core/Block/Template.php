@@ -227,8 +227,8 @@ HTML;
         }
 
         try {
-            if ((Magento_Filesystem::isPathInDirectory($fileName, $this->_dirs->getDir(Mage_Core_Model_Dir::APP))
-                || Magento_Filesystem::isPathInDirectory($fileName, $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES))
+            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(Mage_Core_Model_Dir::APP))
+                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
                 include $fileName;

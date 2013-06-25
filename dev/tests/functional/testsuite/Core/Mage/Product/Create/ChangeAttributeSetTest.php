@@ -288,4 +288,74 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
+
+    /**
+     * Change attribute set with product related attributes
+     *
+     * @param array $attributeSetData
+     *
+     * @test
+     * @depends preconditionsForTests
+     *
+     */
+    public function fromDefaultToCustomWithoutSpecialPrice($attributeSetData)
+    {
+        //Data
+        $newAttributeSet = $attributeSetData['attributeSetName'];
+        $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+
+        //Steps
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->createCategory($subCategoryData);
+        $productData['general_categories'] = $subCategoryData['parent_category'] . '/' . $subCategoryData['name'];
+        $productData['prices_special_price'] = '3.99';
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        //Verifying
+        $this->frontend();
+        $this->categoryHelper()->frontOpenCategory($subCategoryData['name']);
+        $this->addParameter('productName', $productData['general_name']);
+        $this->addParameter('price', '$' . $productData['prices_special_price']);
+        $this->addParameter('symbol', '');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'price_special'), 'Special price not found');
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'group_price'), 'Special price not found');
+        $this->clickButton('add_to_cart');
+        $productInfo = $this->shoppingCartHelper()->getProductInfoInTable($productData);
+        $this->assertEquals(
+            '$' . $productData['prices_special_price'],
+            $productInfo['product_1']['unit_price'],
+            'Special price is not applied'
+        );
+
+        //Steps
+        $this->loginAdminUser();
+        $this->attributeSetHelper()->openAttributeSet($newAttributeSet);
+        $this->attributeSetHelper()->unassignAttributeFromSet(array('special_price'));
+        $this->saveForm('save_attribute_set');
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->navigate('manage_products');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->changeAttributeSet($newAttributeSet);
+        $this->productHelper()->saveProduct();
+        unset($productData['prices_special_price']);
+
+        //Verifying
+        $this->frontend();
+        $this->categoryHelper()->frontOpenCategory($subCategoryData['name']);
+        $this->assertFalse($this->controlIsPresent('pageelement', 'price_special'), 'Special price not found');
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->assertFalse($this->controlIsPresent('pageelement', 'group_price'), 'Special price not found');
+        $this->clickButton('add_to_cart');
+        $productInfo = $this->shoppingCartHelper()->getProductInfoInTable($productData);
+        $this->assertEquals(
+            '$' . $productData['general_price'],
+            $productInfo['product_1']['unit_price'],
+            'Special is not applied'
+        );
+
+    }
 }

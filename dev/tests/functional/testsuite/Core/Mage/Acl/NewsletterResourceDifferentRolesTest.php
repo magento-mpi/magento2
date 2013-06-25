@@ -78,7 +78,6 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
      */
     public function editNewsletterResourceDifferentRoles($newsData)
     {
-        $this->markTestIncomplete('MAGETWO-8369');
         //Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',

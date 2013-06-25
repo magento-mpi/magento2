@@ -99,6 +99,11 @@ Default layout, loads most of the pages
         </reference>
     </checkout_cart_configure>
 
+    <checkout_cart_configure_type_simple translate="label" type="page" parent="checkout_cart_configure">
+        <label>Configure Cart Item (Simple)</label>
+        <update handle="catalog_product_view_type_simple"/>
+    </checkout_cart_configure_type_simple>
+
     <checkout_cart_configure_type_configurable translate="label" module="Mage_Catalog" type="page" parent="checkout_cart_configure">
         <label>Configure Cart Item (Configurable)</label>
         <update handle="catalog_product_view_type_configurable"/>
