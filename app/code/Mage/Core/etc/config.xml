@@ -131,6 +131,7 @@
                 <Twig_LoaderInterface>Mage_Core_Model_TemplateEngine_Twig_FullFileName</Twig_LoaderInterface>
                 <Mage_Core_Model_DataService_ConfigInterface>Mage_Core_Model_DataService_Config</Mage_Core_Model_DataService_ConfigInterface>
                 <Mage_Core_Model_ConfigInterface>Mage_Core_Model_Config</Mage_Core_Model_ConfigInterface>
+                <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
@@ -486,11 +487,6 @@
                 <enabled>0</enabled>
             </single_store_mode>
         </general>
-        <dev>
-            <image>
-                <adapter>GD2</adapter>
-            </image>
-        </dev>
     </default>
     <stores>
         <default>
