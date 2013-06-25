@@ -29,4 +29,20 @@ class Mage_Webapi_Model_Soap_Wsdl extends Wsdl
         $this->_uri = $uri;
         parent::__construct($name, $uri, $strategy);
     }
+
+    /**
+     * Add complex type definition
+     *
+     * @param DOMNode $complexTypeNode XSD of service method for input/output
+     * @return string
+     */
+    public function addComplexType($complexTypeNode)
+    {
+        $this->addSchemaTypeSection();
+
+        $strategy = $this->getComplexTypeStrategy();
+        $strategy->setContext($this);
+        // delegates the detection of a complex type to the current strategy
+        return $strategy->addComplexType($complexTypeNode);
+    }
 }

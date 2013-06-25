@@ -124,8 +124,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
 
-                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation);
-                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation);
+                $requestedResource = $this->_request->getRequestedResources();
+                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation, $requestedResource);
+                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation, $requestedResource);
                 $service = $this->_objectManager->get($serviceId);
                    $outputData = $service->$serviceMethod($arguments);
                 if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
