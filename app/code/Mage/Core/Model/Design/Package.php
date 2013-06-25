@@ -89,24 +89,52 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * View file system model
      *
-     * @var Mage_Core_Model_View_FileSystem
+     * @var Mage_Core_Model_View
      */
     protected $_viewFileSystem;
+
+    /**
+     * View file URL model
+     *
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
+     * View config model
+     *
+     * @var Mage_Core_Model_View_Config
+     */
+    protected $_viewConfig;
+
+    /**
+     * View service model
+     *
+     * @var Mage_Core_Model_View_Service
+     */
+    protected $_viewService;
 
     /**
      * Design
      *
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Mage_Core_Model_View_Config $viewConfig
+     * @param Mage_Core_Model_View_Service $viewService
      */
     public function __construct(
         Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_View_FileSystem $viewFileSystem
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_Config $viewConfig,
+        Mage_Core_Model_View_Service $viewService
     ) {
         $this->_storeManager = $storeManager;
         $this->_viewFileSystem = $viewFileSystem;
-
-        $this->_viewFileSystem->setDesign($this);
+        $this->_viewUrl = $viewUrl;
+        $this->_viewConfig = $viewConfig;
+        $this->_viewService = $viewService;
     }
 
     /**
@@ -142,7 +170,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param string|null $area
      * @return Mage_Core_Model_Theme
      */
-    public function _getLoadDesignTheme($themeId, $area = self::DEFAULT_AREA)
+    public function loadDesignTheme($themeId, $area = self::DEFAULT_AREA)
     {
         $key = sprintf('%s/%s', $area, $themeId);
         if (isset($this->_themes[$key])) {
@@ -178,7 +206,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if ($theme instanceof Mage_Core_Model_Theme) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->_getLoadDesignTheme($theme, $this->getArea());
+            $this->_theme = $this->loadDesignTheme($theme, $this->getArea());
         }
 
         return $this;
@@ -273,12 +301,37 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getDesignParams()
+    {
+        $params = array(
+            'area'       => $this->getArea(),
+            'themeModel' => $this->getDesignTheme(),
+            'locale'     => Mage::app()->getLocale()->getLocaleCode()
+        );
+
+        return $params;
+    }
+
 
     // methods delegated to FileSystem model
 
     public function __call($name, $args = array())
     {
-        return call_user_func_array(array($this->_viewFileSystem, $name), $args);
+        if (in_array($name, array('getViewFileUrl', 'getViewFilePublicPath', 'getPublicFileUrl'))) {
+            $object = $this->_viewUrl;
+        } elseif (in_array($name, array('getFilename', 'getLocaleFileName', 'getViewFile'))) {
+            $object = $this->_viewFileSystem;
+        } elseif (in_array($name, array('getViewConfig'))) {
+            $object = $this->_viewConfig;
+        } elseif (in_array($name, array('getPublicDir'))) {
+            $object = $this->_viewService;
+        } else {
+            throw new Exception(sprintf('Method "%s" not found in MCMDP', $name));
+        }
+        return call_user_func_array(array($object, $name), $args);
     }
 
 }

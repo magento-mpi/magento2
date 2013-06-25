@@ -35,7 +35,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
         $cssHelper = $this->getMock('Mage_Core_Helper_Css', array(), array(), '', false);
 
-        $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
+        $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_getDesignParams'),
             array($dirs, $modulesReader, $filesystem, $this->_strategyPool, $appState, $storeManager, $cssHelper)
         );
     }

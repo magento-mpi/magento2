@@ -115,7 +115,7 @@ class Generator_ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
+            $destDir = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -196,7 +196,7 @@ class Generator_ThemeDeployment
                     if (!strlen($module) || !strlen($file)) {
                         throw new Magento_Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
+                    $relPath = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'], $destContext['themePath'], $destContext['locale'],
                         $file, $module
                     );

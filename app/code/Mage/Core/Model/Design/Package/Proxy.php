@@ -181,16 +181,6 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     }
 
     /**
-     * Return directory for theme files publication
-     *
-     * @return string
-     */
-    public function getPublicDir()
-    {
-        return $this->_getInstance()->getPublicDir();
-    }
-
-    /**
      * Render view config object for current package and theme
      *
      * @return Magento_Config_View
@@ -198,5 +188,20 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     public function getViewConfig()
     {
         return $this->_getInstance()->getViewConfig();
+    }
+
+    /**
+     * Get design parameters
+     *
+     * @return array
+     */
+    public function getDesignParams()
+    {
+        return $this->_getInstance()->getDesignParams();
+    }
+
+    public function loadDesignTheme($themeId)
+    {
+        return $this->_getInstance()->loadDesignTheme($themeId);
     }
 }

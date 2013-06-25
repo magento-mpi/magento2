@@ -202,9 +202,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * @param string $expectedFile
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
-     * @dataProvider publishViewFileDataProvider
+     * @dataProvider getPublishedFilePathDataProvider
      */
-    public function testPublishViewFile($file, $designParams, $expectedFile)
+    public function testGetPublishedFilePath($file, $designParams, $expectedFile)
     {
         $this->_initTestTheme();
 
@@ -228,7 +228,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     /**
      * @return array
      */
-    public function publishViewFileDataProvider()
+    public function getPublishedFilePathDataProvider()
     {
         $designParams = array(
             'area'    => 'frontend',
@@ -566,7 +566,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * @param string $expectedFile
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
-     * @dataProvider publishViewFileDataProvider
+     * @dataProvider getPublishedFilePathDataProvider
      */
     public function testGetViewFilePublicPath($file, $designParams, $expectedFile)
     {
