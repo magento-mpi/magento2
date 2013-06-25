@@ -55,8 +55,8 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
      */
     public function formatDateDataProvider()
     {
-        // Take care when calling date here as it can be called much earlier than when testFormatDate executes thus causing a
-        // discrepancy in the actual vs expected time. See MAGETWO-10296
+        // Take care when calling date here as it can be called much earlier than when testFormatDate
+        // executes thus causing a discrepancy in the actual vs expected time. See MAGETWO-10296
         $date = new Zend_Date();
         return array(
             'null' => array(null, false, ''),
