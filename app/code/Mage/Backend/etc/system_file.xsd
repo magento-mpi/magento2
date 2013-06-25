@@ -190,6 +190,8 @@
                     <xs:element name="button_label" type="xs:string" />
                     <xs:element name="hide_in_single_store_mode" type="xs:int" />
                     <xs:element name="upload_dir" type="typeUploadDir" />
+                    <xs:element ref="source_service" />
+                    <xs:element ref="options" />
                     <xs:element ref="depends" />
                     <xs:element ref="attribute" />
                     <xs:element ref="requires" />
@@ -208,7 +210,52 @@
             <xs:selector xpath=".//attribute"/>
             <xs:field xpath="@type"/>
         </xs:unique>
+    </xs:element>
 
+    <xs:element name="source_service">
+        <xs:annotation>
+            <xs:documentation>
+                Service used to populate select options
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="service_call" type="xs:string" use="required" />
+                    <xs:attribute name="idField" type="xs:string" use="optional" />
+                    <xs:attribute name="labelField" type="xs:string" use="optional" />
+                    <xs:attribute name="includeEmptyValueOption" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="options">
+        <xs:annotation>
+            <xs:documentation>
+                Options of a select field
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="option" maxOccurs="unbounded" minOccurs="1">
+                    <xs:complexType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Option of a select field
+                            </xs:documentation>
+                        </xs:annotation>
+
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute type="xs:string" name="label" use="required"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
     </xs:element>
 
     <xs:element name="requires">
@@ -440,9 +487,9 @@
     </xs:complexType>
 
     <xs:simpleType name="typeUrlRestriction">
-       <xs:restriction base="xs:anyURI">
-           <xs:minLength value="3" />
-       </xs:restriction>
+        <xs:restriction base="xs:anyURI">
+            <xs:minLength value="3" />
+        </xs:restriction>
     </xs:simpleType>
 
     <xs:complexType name="typeUrl" mixed="true">

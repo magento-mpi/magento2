@@ -21,6 +21,7 @@
             uploader_id:       null,
             value:             null,
             container:         null,
+            tile_available:    null,
 
             /**
              * Add file
@@ -160,7 +161,9 @@
             if (this.options.hide_uploader == true) {
                 $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
             }
-            $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
+            if (this.options.tile_available == true) {
+                $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
+            }
         },
 
         /**

@@ -15,10 +15,17 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Backend_Block_Widget_Grid_Extended
 {
-    protected function _construct()
-    {
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
         $this->setEmptyText(Mage::helper('Mage_Newsletter_Helper_Data')->__('No Templates Found'));
     }
 
@@ -36,7 +43,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
     {
         $this->addColumn('template_code',
             array(
-                'header'    =>  Mage::helper('Mage_Newsletter_Helper_Data')->__('ID'),
+                'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('ID'),
                 'index'     => 'template_id',
                 'header_css_class'  => 'col-id',
                 'column_css_class'  => 'col-id'
@@ -81,7 +88,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
             array(
                 'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Sender'),
                 'index'     => 'template_sender_email',
-                'renderer' => 'Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Sender',
+                'renderer'  => 'Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Sender',
                 'header_css_class'  => 'col-sender',
                 'column_css_class'  => 'col-sender'
         ));

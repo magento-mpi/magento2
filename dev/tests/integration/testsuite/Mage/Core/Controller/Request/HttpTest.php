@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Controller_RequestHttpTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Controller_Request_Http
@@ -18,6 +18,9 @@ class Mage_Core_Controller_RequestHttpTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
+            => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))
+        ));
         $this->_model = Mage::getModel('Mage_Core_Controller_Request_Http');
     }
 
@@ -26,18 +29,27 @@ class Mage_Core_Controller_RequestHttpTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getOriginalPathInfo());
     }
 
-    public function testGetStoreCodeFromPath()
+    /**
+     * @magentoConfigFixture current_store web/url/use_store 1
+     * @dataProvider setGetPathInfoDataProvider
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     */
+    public function testSetPathWithStoreCode($requestUri, $expectedResult)
     {
-        $this->assertEquals(Mage::app()->getStore()->getCode(), $this->_model->getStoreCodeFromPath());
+        $this->_model->setRequestUri($requestUri);
+        $this->_model->setPathInfo();
+        $this->assertEquals($expectedResult, $this->_model->getPathInfo());
     }
 
     /**
-     * @magentoConfigFixture current_store web/url/use_store 1
+     * @dataProvider setGetPathInfoDataProvider
      */
-    public function testGetStoreCodeFromPathStoreCodeInUrl()
+    public function testSetPathWithOut($requestUri)
     {
-        $this->_model->setPathInfo('admin/test/');
-        $this->assertEquals('admin', $this->_model->getStoreCodeFromPath());
+        $this->_model->setRequestUri($requestUri);
+        $this->_model->setPathInfo();
+        $this->assertEquals($requestUri, $this->_model->getPathInfo());
     }
 
     public function testSetGetPathInfo()
@@ -53,6 +65,20 @@ class Mage_Core_Controller_RequestHttpTest extends PHPUnit_Framework_TestCase
         $this->_model->setPathInfo('new_test');
         $this->assertEquals('new_test', $this->_model->getPathInfo());
 
+    }
+
+    /**
+     * @see self::testSetPathWithStoreCode()
+     * @return array
+     */
+    public function setGetPathInfoDataProvider()
+    {
+        return array(
+            array(null, null),
+            array('default', '/'),
+            array('default/new', '/new'),
+            array('admin/new', 'admin/new'),
+        );
     }
 
     /**
@@ -78,15 +104,6 @@ class Mage_Core_Controller_RequestHttpTest extends PHPUnit_Framework_TestCase
     public function testGetDirectFrontNames()
     {
         $this->assertContains('api', array_keys($this->_model->getDirectFrontNames()));
-    }
-
-    public function testGetOriginalRequest()
-    {
-        $this->assertInstanceOf('Zend_Controller_Request_Http', $this->_model->getOriginalRequest());
-        $this->assertEquals(
-            $this->_model->getOriginalPathInfo(),
-            $this->_model->getOriginalRequest()->getPathInfo()
-        );
     }
 
     public function testGetRequestString()

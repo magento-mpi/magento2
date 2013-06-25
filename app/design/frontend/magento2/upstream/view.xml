@@ -212,7 +212,7 @@
 
         <var name="page-background:color-picker">#9fb8d6</var>
         <var name="page-background:image-uploader"></var>
-        <var name="page-background:tile">no-repeat</var>
+        <var name="page-background:tile">disabled</var>
 
         <var name="form-field">#ffffff</var>
         <var name="form-field-text">#1e1e1e</var>

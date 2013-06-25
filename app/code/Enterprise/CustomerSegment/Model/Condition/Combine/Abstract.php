@@ -222,7 +222,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
     {
         $storeTable = $this->getResource()->getTable('core_store');
         $select->join(array('store'=> $storeTable), $storeIdField.'=store.store_id', array())
-            ->where('store.website_id=?', $website);
+            ->where('store.website_id IN (?)', $website);
         return $this;
     }
 }
