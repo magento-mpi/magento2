@@ -47,6 +47,7 @@ class Magento_Test_Bootstrap_DocBlock
             new Magento_Test_Event_Transaction(new Magento_Test_EventManager(array(
                 new Magento_Test_Annotation_DbIsolation(),
                 new Magento_Test_Annotation_DataFixture($this->_fixturesBaseDir),
+                new Magento_Test_Annotation_ApiDataFixture("{$this->_fixturesBaseDir}/api"),
             ))),
             new Magento_Test_Annotation_ConfigFixture(),
         ));
