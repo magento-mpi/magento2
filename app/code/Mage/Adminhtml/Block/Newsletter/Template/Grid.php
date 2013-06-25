@@ -19,13 +19,17 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Backend_Block_W
 {
     /**
      * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Url $urlModel
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Url $urlModel,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $storeManager, $urlModel, $data);
         $this->setEmptyText(Mage::helper('Mage_Newsletter_Helper_Data')->__('No Templates Found'));
     }
 
