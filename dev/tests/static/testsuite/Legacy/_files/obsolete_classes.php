@@ -596,6 +596,7 @@ return array(
     array('Mage_Ogone_Model_Resource_Api_Debug'),
     array('Mage_Page_Block_Html_Toplinks'),
     array('Mage_Page_Block_Html_Wrapper'),
+    array('Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid'),
     array('Mage_Poll_Block_Poll'),
     array('Mage_ProductAlert_Block_Price'),
     array('Mage_ProductAlert_Block_Stock'),
