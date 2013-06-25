@@ -15,12 +15,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
-     * Class constructor
+     * @var Mage_Customer_Model_Config_Share
      */
-    public function __construct()
-    {
+    protected $_configShare;
+
+    /**
+     * @param Mage_Customer_Model_Config_Share $configShare
+     */
+    public function __construct(
+        Mage_Customer_Model_Config_Share $configShare
+    ) {
         parent::__construct();
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root');
+        $this->_configShare = $configShare;
     }
 
     /**
@@ -67,11 +74,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
             // For existing customer
             $select->from($table, new Zend_Db_Expr(1));
         } else {
-            $select->from($table, array('entity_id'));
-            if ($customer === null) {
-                if (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope()) {
-                    $select->where('website_id=?', $website);
-                }
+            $select->from($table, array('entity_id', 'website_id'));
+            if ($customer === null && $this->_configShare->isWebsiteScope()) {
+                $select->where('website_id=?', $website);
             }
         }
 

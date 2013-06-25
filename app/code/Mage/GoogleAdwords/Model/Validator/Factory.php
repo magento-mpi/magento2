@@ -44,7 +44,7 @@ class Mage_GoogleAdwords_Model_Validator_Factory
             $currentColor);
         /** @var Magento_Validator_Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(array(
-            array(
+            'constraints' => array(
                 array(
                     'alias' => 'Regex',
                     'type' => '',
@@ -81,7 +81,7 @@ class Mage_GoogleAdwords_Model_Validator_Factory
             $currentId);
         /** @var Magento_Validator_Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(array(
-            array(
+            'constraints' => array(
                 array(
                     'alias' => 'Int',
                     'type' => '',

@@ -41,6 +41,7 @@ app/code/Mage/Core/Helper/Css.php
 app/code/Mage/Core/Model/Abstract.php
 app/code/Mage/Core/Model/Config
 app/code/Mage/Core/Model/Cache
+app/code/Mage/Core/Model/DataService
 app/code/Mage/Core/Model/Design.php
 app/code/Mage/Core/Model/Design/FileResolution
 app/code/Mage/Core/Model/Design/Fallback

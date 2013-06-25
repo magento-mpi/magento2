@@ -131,7 +131,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     protected function _initTitle()
     {
         $this->_title($this->__('Customers'))
-             ->_title($this->__('Manage Customers'));
+             ->_title($this->__('Customers'));
         if ($customer = Mage::registry('checkout_current_customer')) {
             $this->_title($customer->getName());
         }

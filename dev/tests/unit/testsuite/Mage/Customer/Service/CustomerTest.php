@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for customer service layer Mage_Customer_Service_Customer
+ * Mage_Customer_Service_Customer
  *
  * {license_notice}
  *
@@ -15,21 +15,25 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_service;
 
     /**
-     * @var Mage_Customer_Model_CustomerFactory
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customerFactory;
 
-    /** @var Mage_Customer_Model_AddressFactory|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_addressFactory;
 
-    /** @var Mage_Customer_Model_Customer|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_customer;
 
     /** @var Mage_Customer_Helper_Data|PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
     /**
-     * @var Mage_Customer_Model_Address
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_address;
 
@@ -75,6 +79,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Create mock address for use in tests
+     *
      * @param bool $hasChanges
      * @param int $addressId
      * @return PHPUnit_Framework_MockObject_MockObject
@@ -179,9 +185,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test beforeSave and afterSave callback are set correctly
-     */
     public function testSetAfterSaveCallback()
     {
         $this->assertInstanceOf('Mage_Customer_Service_Customer', $this->_service->setAfterSaveCallback('intval'));

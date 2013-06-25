@@ -168,7 +168,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     protected function _loginPostRedirect()
     {
         $session = $this->_getSession();
-
+        $lastCustomerId = $session->getLastCustomerId();
+        if (isset($lastCustomerId) && $session->isLoggedIn() && $lastCustomerId != $session->getId()) {
+            $session->unsBeforeAuthUrl()
+                ->setLastCustomerId($session->getId());
+        }
         if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl()) {
             // Set default URL to redirect customer to
             $session->setBeforeAuthUrl(Mage::helper('Mage_Customer_Helper_Data')->getAccountUrl());
@@ -208,9 +212,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function logoutAction()
     {
+        $lastCustomerId = $this->_getSession()->getId();
         $this->_getSession()->logout()
             ->renewSession()
-            ->setBeforeAuthUrl($this->_getRefererUrl());
+            ->setBeforeAuthUrl($this->_getRefererUrl())
+            ->setLastCustomerId($lastCustomerId);
 
         $this->_redirect('*/*/logoutSuccess');
     }

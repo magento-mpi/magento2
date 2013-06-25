@@ -200,7 +200,7 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
         $searchData = $this->_prepareDataForSearch($searchData);
         $locator = $this->search($searchData, 'newsletter_templates_grid');
         $this->assertNotNull($locator, 'Newsletter is not found');
-        $cellId = $this->getColumnIdByName('Template Name');
+        $cellId = $this->getColumnIdByName('Template');
         $this->addParameter('tableLineXpath', $locator);
         $this->addParameter('cellIndex', $cellId);
         $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');

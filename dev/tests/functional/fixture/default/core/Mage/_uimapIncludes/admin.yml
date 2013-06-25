@@ -100,5 +100,5 @@ admin_header:
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
             general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
             general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][string-length(.)>1]"
-            no_records_found: //td[normalize-space(text())='No records found.' or contains(@class,'empty-text')]
-            specific_table_no_records_found: %tableXpath%//td[normalize-space(text())='No records found.' or contains(@class,'empty-text')]
+            no_records_found: "//td[normalize-space(text())='We couldn't find any records.' or contains(@class,'empty-text')]"
+            specific_table_no_records_found: "%tableXpath%//td[normalize-space(text())='We couldn't find any records.' or contains(@class,'empty-text')]"

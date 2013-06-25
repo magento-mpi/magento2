@@ -59,9 +59,8 @@ class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Co
     {
         try {
             $this->_imageFactory->create($this->getValue());
-        } catch (InvalidArgumentException  $e) {
-            $message = $this->_helper->
-                __('The specified image adapter cannot be used because of some missed dependencies.');
+        } catch (Exception $e) {
+            $message = $this->_helper->__('The specified image adapter cannot be used because of: ' . $e->getMessage());
             throw new Mage_Core_Exception($message);
         }
 

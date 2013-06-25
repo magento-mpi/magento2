@@ -54,7 +54,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
         Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->getLayout()
             ->getBlock('head')
-            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #%s', Mage::registry('current_rma')->getIncrementId()));
+            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s', Mage::registry('current_rma')->getIncrementId()));
         $this->renderLayout();
     }
 
