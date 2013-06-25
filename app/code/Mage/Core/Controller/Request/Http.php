@@ -25,7 +25,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * @var string
      */
     protected $_originalPathInfo= '';
-    protected $_storeCode       = null;
     protected $_requestString   = '';
 
     /**
@@ -73,37 +72,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     }
 
     /**
-     * Get store code from a path
-     *
-     * @return null|string
-     */
-    public function getStoreCodeFromPath()
-    {
-        if (!$this->_storeCode) {
-            // get store view code
-            if ($this->_canBeStoreCodeInUrl()) {
-                $pieces = explode('/', trim($this->getPathInfo(), '/'));
-                $storeCode = $pieces[0];
-
-                $stores = Mage::app()->getStores(true, true);
-
-                if ($storeCode !== '' && isset($stores[$storeCode])) {
-                    array_shift($pieces);
-                    $this->setPathInfo(implode('/', $pieces));
-                    $this->_storeCode = $storeCode;
-                    Mage::app()->setCurrentStore($storeCode);
-                } else {
-                    $this->_storeCode = Mage::app()->getStore()->getCode();
-                }
-            } else {
-                $this->_storeCode = Mage::app()->getStore()->getCode();
-            }
-
-        }
-        return $this->_storeCode;
-    }
-
-    /**
      * Set the PATH_INFO string
      * Set the ORIGINAL_PATH_INFO string
      *
@@ -132,16 +100,16 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
                 $pathInfo = $requestUri;
             }
 
-            if ($this->_canBeStoreCodeInUrl()) {
-                $pathParts = explode('/', ltrim($pathInfo, '/'), 2);
-                $storeCode = $pathParts[0];
+            $pathParts = explode('/', ltrim($pathInfo, '/'), 2);
+            $storeCode = $pathParts[0];
 
-                if (!$this->isDirectAccessFrontendName($storeCode)) {
-                    $stores = Mage::app()->getStores(true, true);
-                    if ($storeCode !== '' && isset($stores[$storeCode])) {
+            if ($this->_isFrontArea($storeCode)) {
+                $stores = Mage::app()->getStores(true, true);
+                if (isset($stores[$storeCode]) && $stores[$storeCode]->isUseStoreInUrl()) {
+                    if (!$this->isDirectAccessFrontendName($storeCode)) {
                         Mage::app()->setCurrentStore($storeCode);
-                        $pathInfo = '/' . (isset($pathParts[1]) ? $pathParts[1] : '');
-                    } elseif ($storeCode !== '') {
+                        $pathInfo = '/'.(isset($pathParts[1]) ? $pathParts[1] : '');
+                    } elseif (!empty($storeCode)) {
                         $this->setActionName('noRoute');
                     }
                 }
@@ -154,6 +122,17 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 
         $this->_pathInfo = (string)$pathInfo;
         return $this;
+    }
+
+    /**
+     * Check area by store code
+     *
+     * @param string $storeCode
+     * @return boolean
+     */
+    protected function _isFrontArea($storeCode)
+    {
+        return $storeCode != Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
     }
 
     /**
@@ -170,16 +149,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         }
         $this->setPathInfo($pathInfo);
         return $this;
-    }
-
-    /**
-     * Check if can be store code as part of url
-     *
-     * @return bool
-     */
-    protected function _canBeStoreCodeInUrl()
-    {
-        return Mage::isInstalled() && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -211,18 +180,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             }
         }
         return $this->_directFrontNames;
-    }
-
-    /**
-     * Get original request
-     *
-     * @return Zend_Controller_Request_Http
-     */
-    public function getOriginalRequest()
-    {
-        $request = new Zend_Controller_Request_Http();
-        $request->setPathInfo($this->getOriginalPathInfo());
-        return $request;
     }
 
     /**

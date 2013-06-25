@@ -66,4 +66,16 @@ return array(
     array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',
         'Enterprise_PageCache_Model_Request_Identifier::prepareCacheId'
     ),
+    array('_getQuote', 'Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon',
+        'Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon::getQuote()'
+    ),
+    array('_getQuote', 'Enterprise_GiftCardAccount_Block_Checkout_Cart_Total',
+        'Enterprise_GiftCardAccount_Block_Checkout_Cart_Total::getQuote()'
+    ),
+    array('_getQuote', 'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional',
+        'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional::getQuote()'
+    ),
+    array('_getQuote', 'Enterprise_GiftWrapping_Block_Checkout_Options',
+        'Enterprise_GiftWrapping_Block_Checkout_Options::getQuote()'
+    ),
 );
