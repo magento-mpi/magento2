@@ -67,7 +67,7 @@ class Mage_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         /** @var Mage_Core_Model_Resource_Config $config */
         $config = $this->_objectManager->get('Mage_Core_Model_Resource_Config');
-        $config->saveConfig('payment/checkmo/order_status', $statusCode , 'default', 0);
+        $config->saveConfig('payment/checkmo/order_status', $statusCode, 'default', 0);
 
         $this->_resetConfig();
 
@@ -94,7 +94,7 @@ class Mage_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         /** @var Mage_Core_Model_Resource_Config $config */
         $config = $this->_objectManager->get('Mage_Core_Model_Resource_Config');
-        $config->saveConfig('payment/checkmo/order_status', $statusCode , 'default', 0);
+        $config->saveConfig('payment/checkmo/order_status', $statusCode, 'default', 0);
 
         $this->_resetConfig();
 
