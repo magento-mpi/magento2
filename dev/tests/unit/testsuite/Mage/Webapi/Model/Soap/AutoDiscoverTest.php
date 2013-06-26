@@ -31,20 +31,14 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
 
-        $_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')->disableOriginalConstructor()
+        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')->disableOriginalConstructor()
             ->getMock();
-        $_apiConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()->getMock();
-        $_wsdlFactory = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')->disableOriginalConstructor()
+        $this->_apiConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()
             ->getMock();
-        $_helper = $this->getMockBuilder('Mage_Webapi_Helper_Config')->disableOriginalConstructor()->getMock();
-        $_cache = $this->getMockBuilder('Mage_Core_Model_CacheInterface')->disableOriginalConstructor()->getMock();
-
-        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
-            $_newApiConfigMock,
-            $_apiConfig,
-            $_wsdlFactory,
-            $_helper,
-            $_cache
+        $this->_wsdlFactory = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')->disableOriginalConstructor()
+            ->getMock();
+        $this->_helper = $this->getMockBuilder('Mage_Webapi_Helper_Config')->disableOriginalConstructor()->getMock();
+        $this->_cache = $this->getMockBuilder('Mage_Core_Model_CacheInterface')->disableOriginalConstructor()->getMock(
         );
 
         $this->_wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
@@ -66,6 +60,23 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 )
             )
             ->getMock();
+        $this->_wsdlFactory = $this->getMock(
+            'Mage_Webapi_Model_Soap_Wsdl_Factory',
+            array('create'),
+            array(new Magento_ObjectManager_ObjectManager())
+        );
+        $this->_wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
+        $this->_helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'), array(), '', false, false);
+        $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        //$this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
+
+        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
+            $this->_newApiConfigMock,
+            $this->_apiConfig,
+            $this->_wsdlFactory,
+            $this->_helper,
+            $this->_cache
+        );
 
         parent::setUp();
     }
@@ -81,9 +92,9 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
+     * Test success case for handle
      */
-    public function handle()
+    public function testHandleSuccess()
     {
         $resData = 'resourceData';
         $genWSDL = 'generatedWSDL';
@@ -108,13 +119,15 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
+     * Test exception for handle
+     *
      * @expectedException        Mage_Webapi_Exception
      * @expectedExceptionMessage exception message
      */
-    public function handleWithException()
+    public function testHandleWithException()
     {
         $genWSDL = 'generatedWSDL';
+        $exceptionMsg = 'exception message';
         $requestedResource = array(
             'catalogProduct' => 'V1',
         );
@@ -127,62 +140,57 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $partialMockedAutoDis->expects($this->once())->method('_prepareResourceData')->will(
-            $this->throwException(new Exception("exception message"))
+            $this->throwException(new Exception($exceptionMsg))
         );
-
-        //TODO: Need to verify if generate can throw an exception too
-        // $partialMockedAutoDis->expects($this->once())->method('generate')->will(
-        //     $this->returnValue($genWSDL)
-        // );
 
         $this->assertEquals($genWSDL, $partialMockedAutoDis->handle($requestedResource, 'http://magento.host'));
     }
 
 
     /**
-     * @test
+     * Test getElementComplexTypeName
      */
-    public function getElementComplexTypeName()
+    public function testGetElementComplexTypeName()
     {
         $this->assertEquals("Test", $this->_autoDiscover->getElementComplexTypeName("test"));
     }
 
     /**
-     * @test
+     * Test getPortTypeName
      */
-    public function getPortTypeName()
+    public function testGetPortTypeName()
     {
         $this->assertEquals("testPortType", $this->_autoDiscover->getPortTypeName("test"));
     }
 
     /**
-     * @test
+     * Test getBindingName
      */
-    public function getBindingName()
+    public function testGetBindingName()
     {
         $this->assertEquals("testBinding", $this->_autoDiscover->getBindingName("test"));
     }
 
     /**
-     * @test
+     * Test getPortName
      */
-    public function getPortName()
+    public function testGetPortName()
     {
         $this->assertEquals("testPort", $this->_autoDiscover->getPortName("test"));
     }
 
     /**
-     * @test
+     * test getServiceName
      */
-    public function getServiceName()
+    public function testGetServiceName()
     {
         $this->assertEquals("testService", $this->_autoDiscover->getServiceName("test"));
     }
 
     /**
-     * @test
+     * test getOperationName
      */
-    public function getOperationName()
+    public function testGetOperationName()
     {
         $this->assertEquals("resNameMethodName", $this->_autoDiscover->getOperationName("resName", "methodName"));
     }
@@ -190,7 +198,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getInputMessageName()
+    public function testGetInputMessageName()
     {
         $this->assertEquals("operationNameRequest", $this->_autoDiscover->getInputMessageName("operationName"));
     }
@@ -198,164 +206,9 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getOutputMessageName()
+    public function testGetOutputMessageName()
     {
         $this->assertEquals("operationNameResponse", $this->_autoDiscover->getOutputMessageName("operationName"));
     }
-
-
-    /**
-     * Positive test case. Generate simple resource WSDL.
-     *
-     * @test
-     * @dataProvider generateDataProvider()
-     */
-    public function generate($resourceName, $methodName, $interface)
-    {
-        $this->markTestIncomplete('Not implemented as yet');
-        $serviceDomMock = $this->_getDomElementMock();
-        $this->_wsdlMock->expects($this->once())->method('addService')->will($this->returnValue($serviceDomMock));
-        $portTypeDomMock = $this->_getDomElementMock();
-        $portTypeName = $this->_autoDiscover->getPortTypeName($resourceName);
-        $this->_wsdlMock->expects($this->once())
-            ->method('addPortType')
-            ->with($portTypeName)
-            ->will($this->returnValue($portTypeDomMock));
-        $bindingDomMock = $this->_getDomElementMock();
-        $bindingName = $this->_autoDiscover->getBindingName($resourceName);
-        $this->_wsdlMock->expects($this->once())
-            ->method('addBinding')
-            ->with($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName)
-            ->will($this->returnValue($bindingDomMock));
-        $this->_wsdlMock->expects($this->once())
-            ->method('addSoapBinding')
-            ->with($bindingDomMock);
-        $operationName = $this->_autoDiscover->getOperationName($resourceName, $methodName);
-        $inputMessageName = $this->_autoDiscover->getInputMessageName($operationName);
-        $outputMessageName = $this->_autoDiscover->getOutputMessageName($operationName);
-        $this->_wsdlMock->expects($this->once())
-            ->method('addPortOperation')
-            ->with(
-                $portTypeDomMock,
-                $operationName,
-                Wsdl::TYPES_NS . ':' . $inputMessageName,
-                Wsdl::TYPES_NS . ':' . $outputMessageName
-            );
-        $operationDomMock = $this->_getDomElementMock();
-        $this->_wsdlMock->expects($this->once())
-            ->method('addBindingOperation')
-            ->with(
-                $bindingDomMock,
-                $operationName,
-                array('use' => 'literal'),
-                array('use' => 'literal'),
-                false,
-                SOAP_1_2
-            )
-            ->will($this->returnValue($operationDomMock));
-        $this->_wsdlMock->expects($this->once())
-            ->method('addSoapOperation')
-            ->with($operationDomMock, $operationName, SOAP_1_2);
-        $this->_wsdlMock->expects($this->once())
-            ->method('toXML');
-
-        $requestedResources = array(
-            $resourceName => array(
-                'methods' => array(
-                    $methodName => array(
-                        'interface' => $interface,
-                        'documentation' => 'test method A',
-                    ),
-                ),
-            ),
-        );
-        $endpointUrl = 'http://magento.host/api/soap/';
-        $this->_autoDiscover->generate($requestedResources, $endpointUrl);
-    }
-
-    /**
-     * Data provider for generate() test.
-     *
-     * @return array
-     */
-    public static function generateDataProvider()
-    {
-        $simpleInterface = array(
-            'in' => array(
-                'parameters' => array(
-                    'resource_id' => array(
-                        'type' => 'int',
-                        'required' => true,
-                        'documentation' => 'Resource ID.{annotation:value}'
-                    ),
-                    'optional' => array(
-                        'type' => 'boolean',
-                        'required' => false,
-                        'default' => true,
-                        'documentation' => 'Optional parameter.'
-                    ),
-                ),
-            ),
-            'out' => array(
-                'parameters' => array(
-                    'result' => array(
-                        'type' => 'string',
-                        'required' => true,
-                        'documentation' => 'Operation result.'
-                    )
-                ),
-            ),
-        );
-        $oneWayInterface = array(
-            'out' => array(
-                'parameters' => array(
-                    'result' => array(
-                        'type' => 'string',
-                        'required' => true,
-                        'documentation' => 'Operation result.'
-                    )
-                ),
-            ),
-        );
-        $complexTypeInterface = array(
-            'in' => array(
-                'parameters' => array(
-                    'complex_param' => array(
-                        'type' => 'ComplexTypeA',
-                        'required' => true,
-                        'documentation' => 'Optional complex type param.'
-                    ),
-                ),
-            ),
-            'out' => array(
-                'parameters' => array(
-                    'result' => array(
-                        'type' => 'ComplexTypeB',
-                        'required' => false,
-                        'documentation' => 'Operation result.'
-                    )
-                ),
-            ),
-        );
-
-        return array(
-            'Method with simple parameters' => array('resource_a', 'methodB', $simpleInterface),
-            'One-way method' => array('resource_a', 'methodC', $oneWayInterface),
-            'Method with complex type in parameters' => array('resource_a', 'methodE', $complexTypeInterface),
-        );
-    }
-
-    /**
-     * Create mock for DOMElement.
-     *
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getDomElementMock()
-    {
-        return $this->getMockBuilder('DOMElement')
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
 
 }
