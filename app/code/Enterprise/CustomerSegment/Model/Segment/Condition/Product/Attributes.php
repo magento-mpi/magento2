@@ -24,9 +24,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     /**
      * Init model
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes');
         $this->setValue(null);
     }

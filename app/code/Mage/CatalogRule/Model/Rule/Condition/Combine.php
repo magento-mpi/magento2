@@ -13,9 +13,9 @@
  */
 class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condition_Combine
 {
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Mage_CatalogRule_Model_Rule_Condition_Combine');
     }
 

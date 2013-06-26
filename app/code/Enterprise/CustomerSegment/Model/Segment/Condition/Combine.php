@@ -20,10 +20,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
      * Initialize model
+     *
+     * @param Mage_Rule_Model_Condition_Context $context
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Combine');
     }
 

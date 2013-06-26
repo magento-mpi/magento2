@@ -11,9 +11,9 @@
 
 class Mage_SalesRule_Model_Rule_Action_Collection extends Mage_Rule_Model_Action_Collection
 {
-    public function __construct()
+    public function __construct(Mage_Core_Model_View_Url $viewUrl)
     {
-        parent::__construct();
+        parent::__construct($viewUrl);
         $this->setType('Mage_SalesRule_Model_Rule_Action_Collection');
     }
 

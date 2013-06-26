@@ -19,6 +19,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     protected $_inputType = 'multiselect';
 
     /**
+     * Initialize model
+     *
+     * @param Mage_Rule_Model_Condition_Context $context
+     */
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    {
+        parent::__construct($context);
+    }
+
+    /**
      * Default operator input by type map getter
      *
      * @return array
@@ -42,7 +52,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     public function getValueAfterElementHtml()
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . Mage::getDesign()->getViewFileUrl('images/rule_chooser_trigger.gif')
+            . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger" title="'
             . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
     }

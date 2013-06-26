@@ -17,9 +17,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     /**
      * class constructor
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart');
         $this->setValue(null);
     }

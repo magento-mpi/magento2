@@ -12,9 +12,7 @@
 /**
  * Abstract Rule condition data model
  *
- * @category Mage
- * @package Mage_Rule
- * @author Magento Core Team <core@magentocommerce.com>
+ * @method string getOperator()
  */
 abstract class Mage_Rule_Model_Condition_Abstract
     extends Varien_Object
@@ -45,8 +43,18 @@ abstract class Mage_Rule_Model_Condition_Abstract
      */
     protected $_arrayInputTypes = array();
 
-    public function __construct()
+    /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     */
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
+        $this->_viewUrl = $context->getViewUrl();
+
         parent::__construct();
 
         $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
@@ -471,14 +479,14 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getAddLinkHtml()
     {
-        $src = Mage::getDesign()->getViewFileUrl('images/rule_component_add.gif');
+        $src = $this->_viewUrl->getViewFileUrl('images/rule_component_add.gif');
         $html = '<img src="' . $src . '" class="rule-param-add v-middle" alt="" title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Add') . '"/>';
         return $html;
     }
 
     public function getRemoveLinkHtml()
     {
-        $src = Mage::getDesign()->getViewFileUrl('images/rule_component_remove.gif');
+        $src = $this->_viewUrl->getViewFileUrl('images/rule_component_remove.gif');
         $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Remove') . '"><img src="' . $src . '"  alt="" class="v-middle" /></a></span>';
         return $html;
     }

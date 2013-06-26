@@ -14,9 +14,9 @@
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview');
         $this->setValue(null);
     }

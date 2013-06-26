@@ -22,9 +22,17 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 
     protected $_template = 'media/uploader.phtml';
 
-    protected function _construct()
+    /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    protected function _construct(Mage_Core_Model_View_Url $viewUrl)
     {
         parent::_construct();
+
+        $this->_viewUrl = $viewUrl;
+
         $this->setId($this->getId() . '_Uploader');
 
         $this->getConfig()->setUrl(Mage::getModel('Mage_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload'));
@@ -105,6 +113,6 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
      */
     public function getUploaderUrl($url)
     {
-        return Mage::getDesign()->getViewFileUrl($url);
+        return $this->_viewUrl->getViewFileUrl($url);
     }
 }

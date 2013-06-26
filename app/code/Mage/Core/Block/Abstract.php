@@ -110,6 +110,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_helperFactory;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * @param Mage_Core_Block_Context $context
      * @param array $data
      */
@@ -126,6 +131,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();
         $this->_helperFactory   = $context->getHelperFactory();
+        $this->_viewUrl   = $context->getViewUrl();
         parent::__construct($data);
         $this->_construct();
     }
@@ -706,7 +712,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
-            return Mage::getDesign()->getViewFileUrl($file, $params);
+            return $this->_viewUrl->getViewFileUrl($file, $params);
         } catch (Magento_Exception $e) {
             Mage::logException($e);
             return $this->_getNotFoundUrl();

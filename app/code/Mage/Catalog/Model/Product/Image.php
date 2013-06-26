@@ -51,11 +51,17 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     protected $_imageFactory;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Image_Factory $imageFactory
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
@@ -64,6 +70,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         Mage_Core_Model_Image_Factory $imageFactory,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
+        Mage_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -74,6 +81,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         $this->_filesystem->setIsAllowCreateDirectories(false);
         $this->_filesystem->setWorkingDirectory($baseDir);
         $this->_imageFactory = $imageFactory;
+        $this->_viewUrl = $viewUrl;
     }
 
     /**
@@ -504,7 +512,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     public function getUrl()
     {
         if ($this->_newFile === true) {
-            $url = Mage::getDesign()->getViewFileUrl(
+            $url = $this->_viewUrl->getViewFileUrl(
                 "Mage_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {

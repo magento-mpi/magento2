@@ -19,12 +19,20 @@
 class Mage_Adminhtml_Block_Customer_Form_Element_File extends Varien_Data_Form_Element_Abstract
 {
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * Initialize Form Element
      *
      */
-    protected function _construct()
+    protected function _construct(Mage_Core_Model_View_Url $viewUrl)
     {
         parent::_construct();
+
+        $this->_viewUrl = $viewUrl;
+
         $this->setType('file');
     }
 
@@ -117,7 +125,7 @@ class Mage_Adminhtml_Block_Customer_Form_Element_File extends Varien_Data_Form_E
             $image = array(
                 'alt'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Download'),
                 'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Download'),
-                'src'   => Mage::getDesign()->getViewFileUrl('images/fam_bullet_disk.gif'),
+                'src'   => $this->_viewUrl->getViewFileUrl('images/fam_bullet_disk.gif'),
                 'class' => 'v-middle'
             );
             $url = $this->_getPreviewUrl();

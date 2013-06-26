@@ -15,9 +15,9 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
      * Set condition type
      *
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Combine');
     }
 

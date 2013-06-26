@@ -14,9 +14,9 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity');
         $this->setValue(null);
     }

@@ -320,7 +320,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
 
     public function __call($name, $args = array())
     {
-        if (in_array($name, array('getViewFileUrl', 'getViewFilePublicPath', 'getPublicFileUrl'))) {
+        if (in_array($name, array(/*'getViewFileUrl',*/ 'getViewFilePublicPath', 'getPublicFileUrl'))) {
             $object = $this->_viewUrl;
         } elseif (in_array($name, array('getFilename', 'getLocaleFileName', 'getViewFile'))) {
             $object = $this->_viewFileSystem;

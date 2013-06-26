@@ -26,9 +26,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
 
     protected $_inputType = 'select';
 
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History');
         $this->setValue(self::VIEWED);
     }

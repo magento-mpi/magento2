@@ -34,6 +34,19 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
     protected $_useSessionInUrl = false;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
+     * @param Mage_Core_Model_View_Url $viewUrl
+     */
+    public function __construct(Mage_Core_Model_View_Url $viewUrl)
+    {
+        $this->_viewUrl = $viewUrl;
+    }
+
+    /**
      * Set use absolute links flag
      *
      * @param bool $flag
@@ -70,7 +83,7 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
         $params = $this->_getIncludeParameters($construction[2]);
         $params['_absolute'] = $this->_useAbsoluteLinks;
 
-        $url = Mage::getDesign()->getViewFileUrl($params['url'], $params);
+        $url = $this->_viewUrl->getViewFileUrl($params['url'], $params);
 
         return $url;
     }

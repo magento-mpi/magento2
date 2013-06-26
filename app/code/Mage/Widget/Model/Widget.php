@@ -28,15 +28,23 @@ class Mage_Widget_Model_Widget extends Varien_Object
     protected $_configCacheType;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_View_Url $viewUrl
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $configReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_View_Url $viewUrl
     ) {
         $this->_configReader = $configReader;
         $this->_configCacheType = $configCacheType;
+        $this->_viewUrl = $viewUrl;
     }
 
     /**
@@ -268,7 +276,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
         if (!$placeholder || !Mage::getDesign()->getViewFile($placeholder)) {
             $placeholder = 'Mage_Widget::placeholder.gif';
         }
-        return Mage::getDesign()->getViewFileUrl($placeholder);
+        return $this->_viewUrl->getViewFileUrl($placeholder);
     }
 
     /**

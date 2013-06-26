@@ -40,13 +40,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     protected $_fileConfig;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * Constructor
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(Mage_Core_Model_View_Url $viewUrl, array $attributes = array())
     {
         parent::__construct($attributes);
+
+        $this->_viewUrl = $viewUrl;
 
         $this->_url = isset($attributes['url']) ? $attributes['url']
             : Mage::getModel('Mage_Backend_Model_Url');
@@ -87,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     {
         $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
-        $spacerImage = Mage::getDesign()->getViewFileUrl('images/spacer.gif');
+        $spacerImage = $this->_viewUrl->getViewFileUrl('images/spacer.gif');
         /** @var $product Mage_Catalog_Model_Product */
         $html = <<<HTML
 <div id="{$htmlId}-container" class="images"

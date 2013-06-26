@@ -26,6 +26,21 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
+     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param array $data
+     */
+    public function __construct(Mage_Core_Model_View_Url $viewUrl, array $data = array())
+    {
+        parent::__construct($data);
+        $this->_viewUrl = $viewUrl;
+    }
+
+    /**
      * Return Wysiwyg config as Varien_Object
      *
      * Config options description:
@@ -44,7 +59,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     public function getConfig($data = array())
     {
         $config = new Varien_Object();
-        $design = Mage::getDesign();
+        $viewUrl = $this->_viewUrl;
 
         $config->setData(array(
             'enabled'                       => $this->isEnabled(),
@@ -57,9 +72,9 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'encode_directives'             => true,
             'directives_url'                => Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
-                $design->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
+                $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
-                $design->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
+                $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
             'width'                         => '100%',
             'plugins'                       => array()
         ));
@@ -91,7 +106,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      */
     public function getSkinImagePlaceholderUrl()
     {
-        return Mage::getDesign()->getViewFileUrl('Mage_Cms::images/wysiwyg_skin_image.png');
+        return $this->_viewUrl->getViewFileUrl('Mage_Cms::images/wysiwyg_skin_image.png');
     }
 
     /**

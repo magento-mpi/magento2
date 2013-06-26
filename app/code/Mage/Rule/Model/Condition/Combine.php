@@ -52,9 +52,9 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         return $newModel;
     }
 
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Mage_Rule_Model_Condition_Combine')
             ->setAggregator('all')
             ->setValue(true)

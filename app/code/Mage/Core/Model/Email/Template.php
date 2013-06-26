@@ -78,19 +78,28 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      */
     protected $_filesystem;
 
+    /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+
     static protected $_defaultTemplates;
 
     /**
      * @param Mage_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
+        $this->_viewUrl = $viewUrl;
         parent::__construct($context);
     }
 
@@ -120,7 +129,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
                 return Mage::getBaseUrl('media') . $uploadDir . '/' . $fileName;
             }
         }
-        return Mage::getDesign()->getViewFileUrl('Mage_Core::logo_email.gif');
+        return $this->_viewUrl->getViewFileUrl('Mage_Core::logo_email.gif');
     }
 
     /**

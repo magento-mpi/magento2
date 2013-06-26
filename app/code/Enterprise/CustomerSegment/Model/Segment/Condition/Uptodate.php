@@ -17,13 +17,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     protected $_inputType = 'numeric';
 
     /**
-     * Intialize model
+     * Initialize model
      *
-     * @return void
+     * @param Mage_Rule_Model_Condition_Context $context
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate');
         $this->setValue(null);
     }

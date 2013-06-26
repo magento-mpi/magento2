@@ -32,10 +32,11 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     /**
      * Set condition type and value
      *
+     * @param Mage_Rule_Model_Condition_Context $context
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes');
         $this->setValue(null);
     }

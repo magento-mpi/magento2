@@ -15,13 +15,13 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * Intialize model
+     * Initialize model
      *
-     * @return void
+     * @param Mage_Rule_Model_Condition_Context $context
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
-        parent::__construct();
+        parent::__construct($context);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Combine');
     }
 

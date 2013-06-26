@@ -46,21 +46,29 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     protected $_imageFactory;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * Constructor
      *
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Image_AdapterFactory $imageFactory,
+        Mage_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->setWorkingDirectory($this->getHelper()->getStorageRoot());
         $this->_imageFactory = $imageFactory;
+        $this->_viewUrl = $viewUrl;
         parent::__construct($data);
     }
 
@@ -161,7 +169,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
                     $item->setHeight($size[1]);
                 }
             } else {
-                $thumbUrl = Mage::getDesign()->getViewFileUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
+                $thumbUrl = $this->_viewUrl->getViewFileUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
             }
 
             $item->setThumbUrl($thumbUrl);
