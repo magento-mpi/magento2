@@ -11,7 +11,7 @@
 class Enterprise_Logging_Model_Resource_Grid_Actions implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Enterprise_CatalogEvent_Helper_Data
+     * @var Enterprise_Logging_Helper_Data
      */
     protected $_helper;
 
