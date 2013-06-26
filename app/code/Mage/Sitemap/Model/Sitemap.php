@@ -93,6 +93,29 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     private $_crlf = array("win" => "\r\n", "unix" => "\n", "mac" => "\r");
 
     /**
+     * @var Magento_Filesystem $filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
+        $this->_filesystem = $filesystem;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init model
      */
     protected function _construct()
@@ -568,9 +591,18 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
         $documentRoot = trim(str_replace('\\', '/', $this->_getDocumentRoot()), '/');
         $baseDir = trim(str_replace('\\', '/', $this->_getBaseDir()), '/');
-        $installationFolder = trim(str_replace($documentRoot, '', $baseDir), '/');
 
-        return rtrim($url . '/' . $installationFolder, '/');
+        if ($this->_getFilesystem()->isPathInDirectory($baseDir, $documentRoot)) {
+            //case when basedir is in document root
+            $installationFolder = trim(str_replace($documentRoot, '', $baseDir), '/');
+            $storeDomain = rtrim($url . '/' . $installationFolder, '/');
+        } else {
+            //case when documentRoot contains symlink to basedir
+            $url = $this->_getStoreBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+            $storeDomain = rtrim($url, '/');
+        }
+
+        return $storeDomain;
     }
 
     /**
@@ -623,6 +655,16 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         }
 
         $robotsFileHandler->write($robotsFileName, $robotsFullText);
+    }
+
+    /**
+     * Get Magento_Filesystem object
+     *
+     * @return Magento_Filesystem
+     */
+    protected function _getFilesystem()
+    {
+        return $this->_filesystem;
     }
 
     /**

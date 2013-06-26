@@ -61,7 +61,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      *
      * @return Mage_Sales_Model_Quote
      */
-    protected function _getQuote()
+    public function getQuote()
     {
         return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
@@ -77,7 +77,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function calculatePrice($item, $basePrice, $shippingAddress, $includeTax = false)
     {
-        $billingAddress = $this->_getQuote()->getBillingAddress();
+        $billingAddress = $this->getQuote()->getBillingAddress();
         $taxClass = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getWrappingTaxClass();
         $item->setTaxClassId($taxClass);
 
@@ -97,8 +97,8 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
         $data = array();
         foreach ($this->getDesignCollection()->getItems() as $item) {
             $temp = array();
-            foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
-                $entityId = $this->_getQuote()->getIsMultiShipping() ? $address->getId() : $this->_getQuote()->getId();
+            foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
+                $entityId = $this->getQuote()->getIsMultiShipping() ? $address->getId() : $this->getQuote()->getId();
                 if ($this->getDisplayWrappingBothPrices()) {
                     $temp[$entityId]['price_incl_tax'] = $this->calculatePrice(
                         $item,
@@ -134,12 +134,12 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     public function getItemsInfo()
     {
         $data = array();
-        if ($this->_getQuote()->getIsMultiShipping()) {
-            foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
+        if ($this->getQuote()->getIsMultiShipping()) {
+            foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
                 $this->_processItems($address->getAllItems(), $address, $data);
             }
         } else {
-            $this->_processItems($this->_getQuote()->getAllItems(), $this->_getQuote()->getShippingAddress(), $data);
+            $this->_processItems($this->getQuote()->getAllItems(), $this->getQuote()->getShippingAddress(), $data);
         }
         return new Varien_Object($data);
     }
@@ -200,10 +200,10 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
         $data = array();
         if ($this->getAllowPrintedCard()) {
             $price = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrintedCardPrice();
-            foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
-                $entityId = $this->_getQuote()->getIsMultiShipping()
+            foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
+                $entityId = $this->getQuote()->getIsMultiShipping()
                     ? $address->getId()
-                    : $this->_getQuote()->getId();
+                    : $this->getQuote()->getId();
 
                 if ($this->getDisplayCardBothPrices()) {
                     $data[$entityId]['price_incl_tax'] = $this->calculatePrice(
@@ -333,6 +333,16 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
             || $this->getAllowGiftReceipt()
             || $this->_giftWrappingAvailable;
         return $canDisplay;
+    }
+
+    /**
+     * Determines if gift wrapping is available for any product in this checkout
+     *
+     * @return bool
+     */
+    public function getGiftWrappingAvailable()
+    {
+        return $this->_giftWrappingAvailable;
     }
 
     /**

@@ -71,4 +71,5 @@ class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Backend_Block_Sys
             'selected="selected"'
         );
     }
+
 }

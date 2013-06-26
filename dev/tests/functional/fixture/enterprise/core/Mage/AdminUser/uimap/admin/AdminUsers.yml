@@ -21,7 +21,7 @@ new_admin_role:
                         fieldsets:
                             -
                                 role_resources:
-                                    xpath: //fieldset[@id='role_resources']
+                                    xpath: //fieldset[legend/span='Roles Resources']
                                     checkboxes:
                                         sales_returns: //*[@data-ui-id='Enterprise_Rma::enterprise_rma']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         sales_archive_orders_restore: //*[@data-ui-id='Enterprise_SalesArchive::remove']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]

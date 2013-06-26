@@ -28,9 +28,9 @@ foreach ($this->getCards() as $card) : ?>
         <td>
 <?php
     if ($this->getUseBaseAmount()) {
-        echo $this->_order->formatBasePrice($card['ba']);
+        echo $this->getOrder()->formatBasePrice($card['ba']);
     } else {
-        echo $this->_order->formatPriceTxt($card['a']);
+        echo $this->getOrder()->formatPriceTxt($card['a']);
     }
 ?>
             </td>
