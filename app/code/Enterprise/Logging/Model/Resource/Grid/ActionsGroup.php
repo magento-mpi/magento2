@@ -2,8 +2,10 @@
 /**
  * {license_notice}
  *
- * @copyright {copyright}
- * @license   {license_link}
+ * @category    Enterprise
+ * @package     Enterprise_Logging
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 class Enterprise_Logging_Model_Resource_Grid_ActionsGroup implements Mage_Core_Model_Option_ArrayInterface
