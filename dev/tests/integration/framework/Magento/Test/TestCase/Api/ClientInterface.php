@@ -14,11 +14,18 @@ interface Magento_Test_TestCase_Api_ClientInterface
      *
      * @param string $serviceInfo <pre>
      * array(
-     *     'rest' => array('endpoint' => $endpoint, 'httpMethod' => $httpMethod),
-     *     'soap' => array('service' => $soapService, 'serviceVersion' => $serviceVersion, 'operation' => $operation),
+     *     'rest' => array(
+     *         'endpoint' => $endpoint,    // e.g. /products/:id
+     *         'httpMethod' => $httpMethod // e.g. GET
+     *     ),
+     *     'soap' => array(
+     *         'service' => $soapService,           // soap service name e.g. catalogProduct, customer
+     *         'serviceVersion' => $serviceVersion, // with 'V' prefix or without it
+     *         'operation' => $operation            // soap operation name e.g. catalogProductCreate
+     *     ),
      *     OR
-     *     'serviceInterface' => $phpServiceInterfaceName,
-     *     'method' => serviceMethodName
+     *     'serviceInterface' => $phpServiceInterfaceName, // e.g. Mage_Catalog_Service_ProductInterfaceV1
+     *     'method' => serviceMethodName                   // e.g. create
      * );
      * </pre>
      * @param array $arguments

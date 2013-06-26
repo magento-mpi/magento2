@@ -21,7 +21,6 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
      * Webservice type
      */
     const TYPE_SOAP = 'soap';
-    const TYPE_SOAP_WSI = 'soap_wsi';
     /**#@-*/
 
     const DEFAULT_EXCEPTION = 'SoapFault';
@@ -94,7 +93,7 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
     /**
      * Webservice adapter
      *
-     * @var Magento_Test_TestCase_Api_Client_Soap
+     * @var Magento_Test_TestCase_Api_ClientInterface[]
      */
     protected static $_clients;
 
@@ -112,7 +111,6 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
      */
     protected $_clientsMap = array(
         self::TYPE_SOAP => 'Magento_Test_TestCase_Api_Client_Soap',
-        self::TYPE_SOAP_WSI => 'Magento_Test_TestCase_Api_Client_Soap_Wsi',
     );
 
     /**
@@ -348,7 +346,6 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
             $class = $this->_clientsMap[$webserviceType];
 
             $this->setInstance($code, new $class());
-            $this->getInstance($code)->init($options);
         }
 
         return $this->getInstance($code);
@@ -362,89 +359,12 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
      * @param string $code
      * @return string   Return result of request
      */
-    public function call($path, $params = array(), $code = 'default')
+    public function _webApiCall($serviceInfo, $arguments = array(), $code = 'default')
     {
         if (null === $this->getInstance($code)) {
             $this->getWebService($code);
         }
-        return $this->getInstance($code)->call($path, $params);
-    }
-
-    /**
-     * Convert Simple XML to array
-     *
-     * @param SimpleXMLObject $xml
-     * @param String $keyTrimmer
-     * @return array
-     *
-     * In XML notation we can't have nodes with digital names in other words fallowing XML will be not valid:
-     * &lt;24&gt;
-     *      Default category
-     * &lt;/24&gt;
-     *
-     * But this one will not cause any problems:
-     * &lt;qwe_24&gt;
-     *      Default category
-     * &lt;/qwe_24&gt;
-     *
-     * So when we want to obtain an array with key 24 we will pass the correct XML from above and $keyTrimmer = 'qwe_';
-     * As a result we will obtain an array with digital key node.
-     *
-     * In the other case just don't pass the $keyTrimmer.
-     */
-    public static function simpleXmlToArray($xml, $keyTrimmer = null)
-    {
-        $result = array();
-
-        $isTrimmed = false;
-        if (null !== $keyTrimmer) {
-            $isTrimmed = true;
-        }
-
-        if (is_object($xml)) {
-            foreach (get_object_vars($xml->children()) as $key => $node) {
-                $arrKey = $key;
-                if ($isTrimmed) {
-                    $arrKey = str_replace($keyTrimmer, '', $key); //, &$isTrimmed);
-                }
-                if (is_numeric($arrKey)) {
-                    $arrKey = 'Obj' . $arrKey;
-                }
-                if (is_object($node)) {
-                    $result[$arrKey] = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray($node, $keyTrimmer);
-                } elseif (is_array($node)) {
-                    $result[$arrKey] = array();
-                    foreach ($node as $nodeValue) {
-                        $result[$arrKey][] = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray(
-                            $nodeValue,
-                            $keyTrimmer
-                        );
-                    }
-                } else {
-                    $result[$arrKey] = (string)$node;
-                }
-            }
-        } else {
-            $result = (string)$xml;
-        }
-        return $result;
-    }
-
-    /**
-     * Assert that two products are equal.
-     *
-     * @param Mage_Catalog_Model_Product $expected
-     * @param Mage_Catalog_Model_Product $actual
-     */
-    public function assertProductEquals(Mage_Catalog_Model_Product $expected, Mage_Catalog_Model_Product $actual)
-    {
-        foreach ($expected->getData() as $attribute => $value) {
-            $this->assertEquals(
-                $value,
-                $actual->getData($attribute),
-                sprintf('Attribute "%s" value does not equal to expected "%s".', $attribute, $value)
-            );
-        }
+        return $this->getInstance($code)->call($serviceInfo, $arguments);
     }
 
     /**
@@ -461,6 +381,80 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
         $expectedErrorsCount = count($expectedMessages);
         $this->assertCount($expectedErrorsCount, $receivedMessages, 'Invalid messages quantity received');
     }
+
+    /**
+     * Set fixture to registry
+     *
+     * @param string $key
+     * @param mixed $fixture
+     * @param int $tearDown
+     * @return void
+     */
+    public static function setFixture($key, $fixture, $tearDown = self::AUTO_TEAR_DOWN)
+    {
+        $fixturesNamespace = self::_getFixtureNamespace();
+        if (!isset(self::$_fixtures[$fixturesNamespace])) {
+            self::$_fixtures[$fixturesNamespace] = array();
+        }
+        self::$_fixtures[$fixturesNamespace][$key] = $fixture;
+        if ($tearDown == self::AUTO_TEAR_DOWN) {
+            if (!isset(self::$_tearDownFixtures[$fixturesNamespace])) {
+                self::$_tearDownFixtures[$fixturesNamespace] = array();
+            }
+            self::$_tearDownFixtures[$fixturesNamespace][] = $key;
+        } else if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
+            if (!isset(self::$_tearDownAfterClassFixtures[$fixturesNamespace])) {
+                self::$_tearDownAfterClassFixtures[$fixturesNamespace] = array();
+            }
+            self::$_tearDownAfterClassFixtures[$fixturesNamespace][] = $key;
+        }
+
+    }
+
+    /**
+     * Get fixture by key
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public static function getFixture($key)
+    {
+        $fixturesNamespace = self::_getFixtureNamespace();
+        if (array_key_exists($key, self::$_fixtures[$fixturesNamespace])) {
+            return self::$_fixtures[$fixturesNamespace][$key];
+        }
+        return null;
+    }
+
+    /**
+     * Delete array of fixtures
+     *
+     * @param array $fixtures
+     */
+    protected static function _deleteFixtures($fixtures)
+    {
+        foreach ($fixtures as $fixture) {
+            self::deleteFixture($fixture, true);
+        }
+    }
+
+    /**
+     * Delete fixture by key
+     *
+     * @param string $key
+     * @param bool $secure
+     * @return void
+     */
+    public static function deleteFixture($key, $secure = false)
+    {
+        $fixturesNamespace = self::_getFixtureNamespace();
+        if (array_key_exists($key, self::$_fixtures[$fixturesNamespace])) {
+            self::callModelDelete(self::$_fixtures[$fixturesNamespace][$key], $secure);
+            unset(self::$_fixtures[$fixturesNamespace][$key]);
+        }
+    }
+
+    /** TODO: Remove methods below if not used */
 
     /**
      * Get application cache model
@@ -601,77 +595,5 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
             self::$_defaultCustomer = $user;
         }
         return self::$_defaultCustomer;
-    }
-
-    /**
-     * Set fixture to registry
-     *
-     * @param string $key
-     * @param mixed $fixture
-     * @param int $tearDown
-     * @return void
-     */
-    public static function setFixture($key, $fixture, $tearDown = self::AUTO_TEAR_DOWN)
-    {
-        $fixturesNamespace = self::_getFixtureNamespace();
-        if (!isset(self::$_fixtures[$fixturesNamespace])) {
-            self::$_fixtures[$fixturesNamespace] = array();
-        }
-        self::$_fixtures[$fixturesNamespace][$key] = $fixture;
-        if ($tearDown == self::AUTO_TEAR_DOWN) {
-            if (!isset(self::$_tearDownFixtures[$fixturesNamespace])) {
-                self::$_tearDownFixtures[$fixturesNamespace] = array();
-            }
-            self::$_tearDownFixtures[$fixturesNamespace][] = $key;
-        } else if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
-            if (!isset(self::$_tearDownAfterClassFixtures[$fixturesNamespace])) {
-                self::$_tearDownAfterClassFixtures[$fixturesNamespace] = array();
-            }
-            self::$_tearDownAfterClassFixtures[$fixturesNamespace][] = $key;
-        }
-
-    }
-
-    /**
-     * Get fixture by key
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public static function getFixture($key)
-    {
-        $fixturesNamespace = self::_getFixtureNamespace();
-        if (array_key_exists($key, self::$_fixtures[$fixturesNamespace])) {
-            return self::$_fixtures[$fixturesNamespace][$key];
-        }
-        return null;
-    }
-
-    /**
-     * Delete array of fixtures
-     *
-     * @param array $fixtures
-     */
-    protected static function _deleteFixtures($fixtures)
-    {
-        foreach ($fixtures as $fixture) {
-            self::deleteFixture($fixture, true);
-        }
-    }
-
-    /**
-     * Delete fixture by key
-     *
-     * @param string $key
-     * @param bool $secure
-     * @return void
-     */
-    public static function deleteFixture($key, $secure = false)
-    {
-        $fixturesNamespace = self::_getFixtureNamespace();
-        if (array_key_exists($key, self::$_fixtures[$fixturesNamespace])) {
-            self::callModelDelete(self::$_fixtures[$fixturesNamespace][$key], $secure);
-            unset(self::$_fixtures[$fixturesNamespace][$key]);
-        }
     }
 }

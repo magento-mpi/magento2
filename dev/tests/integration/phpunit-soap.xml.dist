@@ -13,7 +13,7 @@
     <!-- Test suites definition -->
     <testsuites>
         <testsuite name="Magento PaaS/API Integration Tests">
-            <directory suffix="Test.php">testsuite/api</directory>
+            <directory suffix="Test.php">testsuite/Api</directory>
         </testsuite>
     </testsuites>
 
@@ -33,9 +33,9 @@
 
     <!-- PHP INI settings and constants definition -->
     <php>
-        <includePath>./testsuite/api</includePath>
+        <includePath>./testsuite/Api</includePath>
 
-        <!-- WebSerivice Type. Possible values: soap, soap_wsi -->
+        <!-- WebSerivice Type. Possible values: soap -->
         <const name="TESTS_WEBSERVICE_TYPE" value="soap"/>
         <!-- Webserver URL -->
         <const name="TESTS_WEBSERVICE_URL" value="http://tests.url"/>
@@ -43,17 +43,6 @@
         <const name="TESTS_WEBSERVICE_USER" value="admin"/>
         <!-- Webserver API key -->
         <const name="TESTS_WEBSERVICE_APIKEY" value="123123q"/>
-        <!-- Admin User -->
-        <const name="TESTS_ADMIN_USERNAME" value="admin"/>
-        <!-- Admin Password -->
-        <const name="TESTS_ADMIN_PASSWORD" value="123123q"/>
-        <!-- Customer Email -->
-        <const name="TESTS_CUSTOMER_EMAIL" value="customer@example.com"/>
-        <!-- Customer password -->
-        <const name="TESTS_CUSTOMER_PASSWORD" value="123123q"/>
-
-        <!--Debugging option-->
-        <const name="TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE" value="false"/>
 
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <!-- Local XML configuration file ('.dist' extension will be added, if the specified file doesn't exist) -->
