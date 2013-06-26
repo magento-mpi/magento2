@@ -37,7 +37,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
      *
      * @return bool
      */
-    protected function _showSingle()
+    public function showSingle()
     {
         if (is_null($this->_showSingle)) {
             $_option        = $this->getOption();
@@ -54,7 +54,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
      *
      * @return array
      */
-    protected function _getDefaultValues()
+    public function getDefaultValues()
     {
         $_option            = $this->getOption();
         $_default           = $_option->getDefaultSelection();
@@ -71,7 +71,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
             $selectedSelection = $_option->getSelectionById($selectedOptions);
             $_defaultQty = $selectedSelection->getSelectionQty()*1;
             $_canChangeQty = $selectedSelection->getSelectionCanChangeQty();
-        } elseif (!$this->_showSingle() || $inPreConfigured) {
+        } elseif (!$this->showSingle() || $inPreConfigured) {
             $_defaultQty = $this->_getSelectedQty();
             $_canChangeQty = (bool)$_defaultQty;
         } else {
@@ -113,7 +113,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
      * @param  Mage_Catalog_Model_Product $selection
      * @return bool
      */
-    protected function _isSelected($selection)
+    public function isSelected($selection)
     {
         $selectedOptions = $this->_getSelectedOptions();
         if (is_numeric($selectedOptions)) {

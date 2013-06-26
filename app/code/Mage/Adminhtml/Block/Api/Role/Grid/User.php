@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Api_Role_Grid_User extends Mage_Adminhtml_Block_Widge
     protected function _addColumnFilterToCollection($column)
     {
         if ($column->getId() == 'in_role_users') {
-            $inRoleIds = $this->_getUsers();
+            $inRoleIds = $this->getUsers();
             if (empty($inRoleIds)) {
                 $inRoleIds = 0;
             }
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Api_Role_Grid_User extends Mage_Adminhtml_Block_Widge
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
             'name'      => 'in_role_users',
-            'values'    => $this->_getUsers(),
+            'values'    => $this->getUsers(),
             'align'     => 'center',
             'index'     => 'user_id'
         ));
@@ -138,7 +138,7 @@ class Mage_Adminhtml_Block_Api_Role_Grid_User extends Mage_Adminhtml_Block_Widge
         return $this->getUrl('*/*/editrolegrid', array('rid' => $roleId));
     }
 
-    protected function _getUsers($json=false)
+    public function getUsers($json=false)
     {
         if ( $this->getRequest()->getParam('in_role_user') != "" ) {
             return $this->getRequest()->getParam('in_role_user');

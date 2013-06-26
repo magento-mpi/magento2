@@ -32,7 +32,7 @@ class Mage_User_Block_Role_Tab_Users extends Mage_Backend_Block_Widget_Tabs
         return parent::_prepareLayout();
     }
 
-    protected function _getGridHtml()
+    public function getGridHtml()
     {
         return $this->getChildHtml('userGrid');
     }

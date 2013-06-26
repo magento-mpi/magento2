@@ -25,7 +25,7 @@ abstract class Mage_CatalogInventory_Block_Stockqty_Abstract extends Mage_Core_B
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getProduct()
+    public function getProduct()
     {
         return Mage::registry('current_product');
     }
@@ -39,7 +39,7 @@ abstract class Mage_CatalogInventory_Block_Stockqty_Abstract extends Mage_Core_B
     {
         if (!$this->hasData('product_stock_qty')) {
             $qty = 0;
-            if ($stockItem = $this->_getProduct()->getStockItem()) {
+            if ($stockItem = $this->getProduct()->getStockItem()) {
                 $qty = (float) $stockItem->getStockQty();
             }
             $this->setData('product_stock_qty', $qty);
@@ -68,7 +68,7 @@ abstract class Mage_CatalogInventory_Block_Stockqty_Abstract extends Mage_Core_B
      */
     public function getPlaceholderId()
     {
-        return 'stock-qty-' . $this->_getProduct()->getId();
+        return 'stock-qty-' . $this->getProduct()->getId();
     }
 
     /**

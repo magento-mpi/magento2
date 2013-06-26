@@ -43,6 +43,7 @@ class Mage_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstra
      *
      * @param DOMDocument $dom
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _extractData(DOMDocument $dom)
     {
