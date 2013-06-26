@@ -64,18 +64,21 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected $_sharedInstances = array();
 
     /**
+     * @param Magento_ObjectManager_Pluginizer $pluginizer
      * @param Magento_ObjectManager_Definition $definitions
      * @param array $configuration
      * @param array $sharedInstances
      */
     public function __construct(
+        Magento_ObjectManager_Pluginizer $pluginizer,
         Magento_ObjectManager_Definition $definitions = null,
         array $configuration = array(),
         array $sharedInstances = array()
     ) {
+        $this->_pluginizer = $pluginizer;
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
         $this->_sharedInstances = $sharedInstances;
-        $this->_sharedInstances['Magento_ObjectManager'] = $this;
+        $this->_sharedInstances['Magento_ObjectManager'] = $this->_pluginizer;
         $this->configure($configuration);
     }
 
@@ -130,7 +133,9 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
 
                 $isShared = (!isset($argument['shared']) && !isset($this->_nonShared[$argumentType]))
                     || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
-                $argument = $isShared ? $this->get($argumentType) : $this->create($argumentType);
+                $argument = $isShared
+                    ? $this->_pluginizer->get($argumentType)
+                    : $this->$this->_pluginizer->create($argumentType);
                 unset($this->_creationStack[$requestedType]);
             }
             $resolvedArguments[] = $argument;
@@ -167,7 +172,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @param string $instanceName
      * @return string
      */
-    protected function _resolveInstanceType($instanceName)
+    public function resolveInstanceType($instanceName)
     {
         while (isset($this->_virtualTypes[$instanceName])) {
             $instanceName = $this->_virtualTypes[$instanceName];
@@ -188,7 +193,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     protected function _create($requestedType, array $arguments = array())
     {
-        $type = $this->_resolveInstanceType($requestedType);
+        $type = $this->resolveInstanceType($requestedType);
         $parameters = $this->_definitions->getParameters($type);
         if ($parameters == null) {
             return new $type();

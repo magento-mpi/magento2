@@ -59,7 +59,8 @@ abstract class Mage_Core_Model_EntryPointAbstract
         if (!$this->_objectManager) {
             $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory();
             $definitions =  $definitionFactory->create($this->_config);
-            $this->_objectManager = new Mage_Core_Model_ObjectManager($definitions, $this->_config);
+            $this->_objectManager = new Magento_ObjectManager_Pluginizer();
+            new Mage_Core_Model_ObjectManager($this->_objectManager, $definitions, $this->_config);
         }
 
         $this->_setGlobalObjectManager();
