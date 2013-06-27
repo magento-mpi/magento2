@@ -28,17 +28,12 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test identifying resource name parts including subresources using class name.
+     *
      * @dataProvider resourceNamePartsDataProvider
      */
-    public function testGetResourceNameParts($className, $moduleNamespace, $moduleName, $version)
+    public function testGetResourceNameParts($className, $preserveVersion, $expected)
     {
-        if ($version == null) {
-            $expected = array($moduleNamespace, $moduleName);
-            $preserveVersion = false;
-        } else {
-            $expected = array($moduleNamespace, $moduleName, $version);
-            $preserveVersion = true;
-        }
         $actual = $this->_helper->getResourceNameParts(
             $className,
             $preserveVersion
@@ -46,12 +41,21 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * Dataprovider for resourceNameParts
+     *
+     * @return array
+     */
     public function resourceNamePartsDataProvider()
     {
         return array(
-            array('Mage_Customer_Service_Customer_AddressInterfaceV1', 'Customer', 'Address', null),
-            array('Vendor_Customer_Service_Customer_AddressInterfaceV1', 'VendorCustomer', 'Address', 'V1'),
-            array('Mage_Catalog_Service_ProductInterfaceV2', 'Catalog', 'Product', 'V2')
+            array('Mage_Customer_Service_Customer_AddressInterfaceV1', false, array('Customer', 'Address')),
+            array(
+                'Vendor_Customer_Service_Customer_AddressInterfaceV1',
+                true,
+                array('VendorCustomer', 'Address', 'V1')
+            ),
+            array('Mage_Catalog_Service_ProductInterfaceV2', true, array('CatalogProduct', 'V2'))
         );
     }
 
