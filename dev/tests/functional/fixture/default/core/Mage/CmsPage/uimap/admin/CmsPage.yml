@@ -51,7 +51,7 @@ manage_cms_pages:
 
 create_cms_page:
     mca: cms_page/new/
-    title: New Page / Manage Content / Elements / Content / Magento Admin
+    title: New Page / Pages / Elements / Content / Magento Admin
     uimap:
         form: &createPage
             tabs:
@@ -238,6 +238,15 @@ create_cms_page:
                                     fields:
                                         keywords: //textarea[@name='meta_keywords']
                                         description: //textarea[@name='meta_description']
+                -
+                    google_experiment: &google_experiment
+                        xpath: //a[@title='Page View Optimization']
+                        fieldsets:
+                            -
+                                experiment_code:
+                                    xpath: //fieldset[@id='googleoptimizer_fields']
+                                    fields:
+                                        experiment_code: //textarea[@name='google_experiment[experiment_script]']
         buttons:
             back: //button[@id="back"]
             reset: //button[@id="reset"]
@@ -247,7 +256,7 @@ create_cms_page:
 
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
-    title: %elementTitle% / Manage Content / Elements / Content / Magento Admin
+    title: %elementTitle% / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:
@@ -260,7 +269,7 @@ edit_cms_page:
 
 save_and_continue_edit_cms_page:
     mca: cms_page/edit/page_id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Manage Content / Elements / Content / Magento Admin
+    title: %elementTitle% / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:
@@ -273,7 +282,7 @@ save_and_continue_edit_cms_page:
 
 error_cms_page:
     mca: cms_page/edit/
-    title: New Page / Manage Content / Elements / Content / Magento Admin
+    title: New Page / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:

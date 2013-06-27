@@ -42,7 +42,7 @@ class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Ma
             $attribute = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield');
             $this->productAttributeHelper()->createAttribute($attribute);
             $this->assertMessagePresent('success', 'success_saved_attribute');
-            $return[$i]['label'] = $attribute['attribute_properties']['attribute_label'];
+            $return[$i]['name'] = $attribute['attribute_properties']['attribute_label'];
             $return[$i]['code'] = $attribute['advanced_attribute_properties']['attribute_code'];
         }
         //Create attribute set

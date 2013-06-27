@@ -61,7 +61,8 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
         //Determination of found items amount
         $this->assertNotEquals(0, $this->getTotalRecordsInTable('fieldset', 'manage_stores'), 'No records found.');
         //Determination of row id
-        $number = $this->getColumnIdByName(ucwords(str_replace('_', ' ', $elementName)));
+        $element = ($elementName == 'website') ? 'web_site' : $elementName;
+        $number = $this->getColumnIdByName(ucwords(str_replace('_', ' ', $element)));
         //Deletion
         $error = false;
         $this->addParameter('elementTitle', $storeData[$elementName . '_name']);
@@ -145,6 +146,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
     public function deleteStoresByType($type, array $exclude = array())
     {
         $id = $this->getColumnIdByName(ucwords(str_replace('_', ' ', $type)));
+        $type = ($type == 'web_site') ? 'website' : $type;
         $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'stores_table'));
         $toDelete = array();
         do {
@@ -191,7 +193,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
         $excludeStoreView = array('Default Store View')
     )
     {
-        $this->deleteStoresByType('website', $excludeWebsite);
+        $this->deleteStoresByType('web_site', $excludeWebsite);
         $this->deleteStoresByType('store_view', $excludeStoreView);
         $this->deleteStoresByType('store', $excludeStore);
     }

@@ -211,8 +211,9 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontLoginCustomer(array $loginData, $validateLogin = true)
     {
-        $this->frontend();
-        $this->logoutCustomer();
+        if ($this->getArea() !== 'frontend' || !$this->controlIsVisible('link', 'log_in')) {
+            $this->logoutCustomer();
+        }
         $this->clickControl('link', 'log_in');
         $this->fillFieldset($loginData, 'log_in_customer');
         $waitConditions = array(
@@ -225,11 +226,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->setCurrentPage($this->_findCurrentPageFromUrl());
         if ($validateLogin) {
-            try {
-                $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
-            } catch (Exception $e) {
-                $this->markTestIncomplete('MAGETWO-10194');
-            }
+            $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
         }
     }
 

@@ -410,7 +410,7 @@ manage_stores:
         grid_head: ~
         stores_table: ~
     headers:
-        0: Website
+        0: Web Site
         1: Store
         2: Store View
 

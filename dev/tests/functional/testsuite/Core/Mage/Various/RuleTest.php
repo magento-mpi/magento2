@@ -18,6 +18,7 @@ class Core_Mage_Various_RuleTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->openAttribute(array('attribute_code' => 'weight'));
+        $this->openTab('frontend_properties');
         $this->fillDropdown('use_for_promo_rule_conditions', 'Yes');
         $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');

@@ -44,8 +44,8 @@ manage_shopping_cart_price_rules:
         messages: &ruleMessages
             enter_greater_than_zero: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number greater than 0 in this field.']
             use_numbers_only: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please enter a valid number in this field.')]
-            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rule.')]
-            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rule.')]
+            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
+            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
             error_coupon_code_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Coupon with the same code already exists.')]
             enter_valid_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"

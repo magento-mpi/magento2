@@ -160,7 +160,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertMessagePresent('error', 'inactive_account');
+        $this->assertMessagePresent('error', 'wrong_credentials');
     }
 
     /**
@@ -186,7 +186,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertMessagePresent('error', 'access_denied');
+        $this->assertMessagePresent('error', 'wrong_credentials');
     }
 
     /**

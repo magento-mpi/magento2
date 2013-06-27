@@ -124,7 +124,7 @@ edit_news_template:
             convert_to_plain_text: //button[span='Convert to Plain Text']
             preview_template: //button[span='Preview Template']
             save_template: //button[@data-ui-id='template-edit-save-button']
-            delete_template: //button[@class='scalable delete']
+            delete_template: //button[@data-ui-id='template-edit-delete-button']
         messages: *newsTemplateMessages
 
 # Newsletter Newsletter Queue page

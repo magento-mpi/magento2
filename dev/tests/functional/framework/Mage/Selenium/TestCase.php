@@ -2653,7 +2653,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     return true;
                 }
                 usleep(500000);
-            } catch (RuntimeException $e) {
+            } catch (Exception $e) {
             }
         }
         $this->assertEmptyPageErrors();
@@ -2683,17 +2683,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
-            $availableElements = $this->getElements($locator, false);
-            foreach ($availableElements as $availableElement) {
-                try {
+            try {
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
+                $availableElements = $this->getElements($locator, false);
+                foreach ($availableElements as $availableElement) {
                     if ($availableElement->displayed()) {
                         return $availableElement;
                     }
-                } catch (RuntimeException $e) {
                 }
+                usleep(500000);
+            } catch (Exception $e) {
             }
-            usleep(500000);
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
@@ -2721,20 +2721,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
-            $availableElements = $this->getElements($locator, false);
-            if (empty($availableElements)) {
-                return true;
-            }
-            foreach ($availableElements as $availableElement) {
-                try {
+            try {
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
+                $availableElements = $this->getElements($locator, false);
+                if (empty($availableElements)) {
+                    return true;
+                }
+                foreach ($availableElements as $availableElement) {
                     if (!$availableElement->displayed()) {
                         return true;
                     }
-                } catch (RuntimeException $e) {
                 }
+                usleep(500000);
+            } catch (Exception $e) {
             }
-            usleep(500000);
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
@@ -2790,17 +2790,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
-            $availableElements = $this->getElements($locator, false);
-            foreach ($availableElements as $availableElement) {
-                try {
+            try {
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
+                $availableElements = $this->getElements($locator, false);
+                foreach ($availableElements as $availableElement) {
                     if ($availableElement->enabled() && $availableElement->displayed()) {
                         return $availableElement;
                     }
-                } catch (RuntimeException $e) {
                 }
+                usleep(500000);
+            } catch (Exception $e) {
             }
-            usleep(500000);
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);

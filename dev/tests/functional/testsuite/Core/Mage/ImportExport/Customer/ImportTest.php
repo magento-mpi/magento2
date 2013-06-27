@@ -452,7 +452,7 @@ class Core_Mage_ImportExport_Customer_ImportTest extends Mage_Selenium_TestCase
                 )
             ),
             'import' => array(
-                'success' => array("Import successfully done."),
+                'success' => array('Import successfully done'),
             ),
         );
 
@@ -480,7 +480,7 @@ class Core_Mage_ImportExport_Customer_ImportTest extends Mage_Selenium_TestCase
                 )
             ),
             'import' => array(
-                'success' => array("Import successfully done."),
+                'success' => array('Import successfully done'),
             ),
         );
 

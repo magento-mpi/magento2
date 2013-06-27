@@ -42,11 +42,6 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createRuleAndContinueEdit($ruleData, $pageToVerify = '')
     {
-        if (isset($ruleData['info']['use_auto_generation'])
-            && isset($ruleData['info']['use_auto_generation']) == 'Yes'
-        ) {
-            $this->markTestIncomplete('BUG: This is a required field for Coupon Code if Use Auto Generation selected');
-        }
         $this->clickButton('add_new_rule');
         $this->fillTabs($ruleData);
         if (isset($ruleData['info']['rule_name'])) {

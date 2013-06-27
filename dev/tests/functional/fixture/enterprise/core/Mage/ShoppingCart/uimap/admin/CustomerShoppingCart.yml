@@ -81,8 +81,8 @@ customer_shopping_cart:
                             composite_configure_cancel: //button[span[contains(text(),'Cancel')]]
         buttons:
             add_selected_products_to_shopping_cart: //button[span='Add Selected Product(s) to Shopping Cart']
-            clear_shop_cart: //button[@title='Clear Shopping Cart']
-            update_items_and_qty: //button[contains(@title,"Update Items and Qty's")]
+            clear_shop_cart: //button[@title='Clear the shopping cart.']
+            update_items_and_qty: //button[@title="Update Items and Qty's"]
         messages:
             confirmation_to_clear_shopping_cart: Are you sure you want to clear your shopping cart?
             confirmation_to_required_sku: Choose  products to add to shopping cart.

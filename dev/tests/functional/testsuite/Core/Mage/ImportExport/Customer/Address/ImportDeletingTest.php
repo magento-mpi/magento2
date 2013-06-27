@@ -149,7 +149,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
                     "File is valid! To start import process press \"Import\" button  Import"
                 )),
             'import' => array(
-                'success' => array('Import successfully done.')
+                'success' => array('Import successfully done')
             )
         );
         $customerNotFound = array('validation' => array(

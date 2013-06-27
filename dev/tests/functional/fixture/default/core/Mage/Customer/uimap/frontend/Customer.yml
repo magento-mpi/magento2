@@ -48,7 +48,7 @@ register_account:
             email_exists: //*[@data-ui-id="messages-message-error" and contains(.,'There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.')]
             invalid_login_or_password: //*[@data-ui-id="messages-message-error" and contains(.,'Invalid login or password.')]
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
-            success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,"Thanks for visiting our store. If you own an account associated with %email%, we'll send you an email with a link to reset your password.")]
+            success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %email% you will receive an email with a link to reset your password.')]
 
 # 'Login or Create an Account' page
 customer_login:
@@ -122,7 +122,7 @@ forgot_customer_password:
                             captcha: //*[@data-captcha='user_forgotpassword']//img[@class='captcha-img']
         messages:
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
-            forgot_password_invalid_email: //div[@class='mage-error' and text()='Please enter a valid email address (for example, johndoe@domain.com.).']
+            forgot_password_invalid_email: //div[@class='mage-error' and text()='Please enter a valid email address. For example johndoe@domain.com.']
 
 #'Success LogOut page
 customer_logout:

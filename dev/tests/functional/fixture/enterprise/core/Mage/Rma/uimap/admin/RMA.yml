@@ -112,7 +112,7 @@ new_rma_item_attribute:
             save_and_continue_edit: //button[@id='save_and_edit_button']
             delete_attribute: //button[@id='delete']
         messages: &rmaAttributeMessage
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute with this code already exists.')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute with the same code already exists.')]
             wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
             invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
             wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]

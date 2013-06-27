@@ -137,7 +137,7 @@ manage_invitations:
         messages: &invitationsMessages
             failed_send_several_items:  //li[normalize-space(@class)='error-msg' and contains(text()='Something went wrong sending %numberMessagesFailed% of %numberMessagesOf% invitations.')]
             failed_send: //li[normalize-space(@class)='error-msg' and contains(text()='Something went wrong sending %numberMessagesFailed% invitations.')]
-            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'1 invitation(s) were sent.')]
+            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'We sent 1 invitation(s).')]
 
 # New invitations page
 

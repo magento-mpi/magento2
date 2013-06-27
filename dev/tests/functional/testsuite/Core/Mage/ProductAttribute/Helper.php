@@ -61,6 +61,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $saveButton = $saveInAttributeSet ? 'save_in_new_attribute_set' : 'save_attribute';
         $currentPage = $this->getCurrentPage();
         $this->addParameter('tab', $this->getControlAttribute('tab', $this->_getActiveTabUimap()->getTabId(), 'name'));
+        $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
         $this->clickButton('add_attribute', false);
         $this->waitForControlVisible('button', 'create_new_attribute');
         $this->clickButton('create_new_attribute', false);

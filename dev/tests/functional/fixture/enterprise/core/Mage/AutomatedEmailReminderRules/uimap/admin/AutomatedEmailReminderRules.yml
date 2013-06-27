@@ -43,7 +43,7 @@ manage_automated_email_reminder_rules:
 
 create_automated_email_reminder_rule:
     mca: reminder/new/
-    title: New Reminders Rule / Email Reminders / Communications / Marketing / Magento Admin
+    title: New Reminder Rule / Email Reminders / Communications / Marketing / Magento Admin
     uimap:
         form: &createNewRule
             tabs:

@@ -164,8 +164,8 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportTest extends Mage_Sele
         $validationMessage = array(
             'validation' => array(
                 'error' => array(
-                    "Invalid value for 'store_credit' in rows: 2",
-                    "Invalid value for 'reward_points' in rows: 2"
+                    "Please correct the value for 'store_credit'. in rows: 2",
+                    "Please correct the value for 'reward_points'. in rows: 2"
                 ),
                 'validation' => array(
                     "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
@@ -173,7 +173,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportTest extends Mage_Sele
                 )
             ),
             'import' => array(
-                'success' => array("Import successfully done."),
+                'success' => array('Import successfully done'),
             ),
         );
 

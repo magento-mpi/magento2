@@ -415,8 +415,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($skipCurrency) {
             $price = preg_replace('/^\D+/', '', $price);
         }
-
-        return array($title, floatval($price));
+        if ($price !== '') {
+            $price = floatval($price);
+        }
+        return array($title, $price);
     }
 
     #**************************************************************************************

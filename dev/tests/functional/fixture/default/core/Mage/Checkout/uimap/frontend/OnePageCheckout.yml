@@ -223,7 +223,7 @@ onepage_checkout:
             different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
-            exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
+            exist_email_alert: There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.
             long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
             #not verified
             invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
@@ -237,7 +237,7 @@ onepage_checkout:
             paypal_alert: There was an error processing your order. Please contact us or try again later.
             shipping_alert: Please specify shipping method.
             payment_alert: Please specify payment method.
-            success_checkout: //h1[contains(.,'Your order has been received')]
+            success_checkout: //h1[contains(.,'We received your order.')]
             zero_payment: //dt[contains(label,'No Payment Information Required')]
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
             captcha_alert: Incorrect CAPTCHA
@@ -248,7 +248,7 @@ onepage_checkout_success:
     uimap:
         form: &successForm
         messages:
-            success_checkout: //h1[contains(.,'Your order has been received')]
+            success_checkout: //h1[contains(.,'We received your order.')]
             success_checkout_guest: //p[contains(text(),'Your order')]
         links:
             order_number: //a[contains(@href, '/sales/order/view/order_id/')]

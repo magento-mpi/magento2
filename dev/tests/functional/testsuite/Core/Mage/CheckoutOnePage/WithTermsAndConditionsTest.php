@@ -21,7 +21,6 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
 
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete('MAGETWO-9011');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('TermsAndConditions/terms_and_conditions_frontend_allow');

@@ -126,6 +126,15 @@ manage_categories:
                                         category_products_search_position_from: //input[@id='catalog_category_products_filter_position_from']
                                         category_products_search_position_to: //input[@id='catalog_category_products_filter_position_to']
                                         category_products_position: %productXpath%//input[@name='position']
+                -
+                    google_experiment:
+                        xpath: //a[@title='Category View Optimization']
+                        fieldsets:
+                            -
+                                google_experiment:
+                                    xpath: //fieldset[contains(legend/span,'Google Analytics Content Experiments Code')]
+                                    fields:
+                                        experiment_code: //textarea[@name='google_experiment[experiment_script]']
         buttons:
             reset: //button[span='Reset']
             save_category: //button[@data-ui-id='category-edit-form-save-button']

@@ -20,12 +20,12 @@ orders_and_returns:
                     orders_and_returns_form:
                         xpath: //div[div/h1='Orders and Returns']
                         fields:
-                            order_id: //*[@id='oar-order-id']
-                            billing_last_name: //*[@id='oar-billing-lastname']
-                            email: //*[@id='oar-email']
-                            zip: //*[@id='oar-zip']
+                            order_id: //input[@id='oar-order-id']
+                            billing_last_name: //input[@id='oar-billing-lastname']
+                            email: //input[@id='oar_email']
+                            zip: //input[@id='oar_zip']
                         dropdowns:
-                            search_type_id: //*[@id='quick-search-type-id']
+                            search_type_id: //select[@id='quick-search-type-id']
                         buttons:
                             continue: //button[span='Continue']
         messages:
@@ -81,4 +81,4 @@ guest_view_returns:
     uimap:
         form:
         messages:
-            successfully_submitted_return: //li[normalize-space(@class)='success-msg' and contains(.,' has been submitted successfully')]
+            successfully_submitted_return: "//li[normalize-space(@class)='success-msg' and contains(.,'You submitted Return #')]"

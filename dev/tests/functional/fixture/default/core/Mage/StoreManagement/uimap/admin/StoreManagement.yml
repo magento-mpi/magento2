@@ -111,7 +111,7 @@ edit_store_view:
 # 'New Website' Page
 new_website:
     mca: system_store/newWebsite/
-    title: New Website / Stores / Settings / Stores / Magento Admin
+    title: New Web Site / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -153,7 +153,7 @@ edit_website:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            delete_website: //button[span='Delete Website']
+            delete_website: //button[@data-ui-id='system-store-edit-delete-button']
             save_website: //button[@data-ui-id='system-store-edit-save-button']
         messages:
             wrong_website_code: //li[normalize-space(@class)='error-msg' and contains(., 'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
@@ -224,7 +224,7 @@ detele_store:
 # 'Delete Website' Page
 detele_website:
     mca: system_store/deleteWebsite/item_id/%id%/
-    title: Delete Website / Settings / Stores / Magento Admin
+    title: Delete Web Site / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:

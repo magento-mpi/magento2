@@ -54,8 +54,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Save');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
 
         return ($fieldData);
     }
@@ -84,8 +83,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Edit');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 
     /**
@@ -115,8 +113,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Delete');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 
     /**
@@ -164,11 +161,8 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
         $userSearch = array('filter_user_id' => $userId, 'action_name' => 'adminhtml_webapi_user_save');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
-        $this->validatePage();
-
-        //Check page title
-        $this->assertSame('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        //Check that log info page is opened
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
 
         return $userData;
     }
@@ -195,11 +189,8 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('admin_action_log_report');
         $userSearch = array('filter_user_id' => $userId, 'action' => 'Edit');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
-        $this->validatePage();
-
-        //Check page title
-        $this->assertSame('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        //Check that log info page is opened
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 
     /**
@@ -225,10 +216,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('admin_action_log_report');
         $userSearch = array('filter_user_id' => $userId, 'action' => 'Delete');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
-        $this->validatePage();
-
-        //Check page title
-        $this->assertSame('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        //Check that log info page is opened
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 }

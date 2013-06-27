@@ -166,6 +166,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         );
         $this->fillFieldset($data, 'secure');
         $this->clickButton('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
 

@@ -78,7 +78,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
 
         $userData[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array('_email' => '<realEmail>'));
         unset($userData[1]['_website']);
-        $errorMessage[1] = array("Can not find required columns: _website");
+        $errorMessage[1] = array("Cannot find required columns: _website");
 
         $userData[2] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array('_email' => '<realEmail>', '_website' => 'notexist'));
@@ -90,8 +90,8 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
             'reward_points' => 'incorrect_value'
         ));
         $errorMessage[3] = array(
-            "Invalid value for 'store_credit' in rows: 1",
-            "Invalid value for 'reward_points' in rows: 1"
+            "Please correct the value for 'store_credit'. in rows: 1",
+            "Please correct the value for 'reward_points'. in rows: 1"
         );
 
         $userData[4] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array('_email' => '<realEmail>'));
@@ -128,7 +128,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
             array($userData[4], array('validation' => array('validation' => array(
                 "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"),
                 'success' => array("File is valid! To start import process press \"Import\" button  Import")),
-                'import' => array('success' => array("Import successfully done.")))),
+                'import' => array('success' => array('Import successfully done')))),
             array($userData[5], array('validation' => array('error' => $errorMessage[5],
                 'validation' => $invalidValidation[0])))
         );

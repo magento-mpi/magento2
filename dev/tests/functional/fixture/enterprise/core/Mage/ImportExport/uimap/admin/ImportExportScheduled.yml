@@ -57,7 +57,7 @@ scheduled_import_export:
             delete_confirmation_import: Are you sure you want to delete this scheduled import?
             success_delete_records: //li[normalize-space(@class)='success-msg' and contains(.,'We deleted a total of %qtyDeletedRecords% record(s).')]
             delete_confirmation: Are you sure you want to delete the selected scheduled imports/exports?
-            success_update_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedRecords% record(s) have been updated')]
+            success_update_status: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyUpdatedRecords% record(s) have been updated.')]
 
 scheduled_importexport_add:
     mca: scheduled_operation/new/type/%type%/
@@ -129,6 +129,6 @@ scheduled_importexport_add:
 
 scheduled_importexport_edit:
     mca: scheduled_operation/edit/id/%id%/
-    title: Edit Scheduled %type% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
+    title: Scheduled %type% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: *createImportExport
 

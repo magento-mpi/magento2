@@ -130,6 +130,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
             ->compareArrays($actualData['product_1'], $verifyData['valid']['product_1']);
         $this->shoppingCartHelper()
             ->compareArrays($errorProductData['product_1'], $verifyData['invalid']['product_1']);
+        $this->assertEmptyVerificationErrors();
     }
 
     /**

@@ -100,7 +100,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
         //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Invoice');
         $cellElement = $this->getChildElement($invoiceRowElement, 'td[' . $cellId . ']');
-        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('elementTitle', '#' . trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($invoiceUrl));
         //Open Invoice
         $this->url($invoiceUrl);

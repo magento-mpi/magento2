@@ -119,8 +119,8 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function editNewsletterResourceOneRole($loginData, $newsData)
     {
-        $this->markTestIncomplete('MAGETWO-8369');
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->navigate('newsletter_templates');
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
         $this->newsletterHelper()->editNewsletter($newsData, $newNewsletterData);
         $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());

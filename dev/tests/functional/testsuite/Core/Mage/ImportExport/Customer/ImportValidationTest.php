@@ -173,7 +173,7 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
                 ),
                 'import' => array(
                     'success' => array(
-                        "Import successfully done."
+                        'Import successfully done'
                     )
                 )
             ))

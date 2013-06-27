@@ -43,7 +43,7 @@ manage_admin_users:
             confirmation_for_delete: Are you sure you want to do this?
             exist_email: //li[normalize-space(@class)='error-msg' and contains(.,'Email already exists.')]
             exist_name_or_email: //span[(@data-ui-id)='messages-message-error' and contains(.,'A user with the same user name or email already exists.')]
-            invalid_email: //label[(@for)='user_email' and contains(.,'Please enter a valid email address (for example, johndoe@domain.com.).')]
+            invalid_email: //label[(@for)='user_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
             invalid_password: //label[(@for)='user_password' and contains(.,'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.')]
             password_unmatch: //label[(@for)='user_confirmation' and contains(.,'Please make sure your passwords match.')]
             success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the user.')]
@@ -455,6 +455,6 @@ my_account:
                         dropdowns:
                             interface_locale: //select[@id='interface_locale']
         buttons:
-            save_account: //button[@data-ui-id='system-account-edit-save-button']
-            reset_filter: //button[@data-ui-id='system-account-edit-reset-button']
+            save_account: //button[@id='save']
+            reset_filter: //button[@id='reset']
         messages: *adminUserMessages

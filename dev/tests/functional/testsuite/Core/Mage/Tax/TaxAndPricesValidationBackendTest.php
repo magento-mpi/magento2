@@ -20,6 +20,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
 {
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGE-1987');
         $taxRule = $this->loadDataSet('Tax', 'new_tax_rule_required',
             array('tax_rate' => 'US-CA-*-Rate 1,US-NY-*-Rate 1'));
         $this->loginAdminUser();
@@ -62,24 +63,31 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
      */
     public function preconditionsForTests()
     {
-        $user = $this->loadDataSet('PriceReview', 'customer_account_for_prices_validation');
+        $user = $this->loadDataSet('Customers', 'customer_account_register');
+        $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $user['email']));
         $address = $this->loadDataSet('PriceReview', 'customer_account_address_for_prices_validation');
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $categoryPath = $category['parent_category'] . '/' . $category['name'];
         $products = array();
         //Steps
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($user);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
+
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($user, $address);
-        //Verifying
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($address);
+        $this->saveForm('save_customer');
         $this->assertMessagePresent('success', 'success_saved_customer');
-        //Steps
+
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
-        //Verification
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
-        //Steps
+
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
             $simple = $this->loadDataSet('PriceReview', 'simple_product_for_prices_validation_' . $i,
@@ -104,7 +112,6 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
      */
     public function createOrderBackend($sysConfigData, $testData)
     {
-        $this->markTestIncomplete('MAGE-1987');
         list($customer, $products) = $testData;
         //Preconditions
         $this->navigate('system_configuration');

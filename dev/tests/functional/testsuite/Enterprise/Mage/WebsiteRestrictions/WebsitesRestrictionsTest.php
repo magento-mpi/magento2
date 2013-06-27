@@ -28,7 +28,6 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/disable_website_restrictions');
         $this->clearInvalidedCache();
-        $this->frontend();
     }
 
     /**
@@ -50,6 +49,53 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
             'There is no "landing_page" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'http_response'),
             'There is no "http_response" dropdown on the page');
+    }
+
+    /**
+     * <p>Checkout in "Login Only" Mode</p>
+     *
+     * @test
+     * @depends navigationTest
+     * @TestlinkId TL-MAGE-5522
+     */
+    public function checkoutInRestrictedMode()
+    {
+        //Data
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $loginData = array('email' => $userData['email'], 'password' => $userData['password']);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+            array('general_name' => $simple['general_name']));
+        //Preconditions
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+        $this->clearInvalidedCache();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->frontend('home_page', false);
+        $this->validatePage('customer_login');
+        $this->fillFieldset($loginData, 'log_in_customer');
+        $this->clickButton('login', false);
+        $this->waitForElement(array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('link', 'log_out')
+        ));
+        $this->validatePage();
+        $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+        //Postcondition
+        $this->clickControl('link', 'log_out');
     }
 
     /**
@@ -140,50 +186,6 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $this->clickControl('link', 'forgot_password');
         //Verification
         $this->validatePage('forgot_customer_password');
-    }
-
-    /**
-     * <p>Checkout in "Login Only" Mode</p>
-     *
-     * @test
-     * @depends navigationTest
-     * @TestlinkId TL-MAGE-5522
-     */
-    public function checkoutInRestrictedMode()
-    {
-        //Data
-        $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $loginData = array('email' => $userData['email'], 'password' => $userData['password']);
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
-            array('general_name' => $simple['general_name']));
-        //Preconditions
-        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
-        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
-        $this->clearInvalidedCache();
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Steps
-        $this->frontend('home_page', false);
-        $this->validatePage('customer_login');
-        $this->fillFieldset($loginData, 'log_in_customer');
-        $this->clickButton('login', false);
-        $this->waitForElement(array(
-            $this->_getMessageXpath('general_error'),
-            $this->_getMessageXpath('general_validation'),
-            $this->_getControlXpath('link', 'log_out')
-        ));
-        $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
-        $this->validatePage();
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_checkout');
-        //Postcondition
-        $this->clickControl('link', 'log_out');
     }
 
     /**

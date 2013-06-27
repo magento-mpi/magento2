@@ -43,10 +43,10 @@ manage_gift_wrapping:
             massaction_confirmation_for_delete: Are you sure you want to delete the selected gift wrappings?
             confirmation_for_choose_store_view: Please confirm site switching. All data that hasn't been saved will be lost.
             enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
-            success_saved_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'The gift wrapping has been saved.')]
-            success_deleted_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'The gift wrapping has been deleted.')]
-            success_massaction_update: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %itemCount% record(s) have been updated.')]
-            success_massaction_delete: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %itemCount% record(s) have been deleted.')]
+            success_saved_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the gift wrapping.')]
+            success_deleted_gift_wrapping: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the gift wrapping.')]
+            success_massaction_update: //li[normalize-space(@class)='success-msg' and contains(.,'You updated a total of %itemCount% records.')]
+            success_massaction_delete: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted a total of %itemCount% records.')]
 
 add_gift_wrapping:
     mca: giftwrapping/new/
@@ -80,7 +80,7 @@ add_gift_wrapping:
 
 edit_gift_wrapping:
     mca: giftwrapping/edit/id/%id%/
-    title: '"%elementTitle%" / Gift Wrapping / Other Settings / Stores / Magento Admin'
+    title: '%elementTitle% / Gift Wrapping / Other Settings / Stores / Magento Admin'
     uimap:
         form: &editGiftWrappingForm
             fieldsets:
@@ -95,7 +95,7 @@ edit_gift_wrapping:
 
 edit_gift_wrapping_after_save_and_continue:
     mca: giftwrapping/edit/id/%id%/store/%store%/
-    title: '"%elementTitle%" / Gift Wrapping / Other Settings / Stores / Magento Admin'
+    title: '%elementTitle% / Gift Wrapping / Other Settings / Stores / Magento Admin'
     uimap:
         form: *editGiftWrappingForm
         buttons: *editGiftWrappingButtons

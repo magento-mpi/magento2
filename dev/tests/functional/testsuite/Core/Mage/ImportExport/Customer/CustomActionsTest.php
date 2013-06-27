@@ -162,17 +162,17 @@ class Core_Mage_ImportExport_Customer_CustomActionsTest extends Mage_Selenium_Te
             'error' => array("E-mail is invalid in rows: 2"),
             'validation' => array($fixErrorsMessage,
                 "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1")),
-            'import' => array('success' => array('Import successfully done.')));
+            'import' => array('success' => array('Import successfully done')));
         $deleteActionMessage = array('validation' => array(
             'error' => array("Customer with such email and website code doesn't exist in rows: 3"),
             'validation' => array($fixErrorsMessage,
                 "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1")),
-            'import' => array('success' => array('Import successfully done.')));
+            'import' => array('success' => array('Import successfully done')));
         $notRecognizedMessage = array('validation' => array(
-            'error' => array("Invalid value for 'group_id' in rows: 4"),
+            'error' => array("Please correct the value for 'group_id'. in rows: 4"),
             'validation' => array($fixErrorsMessage,
                 "Checked rows: 4, checked entities: 4, invalid rows: 1, total errors: 1")),
-            'import' => array('success' => array('Import successfully done.')));
+            'import' => array('success' => array('Import successfully done')));
         return array(
             array($originalCustomerData[0], $mainCsvRows[0], $updatedCustomerData[0], $updateActionMessage),
             array($originalCustomerData[1], $mainCsvRows[1], $updatedCustomerData[1], $deleteActionMessage),

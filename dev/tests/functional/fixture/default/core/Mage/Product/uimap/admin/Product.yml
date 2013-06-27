@@ -131,7 +131,7 @@ new_product:
                         xpath: //*[@id='product_info_tabs_%tab%_content']//div[@class='actions']
                         buttons:
                             add_attribute: //div[@id='product-attribute-search-container']//button[@class='action-toggle action-choose']
-                            create_new_attribute: //button[contains(@data-ui-id, 'catalog-product-edit-tab-attributes-create')]
+                            create_new_attribute: //button[@title='New Attribute']
                         fields:
                             attribute_search: //*[@data-role='product-attribute-search' and not(contains(@class, 'mage-suggest-state-loading'))]
                         links:
@@ -183,7 +183,7 @@ new_product:
                                         any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
                                         category: //a[@data-suggest-option='%categoryId%']
                                     pageelements:
-                                        no_category_found: "//span[text()='We couldn't find any records.']"
+                                        no_category_found: //span[text()="We couldn't find any records."]
                                         category_node: //li[a/@data-suggest-option='%categoryId%']
                             -
                                 chosen_category:
@@ -745,6 +745,15 @@ new_product:
                 -
                     user_tab: &userTab
                         xpath: //a[@title='%productTabName%']
+                -
+                    google_experiment: &google_experiment
+                        xpath: //a[@title='Product View Optimization']
+                        fieldsets:
+                            -
+                                google_experiment:
+                                    xpath: //div[*/*/span='Google Analytics Content Experiments Code']
+                                    fields:
+                                        google_experiment_code: //textarea[@id='experiment_script']
         buttons:
             back: //div[@class='page-actions']//button[span='Back']
             save_and_continue_edit: //div[@class='page-actions']//button[@data-ui-id='product-edit-save-split-button']
@@ -825,6 +834,8 @@ edit_product:
                                         tags_grid: //table[@id='tag_customers_grid_table']
                 -
                     user_tab: *userTab
+                -
+                    google_experiment: *google_experiment
         buttons:
             back: //div[@class='page-actions']//button[span='Back']
             save_and_continue_edit: //div[@class='page-actions']//*[@data-ui-id='product-edit-save-split-button']

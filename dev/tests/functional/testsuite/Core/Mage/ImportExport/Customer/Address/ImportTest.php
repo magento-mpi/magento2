@@ -200,7 +200,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
                     "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
                 )
             ),
-            'import' => array('success' => array("Import successfully done.")
+            'import' => array('success' => array('Import successfully done')
             )
         );
         $csv[1][0] = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
@@ -225,7 +225,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
                     "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
                 )
             ),
-            'import' => array('success' => array("Import successfully done."))
+            'import' => array('success' => array('Import successfully done'))
         );
         return array(
             array($csvFile[0], $newAddressData[0], $message[0]),

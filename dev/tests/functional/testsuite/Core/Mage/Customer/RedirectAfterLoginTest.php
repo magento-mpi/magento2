@@ -20,12 +20,9 @@
  */
 class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend</p>
-     */
     protected function assertPreConditions()
     {
+        $this->logoutCustomer();
         $this->loginAdminUser();
     }
 
@@ -38,42 +35,30 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        $testData = array();
-        //create Simple Product
-        $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
-        $this->productHelper()->createProduct($productData);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $testData['product_name'] = $productData['general_name'];
-
-        //Register customers
-        $this->frontend();
         $usersData = array(
             $this->loadDataSet('Customers', 'customer_account_register'),
             $this->loadDataSet('Customers', 'customer_account_register')
         );
-        $this->registerCustomers($usersData);
-        $testData['customer_1'] = array('email' => $usersData[0]['email'], 'password' => $usersData[0]['password']);
-        $testData['customer_2'] = array('email' => $usersData[1]['email'], 'password' => $usersData[1]['password']);
 
-        return $testData;
-    }
-
-    /**
-     * Register Customers
-     *
-     * @param $customerData
-     */
-    private function registerCustomers($customerData)
-    {
-        foreach ($customerData as $customer) {
-            $this->logoutCustomer();
-            $this->addParameter('referer', $this->defineParameterFromUrl('referer',
-                $this->getControlAttribute(self::FIELD_TYPE_LINK, 'log_in', 'href')));
-            $this->frontend('customer_login', false);
-            $this->customerHelper()->registerCustomer($customer);
+        //create Simple Product
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Register customers
+        $this->frontend();
+        foreach ($usersData as $user) {
+            $this->frontend('customer_login');
+            $this->customerHelper()->registerCustomer($user);
             $this->assertMessagePresent('success', 'success_registration');
+            $this->logoutCustomer();
         }
+
+        return array(
+            'product' => $productData['general_name'],
+            'customer_1' => array('email' => $usersData[0]['email'], 'password' => $usersData[0]['password']),
+            'customer_2' => array('email' => $usersData[1]['email'], 'password' => $usersData[1]['password'])
+        );
     }
 
     /**
@@ -89,13 +74,11 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
         //Set System-Configurations-Customer Configurations-Login options-
         //Redirect Customer to Account Dashboard after Logging in to "NO"
         $this->navigate('system_configuration');
-        $redirectOption = $this->loadDataSet('CustomerRedirect', 'disable_customer_configuration_redirect');
-        $this->systemConfigurationHelper()->configure($redirectOption);
+        $this->systemConfigurationHelper()->configure('CustomerRedirect/disable_customer_configuration_redirect');
         //Go to frontend as non registered customer
         $this->frontend();
-        $this->logoutCustomer();
         //Open Product Page created from PreConditions page
-        $this->productHelper()->frontOpenProduct($testData['product_name']);
+        $this->productHelper()->frontOpenProduct($testData['product']);
         //Log in as registered from PreConditions customer
         $this->addParameter('referer', $this->defineParameterFromUrl('referer',
             $this->getControlAttribute(self::FIELD_TYPE_LINK, 'log_in', 'href')));
@@ -123,7 +106,7 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
         //Go to frontend as non registered customer
         $this->frontend();
         //Open Product page
-        $this->productHelper()->frontOpenProduct($testData['product_name']);
+        $this->productHelper()->frontOpenProduct($testData['product']);
         //Log in as registered from Preconditions customer
         $this->customerHelper()->frontLoginCustomer($testData['customer_1']);
         //Validate that Customer Account Dashboard page is opened
@@ -146,14 +129,12 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure('CustomerRedirect/enable_customer_configuration_redirect');
         //Go to frontend
         $this->frontend();
-        $this->logoutCustomer();
         //Login as first user
         $this->customerHelper()->frontLoginCustomer($testData['customer_1']);
         //Add product to cart
-        $this->productHelper()->frontOpenProduct($testData['product_name']);
+        $this->productHelper()->frontOpenProduct($testData['product']);
         $this->productHelper()->frontAddProductToCart();
         $this->logoutCustomer();
-
         //Login as second user
         $this->customerHelper()->frontLoginCustomer($testData['customer_2']);
         //Validate that Customer Account Dashboard page is opened

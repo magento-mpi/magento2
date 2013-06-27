@@ -169,20 +169,27 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
         unset($processedGroupNames['general_configurable_attribute_title']);
         unset($processedGroupNames['attribute_option_name']);
         //Creating Customers
-        $this->navigate('manage_customers');
         $userEmails = array();
         foreach ($processedGroupNames as $groupKey => $groupName) {
-            $userRegisterData = $this->loadDataSet('Customers', 'generic_customer_account',
-                array('group' => $groupName));
-            $this->customerHelper()->createCustomer($userRegisterData);
+            $user = $this->loadDataSet('Customers', 'customer_account_register');
+            $searchUser = $this->loadDataSet('Customers', 'search_customer', array('email' => $user['email']));
+            $this->frontend('customer_login');
+            $this->customerHelper()->registerCustomer($user);
+            $this->assertMessagePresent('success', 'success_registration');
+            $this->logoutCustomer();
+            $this->loginAdminUser();
+            $this->navigate('manage_customers');
+            $this->customerHelper()->openCustomer($searchUser);
+            $this->openTab('account_information');
+            $this->fillDropdown('group', $groupName);
+            $this->saveForm('save_customer');
             $this->assertMessagePresent('success', 'success_saved_customer');
-            $userEmails[$groupKey]['email'] = $userRegisterData['email'];
-            $userEmails[$groupKey]['password'] = $userRegisterData['password'];
+            $userEmails[$groupKey]['email'] = $user['email'];
+            $userEmails[$groupKey]['password'] = $user['password'];
         }
         //Steps. Verifying price on front-end for different customers
         $i = 1;
         foreach ($userEmails as $userInfo) {
-            $this->logoutCustomer();
             $price = $productData['prices_group_price_data']['prices_group_price_' . $i++]['prices_group_price'];
             $this->customerHelper()->frontLoginCustomer($userInfo);
             $this->productHelper()->frontOpenProduct($productData['general_name']);

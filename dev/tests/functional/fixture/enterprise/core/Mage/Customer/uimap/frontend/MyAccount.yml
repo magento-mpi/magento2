@@ -120,7 +120,7 @@ my_returns:
    uimap:
        form:
        messages:
-           successfully_submitted_return: //li[normalize-space(@class)='success-msg' and contains(.,' has been submitted successfully')]
+           successfully_submitted_return: "//li[normalize-space(@class)='success-msg' and contains(.,'You submitted Return #')]"
 
 my_credit_cards:
     mca: enterprise_pbridge/payment_profile/

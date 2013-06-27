@@ -115,7 +115,7 @@ category_page_before_reindex:
                     layered_navigation:
                         xpath: //*[@id='narrow-by-list2']
         messages: &categoryPageMessages
-            newsletter_required_field: //*[@class='mage-error' and @for='newsletter' and contains(.,'Please enter a valid email address (for example, johndoe@domain.com.).')]
+            newsletter_required_field: //*[@class='mage-error' and @for='newsletter' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
             newsletter_success_subscription: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for your subscription.')]
             newsletter_email_used: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: This email address is already assigned to another user.')]"
             newsletter_long_email: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: Please enter a valid email address.')]"

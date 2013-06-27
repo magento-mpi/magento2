@@ -57,14 +57,6 @@ simple_product_for_prices_validation_3:
     autosettings_visibility: %noValue%
     websites: Main Website
 
-customer_account_for_prices_validation:
-    associate_to_website: Main Website
-    group: General
-    first_name: First Name
-    last_name: Last Name
-    email: test_user_%randomize%@unknown-domain.com
-    password: 123123q
-
 customer_account_address_for_prices_validation:
     first_name: First Name
     last_name: Last Name
