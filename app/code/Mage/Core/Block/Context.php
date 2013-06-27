@@ -71,6 +71,13 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
     protected $_viewUrl;
 
     /**
+     * View config model
+     *
+     * @var Mage_Core_Model_View_Config
+     */
+    protected $_viewConfig;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -83,6 +90,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Mage_Core_Model_View_Config $viewConfig
      * @param array $data
      */
     public function __construct(
@@ -98,6 +106,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_Config $viewConfig,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -112,6 +121,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
         $this->_frontController = $frontController;
         $this->_helperFactory   = $helperFactory;
         $this->_viewUrl         = $viewUrl;
+        $this->_viewConfig      = $viewConfig;
     }
 
     /**
@@ -208,5 +218,13 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
     public function getViewUrl()
     {
         return $this->_viewUrl;
+    }
+
+    /**
+     * @return Mage_Core_Model_View_Config
+     */
+    public function getViewConfig()
+    {
+        return $this->_viewConfig;
     }
 }

@@ -31,6 +31,11 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -43,9 +48,11 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Mage_Core_Model_View_Config $viewConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
@@ -60,18 +67,22 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_Config $viewConfig,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_View_FileSystem $viewFileSystem
+
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache,
-            $designPackage, $session, $storeConfig, $frontController, $helperFactory, $viewUrl
+            $designPackage, $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig
         );
 
         $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
+        $this->_viewFileSystem = $viewFileSystem;
     }
 
     /**
@@ -101,5 +112,15 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     public function getLogger()
     {
         return $this->_logger;
+    }
+
+    /**
+     * Get view file system model
+     *
+     * @return Mage_Core_Model_View_FileSystem
+     */
+    public function getViewFileSystem()
+    {
+        return $this->_viewFileSystem;
     }
 }

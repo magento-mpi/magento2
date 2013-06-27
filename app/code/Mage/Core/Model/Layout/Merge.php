@@ -88,14 +88,21 @@ class Mage_Core_Model_Layout_Merge
     protected $_cache;
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * Init merge model
      *
      * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Cache_FrontendInterface $cache
      * @param array $arguments
      */
     public function __construct(
         Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Cache_FrontendInterface $cache,
         array $arguments = array()
     ) {
@@ -119,6 +126,7 @@ class Mage_Core_Model_Layout_Merge
             $this->_subst['to'][] = $value;
         }
         $this->_design = $design;
+        $this->_viewFileSystem = $viewFileSystem;
         $this->_cache = $cache;
     }
 
@@ -609,7 +617,7 @@ class Mage_Core_Model_Layout_Merge
                 continue;
             }
             /* Resolve layout update filename with fallback to the module */
-            $filename = $this->_design->getFilename($file, $layoutParams + array('module' => $module));
+            $filename = $this->_viewFileSystem->getFilename($file, $layoutParams + array('module' => $module));
             if (!is_readable($filename)) {
                 throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
             }
@@ -617,7 +625,7 @@ class Mage_Core_Model_Layout_Merge
         }
 
         /* Custom local layout updates file for the current theme */
-        $filename = $this->_design->getFilename('local.xml', $layoutParams);
+        $filename = $this->_viewFileSystem->getFilename('local.xml', $layoutParams);
         if (is_readable($filename)) {
             $updateFiles[] = $filename;
         }

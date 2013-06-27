@@ -14,11 +14,6 @@
 class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_MergeableInterface
 {
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    private $_designPackage;
-
-    /**
      * @var Mage_Core_Model_View_Url
      */
     protected $_viewUrl;
@@ -34,14 +29,12 @@ class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_
     private $_contentType;
 
     /**
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_View_Url $viewUrl
      * @param string $file
      * @param string $contentType
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_View_Url $viewUrl,
         $file,
         $contentType
@@ -49,7 +42,6 @@ class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_
         if (empty($file)) {
             throw new InvalidArgumentException("Parameter 'file' must not be empty");
         }
-        $this->_designPackage = $designPackage;
         $this->_viewUrl = $viewUrl;
         $this->_file = $file;
         $this->_contentType = $contentType;
@@ -76,6 +68,6 @@ class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_
      */
     public function getSourceFile()
     {
-        return $this->_designPackage->getViewFilePublicPath($this->_file);
+        return $this->_viewUrl->getViewFilePublicPath($this->_file);
     }
 }

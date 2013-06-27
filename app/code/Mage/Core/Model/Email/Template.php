@@ -83,6 +83,10 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      */
     protected $_viewUrl;
 
+    /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
 
     static protected $_defaultTemplates;
 
@@ -90,16 +94,19 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      * @param Mage_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
+        $this->_viewFileSystem = $viewFileSystem;
         parent::__construct($context);
     }
 

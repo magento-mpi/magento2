@@ -59,6 +59,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * Path to template file in theme.
      *
      * @var string
@@ -74,6 +79,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         $this->_dirs = $context->getDirs();
         $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
+        $this->_viewFileSystem = $context->getViewFileSystem();
         parent::__construct($context, $data);
     }
 
@@ -129,7 +135,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         if ($area) {
             $params['area'] = $area;
         }
-        $templateName = $this->_designPackage->getFilename($this->getTemplate(), $params);
+        $templateName = $this->_viewFileSystem->getFilename($this->getTemplate(), $params);
         return $templateName;
     }
 

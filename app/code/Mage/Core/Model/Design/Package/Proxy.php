@@ -113,10 +113,10 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      * @param array $params
      * @return string
      */
-    public function getFilename($file, array $params = array())
+    /*public function getFilename($file, array $params = array())
     {
         return $this->_getInstance()->getFilename($file, $params);
-    }
+    }*/
 
     /**
      * Get a locale file
@@ -125,10 +125,10 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      * @param array $params
      * @return string
      */
-    public function getLocaleFileName($file, array $params = array())
+    /*public function getLocaleFileName($file, array $params = array())
     {
         return $this->_getInstance()->getLocaleFileName($file, $params);
-    }
+    }*/
 
     /**
      * Find a view file using fallback mechanism
@@ -137,10 +137,10 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      * @param array $params
      * @return string
      */
-    public function getViewFile($file, array $params = array())
+    /*public function getViewFile($file, array $params = array())
     {
         return $this->_getInstance()->getViewFile($file, $params);
-    }
+    }*/
 
     /**
      * Publish file (if needed) and return its public path
@@ -149,10 +149,10 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      * @param array $params
      * @return string
      */
-    public function getViewFilePublicPath($file, array $params = array())
+    /*public function getViewFilePublicPath($file, array $params = array())
     {
         return $this->_getInstance()->getViewFilePublicPath($file, $params);
-    }
+    }*/
 
     /**
      * Get url to file base on theme file identifier.
@@ -162,10 +162,10 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      * @param array $params
      * @return string
      */
-    public function getViewFileUrl($file, array $params = array())
+    /*public function getViewFileUrl($file, array $params = array())
     {
         return $this->_getInstance()->getViewFileUrl($file, $params);
-    }
+    }*/
 
     /**
      * Get url to public file
@@ -175,20 +175,20 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      * @return string
      * @throws Magento_Exception
      */
-    public function getPublicFileUrl($file, $isSecure = null)
+    /*public function getPublicFileUrl($file, $isSecure = null)
     {
         return $this->_getInstance()->getPublicFileUrl($file, $isSecure);
-    }
+    }*/
 
     /**
      * Render view config object for current package and theme
      *
      * @return Magento_Config_View
      */
-    public function getViewConfig()
+    /*public function getViewConfig()
     {
         return $this->_getInstance()->getViewConfig();
-    }
+    }*/
 
     /**
      * Get design parameters

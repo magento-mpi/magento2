@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_View_Config implements Mage_Core_Model_View_FileSystemInterface
+class Mage_Core_Model_View_Config
 {
     /**
      * List of view configuration objects per theme
@@ -80,7 +80,9 @@ class Mage_Core_Model_View_Config implements Mage_Core_Model_View_FileSystemInte
         $configFiles = $this->_moduleReader->getModuleConfigurationFiles(Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG);
         $themeConfigFile = $currentTheme->getCustomViewConfigPath();
         if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
-            $themeConfigFile = $this->_viewFileSystem->getFilename(Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG, $params);
+            $themeConfigFile = $this->_viewFileSystem->getFilename(
+                Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG, $params
+            );
         }
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;

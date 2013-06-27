@@ -115,6 +115,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_viewUrl;
 
     /**
+     * View config model
+     *
+     * @var Mage_Core_Model_View_Config
+     */
+    protected $_viewConfig;
+
+    /**
      * @param Mage_Core_Block_Context $context
      * @param array $data
      */
@@ -131,7 +138,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();
         $this->_helperFactory   = $context->getHelperFactory();
-        $this->_viewUrl   = $context->getViewUrl();
+        $this->_viewUrl         = $context->getViewUrl();
+        $this->_viewConfig      = $context->getViewConfig();
         parent::__construct($data);
         $this->_construct();
     }
@@ -1072,6 +1080,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getVar($name, $module = null)
     {
         $module = $module ?: $this->getModuleName();
-        return $this->_designPackage->getViewConfig()->getVarValue($module, $name);
+        return $this->_viewConfig->getViewConfig()->getVarValue($module, $name);
     }
 }

@@ -117,7 +117,6 @@ interface Mage_Core_Model_Design_PackageInterface
      */
     //public function getViewFilePublicPath($file, array $params = array());
 
-
     /**
      * Get url to file base on theme file identifier.
      * Publishes file there, if needed.

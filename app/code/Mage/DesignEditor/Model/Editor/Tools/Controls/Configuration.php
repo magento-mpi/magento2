@@ -75,11 +75,19 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_controlList = array();
 
     /**
+     * View config model
+     *
+     * @var Mage_Core_Model_View_Config
+     */
+    protected $_viewConfigLoader;
+
+    /**
      * Initialize dependencies
      *
      * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_View_Config $viewConfig
      * @param Mage_DesignEditor_Model_Config_Control_Abstract|null $configuration
      * @param Mage_Core_Model_Theme|null $theme
      * @param Mage_Core_Model_Theme $parentTheme
@@ -88,6 +96,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
         Mage_Core_Model_Design_PackageInterface $design,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_View_Config $viewConfig,
         Mage_DesignEditor_Model_Config_Control_Abstract $configuration = null,
         Mage_Core_Model_Theme $theme = null,
         Mage_Core_Model_Theme $parentTheme = null
@@ -98,6 +107,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
         $this->_design = $design;
         $this->_filesystem = $filesystem;
         $this->_eventDispatcher = $eventDispatcher;
+        $this->_viewConfigLoader = $viewConfig;
         $this->_initViewConfigs()->_loadControlsData();
     }
 
@@ -108,11 +118,11 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     protected function _initViewConfigs()
     {
-        $this->_viewConfig = $this->_design->getViewConfig(array(
+        $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(array(
             'area'       => Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA,
             'themeModel' => $this->_theme
         ));
-        $this->_viewConfigParent = $this->_design->getViewConfig(array(
+        $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(array(
             'area'       => Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA,
             'themeModel' => $this->_parentTheme
         ));

@@ -58,11 +58,19 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'widget_widget_instance';
 
     /**
-     * Internal Constructor
+     * @var Mage_Core_Model_View_FileSystem
      */
-    protected function _construct()
+    protected $_viewFileSystem;
+
+    /**
+     * Internal Constructor
+     *
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     */
+    protected function _construct(Mage_Core_Model_View_FileSystem $viewFileSystem)
     {
         parent::_construct();
+        $this->_viewFileSystem = $viewFileSystem;
         $this->_init('Mage_Widget_Model_Resource_Widget_Instance');
         $this->_layoutHandles = array(
             'anchor_categories' => self::ANCHOR_CATEGORY_LAYOUT_HANDLE,
@@ -263,7 +271,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             $this->_widgetConfigXml = Mage::getSingleton('Mage_Widget_Model_Widget')
                 ->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
-                $configFile = Mage::getDesign()->getFilename('widget.xml', array(
+                $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
                     'theme'  => $this->getThemeId(),
                     'module' => Mage::getConfig()->determineOmittedNamespace(

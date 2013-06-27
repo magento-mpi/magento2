@@ -40,7 +40,7 @@ interface Mage_Core_Model_View_FileSystemInterface
      * @param array $params
      * @return string
      */
-    //public function getFilename($file, array $params = array());
+    public function getFilename($file, array $params = array());
 
     /**
      * Get a locale file
@@ -49,7 +49,7 @@ interface Mage_Core_Model_View_FileSystemInterface
      * @param array $params
      * @return string
      */
-    //public function getLocaleFileName($file, array $params = array());
+    public function getLocaleFileName($file, array $params = array());
 
     /**
      * Find a view file using fallback mechanism
@@ -58,7 +58,7 @@ interface Mage_Core_Model_View_FileSystemInterface
      * @param array $params
      * @return string
      */
-    //public function getViewFile($file, array $params = array());
+    public function getViewFile($file, array $params = array());
 
     /**
      * Get url to file base on theme file identifier.

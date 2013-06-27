@@ -56,6 +56,11 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     protected $_viewUrl;
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Image_Factory $imageFactory
@@ -71,6 +76,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -82,9 +88,11 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         $this->_filesystem->setWorkingDirectory($baseDir);
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
+        $this->_viewFileSystem = $viewFileSystem;
     }
 
     /**
+     * @param $width
      * @return Mage_Catalog_Model_Product_Image
      */
     public function setWidth($width)
@@ -595,7 +603,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         } elseif ($this->_fileExists($baseDir . '/watermark/' . $file)) {
             $filePath = $baseDir . '/watermark/' . $file;
         } else {
-            $viewFile = Mage::getDesign()->getViewFile($file);
+            $viewFile = $this->_viewFileSystem->getViewFile($file);
             if ($this->_filesystem->isFile($viewFile)) {
                 $filePath = $viewFile;
             }

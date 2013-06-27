@@ -135,23 +135,31 @@ class Mage_Core_Model_Translate
     private $_cache;
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * Initialize translate model
      *
      * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
      * @param Mage_core_Model_Translate_Factory $translateFactory
      * @param Magento_Cache_FrontendInterface $cache
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
         Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
         Mage_Core_Model_Translate_Factory $translateFactory,
-        Magento_Cache_FrontendInterface $cache
+        Magento_Cache_FrontendInterface $cache,
+        Mage_Core_Model_View_FileSystem $viewFileSystem
     ) {
         $this->_designPackage = $designPackage;
         $this->_localeHierarchy = $loader->load();
         $this->_translateFactory = $translateFactory;
         $this->_cache = $cache;
+        $this->_viewFileSystem = $viewFileSystem;
     }
 
     /**
@@ -381,7 +389,7 @@ class Mage_Core_Model_Translate
 
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = $this->_designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
+            $file = $this->_viewFileSystem->getLocaleFileName('translate.csv', array('locale' => $locale));
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
