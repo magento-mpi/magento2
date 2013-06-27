@@ -164,7 +164,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     protected function _getTheme()
     {
         $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
-        $theme = $this->_themeFactory->get($themeId);
+        $theme = $this->_themeFactory->create($themeId);
         if (!$themeId || !$theme || $themeId && !$theme->getId()) {
             throw new InvalidArgumentException('Theme was not found.');
         }

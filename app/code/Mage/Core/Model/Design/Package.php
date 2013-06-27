@@ -206,7 +206,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if ($theme instanceof Mage_Core_Model_Theme) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->_themeFactory->get($theme, $this->getArea());
+            $this->_theme = $this->_themeFactory->create($theme, $this->getArea());
         }
 
         return $this;
@@ -287,12 +287,12 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         }
 
         if (!empty($params['themeId'])) {
-            $params['themeModel'] = $this->_themeFactory->get($params['themeId'], $params['area']);
+            $params['themeModel'] = $this->_themeFactory->create($params['themeId'], $params['area']);
         } elseif (!empty($params['package']) && isset($params['theme'])) {
             $themePath = $params['package'] . '/' . $params['theme'];
-            $params['themeModel'] = $this->_themeFactory->get($themePath, $params['area']);
+            $params['themeModel'] = $this->_themeFactory->create($themePath, $params['area']);
         } elseif (empty($params['themeModel']) && $params['area'] !== $this->getArea()) {
-            $params['themeModel'] = $this->_themeFactory->get(
+            $params['themeModel'] = $this->_themeFactory->create(
                 $this->getConfigurationDesignTheme($params['area']),
                 $params['area']
             );

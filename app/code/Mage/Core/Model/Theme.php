@@ -450,7 +450,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $theme = null;
         if ($this->getParentId()) {
-            $theme = $this->_themeFactory->get($this->getParentId());
+            $theme = $this->_themeFactory->create($this->getParentId());
         }
         $this->setParentTheme($theme);
         return $theme;

@@ -104,16 +104,17 @@ class Mage_Core_Model_Theme_Image
     /**
      * Create preview image duplicate
      *
-     * @return $this
+     * @return bool
      */
     public function createPreviewImageCopy()
     {
+        $isCopied = false;
         $previewDir = $this->_themeImagePath->getImagePreviewDirectory();
         $destinationFileName = Varien_File_Uploader::getNewFileName(
             $previewDir . DIRECTORY_SEPARATOR . $this->_theme->getPreviewImage()
         );
         try {
-            $this->_filesystem->copy(
+            $isCopied = $this->_filesystem->copy(
                 $previewDir . DIRECTORY_SEPARATOR . $this->_theme->getPreviewImage(),
                 $previewDir . DIRECTORY_SEPARATOR . $destinationFileName
             );
@@ -121,7 +122,7 @@ class Mage_Core_Model_Theme_Image
             $this->_logger->logException($e);
         }
         $this->_theme->setPreviewImage($destinationFileName);
-        return $this;
+        return $isCopied;
     }
 
     /**

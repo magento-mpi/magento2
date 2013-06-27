@@ -39,14 +39,14 @@ class Mage_Core_Model_Theme_FlyweightFactory
     }
 
     /**
-     * Get shared theme model
+     * Creates or returns a shared model of theme
      *
      * @param string|int $themeKey
      * @param string $area
      * @return Mage_Core_Model_Theme|null
      * @throws InvalidArgumentException
      */
-    public function get($themeKey, $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA)
+    public function create($themeKey, $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA)
     {
         if (is_numeric($themeKey)) {
             $themeModel = $this->_loadById($themeKey);
@@ -75,7 +75,8 @@ class Mage_Core_Model_Theme_FlyweightFactory
         }
 
         /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $this->create()->load($themeId);
+        $themeModel = $this->_objectManager->create('Mage_Core_Model_Theme');
+        $themeModel->load($themeId);
         return $themeModel;
     }
 
@@ -115,16 +116,5 @@ class Mage_Core_Model_Theme_FlyweightFactory
             }
         }
         return $this;
-    }
-
-    /**
-     * Create new instance
-     *
-     * @param array $data
-     * @return Mage_Core_Model_Theme
-     */
-    public function create(array $data = array())
-    {
-        return $this->_objectManager->create('Mage_Core_Model_Theme', $data);
     }
 }

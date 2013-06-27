@@ -61,7 +61,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
      */
     public function testSaveAction()
     {
-        $themeData = 'theme data';
+        $themeData = array('theme data');
         $customCssContent = 'custom css content';
         $jsUploadedFiles = array(1, 2);
         $jsRemovedFiles = array(3, 4);
@@ -100,12 +100,12 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
         $filesJsMock->expects($this->at(1))->method('setDataForDelete')->with($jsRemovedFiles);
         $filesJsMock->expects($this->at(2))->method('setJsOrderData')->with(array_keys($jsOrder));
 
-        $themeMock = $this->getMock(
-            'Mage_Core_Model_Theme', array('setCustomization', 'saveFormData'), array(), '', false
-        );
+        $themeMock = $this->getMock('Mage_Core_Model_Theme',
+            array('save', 'load', 'setCustomization', 'getThemeImage'), array(), '', false);
         $themeMock->expects($this->at(0))->method('setCustomization')->with($filesCssMock);
         $themeMock->expects($this->at(1))->method('setCustomization')->with($filesJsMock);
-        $themeMock->expects($this->at(2))->method('saveFormData')->with($themeData);
+        $themeImage = $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false);
+        $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
         $this->_objectManagerMock
             ->expects($this->at(0))

@@ -42,9 +42,9 @@ class Mage_Core_Model_Theme_Observer
      */
     public function cleanThemeRelatedContent(Varien_Event_Observer $observer)
     {
-        /** @var $theme Mage_Core_Model_Theme */
         $theme = $observer->getEvent()->getData('theme');
-        if ($theme) {
+        if ($theme instanceof Mage_Core_Model_Theme) {
+            /** @var $theme Mage_Core_Model_Theme */
             $this->_themeImageFactory->create(array('theme' => $theme))->removePreviewImage();
             $this->_updateCollection->addThemeFilter($theme->getId())->delete();
         }
