@@ -23,7 +23,7 @@
         <di>
             <Saas_Limitation_Model_Dictionary>
                 <parameters>
-                    <translationHelper>Saas_Limitation_Helper_Data</translationHelper>
+                    <translationHelper><instance>Saas_Limitation_Helper_Data</instance></translationHelper>
                     <messages translate="store,store_group,website,user,catalog_category,catalog_product,catalog_product_creation,catalog_product_variations" module="Saas_Limitation">
                         <store>Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.</store>
                         <store_group>You are using the maximum number of stores allowed.</store_group>
@@ -39,19 +39,19 @@
             <!-- Store -->
             <Saas_Limitation_Model_Store_Observer_Controller>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Store_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Store_Limitation</instance></limitation>
                     <messageCode>store</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Store_Observer_Controller>
             <Saas_Limitation_Model_Store_Observer_Entity>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Store_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Store_Limitation</instance></limitation>
                     <messageCode>store</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Store_Observer_Entity>
             <Saas_Limitation_Model_Store_Observer_Grid>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Store_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Store_Limitation</instance></limitation>
                     <blockClass>Mage_Adminhtml_Block_System_Store_Store</blockClass>
                     <buttonId>add_store</buttonId>
                 </parameters>
@@ -59,13 +59,13 @@
             <!-- Store group -->
             <Saas_Limitation_Model_Store_Group_Observer_Entity>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Store_Group_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Store_Group_Limitation</instance></limitation>
                     <messageCode>store_group</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Store_Group_Observer_Entity>
             <Saas_Limitation_Model_Store_Group_Observer_Grid>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Store_Group_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Store_Group_Limitation</instance></limitation>
                     <blockClass>Mage_Adminhtml_Block_System_Store_Store</blockClass>
                     <buttonId>add_group</buttonId>
                 </parameters>
@@ -73,13 +73,13 @@
             <!-- Website -->
             <Saas_Limitation_Model_Website_Observer_Entity>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Website_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Website_Limitation</instance></limitation>
                     <messageCode>website</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Website_Observer_Entity>
             <Saas_Limitation_Model_Website_Observer_Grid>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Website_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Website_Limitation</instance></limitation>
                     <blockClass>Mage_Adminhtml_Block_System_Store_Store</blockClass>
                     <buttonId>add</buttonId>
                 </parameters>
@@ -87,19 +87,19 @@
             <!-- User -->
             <Saas_Limitation_Model_User_Observer_Controller>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_User_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_User_Limitation</instance></limitation>
                     <messageCode>user</messageCode>
                 </parameters>
             </Saas_Limitation_Model_User_Observer_Controller>
             <Saas_Limitation_Model_User_Observer_Entity>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_User_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_User_Limitation</instance></limitation>
                     <messageCode>user</messageCode>
                 </parameters>
             </Saas_Limitation_Model_User_Observer_Entity>
             <Saas_Limitation_Model_User_Observer_Grid>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_User_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_User_Limitation</instance></limitation>
                     <blockClass>Mage_User_Block_User</blockClass>
                     <buttonId>add</buttonId>
                 </parameters>
@@ -107,62 +107,62 @@
             <!-- Category -->
             <Saas_Limitation_Model_Catalog_Category_Observer_Controller>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Category_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Category_Limitation</instance></limitation>
                     <messageCode>catalog_category</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Category_Observer_Controller>
             <Saas_Limitation_Model_Catalog_Category_Observer_Entity>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Category_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Category_Limitation</instance></limitation>
                     <messageCode>catalog_category</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Category_Observer_Entity>
             <Saas_Limitation_Model_Catalog_Category_Observer_Block>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Category_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Category_Limitation</instance></limitation>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Category_Observer_Block>
             <!-- Product -->
             <Saas_Limitation_Model_Catalog_Product_Observer_Controller>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
                     <messageCode>catalog_product</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Controller>
             <Saas_Limitation_Model_Catalog_Product_Observer_Controller_Redirect>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
                     <messageCode>catalog_product_creation</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Controller_Redirect>
             <Saas_Limitation_Model_Catalog_Product_Observer_Entity>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
                     <messageCode>catalog_product</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Entity>
             <Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
                     <messageCode>catalog_product_creation</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication>
             <Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
                     <messageCode>catalog_product_variations</messageCode>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations>
             <Saas_Limitation_Model_Catalog_Product_Observer_Grid>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
                     <blockClass>Mage_Adminhtml_Block_Catalog_Product</blockClass>
                     <buttonId>add_new</buttonId>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Grid>
             <Saas_Limitation_Model_Catalog_Product_Observer_Form>
                 <parameters>
-                    <limitation>Saas_Limitation_Model_Catalog_Product_Limitation</limitation>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
                 </parameters>
             </Saas_Limitation_Model_Catalog_Product_Observer_Form>
         </di>

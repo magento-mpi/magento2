@@ -42,7 +42,7 @@ class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
      * @param string $columnName
      * @return string
      */
-    protected function _renderCellTemplate($columnName)
+    public function renderCellTemplate($columnName)
     {
         if ($columnName == 'value' && isset($this->_columns[$columnName])) {
             $element = new Varien_Data_Form_Element_Select();
@@ -54,6 +54,7 @@ class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
             return str_replace("\n", '', $element->getElementHtml());
         }
 
-        return parent::_renderCellTemplate($columnName);
+        return parent::renderCellTemplate($columnName);
     }
+
 }

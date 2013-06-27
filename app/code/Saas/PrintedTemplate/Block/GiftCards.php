@@ -93,4 +93,15 @@ class Saas_PrintedTemplate_Block_GiftCards extends Mage_Backend_Block_Template
     {
         return count($this->getCards()) ? parent::_toHtml() : '';
     }
+
+
+    /**
+     * Return the order used by this block
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        return $this->_order;
+    }
 }

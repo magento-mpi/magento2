@@ -72,13 +72,12 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
      *
      * @return array
      *
-     * @ test
+     * @test
      * @depends createNewsletterResourceDifferentRoles
      * @TestlinkId TL-MAGE-6067
      */
     public function editNewsletterResourceDifferentRoles($newsData)
     {
-        $this->markTestIncomplete('MAGETWO-8369: There is no ability to edit existing Newsletter Template');
         //Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',

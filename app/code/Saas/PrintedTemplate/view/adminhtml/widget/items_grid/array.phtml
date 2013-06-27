@@ -33,14 +33,14 @@ $_colspan = ($this->getIsAddAfter()) ? 'colspan="2"' : '';
         <tbody>
 
             <tr class="headings" id="headings<?php echo $_htmlId ?>">
-<?php foreach ($this->_columns as $columnName => $column) : ?>
+<?php foreach ($this->getColumns() as $columnName => $column) : ?>
                 <th><?php echo $this->escapeHtml($column['label']) ?></th>
 <?php endforeach; ?>
                 <th <?php echo $_colspan?>></th>
             </tr>
 
             <tr id="addRow<?php echo $_htmlId ?>">
-                <td colspan="<?php echo count($this->_columns) ?>"></td>
+                <td colspan="<?php echo count($this->getColumns()) ?>"></td>
                 <td <?php echo $_colspan?>>
                     <button style="" onclick="" class="scalable add" type="button" id="addToEndBtn<?php echo $_htmlId ?>"><span><span><span><?php echo $this->escapeHtml($this->getAddButtonLabel()) ?></span></span></span></button>
                 </td>
@@ -81,7 +81,7 @@ var arrayRow<?php echo $_htmlId ?> = {
 
         return new Template(
         '<tr id="#{_id}">'
-<?php foreach ($this->_columns as $columnName => $column):?>
+<?php foreach ($this->getColumns() as $columnName => $column):?>
     <?php if ($columnName == 'option'): ?>
             +'<td>'
                 + optionSelectCode[printedTemplateType]
@@ -108,7 +108,7 @@ var arrayRow<?php echo $_htmlId ?> = {
         if ('' == templateData) {
             var d = new Date();
             var templateData = {
-<?php foreach ($this->_columns as $columnName => $column):?>
+<?php foreach ($this->getColumns() as $columnName => $column):?>
                 <?php echo $columnName ?> : '',
 <?php endforeach;?>
                 _id : '_' + d.getTime() + '_' + d.getMilliseconds()

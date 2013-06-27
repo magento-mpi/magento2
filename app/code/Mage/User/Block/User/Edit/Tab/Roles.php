@@ -24,7 +24,7 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
     protected function _addColumnFilterToCollection($column)
     {
         if ($column->getId() == 'assigned_user_role') {
-            $userRoles = $this->_getSelectedRoles();
+            $userRoles = $this->getSelectedRoles();
             if (empty($userRoles)) {
                 $userRoles = 0;
             }
@@ -57,7 +57,7 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
             'header'    => Mage::helper('Mage_User_Helper_Data')->__('Assigned'),
             'type'      => 'radio',
             'html_name' => 'roles[]',
-            'values'    => $this->_getSelectedRoles(),
+            'values'    => $this->getSelectedRoles(),
             'align'     => 'center',
             'index'     => 'role_id'
         ));
@@ -82,7 +82,7 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
         return $this->getUrl('*/*/rolesGrid', array('user_id' => Mage::registry('permissions_user')->getUserId()));
     }
 
-    protected function _getSelectedRoles($json=false)
+    public function getSelectedRoles($json=false)
     {
         if ( $this->getRequest()->getParam('user_roles') != "" ) {
             return $this->getRequest()->getParam('user_roles');

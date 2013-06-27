@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getProduct()
+    public function getProduct()
     {
         return Mage::registry('current_product');
     }
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
             'title' => 'Select Attribute',
         ));
 
-        $product = $this->_getProduct();
+        $product = $this->getProduct();
         /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
         $configurableType = Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
         $usedAttributes = $product->isConfigurable()
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
      */
     public function getContinueUrl()
     {
-        return $this->getUrl($this->_getProduct()->getId() ? '*/*/edit' : '*/*/new', array(
+        return $this->getUrl($this->getProduct()->getId() ? '*/*/edit' : '*/*/new', array(
             '_current' => true,
         ));
     }

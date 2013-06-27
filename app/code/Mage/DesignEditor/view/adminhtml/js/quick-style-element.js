@@ -60,6 +60,7 @@
                 url: this.options.saveQuickStylesUrl,
                 data: data,
                 dataType: 'json',
+                global: false,
                 success: $.proxy(function(response) {
                     if (response.error) {
                         alert(response.message);
@@ -68,7 +69,7 @@
                     this.element.trigger('refreshIframe');
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
         }

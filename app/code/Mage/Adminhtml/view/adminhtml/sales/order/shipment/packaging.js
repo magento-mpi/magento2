@@ -12,7 +12,6 @@ Packaging.prototype = {
      * Initialize object
      */
     initialize: function(params) {
-        jQuery.mage.load('validation');
         this.packageIncrement = 0;
         this.packages = [];
         this.itemsAll = [];
@@ -40,6 +39,13 @@ Packaging.prototype = {
         this.customizableContainers = params.customizable ? params.customizable : [];
 
         this.eps = .000001;
+    },
+
+    /**
+     * Get Package Id
+     */
+    getPackageId: function(packageBlock) {
+        return packageBlock.id.match(/\d{0,}$/)[0];
     },
 
 //******************** Setters **********************************//
@@ -70,35 +76,14 @@ Packaging.prototype = {
         this.window.show().setStyle({
             'marginLeft': -this.window.getDimensions().width/2 + 'px'
         });
-        if (this.windowMask) {
-            this.windowMask.setStyle({
-                height: $('html-body').getHeight() + 'px'
-            }).show();
-        } else {
-            if( $$('.popup-window-mask')[0] ){
-                $$('.popup-window-mask')[0].setStyle({
-                    'display': 'block'
-                });
-            } else {
-                $('html-body').insert('<div class="popup-window-mask"></div>');
-                $$('.popup-window-mask')[0].setStyle({
-                    height: $('html-body').getHeight() + 'px'
-                });
-
-            }
-        }
+        this.windowMask.setStyle({
+            height: $('html-body').getHeight() + 'px'
+        }).show();
     },
 
     cancelPackaging: function() {
         packaging.window.hide();
-        if (this.windowMask) {
-            packaging.windowMask.hide();
-        } else {
-            $$('.popup-window-mask')[0].setStyle({
-                'display': 'none'
-            });
-        }
-
+        packaging.windowMask.hide();
         if (Object.isFunction(this.cancelCallback)) {
             this.cancelCallback();
         }
@@ -138,7 +123,7 @@ Packaging.prototype = {
             var weight, length, width, height = null;
             var packagesParams = [];
             this.packagesContent.childElements().each(function(pack) {
-                var packageId = pack.id.match(/\d$/)[0];
+                var packageId = this.getPackageId(pack);
                 weight = parseFloat(pack.select('input[name="container_weight"]')[0].value);
                 length = parseFloat(pack.select('input[name="container_length"]')[0].value);
                 width = parseFloat(pack.select('input[name="container_width"]')[0].value);
@@ -273,17 +258,12 @@ Packaging.prototype = {
     validateElement: function(elm) {
         var cn = $w(elm.className);
         return result = cn.all(function(value) {
-            var v = jQuery.validator.methods[value],
-                element = jQuery(elm);
-            if (!v) {
-                element.removeClass('mage-error');
-                return true;
-            }
-            if (element.is(':visible') && !v(element.val(), elm)) {
-                element.addClass('mage-error');
+            var v = Validation.get(value);
+            if (Validation.isVisible(elm) && !v.test($F(elm), elm)) {
+                $(elm).addClassName('validation-failed');
                 return false;
             } else {
-                element.removeClass('mage-error');
+                $(elm).removeClassName('validation-failed');
                 return true;
             }
         });
@@ -334,7 +314,7 @@ Packaging.prototype = {
     deletePackage: function(obj) {
         var pack = $(obj).up('div[id^="package_block"]');
         var packItems = pack.select('.package_items')[0];
-        var packageId = pack.id.match(/\d$/)[0];
+        var packageId = this.getPackageId(pack);
 
         delete this.packages[packageId];
         pack.remove();
@@ -347,7 +327,7 @@ Packaging.prototype = {
         var itemId = item.select('[type="checkbox"]')[0].value;
         var pack = $(obj).up('div[id^="package_block"]');
         var packItems = pack.select('.package_items')[0];
-        var packageId = pack.id.match(/\d$/)[0];
+        var packageId = this.getPackageId(pack);
 
         delete this.packages[packageId]['items'][itemId];
         if (item.offsetParent.rows.length <= 2) { /* head + this last row */
@@ -425,7 +405,7 @@ Packaging.prototype = {
     packItems: function(obj) {
         var anySelected = false;
         var packageBlock = $(obj).up('[id^="package_block"]');
-        var packageId = packageBlock.id.match(/\d$/)[0];
+        var packageId = this.getPackageId(packageBlock);
         var packagePrepare = packageBlock.select('.package_prapare')[0];
         var packagePrepareGrid = packagePrepare.select('.grid_prepare')[0];
 
@@ -701,7 +681,7 @@ Packaging.prototype = {
             var packagesCount = this.packagesContent.childElements().length;
             this.packageIncrement = packagesCount;
             this.packagesContent.childElements().each(function(pack) {
-                var packageId = pack.id.match(/\d$/)[0];
+                var packageId = this.getPackageId(pack);
                 pack.id = 'package_block_' + packagesCount;
                 pack.select('.package-number span')[0].update(packagesCount);
                 packagesRecalc[packagesCount] = this.packages[packageId];
@@ -797,7 +777,7 @@ Packaging.prototype = {
 
     _recalcContainerWeightAndCustomsValue: function(container) {
         var packageBlock = container.up('[id^="package_block"]');
-        var packageId = packageBlock.id.match(/\d$/)[0];
+        var packageId = this.getPackageId(packageBlock);
         var containerWeight = packageBlock.select('[name="container_weight"]')[0];
         var containerCustomsValue = packageBlock.select('[name="package_customs_value"]')[0];
         containerWeight.value = 0;

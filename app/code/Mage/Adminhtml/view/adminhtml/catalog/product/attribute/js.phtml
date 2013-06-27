@@ -104,6 +104,8 @@ function bindAttributeInputType()
         case 'multiselect':
             setRowVisibility('is_html_allowed_on_front', true);
             $('is_html_allowed_on_front').disabled = false;
+            $('frontend_class').value = '';
+            $('frontend_class').disabled = true;
             break;
         default:
             $('frontend_class').value = '';

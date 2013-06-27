@@ -32,6 +32,7 @@ class Mage_Backend_Block_Template_Context extends Mage_Core_Block_Template_Conte
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Magento_AuthorizationInterface $authorization
+     * @param Mage_Core_Model_TemplateEngine_Factory $engineFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -50,11 +51,12 @@ class Mage_Backend_Block_Template_Context extends Mage_Core_Block_Template_Conte
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
-        Magento_AuthorizationInterface $authorization
+        Magento_AuthorizationInterface $authorization,
+        Mage_Core_Model_TemplateEngine_Factory $engineFactory
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $engineFactory
         );
         $this->_authorization = $authorization;
     }

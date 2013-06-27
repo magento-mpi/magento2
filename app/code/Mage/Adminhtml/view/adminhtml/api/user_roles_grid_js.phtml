@@ -14,7 +14,7 @@
 <?php if( is_object($myBlock) && $myBlock->getJsObjectName()): ?>
     var radioBoxes = $H({});
     var warning = false;
-    var userRoles = $H(<?php echo $myBlock->_getSelectedRoles(true) ?>);
+    var userRoles = $H(<?php echo $myBlock->getSelectedRoles(true) ?>);
     if (userRoles.size() > 0) warning = true;
     $('user_user_roles').value = userRoles.toQueryString();
 

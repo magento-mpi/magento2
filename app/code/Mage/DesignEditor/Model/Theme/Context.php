@@ -77,7 +77,7 @@ class Mage_DesignEditor_Model_Theme_Context
     {
         $this->_theme = $this->_themeFactory->create();
         if (!$this->_theme->load($themeId)->getId()) {
-            throw new Mage_Core_Exception($this->_helper->__('Theme "%s" was not found.', $themeId));
+            throw new Mage_Core_Exception($this->_helper->__('We can\'t find theme "%s".', $themeId));
         }
         return $this;
     }
@@ -105,7 +105,7 @@ class Mage_DesignEditor_Model_Theme_Context
         $editableTheme = $this->getEditableTheme();
         if (!$editableTheme->isVirtual()) {
             throw new Mage_Core_Exception(
-                $this->_helper->__('Theme "%s" is not editable.', $editableTheme->getThemeTitle())
+                $this->_helper->__('Theme "%s" can\'t be edited.', $editableTheme->getThemeTitle())
             );
         }
         $stagingTheme = $editableTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();

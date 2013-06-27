@@ -21,7 +21,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyConfigWithDrivers(array $config, array $expectedDrivers)
     {
-        Magento_Profiler::applyConfig($config);
+        Magento_Profiler::applyConfig($config, '');
         $this->assertAttributeEquals($expectedDrivers, '_drivers', 'Magento_Profiler');
     }
 
@@ -111,7 +111,11 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                 ))
             ),
             'Config with shortly defined output' => array(
-                'config' => array('driver' => array('output' => 'html'),),
+                'config' => array(
+                    'drivers' => array(
+                        array('output' => 'html')
+                    )
+                ),
                 'drivers' => array(
                     new Magento_Profiler_Driver_Standard(array(
                         'outputs' => array(array(

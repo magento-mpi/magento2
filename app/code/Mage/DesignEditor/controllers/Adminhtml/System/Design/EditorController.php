@@ -54,7 +54,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $response = array('content' => $this->getLayout()->getOutput());
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => $this->_helper->__('Theme list can not be loaded'));
+            $response = array('error' => $this->_helper->__('Sorry, but we can\'t load the theme list.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
     }
@@ -101,7 +101,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Unknown error'));
+            $this->_getSession()->addException($e, $this->__('Sorry, there was an unknown error.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
@@ -149,6 +149,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if ($storeManager->isSingleStoreMode()) {
                 $themeService->assignThemeToDefaultScope($themeCustomization->getId());
             }
+
             $successMessage = $hadThemeAssigned
                 ? $this->__('You assigned a new theme to your store view.')
                 : $this->__('You assigned a theme to your live store.');
@@ -161,9 +162,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             );
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->getResponse()->setBody($coreHelper->jsonEncode(
+                array('error' => $this->_helper->__('This theme is not assigned.'))
+            ));
             $response = array(
                 'error'   => true,
-                'message' => $this->_helper->__('Theme is not assigned')
+                'message' => $this->_helper->__('This theme is not assigned.')
             );
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -182,7 +186,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme = $this->_loadThemeById($themeId);
             if (!$theme->isEditable()) {
-                throw new Mage_Core_Exception($this->__('Theme "%s" cannot be editable.', $theme->getThemeTitle()));
+                throw new Mage_Core_Exception($this->__('Sorry, but you can\'t edit theme "%s".',
+                    $theme->getThemeTitle()));
             }
             $theme->setThemeTitle($themeTitle);
             $theme->save();
@@ -192,7 +197,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => true, 'message' => $this->__('Theme is not saved'));
+            $response = array('error' => true, 'message' => $this->__('This theme is not saved.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
     }
@@ -230,7 +235,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $response = array('message' =>  $message);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => true, 'message' => $this->_helper->__('Unknown error'));
+            $response = array('error' => true, 'message' => $this->_helper->__('Sorry, there was an unknown error.'));
         }
 
         /** @var $coreHelper Mage_Core_Helper_Data */
@@ -253,7 +258,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme = $this->_loadThemeById($themeId);
             if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception($this->__('Theme "%s" cannot be editable.', $theme->getThemeTitle()));
+                throw new Mage_Core_Exception($this->__('Sorry, but you can\'t edit theme "%s".',
+                    $theme->getThemeTitle()));
             }
             $themeCopy->setData($theme->getData());
             $themeCopy->setId(null)->setThemeTitle($coreHelper->__('Copy of [%s]', $theme->getThemeTitle()));
@@ -268,7 +274,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->_getSession()->addError($this->__('Theme cannot be duplicated'));
+            $this->_getSession()->addError($this->__('You cannot duplicate this theme.'));
         }
         $this->_redirectUrl($this->_getRefererUrl());
     }
@@ -342,7 +348,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         if (!$themeId || !$theme->load($themeId)->getId()) {
-            throw new Mage_Core_Exception($this->__('Theme was not found'));
+            throw new Mage_Core_Exception($this->__('We can\'t find this theme.'));
         }
         return $theme;
     }
@@ -536,7 +542,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $storeViewBlock->setData('actionOnAssign', 'refresh');
             $this->renderLayout();
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Cannot load list of themes.'));
+            $this->_getSession()->addError($this->__('We can\'t load the list of themes.'));
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
