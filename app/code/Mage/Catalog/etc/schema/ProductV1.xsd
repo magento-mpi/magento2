@@ -1,3 +1,11 @@
+<!--
+/**
+ * {license_notice}
+
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:complexType name="catalogProductItemRequest">
         <xsd:annotation>
@@ -5,7 +13,7 @@
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:int">
+            <xsd:element name="entity_id" type="xsd:int">
                 <xsd:annotation>
                     <xsd:documentation>Entity ID</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
@@ -26,7 +34,7 @@
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="entity_id" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:element name="entity_id" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
