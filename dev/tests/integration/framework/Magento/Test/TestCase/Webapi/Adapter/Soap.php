@@ -7,44 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_TestCase_Api_Client_Soap implements Magento_Test_TestCase_Api_ClientInterface
+class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
-    /**
-     * Class of exception web services client throws
-     *
-     * @const
-     */
-    const EXCEPTION_CLASS = 'SoapFault';
-
     const WSDL_BATH_PATH = '/webapi/soap?wsdl=1';
-
-    /**
-     * Session ID
-     *
-     * @var string
-     */
-    protected $_session;
-
-    /**
-     * Webservice full URL
-     *
-     * @var string
-     */
-    protected $_url;
-
-    /**
-     * Function prefixes
-     *
-     * @var array
-     */
-    protected $_configFunction;
-
-    /**
-     * Resources alias
-     *
-     * @var array
-     */
-    protected $_configAlias;
 
     /**
      * SOAP client initialized with different WSDLs.

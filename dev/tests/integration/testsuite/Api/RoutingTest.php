@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class RoutingTest extends Magento_Test_TestCase_ApiAbstract
+class RoutingTest extends Magento_Test_TestCase_WebapiAbstract
 {
     /**
      * TODO: Temporary test for test framework implementation phase
