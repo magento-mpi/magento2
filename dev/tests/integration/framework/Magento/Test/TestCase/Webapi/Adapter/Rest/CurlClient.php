@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Test_TesCase_Api_Client_Rest_CurlClient
+class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
 {
 
     /**
@@ -57,7 +57,7 @@ class Magento_Test_TesCase_Api_Client_Rest_CurlClient
         }
 
         $curlOpts = $this->_curlOpts;
-        $headers = array_merge($curlOpts, $headers);
+        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
 
 

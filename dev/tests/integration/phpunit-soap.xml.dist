@@ -35,7 +35,7 @@
     <php>
         <includePath>./testsuite/Api</includePath>
 
-        <!-- WebSerivice Type. Possible values: soap -->
+        <!-- WebSerivice Type. Possible values: soap, rest -->
         <const name="TESTS_WEBSERVICE_TYPE" value="soap"/>
         <!-- Webserver URL -->
         <const name="TESTS_WEBSERVICE_URL" value="http://tests.url"/>

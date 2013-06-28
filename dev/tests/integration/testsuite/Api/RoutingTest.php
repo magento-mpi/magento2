@@ -16,6 +16,10 @@ class RoutingTest extends Magento_Test_TestCase_WebapiAbstract
     {
         $productId = 1;
         $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/products/' . $productId,
+                'httpMethod' => 'GET'
+            ),
             'soap' => array(
                 'service' => 'catalogProduct',
                 'serviceVersion' => 'V1',

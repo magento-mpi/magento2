@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Test_TesCase_Api_Client_Rest implements Magento_Test_TestCase_Api_ClientInterface
+class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
 
     /**
@@ -54,7 +54,7 @@ class Magento_Test_TesCase_Api_Client_Rest implements Magento_Test_TestCase_Api_
         }
 
         // delegate the request to vannila cURL REST client
-        $curlClient = new Magento_Test_TesCase_Api_Client_Rest_CurlClient();
+        $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
 
         switch ($httpMethod) {
             case 'GET':
@@ -81,8 +81,8 @@ class Magento_Test_TesCase_Api_Client_Rest implements Magento_Test_TestCase_Api_
      */
     protected function _getRestResourcePath($serviceInfo)
     {
-        if (isset($serviceInfo['rest']['endpoint'])) {
-            return $serviceInfo['soap']['operation'];
+        if (isset($serviceInfo['rest']['resourcePath'])) {
+            return $serviceInfo['rest']['resourcePath'];
         } else {
             // REST endpoint not specified
             throw new Exception("REST endpoint not specified");
@@ -99,7 +99,7 @@ class Magento_Test_TesCase_Api_Client_Rest implements Magento_Test_TestCase_Api_
     protected function _getRestHttpMethod($serviceInfo)
     {
         if (isset($serviceInfo['rest']['httpMethod'])) {
-            return $serviceInfo['soap']['httpMethod'];
+            return $serviceInfo['rest']['httpMethod'];
         } else {
             // REST endpoint not specified
             throw new Exception("REST httpMethod not specified");
