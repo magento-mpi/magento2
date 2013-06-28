@@ -36,7 +36,7 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
         $this->setApiType($apiType);
         parent::__construct($uri);
         /** Set path info without area and API type */
-        $this->_pathInfo = preg_replace('/^\/\w+\/\w+/', '', $this->_requestUri);
+        $this->_pathInfo = preg_replace('#.*?/webapi/\w+#', '', $this->_requestUri);
     }
 
     /**
