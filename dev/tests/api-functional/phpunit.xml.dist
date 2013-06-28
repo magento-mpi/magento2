@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * PHPUnit configuration for SOAP functional tests.
+ * PHPUnit configuration for Web API functional tests.
  *
  * {license_notice}
  *
@@ -12,8 +12,8 @@
 <phpunit bootstrap="./framework/bootstrap.php">
     <!-- Test suites definition -->
     <testsuites>
-        <testsuite name="Magento PaaS/API Integration Tests">
-            <directory suffix="Test.php">testsuite/Api</directory>
+        <testsuite name="Magento Web API Functional Tests">
+            <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
 
@@ -33,7 +33,7 @@
 
     <!-- PHP INI settings and constants definition -->
     <php>
-        <includePath>./testsuite/Api</includePath>
+        <includePath>./testsuite</includePath>
 
         <!-- WebSerivice Type. Possible values: soap, rest -->
         <const name="TESTS_WEBSERVICE_TYPE" value="soap"/>
