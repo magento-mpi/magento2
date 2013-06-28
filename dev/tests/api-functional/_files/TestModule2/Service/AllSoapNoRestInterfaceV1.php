@@ -16,12 +16,11 @@ interface Mage_TestModule2_Service_AllSoapNoRestInterfaceV1
     public function item($request);
 
     /**
-     * Return multiple items.
+     * TODO: Nested complexType XSD references not supported yet. Need to fix it.
      *
-     * @param $request array
      * @return array
      */
-    public function items($request);
+    //public function items();
 
     /**
      * Create an item.
