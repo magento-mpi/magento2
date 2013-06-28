@@ -50,6 +50,8 @@
             this._on({
                 'ajaxComplete': '_ajaxJobDone',
                 'ajaxError': '_ajaxJobDone',
+                'processStop': '_ajaxJobDone',
+                'processStart': 'show',
                 'ajaxStart': 'show',
                 'show.loader': 'show',
                 'hide.loader': 'hide',
