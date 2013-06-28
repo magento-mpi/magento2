@@ -15,7 +15,7 @@ interface Magento_Test_TestCase_Webapi_AdapterInterface
      * @param string $serviceInfo <pre>
      * array(
      *     'rest' => array(
-     *         'endpoint' => $endpoint,    // e.g. /products/:id
+     *         'resourcePath' => $resourcePath,    // e.g. /products/:id
      *         'httpMethod' => $httpMethod // e.g. GET
      *     ),
      *     'soap' => array(
