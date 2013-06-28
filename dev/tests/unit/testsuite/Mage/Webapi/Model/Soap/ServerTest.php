@@ -33,15 +33,26 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     {
         /** Init all dependencies for SUT. */
         $this->_storeMock = $this->getMockBuilder('Mage_Core_Model_Store')->disableOriginalConstructor()->getMock();
+        $this->_storeMock->expects($this->any())->method('getBaseUrl')->will(
+            $this->returnValue('http://magento.com/')
+        );
+
         $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );
+
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_appMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
         $this->_appMock->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
+
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')->disableOriginalConstructor()
             ->getMock();
+        $reqRes = array(
+            'catalogProduct' => 'V1'
+        );
+        $this->_requestMock->expects($this->any())->method('getRequestedResources')
+            ->will($this->returnValue($reqRes));
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();
 
@@ -95,9 +106,6 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetEndpointUri()
     {
-        $this->_storeMock->expects($this->once())->method('getBaseUrl')->will(
-            $this->returnValue('http://magento.com/')
-        );
         $expectedResult = 'http://magento.com/' . self::WEBAPI_AREA_FRONT_NAME . '/'
             . Mage_Webapi_Controller_Front::API_TYPE_SOAP;
         $actualResult = $this->_soapServer->getEndpointUri();
@@ -127,4 +135,30 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $apiFault->expects($this->once())->method('toXml');
         $this->_soapServer->fault($apiFault);
     }
+
+
+    /**
+     * Test generate uri with wsdl param as true
+     */
+    public function testGenerateUriWithWsdlParam()
+    {
+        $expectedResult = 'http://magento.com/webapi/soap?resources[catalogProduct]=V1&wsdl=1';
+        $actualResult = $this->_soapServer->generateUri(true);
+        $this->assertEquals($expectedResult, urldecode($actualResult), 'URI (with WSDL param) generated is invalid.');
+    }
+
+    /**
+     * Test generate uri with wsdl param as true
+     */
+    public function testGenerateUriWithNoWsdlParam()
+    {
+        $expectedResult = 'http://magento.com/webapi/soap?resources[catalogProduct]=V1';
+        $actualResult = $this->_soapServer->generateUri(false);
+        $this->assertEquals(
+            $expectedResult,
+            urldecode($actualResult),
+            'URI (without WSDL param) generated is invalid.'
+        );
+    }
+
 }

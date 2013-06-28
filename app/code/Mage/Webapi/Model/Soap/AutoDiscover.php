@@ -65,7 +65,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
-    ) {
+    )
+    {
         $this->_apiConfig = $apiConfig;
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -136,7 +137,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $xpath = new DOMXPath($domDocument);
         /** @var $elemList DOMNode */
         $complexTypeNode = $xpath->query("//xsd:complexType[@name='$complexTypeName']")->item(0);
-        return !is_null($complexTypeNode)? $complexTypeNode->cloneNode(true) : null;
+        return !is_null($complexTypeNode) ? $complexTypeNode->cloneNode(true) : null;
     }
 
     /**
@@ -207,7 +208,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
          * and auto-generation mechanism: $this->getElementComplexTypeName($inputMessageName))
          */
         $inputMessageName = $this->getInputMessageName($operationName);
-        //$complexTypeName = $this->getElementComplexTypeName($inputMessageName);
         $elementData = array(
             'name' => $inputMessageName,
             'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
@@ -242,7 +242,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected function _createOperationOutput(Mage_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
-        //$complexTypeName = $this->getElementComplexTypeName($outputMessageName);
         $wsdl->addElement(
             array(
                 'name' => $outputMessageName,
@@ -384,7 +383,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 if ($operationData['inputRequired']) {
                     // TODO: throw proper exception according to new error handling strategy
                     throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
-                        . "must have '{$inputParameterName}' complex type defined in its schema.");
+                    . "must have '{$inputParameterName}' complex type defined in its schema.");
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
                     $inputComplexType = $this->_generateEmptyComplexType($inputParameterName);
@@ -398,7 +397,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             } else {
                 // TODO: throw proper exception according to new error handling strategy
                 throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
-                    . "must have '{$outputParameterName}' complex type defined in its schema.");
+                . "must have '{$outputParameterName}' complex type defined in its schema.");
             }
         }
         return $resourceData;
