@@ -36,7 +36,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Serv
      * @param $request
      * @return array
      */
-    public function items($request)
+    public function items()
     {
         $result = array(
             array(

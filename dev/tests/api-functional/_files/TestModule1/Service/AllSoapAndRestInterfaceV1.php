@@ -16,10 +16,9 @@ interface Mage_TestModule1_Service_AllSoapAndRestInterfaceV1
     public function item($request);
 
     /**
-     * @param $request
      * @return array
      */
-    public function items($request);
+    public function items();
 
     /**
      * @param $request
