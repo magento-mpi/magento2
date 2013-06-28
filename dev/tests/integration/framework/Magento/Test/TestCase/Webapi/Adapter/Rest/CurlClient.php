@@ -88,7 +88,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         if (!is_array($data)) {
             $headers[] = 'Content-Length: ' . strlen($jsonData);
         }
-        $headers = array_merge($curlOpts, $headers);
+        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 
@@ -118,7 +118,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         if (!is_array($data)) {
             $headers[] = 'Content-Length: ' . strlen($jsonData);
         }
-        $headers = array_merge($curlOpts, $headers);
+        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 
@@ -142,7 +142,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         $url = $this->_constructResourceUrl($resourcePath);
         $curlOpts = $this->_curlOpts;
         $curlOpts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-        $headers = array_merge($curlOpts, $headers);
+        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
 
         $curl = $this->_prepRequest($url, $curlOpts);
