@@ -330,7 +330,6 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     {
         $lastError = json_last_error();
 
-
         switch ($lastError) {
             case JSON_ERROR_DEPTH:
                 return 'Maximum stack depth exceeded';
