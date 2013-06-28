@@ -43,19 +43,30 @@
         },
 
         /**
-         * Bind on ajax complete event
+         * Bind on ajax events
          * @protected
          */
         _bind: function() {
-            this.element.on('ajaxComplete ajaxError processStop', function(e) {
-                e.stopImmediatePropagation();
-                $($(e.currentTarget).is(document) ? 'body' : e.currentTarget).loader('hide');
-            });
             this._on({
+                'ajaxComplete': '_ajaxJobDone',
+                'ajaxError': '_ajaxJobDone',
+                'ajaxStart': 'show',
                 'show.loader': 'show',
                 'hide.loader': 'hide',
                 'contentUpdated.loader': '_contentUpdated'
             });
+        },
+
+        /**
+         * Stop the propagation of the event and hide the loader. Used for ajaxComplete, ajaxError, and processStop
+         * events. It will call stopImmediatePropagation on the event and then hide the loader.
+         *
+         * @param event
+         * @private
+         */
+        _ajaxJobDone: function(event) {
+            event.stopImmediatePropagation();
+            this.hide();
         },
 
         /**
