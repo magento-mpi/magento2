@@ -62,8 +62,8 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      */
     protected function _getWsdlUrl($serviceName, $version)
     {
-        /** TESTS_WEBSERVICE_URL is initialized in PHPUnit configuration */
-        return rtrim(TESTS_WEBSERVICE_URL, '/') . self::WSDL_BATH_PATH . "&resources[{$serviceName}]=$version";
+        /** TESTS_BASE_URL is initialized in PHPUnit configuration */
+        return rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . "&resources[{$serviceName}]=$version";
     }
 
     /**

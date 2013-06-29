@@ -36,9 +36,9 @@
         <includePath>./testsuite</includePath>
 
         <!-- WebSerivice Type. Possible values: soap, rest -->
-        <const name="TESTS_WEBSERVICE_TYPE" value="soap"/>
+        <const name="TESTS_WEB_API_ADAPTER" value="soap"/>
         <!-- Webserver URL -->
-        <const name="TESTS_WEBSERVICE_URL" value="http://tests.url"/>
+        <const name="TESTS_BASE_URL" value="http://tests.url"/>
         <!-- Webserver API user -->
         <const name="TESTS_WEBSERVICE_USER" value="admin"/>
         <!-- Webserver API key -->
@@ -47,7 +47,7 @@
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <!-- Local XML configuration file ('.dist' extension will be added, if the specified file doesn't exist) -->
         <!--<const name="TESTS_LOCAL_CONFIG_FILE" value="etc/local-mysql.xml"/>-->
-        <const name="TESTS_LOCAL_CONFIG_FILE" value="etc/api-local-mysql.xml"/>
+        <const name="TESTS_LOCAL_CONFIG_FILE" value="etc/local-mysql.xml"/>
         <!-- Semicolon-separated 'glob' patterns, that match global XML configuration files -->
         <const name="TESTS_GLOBAL_CONFIG_FILES" value="../../../app/etc/*.xml"/>
         <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->

@@ -194,7 +194,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
      */
     protected function _constructResourceUrl($resourcePath)
     {
-        return rtrim(TESTS_WEBSERVICE_URL, '/') . self::REST_BASE_PATH . ltrim($resourcePath, '/');
+        return rtrim(TESTS_BASE_URL, '/') . self::REST_BASE_PATH . ltrim($resourcePath, '/');
     }
 
     /**

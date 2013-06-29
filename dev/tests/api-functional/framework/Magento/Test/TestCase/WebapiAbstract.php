@@ -156,7 +156,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     {
         if (is_null($webApiAdapterCode)) {
             /** Default adapter code is defined in PHPUnit configuration */
-            $webApiAdapterCode = strtolower(TESTS_WEBSERVICE_TYPE);
+            $webApiAdapterCode = strtolower(TESTS_WEB_API_ADAPTER);
         }
         return $this->_getWebApiAdapter($webApiAdapterCode)->call($serviceInfo, $arguments);
     }
