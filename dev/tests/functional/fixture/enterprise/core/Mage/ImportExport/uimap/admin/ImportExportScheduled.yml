@@ -47,15 +47,15 @@ scheduled_import_export:
             add_scheduled_import: //button[span='Add Scheduled Import']
             add_scheduled_export: //button[span='Add Scheduled Export']
         messages: &messages
-            success_saved_export:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been saved.')]
-            success_saved_import:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been saved.')]
-            success_delete_export: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been deleted.')]
-            success_delete_import: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been deleted.')]
-            success_run: //li[normalize-space(@class)='success-msg' and contains(.,'Operation has been successfully run')]
-            error_run: //li[normalize-space(@class)='error-msg' and contains(.,'Unable to run operation')]
+            success_saved_export:  //li[normalize-space(@class)='success-msg' and contains(.,'We saved the scheduled report.')]
+            success_saved_import:  //li[normalize-space(@class)='success-msg' and contains(.,'We saved the scheduled import.')]
+            success_delete_export: //li[normalize-space(@class)='success-msg' and contains(.,'We deleted the scheduled export.')]
+            success_delete_import: //li[normalize-space(@class)='success-msg' and contains(.,'We deleted the scheduled import.')]
+            success_run: //li[normalize-space(@class)='success-msg' and contains(.,'The operation ran.')]
+            error_run: //li[normalize-space(@class)='error-msg' and contains(.,'We couldn’t run the operation.')]
             delete_confirmation_export: Are you sure you want to delete this scheduled export?
             delete_confirmation_import: Are you sure you want to delete this scheduled import?
-            success_delete_records: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedRecords% record(s) have been deleted')]
+            success_delete_records: //li[normalize-space(@class)='success-msg' and contains(.,'We deleted a total of %qtyDeletedRecords% record(s).')]
             delete_confirmation: Are you sure you want to delete the selected scheduled imports/exports?
             success_update_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedRecords% record(s) have been updated')]
 

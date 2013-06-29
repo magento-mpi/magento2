@@ -14,7 +14,8 @@
  * @see Enterprise_CatalogEvent_Block_Event_Lister
  */
 ?>
-<div id="<?php echo $this->getHtmlId(); ?>" class="events-slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
+<div id="<?php echo $this->getHtmlId(); ?>" data-mage-init="{carousel: { pageSize: <?php echo $this->getPageSize(); ?>,scrollSize: <?php echo $this->getScrollSize() ?> }}"
+     class="events-slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
 <div class="slide-button backward">&laquo;</div>
 <div class="slider-panel"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
     <ul class="slider">
@@ -43,14 +44,11 @@
 
     <?php break;
         case 'open': ?>
-        <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>">
+        <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>" data-mage-init="{ticker: {secondsToClose: <?php echo $this->getSecondsToClose($_event); ?>}}">
             <div class="container">
-                <span class="days">00</span><span class="delimiter">:</span><span class="hour">00</span><span class="delimiter">:</span><span class="minute">00</span><span class="delimiter">:</span><span class="second">00</span>
+                <span data-container="days" class="days">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="hour" class="hour">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="minute" class="minute">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="second" class="second">00</span>
             </div>
         </div>
-        <script type="text/javascript">
-        new Enterprise.CatalogEvent.Ticker('<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
-        </script>
         <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Go To Sale') ?></span></a>
 
 
@@ -89,8 +87,4 @@
 </div>
 <div class="slide-button inactive forward">&raquo;</div>
 </div>
-<script type="text/javascript">
-//<![CDATA[
-new Enterprise.Slider('<?php echo $this->getHtmlId(); ?>', {pageSize: <?php echo $this->getPageSize(); ?>, scrollSize: <?php echo $this->getScrollSize() ?>});
-//]]>
-</script>
+

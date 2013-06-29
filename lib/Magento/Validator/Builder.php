@@ -39,7 +39,8 @@ class Magento_Validator_Builder
      */
     protected function _checkConfigurationArguments(array $configuration, $argumentsIsArray)
     {
-        $allowedKeys = array('arguments', 'callback', 'method', 'methods');
+        // https://jira.corp.x.com/browse/MAGETWO-10439
+        $allowedKeys = array('arguments', 'callback', 'method', 'methods', 'breakChainOnFailure');
         if (!array_intersect($allowedKeys, array_keys($configuration))) {
             throw new InvalidArgumentException('Configuration has incorrect format');
         }
@@ -119,7 +120,10 @@ class Magento_Validator_Builder
     {
         $validator = new Magento_Validator();
         foreach ($this->_constraints as $constraintData) {
-            $validator->addValidator($this->_createConstraint($constraintData));
+            // https://jira.corp.x.com/browse/MAGETWO-10439
+            $breakChainOnFailure = isset($constraintData['options']['breakChainOnFailure'])
+                ? $constraintData['options']['breakChainOnFailure'] : false;
+            $validator->addValidator($this->_createConstraint($constraintData), $breakChainOnFailure);
         }
         return $validator;
     }

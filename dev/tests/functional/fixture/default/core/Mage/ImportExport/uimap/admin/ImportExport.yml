@@ -35,7 +35,7 @@ import:
         messages:
             extension_not_supported: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'%extension% file extension is not supported')]
             no_extension: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'Uploaded file has no extension')]
-            fix_and_reupload: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Please fix errors and re-upload file')]
+            fix_and_reupload: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Please fix errors and re-upload file.')]
             status_wrong: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'The Order Status "pending" must not be set manually in row %row%')]
             checked_rows: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Checked rows: %rows%')]"
             checked_entities: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'checked entities: %entities%')]"

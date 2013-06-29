@@ -119,8 +119,8 @@
                 if (variableGroup.label && variableGroup.value) {
                     this.variablesGroupsInc++;
                     this.variablesContent += '<li id="variableGroup_' + this.variablesGroupsInc + '">'
-                        + '<a id="variableGroup_' + this.variablesGroupsInc + '_unfold_link" href="javascript: void(0);" onclick="Variables.unfoldVariablesGroup(this);"><img src="<?php echo $this->_getViewFileUrl('wysiwyg/tiny_mce/plugins/magentovariable/img/nolines_plus.gif'); ?>" style="margin: 0 -3px -5px 0;" /></a>'
-                        + '<a id="variableGroup_' + this.variablesGroupsInc + '_fold_link" href="javascript: void(0);" style="display: none;" onclick="Variables.foldVariablesGroup(this);"><img src="<?php echo $this->_getViewFileUrl('wysiwyg/tiny_mce/plugins/magentovariable/img/nolines_minus.gif'); ?>" style="margin: 0 -3px -5px 0;" /></a>'
+                        + '<a id="variableGroup_' + this.variablesGroupsInc + '_unfold_link" href="javascript: void(0);" onclick="Variables.unfoldVariablesGroup(this);"><img src="<?php echo $this->getModuleViewFileUrl('wysiwyg/tiny_mce/plugins/magentovariable/img/nolines_plus.gif'); ?>" style="margin: 0 -3px -5px 0;" /></a>'
+                        + '<a id="variableGroup_' + this.variablesGroupsInc + '_fold_link" href="javascript: void(0);" style="display: none;" onclick="Variables.foldVariablesGroup(this);"><img src="<?php echo $this->getModuleViewFileUrl('wysiwyg/tiny_mce/plugins/magentovariable/img/nolines_minus.gif'); ?>" style="margin: 0 -3px -5px 0;" /></a>'
                         + '<b>' + variableGroup.label + '</b>'
                         + '</li>';
                     (variableGroup.value).each(function(variable){

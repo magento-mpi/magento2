@@ -37,7 +37,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     protected function _initItemType()
     {
-        $this->_title($this->__('Manage Attributes'));
+        $this->_title($this->__('Google Content Attributes'));
 
         Mage::register('current_item_type', Mage::getModel('Mage_GoogleShopping_Model_Type'));
         $typeId = $this->getRequest()->getParam('id');
@@ -66,7 +66,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Attributes'));
+        $this->_title($this->__('Google Content Attributes'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'))
@@ -90,7 +90,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         try {
             $this->_initItemType();
 
-            $this->_title($this->__('New Attribute Mapping'));
+            $this->_title($this->__('New Google Content Attribute Mapping'));
 
             $this->_initAction()
                 ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New attribute set mapping'))
@@ -98,7 +98,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                 ->renderLayout();
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't create Attribute Set Mapping."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't create Attribute Set Mapping."));
             $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
         }
     }
@@ -122,7 +122,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                 }
             }
 
-            $this->_title($this->__('Edit Attribute Mapping'));
+            $this->_title($this->__('Google Content Attribute Mapping'));
             Mage::register('attributes', $result);
 
             $breadcrumbLabel = $typeId ? Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Edit attribute set mapping') : Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping');
@@ -132,7 +132,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                 ->renderLayout();
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't edit Attribute Set Mapping."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't edit Attribute Set Mapping."));
             $this->_redirect('*/*/index');
         }
     }
@@ -188,7 +188,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
             }
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't save Attribute Set Mapping."));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't save Attribute Set Mapping."));
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }
@@ -208,7 +208,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
             $this->_getSession()->addSuccess($this->__('Attribute set mapping was deleted'));
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't delete Attribute Set Mapping."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't delete Attribute Set Mapping."));
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }
@@ -229,7 +229,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         } catch (Exception $e) {
             Mage::logException($e);
             // just need to output text with error
-            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't load attributes."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't load attributes."));
         }
     }
 
@@ -247,7 +247,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         } catch (Exception $e) {
             Mage::logException($e);
             // just need to output text with error
-            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Can't load attribute sets."));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't load attribute sets."));
         }
     }
 

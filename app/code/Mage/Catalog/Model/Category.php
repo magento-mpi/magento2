@@ -180,17 +180,17 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
         if (!$parent->getId()) {
             Mage::throwException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: the new parent category was not found.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, but we can\'t move the category because we can\'t find the new parent category you selected.')
             );
         }
 
         if (!$this->getId()) {
             Mage::throwException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: the current category was not found.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Sorry, but we can\'t move the category because we can\'t find the new category you selected.')
             );
         } elseif ($parent->getId() == $this->getId()) {
             Mage::throwException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Category move operation is not possible: parent category is equal to child category.')
+                Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t perform this category move operation because the parent category matches the child category.')
             );
         }
 
@@ -914,31 +914,5 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $result;
-    }
-
-    /**
-     * Check limitations before save
-     *
-     * @return Mage_Catalog_Model_Abstract
-     */
-    protected function _beforeSave()
-    {
-        $result = parent::_beforeSave();
-        $this->_enforceFunctionalLimitations();
-        return $result;
-    }
-
-    /**
-     * Sub-routine for enforcing functional limitations
-     *
-     * @throws Mage_Core_Exception
-     */
-    protected function _enforceFunctionalLimitations()
-    {
-        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
-        if ($this->isObjectNew() && $limitation->isCreateRestricted()) {
-            throw new Mage_Core_Exception($limitation->getCreateRestrictedMessage());
-        }
     }
 }

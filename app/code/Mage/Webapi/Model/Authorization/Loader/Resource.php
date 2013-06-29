@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract
+class Mage_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loader_Resource
 {
     /**
      * Deny each resource for all roles.
@@ -28,7 +28,7 @@ class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Ac
      */
     protected function _loadVirtualResources(Magento_Acl $acl)
     {
-        $virtualResources = $this->_config->getAclVirtualResources();
+        $virtualResources = $this->_configReader->getAclVirtualResources();
         /** @var $resourceConfig DOMElement */
         foreach ($virtualResources as $resourceConfig) {
             if (!($resourceConfig instanceof DOMElement)) {

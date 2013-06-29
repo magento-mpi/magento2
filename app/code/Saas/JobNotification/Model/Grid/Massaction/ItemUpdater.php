@@ -10,14 +10,14 @@
 class Saas_JobNotification_Model_Grid_Massaction_ItemUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
-     * @var Mage_Core_Model_Authorization
+     * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Mage_Core_Model_Authorization $authorization
+     * @param Magento_AuthorizationInterface $authorization
      */
-    public function __construct(Mage_Core_Model_Authorization $authorization)
+    public function __construct(Magento_AuthorizationInterface $authorization)
     {
         $this->_authorization = $authorization;
     }

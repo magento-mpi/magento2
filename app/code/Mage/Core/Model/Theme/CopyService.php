@@ -143,7 +143,14 @@ class Mage_Core_Model_Theme_CopyService
     {
         $sourcePath = $source->getCustomizationPath();
         $targetPath = $target->getCustomizationPath();
-        if ($sourcePath && $targetPath && $this->_filesystem->isDirectory($sourcePath)) {
+
+        if (!$sourcePath || !$targetPath) {
+            return;
+        }
+
+        $this->_deleteFilesRecursively($targetPath);
+
+        if ($this->_filesystem->isDirectory($sourcePath)) {
             $this->_copyFilesRecursively($sourcePath, $sourcePath, $targetPath);
         }
     }
@@ -165,6 +172,18 @@ class Mage_Core_Model_Theme_CopyService
                 $filePath = substr($path, strlen($baseDir) + 1);
                 $this->_filesystem->copy($path, $targetDir . '/' . $filePath, $baseDir, $targetDir);
             }
+        }
+    }
+
+    /**
+     * Delete all files in a directory recursively
+     *
+     * @param string $targetDir
+     */
+    protected function _deleteFilesRecursively($targetDir)
+    {
+        foreach ($this->_filesystem->searchKeys($targetDir, '*') as $path) {
+            $this->_filesystem->delete($path);
         }
     }
 }

@@ -24,7 +24,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
      */
     public function getCouponCode()
     {
-        return $this->_getQuote()->getCouponCode();
+        return $this->getQuote()->getCouponCode();
     }
 
     /**
@@ -32,7 +32,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
      *
      * @return Mage_Sales_Model_Quote
      */
-    protected function _getQuote()
+    public function getQuote()
     {
         return Mage::registry('checkout_current_quote');
     }
@@ -59,7 +59,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
      */
     protected function _toHtml()
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update')) {
+        if (!$this->_authorization->isAllowed('Enterprise_Checkout::update')) {
             return '';
         }
         return parent::_toHtml();

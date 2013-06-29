@@ -202,7 +202,8 @@ while ($testCasesLeft > 0) {
                 mkdir($testCaseLogsDir);
 
                 $commonScreenshotsDir = str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/var/screenshots/');
-                foreach (glob($testCaseOutputDir . 'screenshots' . DIRECTORY_SEPARATOR . '*.png') ?: array() as $png) {
+                $testCaseScreenshotsDir = str_replace('/', DIRECTORY_SEPARATOR, $worker['dir'] . '/var/screenshots');
+                foreach (glob($testCaseScreenshotsDir . DIRECTORY_SEPARATOR . '*.png') ?: array() as $png) {
                     rename($png, $commonScreenshotsDir . basename($png));
                 }
 

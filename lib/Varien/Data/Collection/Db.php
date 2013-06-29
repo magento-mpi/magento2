@@ -33,7 +33,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected $_select;
 
     /**
-     * Identifier fild name for collection items
+     * Identifier field name for collection items
      *
      * Can be used by collections with items without defined
      *
@@ -268,7 +268,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     }
 
     /**
-     * Add ORDERBY to the end or to the beginning
+     * Add ORDER BY to the end or to the beginning
      *
      * @param string $field
      * @param string $direction
@@ -578,7 +578,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
     /**
      * Convert items array to hash for select options
-     * unsing fetchItem method
+     * using fetchItem method
      *
      * The difference between _toOptionHash() and this one is that this
      * method fetch items one by one and does not load all collection items at once
@@ -630,7 +630,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     }
 
     /**
-     * Proces loaded collection data
+     * Process loaded collection data
      *
      * @return Varien_Data_Collection_Db
      */
@@ -671,14 +671,24 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     public function printLogQuery($printQuery = false, $logQuery = false, $sql = null)
     {
-        if ($printQuery) {
+        if ($printQuery || $this->getFlag('print_query')) {
             echo is_null($sql) ? $this->getSelect()->__toString() : $sql;
         }
 
-        if ($logQuery) {
-            Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
+        if ($logQuery || $this->getFlag('log_query')) {
+            $this->_logQuery($sql);
         }
         return $this;
+    }
+
+    /**
+     * Log query
+     *
+     * @param string $sql
+     */
+    protected function _logQuery($sql)
+    {
+        Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
     }
 
     /**

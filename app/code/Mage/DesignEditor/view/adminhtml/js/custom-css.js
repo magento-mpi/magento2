@@ -16,7 +16,8 @@
             customCssCode: '#custom_code',
             btnUpdateCss: '[data-action="update"]',
             btnDeleteCss: '[data-action="delete"]',
-            btnUpdateDownload: '[data-action="download"]'
+            btnUpdateDownload: '[data-action="download"]',
+            fileRowInfo: '[data-file="uploaded-css"]'
         },
 
         updateButtons: function() {
@@ -28,7 +29,9 @@
             this.btnCssDelete = this.element.find(this.options.btnDeleteCss);
             this.customCssCode = this.element.find(this.options.customCssCode);
             this.btnUpdateDownload = this.element.find(this.options.btnUpdateDownload);
+            this.fileRowInfo = this.element.find(this.options.fileRowInfo);
             this._prepareUpdateButton();
+            this.btnCssUpdate.prop('disabled', true);
             this._events();
         },
 
@@ -41,9 +44,7 @@
 
         _editCustomCss: function()
         {
-            if ($.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.removeProp('disabled');
-            }
+            this.btnCssUpdate.removeProp('disabled');
         },
 
         _downloadCustomCss: function() {
@@ -52,6 +53,7 @@
 
         _postUpdatedCustomCssContent: function()
         {
+            this.btnCssUpdate.prop('disabled', true);
             $.ajax({
                 type: 'POST',
                 url:  this.options.saveCustomCssUrl,
@@ -66,9 +68,10 @@
                     this._prepareUpdateButton();
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
+            $('.vde-tools-content').trigger('resize.vdeToolsResize');
         },
 
         _updateCustomCss: function()
@@ -85,11 +88,11 @@
         _prepareUpdateButton: function()
         {
             if (!$.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.prop('disabled', 'disabled');
-                this.btnUpdateDownload.add(this.btnCssDelete).fadeOut();
+                this.fileRowInfo.addClass('no-display');
             } else {
-                this.btnCssUpdate.removeProp('disabled');
+                this.btnCssUpdate.prop('disabled', false);
                 this.btnUpdateDownload.add(this.btnCssDelete).fadeIn();
+                this.fileRowInfo.removeClass('no-display');
             }
         }
     });

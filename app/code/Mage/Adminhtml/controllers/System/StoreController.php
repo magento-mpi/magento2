@@ -17,7 +17,6 @@
  */
 class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Action
 {
-
     /**
      * Init actions
      *
@@ -37,25 +36,6 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     public function indexAction()
     {
         $this->_title($this->__('Stores'));
-
-        /** @var $websiteLimitation Mage_Core_Model_Website_Limitation */
-        $websiteLimitation = $this->_objectManager->get('Mage_Core_Model_Website_Limitation');
-        if ($websiteLimitation->isCreateRestricted()) {
-            $this->_getSession()->addNotice($websiteLimitation->getCreateRestrictedMessage());
-        }
-
-        /** @var $storeLimitation Mage_Core_Model_Store_Limitation */
-        $storeLimitation = $this->_objectManager->get('Mage_Core_Model_Store_Limitation');
-        if (!$storeLimitation->canCreate()) {
-            $this->_getSession()->addNotice($storeLimitation->getCreateRestrictionMessage());
-        }
-
-        /** @var $storeGroupLimitation Mage_Core_Model_Store_Group_Limitation */
-        $storeGroupLimitation = $this->_objectManager->get('Mage_Core_Model_Store_Group_Limitation');
-        if (!$storeGroupLimitation->canCreate()) {
-            $this->_getSession()->addNotice($storeGroupLimitation->getCreateRestrictionMessage());
-        }
-
         $this->_initAction()
             ->renderLayout();
     }
@@ -112,7 +92,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             case 'website':
                 $itemId     = $this->getRequest()->getParam('website_id', null);
                 $model      = Mage::getModel('Mage_Core_Model_Website');
-                $title      = Mage::helper('Mage_Core_Helper_Data')->__("Website");
+                $title      = Mage::helper('Mage_Core_Helper_Data')->__("Web Site");
                 $notExists  = Mage::helper('Mage_Core_Helper_Data')->__("The website does not exist.");
                 $codeBase   = Mage::helper('Mage_Core_Helper_Data')->__('Before modifying the website code please make sure that it is not used in index.php.');
                 break;
@@ -248,7 +228,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteWebsiteAction()
     {
-        $this->_title($this->__('Delete Website'));
+        $this->_title($this->__('Delete Web Site'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
@@ -266,11 +246,11 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         $this->_addDeletionNotice('website');
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('Mage_Core_Helper_Data')->__('Delete Website'), Mage::helper('Mage_Core_Helper_Data')->__('Delete Website'))
+            ->_addBreadcrumb(Mage::helper('Mage_Core_Helper_Data')->__('Delete Web Site'), Mage::helper('Mage_Core_Helper_Data')->__('Delete Web Site'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Delete')
                 ->setFormActionUrl($this->getUrl('*/*/deleteWebsitePost'))
                 ->setBackUrl($this->getUrl('*/*/editWebsite', array('website_id' => $itemId)))
-                ->setStoreTypeTitle(Mage::helper('Mage_Core_Helper_Data')->__('Website'))
+                ->setStoreTypeTitle(Mage::helper('Mage_Core_Helper_Data')->__('Web Site'))
                 ->setDataObject($model)
             )
             ->renderLayout();
@@ -464,7 +444,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                 ->setPath(Mage::getBaseDir('var') . DS . 'backups');
 
             $backupDb->createBackup($backup);
-            $this->_getSession()->addSuccess(Mage::helper('Mage_Backup_Helper_Data')->__('Database was successfuly backed up.'));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Backup_Helper_Data')->__('The database was backed up.'));
         }
         catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -472,7 +452,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('Mage_Backup_Helper_Data')->__('Unable to create backup. Please, try again later.'));
+            $this->_getSession()->addException($e, Mage::helper('Mage_Backup_Helper_Data')->__('We couldn\'t create a backup right now. Please try again later.'));
             $this->_redirect($failPath, $arguments);
             return ;
         }

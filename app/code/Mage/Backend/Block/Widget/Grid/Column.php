@@ -146,6 +146,18 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Retrieve html id of filter
+     *
+     * @return string
+     */
+    public function getHtmlId()
+    {
+        return $this->getGrid()->getId() . '_'
+            . $this->getGrid()->getVarNameFilter() . '_'
+            . $this->getId();
+    }
+
+    /**
      * Get html code for column properties
      *
      * @return string

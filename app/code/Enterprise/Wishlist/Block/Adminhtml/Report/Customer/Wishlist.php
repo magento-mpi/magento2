@@ -25,7 +25,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist
     {
         $this->_blockGroup = 'Enterprise_Wishlist';
         $this->_controller = 'adminhtml_report_customer_wishlist';
-        $this->_headerText = Mage::helper('Enterprise_Wishlist_Helper_Data')->__("Customer's Wishlist Report");
+        $this->_headerText = Mage::helper('Enterprise_Wishlist_Helper_Data')->__("Customer's Wish List Report");
         parent::_construct();
         $this->_removeButton('add');
     }

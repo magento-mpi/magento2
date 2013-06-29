@@ -10,9 +10,9 @@
 ?>
 <?php $_wishlistItem = $this->getWishlistItem(); ?>
 <?php $_wishlistSubmitUrl = $this->helper('Mage_Wishlist_Helper_Data')->getUpdateUrl($_wishlistItem); ?>
-<div class="product addto links">
+<div class="product addto links" data-role="add-to-links">
 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
-    <a href="<?php echo $_wishlistSubmitUrl ?>" class="action towishlist updated"><span><?php echo $this->__('Update Wishlist') ?></span></a>
+    <a href="<?php echo $_wishlistSubmitUrl ?>" class="action towishlist updated"><span><?php echo $this->__('Update Wish List') ?></span></a>
 <?php endif; ?>
 <?php $_product = $this->getProduct(); ?>
 <?php $_compareUrl = $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddUrl($_product); ?>

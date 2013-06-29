@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testIndexAction()
@@ -12,32 +16,13 @@ class Mage_Adminhtml_System_StoreControllerTest extends Mage_Backend_Utility_Con
         $this->dispatch('backend/admin/system_store/index');
 
         $response = $this->getResponse()->getBody();
-        $this->assertContains('Create Website', $response);
-        $this->assertContains('Create Store View', $response);
-    }
 
-    /**
-     * @magentoConfigFixture limitations/website 1
-     */
-    public function testIndexActionWebsiteRestricted()
-    {
-        $this->dispatch('backend/admin/system_store/index');
-        $response = $this->getResponse()->getBody();
-        $this->assertContains('Create Website', $response);
-        $this->assertContains('You are using the maximum number of Websites allowed.', $response);
-    }
+        $this->assertSelectEquals('#add', 'Create Website', 1, $response);
+        $this->assertSelectCount('#add_group', 1, $response);
+        $this->assertSelectCount('#add_store', 1, $response);
 
-    /**
-     * @magentoConfigFixture limitations/store 1
-     * @magentoConfigFixture limitations/store_group 1
-     */
-    public function testIndexActionStoreRestricted()
-    {
-        $this->dispatch('backend/admin/system_store/index');
-        $response = $this->getResponse()->getBody();
-        $this->assertNotContains('>Create Store View<', $response);
-        $this->assertNotContains('>Create Store<', $response);
-        $this->assertContains('You are using the maximum number of store views allowed.', $response);
-        $this->assertContains('You are using the maximum number of stores allowed.', $response);
+        $this->assertSelectEquals('#add.disabled', 'Create Website', 0, $response);
+        $this->assertSelectCount('#add_group.disabled', 0, $response);
+        $this->assertSelectCount('#add_store.disabled', 0, $response);
     }
 }

@@ -392,3 +392,89 @@
         padding-top: 10px;
     }
 }
+
+// *
+// *   Review paypal express checkout order
+// *
+// ----------------------------------------------------------------------------- */
+
+.paypal-express-review .page.title {
+    margin: 30px 0;
+}
+
+.paypal.review.view {
+    .paypal.subtitle.caption {
+        margin-bottom: 25px;
+        .action {
+            margin-left: 10px;
+        }
+        strong {
+            .customFont(15px);
+        }
+    }
+    .form.paypal.review {
+        .fieldset {
+            .formFieldset();
+            .formInline(25%);
+            border: 0;
+            margin: 0 0 60px;
+            padding: 0;
+            &.shipping.address {
+                float: right;
+                width: 48%;
+            }
+            &.billing.address {
+                float: left;
+                width: 48%;
+            }
+            &.shipping.method {
+                clear: both;
+            }
+            > .legend {
+                float: left;
+                width: 100%;
+                .borderBox;
+                .customFont(20px, uppercase, 0.1em, 200);
+                margin-bottom: 20px;
+                & + br {
+                    clear: both;
+                    display: block !important;
+                }
+            }
+            > .field {
+                .formField();
+                .fieldStyle();
+                margin: 0 0 18px;
+                > .label {
+                    padding: 0 0 5px;
+                }
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .nested {
+                    margin: 18px 0 0;
+                    padding: 0;
+                    .field {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+    .actions {
+        margin-top: 35px;
+        text-align: right;
+        .action {
+            float: right;
+            &.update {
+                margin-right: 10px;
+                .secondaryAction();
+                border: 0;
+                padding: 7px 9px;
+            }
+        }
+    }
+    tfoot td {
+        text-align: right;
+    }
+}

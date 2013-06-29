@@ -18,6 +18,6 @@ class Mage_Shipping_Model_Tracking_Result_Error extends Mage_Shipping_Model_Trac
 
     public function getErrorMessage()
     {
-        return  Mage::helper('Mage_Shipping_Helper_Data')->__('Tracking information is currently unavailable.');
+        return  Mage::helper('Mage_Shipping_Helper_Data')->__('Tracking information is unavailable.');
     }
 }

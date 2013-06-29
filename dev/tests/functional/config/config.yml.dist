@@ -78,7 +78,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
-                after_login_page: 'store_launcher'
+                after_login_page: 'dashboard'
             frontend:
                 url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
@@ -107,7 +107,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
-                after_login_page: 'store_launcher'
+                after_login_page: 'dashboard'
             frontend:
                 url: 'http://www.localhost.com/magento2_enterprise/'
                 base_page_uimap: 'home_page'
@@ -117,7 +117,7 @@ applications:
     saas: &saas
         fallbackOrderFixture: 'saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
-        design_theme: Enterprise/Magento Fixed Design
+        design_theme: Enterprise/Plushe
         ftp: *ftp
         areas:
             admin:
@@ -139,4 +139,8 @@ applications:
                 uimap_path: ~
                 login: 'login'
                 password: 'password'
+            tmt:
+                url: 'http://tmt.domain.com/'
+                base_page_uimap: 'home'
+                uimap_path: 'tmt'
     default: *ee

@@ -47,7 +47,7 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
     protected function setUp()
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false);
+        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
         $this->_responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Saas_JobNotification_Helper_Data', array(), array(), '', false);

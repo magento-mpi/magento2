@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -62,7 +60,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.advanced.iframe');;
 
-        $session = $this->_getCheckout();
+        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');
         if ($session->getLastRealOrderId()) {
             $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
 
@@ -77,7 +75,7 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
                 } else {
                     $gotoSection = $this->_cancelPayment(strval($this->getRequest()->getParam('RESPMSG')));
                     $redirectBlock->setGotoSection($gotoSection);
-                    $redirectBlock->setErrorMsg($this->__('Payment has been declined. Please try again.'));
+                    $redirectBlock->setErrorMsg($this->__('Your payment has been declined. Please try again.'));
                 }
             }
         }
@@ -125,40 +123,12 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        $session = $this->_getCheckout();
-        if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
-            if ($order->getId()) {
-                //Cancel order
-                if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
-                    $order->registerCancellation($errorMsg)->save();
-                }
-                $quote = Mage::getModel('Mage_Sales_Model_Quote')
-                    ->load($order->getQuoteId());
-                //Return quote
-                if ($quote->getId()) {
-                    $quote->setIsActive(1)
-                        ->setReservedOrderId(NULL)
-                        ->save();
-                    $session->replaceQuote($quote);
-                }
-                //Unset data
-                $session->unsLastRealOrderId();
-                //Redirect to payment step
-                $gotoSection = 'payment';
-            }
+        $helper = $this->_objectManager->get('Mage_Paypal_Helper_Checkout');
+        $helper->cancelCurrentOrder($errorMsg);
+        if ($helper->restoreQuote()) {
+            $gotoSection = 'payment';
         }
 
         return $gotoSection;
-    }
-
-    /**
-     * Get frontend checkout session object
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    protected function _getCheckout()
-    {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 }

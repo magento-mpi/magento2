@@ -108,7 +108,7 @@
                     this._ajaxContinue(this.options.checkout.saveUrl, {method:'register'}, this.options.billingSection);
                     this.element.find(this.options.checkout.registerCustomerPasswordSelector).show();
                 } else {
-                    alert($.mage.__('Please choose to register or to checkout as a guest'));
+                    alert($.mage.__('Please choose to register or to checkout as a guest.'));
                     return false;
                 }
             }
@@ -329,13 +329,13 @@
         _validateShippingMethod: function() {
             var methods = this.element.find('[name="shipping_method"]');
             if (methods.length === 0) {
-                alert($.mage.__('Your order cannot be completed at this time as there is no shipping methods available for it. Please make necessary changes in your shipping address.'));
+                alert($.mage.__('We are not able to ship to the selected shipping address. Please choose another address or edit the current address.'));
                 return false;
             }
             if (methods.filter(':checked').length) {
                 return true;
             }
-            alert($.mage.__('Please specify shipping method.'));
+            alert($.mage.__('Please specify a shipping method.'));
             return false;
         }
     });
@@ -347,8 +347,6 @@
                 continueSelector: '#payment-buttons-container .button',
                 form: '#co-payment-form',
                 methodsContainer: '#checkout-payment-method-load',
-                rewardPointsCheckBoxSelector: '#use-reward-points',
-                customerBalanceCheckBoxSelector: '#use-customer-balance',
                 freeInput: {
                     tmpl: '<input id="hidden-free" type="hidden" name="payment[method]" value="free">',
                     selector: '#hidden-free'
@@ -384,12 +382,6 @@
                 .on('contentUpdated', this.options.payment.form, $.proxy(function() {
                 $(this.options.payment.form).find('dd [name^="payment["]').prop('disabled', true);
                 var checkoutPrice = this.element.find(this.options.payment.form).find('[data-checkout-price]').data('checkout-price');
-                $(this.options.payment.customerBalanceCheckBoxSelector)
-                    .prop({'checked':this.options.customerBalanceSubstracted,
-                        'disabled':false}).change().parent().show();
-                $(this.options.payment.rewardPointsCheckBoxSelector)
-                    .prop({'checked':this.options.rewardPointsSubstracted,
-                        'disabled':false}).change().parent().show();
                 if ($.isNumeric(checkoutPrice)) {
                     this.checkoutPrice = checkoutPrice;
                 }
@@ -433,7 +425,7 @@
         _validatePaymentMethod: function() {
             var methods = this.element.find('[name^="payment["]');
             if (methods.length === 0) {
-                alert($.mage.__('Your order cannot be completed at this time as there is no payment methods available for it.'));
+                alert($.mage.__("We can't complete your order because you don't have a payment method available. "));
                 return false;
             }
             if (this.checkoutPrice < this.options.minBalance) {

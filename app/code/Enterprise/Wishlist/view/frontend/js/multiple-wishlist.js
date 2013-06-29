@@ -273,7 +273,7 @@
     // Extension for mage.wishlist - Delete Wishlist
     $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         options: {
-            deleteMsg: $.mage.__('You are about to delete your wish list.\nThis action cannot be undone.\nDo you want to proceed?')
+            deleteMsg: $.mage.__('You are about to delete your wish list. This action cannot be undone. Are you sure you want to continue?')
         },
 
         _create: function() {
@@ -401,7 +401,7 @@
                     if (this.options.canCreate) {
                         tmplData.wishlists.push({
                             newClass: 'new',
-                            name: 'Create New Wishlist',
+                            name: 'Create New Wish List',
                             url: url,
                             isNew: true
                         });

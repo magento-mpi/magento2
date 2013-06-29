@@ -19,6 +19,11 @@
 class Magento_Test_Application
 {
     /**
+     * Default application area
+     */
+    const DEFAULT_APP_AREA = 'global';
+
+    /**
      * DB vendor adapter instance
      *
      * @var Magento_Test_Db_DbAbstract
@@ -73,6 +78,13 @@ class Magento_Test_Application
     protected $_appMode;
 
     /**
+     * Application area
+     *
+     * @var null
+     */
+    protected $_appArea = null;
+
+    /**
      * Constructor
      *
      * @param Magento_Test_Db_DbAbstract $dbInstance
@@ -100,7 +112,8 @@ class Magento_Test_Application
                 Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
                 Mage_Core_Model_Dir::VAR_DIR     => $installDir,
                 Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
-                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/static",
+                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/pub_static",
+                Mage_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
             ),
             Mage::PARAM_MODE => $appMode
         );
@@ -176,7 +189,7 @@ class Magento_Test_Application
         $verification = $objectManager->get('Mage_Core_Model_Dir_Verification');
         $verification->createAndVerifyDirectories();
 
-        Mage::getConfig(); // Loading full config to initialize global application area
+        $this->loadArea(Magento_Test_Application::DEFAULT_APP_AREA);
     }
 
     /**
@@ -307,6 +320,7 @@ class Magento_Test_Application
         Varien_Data_Form::setElementRenderer(null);
         Varien_Data_Form::setFieldsetRenderer(null);
         Varien_Data_Form::setFieldsetElementRenderer(null);
+        $this->_appArea = null;
 
         if ($resource) {
             Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
@@ -373,5 +387,32 @@ class Magento_Test_Application
             'role_name'  => $user->getFirstname(),
         ));
         $roleUser->save();
+    }
+
+    /**
+     * Ge current application area
+     *
+     * @return string
+     */
+    public function getArea()
+    {
+        return $this->_appArea;
+    }
+
+    /**
+     * Load application area
+     *
+     * @param $area
+     */
+    public function loadArea($area)
+    {
+        $this->_appArea = $area;
+        if ($area == Magento_Test_Application::DEFAULT_APP_AREA) {
+            Mage::app()->loadAreaPart($area, Mage_Core_Model_App_Area::PART_CONFIG);
+            Mage::app()->loadAreaPart($area, Mage_Core_Model_App_Area::PART_EVENTS);
+        } else {
+            Mage::app()->loadArea($area);
+            Mage::getConfig()->setCurrentAreaCode($area);
+        }
     }
 }

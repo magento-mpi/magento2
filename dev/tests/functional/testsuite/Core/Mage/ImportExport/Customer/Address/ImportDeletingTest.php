@@ -148,19 +148,19 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
         $customerNotFound = array('validation' => array(
                 'error' => array("Customer with such email and website code doesn't exist in rows: 1"),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
                 )));
         $addressNotFound = array('validation' => array(
                 'error' => array("Customer address for such customer doesn't exist in rows: 1"),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
                 )));
         $emptyEntityId = array('validation' => array(
             'error' => array("Customer address id column is not specified in rows: 1"),
             'validation' => array(
-                "File is totally invalid. Please fix errors and re-upload file",
+                "File is totally invalid. Please fix errors and re-upload file.",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
             )));
 

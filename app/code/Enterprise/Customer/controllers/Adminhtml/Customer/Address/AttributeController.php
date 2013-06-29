@@ -78,7 +78,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Customer Address Attributes'));
+        $this->_title($this->__('Customer Address Attributes'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -104,7 +104,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title($this->__('Manage Customer Address Attributes'));
+        $this->_title($this->__('Customer Address Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -125,7 +125,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
 
             $this->_title($attributeObject->getFrontendLabel());
         } else {
-            $this->_title($this->__('New Attribute'));
+            $this->_title($this->__('New Customer Address Attribute'));
         }
 
         // restore attribute data
@@ -161,7 +161,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
                 ->loadByCode($this->_getEntityType()->getId(), $attributeCode);
             if ($attributeObject->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('Attribute with the same code already exists.')
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('An attribute with this code already exists.')
                 );
 
                 $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
@@ -267,7 +267,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
             try {
                 $attributeObject->save();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('The customer address attribute has been saved.')
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('You saved the customer address attribute.')
                 );
                 $this->_getSession()->setAttributeData(false);
                 if ($this->getRequest()->getParam('back', false)) {
@@ -286,7 +286,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while saving the customer address attribute.')
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('Something went wrong saving the customer address attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -318,7 +318,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
             try {
                 $attributeObject->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('The customer address attribute has been deleted.')
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('You deleted the customer address attribute.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -328,7 +328,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('An error occurred while deleting the customer address attribute.')
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('Something went wrong deleting the customer address attribute.')
                 );
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

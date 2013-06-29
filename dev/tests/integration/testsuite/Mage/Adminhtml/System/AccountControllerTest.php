@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Adminhtml_System_AccountControllerTest extends Mage_Backend_Utility_Controller
 {
     /**

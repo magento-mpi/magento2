@@ -104,6 +104,13 @@
                 </checkout>
             </updates>
         </layout>
+        <di>
+            <Mage_Checkout_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Checkout_Model_Session>
+        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -115,6 +122,13 @@
                 </Mage_Checkout>
             </modules>
         </translate>
+        <di>
+            <Mage_Checkout_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Checkout_Model_Session>
+        </di>
     </adminhtml>
     <default>
         <checkout>
@@ -137,7 +151,7 @@
             </sidebar>
             <payment_failed>
                 <identity>general</identity>
-                <reciever>general</reciever>
+                <receiver>general</receiver>
                 <template>checkout_payment_failed_template</template>
             </payment_failed>
         </checkout>

@@ -144,7 +144,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws Exception intentionally, because cannot be logged to order comments
-                throw new Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('Wrong Order ID (%s) specified.', $id));
+                throw new Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('A wrong Order ID (%s) is specified.', $id));
             }
             $this->_order = $order;
         }
@@ -197,13 +197,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                     // the holded payment was denied on paypal side
                     case self::STATUS_DENIED:
                         $this->_registerPaymentFailure(
-                            Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant denied this pending payment.')
+                            Mage::helper('Mage_Paypal_Helper_Data')->__('The merchant denied this pending payment.')
                         );
                         break;
                     // customer attempted to pay via bank account, but failed
                     case self::STATUS_FAILED:
                         // cancel order
-                        $this->_registerPaymentFailure(Mage::helper('Mage_Paypal_Helper_Data')->__('Customer failed to pay.'));
+                        $this->_registerPaymentFailure(Mage::helper('Mage_Paypal_Helper_Data')->__('This customer did not pay.'));
                         break;
 
                     // refund forced by PayPal
@@ -234,11 +234,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
 
                     // authorization expired, must void
                     case self::STATUS_EXPIRED:
-                        $this->_registerPaymentVoid(Mage::helper('Mage_Paypal_Helper_Data')->__('Authorization expired.'));
+                        $this->_registerPaymentVoid(Mage::helper('Mage_Paypal_Helper_Data')->__('Authorization expired'));
                         break;
                     // void by merchant on PayPal side
                     case self::STATUS_VOIDED:
-                        $this->_registerPaymentVoid(Mage::helper('Mage_Paypal_Helper_Data')->__('Authorization was voided by merchant.'));
+                        $this->_registerPaymentVoid(Mage::helper('Mage_Paypal_Helper_Data')->__('The merchant voided the authorization.'));
                         break;
                 }
             }
@@ -336,17 +336,17 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         $message = null;
         switch ($this->getIpnFormData('pending_reason')) {
             case 'address': // for some reason PayPal gives "address" reason, when Fraud Management Filter triggered
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Customer used non-confirmed address.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('This customer used a non-confirmed address.');
                 break;
             case 'echeck':
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Waiting until Customer\'s eCheck will be cleared.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Waiting for customer\'s eCheck to be cleared.');
                 // possible requires processing on our side as well
                 break;
             case 'intl':
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant account doesn\'t have a withdrawal mechanism. Merchant must manually accept or deny this payment from your Account Overview.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('This merchant account does not have a withdrawal mechanism. You can accept or deny this payment in your PayPal account overview.');
                 break;
             case 'multi-currency':
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Multi-currency issue. Merchant must manually accept or deny this payment from PayPal Account Overview.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.');
                 break;
             case 'order':
                 Mage::throwException('"Order" authorizations are not implemented. Please use "simple" authorization.');
@@ -354,16 +354,16 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $this->_registerPaymentAuthorization();
                 break;
             case 'paymentreview':
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Payment is being reviewed by PayPal for risk.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Your payment is being reviewed by PayPal for your security.');
                 break;
             case 'unilateral':
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Payment was made to an email address that is not yet registered or confirmed.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The payment was made to an email address that is not yet registered or confirmed.');
                 break;
             case 'upgrade':
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant must upgrade account to Business or Premier status.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The merchant must upgrade the account to Business or Premier status.');
                 break;
             case 'verify':
-                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant account is not verified.');
+                $message = Mage::helper('Mage_Paypal_Helper_Data')->__('This merchant account is not verified.');
                 break;
             case 'other':
                 $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Please contact PayPal Customer Service.');
@@ -421,6 +421,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
     {
         $paymentStatus = $this->getIpnFormData('payment_status');
         $message = Mage::helper('Mage_Paypal_Helper_Data')->__('IPN verification "%s".', $paymentStatus);
+        if ($this->getIpnFormData('txn_id')) {
+            $message .= ' ' . Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%s.', $this->getIpnFormData('txn_id'));
+        }
         if ($comment) {
             $message .= ' ' . $comment;
         }

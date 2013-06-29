@@ -1028,7 +1028,7 @@
     <report_sales>
         <reference name="messages">
             <action method="addNotice" translate="message">
-                <message>This report depends on timezone configuration. Once timezone is changed, the lifetime statistics need to be refreshed.</message>
+                <message>This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</message>
             </action>
         </reference>
     </report_sales>
@@ -1052,7 +1052,7 @@
                     <action method="setFieldOption" translate="value">
                         <field>report_type</field>
                         <option>note</option>
-                        <value>Order Updated Date report is real-time, does not need statistics refreshing.</value>
+                        <value>The Order Updated Date report is displayed in real-time, and does not need to be refreshed.</value>
                     </action>
                 </block>
             </block>
@@ -1078,7 +1078,7 @@
                     <action method="setFieldOption" translate="value">
                         <field>report_type</field>
                         <option>note</option>
-                        <value>Order Updated Date report is real-time, does not need statistics refreshing.</value>
+                        <value>The Order Updated Date report is displayed in real-time, and does not need to be refreshed.</value>
                     </action>
                 </block>
             </block>
@@ -1167,7 +1167,7 @@
                     <action method="setFieldOption" translate="value">
                         <field>report_type</field>
                         <option>note</option>
-                        <value>Order Updated Date report is real-time, does not need statistics refreshing.</value>
+                        <value>The Order Updated Date report is displayed in real-time, and does not need to be refreshed.</value>
                     </action>
                 </block>
             </block>

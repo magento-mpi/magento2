@@ -50,7 +50,7 @@ class Routine
      */
     public static $fileTypes = array(
         'xml'   => array(
-            '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample',
+            '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xml.erb',
             '*.xsd', '*.mxml', '*.jmx', '*.jtl',
         ),
         'php'   => array('*.php', '*.php.dist', '*.php.sample'),
@@ -61,6 +61,7 @@ class Routine
         'less'  => array('*.less'),
         'flex'  => array('*.as'),
         'sql'   => array('*.sql'),
+        'twig'  => array('*.twig'),
     );
 
     /**
@@ -235,10 +236,11 @@ class Routine
                 continue;
             }
 
+
             $placeholders = array(
                 ' * {license_notice}',
                 '{copyright}',
-                '{license_link}'
+                '{license_link}',
             );
 
             $changeset = array(
@@ -250,7 +252,7 @@ class Routine
             $docBlock = str_replace($placeholders, $changeset, $matches[1]);
 
             $newContents = preg_replace('#(/\*\*).*(\*/.*)#Us', '$1'. $docBlock . '$2', $contents, 1);
-
+            
             if ($contents !== $newContents) {
                 if (!self::$dryRun) {
                     file_put_contents($filename, $newContents);

@@ -24,13 +24,6 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
     public function indexAction()
     {
         $this->_title($this->__('Users'));
-        /** @var $model Mage_User_Model_Resource_User */
-        $model = Mage::getObjectManager()->get('Mage_User_Model_Resource_User');
-        if (!$model->canCreateUser()) {
-            /** @var $session Mage_Adminhtml_Model_Session */
-            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
-            $session->addNotice($model->getMessageUserCreationProhibited());
-        }
         $this->_initAction();
         $this->renderLayout();
     }
@@ -108,7 +101,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
 
         try {
             $model->save();
-            $this->_getSession()->addSuccess($this->__('The user has been saved.'));
+            $this->_getSession()->addSuccess($this->__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('*/*/');
         } catch (Mage_Core_Exception $e) {
@@ -151,7 +144,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
                 $model = Mage::getModel('Mage_User_Model_User');
                 $model->setId($userId);
                 $model->delete();
-                $this->_session->addSuccess($this->__('The user has been deleted.'));
+                $this->_session->addSuccess($this->__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -161,7 +154,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
                 return;
             }
         }
-        $this->_session->addError($this->__('Unable to find a user to delete.'));
+        $this->_session->addError($this->__('We can\'t find a user to delete.'));
         $this->_redirect('*/*/');
     }
 

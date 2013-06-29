@@ -37,15 +37,31 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
     protected $_product;
 
     /**
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store;
+
+    /**
      * @var Mage_Sales_Model_Quote_Item_Option
      */
     protected $_quoteItemOption;
 
+    /**
+     * Set up
+     */
     protected function setUp()
     {
-        $store = $this->getMock('Mage_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
-        $store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
+        $this->_store = $this->getMock('Mage_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
+        $this->_mockModel(array('_isStrictProcessMode'));
+    }
 
+    /**
+     * Create model Mock
+     *
+     * @param $mockedMethods
+     */
+    protected function _mockModel($mockedMethods)
+    {
         $helpers = array(
             'Enterprise_GiftCard_Helper_Data'        => $this->getMock(
                 'Enterprise_GiftCard_Helper_Data', array(), array(), '', false, false
@@ -65,16 +81,16 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
             $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         }
 
-        $locale = new Varien_Object(array('number' => 100));
-
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $locale = $this->getMock('Mage_Core_Model_Locale', array('getNumber'), array(), '', false);
+        $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $this->_model = $this->getMock(
             'Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard',
-            array('_isStrictProcessMode'),
+            $mockedMethods,
             array(
                 $filesystem,
                 array(
-                    'store'     => $store,
+                    'store'     => $this->_store,
                     'helpers'   => $helpers,
                     'locale'    => $locale,
                 )
@@ -84,6 +100,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     protected function _preConditions()
     {
+        $this->_store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
         $this->_productResource = $this->getMock('Mage_Catalog_Model_Resource_Product', array(), array(), '', false);
         $this->_optionResource = $this->getMock('Mage_Catalog_Model_Resource_Product_Option', array(), array(),
             '', false);
@@ -152,7 +169,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnEmpty();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify Gift Card amount.');
+        $this->_runValidationWithExpectedException('Please specify a gift card amount.');
     }
 
     public function testValidateMaxAmount()
@@ -207,7 +224,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnEmpty();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify Gift Card amount.');
+        $this->_runValidationWithExpectedException('Please specify a gift card amount.');
     }
 
     public function testValidateRecipientName()
@@ -223,7 +240,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify recipient name.');
+        $this->_runValidationWithExpectedException('Please specify a recipient name.');
     }
 
     public function testValidateSenderName()
@@ -239,7 +256,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify sender name.');
+        $this->_runValidationWithExpectedException('Please specify a sender name.');
     }
 
     public function testValidateRecipientEmail()
@@ -255,7 +272,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify recipient email.');
+        $this->_runValidationWithExpectedException('Please specify a recipient email.');
     }
 
     public function testValidateSenderEmail()
@@ -271,7 +288,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_setGetGiftcardAmountsReturnArray();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Please specify sender email.');
+        $this->_runValidationWithExpectedException('Please specify a sender email.');
     }
 
     public function testValidate()
@@ -284,6 +301,52 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $this->_product->setCustomOptions($this->_customOptions);
 
         $this->_setStrictProcessMode(false);
+        $this->_model->checkProductBuyState($this->_product);
+    }
+
+    /**
+     * Test _getCustomGiftcardAmount when rate is equal
+     */
+    public function testGetCustomGiftcardAmountForEqualRate()
+    {
+        $giftcardAmount = 11.54;
+        $this->_mockModel(array('_isStrictProcessMode', '_getAmountWithinConstraints', ));
+        $this->_preConditions();
+        $this->_setStrictProcessMode(false);
+        $this->_setGetGiftcardAmountsReturnArray();
+        $this->_quoteItemOption->expects($this->any())->method('getValue')
+            ->will($this->returnValue(serialize(array(
+                'custom_giftcard_amount'    => $giftcardAmount,
+                'giftcard_amount'           => 'custom',
+            ))));
+        $this->_model->expects($this->once())
+            ->method('_getAmountWithinConstraints')
+            ->with($this->equalTo($this->_product), $this->equalTo($giftcardAmount), $this->equalTo(false))
+            ->will($this->returnValue($giftcardAmount));
+        $this->_model->checkProductBuyState($this->_product);
+    }
+
+    /**
+     * Test _getCustomGiftcardAmount when current currency rate is not equal
+     */
+    public function testGetCustomGiftcardAmountForDifferentRate()
+    {
+        $giftcardAmount = 11.54;
+        $storeRate = 2;
+        $this->_store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue($storeRate));
+        $this->_mockModel(array('_isStrictProcessMode', '_getAmountWithinConstraints', ));
+        $this->_preConditions();
+        $this->_setStrictProcessMode(false);
+        $this->_setGetGiftcardAmountsReturnArray();
+        $this->_quoteItemOption->expects($this->any())->method('getValue')
+            ->will($this->returnValue(serialize(array(
+                'custom_giftcard_amount'    => $giftcardAmount,
+                'giftcard_amount'           => 'custom',
+            ))));
+        $this->_model->expects($this->once())
+            ->method('_getAmountWithinConstraints')
+            ->with($this->equalTo($this->_product), $this->equalTo($giftcardAmount/$storeRate), $this->equalTo(false))
+            ->will($this->returnValue($giftcardAmount));
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -328,6 +391,11 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
     protected function _setStrictProcessMode($mode)
     {
         $this->_model->expects($this->once())->method('_isStrictProcessMode')->will($this->returnValue((bool)$mode));
+    }
+
+    protected function _setAmountWithConstraints()
+    {
+        $this->_model->expects($this->once())->method('_getAmountWithinConstraints')->will($this->returnArgument(1));
     }
 
     public function testHasWeightTrue()

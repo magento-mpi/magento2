@@ -14,7 +14,7 @@
  * @method string getMode()
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools setMode($mode)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Backend_Block_Template
 {
     /**
      * Alias of tab handle block in layout
@@ -29,12 +29,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
@@ -49,11 +49,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
      */
     public function getTabs()
     {
-        $isDisabled = $this->getMode() == Mage_DesignEditor_Model_State::MODE_NAVIGATION;
         return array(
             array(
                 'is_hidden'     => false,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-quick-styles',
                 'label'         => $this->__('Quick Styles'),
                 'content_block' => 'design_editor_tools_quick-styles',
@@ -61,7 +60,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
             ),
             array(
                 'is_hidden'     => true,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-block',
                 'label'         => $this->__('Block'),
                 'content_block' => 'design_editor_tools_block',
@@ -69,7 +68,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
             ),
             array(
                 'is_hidden'     => true,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-settings',
                 'label'         => $this->__('Settings'),
                 'content_block' => 'design_editor_tools_settings',
@@ -77,9 +76,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
             ),
             array(
                 'is_hidden'     => false,
-                'is_disabled'   => $isDisabled,
+                'is_disabled'   => false,
                 'id'            => 'vde-tab-code',
-                'label'         => $this->__('Scripts'),
+                'label'         => $this->__('Advanced'),
                 'content_block' => 'design_editor_tools_code',
                 'class'         => 'item-code'
             ),

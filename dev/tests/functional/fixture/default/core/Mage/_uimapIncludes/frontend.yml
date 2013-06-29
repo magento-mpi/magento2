@@ -17,7 +17,7 @@ frontend_header:
                         xpath: //div[@class='header']
                         links:
                             my_account: //a[@title='My Account']
-                            my_wishlist: //a[contains(@title,'My Wishlist')]
+                            my_wishlist: //a[contains(@title,'My Wish List')]
                             my_cart: //a[contains(@title,'My Cart')]
                             empty_my_cart: //a[text()='My Cart']
                             checkout: //a[@title='Checkout']
@@ -83,6 +83,13 @@ frontend_header:
                             element_with_class_not_active: "%elementXpath%[not(contains(@class,'active'))]"
                             element_by_id: "//*[@id='%elementId%']"
                             field_label: "//label[not(contains(@class,'mage-error'))][@for='%fieldId%']"
+                -
+                    customer_account_links_menu:
+                        xpath:
+                        pageelements:
+                            menu: //li[@class='customer welcome']
+                            menu_active: //li[@class='customer welcome active']
+
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"

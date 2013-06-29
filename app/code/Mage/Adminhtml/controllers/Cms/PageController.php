@@ -40,7 +40,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Content'));
+        $this->_title($this->__('Pages'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Manage Content'));
+        $this->_title($this->__('Pages'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Mage_Cms_Helper_Data')->__('An error occurred while saving the page.'));
+                    Mage::helper('Mage_Cms_Helper_Data')->__('Something went wrong while saving the page.'));
             }
 
             $this->_getSession()->setFormData($data);
@@ -190,7 +190,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             }
         }
         // display error message
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('Unable to find a page to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('We can\'t find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }

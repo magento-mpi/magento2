@@ -106,6 +106,23 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
 
     /**
+     * Factory for Mage_Usa_Model_Simplexml_Element
+     *
+     * @var Mage_Usa_Model_Simplexml_ElementFactory
+     */
+    protected $_simpleXmlElementFactory;
+
+    /**
+     * Usps constructor
+     *
+     * @param Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     */
+    public function __construct(Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
+    {
+        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+    }
+
+    /**
      * Collect and get rates
      *
      * @param Mage_Shipping_Model_Rate_Request $request
@@ -304,7 +321,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
 
         if ($this->_isUSCountry($r->getDestCountryId())) {
-            $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>');
+            $xml = $this->_simpleXmlElementFactory->create(
+                array('<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>')
+            );
             $xml->addAttribute('USERID', $r->getUserId());
             // according to usps v4 documentation
             $xml->addChild('Revision', '2');
@@ -344,7 +363,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
             $api = 'RateV4';
         } else {
-            $xml = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>');
+            $xml = $this->_simpleXmlElementFactory->create(
+                array('<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>')
+            );
             $xml->addAttribute('USERID', $r->getUserId());
             // according to usps v4 documentation
             $xml->addChild('Revision', '2');
@@ -437,7 +458,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                     ) {
                         $errorTitle = (string)$xml->Package->Error->Description;
                     } else {
-                        $errorTitle = 'Unknown error';
+                        $errorTitle = 'Sorry, something went wrong. Please try again or contact us and we\'ll try to help.';
                     }
                     $r = $this->_rawRequest;
                     $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
@@ -793,7 +814,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
          $r = $this->_rawTrackRequest;
 
          foreach ($trackings as $tracking) {
-             $xml = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>');
+             $xml = $this->_simpleXmlElementFactory->create(
+                 array('<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
+             );
              $xml->addAttribute('USERID', $r->getUserId());
 
              $trackid = $xml->addChild('TrackID');
@@ -851,7 +874,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                     ) {
                         $errorTitle = (string)$xml->TrackInfo->Error->Description;
                     } else {
-                        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Unknown error');
+                        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.');
                     }
 
                     if(isset($xml->TrackInfo) && isset($xml->TrackInfo->TrackSummary)){
@@ -1209,7 +1232,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $rootNode = 'ExpressMailLabelRequest';
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>');
+        $xmlWrap = $this->_simpleXmlElementFactory->create(
+            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+        );
         $xml = $xmlWrap->addChild($rootNode);
         $xml->addAttribute('USERID', $this->getConfigData('userid'));
         $xml->addAttribute('PASSWORD', $this->getConfigData('password'));
@@ -1296,7 +1321,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $rootNode = 'SigConfirmCertifyV3.0Request';
         }
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>');
+        $xmlWrap = $this->_simpleXmlElementFactory->create(
+            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+        );
         $xml = $xmlWrap->addChild($rootNode);
         $xml->addAttribute('USERID', $this->getConfigData('userid'));
         $xml->addChild('Option', 1);
@@ -1412,7 +1439,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         list($fromZip5, $fromZip4) = $this->_parseZip($request->getShipperAddressPostalCode());
 
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>');
+        $xmlWrap = $this->_simpleXmlElementFactory->create(
+            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+        );
         $method = '';
         if (stripos($shippingMethod, 'Priority') !== false) {
             $method = 'Priority';

@@ -30,7 +30,7 @@ class Mage_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($tagInfo, 'Tag info is not retrieved.');
         /** Assert base fields are present in the response. */
         $expectedFields = array('status', 'name', 'base_popularity', 'products');
-        $missingFields = array_diff($expectedFields, array_keys($tagInfo));
+        $missingFields = array_diff($expectedFields, array_keys((array)$tagInfo));
         $this->assertEmpty(
             $missingFields,
             sprintf("The following fields must be present in response: %s.", implode(', ', $missingFields))

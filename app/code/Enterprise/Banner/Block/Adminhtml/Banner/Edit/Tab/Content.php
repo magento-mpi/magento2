@@ -55,7 +55,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     protected $_app;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_Core_Model_App $app
@@ -63,7 +63,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Mage_Core_Model_Registry $registry,
         Mage_Core_Model_App $app,

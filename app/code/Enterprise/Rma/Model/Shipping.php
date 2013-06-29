@@ -89,7 +89,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid carrier: %s.', $carrierCode));
+            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid carrier: %s', $carrierCode));
         }
 
         $shipperRegionCode  = Mage::getModel('Mage_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
@@ -109,7 +109,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             || !$recipientAddress->getCountryId()
         ) {
             Mage::throwException(
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
+                Mage::helper('Enterprise_Rma_Helper_Data')->__('We need more information to create your shipping label(s). Please verify your store information and shipping settings.')
             );
         }
 

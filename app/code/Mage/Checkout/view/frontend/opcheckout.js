@@ -120,7 +120,7 @@ Checkout.prototype = {
             this.gotoSection('billing');
         }
         else{
-            alert(jQuery.mage.__('Please choose to register or to checkout as a guest').stripTags());
+            alert(jQuery.mage.__('Please choose to register or to checkout as a guest.').stripTags());
             return false;
         }
         document.body.fire('login:setMethod', {method : this.method});
@@ -313,7 +313,7 @@ Billing.prototype = {
     },
 
     /**
-        This method recieves the AJAX response on success.
+        This method receives AJAX response on success.
         There are 3 options: error, redirect or html with shipping options.
     */
     nextStep: function(transport){
@@ -535,7 +535,7 @@ ShippingMethod.prototype = {
     validate: function() {
         var methods = document.getElementsByName('shipping_method');
         if (methods.length==0) {
-            alert(jQuery.mage.__('Your order cannot be completed at this time as there is no shipping methods available for it. Please make necessary changes in your shipping address.').stripTags());
+            alert(jQuery.mage.__('We are not able to ship to the selected shipping address. Please choose another address or edit the current address.').stripTags());
             return false;
         }
 
@@ -548,7 +548,7 @@ ShippingMethod.prototype = {
                 return true;
             }
         }
-        alert(jQuery.mage.__('Please specify shipping method.').stripTags());
+        alert(jQuery.mage.__('Please specify a shipping method.').stripTags());
         return false;
     },
 
@@ -722,7 +722,7 @@ Payment.prototype = {
         }
         var methods = document.getElementsByName('payment[method]');
         if (methods.length==0) {
-            alert(jQuery.mage.__('Your order cannot be completed at this time as there is no payment methods available for it.').stripTags());
+            alert(jQuery.mage.__("We can't complete your order because you don't have a payment method available.").stripTags());
             return false;
         }
         for (var i=0; i<methods.length; i++) {

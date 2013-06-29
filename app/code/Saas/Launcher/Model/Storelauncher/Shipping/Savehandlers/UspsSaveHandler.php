@@ -52,6 +52,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandler
 
         // Enable USPS for checkout
         $preparedData['carriers']['usps']['fields']['active']['value'] = 1;
+        $preparedData['carriers']['usps']['fields']['mode']['value'] = 1;
 
         return $preparedData;
     }

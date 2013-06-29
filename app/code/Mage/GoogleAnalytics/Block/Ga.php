@@ -37,7 +37,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Template
      * @param string $accountId
      * @return string
      */
-    protected function _getPageTrackingCode($accountId)
+    public function getPageTrackingCode($accountId)
     {
         $pageName   = trim($this->getPageName());
         $optPageURL = '';
@@ -56,7 +56,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
      * @link http://code.google.com/apis/analytics/docs/gaJS/gaJSApiEcommerce.html#_gat.GA_Tracker_._addTrans
      * @return string
      */
-    protected function _getOrdersTrackingCode()
+    public function getOrdersTrackingCode()
     {
         $orderIds = $this->getOrderIds();
         if (empty($orderIds) || !is_array($orderIds)) {

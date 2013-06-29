@@ -16,6 +16,7 @@
             <active>false</active>
             <depends>
                 <Mage_Core/>
+                <Saas_Limitation/>
             </depends>
         </Saas_Launcher>
     </modules>
@@ -40,6 +41,13 @@
         </routers>
     </admin>
     <global>
+        <di>
+            <Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile>
+                <parameters>
+                    <limitation><instance>Saas_Limitation_Model_Catalog_Product_Limitation</instance></limitation>
+                </parameters>
+            </Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile>
+        </di>
         <resources>
             <launcher_setup>
                 <setup>
@@ -170,4 +178,15 @@
             </pages>
         </launcher>
     </adminhtml>
+    <frontend>
+        <routers>
+            <launcher>
+                <use>standard</use>
+                <args>
+                    <module>Saas_Launcher</module>
+                    <frontName>launcher</frontName>
+                </args>
+            </launcher>
+        </routers>
+    </frontend>
 </config>

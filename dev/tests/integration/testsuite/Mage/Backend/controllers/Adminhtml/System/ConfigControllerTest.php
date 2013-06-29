@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testEditAction()

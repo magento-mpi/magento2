@@ -25,7 +25,7 @@
                     <type>Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser</type>
                     <data>
                         <button translate="open">
-                            <open>Select Page or Node...</open>
+                            <open>Select a page or node.</open>
                         </button>
                     </data>
                 </helper_block>
@@ -34,7 +34,7 @@
             <anchor_text translate="label description">
                 <visible>1</visible>
                 <label>Anchor Custom Text</label>
-                <description>If empty, will use the Node or Page Name</description>
+                <description>If this value is empty, the node or page name will be used.</description>
                 <type>text</type>
             </anchor_text>
             <title translate="label">

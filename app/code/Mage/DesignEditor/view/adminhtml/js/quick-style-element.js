@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
+/*global alert*/
 (function($) {
     'use strict';
     $.widget('vde.quickStyleElement', {
@@ -33,12 +34,12 @@
         },
 
         _onChange: function() {
-            if (this.element.attr('type') == 'checkbox') {
+            if (this.element.attr('type') === 'checkbox') {
                 this.element.trigger('quickStyleElementBeforeChange');
             }
 
-            if (this.oldValue != $(this.element).val() || this.element.attr('type') == 'checkbox') {
-                this._send()
+            if (this.oldValue !== this.element.val() || this.element.attr('type') === 'checkbox') {
+                this._send();
             }
         },
 
@@ -59,6 +60,7 @@
                 url: this.options.saveQuickStylesUrl,
                 data: data,
                 dataType: 'json',
+                global: false,
                 success: $.proxy(function(response) {
                     if (response.error) {
                         alert(response.message);
@@ -67,7 +69,7 @@
                     this.element.trigger('refreshIframe');
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
         }

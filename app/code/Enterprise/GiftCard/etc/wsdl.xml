@@ -84,12 +84,12 @@
             <output message="typens:giftcardCustomerRedeemResponse" />
         </operation>
         <operation name="shoppingCartGiftcardAdd">
-            <documentation>Add giftcard to shopping cart (quote)</documentation>
+            <documentation>Add gift card to shopping cart (quote)</documentation>
             <input message="typens:shoppingCartGiftcardAddRequest" />
             <output message="typens:shoppingCartGiftcardAddResponse" />
         </operation>
         <operation name="shoppingCartGiftcardRemove">
-            <documentation>Remove giftcard from shopping cart (quote)</documentation>
+            <documentation>Remove gift card from shopping cart (quote)</documentation>
             <input message="typens:shoppingCartGiftcardRemoveRequest" />
             <output message="typens:shoppingCartGiftcardRemoveResponse" />
         </operation>

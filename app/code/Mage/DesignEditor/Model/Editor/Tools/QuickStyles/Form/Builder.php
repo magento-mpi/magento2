@@ -33,10 +33,14 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected $_elementsFactory;
 
-    /** @var Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
+    /**
+     * @var Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
+     */
     protected $_configFactory;
 
-    /** @var Mage_DesignEditor_Model_Config_Control_QuickStyles */
+    /**
+     * @var Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
     protected $_config;
 
     /**
@@ -75,7 +79,8 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         try {
             $this->_config = $this->_configFactory->create(
                 Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
-                $data['theme']
+                $data['theme'],
+                $data['parent_theme']
             );
         } catch (Magento_Exception $e) {
             $isFilePresent = false;
@@ -98,7 +103,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         }
 
         if ($this->_isFormEmpty($form)) {
-            $hintMessage = $this->__('Editing theme styles is restricted or not provided for this theme.');
+            $hintMessage = $this->__('Sorry, but you cannot edit these theme styles.');
             $form->addField($data['tab'] . '-tab-error', 'note', array(
                 'after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'
             ), '^');

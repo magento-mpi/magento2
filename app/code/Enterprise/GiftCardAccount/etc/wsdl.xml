@@ -109,7 +109,7 @@
     </message>
     <portType>
         <operation name="giftcardAccountCreate">
-            <documentation>Create gift card account</documentation>
+            <documentation>Create a gift card account</documentation>
             <input message="typens:giftcardAccountCreateRequest" />
             <output message="typens:giftcardAccountCreateResponse" />
         </operation>
@@ -119,7 +119,7 @@
             <output message="typens:giftcardAccountUpdateResponse" />
         </operation>
         <operation name="giftcardAccountRemove">
-            <documentation>Remove gift card account</documentation>
+            <documentation>Remove this gift card account</documentation>
             <input message="typens:giftcardAccountRemoveRequest" />
             <output message="typens:giftcardAccountRemoveResponse" />
         </operation>

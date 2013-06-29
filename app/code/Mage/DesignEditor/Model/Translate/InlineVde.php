@@ -65,20 +65,28 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
     protected $_isScriptInserted = false;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Initialize inline translation model specific for vde
      *
      * @param Mage_Core_Model_Translate_InlineParser $parser
      * @param Mage_DesignEditor_Helper_Data $helper
      * @param Mage_Core_Model_Url $url
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Mage_Core_Model_Translate_InlineParser $parser,
         Mage_DesignEditor_Helper_Data $helper,
-        Mage_Core_Model_Url $url
+        Mage_Core_Model_Url $url,
+        Magento_ObjectManager $objectManager
     ) {
         $this->_parser = $parser;
         $this->_helper = $helper;
         $this->_url = $url;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -134,27 +142,43 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
         }
 
         $store = $this->_parser->getStoreManager()->getStore();
-        $ajaxUrl = $this->_url->getUrl('core/ajax/translate',
-            array('_secure'=>$store->isCurrentlySecure(),
-                  '_useRealRoute' => true,
-                  '_useVdeFrontend' => true));
+        $ajaxUrl = $this->_url->getUrl('core/ajax/translate', array(
+            '_secure' => $store->isCurrentlySecure(),
+            Mage_DesignEditor_Helper_Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
+        ));
 
         /** @var $block Mage_Core_Block_Template */
-        $block = Mage::getObjectManager()->create('Mage_Core_Block_Template');
+        $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
         $block->setArea($this->_parser->getDesignPackage()->getArea());
         $block->setAjaxUrl($ajaxUrl);
-        $block->setFrameUrl($this->_helper->getCurrentHandleUrl());
+
+        $block->setFrameUrl($this->_getFrameUrl());
         $block->setRefreshCanvas($this->isAllowed());
 
         $block->setTemplate('Mage_DesignEditor::translate_inline.phtml');
         $block->setTranslateMode($this->_helper->getTranslationMode());
 
-        $html = $block->toHtml();
-
-        $this->_parser->setContent(str_ireplace('</body>', $html . '</body>', $content));
+        $this->_parser->setContent(str_ireplace('</body>', $block->toHtml() . '</body>', $content));
 
         $this->_isScriptInserted = true;
+    }
+
+    /**
+     * Generate frame url
+     *
+     * @return string
+     */
+    protected function _getFrameUrl()
+    {
+        /** @var Mage_Backend_Model_Session $backendSession */
+        $backendSession = $this->_objectManager->get('Mage_Backend_Model_Session');
+
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
+        $vdeUrlModel = $this->_objectManager->create('Mage_DesignEditor_Model_Url_NavigationMode');
+        $currentUrl = $backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
+
+        return $vdeUrlModel->getUrl(ltrim($currentUrl, '/'));
     }
 
     /**
@@ -168,7 +192,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
         $mode = self::MODE_TEXT;
         if (self::ELEMENT_SCRIPT == $tagName) {
             $mode = self::MODE_SCRIPT;
-        } else if (self::ELEMENT_IMG == $tagName) {
+        } elseif (self::ELEMENT_IMG == $tagName) {
             $mode = self::MODE_ALT;
         }
         return $mode;

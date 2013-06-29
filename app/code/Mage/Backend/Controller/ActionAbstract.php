@@ -10,6 +10,8 @@
 
 /**
  * Generic backend controller
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controller_Varien_Action
 {
@@ -53,7 +55,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected $_eventManager;
 
     /**
-     * @var Mage_Core_Model_Authorization
+     * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
 
@@ -241,7 +243,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             } elseif (Mage::getSingleton('Mage_Backend_Model_Url')->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
                 $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('Invalid Secret Key. Please refresh the page.');
+                    ->__('You entered an invalid Secret Key. Please refresh the page.');
             }
         }
         if (!$_isValidFormKey || !$_isValidSecretKey) {
@@ -434,7 +436,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
         parent::loadLayout($ids, false, $generateXml);
-        Mage::getSingleton('Mage_Core_Model_Authorization')->filterAclNodes($this->getLayout()->getNode());
+        $this->_objectManager->get('Mage_Core_Model_Layout_Filter_Acl')->filterAclNodes($this->getLayout()->getNode());
         if ($generateBlocks) {
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;

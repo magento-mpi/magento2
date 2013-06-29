@@ -12,6 +12,24 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
  extends Mage_Adminhtml_Block_Widget
  implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
 
     protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
 
@@ -136,5 +154,19 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function isReadonly()
     {
         return Mage::registry('product')->getGiftCardReadonly();
+    }
+
+    /**
+     * Return 'value-scope' attribute with specified value if is not single store mode
+     *
+     * @param string $text
+     * @return string
+     */
+    public function getScopeValue($text)
+    {
+        if ($this->_storeManager->isSingleStoreMode()) {
+            return '';
+        }
+        return 'value-scope="' . $this->_helperFactory->get('Mage_Backend_Helper_Data')->__($text) . '"';
     }
 }

@@ -95,7 +95,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
     {
         $rate = $this->_initRate();
 
-        $this->_title($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : $this->__('New Rate'));
+        $this->_title($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : $this->__('New Reward Exchange Rate'));
 
         $this->_initAction()
             ->renderLayout();
@@ -119,10 +119,10 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
 
             try {
                 $rate->save();
-                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The rate has been saved.'));
+                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('You saved the rate.'));
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError($this->__('Cannot save Rate.'));
+                $this->_getSession()->addError($this->__('We cannot save Rate.'));
                 return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
         }
@@ -139,7 +139,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
         if ($rate->getId()) {
             try {
                 $rate->delete();
-                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('The rate has been deleted.'));
+                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('You deleted the rate.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -192,7 +192,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
             );
 
             if (!$isRateUnique) {
-                $message = $this->__('Rate with the same website, customer group and direction or covering rate already exists.');
+                $message = $this->__('Sorry, but a rate with the same website, customer group and direction or covering rate already exists.');
             }
         }
 

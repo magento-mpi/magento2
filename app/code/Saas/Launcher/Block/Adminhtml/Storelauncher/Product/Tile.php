@@ -18,6 +18,33 @@
 class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Launcher_Block_Adminhtml_Tile
 {
     /**
+     * @var Saas_Limitation_Model_Limitation_Validator
+     */
+    protected $_limitationValidator;
+
+    /**
+     * @var Saas_Limitation_Model_Limitation_LimitationInterface
+     */
+    protected $_limitation;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Saas_Limitation_Model_Limitation_Validator $limitationValidator
+     * @param Saas_Limitation_Model_Limitation_LimitationInterface $limitation
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Saas_Limitation_Model_Limitation_Validator $limitationValidator,
+        Saas_Limitation_Model_Limitation_LimitationInterface $limitation,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_limitationValidator = $limitationValidator;
+        $this->_limitation = $limitation;
+    }
+
+    /**
      * Retrieve the number of products created in the system
      *
      * @return int
@@ -35,13 +62,17 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Laun
      */
     public function getTileState()
     {
-        $tileState = parent::getTileState();
-        // This logic has been added for optimization purposes (in order not to listen to product creation events)
-        // Product tile is considered complete even when product is created not from the Product Tile
-        if (!$this->getTile()->isComplete()) {
-            $this->getTile()->refreshState();
-            $tileState = $this->getTile()->getState();
-        }
-        return $tileState;
+        $this->getTile()->refreshState();
+        return parent::getTileState();
+    }
+
+    /**
+     * Check whether adding a product is restricted
+     *
+     * @return bool
+     */
+    public function isAddProductRestricted()
+    {
+        return $this->_limitationValidator->exceedsThreshold($this->_limitation);
     }
 }

@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_FormTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCase
 {
     public function testDependenceHtml()
     {
@@ -215,7 +218,7 @@ class Mage_Backend_Block_System_Config_FormTest extends Mage_Backend_Area_TestCa
             /** @var $element Varien_Data_Form_Element_Fieldset */
             $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $element);
             $this->assertArrayHasKey($element->getId(), $expectedIds);
-            $fields = $element->getSortedElements();
+            $fields = $element->getElements();
             $this->assertEquals(count($expectedIds[$element->getId()]), count($fields));
             foreach ($element->getElements() as $field) {
                 $this->assertArrayHasKey($field->getId(), $expectedIds[$element->getId()]);
