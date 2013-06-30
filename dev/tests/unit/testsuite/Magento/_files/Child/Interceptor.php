@@ -16,7 +16,7 @@ class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
     /**
      * @var Magento_ObjectManager
      */
-    protected $_objectManager;
+    protected $_factory;
 
     /**
      * @var array
@@ -24,35 +24,66 @@ class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
     protected $_plugins = array();
 
     /**
+     * @var Magento_ObjectManager_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @var array
      */
     protected $_pluginList = array();
 
-    public function __construct(Magento_ObjectManager $objectManager, $pluginList)
-    {
-        $this->_objectManager = $objectManager;
+    /**
+     * @var string
+     */
+    protected $_subjectType;
+
+    /**
+     * @var array
+     */
+    protected $_arguments;
+
+    public function __construct(
+        Magento_ObjectManager_Factory $factory,
+        Magento_ObjectManager_ObjectManager $objectManager,
+        $subjectType,
+        $pluginList,
+        $arguments
+    ) {
+        $this->_factory = $factory;
         $this->_pluginList = $pluginList;
+        $this->_objectManager = $objectManager;
+        $this->_subjectType = $subjectType;
+        $this->_arguments = $arguments;
     }
 
+    /**
+     * @return object
+     */
     protected function _getSubject()
     {
-        return $this->_objectManager->get('Magento_Test_Di_Child');
+        return $this->_factory->create($this->_subjectType, $this->_arguments);
     }
 
     public function wrap($param)
     {
-        foreach ($this->_pluginList as $key => $plugin) {
-            if (!isset($this->_plugins[$key])) {
-                $this->_plugins[$key] = $this->_objectManager->get($plugin['instance']);
-            }
-            if (is_callable(array($this->_plugins[$key], 'wrapBefore'))) {
-                $param = $this->_plugins[$key]->wrapBefore($param);
+        $beforeFunc = __FUNCTION__ . 'Before';
+        if (isset($this->_pluginList[$beforeFunc])) {
+            foreach ($this->_pluginList[$beforeFunc] as $plugin) {
+                $param = $this->_objectManager->get($plugin)->$beforeFunc($param);
             }
         }
-        $returnValue = $this->_getSubject()->wrap($param);
-        foreach (array_reverse($this->_plugins) as $key => $plugin) {
-            if (is_callable(array($this->_plugins[$key], 'wrapAfter'))) {
-                $returnValue = $this->_plugins[$key]->wrapAfter($returnValue);
+        $insteadFunc = __FUNCTION__;
+        if (isset($this->_pluginList[$insteadFunc])) {
+            $first = reset($this->_pluginList[$insteadFunc]);
+            $returnValue = $this->_objectManager->get($first)->$insteadFunc();
+        } else {
+            $returnValue = $this->_getSubject()->wrap($param);
+        }
+        $afterFunc = __FUNCTION__ . 'After';
+        if (isset($this->_pluginList[$afterFunc])) {
+            foreach (array_reverse($this->_pluginList[$afterFunc]) as $plugin) {
+                $returnValue = $this->_objectManager->get($plugin)->$afterFunc($returnValue);
             }
         }
         return $returnValue;
