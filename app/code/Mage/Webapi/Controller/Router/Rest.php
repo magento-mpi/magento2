@@ -73,8 +73,6 @@ class Mage_Webapi_Controller_Router_Rest
         if (isset($matches[1])) {
             $version = $matches[1];
             $request->setResourceVersion($version);
-            /** Remove version from path info is set */
-            $request->setPathInfo(preg_replace($versionPattern, '', $request->getPathInfo()));
         }
     }
 }

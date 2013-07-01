@@ -308,7 +308,7 @@ class Mage_Webapi_Config
      */
     public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
     {
-        $baseUrlRegExp = '/^\/\w+/';
+        $baseUrlRegExp = '#^/\w+/\w+#';
         preg_match($baseUrlRegExp, $request->getPathInfo(), $matches);
         $serviceBaseUrl = isset($matches[0]) ? $matches[0] : null;
         $httpMethod = $request->getHttpMethod();

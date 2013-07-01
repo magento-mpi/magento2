@@ -14,20 +14,20 @@ class Mage_Webapi_RoutingTest extends Magento_Test_TestCase_WebapiAbstract
      */
     public function testBasicRouting()
     {
-        $productId = 1;
+        $itemId = 1;
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/products/' . $productId,
+                'resourcePath' => '/V1/testmodule1/' . $itemId,
                 'httpMethod' => 'GET'
             ),
             'soap' => array(
-                'service' => 'catalogProduct',
+                'service' => 'testModule1AllSoapAndRest',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductItem'
+                'operation' => 'testModule1AllSoapAndRestItem'
             )
         );
-        $requestData = array('entity_id' => $productId);
-        $product = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($productId, $product['entity_id'], "Product was retrieved unsuccessfully");
+        $requestData = array('id' => $itemId);
+        $item = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($itemId, $item['id'], "Item was retrieved unsuccessfully");
     }
 }
