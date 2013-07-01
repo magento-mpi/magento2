@@ -43,36 +43,15 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         array $configuration = array(),
         array $sharedInstances = array()
     ) {
-        $this->_factory = new Magento_ObjectManager_Factory_InterceptionDecorator(
-            new Magento_ObjectManager_Factory($this, $definition),
-            $this
+        $this->_config = new Magento_ObjectManager_Config();
+        $this->_config->extend($configuration);
+        $this->_factory = new Magento_ObjectManager_Interception_FactoryDecorator(
+            new Magento_ObjectManager_Factory($this, $this->_config, $definition),
+            $this,
+            $this->_config
         );
         $this->_sharedInstances = $sharedInstances;
         $this->_sharedInstances['Magento_ObjectManager'] = $this;
-        $this->configure($configuration);
-    }
-
-    /**
-     * Resolve Class name
-     *
-     * @param string $className
-     * @return string
-     * @throws LogicException
-     */
-    protected function _resolvePreferences($className)
-    {
-        $preferencePath = array();
-        while (isset($this->_preferences[$className])) {
-            if (isset($preferencePath[$this->_preferences[$className]])) {
-                throw new LogicException(
-                    'Circular type preference: ' . $className . ' relates to '
-                        . $this->_preferences[$className] . ' and viceversa.'
-                );
-            }
-            $className = $this->_preferences[$className];
-            $preferencePath[$className] = 1;
-        }
-        return $className;
     }
 
     /**
@@ -84,10 +63,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function create($type, array $arguments = array())
     {
-        if (isset($this->_preferences[$type])) {
-            $type = $this->_resolvePreferences($type);
-        }
-        return $this->_factory->create($type, $arguments);
+        return $this->_factory->create($this->_config->getPreference($type), $arguments);
     }
 
     /**
@@ -98,9 +74,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function get($type)
     {
-        if (isset($this->_preferences[$type])) {
-            $type = $this->_resolvePreferences($type);
-        }
+        $type = $this->_config->getPreference($type);
         if (!isset($this->_sharedInstances[$type])) {
             $this->_sharedInstances[$type] = $this->_factory->create($type);
         }
@@ -114,10 +88,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function configure(array $configuration)
     {
-        if (isset($configuration['preferences'])) {
-            $this->_preferences = array_replace($this->_preferences, $configuration['preferences']);
-            unset($configuration['preferences']);
-        }
-        $this->_factory->configure($configuration);
+        $this->_config->extend($configuration);
     }
 }

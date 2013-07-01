@@ -13,6 +13,11 @@ class Magento_ObjectManager_Factory
     protected $_objectManager;
 
     /**
+     * @var Magento_ObjectManager_Config
+     */
+    protected $_config;
+
+    /**
      * Definition list
      *
      * @var Magento_ObjectManager_Definition
@@ -49,12 +54,16 @@ class Magento_ObjectManager_Factory
 
     /**
      * @param Magento_ObjectManager_ObjectManager $objectManager
+     * @param Magento_ObjectManager_Config $config
      * @param Magento_ObjectManager_Definition $definitions
      */
     public function __construct(
-        Magento_ObjectManager_ObjectManager $objectManager, Magento_ObjectManager_Definition $definitions = null
+        Magento_ObjectManager_ObjectManager $objectManager,
+        Magento_ObjectManager_Config $config,
+        Magento_ObjectManager_Definition $definitions = null
     ) {
         $this->_objectManager = $objectManager;
+        $this->_config = $config;
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
     }
 
@@ -74,9 +83,7 @@ class Magento_ObjectManager_Factory
     protected function _resolveArguments($requestedType, array $parameters, array $arguments = array())
     {
         $resolvedArguments = array();
-        if (isset($this->_arguments[$requestedType])) {
-            $arguments = array_replace($this->_arguments[$requestedType], $arguments);
-        }
+        $arguments = $this->_config->getArguments($requestedType, $arguments);
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
             $argument = null;
@@ -107,7 +114,7 @@ class Magento_ObjectManager_Factory
                 }
                 $this->_creationStack[$requestedType] = 1;
 
-                $isShared = (!isset($argument['shared']) && !isset($this->_nonShared[$argumentType]))
+                $isShared = (!isset($argument['shared']) && $this->_config->isShared($argumentType))
                     || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
                 $argument = $isShared
                     ? $this->_objectManager->get($argumentType)
@@ -119,20 +126,6 @@ class Magento_ObjectManager_Factory
         return $resolvedArguments;
     }
 
-
-    /**
-     * Resolve instance name
-     *
-     * @param string $instanceName
-     * @return string
-     */
-    protected function _resolveInstanceType($instanceName)
-    {
-        while (isset($this->_virtualTypes[$instanceName])) {
-            $instanceName = $this->_virtualTypes[$instanceName];
-        }
-        return $instanceName;
-    }
 
     /**
      * Create instance with call time arguments
@@ -147,7 +140,7 @@ class Magento_ObjectManager_Factory
      */
     public function create($requestedType, array $arguments = array())
     {
-        $type = $this->_resolveInstanceType($requestedType);
+        $type = $this->_config->getInstanceType($requestedType);
         $parameters = $this->_definitions->getParameters($type);
         if ($parameters == null) {
             return new $type();
@@ -242,34 +235,6 @@ class Magento_ObjectManager_Factory
             default:
                 $reflection = new \ReflectionClass($type);
                 return $reflection->newInstanceArgs($args);
-        }
-    }
-
-    /**
-     * Configure factory
-     *
-     * @param array $configuration
-     */
-    public function configure(array $configuration)
-    {
-        foreach ($configuration as $key => $curConfig) {
-            if (isset($curConfig['type'])) {
-                $this->_virtualTypes[$key] = $curConfig['type'];
-            }
-            if (isset($curConfig['parameters'])) {
-                if (isset($this->_arguments[$key])) {
-                    $this->_arguments[$key] = array_replace($this->_arguments[$key], $curConfig['parameters']);
-                } else {
-                    $this->_arguments[$key] = $curConfig['parameters'];
-                }
-            }
-            if (isset($curConfig['shared'])) {
-                if (!$curConfig['shared'] || $curConfig['shared'] == 'false') {
-                    $this->_nonShared[$key] = 1;
-                } else {
-                    unset($this->_nonShared[$key]);
-                }
-            }
         }
     }
 }

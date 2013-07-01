@@ -7,17 +7,70 @@
  */
 class Magento_ObjectManager_Config
 {
+    /**
+     * Interface preferences
+     *
+     * @var array
+     */
     protected $_preferences = array();
 
+    /**
+     * Virtual types
+     *
+     * @var array
+     */
     protected $_virtualTypes = array();
 
+    /**
+     * Instance arguments
+     *
+     * @var array
+     */
     protected $_arguments = array();
 
+    /**
+     * Type sharebility
+     *
+     * @var array
+     */
     protected $_nonShared = array();
 
+    /**
+     * Plugin configuration
+     *
+     * @var array
+     */
     protected $_plugins = array();
 
     /**
+     * Retrieve list of arguments per type
+     *
+     * @param string $type
+     * @param array $arguments
+     * @return array
+     */
+    public function getArguments($type, $arguments)
+    {
+        if (isset($this->_arguments[$type])) {
+            $arguments = array_replace($this->_arguments[$type], $arguments);
+        }
+        return $arguments;
+    }
+
+    /**
+     * Check whether type is shared
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function isShared($type)
+    {
+        return !isset($this->_nonShared[$type]);
+    }
+
+    /**
+     * Retrieve instance type
+     *
      * @param string $instanceName
      * @return mixed
      */
@@ -30,6 +83,8 @@ class Magento_ObjectManager_Config
     }
 
     /**
+     * Retrieve preference for type
+     *
      * @param string $type
      * @return string
      * @throws LogicException
@@ -51,6 +106,8 @@ class Magento_ObjectManager_Config
     }
 
     /**
+     * Check whether type has configured plugins
+     *
      * @param string $type
      * @return bool
      */
@@ -60,20 +117,46 @@ class Magento_ObjectManager_Config
     }
 
     /**
+     * Retrieve list of plugins
+     *
      * @param string $type
      * @return array
      */
-    public function getPluginList($type)
+    public function getPlugins($type)
     {
-        $sortedList = array();
-
+        usort($this->_plugins[$type], array($this, '_sort'));
+        return $this->_plugins[$type];
     }
 
 
     /**
-     * @param array $configuration
+     * Sorting function used to sort interceptors
+     *
+     * @param string $interceptorA
+     * @param string $interceptorB
+     * @return int
      */
-    public function merge(array $configuration)
+    protected function _sort($interceptorA, $interceptorB)
+    {
+        if (isset($interceptorA['sortOrder'])) {
+            if (isset($interceptorB['sortOrder'])) {
+                return $interceptorA['sortOrder'] - $interceptorB['sortOrder'];
+            }
+            return $interceptorA['sortOrder'];
+        } else if (isset($interceptorB['sortOrder'])) {
+            return $interceptorB['sortOrder'];
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * Extend configuration
+     *
+     * @param array $configuration
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function extend(array $configuration)
     {
         foreach ($configuration as $key => $curConfig) {
             switch ($key) {
@@ -99,8 +182,12 @@ class Magento_ObjectManager_Config
                             unset($this->_nonShared[$key]);
                         }
                     }
-                    if (isset($curConfig['interceptors'])) {
-                        $this->_plugins[$key] = $curConfig['interceptors'];
+                    if (isset($curConfig['plugins'])) {
+                        if (isset($this->_plugins[$key])) {
+                            $this->_plugins[$key] = array_replace($this->_plugins[$key], $curConfig['plugins']);
+                        } else {
+                            $this->_plugins[$key] = $curConfig['plugins'];
+                        }
                     }
                     break;
             }
