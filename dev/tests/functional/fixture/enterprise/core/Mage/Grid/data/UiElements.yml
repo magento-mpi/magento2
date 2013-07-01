@@ -231,7 +231,7 @@ admin_action_log_archive:
     headers:
         0: Archive File
         1: Date
-        
+
 #dataset for ui elements in Manage Invitations grid
 manage_invitations:
     fieldset:
@@ -272,7 +272,7 @@ manage_invitations:
         6: Status
         7: Valid on Website
         8: Invitee Group
-        
+
 #dataset for ui elements in Customer Segment Report grid
 customer_segment_report:
     fieldset:
@@ -303,4 +303,75 @@ customer_segment_report:
         2: Segment Name
         3: Status
         4: Website
-        5: Number of Customers        
+        5: Number of Customers
+
+#dataset for ui elements in Admin Action Log Report grid
+admin_action_log_report:
+    fieldset:
+        action_logs_grid: tablename
+    button:
+        reset_filter:
+        search:
+        export:
+    field:
+        page:
+        short_details:
+        action_name:
+        action_ip:
+        action_time_from:
+        action_time_to:
+        action_full_name:
+        action_short_details:
+    dropdown:
+        action_username:
+        action_status:
+        action_group:
+        view_per_page:
+        export_to:
+        action:
+    headers:
+        0: Time
+        1: Action Group
+        2: Action
+        3: IP Address
+        4: Username
+        5: Result
+        6: Full Action Name
+        7: Short Details
+        8: Full Details
+
+#dataset for ui elements in Gift Card Account grid
+manage_gift_card_account:
+    fieldset:
+        customer_segment_grid: tablename
+    button:
+        reset_filter:
+        search:
+        export:
+        submit:
+    field:
+        filter_code:
+        filter_id_from:
+        filter_id_to:
+        filter_date_created_from:
+        filter_date_created_to:
+        filter_expiration_data_from:
+        filter_expiration_data_to:
+        filter_balance_from:
+        filter_balance_to:
+    dropdown:
+        filter_website:
+        filter_active:
+        filter_status:
+        actions:
+        export_to:
+    headers:
+        0: ' '
+        1: ID
+        2: Code
+        3: Website
+        4: Created
+        5: End on
+        6: Active
+        7: Status
+        8: Balance

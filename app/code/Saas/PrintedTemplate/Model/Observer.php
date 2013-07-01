@@ -237,7 +237,8 @@ class Saas_PrintedTemplate_Model_Observer
     public function removeWidgetsFromWidgetInstanceGridFilter(Varien_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!($block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Grid)) {
+        if (!($block->getNameInLayout() == 'adminhtml.widget.instance.grid.container' &&
+            $block instanceof Mage_Adminhtml_Block_Widget_Grid)) {
             return $this;
         }
 
