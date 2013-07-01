@@ -12,6 +12,11 @@
 class Mage_Core_Model_View_Url
 {
     /**
+     * XPath for configuration setting of signing static files
+     */
+    const XML_PATH_STATIC_FILE_SIGNATURE = 'dev/static/sign';
+
+    /**
      * @var Magento_Filesystem
      */
     protected $_filesystem;
@@ -132,6 +137,6 @@ class Mage_Core_Model_View_Url
      */
     protected function _isStaticFilesSigned()
     {
-        return (bool)Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE);
+        return (bool)Mage::getStoreConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
     }
 }

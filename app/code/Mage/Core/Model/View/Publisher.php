@@ -26,6 +26,19 @@ class Mage_Core_Model_View_Publisher
     const CONTENT_TYPE_XML   = 'xml';
     /**#@-*/
 
+    /**#@+
+     * Public directories prefix group
+     */
+    const PUBLIC_MODULE_DIR = '_module';
+    const PUBLIC_VIEW_DIR   = '_view';
+    const PUBLIC_THEME_DIR  = '_theme';
+    /**#@-*/
+
+    /**
+     * Path to configuration node that indicates how to materialize view files: with or without "duplication"
+     */
+    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
+
     /**
      * @var Magento_Filesystem
      */
@@ -150,7 +163,7 @@ class Mage_Core_Model_View_Publisher
     protected function _buildPublishedFilePath($filePath, $params, $sourcePath)
     {
         $allowPublication = (string)Mage::getConfig()->getNode(
-            Mage_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION
+            self::XML_PATH_ALLOW_DUPLICATION
         );
         $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
         if ($allowPublication || $isCssFile) {
@@ -222,9 +235,9 @@ class Mage_Core_Model_View_Publisher
         if ($theme->getThemePath()) {
             $designPath = str_replace('/', DS, $theme->getThemePath());
         } elseif ($theme->getId()) {
-            $designPath = Mage_Core_Model_Design_Package::PUBLIC_THEME_DIR . $theme->getId();
+            $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
         } else {
-            $designPath = Mage_Core_Model_Design_Package::PUBLIC_VIEW_DIR;
+            $designPath = self::PUBLIC_VIEW_DIR;
         }
 
         $publicFile = $params['area'] . DS . $designPath . DS . $params['locale'] .
@@ -251,7 +264,7 @@ class Mage_Core_Model_View_Publisher
             $module = $params['module'];
             $moduleDir = Mage::getModuleDir('theme', $module) . DS;
             $publicFile = substr($filename, strlen($moduleDir));
-            $publicFile = Mage_Core_Model_Design_Package::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
+            $publicFile = self::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
         }
         return $publicFile;
     }
