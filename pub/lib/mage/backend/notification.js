@@ -37,7 +37,7 @@
             try {
                 var response = $.parseJSON(jqXHR.responseText);
                 if (response && response.error && response.message) {
-                    $('.messages').append($.tmpl('globalNotification', response));
+                    this.element.find('[data-container="messages"]').append($.tmpl('globalNotification', response));
                 }
             } catch(e) {}
         }
