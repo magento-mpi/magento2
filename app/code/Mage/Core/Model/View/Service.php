@@ -13,6 +13,11 @@
 class Mage_Core_Model_View_Service
 {
     /**
+     * Scope separator
+     */
+    const SCOPE_SEPARATOR = '::';
+
+    /**
      * @var Mage_Core_Model_App_State
      */
     protected $_appState;
@@ -53,10 +58,10 @@ class Mage_Core_Model_View_Service
         if (preg_match('/\.\//', str_replace('\\', '/', $fileId))) {
             throw new Magento_Exception("File name '{$fileId}' is forbidden for security reasons.");
         }
-        if (strpos($fileId, Mage_Core_Model_Design_Package::SCOPE_SEPARATOR) === false) {
+        if (strpos($fileId, Mage_Core_Model_View_Service::SCOPE_SEPARATOR) === false) {
             $file = $fileId;
         } else {
-            $fileId = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $fileId);
+            $fileId = explode(Mage_Core_Model_View_Service::SCOPE_SEPARATOR, $fileId);
             if (empty($fileId[0])) {
                 throw new Magento_Exception('Scope separator "::" cannot be used without scope identifier.');
             }

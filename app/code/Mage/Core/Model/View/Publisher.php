@@ -11,6 +11,21 @@
 
 class Mage_Core_Model_View_Publisher
 {
+    /**#@+
+     * Extensions group for static files
+     */
+    const CONTENT_TYPE_CSS = 'css';
+    const CONTENT_TYPE_JS  = 'js';
+    /**#@-*/
+
+    /**#@+
+     * Protected extensions group for publication mechanism
+     */
+    const CONTENT_TYPE_PHP   = 'php';
+    const CONTENT_TYPE_PHTML = 'phtml';
+    const CONTENT_TYPE_XML   = 'xml';
+    /**#@-*/
+
     /**
      * @var Magento_Filesystem
      */
@@ -105,7 +120,7 @@ class Mage_Core_Model_View_Publisher
         $targetPath = $this->_buildPublishedFilePath($filePath, $params, $sourcePath);
 
         /* Validate whether file needs to be published */
-        $isCssFile = $this->_getExtension($filePath) == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
+        $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
         if ($isCssFile) {
             $cssContent = $this->_getPublicCssContent($sourcePath, $targetPath, $filePath, $params);
         }
@@ -137,7 +152,7 @@ class Mage_Core_Model_View_Publisher
         $allowPublication = (string)Mage::getConfig()->getNode(
             Mage_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION
         );
-        $isCssFile = $this->_getExtension($filePath) == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
+        $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
         if ($allowPublication || $isCssFile) {
             $targetPath = $this->_buildPublicViewRedundantFilename($filePath, $params);
         } else {
@@ -164,9 +179,9 @@ class Mage_Core_Model_View_Publisher
         }
 
         $protectedExtensions = array(
-            Mage_Core_Model_Design_Package::CONTENT_TYPE_PHP,
-            Mage_Core_Model_Design_Package::CONTENT_TYPE_PHTML,
-            Mage_Core_Model_Design_Package::CONTENT_TYPE_XML
+            self::CONTENT_TYPE_PHP,
+            self::CONTENT_TYPE_PHTML,
+            self::CONTENT_TYPE_XML
         );
         if (in_array($this->_getExtension($filePath), $protectedExtensions)) {
             return false;
@@ -178,7 +193,7 @@ class Mage_Core_Model_View_Publisher
         }
 
         return ($this->_viewService->getAppMode() == Mage_Core_Model_App_State::MODE_DEVELOPER)
-            && $this->_getExtension($filePath) == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
+            && $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
     }
 
     /**
@@ -291,7 +306,7 @@ class Mage_Core_Model_View_Publisher
      */
     protected function _getRelatedViewFile($fileId, $parentFilePath, $parentFileName, &$params)
     {
-        if (strpos($fileId, Mage_Core_Model_Design_Package::SCOPE_SEPARATOR)) {
+        if (strpos($fileId, Mage_Core_Model_View_Service::SCOPE_SEPARATOR)) {
             $filePath = $this->_viewService->extractScope($fileId, $params);
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
