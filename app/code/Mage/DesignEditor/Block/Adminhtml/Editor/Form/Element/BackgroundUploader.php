@@ -53,7 +53,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             'title'   => $checkboxTitle,
             'label'   => 'Tile Background',
             'class'   => 'element-checkbox',
-            'value'   => 'repeat',
+            'value'   => ($checkboxData['value'] == 'disabled') ? 'disabled' : 'repeat',
             'checked' => $checkboxData['value'] == 'repeat'
         ))->setUncheckedValue('no-repeat');
 
@@ -112,6 +112,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
         throw new Mage_Core_Exception(
             $this->_helper->__('Element "%s" is not found in "%s".', $imageUploaderId, $this->getData('name'))
         );
+    }
+
+    /**
+     * Return if this element is available to be displayed.
+     *
+     * @return bool
+     */
+    public function isTileAvailable()
+    {
+        return $this->getCheckboxElement()->getData('value') != 'disabled';
     }
 }
 

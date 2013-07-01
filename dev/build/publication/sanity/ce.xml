@@ -141,5 +141,14 @@
             <word>enterprise</word>
             <path>dev/tools/translate/generate_emailtemplates.php</path>
         </item>
+        <item>
+            <word>saas</word>
+            <path>dev/tests/static/testsuite/Legacy/_files/</path>
+        </item>
+        <item>
+            <word>saas</word>
+            <word>enterprise</word>
+            <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
+        </item>
     </whitelist>
 </config>

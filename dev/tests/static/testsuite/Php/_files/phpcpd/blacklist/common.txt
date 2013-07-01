@@ -72,6 +72,7 @@ lib/Mage/HTTP/Client
 lib/Magento/Acl
 lib/PEAR
 lib/phpseclib
+lib/Twig
 lib/Varien/Convert
 Mage/Cron/Model
 Mage/SalesRule/Model/Resource/Report/Rule

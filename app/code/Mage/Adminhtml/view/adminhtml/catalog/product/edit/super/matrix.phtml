@@ -58,7 +58,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
             <tbody>
             <?php
             $isEven = true;
-            $productPrice = (float)$this->_getProduct()->getPrice();
+            $productPrice = (float)$this->getProduct()->getPrice();
             foreach ($variations as $variation) {
                 $attributeValues = array();
                 $attributeLabels = array();
@@ -92,7 +92,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         <div class="action-upload"<?php if ($image): ?> style="display:none"<?php endif;?>>
                             <span><?php echo $this->__('Upload Image'); ?></span>
                             <input name="image" type="file" disabled="disabled"
-                                   data-url="<?php echo $this->escapeHtml($this->_getImageUploadUrl()) ?>"
+                                   data-url="<?php echo $this->escapeHtml($this->getImageUploadUrl()) ?>"
                                    title="<?php echo $this->__('Upload Image'); ?>" />
                             <input id="product-<?php echo $product->getId()?>-variation-image"
                                    value="<?php echo $image?>" type="hidden"/>
@@ -142,8 +142,8 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                 </tr>
                     <?php
                 } else {
-                    $checked = $this->_getProduct()->getId() && !$this->_getProduct()->dataHasChangedFor('type_id') ? '' : ' checked="checked"';
-                    $disabled = $this->_getProduct()->getId() && !$this->_getProduct()->dataHasChangedFor('type_id') ? ' disabled="disabled"' : '';
+                    $checked = $this->getProduct()->getId() && !$this->getProduct()->dataHasChangedFor('type_id') ? '' : ' checked="checked"';
+                    $disabled = $this->getProduct()->getId() && !$this->getProduct()->dataHasChangedFor('type_id') ? ' disabled="disabled"' : '';
                     ?>
                 <tr class="<?php echo $isEven ? 'even' : '' ?>">
                     <td class="col-display">
@@ -153,7 +153,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <td class="col-image">
                         <div class="action-upload">
                             <span><?php echo $this->__('Upload Image'); ?></span>
-                            <input data-url="<?php echo $this->escapeHtml($this->_getImageUploadUrl()) ?>"
+                            <input data-url="<?php echo $this->escapeHtml($this->getImageUploadUrl()) ?>"
                                    title="<?php echo $this->__('Upload Image'); ?>"
                                    type="file" name="image" <?php echo $disabled;?>/>
                             <input id="variations-matrix-<?php echo $key?>-image"
@@ -165,7 +165,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         <input type="text"
                                id="variations-matrix-<?php echo $key?>-name"
                                name="variations-matrix[<?php echo $key?>][name]"
-                               value="<?php echo $this->escapeHtml($this->_getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
+                               value="<?php echo $this->escapeHtml($this->getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('name'); ?>"<?php echo $disabled?>/>
                         <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
                                value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
@@ -179,7 +179,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         <input type="text"
                                id="variations-matrix-<?php echo $key?>-sku"
                                name="variations-matrix[<?php echo $key?>][sku]"
-                               value="<?php echo $this->escapeHtml($this->_getProduct()->getSku()), '-', implode('-', $attributeLabels)?>"
+                               value="<?php echo $this->escapeHtml($this->getProduct()->getSku()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('sku'); ?>"<?php echo $disabled?>/>
                     </td>
                     <td class="col-price" data-column="price">
@@ -197,7 +197,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                id="variations-matrix-<?php echo $key?>-weight"
                                name="variations-matrix[<?php echo $key?>][weight]"
                                class="<?php echo str_replace('required-entry', '', $this->getAttributeFrontendClass('weight')); ?>"
-                               value="<?php echo $this->_getProduct()->getWeight()?>"<?php echo $disabled?>>
+                               value="<?php echo $this->getProduct()->getWeight()?>"<?php echo $disabled?>>
                     </td>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {

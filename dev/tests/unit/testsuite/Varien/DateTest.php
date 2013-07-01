@@ -45,12 +45,13 @@ class Varien_DateTest extends PHPUnit_Framework_TestCase
      */
     public function formatDateDataProvider()
     {
+        $date = new Zend_Date();
         return array(
             'null' => array(null, false, ''),
             'Bool true' => array(true, false, date('Y-m-d')),
             'Bool false' => array(false, false, ''),
-            'Zend Date' => array(new Zend_Date(), false, date('Y-m-d')),
-            'Zend Date including Time' => array(new Zend_Date(), true, date('Y-m-d H:i:s')),
+            'Zend Date' => array($date, false, date('Y-m-d', $date->getTimestamp())),
+            'Zend Date including Time' => array($date, true, date('Y-m-d H:i:s', $date->getTimestamp())),
         );
     }
 }

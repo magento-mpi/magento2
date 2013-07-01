@@ -471,21 +471,21 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             ->with($imagePath)
             ->will($this->returnValue($imagePath));
 
-        $filesystem::staticExpects($this->any())
+        $this->_filesystem->expects($this->any())
             ->method('isPathInDirectory')
             ->with($imagePath, $storagePath)
             ->will($this->returnValue(true));
 
-        $filesystem::staticExpects($this->any())
+        $this->_filesystem->expects($this->any())
             ->method('isPathInDirectory')
             ->with($imagePath, $this->_storageRoot)
             ->will($this->returnValue(true));
 
-        $this->_filesystem->expects($this->at(0))
+        $this->_filesystem->expects($this->at(2))
             ->method('delete')
             ->with($imagePath);
 
-        $this->_filesystem->expects($this->at(1))
+        $this->_filesystem->expects($this->at(3))
             ->method('delete')
             ->with($thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . $image);
 

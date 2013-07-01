@@ -38,7 +38,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
     public function indexAction()
     {
-        $this->_title($this->__('Shopping Cart Price Rules'));
+        $this->_title($this->__('Cart Price Rules'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'), Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'))

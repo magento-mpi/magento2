@@ -102,7 +102,7 @@ gContentAttribute = new Gcontent.Attribute(attributesSelectTemplate);
 <script type="text/javascript">
 //<![CDATA[
     <?php foreach ($this->getAttributesData() as $data): ?>
-        gContentAttribute.add(<?php echo $this->_toJson($data) ?>);
+        gContentAttribute.add(<?php echo $this->jsonFormat($data) ?>);
     <?php endforeach; ?>
 //]]>
 </script>

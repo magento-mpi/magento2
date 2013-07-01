@@ -93,7 +93,7 @@ home:
                 tenant_deleted: //ul[@class="msg_success" and contains(.//*,'Tenant removed successfully')]
                 flushed_config: //ul[@class="msg_success" and contains(.//*,'Tenant config flushed successfully')]
                 cleared_js_css: //ul[@class="msg_success" and contains(.//*,'Cached CSS & JS files deleted')]
-                error: //b[normalize-space (text()) ='No records found']
+                error: //b[normalize-space (text()) ="We couldn't find any records."]
                 tenant_upgraded: //ul[@class="msg_success" and contains(.//*,'Tenant %tenantId% has been successfully added to queue for upgrade to version %upgradeVersion%.')]
                 tenant_added_queue_upgrade: //ul[@class="msg_success" and contains(.//*,'Tenant %tenantId% has been successfully added to queue for upgrade to version %versionTo%.')]
                 admin_created_tmt: //ul[@class="msg_success" and contains(.//*,'Account added successfully')]
@@ -114,7 +114,7 @@ manage_tenants:
             tenant_deleted: //ul[@class="msg_success" and contains(.//*,'Tenant removed successfully')]
             flushed_config: //ul[@class="msg_success" and contains(.//*,'Tenant config flushed successfully')]
             cleared_js_css: //ul[@class="msg_success" and contains(.//*,'Cached CSS & JS files deleted')]
-            error: //b[normalize-space (text()) ='No records found']
+            error: //b[normalize-space (text()) ="We couldn't find any records."]
             tenant_upgraded: //ul[@class="msg_success" and contains(.,'Tenant %tenantId% has been successfully added to queue for upgrade to version %upgradeVersion%.')]
             tenant_added_queue_upgrade: //ul[@class="msg_success" and contains(.,'Tenant %tenantId% has been successfully added to queue for upgrade to version %versionTo%.')]
 

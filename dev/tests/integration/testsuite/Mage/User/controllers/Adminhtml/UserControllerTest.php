@@ -53,7 +53,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
     {
         $this->_createNew();
         $this->assertSessionMessages(
-            $this->equalTo(array('The user has been saved.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the user.')), Mage_Core_Model_Message::SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/index/'));
     }

@@ -189,8 +189,7 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
             ->with($imagePath)
             ->will($this->returnValue(true));
 
-        $filesystem = $this->_filesystem;
-        $filesystem::staticExpects($this->atLeastOnce())
+        $this->_filesystem->expects($this->atLeastOnce())
             ->method('isPathInDirectory')
             ->with($imagePath, $storageRoot)
             ->will($this->returnValue(true));

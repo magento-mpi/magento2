@@ -78,6 +78,7 @@
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
                 <Mage_Core_Model_UrlInterface>Mage_Core_Model_Url</Mage_Core_Model_UrlInterface>
                 <Mage_Core_Model_Event_InvokerInterface>Mage_Core_Model_Event_Invoker_InvokerDefault</Mage_Core_Model_Event_InvokerInterface>
+                <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
             </preferences>
             <Mage_Core_Model_Cache>
                 <parameters>
@@ -208,6 +209,14 @@
                     </handlers>
                 </parameters>
             </Magento_Http_Handler_Composite>
+            <Mage_Core_Model_DataService_Path_Composite>
+                <parameters>
+                    <items>
+                        <data>Mage_Core_Model_DataService_Repository</data>
+                        <request>Mage_Core_Model_DataService_Path_Request</request>
+                    </items>
+                </parameters>
+            </Mage_Core_Model_DataService_Path_Composite>
             <Mage_Core_Helper_Url>
                 <parameters>
                     <translate>
