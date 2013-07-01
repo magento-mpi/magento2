@@ -103,4 +103,55 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
         $child = $this->_locator->create('Magento_Test_Di_Child');
         $this->assertEquals('_AAA__B_|BAAAtestStringAAAB|_B__AAA_', $child->wrap('testString'));
     }
+
+    public function testCreateReturnsNewInterceptorEveryTime()
+    {
+        $this->_locator->configure(array(
+            'Magento_Test_Di_Child' => array(
+                'interceptors' => array(
+                    'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
+                    'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
+                )
+            )
+        ));
+
+        $childOne = $this->_locator->create('Magento_Test_Di_Child');
+        $childTwo = $this->_locator->create('Magento_Test_Di_Child');
+        $this->assertEquals($childOne->wrap('testString'), $childTwo->wrap('testString'));
+        $this->assertNotSame($childOne, $childTwo);
+    }
+
+    public function testGetReturnsSameInterceptorEveryTime()
+    {
+        $this->_locator->configure(array(
+            'Magento_Test_Di_Child' => array(
+                'interceptors' => array(
+                    'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
+                    'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
+                )
+            )
+        ));
+
+        $childOne = $this->_locator->get('Magento_Test_Di_Child');
+        $childTwo = $this->_locator->get('Magento_Test_Di_Child');
+        $this->assertEquals($childOne->wrap('testString'), $childTwo->wrap('testString'));
+        $this->assertSame($childOne, $childTwo);
+    }
+
+    public function testInterceptorFollowsLifestyleOfSubject()
+    {
+        $this->_locator->configure(array(
+            'Magento_Test_Di_Child' => array(
+                'interceptors' => array(
+                    'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
+                    'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
+                )
+            )
+        ));
+
+        $childOne = $this->_locator->get('');
+        $childTwo = $this->_locator->get('Magento_Test_Di_Child');
+        $this->assertEquals($childOne->wrap('testString'), $childTwo->wrap('testString'));
+        $this->assertSame($childOne, $childTwo);
+    }
 }
