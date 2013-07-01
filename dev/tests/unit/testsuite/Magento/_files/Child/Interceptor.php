@@ -53,8 +53,8 @@ class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
         Magento_ObjectManager_Factory $factory,
         Magento_ObjectManager_ObjectManager $objectManager,
         $subjectType,
-        $pluginList,
-        $arguments
+        array $pluginList,
+        array $arguments
     ) {
         $this->_factory = $factory;
         $this->_pluginList = $pluginList;

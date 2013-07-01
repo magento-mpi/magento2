@@ -130,21 +130,21 @@ class Magento_ObjectManager_Config
 
 
     /**
-     * Sorting function used to sort interceptors
+     * Sorting items
      *
-     * @param string $interceptorA
-     * @param string $interceptorB
+     * @param array $itemA
+     * @param array $itemB
      * @return int
      */
-    protected function _sort($interceptorA, $interceptorB)
+    protected function _sort($itemA, $itemB)
     {
-        if (isset($interceptorA['sortOrder'])) {
-            if (isset($interceptorB['sortOrder'])) {
-                return $interceptorA['sortOrder'] - $interceptorB['sortOrder'];
+        if (isset($itemA['sortOrder'])) {
+            if (isset($itemB['sortOrder'])) {
+                return $itemA['sortOrder'] - $itemB['sortOrder'];
             }
-            return $interceptorA['sortOrder'];
-        } else if (isset($interceptorB['sortOrder'])) {
-            return $interceptorB['sortOrder'];
+            return $itemA['sortOrder'];
+        } else if (isset($itemB['sortOrder'])) {
+            return $itemB['sortOrder'];
         } else {
             return 1;
         }

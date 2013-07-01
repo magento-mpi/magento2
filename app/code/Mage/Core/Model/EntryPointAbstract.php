@@ -59,7 +59,14 @@ abstract class Mage_Core_Model_EntryPointAbstract
         if (!$this->_objectManager) {
             $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory();
             $definitions =  $definitionFactory->create($this->_config);
-            $this->_objectManager = new Mage_Core_Model_ObjectManager($definitions, $this->_config);
+            $config = new Magento_ObjectManager_Config();
+            $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
+                new Magento_ObjectManager_Factory_Factory($config, null, $definitions),
+                $config,
+                null,
+                new Magento_ObjectManager_Interception_Definition_Runtime()
+            );
+            $this->_objectManager = new Mage_Core_Model_ObjectManager($factory, $this->_config, $config);
         }
 
         $this->_setGlobalObjectManager();

@@ -34,22 +34,18 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected $_sharedInstances = array();
 
     /**
-     * @param Magento_ObjectManager_Definition $definition
-     * @param array $configuration
+     * @param Magento_ObjectManager_Factory $factory
+     * @param Magento_ObjectManager_Config $config
      * @param array $sharedInstances
      */
     public function __construct(
-        Magento_ObjectManager_Definition $definition = null,
-        array $configuration = array(),
+        Magento_ObjectManager_Factory $factory = null,
+        Magento_ObjectManager_Config $config = null,
         array $sharedInstances = array()
     ) {
-        $this->_config = new Magento_ObjectManager_Config();
-        $this->_config->extend($configuration);
-        $this->_factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-            new Magento_ObjectManager_Factory($this, $this->_config, $definition),
-            $this,
-            $this->_config
-        );
+        $this->_config = $config ?: new Magento_ObjectManager_Config();
+        $this->_factory = $factory ?: new Magento_ObjectManager_Factory_Factory($this->_config, $this);
+        $this->_factory->setObjectManager($this);
         $this->_sharedInstances = $sharedInstances;
         $this->_sharedInstances['Magento_ObjectManager'] = $this;
     }
