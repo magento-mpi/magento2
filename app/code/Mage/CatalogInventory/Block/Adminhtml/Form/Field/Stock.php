@@ -152,7 +152,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
 
                     var disabler = function(event) {
-                        var hasVariation = $('[data-role=configurable-variations]').is('.opened');
+                        var hasVariation = $('[data-panel=product-variations]').is('.opened');
                         if ((productType == 'configurable' && hasVariation)
                             || productType == 'grouped'
                             || productType == 'bundle'//@TODO move this check to Mage_Bundle after refactoring as widget

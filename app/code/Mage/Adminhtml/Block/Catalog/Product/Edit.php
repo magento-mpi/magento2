@@ -268,7 +268,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Edit'),
                 'data_attribute' => array(
                     'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '#product-edit-form'),
+                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '[data-form=edit-product]'),
                     ),
                 ),
                 'default' => true,
@@ -280,7 +280,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & New'),
             'data_attribute' => array(
                 'mage-init' => array(
-                    'button' => array('event' => 'saveAndNew', 'target' => '#product-edit-form'),
+                    'button' => array('event' => 'saveAndNew', 'target' => '[data-form=edit-product]'),
                 ),
             ),
         );
@@ -290,7 +290,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
                 'data_attribute' => array(
                     'mage-init' => array(
-                        'button' => array('event' => 'saveAndDuplicate', 'target' => '#product-edit-form'),
+                        'button' => array('event' => 'saveAndDuplicate', 'target' => '[data-form=edit-product]'),
                     ),
                 ),
             );
@@ -300,7 +300,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Close'),
             'data_attribute' => array(
                 'mage-init' => array(
-                    'button' => array('event' => 'save', 'target' => '#product-edit-form'),
+                    'button' => array('event' => 'save', 'target' => '[data-form=edit-product]'),
                 ),
             ),
         );

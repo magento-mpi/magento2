@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     {
         $variationalAttributes = array();
         $usedProductAttributes = $this->getAttributes();
-        foreach ($usedProductAttributes as &$attribute) {
+        foreach ($usedProductAttributes as $attribute) {
             $options = array();
             foreach ($attribute['options'] as $valueInfo) {
                 foreach ($attribute['values'] as $priceData) {
@@ -98,8 +98,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                 'id' => $attribute['attribute_id'],
                 'values' => $options,
             );
-
         }
+
         $attributesCount = count($variationalAttributes);
         if ($attributesCount === 0) {
             return array();
@@ -169,7 +169,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                     }
                 }
             }
-
             $this->setData('attributes', $attributes);
         }
         return $this->getData('attributes');

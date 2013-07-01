@@ -46,7 +46,7 @@
                 self._switchToType($type.val());
             });
 
-            $('#product-edit-form-tabs').on('contentUpdated', function() {
+            $('[data-form=edit-product] [data-role=tabs]').on('contentUpdated', function() {
                 self._switchToType($type.val());
                 self.$is_virtual.trigger('change');
             });

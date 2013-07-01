@@ -281,6 +281,11 @@ button.primary.disabled:hover,
 .data-table .action-delete:hover,
 .data-table .action-delete:active,
 .data-table .action-delete.active,
+.data-table .action-locked,
+.data-table .action-locked:hover,
+.data-table .action-locked:active,
+.data-table .action-locked.active,
+.data-table .action-locked[disabled],
 #product-variations-matrix .action-choose,
 #product-variations-matrix .action-choose:hover,
 #product-variations-matrix .action-choose:active,
@@ -379,6 +384,10 @@ button.primary.disabled:hover,
 .eq-ie8 .data-table .action-delete:hover,
 .eq-ie8 .data-table .action-delete:active,
 .eq-ie8 .data-table .action-delete.active,
+.eq-ie8 .data-table .action-locked,
+.eq-ie8 .data-table .action-locked:hover,
+.eq-ie8 .data-table .action-locked:active,
+.eq-ie8 .data-table .action-locked.active,
 .eq-ie8 #product-variations-matrix .action-choose,
 .eq-ie8 #product-variations-matrix .action-choose:hover,
 .eq-ie8 #product-variations-matrix .action-choose:active,
@@ -435,6 +444,7 @@ button.primary.disabled:hover,
 
 .data-table .action-.delete[disabled],
 .data-table .action-delete[disabled],
+.data-table .action-locked[disabled],
 #product-variations-matrix .action-choose[disabled],
 .image-panel .action-close[disabled],
 .image-panel-controls .action-remove[disabled],
@@ -481,6 +491,7 @@ button.primary.disabled:hover,
 
 .data-table .action-.delete[disabled],
 .data-table .action-delete[disabled],
+.data-table .action-locked[disabled],
 #product-variations-matrix .action-choose[disabled],
 .image-panel .action-close[disabled],
 .image-panel-controls .action-remove[disabled],
@@ -1045,6 +1056,7 @@ button.primary.disabled:hover,
 /* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
 .data-table .action-.delete span,
 .data-table .action-delete span,
+.data-table .action-locked span,
 .image .action-delete span,
 .fieldset-wrapper-title .actions .action-delete span,
 .address-list-item-actions .action-delete span {
@@ -1066,8 +1078,23 @@ button.primary.disabled:hover,
     color: #b7b3ad;
 }
 
+/*
+    Locked action icon
+-------------------------------------- */
+.data-table .action-locked:before {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    font-size: 20px;
+    -webkit-font-smoothing: antialiased;
+    content: '\e03e'; /* lock icon */
+    color: #b7b3ad;
+}
+
 .data-table .action-.delete:hover:before,
 .data-table .action-delete:hover:before,
+.data-table .action-locked:hover:before,
 .image .action-delete:hover:before,
 .fieldset-wrapper-title .actions .action-delete:hover:before,
 .address-list-item-actions .action-delete:hover:before {

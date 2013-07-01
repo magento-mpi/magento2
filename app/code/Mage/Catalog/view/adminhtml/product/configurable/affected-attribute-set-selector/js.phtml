@@ -19,7 +19,7 @@ jQuery(function($) {
                 $form.find('form').validation().data('validator').resetForm();
             };
 
-        $('#product-edit-form').append($('<input>', {
+        $('[data-form=edit-product]').append($('<input>', {
             type: 'hidden',
             name: 'new-variations-attribute-set-id',
             id: 'new-variations-attribute-set-id'

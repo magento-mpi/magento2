@@ -593,7 +593,8 @@
     border-radius: 0 4px 4px 0;
 }
 
-#generate-variations-button {
+/* "Generate Variations" button */
+.generate {
     margin-bottom: 18px;
 }
 

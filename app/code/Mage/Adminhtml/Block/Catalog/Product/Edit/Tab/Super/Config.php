@@ -16,10 +16,10 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Adminhtml_Block_Widget
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
+    extends Mage_Backend_Block_Widget
+    implements Mage_Backend_Block_Widget_Tab_Interface
 {
-
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**
@@ -115,23 +115,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
 //            ));
 //        }
 
-
         $this->addChild(
             'generate',
             'Mage_Backend_Block_Widget_Button',
             array(
-                'id' => 'generate-variations-button',
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
+                'class' => 'generate',
                 'data_attribute' => array(
                     'mage-init' => array(
                         'button' => array(
                             'event' => 'generate',
                             'target' => '#product-variations-matrix',
                             'eventData' => array(
-                                'url' => $this->getUrl('*/*/variationsMatrix', array('_current' => true)),
+                                'url' => $this->getUrl('*/*/generateVariations', array('_current' => true)),
                             ),
                         ),
                     ),
+                    'action' => 'generate',
                 ),
             )
         );
@@ -161,6 +161,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                             )
                         )
                     )
+                ),
+            )
+        );
+        $this->addChild(
+            'add_option',
+            'Mage_Backend_Block_Widget_Button',
+            array(
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Option'),
+                'class' => 'action- scalable add',
+                'data_attribute' => array(
+                    'mage-init' => array(
+                        'button' => array('event' => 'add-option'),
+                    ),
+                    'action' => 'add-option',
                 ),
             )
         );

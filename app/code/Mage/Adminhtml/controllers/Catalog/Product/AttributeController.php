@@ -204,14 +204,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
-        $groupCode = $this->getRequest()->getParam('group');
-
         if ($data) {
             /** @var $session Mage_Backend_Model_Auth_Session */
             $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
 
             $isNewAttributeSet = false;
-            if (isset($data['new_attribute_set_name']) && !empty($data['new_attribute_set_name'])) {
+            if (!empty($data['new_attribute_set_name'])) {
                 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
                 $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
                 $name = Mage::helper('Mage_Adminhtml_Helper_Data')->stripTags($data['new_attribute_set_name']);
@@ -241,7 +239,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             }
 
             $redirectBack   = $this->getRequest()->getParam('back', false);
-            /* @var $model Mage_Catalog_Model_Entity_Attribute */
+            /* @var $model Mage_Catalog_Model_Resource_Eav_Attribute */
             $model = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute');
             /* @var $helper Mage_Catalog_Helper_Product */
             $helper = Mage::helper('Mage_Catalog_Helper_Product');
@@ -278,14 +276,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             if ($id) {
                 $model->load($id);
-
                 if (!$model->getId()) {
                     $session->addError(
                         Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute no longer exists.'));
                     $this->_redirect('*/*/');
                     return;
                 }
-
                 // entity type check
                 if ($model->getEntityTypeId() != $this->_entityTypeId) {
                     $session->addError(
@@ -306,15 +302,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['backend_model'] = $helper->getAttributeBackendModelByInputType($data['frontend_input']);
             }
 
-            if (!isset($data['is_configurable'])) {
-                $data['is_configurable'] = 0;
-            }
-            if (!isset($data['is_filterable'])) {
-                $data['is_filterable'] = 0;
-            }
-            if (!isset($data['is_filterable_in_search'])) {
-                $data['is_filterable_in_search'] = 0;
-            }
+            $data += array(
+                'is_configurable' => 0,
+                'is_filterable' => 0,
+                'is_filterable_in_search' => 0,
+                'apply_to' => array(),
+            );
 
             if (is_null($model->getIsUserDefined()) || $model->getIsUserDefined() != 0) {
                 $data['backend_type'] = $model->getBackendTypeByInput($data['frontend_input']);
@@ -325,12 +318,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['default_value'] = $this->getRequest()->getParam($defaultValueField);
             }
 
-            if(!isset($data['apply_to'])) {
-                $data['apply_to'] = array();
-            }
             if (!$model->getIsUserDefined() && $model->getId()) {
-                //Unset attribute field for system attributes
-                unset($data['apply_to']);
+                unset($data['apply_to']); //Unset attribute field for system attributes
             }
 
             $model->addData($data);
@@ -340,6 +329,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $model->setIsUserDefined(1);
             }
 
+            $groupCode = $this->getRequest()->getParam('group');
             if ($this->getRequest()->getParam('set') && $groupCode) {
                 // For creating product attribute on product page we need specify attribute set and group
                 $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');

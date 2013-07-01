@@ -8,7 +8,7 @@
  */
 /*jshint jquery:true*/
 (function($) {
-    "use strict";
+    'use strict';
     $.widget('ui.button', $.ui.button, {
         options: {
             eventData: {}
@@ -19,6 +19,7 @@
          * @protected
          */
         _create: function() {
+            this.options.target = this.options.target || this.element;
             this._bind();
             this._super();
         },

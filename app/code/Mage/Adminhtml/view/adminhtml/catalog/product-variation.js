@@ -9,7 +9,8 @@
 (function($) {
     $.widget('mage.variationsAttributes', {
         _create: function () {
-            this.element.sortable({
+            var widgetContainer = $(this.element);
+            widgetContainer.sortable({
                 axis: 'y',
                 handle: '.draggable-handle',
                 tolerance: 'pointer',
@@ -20,54 +21,59 @@
                 }
             });
             var updateGenerateVariationsButtonAvailability = function () {
-                var isDisabled =
-                    $('#configurable-attributes-container .entry-edit:not(:has(input.include:checked))').length > 0 ||
-                    !$('#configurable-attributes-container .entry-edit').length;
-                $('#generate-variations-button').prop('disabled', isDisabled).toggleClass('disabled', isDisabled);
+                var isDisabled = widgetContainer.find(
+                        '[data-role=configurable-attribute]:not(:has(input[name$="[include]"]:checked))'
+                    ).length > 0 || !widgetContainer.find('[data-role=configurable-attribute]').length;
+                widgetContainer.closest('[data-panel=product-variations]')
+                    .find('[data-action=generate]').prop('disabled', isDisabled).toggleClass('disabled', isDisabled);
             };
 
             this._on({
-                'menuselect [data-field="is-percent"] [data-role="dropdown-menu"]': function (event, ui) {
-                    var parent = $(event.target).closest('[data-field="is-percent"]');
-                    parent.find('[data-toggle="dropdown"] span').text(ui.item.text());
-                    parent.find('[data-role="is-percent-change"]').val(ui.item.attr('data-value'));
-                    parent.find('[data-toggle="dropdown"]').trigger('close.dropdown');
+                'menuselect [data-column=change-price] [data-role=dropdown-menu]': function (event, ui) {
+                    var parent = $(event.target).closest('[data-column=change-price]');
+                    parent.find('[data-toggle=dropdown] span').text(ui.item.text());
+                    parent.find('[name$="[is_percent]"]').val(ui.item.data('value'));
+                    parent.find('[data-toggle=dropdown]').trigger('close.dropdown');
                     $(event.target).find('[data-value]').show();
                     ui.item.hide();
                 },
-                'click .fieldset-wrapper-title .action-delete':  function (event) {
-                    var $entity = $(event.target).closest('.entry-edit');
+                'click .fieldset-wrapper-title .action-delete': function (event) {
+                    var $entity = $(event.target).closest('[data-role=configurable-attribute]');
                     $('#attribute-' + $entity.find('[name$="[code]"]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
                     updateGenerateVariationsButtonAvailability();
                     event.stopImmediatePropagation();
                 },
+                'click [data-column=actions] [data-action=delete]':  function (event) {
+                    $(event.target).closest('[data-role=option-container]').remove();
+                    updateGenerateVariationsButtonAvailability();
+                    event.stopPropagation();
+                },
                 'click .toggle': function (event) {
                     $(event.target).parent().next('fieldset').toggle();
                 },
                 'click input.include': updateGenerateVariationsButtonAvailability,
-                'add': function (event, attribute) {
-                    $('#attribute-template').tmpl({attribute: attribute}).appendTo($(event.target)).trigger('contentUpdated');
+                add: function (event, attribute) {
+                    widgetContainer.find('[data-template-for=configurable-attribute]').tmpl({attribute: attribute})
+                        .appendTo($(event.target)).trigger('contentUpdated')
+                        .find('[data-attribute-id]').collapsable().collapse('show')
+                        .find('[data-role=dropdown-menu]').each(function (index, element) {
+                            $(element).trigger('menuselect', {item: $(element).find('[data-value="0"]')});
+                        });
                     $('#attribute-' + attribute.code + '-container select').prop('disabled', true);
-
-                    $('.collapse')
-                        .collapsable()
-                        .collapse('show');
-                    var attributeContent = $('[data-role="variation-attribute-container"] [data-attribute-id="' + attribute.id + '"]');
-                    attributeContent.find('[data-toggle=dropdown]').dropdown();
-                    attributeContent.find('[data-role="dropdown-menu"]').each(function (index, element) {
-                        $(element).trigger('menuselect', {item: $(element).find('[data-value="0"]')});
-                    });
                     $('[data-store-label]').useDefault();
-
-                    updateGenerateVariationsButtonAvailability();
-                }
+                },
+                contentUpdated: updateGenerateVariationsButtonAvailability
             });
-            this.element.find('[data-field="is-percent"]').each(function (index, element) {
-                var item = {item: $(element).find('[data-value="' + $(element).find('[data-role="is-percent-change"]').val() + '"]')};
-                $(element).find('[data-role="dropdown-menu"]').trigger('menuselect', item);
+            this.element.find('[data-column=change-price]').each(function (index, element) {
+                $(element).find('[data-role=dropdown-menu]').trigger('menuselect', {
+                    item: $(element).find('[data-value="' + $(element).find('[name$="[is_percent]"]').val() + '"]')
+                });
             });
             updateGenerateVariationsButtonAvailability();
+            if ($('[data-form=edit-product]').data('product-id')) {
+                widgetContainer.find('[data-attribute-id]').collapsable().collapse('hide');
+            }
         },
         /**
          * Retrieve list of attributes
@@ -76,7 +82,7 @@
          */
         getAttributes: function () {
             return $.map(
-                $(this.element).find('.entry-edit') || [],
+                $(this.element).find('[data-role=configurable-attribute]') || [],
                 function (attribute) {
                     var $attribute = $(attribute);
                     return {

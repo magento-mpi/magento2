@@ -231,8 +231,8 @@ new_product:
                                         configurable_attribute_select: //div[@class='mage-suggest-dropdown']//a[text()='%attributeTitle%']
                                         is_configurable: //strong[span='Variations']
                                     buttons:
-                                        generate_product_variations: //button[@id='generate-variations-button' and not(@disabled)]
-                                        generate_product_variations_disabled: //button[@id='generate-variations-button' and @disabled]
+                                        generate_product_variations: //button[@data-action='generate' and not(@disabled)]
+                                        generate_product_variations_disabled: //button[@data-action='generate' and @disabled]
                                     pageelements:
                                         product_variations_fieldset: //div[@id='config_super_product-content' or @id='super_config-content']
                                         configurable_attributes_list: "//div[@class='mage-suggest-dropdown'][not(contains(@style,'display: none;'))]"
