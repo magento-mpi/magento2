@@ -213,6 +213,11 @@
     margin-bottom: 15px;
 }
 
+.ui-tabs-nav .address-list-item a {
+    text-decoration: none;
+    color: #676056;
+}
+
 .address-item-edit {
     margin-left: 277px;
 }

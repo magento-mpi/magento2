@@ -134,7 +134,24 @@ var deleteButtonId = <?php echo $_iterator ?>;
 (function($) {
     $.widget('address.tabs', $.mage.tabs, {
         options: {
-            active: 0
+        },
+
+        _create: function() {
+            this._super();
+            this._bind();
+        },
+
+        _bind: function() {
+            $("#address-tabs").on("tabsactivate", function(event, ui) {
+                ui.oldTab.removeClass('active');
+                ui.newTab.addClass('active');
+            });
+        },
+
+        _init: function() {
+            // Add style to initial active tab
+            var activeTab = this.active;
+            activeTab.addClass('active');
         }
     });
 
