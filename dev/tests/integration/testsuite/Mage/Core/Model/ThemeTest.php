@@ -28,47 +28,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Load from configuration
-     */
-    public function testLoadFromConfiguration()
-    {
-        $designPath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design';
-        $themePath = implode(DS, array('frontend', 'default', 'default', 'theme.xml'));
-
-        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Collection');
-        $theme = $themeCollection->setBaseDir($designPath)
-            ->addTargetPattern($themePath)
-            ->getFirstItem();
-
-        $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $theme->getData());
-    }
-
-    /**
-     * Expected theme data from configuration
-     *
-     * @return array
-     */
-    public function _expectedThemeDataFromConfiguration()
-    {
-        return array(
-            'area'                 => 'frontend',
-            'theme_title'          => 'Default',
-            'theme_version'        => '2.0.0.0',
-            'parent_id'            => null,
-            'parent_theme_path'    => null,
-            'is_featured'          => true,
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
-            'theme_path'           => 'default/default',
-            'preview_image'        => null,
-            'theme_directory'      => implode(
-                DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default')
-            )
-        );
-    }
-
-    /**
      * Get theme valid data
      *
      * @return array
@@ -87,25 +46,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'preview_image'        => 'images/preview.png',
             'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
         );
-    }
-
-    public function testGetLabelsCollection()
-    {
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-
-        /** @var $expectedCollection Mage_Core_Model_Resource_Theme_Collection */
-        $expectedCollection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        $expectedCollection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->filterVisibleThemes();
-
-        $expectedItemsCount = count($expectedCollection);
-
-        $labelsCollection = $themeModel->getLabelsCollection();
-        $this->assertEquals($expectedItemsCount, count($labelsCollection));
-
-        $labelsCollection = $themeModel->getLabelsCollection('-- Please Select --');
-        $this->assertEquals(++$expectedItemsCount, count($labelsCollection));
     }
 
     /**

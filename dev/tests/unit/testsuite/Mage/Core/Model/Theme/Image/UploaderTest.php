@@ -148,7 +148,6 @@ class Mage_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCas
         $this->_fileUploader->expects($this->any())->method('getUploadedFileName')
             ->will($this->returnValue('test_filename'));
 
-        $testResult = $this->_model->uploadPreviewImage($testScope, '/tmp');
-        $this->assertEquals($result, $testResult);
+        $this->assertEquals($result, $this->_model->uploadPreviewImage($testScope, '/tmp'));
     }
 }

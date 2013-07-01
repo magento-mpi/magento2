@@ -11,7 +11,7 @@
 /**
  * Theme_Label class used for system configuration
  */
-class Mage_Core_Model_Theme_Label extends Mage_Core_Model_Abstract
+class Mage_Core_Model_Theme_Label
 {
     /**
      * Labels collection array
@@ -33,22 +33,13 @@ class Mage_Core_Model_Theme_Label extends Mage_Core_Model_Abstract
     /**
      * @param Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
      * @param Mage_Core_Helper_Data $helper
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
-     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory,
-        Mage_Core_Helper_Data $helper,
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
+        Mage_Core_Helper_Data $helper
     ) {
         $this->_helper = $helper;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -61,8 +52,8 @@ class Mage_Core_Model_Theme_Label extends Mage_Core_Model_Abstract
     {
         if (!$this->_labelsCollection) {
             $themeCollection = $this->_collectionFactory->create();
-            $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC)
-                ->filterVisibleThemes()
+            $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC);
+            $themeCollection->filterVisibleThemes()
                 ->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
                 ->walk('checkThemeCompatible');
             $this->_labelsCollection = $themeCollection->toOptionArray();
