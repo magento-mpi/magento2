@@ -68,7 +68,7 @@ class Mage_DesignEditor_Model_State
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -176,11 +176,11 @@ class Mage_DesignEditor_Model_State
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
             $this->_application->getStore()->setConfig(
-                Mage_Core_Model_Design_Package::XML_PATH_THEME_ID,
+                Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
                 $themeId
             );
             $this->_application->getConfig()->setNode(
-                'default/' . Mage_Core_Model_Design_Package::XML_PATH_THEME_ID,
+                'default/' . Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
                 $themeId
             );
         }

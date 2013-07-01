@@ -19,18 +19,18 @@ class Mage_Core_Model_Page_Asset_PublicFileTest extends PHPUnit_Framework_TestCa
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designPackage;
+    protected $_design;
 
     protected function setUp()
     {
-        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
-        $this->_object = new Mage_Core_Model_Page_Asset_PublicFile($this->_designPackage, 'test/style.css', 'css');
+        $this->_design = $this->getMock('Mage_Core_Model_View_DesignInterface');
+        $this->_object = new Mage_Core_Model_Page_Asset_PublicFile($this->_design, 'test/style.css', 'css');
     }
 
     public function testGetUrl()
     {
         $url = 'http://127.0.0.1/magento/test/style.css';
-        $this->_designPackage
+        $this->_design
             ->expects($this->once())
             ->method('getPublicFileUrl')
             ->with('test/style.css')

@@ -18,12 +18,12 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designMock;
+    protected $_designChangeMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designPackageMock;
+    protected $_designMock;
 
     /**
      * @var string
@@ -48,8 +48,8 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_fpcCacheMock = $this->getMock('Enterprise_PageCache_Model_Cache', array(), array(), '', false);
-        $this->_designMock = $this->getMock('Mage_Core_Model_Design', array(), array(), '', false);
-        $this->_designPackageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
+        $this->_designChangeMock = $this->getMock('Mage_Core_Model_Design', array(), array(), '', false);
+        $this->_designMock = $this->getMock('Mage_Core_Model_View_DesignInterface');
 
         $this->_currentDate = date('Y-m-d');
 
@@ -68,15 +68,15 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
             array($this->_cacheId, serialize($cache)),
         );
 
-        $this->_designMock->expects($this->never())->method('getResource');
+        $this->_designChangeMock->expects($this->never())->method('getResource');
 
         $this->_fpcCacheMock->expects($this->exactly(2))
             ->method('load')
             ->will($this->returnValueMap($valueMap));
 
         $model = new Enterprise_PageCache_Model_DesignPackage_Rules(
+            $this->_designChangeMock,
             $this->_designMock,
-            $this->_designPackageMock,
             $this->_fpcCacheMock
         );
 
@@ -91,7 +91,7 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
             ->with($this->_storeId, $this->_currentDate)
             ->will($this->returnValue($this->_designChange));
 
-        $this->_designMock->expects($this->once())->method('getResource')->will($this->returnValue($resourceMock));
+        $this->_designChangeMock->expects($this->once())->method('getResource')->will($this->returnValue($resourceMock));
 
         $valueMap = array(
             array(Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY, false),
@@ -113,8 +113,8 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
 
 
         $model = new Enterprise_PageCache_Model_DesignPackage_Rules(
+            $this->_designChangeMock,
             $this->_designMock,
-            $this->_designPackageMock,
             $this->_fpcCacheMock
         );
 
@@ -135,7 +135,7 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
             array($this->_cacheId, serialize($cache)),
         );
 
-        $this->_designMock->expects($this->never())->method('getResource');
+        $this->_designChangeMock->expects($this->never())->method('getResource');
 
         $this->_fpcCacheMock->expects($this->exactly(2))
             ->method('load')
@@ -145,8 +145,8 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
         $model = $this->getMock('Enterprise_PageCache_Model_DesignPackage_Rules',
             array('_getPackageByUserAgent'),
             array(
+                $this->_designChangeMock,
                 $this->_designMock,
-                $this->_designPackageMock,
                 $this->_fpcCacheMock,
             )
         );

@@ -21,7 +21,7 @@ class Mage_Core_Model_Layout_Merge
     /**#@-*/
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -95,13 +95,13 @@ class Mage_Core_Model_Layout_Merge
     /**
      * Init merge model
      *
-     * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Cache_FrontendInterface $cache
      * @param array $arguments
      */
     public function __construct(
-        Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Cache_FrontendInterface $cache,
         array $arguments = array()

@@ -68,7 +68,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
         // Create model to be tested
         $expected = 'http://example.com/public_dir/a/t/m/file.js';
-        $model = $this->getMock('Mage_Core_Model_Design_Package', array('getPublicDir', 'getPublicFileUrl'),
+        $model = $this->getMock('Mage_Core_Model_View_Design', array('getPublicDir', 'getPublicFileUrl'),
             array($dirs, $moduleReader, $filesystem, $resolutionPool, $appState, $storeManager, $cssHelper));
         $model->expects($this->once())
             ->method('getPublicDir')

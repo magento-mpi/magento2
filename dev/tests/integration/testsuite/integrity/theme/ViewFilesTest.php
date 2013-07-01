@@ -26,7 +26,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
             $viewFile = Mage::getDesign()->getViewFile($file, $params);
             $this->assertFileExists($viewFile);
 
-            $fileParts = explode(Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR, $file);
+            $fileParts = explode(Mage_Core_Model_View_Service::SCOPE_SEPARATOR, $file);
             if (count($fileParts) > 1) {
                 $params['module'] = $fileParts[0];
             }

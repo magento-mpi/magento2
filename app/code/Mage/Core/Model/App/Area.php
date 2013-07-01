@@ -160,7 +160,7 @@ class Mage_Core_Model_App_Area
     }
 
     /**
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     protected function _getDesign()
     {

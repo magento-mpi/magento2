@@ -20,7 +20,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_designModel;
 
@@ -29,7 +29,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test', 'default', 'locale', 'en_US',
             'translate.csv');
 
-        $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
+        $this->_designModel = $this->getMock('Mage_Core_Model_View_Design',
             array('getLocaleFileName'),
             array(
                 Mage::getSingleton('Mage_Core_Model_Dir'),
@@ -48,7 +48,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
 
-        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
+        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_View_Design');
 
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
         $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
@@ -159,7 +159,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             'translate.csv');
 
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
+        $this->_designModel = $this->getMock('Mage_Core_Model_View_Design',
             array('getLocaleFileName', 'getDesignTheme'),
             array(
                 Mage::getSingleton('Mage_Core_Model_Dir'),
@@ -182,7 +182,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
 
-        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
+        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_View_Design');
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
         $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
 

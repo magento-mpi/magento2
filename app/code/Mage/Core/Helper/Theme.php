@@ -28,7 +28,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     /**
      * Design model
      *
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -65,7 +65,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Layout_MergeFactory $layoutMergeFactory
      * @param Mage_Core_Model_Resource_Theme_Collection $themeCollection
@@ -74,7 +74,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Layout_MergeFactory $layoutMergeFactory,
         Mage_Core_Model_Resource_Theme_Collection $themeCollection,

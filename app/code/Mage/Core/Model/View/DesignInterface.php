@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Core_Model_Design_PackageInterface
+interface Mage_Core_Model_View_DesignInterface
 {
     /**
      * Default design area
@@ -18,7 +18,7 @@ interface Mage_Core_Model_Design_PackageInterface
      * Set package area
      *
      * @param string $area
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     public function setArea($area);
 
@@ -34,7 +34,7 @@ interface Mage_Core_Model_Design_PackageInterface
      *
      * @param Mage_Core_Model_Theme|int|string $theme
      * @param string $area
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     public function setDesignTheme($theme, $area = null);
 
@@ -50,7 +50,7 @@ interface Mage_Core_Model_Design_PackageInterface
     /**
      * Set default design theme
      *
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     public function setDefaultDesignTheme();
 

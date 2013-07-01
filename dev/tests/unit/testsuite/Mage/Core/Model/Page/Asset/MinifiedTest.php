@@ -24,9 +24,9 @@ class Mage_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestCase
     protected $_minifier;
 
     /**
-     * @var Mage_Core_Model_Design_Package|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_View_Design|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designPackage;
+    protected $_design;
 
     /**
      * @var Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject
@@ -42,11 +42,11 @@ class Mage_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestCase
     {
         $this->_asset = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_LocalInterface', array(), '', false);
         $this->_minifier = $this->getMock('Magento_Code_Minifier', array('getMinifiedFile'), array(), '', false);
-        $this->_designPackage = $this->getMockForAbstractClass('Mage_Core_Model_Design_PackageInterface', array(), '',
+        $this->_design = $this->getMockForAbstractClass('Mage_Core_Model_View_DesignInterface', array(), '',
             false);
         $this->_logger = $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false);
 
-        $this->_model = new Mage_Core_Model_Page_Asset_Minified($this->_asset, $this->_minifier, $this->_designPackage,
+        $this->_model = new Mage_Core_Model_Page_Asset_Minified($this->_asset, $this->_minifier, $this->_design,
             $this->_logger);
     }
 
@@ -54,7 +54,7 @@ class Mage_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestCase
     {
         $this->_asset = null;
         $this->_minifier = null;
-        $this->_designPackage = null;
+        $this->_design = null;
         $this->_logger = null;
         $this->_model = null;
     }
@@ -82,7 +82,7 @@ class Mage_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestCase
             ->method('getMinifiedFile')
             ->with(self::ORIG_SOURCE_FILE)
             ->will($this->returnValue(self::MINIFIED_SOURCE_FILE));
-        $this->_designPackage->expects($this->once())
+        $this->_design->expects($this->once())
             ->method('getPublicFileUrl')
             ->with(self::MINIFIED_SOURCE_FILE)
             ->will($this->returnValue(self::MINIFIED_URL));
@@ -102,7 +102,7 @@ class Mage_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestCase
             ->with(self::ORIG_SOURCE_FILE)
             ->will($this->throwException(new Exception('Error')));
 
-        $this->_designPackage->expects($this->never())
+        $this->_design->expects($this->never())
             ->method('getPublicFileUrl');
 
         $this->assertSame(self::ORIGINAL_URL, $this->_model->getUrl());

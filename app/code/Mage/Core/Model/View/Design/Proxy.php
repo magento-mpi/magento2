@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_PackageInterface
+class Mage_Core_Model_View_Design_Proxy implements Mage_Core_Model_View_DesignInterface
 {
     /**
      * @var Magento_ObjectManager
@@ -16,7 +16,7 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_View_Design
      */
     protected $_model;
 
@@ -29,12 +29,12 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     }
 
     /**
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_View_Design
      */
     protected function _getInstance()
     {
         if (null === $this->_model) {
-            $this->_model = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+            $this->_model = $this->_objectManager->get('Mage_Core_Model_View_Design');
         }
         return $this->_model;
     }
@@ -43,7 +43,7 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      * Set package area
      *
      * @param string $area
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     public function setArea($area)
     {
@@ -65,7 +65,7 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      *
      * @param Mage_Core_Model_Theme|int|string $theme
      * @param string $area
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     public function setDesignTheme($theme, $area = null)
     {
@@ -87,7 +87,7 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     /**
      * Set default design theme
      *
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     public function setDefaultDesignTheme()
     {

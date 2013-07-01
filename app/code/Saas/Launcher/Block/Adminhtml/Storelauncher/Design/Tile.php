@@ -66,7 +66,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launc
     public function getThemeName()
     {
         $themeName = '';
-        $themeId = $this->_storeConfig->getConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID,
+        $themeId = $this->_storeConfig->getConfig(Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
             $this->_launcherHelper->getCurrentStoreView());
         if ($themeId) {
             $themeName = $this->_themeService->getThemeById($themeId)->getThemeTitle();

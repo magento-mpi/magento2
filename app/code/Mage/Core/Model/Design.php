@@ -113,10 +113,10 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     /**
      * Apply design change from self data into specified design package instance
      *
-     * @param Mage_Core_Model_Design_PackageInterface $packageInto
+     * @param Mage_Core_Model_View_DesignInterface $packageInto
      * @return Mage_Core_Model_Design
      */
-    public function changeDesign(Mage_Core_Model_Design_PackageInterface $packageInto)
+    public function changeDesign(Mage_Core_Model_View_DesignInterface $packageInto)
     {
         $design = $this->getDesign();
         if ($design) {

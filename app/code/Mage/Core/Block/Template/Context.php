@@ -42,7 +42,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Session $session
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
@@ -61,7 +61,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
         Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Session $session,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
@@ -76,7 +76,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache,
-            $designPackage, $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig
+            $design, $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig
         );
 
         $this->_dirs = $dirs;

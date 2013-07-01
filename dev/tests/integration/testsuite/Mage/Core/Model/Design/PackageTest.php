@@ -15,7 +15,7 @@
 class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_model;
 
@@ -41,7 +41,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
+        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface');
     }
 
     /**
@@ -56,13 +56,13 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 Mage_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
+        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme($themePath);
     }
 
     public function testSetGetArea()
     {
-        $this->assertEquals(Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA, $this->_model->getArea());
+        $this->assertEquals(Mage_Core_Model_View_DesignInterface::DEFAULT_AREA, $this->_model->getArea());
         $this->_model->setArea('test');
         $this->assertEquals('test', $this->_model->getArea());
     }

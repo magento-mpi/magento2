@@ -42,7 +42,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function constructorDataProvider()
     {
         return array(
-            'default area'  => array(array(), Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA),
+            'default area'  => array(array(), Mage_Core_Model_View_DesignInterface::DEFAULT_AREA),
             'frontend area' => array(array('area' => 'frontend'), 'frontend'),
             'backend area'  => array(array('area' => 'adminhtml'), 'adminhtml'),
         );

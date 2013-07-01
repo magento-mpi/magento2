@@ -175,7 +175,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
-        $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
+        $area = Mage_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;

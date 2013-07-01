@@ -56,10 +56,10 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetVar()
     {
-        $design = $this->getMock('Mage_Core_Model_Design_PackageInterface');
+        $design = $this->getMock('Mage_Core_Model_View_DesignInterface');
         /** @var $block Mage_Core_Block_Abstract|PHPUnit_Framework_MockObject_MockObject */
         $params = array(
-            'designPackage' => $design,
+            'design' => $design,
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract',

@@ -9,7 +9,7 @@
 class Mage_Core_Model_Design_Package_ProxyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_Package_Proxy
+     * @var Mage_Core_Model_View_Design_Proxy
      */
     protected $_model;
 
@@ -26,12 +26,12 @@ class Mage_Core_Model_Design_Package_ProxyTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_packageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
+        $this->_packageMock = $this->getMock('Mage_Core_Model_View_DesignInterface');
         $this->_objectManager->expects($this->once())
             ->method('get')
-            ->with('Mage_Core_Model_Design_Package')
+            ->with('Mage_Core_Model_View_Design')
             ->will($this->returnValue($this->_packageMock));
-        $this->_model = new Mage_Core_Model_Design_Package_Proxy($this->_objectManager);
+        $this->_model = new Mage_Core_Model_View_Design_Proxy($this->_objectManager);
     }
 
     protected function tearDown()

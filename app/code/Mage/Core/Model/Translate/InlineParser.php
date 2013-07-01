@@ -107,9 +107,9 @@ class Mage_Core_Model_Translate_InlineParser
     );
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_View_Design
      */
-    protected $_designPackage;
+    protected $_design;
 
     /**
      * @var Mage_Core_Helper_Data
@@ -131,27 +131,27 @@ class Mage_Core_Model_Translate_InlineParser
      *
      * @param Mage_Core_Model_Resource_Translate_String $resource
      * @param Mage_Core_Model_StoreManager $storeManager
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_View_Design $design
      * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
         Mage_Core_Model_Resource_Translate_String $resource,
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_View_Design $design,
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_StoreManager $storeManager
     ) {
         $this->_resource = $resource;
-        $this->_designPackage = $designPackage;
+        $this->_design = $design;
         $this->_helper = $helper;
         $this->_storeManager = $storeManager;
     }
 
     /**
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_View_Design
      */
     public function getDesignPackage()
     {
-        return $this->_designPackage;
+        return $this->_design;
     }
 
     /**
@@ -186,7 +186,7 @@ class Mage_Core_Model_Translate_InlineParser
         $validStoreId = $this->_storeManager->getStore()->getId();
 
         foreach ($translateParams as $param) {
-            if ($this->_designPackage->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
+            if ($this->_design->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $storeId = 0;
             } else if (empty($param['perstore'])) {
                 $this->_resource->deleteTranslate($param['original'], null, false);

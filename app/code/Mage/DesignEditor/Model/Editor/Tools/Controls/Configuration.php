@@ -31,7 +31,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_configuration;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -84,7 +84,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_View_Config $viewConfig
@@ -93,7 +93,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      * @param Mage_Core_Model_Theme $parentTheme
      */
     public function __construct(
-        Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_View_DesignInterface $design,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_View_Config $viewConfig,
@@ -119,11 +119,11 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected function _initViewConfigs()
     {
         $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA,
+            'area'       => Mage_Core_Model_View_DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_theme
         ));
         $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA,
+            'area'       => Mage_Core_Model_View_DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_parentTheme
         ));
         return $this;

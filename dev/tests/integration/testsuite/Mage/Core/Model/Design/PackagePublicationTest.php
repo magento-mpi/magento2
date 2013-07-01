@@ -12,13 +12,13 @@
 class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
+        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface');
     }
 
     protected function tearDown()
@@ -301,7 +301,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $actualCssContent = file_get_contents($expectedCssFile);
 
         $this->assertNotRegExp(
-            '/url\(.*?' . Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR . '.*?\)/',
+            '/url\(.*?' . Mage_Core_Model_View_Service::SCOPE_SEPARATOR . '.*?\)/',
             $actualCssContent,
             'Published CSS file must not contain scope separators in URLs.'
         );
@@ -402,7 +402,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
+        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test/default');
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -512,7 +512,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface'); // Reinit model with new directories
+        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface'); // Reinit model with new directories
         $this->_model->setDesignTheme('test/default');
     }
 

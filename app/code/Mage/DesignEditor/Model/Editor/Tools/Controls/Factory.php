@@ -66,7 +66,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
             throw new Magento_Exception("Unknown control configuration type: \"{$type}\"");
         }
         return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
-            'area'       => Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA,
+            'area'       => Mage_Core_Model_View_DesignInterface::DEFAULT_AREA,
             'themeModel' => $theme
         ));
     }

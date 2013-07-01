@@ -39,8 +39,8 @@
             </Enterprise_PageCache_Model_Processor>
             <Enterprise_PageCache_Model_DesignPackage_Rules>
                 <parameters>
-                    <design>Mage_Core_Model_Design_Proxy</design>
-                    <designPackage>Mage_Core_Model_Design_Package_Proxy</designPackage>
+                    <designChange>Mage_Core_Model_Design_Proxy</designChange>
+                    <design>Mage_Core_Model_View_Design_Proxy</design>
                 </parameters>
             </Enterprise_PageCache_Model_DesignPackage_Rules>
             <Magento_Http_Handler_Composite>

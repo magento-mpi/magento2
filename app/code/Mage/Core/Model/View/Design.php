@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageInterface
+class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterface
 {
     /**#@+
      * Common node path to theme design configuration
@@ -109,7 +109,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * Set package area
      *
      * @param string $area
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_View_Design
      */
     public function setArea($area)
     {
@@ -163,7 +163,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      *
      * @param Mage_Core_Model_Theme|int|string $theme
      * @param string $area
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_View_Design
      */
     public function setDesignTheme($theme, $area = null)
     {
@@ -221,7 +221,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Set default design theme
      *
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_View_Design
      */
     public function setDefaultDesignTheme()
     {

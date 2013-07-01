@@ -43,17 +43,17 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Design_PackageInterface
+     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_View_DesignInterface
      */
     protected function _getDesignMock()
     {
-        $designMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
+        $designMock = $this->getMock('Mage_Core_Model_View_DesignInterface');
         $designMock->expects($this->any())
             ->method('getPublicDir')
             ->will($this->returnValue('pub/media/theme'));
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Mage_Core_Model_Design_PackageInterface'))
+            ->with($this->equalTo('Mage_Core_Model_View_DesignInterface'))
             ->will($this->returnValue($designMock));
         return $designMock;
     }
@@ -145,8 +145,8 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
         $theme = $this->getMock('Mage_Core_Model_Theme', array('getPreviewImage'), array(), '', false);
         $theme->expects($this->once())->method('getPreviewImage')->will($this->returnValue(false));
         $expectedValue = 'http://example.com/pub/static/_module/Mage_Core/theme/default_preview.jpg';
-        $designPackage = $this->_getDesignMock();
-        $designPackage->expects($this->once())->method('getViewFileUrl')->with('Mage_Core::theme/default_preview.jpg')
+        $design = $this->_getDesignMock();
+        $design->expects($this->once())->method('getViewFileUrl')->with('Mage_Core::theme/default_preview.jpg')
             ->will($this->returnValue($expectedValue));
         $this->_model->setTheme($theme);
         $this->assertEquals($expectedValue, $this->_model->getPreviewImageUrl());

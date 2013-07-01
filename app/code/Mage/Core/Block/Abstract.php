@@ -26,9 +26,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     implements Mage_Core_Block
 {
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
-    protected $_designPackage;
+    protected $_design;
 
     /**
      * @var Mage_Core_Model_Session
@@ -133,7 +133,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         $this->_urlBuilder      = $context->getUrlBuilder();
         $this->_translator      = $context->getTranslator();
         $this->_cache           = $context->getCache();
-        $this->_designPackage   = $context->getDesignPackage();
+        $this->_design          = $context->getDesignPackage();
         $this->_session         = $context->getSession();
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();

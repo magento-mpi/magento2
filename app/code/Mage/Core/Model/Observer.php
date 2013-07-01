@@ -42,18 +42,18 @@ class Mage_Core_Model_Observer
 
     /**
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Page $page
      * @param Mage_Core_Model_ConfigInterface $config
      */
     public function __construct(
         Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Page $page,
         Mage_Core_Model_ConfigInterface $config
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
-        $this->_currentTheme = $designPackage->getDesignTheme();
+        $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $page->getAssets();
         $this->_config = $config;
     }

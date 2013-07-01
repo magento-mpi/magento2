@@ -190,7 +190,7 @@ class Generator_ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(Mage_Core_Model_View_Service::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {

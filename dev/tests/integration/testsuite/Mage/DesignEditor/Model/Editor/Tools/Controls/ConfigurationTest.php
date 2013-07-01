@@ -17,7 +17,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends PH
     protected $_configFactory;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -26,8 +26,8 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends PH
      */
     protected function setUp()
     {
-        $this->_design = Mage::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface');
-        $this->_design->setDesignTheme('package/test_child', Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA);
+        $this->_design = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
+        $this->_design->setDesignTheme('package/test_child', Mage_Core_Model_View_DesignInterface::DEFAULT_AREA);
         $this->_configFactory = Mage::getObjectManager()->create(
             'Mage_DesignEditor_Model_Editor_Tools_Controls_Factory'
         );

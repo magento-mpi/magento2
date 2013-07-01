@@ -23,7 +23,7 @@ class Mage_Core_Model_View_Service
     protected $_appState;
 
     /**
-     * @var Mage_Core_Model_Design_Package_Proxy
+     * @var Mage_Core_Model_View_Design_Proxy
      */
     private $_design;
 
@@ -32,11 +32,11 @@ class Mage_Core_Model_View_Service
      *
      *
      * @param Mage_Core_Model_App_State $appState
-     * @param Mage_Core_Model_Design_Package_Proxy $design
+     * @param Mage_Core_Model_View_Design_Proxy $design
      */
     public function __construct(
         Mage_Core_Model_App_State $appState,
-        Mage_Core_Model_Design_Package_Proxy $design
+        Mage_Core_Model_View_Design_Proxy $design
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
@@ -105,7 +105,7 @@ class Mage_Core_Model_View_Service
      * Update required parameters with default values if custom not specified
      *
      * @param array $params
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_View_Design
      */
     public function updateDesignParams(array &$params)
     {

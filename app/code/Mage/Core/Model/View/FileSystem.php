@@ -133,7 +133,7 @@ class Mage_Core_Model_View_FileSystem implements Mage_Core_Model_View_FileSystem
      * @param $targetPath
      * @param $fileId
      * @param $params
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_View_Design
      */
     public function notifyViewFileLocationChanged($targetPath, $fileId, $params)
     {
