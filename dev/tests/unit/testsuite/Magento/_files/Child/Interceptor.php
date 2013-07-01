@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
 {
     /**
@@ -43,6 +42,13 @@ class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
      */
     protected $_arguments;
 
+    /**
+     * @param Magento_ObjectManager_Factory $factory
+     * @param Magento_ObjectManager_ObjectManager $objectManager
+     * @param string $subjectType
+     * @param array $pluginList
+     * @param array $arguments
+     */
     public function __construct(
         Magento_ObjectManager_Factory $factory,
         Magento_ObjectManager_ObjectManager $objectManager,
@@ -65,6 +71,10 @@ class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
         return $this->_factory->create($this->_subjectType, $this->_arguments);
     }
 
+    /**
+     * @param string $param
+     * @return mixed
+     */
     public function wrap($param)
     {
         $beforeFunc = __FUNCTION__ . 'Before';

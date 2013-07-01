@@ -39,7 +39,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @param array $sharedInstances
      */
     public function __construct(
-        Magento_ObjectManager_Definition $definition,
+        Magento_ObjectManager_Definition $definition = null,
         array $configuration = array(),
         array $sharedInstances = array()
     ) {
@@ -47,6 +47,8 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
             new Magento_ObjectManager_Factory($this, $definition),
             $this
         );
+        $this->_sharedInstances = $sharedInstances;
+        $this->_sharedInstances['Magento_ObjectManager'] = $this;
         $this->configure($configuration);
     }
 

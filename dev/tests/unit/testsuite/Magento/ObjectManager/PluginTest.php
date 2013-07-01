@@ -36,7 +36,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
     {
         $this->_locator->configure(
             array('Magento_Test_Di_Child' => array(
-                'interceptors' => array(
+                'plugins' => array(
                     'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
                     'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
                 )
@@ -51,7 +51,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
     {
         $this->_locator->configure(
             array('Magento_Test_Di_Child' => array(
-                'interceptors' => array(
+                'plugins' => array(
                     'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
                     'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B', 'sortOrder' => '0')
                 )
@@ -67,7 +67,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
         $this->_locator->configure(
             array('customChild' => array(
                 'type' => 'Magento_Test_Di_Child',
-                'interceptors' => array(
+                'plugins' => array(
                     'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
                     'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
                 ),
@@ -86,7 +86,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
         $this->_locator->configure(
             array(
                 'Magento_Test_Di_Child' => array(
-                    'interceptors' => array(
+                    'plugins' => array(
                         'first' => array('instance' => 'customAInterceptor'),
                         'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
                     )
@@ -108,7 +108,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
     {
         $this->_locator->configure(array(
             'Magento_Test_Di_Child' => array(
-                'interceptors' => array(
+                'plugins' => array(
                     'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
                     'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
                 )
@@ -125,7 +125,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
     {
         $this->_locator->configure(array(
             'Magento_Test_Di_Child' => array(
-                'interceptors' => array(
+                'plugins' => array(
                     'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
                     'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
                 )
@@ -133,23 +133,6 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
         ));
 
         $childOne = $this->_locator->get('Magento_Test_Di_Child');
-        $childTwo = $this->_locator->get('Magento_Test_Di_Child');
-        $this->assertEquals($childOne->wrap('testString'), $childTwo->wrap('testString'));
-        $this->assertSame($childOne, $childTwo);
-    }
-
-    public function testInterceptorFollowsLifestyleOfSubject()
-    {
-        $this->_locator->configure(array(
-            'Magento_Test_Di_Child' => array(
-                'interceptors' => array(
-                    'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
-                    'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
-                )
-            )
-        ));
-
-        $childOne = $this->_locator->get('');
         $childTwo = $this->_locator->get('Magento_Test_Di_Child');
         $this->assertEquals($childOne->wrap('testString'), $childTwo->wrap('testString'));
         $this->assertSame($childOne, $childTwo);

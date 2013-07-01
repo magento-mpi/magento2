@@ -7,8 +7,14 @@
  */
 class Magento_Test_Di_Parent implements Magento_Test_Di_Interface
 {
+    /**
+     * @var string
+     */
     protected $_wrapperSymbol;
 
+    /**
+     * @param string $wrapperSymbol
+     */
     public function __construct($wrapperSymbol = '|')
     {
         $this->_wrapperSymbol = $wrapperSymbol;

@@ -1,12 +1,10 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: VAIO
- * Date: 28.06.13
- * Time: 13:20
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-
 class Magento_ObjectManager_Factory
 {
     /**
@@ -15,6 +13,8 @@ class Magento_ObjectManager_Factory
     protected $_objectManager;
 
     /**
+     * Definition list
+     *
      * @var Magento_ObjectManager_Definition
      */
     protected $_definitions;
@@ -48,6 +48,7 @@ class Magento_ObjectManager_Factory
     protected $_creationStack = array();
 
     /**
+     * @param Magento_ObjectManager_ObjectManager $objectManager
      * @param Magento_ObjectManager_Definition $definitions
      */
     public function __construct(
@@ -110,7 +111,7 @@ class Magento_ObjectManager_Factory
                     || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
                 $argument = $isShared
                     ? $this->_objectManager->get($argumentType)
-                    : $this->$this->_objectManager->create($argumentType);
+                    : $this->_objectManager->create($argumentType);
                 unset($this->_creationStack[$requestedType]);
             }
             $resolvedArguments[] = $argument;
@@ -244,6 +245,11 @@ class Magento_ObjectManager_Factory
         }
     }
 
+    /**
+     * Configure factory
+     *
+     * @param array $configuration
+     */
     public function configure(array $configuration)
     {
         foreach ($configuration as $key => $curConfig) {

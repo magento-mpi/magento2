@@ -19,7 +19,7 @@ class Magento_ObjectManager_Factory_InterceptionDecorator
      *
      * @var array
      */
-    protected $_interceptors = array();
+    protected $_plugins = array();
 
     /**
      * Configurable factory
@@ -36,6 +36,8 @@ class Magento_ObjectManager_Factory_InterceptionDecorator
     protected $_definitions;
 
     /**
+     * Object manager
+     *
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -66,8 +68,8 @@ class Magento_ObjectManager_Factory_InterceptionDecorator
     {
         $interceptorClass = $this->_resolveInstanceType($type) . '_Interceptor';
         $config = array();
-        usort($this->_interceptors[$type], array($this, '_sort'));
-        foreach ($this->_interceptors[$type] as $interceptor) {
+        usort($this->_plugins[$type], array($this, '_sort'));
+        foreach ($this->_plugins[$type] as $interceptor) {
             $pluginMethods = $this->_definitions->getMethodList($this->_resolveInstanceType($interceptor['instance']));
             foreach ($pluginMethods as $method) {
                 if (isset($config[$method])) {
@@ -94,7 +96,7 @@ class Magento_ObjectManager_Factory_InterceptionDecorator
                 return $interceptorA['sortOrder'] - $interceptorB['sortOrder'];
             }
             return $interceptorA['sortOrder'];
-        } else if (isset($interceptorB['sortOrder'])){
+        } else if (isset($interceptorB['sortOrder'])) {
             return $interceptorB['sortOrder'];
         } else {
             return 1;
@@ -124,7 +126,7 @@ class Magento_ObjectManager_Factory_InterceptionDecorator
      */
     public function create($type, array $arguments = array())
     {
-        if (isset($this->_interceptors[$type])) {
+        if (isset($this->_plugins[$type])) {
             return $this->_createInterceptor($type, $arguments);
         }
         return $this->_factory->create($type, $arguments);
@@ -141,11 +143,11 @@ class Magento_ObjectManager_Factory_InterceptionDecorator
             if (isset($curConfig['type'])) {
                 $this->_virtualTypes[$key] = $curConfig['type'];
             }
-            if (isset($curConfig['interceptors'])) {
-                if (isset($this->_interceptors[$key])) {
-                    $this->_interceptors[$key] = array_replace($this->_interceptors[$key], $curConfig['interceptors']);
+            if (isset($curConfig['plugins'])) {
+                if (isset($this->_plugins[$key])) {
+                    $this->_plugins[$key] = array_replace($this->_plugins[$key], $curConfig['plugins']);
                 } else {
-                    $this->_interceptors[$key] = $curConfig['interceptors'];
+                    $this->_plugins[$key] = $curConfig['plugins'];
                 }
             }
         }
