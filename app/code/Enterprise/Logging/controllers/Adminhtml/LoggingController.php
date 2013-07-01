@@ -30,7 +30,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -60,9 +60,11 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function exportCsvAction()
     {
-        $this->_prepareDownloadResponse('log.csv',
-            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getCsvFile()
-        );
+        $this->loadLayout();
+        $fileName = 'log.csv';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
 
     /**
@@ -70,9 +72,11 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function exportXmlAction()
     {
-        $this->_prepareDownloadResponse('log.xml',
-            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getExcelFile()
-        );
+        $this->loadLayout();
+        $fileName = 'log.xml';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**

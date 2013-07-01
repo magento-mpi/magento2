@@ -210,13 +210,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     public function gridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock(
-                'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid',
-                'giftcardaccount.grid'
-            )
-            ->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
@@ -287,10 +282,11 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     public function exportMsxmlAction()
     {
-        $this->_prepareDownloadResponse('giftcardaccounts.xml',
-            $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid')
-                ->getExcelFile($this->__('Gift Card Accounts'))
-        );
+        $this->loadLayout();
+        $fileName = 'giftcardaccounts.xml';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -298,11 +294,11 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     public function exportCsvAction()
     {
-        $this->_prepareDownloadResponse('giftcardaccounts.csv',
-            $this->getLayout()->createBlock(
-                'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid'
-            )->getCsvFile()
-        );
+        $this->loadLayout();
+        $fileName = 'giftcardaccounts.csv';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
 
     /**
