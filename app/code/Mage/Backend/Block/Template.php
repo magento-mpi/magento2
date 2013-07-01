@@ -30,8 +30,8 @@ class Mage_Backend_Block_Template extends Mage_Core_Block_Template
      */
     public function __construct(Mage_Backend_Block_Template_Context $context, array $data = array())
     {
-        parent::__construct($context, $data);
         $this->_authorization = $context->getAuthorization();
+        parent::__construct($context, $data);
     }
 
     /**

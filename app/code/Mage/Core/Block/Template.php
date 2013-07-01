@@ -71,10 +71,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function __construct(Mage_Core_Block_Template_Context $context, array $data = array())
     {
-        parent::__construct($context, $data);
         $this->_dirs = $context->getDirs();
         $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();
+        parent::__construct($context, $data);
     }
 
     /**
