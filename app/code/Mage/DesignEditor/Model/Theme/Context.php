@@ -83,6 +83,8 @@ class Mage_DesignEditor_Model_Theme_Context
     }
 
     /**
+     * Get current editable theme
+     *
      * @return Mage_Core_Model_Theme
      * @throws Mage_Core_Exception
      */
