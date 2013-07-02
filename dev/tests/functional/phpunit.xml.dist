@@ -22,8 +22,7 @@
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">testsuite/Core</directory>
-            <directory suffix="Test.php">testsuite/Enterprise</directory>
+            <directory suffix="Test.php">testsuite/</directory>
         </testsuite>
     </testsuites>
     <php>
