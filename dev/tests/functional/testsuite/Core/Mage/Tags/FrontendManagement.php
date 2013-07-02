@@ -25,12 +25,10 @@ class Core_Mage_Tags_FrontendManagementTest extends Core_Mage_Tags_TagsFixtureAb
      */
     public function preconditionsForTests()
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-1299');
-        }
+        $this->markTestIncomplete('MAGETWO-1299');
         return parent::_preconditionsForAllTagsTests();
     }
+
     /**
      * Tag creating with Logged Customer:
      *
@@ -68,6 +66,7 @@ class Core_Mage_Tags_FrontendManagementTest extends Core_Mage_Tags_TagsFixtureAb
         $this->frontend();
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
     }
+
     public function tagNameDataProvider()
     {
         $tagsData = array();

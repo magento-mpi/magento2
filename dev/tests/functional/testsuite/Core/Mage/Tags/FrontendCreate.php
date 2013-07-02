@@ -69,10 +69,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function frontendTagVerificationLoggedCustomer($tags, $testData)
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-1299');
-        }
+        $this->markTestIncomplete('MAGETWO-1299');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -138,10 +135,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function frontendTagVerificationInCategory($testData)
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-1299');
-        }
+        $this->markTestIncomplete('MAGETWO-1299');
         //Data
         $tag = $this->generate('string', 10, ':alpha:');
         $tagToApprove = $this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tag));

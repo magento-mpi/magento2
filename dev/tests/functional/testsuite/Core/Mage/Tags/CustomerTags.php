@@ -42,10 +42,7 @@ class Core_Mage_Tags_CustomerTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function addNewTags($tags, $status, $testData)
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-1299');
-        }
+        $this->markTestIncomplete('MAGETWO-1299');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);

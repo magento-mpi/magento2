@@ -25,10 +25,7 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function preconditionsForTests()
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-1299');
-        }
+        $this->markTestIncomplete('MAGETWO-1299');
         return parent::_preconditionsForAllTagsTests();
     }
 

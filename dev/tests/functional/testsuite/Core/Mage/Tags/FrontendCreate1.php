@@ -25,12 +25,10 @@ class Core_Mage_Tags_FrontendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstr
      */
     public function preconditionsForTests()
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-1299');
-        }
+        $this->markTestIncomplete('MAGETWO-1299');
         return parent::_preconditionsForTaggedProductTests();
     }
+
     /**
      * Tag creating with Logged Customer:
      *
@@ -66,6 +64,7 @@ class Core_Mage_Tags_FrontendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstr
             $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => $status));
         }
     }
+
     public function tagNameDataProvider()
     {
         return array(
@@ -83,6 +82,7 @@ class Core_Mage_Tags_FrontendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstr
             array($this->generate('string', 4, ':alpha:'), 'Approved')
         );
     }
+
     /**
      * Tag creating with Logged Customer
      *
@@ -96,7 +96,7 @@ class Core_Mage_Tags_FrontendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstr
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2272, TL-MAGE-2274
      */
-    public function frontendApprovedTagVerificationLoggedCustomer($tags, $customer, $message,  $testData)
+    public function frontendApprovedTagVerificationLoggedCustomer($tags, $customer, $message, $testData)
     {
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][$customer]);
@@ -113,6 +113,7 @@ class Core_Mage_Tags_FrontendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstr
             'The same Tag has been added twice ' . print_r($tags, true));
         $this->tagsHelper()->verifyTag(array('tag_name' => $tags, 'status' => 'Approved'));
     }
+
     public function tagApprovedNameDataProvider()
     {
         $approvedTag = $this->generate('string', 4, ':alpha:');

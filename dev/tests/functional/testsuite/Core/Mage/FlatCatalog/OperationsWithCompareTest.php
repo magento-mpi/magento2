@@ -23,10 +23,7 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
 
     public function setUpBeforeTests()
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-8719');
-        }
+        $this->markTestIncomplete('MAGETWO-8719');
         $this->loginAdminUser();
         $this->reindexInvalidedData();
         $this->navigate('system_configuration');
@@ -114,7 +111,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
      */
     public function addProductToCompareListFromProductPage($data)
     {
-        $this->markTestIncomplete('BUG: Product is not available in Compare widget on page about_us');
         //Data
         $verify = $this->loadDataSet('CompareProducts', 'verify_compare_data', null, $data['verify']);
         //Steps

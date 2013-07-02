@@ -46,10 +46,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function entriesInTagReports($testData)
     {
-        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $this->markTestIncomplete('MAGETWO-1299');
-        }
+        $this->markTestIncomplete('MAGETWO-1299');
         //Step 1
         $this->customerHelper()->frontLoginCustomer(array('email' => $testData['customer']['email'],
             'password' => $testData['customer']['password']));
