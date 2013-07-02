@@ -44,7 +44,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends 
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace', $shared = false)
+    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace', $shared = true)
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -84,8 +84,8 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends 
     {
         if (!$this->_subject) {
             $this->_subject = true === $this->_isShared
-                ? $this->_objectManager->create($this->_instanceName)
-                : $this->_objectManager->get($this->_instanceName);
+                ? $this->_objectManager->get($this->_instanceName)
+                : $this->_objectManager->create($this->_instanceName);
         }
         return $this->_subject;
     }

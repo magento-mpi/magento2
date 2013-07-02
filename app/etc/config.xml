@@ -78,6 +78,7 @@
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
                 <Mage_Core_Model_UrlInterface>Mage_Core_Model_Url</Mage_Core_Model_UrlInterface>
                 <Mage_Core_Model_Event_InvokerInterface>Mage_Core_Model_Event_Invoker_InvokerDefault</Mage_Core_Model_Event_InvokerInterface>
+                <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
             </preferences>
             <Mage_Core_Model_Cache>
                 <parameters>

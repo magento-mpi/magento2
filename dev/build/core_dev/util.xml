@@ -83,7 +83,6 @@
             <dirset dir="${product_root_dir}/pub/media"/>
             <fileset dir="${product_root_dir}/pub/media"/>
             <dirset dir="${product_root_dir}/pub/static"/>
-            <dirset dir="${product_root_dir}/pub/cache"/>
             <dirset dir="${product_root_dir}/var"/>
         </chmod>
     </target>
