@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:mage="http://www.magento.com">
+
+    <xs:element name="successRequest"/>
+    <xs:element name="successResponse"/>
+    <xs:element name="resourceNotFoundExceptionRequest"/>
+    <xs:element name="resourceNotFoundExceptionResponse"/>
+    <xs:element name="serviceExceptionRequest"/>
+    <xs:element name="serviceExceptionResponse"/>
+    <xs:element name="authorizationExceptionRequest"/>
+    <xs:element name="authorizationExceptionResponse"/>
+    <xs:element name="otherExceptionRequest"/>
+    <xs:element name="otherExceptionResponse"/>
+
+</xs:schema>
