@@ -22,6 +22,11 @@ class Mage_Core_Model_View_Url
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
      * @var Mage_Core_Model_View_Service
      */
     protected $_viewService;
@@ -36,22 +41,33 @@ class Mage_Core_Model_View_Url
      */
     private $_deployedFilesManager;
 
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    private $_storeManager;
+
 
     /**
      * View files URL model
      *
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_StoreManager $storeManager
      * @param Mage_Core_Model_View_Service $viewService
      * @param Mage_Core_Model_View_Publisher $publisher
      * @param Mage_Core_Model_View_DeployedFilesManager $deployedFilesManager
      */
     public function __construct(
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_StoreManager $storeManager,
         Mage_Core_Model_View_Service $viewService,
         Mage_Core_Model_View_Publisher $publisher,
         Mage_Core_Model_View_DeployedFilesManager $deployedFilesManager
     ) {
         $this->_filesystem = $filesystem;
+        $this->_dirs = $dirs;
+        $this->_storeManager = $storeManager;
         $this->_viewService = $viewService;
         $this->_publisher = $publisher;
         $this->_deployedFilesManager = $deployedFilesManager;
@@ -113,11 +129,12 @@ class Mage_Core_Model_View_Url
                 Mage_Core_Model_Store::URL_TYPE_CACHE   => Mage_Core_Model_Dir::PUB_VIEW_CACHE,
             ) as $urlType => $dirType
         ) {
-            $dir = Mage::getBaseDir($dirType);
+            $dir = $this->_dirs->getDir($dirType);
             if (strpos($publicFilePath, $dir) === 0) {
                 $relativePath = ltrim(substr($publicFilePath, strlen($dir)), '\\/');
                 $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
-                $url = Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
+                $url = $this->_storeManager->getStore()->getBaseUrl($urlType, $isSecure) . $relativePath;
+
                 if ($this->_isStaticFilesSigned() && $this->_viewService->isViewFileOperationAllowed()) {
                     $fileMTime = $this->_filesystem->getMTime($publicFilePath);
                     $url .= '?' . $fileMTime;
@@ -137,6 +154,6 @@ class Mage_Core_Model_View_Url
      */
     protected function _isStaticFilesSigned()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
+        return (bool)$this->_storeManager->getStore()->getConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
     }
 }

@@ -42,7 +42,7 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
      * @param string $exceptionMessage
      * @dataProvider constructorExceptionDataProvider
      */
-    public function testConstructorException($permitted, $forbidden, $exceptionMessage)
+    public function _testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
         $this->setExpectedException('Magento_Exception', $exceptionMessage);
         new Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden);

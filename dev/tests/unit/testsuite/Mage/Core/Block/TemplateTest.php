@@ -13,19 +13,20 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 {
     public function testGetTemplateFile()
     {
-        $design = $this->getMock('Mage_Core_Model_View_DesignInterface');
         $template = 'fixture';
         $area = 'areaFixture';
+        $params = array('module' => 'Mage_Core', 'area' => $area);
+
+        $fileSystem = $this->getMock('Mage_Core_Model_View_FileSystem', array(), array(), '', false);
+        $fileSystem->expects($this->once())->method('getFilename')->with($template, $params);
         $arguments = array(
-            'design' => $design,
-            'data'   => array('template' => $template, 'area' => $area),
+            'viewFileSystem' => $fileSystem,
+            'data'           => array('template' => $template, 'area' => $area),
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
 
         $block = $helper->getObject('Mage_Core_Block_Template', $arguments);
 
-        $params = array('module' => 'Mage_Core', 'area' => $area);
-        $design->expects($this->once())->method('getFilename')->with($template, $params);
         $block->getTemplateFile();
     }
 

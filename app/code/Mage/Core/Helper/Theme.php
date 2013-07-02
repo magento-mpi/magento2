@@ -81,7 +81,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_View_FileSystem $viewFileSystem
     ) {
-        $this->_design = $design;
+        $this->_design = $design;   //@TODO Seems not used now
         $this->_dirs = $dirs;
         $this->_layoutMergeFactory = $layoutMergeFactory;
         $this->_themeCollection = $themeCollection;

@@ -105,17 +105,24 @@ class Mage_Core_Model_View_Design_Proxy implements Mage_Core_Model_View_DesignIn
     }
 
     /**
-     * Get design parameters
+     * Load design theme
+     *
+     * @param int|string $themeId
+     * @param string $area
+     * @return Mage_Core_Model_Theme
+     */
+    public function loadDesignTheme($themeId, $area = Mage_Core_Model_View_DesignInterface::DEFAULT_AREA)
+    {
+        return $this->_getInstance()->loadDesignTheme($themeId, $area);
+    }
+
+    /**
+     * Get design settings for current request
      *
      * @return array
      */
     public function getDesignParams()
     {
         return $this->_getInstance()->getDesignParams();
-    }
-
-    public function loadDesignTheme($themeId)
-    {
-        return $this->_getInstance()->loadDesignTheme($themeId);
     }
 }

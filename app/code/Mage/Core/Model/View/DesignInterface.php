@@ -60,4 +60,11 @@ interface Mage_Core_Model_View_DesignInterface
      * @return Mage_Core_Model_Theme
      */
     public function getDesignTheme();
+
+    /**
+     * Get design settings for current request
+     *
+     * @return array
+     */
+    public function getDesignParams();
 }

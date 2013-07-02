@@ -174,6 +174,7 @@ class Generator_ThemeDeployment
      * @param string $fileSource
      * @param string $fileDestination
      * @param array $context
+     * @throws Magento_Exception
      */
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
