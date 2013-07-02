@@ -18,7 +18,7 @@
 <head>
 <?php echo $this->getChildHtml('head') ?>
 </head>
-<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?> data-container="body">
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?> data-container="body" data-mage-init="{loader: {icon: $('#loading_mask_loader img').attr('src')}}">
 <?php echo $this->getChildHtml('after_body_start') ?>
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>

@@ -9,6 +9,7 @@
 /*jshint browser:true jquery:true*/
 (function($){
     $.widget("mage.loader", {
+        loaderStarted: 0,
         options: {
             icon: '',
             texts: {
@@ -28,7 +29,6 @@
          * @protected
          */
         _create: function() {
-            this._render();
             this._bind();
         },
 
@@ -48,11 +48,8 @@
          */
         _bind: function() {
             this._on({
-                'ajaxComplete': '_ajaxJobDone',
-                'ajaxError': '_ajaxJobDone',
-                'processStop': '_ajaxJobDone',
+                'processStop': 'hide',
                 'processStart': 'show',
-                'ajaxStart': 'show',
                 'show.loader': 'show',
                 'hide.loader': 'hide',
                 'contentUpdated.loader': '_contentUpdated'
@@ -60,27 +57,15 @@
         },
 
         /**
-         * Stop the propagation of the event and hide the loader. Used for ajaxComplete, ajaxError, and processStop
-         * events. It will call stopImmediatePropagation on the event and then hide the loader.
-         *
-         * @param event
-         * @private
-         */
-        _ajaxJobDone: function(event) {
-            event.stopImmediatePropagation();
-            this.hide();
-        },
-
-        /**
          * Verify loader present after content updated
+         *
+         * This will be cleaned up by the task MAGETWO-11070
          *
          * @param event
          * @private
          */
         _contentUpdated: function(event) {
-            if (!this.element.find('[data-role="loader"]').length) {
-                this._render();
-            }
+            this.show();
         },
 
         /**
@@ -90,6 +75,7 @@
             if (!this.element.find('[data-role="loader"]').length) {
                 this._render();
             }
+            this.loaderStarted++;
             this.loader.show();
         },
 
@@ -97,8 +83,13 @@
          * Hide loader
          */
         hide: function() {
-            if (this.loader) {
-                this.loader.hide();
+            if (this.loaderStarted > 0) {
+                this.loaderStarted--;
+                if (this.loaderStarted == 0) {
+                    if (this.loader) {
+                        this.loader.hide();
+                    }
+                }
             }
         },
 
@@ -136,7 +127,6 @@
         _destroy: function() {
             this.loader.remove();
             // bindings are automatically removed by jquery since we used the _on method to register them
-            this._super();
         }
     });
 })(jQuery);

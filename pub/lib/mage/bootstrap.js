@@ -20,7 +20,11 @@ jQuery(function ($) {
          */
         $('body').on('ajaxSend', function(e, jqxhr, settings) {
             if (settings && settings.showLoader) {
-                wrapper.trigger('processStart');
+                $(e.target).trigger('processStart');
+                // Check to make sure the loader is there on the page
+                if (!$(e.target).element.find('[data-role="loader"]').length && console) {
+                    console.warn('Expected to start loader but did not find one in the dom');
+                }
             }
         });
 
@@ -28,7 +32,7 @@ jQuery(function ($) {
          * Hide loader on ajax complete
          */
         $('body').on('ajaxComplete ajaxError', function(e, jqxhr, settings) {
-            wrapper.trigger('processStop');
+            $(e.target).trigger('processStop');
         });
 
         /**
