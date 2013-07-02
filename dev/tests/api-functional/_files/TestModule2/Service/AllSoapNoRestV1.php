@@ -19,10 +19,9 @@ class Mage_TestModule2_Service_AllSoapNoRestV1 implements Mage_TestModule2_Servi
     }
 
     /**
-     * @param array $request
      * @return array
      */
-    public function items($request)
+    public function items()
     {
         return array(
             array(
@@ -42,9 +41,11 @@ class Mage_TestModule2_Service_AllSoapNoRestV1 implements Mage_TestModule2_Servi
      */
     public function create($request)
     {
-        return array(
-            'id' => rand()
+        $result = array(
+            'id' => rand(),
+            'name' => $request['name']
         );
+        return $result;
     }
 
     /**
