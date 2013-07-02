@@ -133,10 +133,10 @@
         /**
          * Destroy loader
          */
-        destroy: function() {
+        _destroy: function() {
             this.loader.remove();
-            this.element.off('ajaxComplete ajaxError processStop');
-            return $.Widget.prototype.destroy.call(this);
+            // bindings are automatically removed by jquery since we used the _on method to register them
+            this._super();
         }
     });
 })(jQuery);
