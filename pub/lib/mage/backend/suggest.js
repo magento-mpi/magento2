@@ -224,7 +224,7 @@
                 paste: this.search,
                 input: this.search,
                 selectItem: this._onSelectItem,
-                focus: this.search
+                click: this.search
             }, this.options.events));
 
             this._bindDropdown();

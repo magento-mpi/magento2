@@ -937,14 +937,6 @@
     margin: 0;
 }
 
-.attribute-selector .mage-suggest-dropdown {
-    border: none;
-    border-radius: 0;
-    margin: 0;
-    box-shadow: none;
-    overflow: visible;
-}
-
 .attribute-selector .mage-suggest-dropdown > ul {
     position: relative;
     max-height: 200px;

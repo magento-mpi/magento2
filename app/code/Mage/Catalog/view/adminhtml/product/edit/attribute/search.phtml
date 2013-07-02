@@ -38,7 +38,7 @@
         var $suggest = $('[data-role="product-attribute-search"][data-group="<?php echo $this->escapeHtml($this->getGroupId()); ?>"]');
         $suggest.closest('.dropdown-menu').siblings('[data-toggle=dropdown]').on('click.toggleDropdown', function () {
             if ($(this).hasClass('active')) {
-                $suggest.focus();
+                $suggest.click();
             }
         });
         $('#product-edit-form').on('changeAttributeSet', function(event, data) {
