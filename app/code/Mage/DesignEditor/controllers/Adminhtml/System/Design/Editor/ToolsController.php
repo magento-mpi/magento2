@@ -23,6 +23,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     protected function _initContext()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
+        /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
         $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
         return $themeContext->setEditableThemeById($themeId);
     }

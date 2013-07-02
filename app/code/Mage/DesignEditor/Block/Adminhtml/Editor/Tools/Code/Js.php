@@ -57,7 +57,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
             'name'     => 'js_files_uploader',
             'title'    => $this->__('Select JS Files to Upload'),
             'accept'   => 'application/x-javascript',
-            'multiple' => '',
+            'multiple' => '1',
         );
         if ($this->_service->isThemeAssignedToStore($this->getTheme())) {
             $confirmMessage = $this->__('These JavaScript files may change the appearance of your live store(s).'

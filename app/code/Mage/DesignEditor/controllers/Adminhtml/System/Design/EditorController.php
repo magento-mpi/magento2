@@ -84,8 +84,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->loadLayout();
 
             $this->_configureToolbarBlocks($launchedTheme, $editableTheme, $mode); //top panel
-            $this->_configureToolsBlocks($editableTheme, $mode); //bottom panel
-            $this->_configureEditorBlock($editableTheme, $mode); //editor container
+            $this->_configureToolsBlocks($launchedTheme, $mode); //bottom panel
+            $this->_configureEditorBlock($launchedTheme, $mode); //editor container
 
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
