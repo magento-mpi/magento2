@@ -139,7 +139,7 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         } else if (isset($pathInfo['relativePath'])) {
             return $this->_dir->getDir(Mage_Core_Model_Dir::ROOT) . DIRECTORY_SEPARATOR . $pathInfo['relativePath'];
         } else {
-            return $this->_dir->getDir(Mage_Core_Model_Dir::DI) . DIRECTORY_SEPARATOR . 'definitions.php';
+            return $this->_dir->getDir(Mage_Core_Model_Dir::DI);
         }
     }
 

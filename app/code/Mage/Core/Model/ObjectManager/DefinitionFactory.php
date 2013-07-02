@@ -33,12 +33,12 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
      * @param Mage_Core_Model_Config_Primary $config
      * @return Magento_ObjectManager_Definition
      */
-    public function create(Mage_Core_Model_Config_Primary $config)
+    public function createClassDefinition(Mage_Core_Model_Config_Primary $config)
     {
         Magento_Profiler::start('di_definitions_create');
         $definitions = $config->getParam('definitions', false);
         if (!$definitions) { // check whether definitions were provided as application init param
-            $path = $config->getDefinitionPath();
+            $path = $config->getDefinitionPath() . DIRECTORY_SEPARATOR . 'definitions.php';
             if (is_readable($path)) {
                 $definitions = file_get_contents($path);
             }
@@ -63,5 +63,21 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
         }
         Magento_Profiler::stop('di_definitions_create');
         return $output;
+    }
+
+    /**
+     * Retrieve list of plugin definitions
+     *
+     * @param Mage_Core_Model_Config_Primary $config
+     * @return Magento_ObjectManager_Interception_Definition
+     */
+    public function createPluginDefinition(Mage_Core_Model_Config_Primary $config)
+    {
+        $path = $config->getDefinitionPath() . DIRECTORY_SEPARATOR . 'plugins.php';
+        if (is_readable($path)) {
+            return new Magento_ObjectManager_Interception_Definition_Compiled(unserialize(file_get_contents($path)));
+        } else {
+            return new Magento_ObjectManager_Interception_Definition_Runtime();
+        }
     }
 }

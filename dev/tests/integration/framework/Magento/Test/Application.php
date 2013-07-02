@@ -171,7 +171,12 @@ class Magento_Test_Application
         if (!Mage::getObjectManager()) {
             $definition = new Magento_ObjectManager_Definition_Runtime();
             $definitionDecorator = new Magento_Code_Generator_DefinitionDecorator($definition);
-            $objectManager = new Magento_Test_ObjectManager($definitionDecorator, $config);
+            $instanceConfig = new Magento_Test_ObjectManager_Config();
+            $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
+                new Magento_ObjectManager_Factory_Factory($instanceConfig, null, $definitionDecorator),
+                $instanceConfig
+            );
+            $objectManager = new Magento_Test_ObjectManager($factory, $config, $instanceConfig);
             Mage::setObjectManager($objectManager);
         } else {
             $objectManager = Mage::getObjectManager();
