@@ -158,12 +158,14 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
      */
     public function generateUri($isWsdl = false)
     {
-        $params = array();
+        $params = array(
+            self::REQUEST_PARAM_RESOURCES => $this->_request->getRequestedResources()
+        );
         if ($isWsdl) {
             $params[self::REQUEST_PARAM_WSDL] = true;
         }
         $query = http_build_query($params, '', '&');
-        return $this->getEndpointUri() . (!empty($query) ? '?' : '') . $query;
+        return $this->getEndpointUri() . '?' . $query;
     }
 
     /**

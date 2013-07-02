@@ -75,7 +75,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         try {
             if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
                 $responseBody = $this->_autoDiscover->handle(
-                    null, // TODO: Remove unnecessary argument
+                    $this->_request->getRequestedResources(),
                     $this->_soapServer->generateUri()
                 );
                 $this->_setResponseContentType('text/xml');

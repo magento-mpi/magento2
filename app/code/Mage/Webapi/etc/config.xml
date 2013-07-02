@@ -24,6 +24,7 @@
     <global>
         <areas>
             <webapi>
+                <!-- don't forget to modify Mage_Webapi_Controller_Request::__construct() in case you change this -->
                 <frontName>webapi</frontName>
                 <front_controller>Mage_Webapi_Controller_Front</front_controller>
                 <!--TODO: Utilize base action controller from config, not constant-->

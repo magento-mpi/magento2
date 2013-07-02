@@ -66,7 +66,10 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             $type = $this->getArrayItemType($type);
         }
 
-        return in_array($type, array('string', 'int', 'float', 'double', 'boolean', 'anyType' /** TODO: Temporary solution */));
+        return in_array(
+            $type,
+            array('string', 'int', 'float', 'double', 'boolean', 'anyType'/** TODO: Temporary solution */)
+        );
     }
 
     /**
@@ -156,12 +159,13 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * </pre>
      *
      * @param string $class
+     * @param bool $preserveVersion Should version be preserved during class name conversion into resource name
      * @return string
      * @throws InvalidArgumentException
      */
-    public function translateResourceName($class)
+    public function translateResourceName($class, $preserveVersion = true)
     {
-        $resourceNameParts = $this->getResourceNameParts($class);
+        $resourceNameParts = $this->getResourceNameParts($class, $preserveVersion);
         return lcfirst(implode('', $resourceNameParts));
     }
 
@@ -169,15 +173,16 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * Identify the list of resource name parts including subresources using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Mage_Customer_Controller_Webapi_Customer_Address' => array('Customer', 'Address') <br/>
-     * - 'Vendor_Customer_Controller_Webapi_Customer_Address' => array('VendorCustomer', 'Address') <br/>
-     * - 'Mage_Catalog_Controller_Webapi_Product' => array('Catalog', 'Product')
+     * - 'Mage_Customer_Service_Customer_AddressInterfaceV1' => array('Customer', 'Address', 'V1') <br/>
+     * - 'Vendor_Customer_Service_Customer_AddressInterfaceV1' => array('VendorCustomer', 'Address', 'V1) <br/>
+     * - 'Mage_Catalog_Service_ProductInterfaceV2' => array('CatalogProduct', 'V2')
      *
      * @param string $className
+     * @param bool $preserveVersion Should version be preserved during class name conversion into resource name
      * @return array
      * @throws InvalidArgumentException When class is not valid API resource.
      */
-    public function getResourceNameParts($className)
+    public function getResourceNameParts($className, $preserveVersion = false)
     {
         if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
@@ -190,9 +195,13 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             }
             $parentResourceName = $moduleNamespace . $moduleName . array_shift($resourceNameParts);
             array_unshift($resourceNameParts, $parentResourceName);
+            if ($preserveVersion) {
+                $serviceVersion = $matches[4];
+                $resourceNameParts[] = $serviceVersion;
+            }
             return $resourceNameParts;
         }
-        throw new InvalidArgumentException(sprintf('The controller class name "%s" is invalid.', $className));
+        throw new InvalidArgumentException(sprintf('The service class name "%s" is invalid.', $className));
     }
 
     /**
@@ -270,7 +279,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             if (empty($methodParams) || (count($methodParams) < $bodyParamPosition)) {
                 throw new LogicException(sprintf(
                     'Method "%s" must have parameter for passing request body. '
-                        . 'Its position must be "%s" in method interface.',
+                    . 'Its position must be "%s" in method interface.',
                     $methodReflection->getName(),
                     $bodyParamPosition
                 ));
@@ -339,7 +348,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * @return bool
      * @throws InvalidArgumentException In case when class name is not valid API resource class.
      */
-    public  function isSubresource(ReflectionMethod $methodReflection)
+    public function isSubresource(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
         if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {

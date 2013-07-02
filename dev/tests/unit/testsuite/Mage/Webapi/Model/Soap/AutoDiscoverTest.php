@@ -1,0 +1,214 @@
+<?php
+use Zend\Soap\Wsdl;
+
+/**
+ * Test SOAP Mage_Webapi_Model_Soap_AutoDiscover
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
+{
+
+    /**  @var Mage_Webapi_Model_Soap_AutoDiscover * */
+    protected $_autoDiscover;
+    /**  @var Mage_Webapi_Config * */
+    protected $_newApiConfigMock;
+    /**  @var Mage_Webapi_Model_Config_Soap * */
+    protected $_apiConfig;
+    /**  @var Mage_Webapi_Model_Soap_Wsdl_Factory * */
+    protected $_wsdlFactory;
+    /**  @var Mage_Webapi_Helper_Config * */
+    protected $_helper;
+    /**  @var Mage_Core_Model_CacheInterface * */
+    protected $_cache;
+    /** @var Mage_Webapi_Model_Soap_Wsdl */
+    protected $_wsdlMock;
+
+
+    protected function setUp()
+    {
+
+        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')->disableOriginalConstructor()
+            ->getMock();
+        $this->_apiConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()
+            ->getMock();
+        $this->_wsdlFactory = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')->disableOriginalConstructor()
+            ->getMock();
+        $this->_helper = $this->getMockBuilder('Mage_Webapi_Helper_Config')->disableOriginalConstructor()->getMock();
+        $this->_cache = $this->getMockBuilder('Mage_Core_Model_CacheInterface')->disableOriginalConstructor()->getMock(
+        );
+
+        $this->_wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
+            ->disableOriginalConstructor()
+            ->setMethods(
+                array(
+                    'addSchemaTypeSection',
+                    'addService',
+                    'addPortType',
+                    'addBinding',
+                    'addSoapBinding',
+                    'addElement',
+                    'addComplexType',
+                    'addMessage',
+                    'addPortOperation',
+                    'addBindingOperation',
+                    'addSoapOperation',
+                    'toXML'
+                )
+            )
+            ->getMock();
+        $this->_wsdlFactory = $this->getMock(
+            'Mage_Webapi_Model_Soap_Wsdl_Factory',
+            array('create'),
+            array(new Magento_ObjectManager_ObjectManager())
+        );
+        $this->_wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
+        $this->_helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'), array(), '', false, false);
+        $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        //$this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
+
+        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
+            $this->_newApiConfigMock,
+            $this->_apiConfig,
+            $this->_wsdlFactory,
+            $this->_helper,
+            $this->_cache
+        );
+
+        parent::setUp();
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_autoDiscover);
+        unset($this->_apiConfig);
+        unset($this->_wsdlFactory);
+        unset($this->_helper);
+        unset($this->_cache);
+        parent::tearDown();
+    }
+
+    /**
+     * Test success case for handle
+     */
+    public function testHandleSuccess()
+    {
+        $resData = 'resourceData';
+        $genWSDL = 'generatedWSDL';
+        $requestedResource = array(
+            'catalogProduct' => 'V1',
+        );
+
+        $partialMockedAutoDis = $this->getMockBuilder(
+            'Mage_Webapi_Model_Soap_AutoDiscover'
+        )
+            ->setMethods(array('_prepareResourceData', 'generate'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $partialMockedAutoDis->expects($this->once())->method('_prepareResourceData')->will(
+            $this->returnValue($resData)
+        );
+        $partialMockedAutoDis->expects($this->once())->method('generate')->will(
+            $this->returnValue($genWSDL)
+        );
+        $this->assertEquals($genWSDL, $partialMockedAutoDis->handle($requestedResource, 'http://magento.host'));
+    }
+
+    /**
+     * Test exception for handle
+     *
+     * @expectedException        Mage_Webapi_Exception
+     * @expectedExceptionMessage exception message
+     */
+    public function testHandleWithException()
+    {
+        $genWSDL = 'generatedWSDL';
+        $exceptionMsg = 'exception message';
+        $requestedResource = array(
+            'catalogProduct' => 'V1',
+        );
+
+        $partialMockedAutoDis = $this->getMockBuilder(
+            'Mage_Webapi_Model_Soap_AutoDiscover'
+        )
+            ->setMethods(array('_prepareResourceData', 'generate'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $partialMockedAutoDis->expects($this->once())->method('_prepareResourceData')->will(
+            $this->throwException(new Exception($exceptionMsg))
+        );
+
+        $this->assertEquals($genWSDL, $partialMockedAutoDis->handle($requestedResource, 'http://magento.host'));
+    }
+
+
+    /**
+     * Test getElementComplexTypeName
+     */
+    public function testGetElementComplexTypeName()
+    {
+        $this->assertEquals("Test", $this->_autoDiscover->getElementComplexTypeName("test"));
+    }
+
+    /**
+     * Test getPortTypeName
+     */
+    public function testGetPortTypeName()
+    {
+        $this->assertEquals("testPortType", $this->_autoDiscover->getPortTypeName("test"));
+    }
+
+    /**
+     * Test getBindingName
+     */
+    public function testGetBindingName()
+    {
+        $this->assertEquals("testBinding", $this->_autoDiscover->getBindingName("test"));
+    }
+
+    /**
+     * Test getPortName
+     */
+    public function testGetPortName()
+    {
+        $this->assertEquals("testPort", $this->_autoDiscover->getPortName("test"));
+    }
+
+    /**
+     * test getServiceName
+     */
+    public function testGetServiceName()
+    {
+        $this->assertEquals("testService", $this->_autoDiscover->getServiceName("test"));
+    }
+
+    /**
+     * test getOperationName
+     */
+    public function testGetOperationName()
+    {
+        $this->assertEquals("resNameMethodName", $this->_autoDiscover->getOperationName("resName", "methodName"));
+    }
+
+    /**
+     * @test
+     */
+    public function testGetInputMessageName()
+    {
+        $this->assertEquals("operationNameRequest", $this->_autoDiscover->getInputMessageName("operationName"));
+    }
+
+    /**
+     * @test
+     */
+    public function testGetOutputMessageName()
+    {
+        $this->assertEquals("operationNameResponse", $this->_autoDiscover->getOutputMessageName("operationName"));
+    }
+
+}

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+* {license_notice}
+
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
 <config>
-    <service class="Mage_Catalog_Service_Product" baseUrl="/products">
+    <service class="Mage_Catalog_Service_ProductInterfaceV1" baseUrl="/products">
         <rest-route httpMethod="GET" method="item">/:entity_id</rest-route>
-        <rest-route httpMethod="POST" method="create"></rest-route>
-        <rest-route httpMethod="PUT" method="update">/:entity_id</rest-route>
-        <rest-route httpMethod="DELETE" method="delete">/:entity_id</rest-route>
-        <rest-route httpMethod="GET" method="items"></rest-route>
     </service>
 </config>

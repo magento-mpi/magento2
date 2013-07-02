@@ -65,7 +65,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
-    ) {
+    )
+    {
         $this->_apiConfig = $apiConfig;
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -83,76 +84,60 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     public function handle($requestedResources, $endpointUrl)
     {
-        throw new LogicException("SOAP API can be enabled only when request-response schemas are available.");
+        /** TODO: Remove Mage_Catalog_Service_Product after this method is finalized */
         /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedResources);
-        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $cachedWsdlContent = $this->_cache->load($cacheId);
-            if ($cachedWsdlContent !== false) {
-                return $cachedWsdlContent;
-            }
-        }
-
+        /** TODO: Uncomment caching */
+//        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
+//        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+//            $cachedWsdlContent = $this->_cache->load($cacheId);
+//            if ($cachedWsdlContent !== false) {
+//                return $cachedWsdlContent;
+//            }
+//        }
         $resources = array();
-        $services = $this->_newApiConfig->getServices();
-        foreach ($services as $serviceData) {
-            $resourceName = $this->_helper->translateResourceName($serviceData['class']);
-            $resources[$resourceName] = array('methods' => array());
-            // TODO: Add service version to $serviceData
-            foreach ($serviceData['operations'] as $operation => $operationData) {
-                /** Collect input parameters */
-                $inputParameters = array();
-                /** @var Magento_Data_Schema $requestSchema */
-                $requestSchema = $this->_serviceManager->getRequestSchema($serviceData['class'], $operation);
-                $requestFields = $requestSchema->getData('fields');
-                foreach ($requestFields as $fieldName => $fieldData) {
-                    $inputParameters[$fieldName] = array(
-                        // TODO: Remove default values
-                        'type' => isset($fieldData['type'])
-                            ? $this->_helper->normalizeType($fieldData['type'])
-                            : 'string',
-                        'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
-                        'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
-                    );
-                }
-
-                /** Collect output parameters */
-                $outputParameters = array();
-                /** @var Magento_Data_Schema $responseSchema */
-                $responseSchema = $this->_serviceManager->getResponseSchema($serviceData['class'], $operation);
-                $responseFields = $responseSchema->getData('fields');
-                foreach ($responseFields as $fieldName => $fieldData) {
-                    $outputParameters[$fieldName] = array(
-                        // TODO: Remove default values
-                        'type' => isset($fieldData['type'])
-                            ? $this->_helper->normalizeType($fieldData['type'])
-                            : 'string',
-                        'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
-                        'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
-                    );
-                }
-
-                $resources[$resourceName]['methods'][$operation] = array(
-                    'documentation' => '', // TODO: Get documentation
-                );
-                if (!empty($inputParameters)) {
-                    $resources[$resourceName]['methods'][$operation]['interface']['in']['parameters'] =
-                        $inputParameters;
-                }
-                if (!empty($outputParameters)) {
-                    $resources[$resourceName]['methods'][$operation]['interface']['out']['parameters'] =
-                        $outputParameters;
-                }
+        try {
+            foreach ($requestedResources as $resourceName => $resourceVersion) {
+                $resources[$resourceName] = $this->_prepareResourceData($resourceName, $resourceVersion);
             }
+        } catch (Exception $e) {
+            throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
+
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
-        }
+//        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+//            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+//        }
 
         return $wsdlContent;
+    }
+
+    /**
+     * Method to load Service specific XSD
+     *
+     * @param $serviceName
+     * @return DOMDocument
+     */
+    protected function _getServiceSchemaDOM($serviceName)
+    {
+        return $this->_newApiConfig->getServiceSchemaDOM($serviceName);
+    }
+
+    /**
+     * Extract complex type element from dom document by type name.
+     *
+     * @param $complexTypeName string Name of the input or output parameter
+     * @param $domDocument DOMDocument
+     * @return DOMNode|null
+     */
+    protected function _getComplexTypeNode($complexTypeName, $domDocument)
+    {
+        /** TODO: Use object manager to instantiate objects */
+        $xpath = new DOMXPath($domDocument);
+        /** @var $elemList DOMNode */
+        $complexTypeNode = $xpath->query("//xsd:complexType[@name='$complexTypeName']")->item(0);
+        return !is_null($complexTypeNode) ? $complexTypeNode->cloneNode(true) : null;
     }
 
     /**
@@ -164,7 +149,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     public function generate($requestedResources, $endPointUrl)
     {
-        $this->_collectCallInfo($requestedResources);
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
 
@@ -185,7 +169,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
                 $outputMessageName = false;
                 $outputBinding = false;
-                if (isset($methodData['interface']['out']['parameters'])) {
+                if (isset($methodData['interface']['out']['schema'])) {
                     $outputBinding = $inputBinding;
                     $outputMessageName = $this->_createOperationOutput($wsdl, $operationName, $methodData);
                 }
@@ -217,28 +201,24 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _createOperationInput(Mage_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
+        /**
+         * TODO: Make sure that complex type name is taken from a single place
+         *
+         * (currently we have two sources: XSD schema
+         * and auto-generation mechanism: $this->getElementComplexTypeName($inputMessageName))
+         */
         $inputMessageName = $this->getInputMessageName($operationName);
-        $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
-        $inputParameters = array();
         $elementData = array(
             'name' => $inputMessageName,
-            'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
+            'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
         );
-        if (isset($methodData['interface']['in']['parameters'])) {
-            $inputParameters = $methodData['interface']['in']['parameters'];
+        if (isset($methodData['interface']['in']['schema'])) {
+            $inputComplexTypeNode = $methodData['interface']['in']['schema'];
+            $wsdl->addComplexType($inputComplexTypeNode);
         } else {
             $elementData['nillable'] = 'true';
         }
         $wsdl->addElement($elementData);
-        $callInfo = array();
-        $callInfo['requiredInput']['yes']['calls'] = array($operationName);
-        $typeData = array(
-            'documentation' => $methodData['documentation'],
-            'parameters' => $inputParameters,
-            'callInfo' => $callInfo,
-        );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
-        $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $inputMessageName,
             array(
@@ -262,22 +242,16 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected function _createOperationOutput(Mage_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
-        $complexTypeName = $this->getElementComplexTypeName($outputMessageName);
         $wsdl->addElement(
             array(
                 'name' => $outputMessageName,
-                'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
+                'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         );
-        $callInfo = array();
-        $callInfo['returned']['always']['calls'] = array($operationName);
-        $typeData = array(
-            'documentation' => sprintf('Response container for the %s call.', $operationName),
-            'parameters' => $methodData['interface']['out']['parameters'],
-            'callInfo' => $callInfo,
-        );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
-        $wsdl->addComplexType($complexTypeName);
+        if (isset($methodData['interface']['out']['schema'])) {
+            $outputComplexTypeNode = $methodData['interface']['out']['schema'];
+            $wsdl->addComplexType($outputComplexTypeNode);
+        }
         $wsdl->addMessage(
             $outputMessageName,
             array(
@@ -380,46 +354,71 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Collect data about complex types call info.
-     * Walks through all requested resources and checks all methods 'in' and 'out' parameters.
+     * Prepare data about requested resource for WSDL generator.
      *
-     * @param array $requestedResources
+     * @param string $resourceName
+     * @param string $resourceVersion
+     * @return array
+     * @throws LogicException
      */
-    protected function _collectCallInfo($requestedResources)
+    protected function _prepareResourceData($resourceName, $resourceVersion)
     {
-        foreach ($requestedResources as $resourceName => $resourceData) {
-            foreach ($resourceData['methods'] as $methodName => $methodData) {
-                $this->_processInterfaceCallInfo($methodData['interface'], $resourceName, $methodName);
+        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($resourceName => $resourceVersion));
+        if (empty($requestedServices)) {
+            // TODO: throw proper exception according to new error handling strategy
+            throw new LogicException("Version '$resourceVersion' of resource '$resourceName' is not available.");
+        }
+        /** $requestedServices is expected to contain exactly one item */
+        $serviceData = reset($requestedServices);
+        $resourceData = array('methods' => array());
+        $serviceClass = $serviceData['class'];
+        foreach ($serviceData['operations'] as $operationData) {
+            $serviceMethod = $operationData['method'];
+            /** @var $payloadSchemaDom DOMDocument */
+            $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
+            $operationName = $this->getOperationName($resourceName, $serviceMethod);
+            $inputParameterName = $this->getInputMessageName($operationName);
+            $inputComplexType = $this->_getComplexTypeNode($inputParameterName, $payloadSchemaDom);
+            if (empty($inputComplexType)) {
+                if ($operationData['inputRequired']) {
+                    // TODO: throw proper exception according to new error handling strategy
+                    throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
+                    . "must have '{$inputParameterName}' complex type defined in its schema.");
+                } else {
+                    /** Generate empty input request to make WSDL compliant with WS-I basic profile */
+                    $inputComplexType = $this->_generateEmptyComplexType($inputParameterName);
+                }
+            }
+            $resourceData['methods'][$serviceMethod]['interface']['in']['schema'] = $inputComplexType;
+            $outputParameterName = $this->getOutputMessageName($operationName);
+            $outputComplexType = $this->_getComplexTypeNode($outputParameterName, $payloadSchemaDom);
+            if (!empty($outputComplexType)) {
+                $resourceData['methods'][$serviceMethod]['interface']['out']['schema'] = $outputComplexType;
+            } else {
+                // TODO: throw proper exception according to new error handling strategy
+                throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
+                . "must have '{$outputParameterName}' complex type defined in its schema.");
             }
         }
+        return $resourceData;
     }
 
     /**
-     * Process call info data from interface.
+     * Generate empty complex type with the specified name.
      *
-     * @param array $interface
-     * @param string $resourceName
-     * @param string $methodName
+     * @param string $complexTypeName
+     * @return DOMElement
      */
-    protected function _processInterfaceCallInfo($interface, $resourceName, $methodName)
+    protected function _generateEmptyComplexType($complexTypeName)
     {
-        foreach ($interface as $direction => $interfaceData) {
-            $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
-            foreach ($interfaceData['parameters'] as $parameterData) {
-                $parameterType = $parameterData['type'];
-                if (!$this->_helper->isTypeSimple($parameterType)) {
-                    $operation = $this->getOperationName($resourceName, $methodName);
-                    if ($parameterData['required']) {
-                        $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
-                    } else {
-                        $condition = ($direction == 'requiredInput') ? 'no' : 'conditionally';
-                    }
-                    $callInfo = array();
-                    $callInfo[$direction][$condition]['calls'][] = $operation;
-                    $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
-                }
-            }
-        }
+        $domDocument = new DOMDocument("1.0");
+        $complexTypeNode = $domDocument->createElement('xsd:complexType');
+        $complexTypeNode->setAttribute('name', $complexTypeName);
+        $xsdNamespace = 'http://www.w3.org/2001/XMLSchema';
+        $complexTypeNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xsd', $xsdNamespace);
+        $domDocument->appendChild($complexTypeNode);
+        $sequenceNode = $domDocument->createElement('xsd:sequence');
+        $complexTypeNode->appendChild($sequenceNode);
+        return $complexTypeNode;
     }
-
 }
