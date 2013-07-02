@@ -68,7 +68,7 @@ class Mage_Webapi_Controller_Router_Rest
      */
     protected function _matchVersion(Mage_Webapi_Controller_Request_Rest $request)
     {
-        $versionPattern = '/^\/(' . Mage_Webapi_Config::VERSION_NUMBER_PREFIX .'\d+)/';
+        $versionPattern = '#^/(' . Mage_Webapi_Config::VERSION_NUMBER_PREFIX .'\d+)#i';
         preg_match($versionPattern, $request->getPathInfo(), $matches);
         if (isset($matches[1])) {
             $version = $matches[1];
