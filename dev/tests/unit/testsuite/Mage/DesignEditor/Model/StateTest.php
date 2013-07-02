@@ -119,7 +119,35 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore', 'getConfig'),
             array(), '', false);
+
+        $storeManager = $this->getMock('Mage_Core_Model_StoreManager', array('setConfig'), array(), '', false);
+        $storeManager->expects($this->any())
+            ->method('setConfig')
+            ->with($this->equalTo(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID), $this->equalTo(self::THEME_ID))
+            ->will($this->returnSelf());
+
+        $this->_application->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($storeManager));
+
+        $configMock = $this->getMock('Mage_Core_Model_Config', array('setNode'), array(), '', false);
+        $configMock->expects($this->any())
+            ->method('setNode')
+            ->with(
+                $this->equalTo('default/' . Mage_Core_Model_Design_Package::XML_PATH_THEME_ID),
+                $this->equalTo(self::THEME_ID)
+            )
+            ->will($this->returnSelf());
+
+        $this->_application->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValue($configMock));
+
         $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
+        $this->_theme->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(self::THEME_ID));
+
         $this->_themeContext = $this->getMock('Mage_DesignEditor_Model_Theme_Context',
             array('getEditableTheme', 'getVisibleTheme', 'reset', 'setEditableThemeById'), array(), '', false);
         $this->_themeContext->expects($this->any())
