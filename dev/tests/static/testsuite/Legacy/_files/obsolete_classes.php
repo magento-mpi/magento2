@@ -43,6 +43,7 @@ return array(
     array('Mage_Adminhtml_Block_Abstract', 'Mage_Backend_Block_Abstract'),
     array('Mage_Adminhtml_Block_Api_Edituser'),
     array('Mage_Adminhtml_Block_Api_Tab_Userroles'),
+    array('Mage_Adminhtml_Block_Api_User_Grid'),
     array('Mage_Adminhtml_Block_Backup_Grid'),
     array('Mage_Adminhtml_Block_Catalog'),
     array('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'),
