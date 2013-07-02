@@ -16,44 +16,44 @@
     <br />
 
     <div id="address-tabs">
-    <ul class="address-list" id="address_list">
-        <?php $_iterator = 0; ?>
-        <?php if(count($addressCollection)): ?>
-            <?php foreach ($addressCollection as $_address): ?>
+        <ul class="address-list" id="address_list">
+            <?php $_iterator = 0; ?>
+            <?php if(count($addressCollection)): ?>
+                <?php foreach ($addressCollection as $_address): ?>
 
-            <li class="address-list-item" id="address_item_<?php echo $_address->getId() ?>">
-                <a href="#form_address_item_<?php echo $_address->getId() ?>">
-                <?php if (!$this->isReadonly()): ?>
-                <div class="address-list-item-actions">
-                    <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>">
-                        <span>Remove address</span>
-                    </button>
-                    <button class="action-edit" type="button" title="Edit address" id="select_button_<?php echo $_address->getId() ?>">
-                        <span>Edit address</span>
-                    </button>
-                </div>
-                <?php endif;?>
+                <li class="address-list-item" id="address_item_<?php echo $_address->getId() ?>">
+                    <a href="#form_address_item_<?php echo $_address->getId() ?>">
+                    <?php if (!$this->isReadonly()): ?>
+                    <div class="address-list-item-actions">
+                        <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>">
+                            <span>Remove address</span>
+                        </button>
+                        <button class="action-edit" type="button" title="Edit address" id="select_button_<?php echo $_address->getId() ?>">
+                            <span>Edit address</span>
+                        </button>
+                    </div>
+                    <?php endif;?>
 
-                <address>
-                    <?php echo $_address->format('html') ?>
-                </address>
+                    <address>
+                        <?php echo $_address->format('html') ?>
+                    </address>
 
-                <div class="field field-address-item-billing choice">
-                    <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_address->getId() ?>" id="address_item_billing<?php echo $_address->getId() ?>" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>"<?php if($_address->getId()==$customer->getDefaultBilling()): ?> checked="checked"<?php endif; ?> />
-                    <label class="label" for="address_item_billing<?php echo $_address->getId() ?>">
-                        <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Billing Address') ?></span>
-                    </label>
-                </div>
-                <div class="field field-address-item-shipping choice">
-                    <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_address->getId() ?>" id="address_item_shipping<?php echo $_address->getId() ?>" name="account[default_shipping]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Shipping Address') ?>"<?php if($_address->getId()==$customer->getDefaultShipping()): ?> checked="checked"<?php endif; ?> />
-                    <label class="label" for="address_item_shipping<?php echo $_address->getId() ?>">
-                        <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Shipping Address') ?></span>
-                    </label>
-                </div>
+                    <div class="field field-address-item-billing choice">
+                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_address->getId() ?>" id="address_item_billing<?php echo $_address->getId() ?>" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>"<?php if($_address->getId()==$customer->getDefaultBilling()): ?> checked="checked"<?php endif; ?> />
+                        <label class="label" for="address_item_billing<?php echo $_address->getId() ?>">
+                            <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Billing Address') ?></span>
+                        </label>
+                    </div>
+                    <div class="field field-address-item-shipping choice">
+                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_address->getId() ?>" id="address_item_shipping<?php echo $_address->getId() ?>" name="account[default_shipping]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Shipping Address') ?>"<?php if($_address->getId()==$customer->getDefaultShipping()): ?> checked="checked"<?php endif; ?> />
+                        <label class="label" for="address_item_shipping<?php echo $_address->getId() ?>">
+                            <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Shipping Address') ?></span>
+                        </label>
+                    </div>
 
-                </a>
-            </li>
-            <?php endforeach; ?>
+                    </a>
+                </li>
+                <?php endforeach; ?>
             <?php endif; ?>
             <li class="address-list-actions last"><?php echo $this->getAddNewButtonHtml() ?></li>
         </ul>
@@ -61,37 +61,37 @@
         <!-- Template for adding address item to list -->
         <?php $_templatePrefix = $this->getTemplatePrefix() ?>
         <div id="address_item_template" class="hidden template">
-        <li class="address-list-item">
-            <a>
-            <?php if (!$this->isReadonly()): ?>
-            <div class="address-list-item-actions">
-                <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>">
-                    <span>Remove address</span>
-                </button>
-                <button class="action-edit" type="button" title="Edit address">
-                    <span>Edit address</span>
-                </button>
-            </div>
-            <?php endif;?>
+            <li class="address-list-item">
+                <a>
+                <?php if (!$this->isReadonly()): ?>
+                <div class="address-list-item-actions">
+                    <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>">
+                        <span>Remove address</span>
+                    </button>
+                    <button class="action-edit" type="button" title="Edit address">
+                        <span>Edit address</span>
+                    </button>
+                </div>
+                <?php endif;?>
 
-            <address>
-                <?php echo Mage::helper('Mage_Customer_Helper_Data')->__('New Customer Address') ?>
-            </address>
+                <address>
+                    <?php echo Mage::helper('Mage_Customer_Helper_Data')->__('New Customer Address') ?>
+                </address>
 
-            <div class="field choice field-address-item-billing">
-                    <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_templatePrefix ?>" id="address_item_billing<?php echo $_templatePrefix ?>" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>" />
-                <label class="label" for="address_item_billing<?php echo $_templatePrefix ?>">
-                    <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Billing Address') ?></span>
-                </label>
-            </div>
-            <div class="field choice field-address-item-shipping">
-                    <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_templatePrefix ?>" id="address_item_shipping<?php echo $_templatePrefix ?>" name="account[default_shipping]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Shipping Address') ?>"/>
-                <label class="label" for="address_item_shipping<?php echo $_templatePrefix ?>">
-                    <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Shipping Address') ?></span>
-                </label>
-            </div>
-            </a>
-        </li>
+                <div class="field choice field-address-item-billing">
+                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_templatePrefix ?>" id="address_item_billing<?php echo $_templatePrefix ?>" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>" />
+                    <label class="label" for="address_item_billing<?php echo $_templatePrefix ?>">
+                        <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Billing Address') ?></span>
+                    </label>
+                </div>
+                <div class="field choice field-address-item-shipping">
+                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_templatePrefix ?>" id="address_item_shipping<?php echo $_templatePrefix ?>" name="account[default_shipping]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Shipping Address') ?>"/>
+                    <label class="label" for="address_item_shipping<?php echo $_templatePrefix ?>">
+                        <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Shipping Address') ?></span>
+                    </label>
+                </div>
+                </a>
+            </li>
         </div>
 
         <!-- Address form template -->
@@ -106,23 +106,23 @@
 
 
 
-    <!-- Addresses forms -->
-    <div class="address-item-edit" id="address_form_container">
-        <?php if(count($addressCollection)): ?>
-            <?php foreach ($addressCollection as $_address): ?>
-            <div class="address-item-edit-content" id="form_address_item_<?php echo $_address->getId() ?>" style="display:none">
-            <?php
-                    $this->getForm()->addValues($_address->getData())
-                            ->setHtmlIdPrefix("_item{$_address->getId()}")
-                            ->setFieldNameSuffix('address['.$_address->getId().']');
-                    $this->addValuesToNamePrefixElement($_address->getPrefix())
-                        ->addValuesToNameSuffixElement($_address->getSuffix());
-            ?>
-            <?php echo $this->getForm()->getHtml() ?>
-            <input type="hidden" name="address[<?php echo $_address->getId() ?>][_deleted]" id="deleted_address_item_<?php echo $_address->getId() ?>" />
-            </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+        <!-- Addresses forms -->
+        <div class="address-item-edit" id="address_form_container">
+            <?php if(count($addressCollection)): ?>
+                <?php foreach ($addressCollection as $_address): ?>
+                <div class="address-item-edit-content" id="form_address_item_<?php echo $_address->getId() ?>" style="display:none">
+                <?php
+                        $this->getForm()->addValues($_address->getData())
+                                ->setHtmlIdPrefix("_item{$_address->getId()}")
+                                ->setFieldNameSuffix('address['.$_address->getId().']');
+                        $this->addValuesToNamePrefixElement($_address->getPrefix())
+                            ->addValuesToNameSuffixElement($_address->getSuffix());
+                ?>
+                <?php echo $this->getForm()->getHtml() ?>
+                <input type="hidden" name="address[<?php echo $_address->getId() ?>][_deleted]" id="deleted_address_item_<?php echo $_address->getId() ?>" />
+                </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
     </div>
 </fieldset>
