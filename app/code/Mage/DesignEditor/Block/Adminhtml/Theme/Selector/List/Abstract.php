@@ -100,7 +100,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
-        $title = $this->__('Assign to a Store View');
+        $title = $this->__('Assign New Theme');
         if ($this->getHasThemeAssigned()) {
             // @codingStandardsIgnoreStart
             $message = $this->__('You chose a new theme for your live store. Click "OK" to replace your current theme.');
@@ -153,7 +153,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
             'label'  => $this->__('Edit'),
             'class'  => 'action-edit',
             'href'   => $this->_getEditUrl($themeBlock->getTheme()->getId()),
-            'target' => '_blank',
+            'target' => 'edittheme',
         ));
 
         $themeBlock->addButton($editButton);

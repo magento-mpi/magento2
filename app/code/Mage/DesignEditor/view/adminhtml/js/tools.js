@@ -103,9 +103,9 @@
          * @private
          */
         _onMouseUp: function () {
-            if (this.element.find('[data-translate-menu]').hasClass('hidden'))
+            if (this.element.find('[data-translate-menu]').hasClass('hidden')) {
                 this._toggle(this.element.find('[data-translate-edit]').data('translate-edit'));
-            else {
+            } else {
                 // If the button is clicked while the menu is displaying, hide the menu.
                 if (!this.showMenu)
                     this.element.find('[data-translate-menu]').toggleClass('hidden');
@@ -123,8 +123,9 @@
          */
         _toggle: function (mode) {
             // Hide menu.
-            if (!this.element.find('[data-translate-menu]').hasClass('hidden'))
+            if (!this.element.find('[data-translate-menu]').hasClass('hidden')) {
                 this.element.find('[data-translate-menu]').toggleClass('hidden');
+            }
 
             // Change menu to reflect what was selected, so will display correctly when displayed again.
             var disableInlineTranslation = this._updateMenu(mode);
@@ -147,7 +148,7 @@
 
             if (this.options.refreshVdeCanvas || disableInlineTranslation) {
                 if (this.options.refreshVdeCanvas)
-                    url = url + "translation_mode/" + mode;
+                    url = url + "?" + $.param({translation_mode: mode});
 
                 $('[data-frame="editor"]').prop('src', url);
 
@@ -155,9 +156,9 @@
                  * Since the url is being modified to support inline translation, the window is not reloaded since it
                  * is using the cached url to display.
                  */
-            }
-            else
+            } else {
                 this.options.dialogWidgetElement.translateInlineDialogVde('toggleStyle', mode);
+            }
          },
 
         /**

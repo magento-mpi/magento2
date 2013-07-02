@@ -602,3 +602,66 @@ manage_ratings:
         1: Rating Name
         2: Sort Order
         3: Is Active
+
+#dataset for ui elements for Frontend Apps grid
+manage_cms_widgets:
+    fieldset:
+        cms_widgets_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        add_new_widget_instance: ~
+    field:
+        page: ~
+        filter_widget_id: ~
+        filter_title: ~
+        filter_sort_order: ~
+    dropdown:
+        view_per_page: ~
+        filter_type: ~
+        filter_design_package_theme: ~
+    headers:
+        0: Widget ID
+        1: Widget Instance
+        2: Type
+        3: Design Theme
+        4: Sort Order
+
+#dataset for ui elements for Paypal Settelment Report grid
+paypal_reports:
+    fieldset:
+        paypal_reports_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        fetch_updates: ~
+    field:
+        view_per_page: ~
+        report_date_from: ~
+        report_date_to: ~
+        merchant_account: ~
+        transaction_id: ~
+        ivoice_id: ~
+        reference_id: ~
+        start_date_from: ~
+        start_date_to: ~
+        finish_date_from: ~
+        finish_date_to: ~
+        gross_amount_from: ~
+        gross_amount_to: ~
+        fee_amount_from: ~
+        fee_amount_to: ~
+    dropdown:
+        view_per_page: ~
+        event_filter: ~
+    headers:
+        0: Report Date
+        1: Merchant Account
+        2: Transaction ID
+        3: Invoice ID
+        4: PayPal Reference ID
+        5: Event
+        6: Start Date
+        7: Finish Date
+        8: Gross Amount
+        9: Fee Amount

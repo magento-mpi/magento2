@@ -48,7 +48,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
 
         if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
-            $this->_updateButton('save', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Submit RMA'));
+            $this->_updateButton('save', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Submit Returns'));
         } else {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_removeButton('save');

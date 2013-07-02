@@ -99,21 +99,6 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
-     * Determine if the vde specific translation class should be used.
-     *
-     * @param  Varien_Event_Observer $observer
-     * @return Mage_DesignEditor_Model_Observer
-     */
-    public function initializeTranslation(Varien_Event_Observer $observer)
-    {
-        if ($this->_helper->isVdeRequest()) {
-            // Request is for vde.  Override the translation class.
-            $observer->getResult()->setInlineType('Mage_DesignEditor_Model_Translate_InlineVde');
-        }
-        return $this;
-    }
-
-    /**
      * Save time stamp of last change
      *
      * @param Varien_Event_Observer $event
@@ -158,5 +143,20 @@ class Mage_DesignEditor_Model_Observer
                 $targetChange->delete();
             }
         }
+    }
+
+    /**
+     * Determine if the vde specific translation class should be used.
+     *
+     * @param  Varien_Event_Observer $observer
+     * @return Mage_DesignEditor_Model_Observer
+     */
+    public function initializeTranslation(Varien_Event_Observer $observer)
+    {
+        if ($this->_helper->isVdeRequest()) {
+            // Request is for vde.  Override the translation class.
+            $observer->getResult()->setInlineType('Mage_DesignEditor_Model_Translate_InlineVde');
+        }
+        return $this;
     }
 }

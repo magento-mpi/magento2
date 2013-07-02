@@ -95,6 +95,33 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 
     protected $_template = 'Mage_Backend::widget/grid.phtml';
 
+    /**
+     * @var Mage_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Mage_Core_Model_Url
+     */
+    protected $_urlModel;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_urlModel = $urlModel;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -634,12 +661,11 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     protected function _getRssUrl($url)
     {
-        $urlModel = Mage::getModel('Mage_Core_Model_Url');
-        if (Mage::app()->getStore()->getStoreInUrl()) {
+        if ($this->_storeManager->getStore()->isUseStoreInUrl()) {
             // Url in 'admin' store view won't be accessible, so form it in default store view frontend
-            $urlModel->setStore(Mage::app()->getDefaultStoreView());
+            $this->_urlModel->setStore($this->_storeManager->getDefaultStoreView());
         }
-        return $urlModel->getUrl($url);
+        return $this->_urlModel->getUrl($url);
     }
 
     /**

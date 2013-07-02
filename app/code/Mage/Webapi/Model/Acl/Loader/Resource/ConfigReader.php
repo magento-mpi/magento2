@@ -32,7 +32,11 @@ class Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader extends Magento_Acl_Loa
     ) {
         if (count($fileList->asArray())) {
             parent::__construct($fileList, $mapper, $converter);
+        } else {
+            $this->_mapper = $mapper;
+            $this->_converter = $converter;
         }
+
         $this->_config = $config;
     }
 

@@ -12,17 +12,20 @@
     "use strict";
     $.widget('mage.carousel', {
         options: {
-            panelSelector: '.slider-panel',
-            sliderSelector: '.slider',
-            itemSelector: '.slider-item',
-            slideButtonSelector: '.slide-button',
+            panelSelector: '[data-slider-panel="slider-panel"]',
+            sliderSelector: '[data-slider="slider"]',
+            itemSelector: '[data-slider-item="slider-item"]',
+            slideButtonSelector: '[data-slide-button="slide-button"]',
             slideButtonInactiveClass: 'inactive',
             forwardButtonClass: 'forward',
             backwardButtonClass: 'backward',
             pageSize: 6,
             scrollSize: 2,
+            sliderPanelWidth:'100%',
             slideDirection: 'horizontal',
             fadeEffect: true,
+            opacity : 0.5,
+            duration:1000,
             toggleInit: false
         },
 
@@ -33,8 +36,9 @@
         _create: function() {
             this.items = this.element.find(this.options.itemSelector);
             this.isPlaying = false;
-            this.isAbsolutized = false;
+            this.slideConf = {};
             this.offset = 0;
+            this.itemsLength = this.items.length - this.options.pageSize;
             this.sliderPanel = this.element.find(this.options.panelSelector);
             this.slider = this.sliderPanel.find(this.options.sliderSelector);
             this.element.find(this.options.slideButtonSelector).on('click', $.proxy(this._handleClick, this));
@@ -49,7 +53,7 @@
         _updateButtons: function() {
             var buttons = this.element.find(this.options.slideButtonSelector);
             this.marginLeft = this.marginTop = null;
-            $(buttons).each($.proxy(function(key, value) {
+            buttons.each($.proxy(function(key, value) {
                 var button = $(value);
                 if (button.hasClass(this.options.backwardButtonClass)) {
                     if (this.offset <= 0) {
@@ -59,7 +63,7 @@
                         button.removeClass(this.options.slideButtonInactiveClass);
                     }
                 } else if (button.hasClass(this.options.forwardButtonClass)) {
-                    if (this.offset >= this.items.length - this.options.pageSize) {
+                    if (this.offset >= this.itemsLength) {
                         button.addClass(this.options.slideButtonInactiveClass);
                     }
                     else {
@@ -77,7 +81,7 @@
 
         _handleClick: function(e) {
             var element = $(e.target);
-            if (!element.hasClass(this.options.slideButtonSelector.replace('.', ''))) {
+            if (!element.is(this.options.slideButtonSelector)) {
                 element = element.parent(this.options.slideButtonSelector);
             }
             if (!element.hasClass(this.options.slideButtonInactiveClass)) {
@@ -122,23 +126,12 @@
             if (this.isPlaying) {
                 return false;
             }
-            this._absolutize();
             if (this.options.slideDirection === 'horizontal') {
-                this.marginLeft = this._getSlidePosition(isForward).left;
+                this.slideConf['margin-left'] = this._getSlidePosition(isForward).left;
             } else {
-                this.marginTop = this._getSlidePosition(isForward).top;
+                this.slideConf['margin-top'] = this._getSlidePosition(isForward).top;
             }
             this._start();
-        },
-        _absolutize: function() {
-            if (!this.isAbsolutized) {
-                this.isAbsolutized = true;
-                this.sliderPanel.css({
-                    height: this.sliderPanel.outerHeight() + 'px',
-                    width: this.sliderPanel.outerWidth() + 'px'
-                });
-
-            }
         },
 
         /**
@@ -149,9 +142,12 @@
         _start: function() {
             if (this.options.fadeEffect) {
                 this._fadeIn();
-            } else {
-                this._move();
             }
+            this.slider.animate(this.slideConf, $.proxy(function() {
+                this.sliderPanel.fadeTo(this.options.duration, 1);
+                this.isPlaying = false;
+                this._updateButtons();
+            }, this));
         },
 
         /**
@@ -160,10 +156,7 @@
          */
 
         _fadeIn: function() {
-            this.sliderPanel.fadeTo(0, 0.5, $.proxy(function() {
-                this.sliderPanel.fadeTo(1000, 1);
-                this._move();
-            }, this));
+            this.sliderPanel.fadeTo(0, this.options.opacity);
         },
 
         /**
@@ -172,14 +165,7 @@
          */
 
         _move: function() {
-            var slideConf = {};
-            if (this.marginLeft) {
-                slideConf = {'margin-left': this.marginLeft};
-            }
-            if (this.marginTop) {
-                slideConf = {'margin-top': this.marginTop};
-            }
-            this.slider.animate(slideConf, $.proxy(function() {
+            this.slider.animate(this.slideConf, $.proxy(function() {
                 this.isPlaying = false;
                 this._updateButtons();
             }, this));
@@ -195,7 +181,7 @@
         _getSlidePosition: function(isForward) {
             var targetOffset;
             if (isForward) {
-                targetOffset = Math.min(this.items.length - this.options.pageSize, this.offset + this.options.scrollSize);
+                targetOffset = Math.min(this.itemsLength, this.offset + this.options.scrollSize);
             }
             else {
                 targetOffset = Math.max(this.offset - this.options.scrollSize, 0);
@@ -221,22 +207,18 @@
             var firstItem = this.items.first(),
                 offset = 0;
 
-            if (this.config.slideDirection === 'horizontal') {
+            if (this.options.slideDirection === 'horizontal') {
                 if (this.options.toggleInit) {
-                    this.sliderPanel.css({width: '100%'});
+                    this.sliderPanel.width(this.options.sliderPanelWidth);
                 } else {
                     offset = (window.parseInt(firstItem.css('margin-left')) + window.parseInt(firstItem.css('margin-right'))) * (this.options.pageSize - 1);
-                    this.sliderPanel.css({width: (firstItem.outerWidth() * this.options.pageSize + offset) + 'px'});
+                    this.sliderPanel.width((firstItem.outerWidth() * this.options.pageSize + offset) + 'px');
                 }
             } else {
                 offset = (window.parseInt(firstItem.css('margin-bottom')) + window.parseInt(firstItem.css('margin-top'))) * (this.options.pageSize - 1);
-                this.sliderPanel.css({height: (firstItem.outerHeight() * this.options.pageSize + offset) + 'px'});
+                this.sliderPanel.height((firstItem.outerHeight() * this.options.pageSize + offset) + 'px');
             }
-
-            this.sliderPanel.parent().css({
-                width: this.sliderPanel.outerWidth() + 'px',
-                height: this.sliderPanel.outerHeight() + 'px'
-            });
+            this.sliderPanel.parent().width(this.sliderPanel.outerWidth() + 'px').height(this.sliderPanel.outerHeight() + 'px');
         }
     });
 })(jQuery, window);

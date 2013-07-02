@@ -102,7 +102,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Returns');
     }
 
     /**
@@ -112,7 +112,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA');
+        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Returns');
     }
 
     /**

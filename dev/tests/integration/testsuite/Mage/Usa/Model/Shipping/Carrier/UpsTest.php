@@ -11,16 +11,18 @@ class Mage_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestCase
     /**
      * @var Mage_Usa_Model_Shipping_Carrier_Ups
      */
-    protected $_model;
+    private $_object;
 
-    protected function setUp()
+    public function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Usa_Model_Shipping_Carrier_Ups');
+        $simplexmlFactory = $this->getMock('Mage_Usa_Model_Simplexml_ElementFactory', array(), array(), '', false);
+        /** @var $simplexmlFactory Mage_Usa_Model_Simplexml_ElementFactory */
+        $this->_object = new Mage_Usa_Model_Shipping_Carrier_Ups($simplexmlFactory);
     }
 
     public function testGetShipAcceptUrl()
     {
-        $this->assertEquals($this->_model->getShipAcceptUrl(), 'https://wwwcie.ups.com/ups.app/xml/ShipAccept');
+        $this->assertEquals($this->_object->getShipAcceptUrl(), 'https://wwwcie.ups.com/ups.app/xml/ShipAccept');
     }
 
     /**
@@ -30,12 +32,12 @@ class Mage_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetShipAcceptUrlLive()
     {
-        $this->assertEquals($this->_model->getShipAcceptUrl(), 'https://onlinetools.ups.com/ups.app/xml/ShipAccept');
+        $this->assertEquals($this->_object->getShipAcceptUrl(), 'https://onlinetools.ups.com/ups.app/xml/ShipAccept');
     }
 
     public function testGetShipConfirmUrl()
     {
-        $this->assertEquals($this->_model->getShipConfirmUrl(), 'https://wwwcie.ups.com/ups.app/xml/ShipConfirm');
+        $this->assertEquals($this->_object->getShipConfirmUrl(), 'https://wwwcie.ups.com/ups.app/xml/ShipConfirm');
     }
 
     /**
@@ -45,6 +47,6 @@ class Mage_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetShipConfirmUrlLive()
     {
-        $this->assertEquals($this->_model->getShipConfirmUrl(), 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm');
+        $this->assertEquals($this->_object->getShipConfirmUrl(), 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm');
     }
 }

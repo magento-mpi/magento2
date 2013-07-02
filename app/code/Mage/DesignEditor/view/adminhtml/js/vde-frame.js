@@ -26,6 +26,9 @@
         _bind: function() {
             $(window).on('resize', $.proxy(this._resizeFrame, this));
             $('body').on('refreshIframe', $.proxy(this._refreshFrame, this));
+            this.element.on('load', function() {
+                $('body').trigger('processStop');
+            });
         },
 
         /**
@@ -48,6 +51,8 @@
          * @private
          */
         _refreshFrame: function() {
+            $('body').trigger('processStart');
+
             this.element[0].contentWindow.location.reload(true);
         },
 

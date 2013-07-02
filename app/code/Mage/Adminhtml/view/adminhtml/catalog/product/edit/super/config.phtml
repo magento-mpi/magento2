@@ -69,7 +69,7 @@ jQuery(function($) {
         qtyField = $('#qty'),
         currentProductTemplateControl = $('#product-template-suggest-container .actions-split > .action-toggle'),
         attributesInput = $("input[name='attributes[]']", variationsContainer),
-        hasVariations = <?php echo ($this->_getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>;
+        hasVariations = <?php echo ($this->getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>;
 
     $('#configurable-attributes-container').variationsAttributes();
 

@@ -33,11 +33,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_eventManagerMock;
 
     /**
@@ -49,11 +44,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_storeManagerMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -70,7 +60,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
         $responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false, false);
 
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
         $configStructureMock = $this->getMock('Mage_Backend_Model_Config_Structure',
             array(), array(), '', false, false
         );
@@ -78,9 +67,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array(), array(), '', false, false
         );
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
-        $this->_storeManagerMock = $this->getMockForAbstractClass(
-            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('reinitStores')
-        );
+
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
             array('addSuccess', 'addException'), array(), '', false, false
@@ -119,9 +106,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array(
                 $context,
                 $configStructureMock,
-                $this->_configMock,
                 $this->_configFactoryMock,
-                $this->_storeManagerMock,
                 $this->_authMock,
                 $this->_cacheMock,
                 null,
@@ -129,27 +114,10 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         );
     }
 
-    /**
-     * Setup expectation on occurrence of stores reinitialization
-     */
-    protected function _expectResetStores()
-    {
-        $this->_storeManagerMock->expects($this->once())->method('reinitStores');
-    }
-
     public function testIndexActionWithAllowedSection()
     {
-        $this->_expectResetStores();
-
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $this->_sessionMock->expects($this->once())->method('addSuccess')->with('You saved the configuration.');
-
-        $this->_eventManagerMock->expects($this->exactly(3))->method('dispatch');
-        $this->_eventManagerMock->expects($this->at(0))->method('dispatch')->with('application_process_reinit_config');
-        $this->_eventManagerMock->expects($this->at(1))->method('dispatch')
-            ->with('admin_system_config_section_save_after');
-        $this->_eventManagerMock->expects($this->at(2))->method('dispatch')
-            ->with('admin_system_config_changed_section_test_section');
 
         $groups = array('some_key' => 'some_value');
         $requestParamMap = array(
@@ -186,7 +154,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
         $backendConfigMock = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false, false);
         $backendConfigMock->expects($this->never())->method('save');
-        $this->_configMock->expects($this->never())->method('reinit');
         $this->_eventManagerMock->expects($this->never())->method('dispatch');
         $this->_sessionMock->expects($this->never())->method('addSuccess');
         $this->_sessionMock->expects($this->once())->method('addException');
@@ -213,8 +180,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionGetGroupForSave()
     {
-        $this->_expectResetStores();
-
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $fixturePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
@@ -256,8 +221,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionSaveAdvanced()
     {
-        $this->_expectResetStores();
-
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $requestParamMap = array(

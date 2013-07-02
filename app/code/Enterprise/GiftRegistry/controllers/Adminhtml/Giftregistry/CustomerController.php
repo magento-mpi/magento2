@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($model->getCustomerId());
 
             $this->_title($this->__('Customers'))
-                ->_title($this->__('Manage Customers'))
+                ->_title($this->__('Customers'))
                 ->_title($customer->getName())
                 ->_title($this->__("Edit '%s' Gift Registry", $model->getTitle()));
 

@@ -15,8 +15,8 @@
             <version>1.11.0.2</version>
             <active>false</active>
             <depends>
-                <Mage_Customer/>
-                <Mage_Checkout/>
+                <Mage_Customer />
+                <Mage_Checkout />
             </depends>
         </Enterprise_Reward>
     </modules>
@@ -24,7 +24,9 @@
         <di>
             <Enterprise_Reward_Model_Observer>
                 <parameters>
-                    <authorization>Magento_Authorization_Proxy</authorization>
+                    <authorization>
+                        <instance>Magento_Authorization_Proxy</instance>
+                    </authorization>
                 </parameters>
             </Enterprise_Reward_Model_Observer>
         </di>
@@ -462,4 +464,4 @@
             </enterprise_reward_expire_points>
         </jobs>
     </crontab>
-</config>
+</config>
