@@ -70,13 +70,17 @@
         /*
          * Show loader on ajax send
          */
-        $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
-            if (settings && settings.showLoader || e.type === 'processStart') {
-                $(e.target).mage('loader', {
-                    icon: $('#loading_mask_loader img').attr('src'),
-                    showOnInit: true
-                });
+        $('body').on('ajaxSend', function(e, jqxhr, settings) {
+            if (settings && settings.showLoader) {
+                wrapper.trigger('processStart');
             }
+        });
+
+        /*
+         * Hide loader on ajax complete
+         */
+        $('body').on('ajaxComplete ajaxError', function(e, jqxhr, settings) {
+            wrapper.trigger('processStop');
         });
 
         /*
