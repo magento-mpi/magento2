@@ -29,8 +29,9 @@ $compilationDirs = array(
     $rootDir . '/lib/Magento',
     $rootDir . '/lib/Mage',
     $rootDir . '/lib/Varien',
-    $rootDir . '/var/generation'
+    $rootDir . DS . Magento_Code_Generator_Io::DEFAULT_DIRECTORY // should be added to include path in app bootstrap.php
 );
+// $compiledFile value should correspond Mage_Core_Model::getDir('di').'definitions.php' of running application
 $compiledFile = $rootDir . '/var/di/definitions.php';
 
 try {

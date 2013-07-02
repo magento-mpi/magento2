@@ -52,7 +52,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
             $definitionModel = $this->_getDefinitionModel($format);
             $output = new $definitionModel($definitions);
         } else {
-            $genDir = $config->getDirectories()->getDir(Mage_Core_Model_Dir::VAR_DIR) . '/generation';
+            $genDir = $config->getDirectories()->getDir(Mage_Core_Model_Dir::GENERATION);
             $autoloader = new Magento_Autoload_IncludePath();
             $generatorIo = new Magento_Code_Generator_Io(new Varien_Io_File(), $autoloader, $genDir);
             $generator = new Magento_Code_Generator_Class(
