@@ -89,7 +89,7 @@
                             <index>website_ids</index>
                             <type>options</type>
                             <sortable>0</sortable>
-                            <options type='options'>Enterprise_Reminder_Model_Reminder_Options_Website</options>
+                            <options type='options'>Mage_Backend_Model_Config_Source_Website_OptionHash</options>
                             <width>200px</width>
                         </arguments>
                     </block>
