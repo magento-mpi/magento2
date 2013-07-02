@@ -132,7 +132,7 @@
 var deleteButtonId = <?php echo $_iterator ?>;
 
 (function($) {
-    $.widget('address.tabs', $.mage.tabs, {
+    $.widget('mage.addressTabs', $.mage.tabs, {
         options: {
         },
 
@@ -142,21 +142,11 @@ var deleteButtonId = <?php echo $_iterator ?>;
         },
 
         _bind: function() {
-            $("#address-tabs").on("tabsactivate", function(event, ui) {
-                ui.oldTab.removeClass('active');
-                ui.newTab.addClass('active');
-            });
-        },
-
-        _init: function() {
-            // Add style to initial active tab
-            var activeTab = this.active;
-            activeTab.addClass('active');
         }
     });
 
     $(document).ready(function() {
-        $("#address-tabs").tabs();
+        $("#address-tabs").mage('addressTabs');
     });
 })(jQuery);
 //]]>
