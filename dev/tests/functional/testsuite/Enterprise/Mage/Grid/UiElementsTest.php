@@ -62,6 +62,8 @@ class Enterprise_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             //array('report_tag_customer'),
             array('report_search'),
             array('manage_ratings'),
+            array('admin_action_log_report'),
+            array('manage_gift_card_account'),
         );
     }
 }

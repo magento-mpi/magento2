@@ -428,7 +428,8 @@
                 updateColorPickerValues();  // Update values is other color picker is not closed yet
                 $(this)
                     .addClass('active')
-                    .siblings('input').end()
+                    .siblings('input').trigger('focus.quickStyleElement')
+                    .end()
                     .find('.farbtastic').show();
                 toggleColorPickerPosition();
             });

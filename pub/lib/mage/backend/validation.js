@@ -127,7 +127,7 @@
             if (!response.error) {
                 this._submit();
             } else {
-                $('[data-role=message-container]').html(response.message);
+                $('[data-container-for=messages]').html(response.message);
             }
         },
 

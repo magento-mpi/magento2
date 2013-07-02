@@ -50,7 +50,7 @@
                 <header class="header">
                     <div class="logo" title="<?php echo $this->__('Magento Admin Panel') ?>"><span><?php echo $this->__('Magento Admin Panel') ?></span></div>
                 </header>
-                <div id="messages" data-role="message-container">
+                <div id="messages" data-container-for="messages">
                     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
                 </div>
                 <form method="post" action="" id="login-form">

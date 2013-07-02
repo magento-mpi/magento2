@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function isReadonly()
     {
-        return (bool) $this->_getProduct()->getCompositeReadonly();
+        return (bool) $this->getProduct()->getCompositeReadonly();
     }
 
     /**
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function isAttributesConfigurationReadonly()
     {
-        return (bool) $this->_getProduct()->getAttributesConfigurationReadonly();
+        return (bool) $this->getProduct()->getAttributesConfigurationReadonly();
     }
 
     /**
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function isAttributesPricesReadonly()
     {
-        return $this->_getProduct()->getAttributesConfigurationReadonly() ||
+        return $this->getProduct()->getAttributesConfigurationReadonly() ||
             (Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && $this->isReadonly());
     }
 
@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         $this->addChild('super_settings', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings');
 
 // @todo: Remove unused code and blocks
-//        if ($this->_getProduct()->getId()) {
+//        if ($this->getProduct()->getId()) {
 //            $this->setChild('simple',
 //                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple',
 //                    'catalog.product.edit.tab.super.config.simple')
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
                             'url' => $this->getUrl(
                                 '*/catalog_product_attribute/new',
                                 array(
-                                    'store' => $this->_getProduct()->getStoreId(),
+                                    'store' => $this->getProduct()->getStoreId(),
                                     'product_tab' => 'variations',
                                     'popup' => 1,
                                     '_query' => array(
@@ -187,7 +187,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getProduct()
+    public function getProduct()
     {
         return Mage::registry('current_product');
     }
@@ -200,7 +200,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function getAttributes()
     {
         if (!$this->hasData('attributes')) {
-            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
+            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->getProduct());
             $productData = (array)$this->getRequest()->getParam('product');
             if (isset($productData['configurable_attributes_data'])) {
                 $configurableData = $productData['configurable_attributes_data'];
@@ -241,7 +241,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function getLinksJson()
     {
         $products = $this->_getProductType()
-            ->getUsedProducts($this->_getProduct());
+            ->getUsedProducts($this->getProduct());
         if(!$products) {
             return '{}';
         }
@@ -261,7 +261,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function getConfigurableSettings($product) {
         $data = array();
         $attributes = $this->_getProductType()
-            ->getUsedProductAttributes($this->_getProduct());
+            ->getUsedProductAttributes($this->getProduct());
         foreach ($attributes as $attribute) {
             $data[] = array(
                 'attribute_id' => $attribute->getId(),
@@ -303,7 +303,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         return $this->getUrl(
             '*/*/new',
             array(
-                'set'      => $this->_getProduct()->getAttributeSetId(),
+                'set'      => $this->getProduct()->getAttributeSetId(),
                 'type'     => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                 'required' => $this->_getRequiredAttributesIds(),
                 'popup'    => 1
@@ -321,11 +321,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         return $this->getUrl(
             '*/*/new',
             array(
-                'set'      => $this->_getProduct()->getAttributeSetId(),
+                'set'      => $this->getProduct()->getAttributeSetId(),
                 'type'     => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                 'required' => $this->_getRequiredAttributesIds(),
                 'popup'    => 1,
-                'product'  => $this->_getProduct()->getId()
+                'product'  => $this->getProduct()->getId()
             )
         );
     }
@@ -338,8 +338,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected function _getRequiredAttributesIds()
     {
         $attributesIds = array();
-        $configurableAttributes = $this->_getProduct()
-            ->getTypeInstance()->getConfigurableAttributes($this->_getProduct());
+        $configurableAttributes = $this->getProduct()
+            ->getTypeInstance()->getConfigurableAttributes($this->getProduct());
         foreach ($configurableAttributes as $attribute) {
             $attributesIds[] = $attribute->getProductAttribute()->getId();
         }
@@ -395,7 +395,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function getShowUseDefaultPrice()
     {
         return !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()
-            && $this->_getProduct()->getStoreId();
+            && $this->getProduct()->getStoreId();
     }
 
     /**
@@ -405,8 +405,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getSelectedAttributes()
     {
-        return $this->_getProduct()->isConfigurable()
-            ? array_filter($this->_getProductType()->getUsedProductAttributes($this->_getProduct()))
+        return $this->getProduct()->isConfigurable()
+            ? array_filter($this->_getProductType()->getUsedProductAttributes($this->getProduct()))
             : array();
     }
 

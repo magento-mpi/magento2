@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getProduct()
+    public function getProduct()
     {
         return Mage::registry('current_product');
     }
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     public function getAttributes()
     {
         if (!$this->hasData('attributes')) {
-            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
+            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->getProduct());
             $productData = (array)$this->getRequest()->getParam('product');
             if (isset($productData['configurable_attributes_data'])) {
                 $configurableData = $productData['configurable_attributes_data'];
@@ -181,7 +181,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      */
     public function getUsedAttributes()
     {
-        return $this->_getProductType()->getUsedProductAttributes($this->_getProduct());
+        return $this->_getProductType()->getUsedProductAttributes($this->getProduct());
     }
 
     /**
@@ -211,8 +211,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      */
     protected function _getAssociatedProducts()
     {
-        $product = $this->_getProduct();
-        $ids = $this->_getProduct()->getAssociatedProductIds();
+        $product = $this->getProduct();
+        $ids = $this->getProduct()->getAssociatedProductIds();
         if ($ids === null) { // form data overrides any relations stored in database
             return $this->_getProductType()->getUsedProducts($product);
         }
@@ -249,7 +249,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      *
      * @return string
      */
-    protected function _getImageUploadUrl()
+    public function getImageUploadUrl()
     {
         return $this->getUrl('*/catalog_product_gallery/upload');
     }

@@ -58,6 +58,34 @@ paypal_reports:
     title:  PayPal Settlement Reports / Sales / Reports / Magento Admin
     uimap:
         form:
+            fieldsets:
+                -
+                    paypal_reports_grid:
+                        xpath: //div[@id='settlementGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            event_filter: //select[@id='settlementGrid_filter_transaction_event_code']
+                        fields:
+                            view_per_page: //input[@class="input-text page"]
+                            report_date_from: //input[@data-ui-id="widget-grid-column-filter-date-filter-report-date-from"]
+                            report_date_to: //input[@data-ui-id="widget-grid-column-filter-date-filter-report-date-to"]
+                            merchant_account: //input[@id="settlementGrid_filter_account_id"]
+                            transaction_id: //input[@id="settlementGrid_filter_transaction_id"]
+                            ivoice_id: //input[@id="settlementGrid_filter_invoice_id"]
+                            reference_id: //input[@id="settlementGrid_filter_paypal_reference_id"]
+                            start_date_from: //input[@data-ui-id="widget-grid-column-filter-datetime-filter-transaction-initiation-date-from"]
+                            start_date_to: //input[@data-ui-id="widget-grid-column-filter-datetime-filter-transaction-initiation-date-to"]
+                            finish_date_from: //input[@data-ui-id="widget-grid-column-filter-datetime-1-filter-transaction-completion-date-from"]
+                            finish_date_to: //input[@data-ui-id="widget-grid-column-filter-datetime-1-filter-transaction-completion-date-to"]
+                            gross_amount_from: //input[@data-ui-id="widget-grid-column-filter-range-filter-gross-transaction-amount-from"]
+                            gross_amount_to: //input[@data-ui-id="widget-grid-column-filter-range-filter-gross-transaction-amount-to"]
+                            fee_amount_from: //input[@data-ui-id="widget-grid-column-filter-range-1-filter-fee-amount-from"]
+                            fee_amount_to: //input[@data-ui-id="widget-grid-column-filter-range-1-filter-fee-amount-to"]
+                        pageelements:
+                            grid_head: //table[@id='settlementGrid_table']//tr[@class='headings']
         buttons:
             fetch_updates: //button[span='Fetch Updates']
 

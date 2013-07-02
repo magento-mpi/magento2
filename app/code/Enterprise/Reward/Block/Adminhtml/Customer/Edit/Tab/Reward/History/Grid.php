@@ -72,7 +72,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     /**
      * Prepare grid columns
      *
-     * @return Mage_Widget_Block_Adminhtml_Widget_Instance_Grid
+     * @return Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
      */
     protected function _prepareColumns()
     {

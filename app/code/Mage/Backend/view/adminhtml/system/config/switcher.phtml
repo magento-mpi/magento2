@@ -29,7 +29,7 @@
         </select>
     </div>
     <?php echo $this->getHintHtml() ?>
-    <?php if ($this->_authorization->isAllowed('Mage_Adminhtml::store')): ?>
+    <?php if ($this->getAuthorization()->isAllowed('Mage_Adminhtml::store')): ?>
         <div><a href="<?php echo $this->getUrl('*/system_store') ?>"><?php echo $this->__('Stores') ?></a></div>
     <?php endif; ?>
 </div>

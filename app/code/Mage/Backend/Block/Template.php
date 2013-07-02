@@ -60,6 +60,16 @@ class Mage_Backend_Block_Template extends Mage_Core_Block_Template
         }
         return !Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $moduleName);
     }
+    
+    /**
+     * Make this public so that templates can use it properly with template engine
+     * 
+     * @return Magento_AuthorizationInterface
+     */
+    public function getAuthorization() 
+    {
+        return $this->_authorization;
+    }
 
     /**
      * Prepare html output
