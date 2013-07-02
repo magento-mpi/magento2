@@ -6,6 +6,8 @@
  *
  * @copyright {@copyright}
  * @license   {@license_link}
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_ObjectManager_DefinitionFactory
 {

@@ -16,9 +16,16 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
     protected function setUp()
     {
         if (!Mage::getObjectManager()) {
+            $instanceConfig = new Magento_Test_ObjectManager_Config();
+            $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
+                new Magento_ObjectManager_Factory_Factory($instanceConfig),
+                $instanceConfig
+            );
+
             Mage::setObjectManager(
+
                 new Magento_Test_ObjectManager(
-                    new Magento_ObjectManager_Definition_Runtime(),
+                    $factory,
                     $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false)
                 )
             );
