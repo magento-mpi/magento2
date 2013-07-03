@@ -691,3 +691,20 @@ api_soap_users:
         3: Last Name
         4: Email
         5: Status
+#dataset for ui elements for Customer Group grid
+manage_customer_groups:
+    fieldset:
+        customer_group_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+    field:
+        filter_id: ~
+        filter_group_name: ~
+        filter_tax_class: ~
+    dropdown:
+        view_per_page: ~
+    headers:
+        0: ID
+        1: Group
+        2: Tax Class
