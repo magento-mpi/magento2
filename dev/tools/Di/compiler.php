@@ -24,23 +24,30 @@ $filePatterns = array(
     'design' => '/\/app\/design\/[a-z0-9A-Z\/\.]*\.xml$/',
 );
 $codeScanDir = realpath($rootDir . '/app');
-$compilationDirs = array(
-    $rootDir . '/app/code',
-    $rootDir . '/lib/Magento',
-    $rootDir . '/lib/Mage',
-    $rootDir . '/lib/Varien',
-    $rootDir . DS . Magento_Code_Generator_Io::DEFAULT_DIRECTORY // should be added to include path in app bootstrap.php
-);
-// $compiledFile value should correspond Mage_Core_Model::getDir('di').'definitions.php' of running application
-$compiledFile = $rootDir . '/var/di/definitions.php';
 
 try {
     $opt = new Zend_Console_Getopt(array(
         'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
         'verbose|v' => 'output report after tool run',
         'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
+        'generation=s' => 'relative path to generated classes, var/generation by default',
+        'di=s' => 'relative path to DI directory, var/di by default'
     ));
     $opt->parse();
+
+    $generationDir = $opt->getOption('generation') ? trim($opt->getOption('generation'), DS) : 'var/generation';
+
+    $diDir = $opt->getOption('di') ? trim($opt->getOption('di'), DS) : 'var/di';
+    $compiledFile = $rootDir . DS . $diDir . DS .'definitions.php';
+
+    $compilationDirs = array(
+        $rootDir . DS . 'app/code',
+        $rootDir . '/lib/Magento',
+        $rootDir . '/lib/Mage',
+        $rootDir . '/lib/Varien',
+        $rootDir . DS . $generationDir,
+    );
+
     $writer = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
     $log = new Log($writer);
     $serializer = ($opt->getOption('serializer') == 'binary') ? new Serializer\Igbinary() : new Serializer\Standard();
@@ -62,7 +69,8 @@ try {
     $entities = $scanner->collectEntities($files);
 
     // 1.2 Generation
-    $generator = new Magento_Code_Generator();
+    $generatorIo = new Magento_Code_Generator_Io(null, null, $rootDir . DS . $generationDir);
+    $generator = new Magento_Code_Generator(null, null, $generatorIo);
     foreach ($entities as $entityName) {
         switch ($generator->generateClass($entityName)) {
             case Magento_Code_Generator::GENERATION_SUCCESS:
@@ -101,6 +109,7 @@ try {
     $log->report();
 } catch (Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();
+    echo 'Please, use quotes(") for wrapping strings.' . "\n";
     exit(1);
 } catch (Exception $e) {
     fwrite(STDERR, "Compiler failed with exception: " . $e->getMessage());
