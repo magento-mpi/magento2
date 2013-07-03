@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for customer service layer Mage_Customer_Service_Customer
+ * Mage_Customer_Service_Customer
  *
  * {license_notice}
  *
@@ -15,22 +15,22 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_service;
 
     /**
-     * @var Mage_Customer_Model_CustomerFactory
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customerFactory;
 
     /**
-     * @var Mage_Customer_Model_AddressFactory
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_addressFactory;
 
     /**
-     * @var Mage_Customer_Model_Customer
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customer;
 
     /**
-     * @var Mage_Customer_Model_Address
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_address;
 
@@ -73,6 +73,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Create mock address for use in tests
+     *
      * @param bool $hasChanges
      * @param int $addressId
      * @return PHPUnit_Framework_MockObject_MockObject
@@ -100,10 +102,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for setSendRemainderEmail
-     *
-     * @param bool $set
-     * @param bool $expected
      * @dataProvider setSendRemainderDataProvider
      */
     public function testSetSendRemainderEmail($set, $expected)
@@ -112,9 +110,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($expected, '_sendRemainderEmail', $this->_service);
     }
 
-    /**
-     * @return array
-     */
     public function setSendRemainderDataProvider()
     {
         return array(
@@ -123,9 +118,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test beforeSave and afterSave callback are set correctly
-     */
     public function testSetBeforeSaveCallback()
     {
         $this->assertInstanceOf('Mage_Customer_Service_Customer', $this->_service->setBeforeSaveCallback('intval'));
@@ -133,9 +125,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check beforeSave and afterSave callbacks for create and update methods
-     *
-     * @param string $method
      * @dataProvider methodsDataProvider
      */
     public function testCallback($method)
@@ -166,9 +155,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function methodsDataProvider()
     {
         return array(
@@ -177,18 +163,12 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test beforeSave and afterSave callback are set correctly
-     */
     public function testSetAfterSaveCallback()
     {
         $this->assertInstanceOf('Mage_Customer_Service_Customer', $this->_service->setAfterSaveCallback('intval'));
         $this->assertAttributeEquals('intval', '_afterSaveCallback', $this->_service);
     }
 
-    /**
-     * Test setIsAdminStore setter
-     */
     public function testSetIsAdminStore()
     {
         $this->assertInstanceOf('Mage_Customer_Service_Customer', $this->_service->setIsAdminStore(true));
@@ -196,9 +176,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $isAdminStore
-     * @param array $customerData
-     * @param array $expectedData
      * @dataProvider forceConfirmedDataProvider
      */
     public function testCreateForceConfirmed($isAdminStore, array $customerData, array $expectedData)
@@ -218,9 +195,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedData, $this->_customer->toArray(array_keys($expectedData)));
     }
 
-    /**
-     * @return array
-     */
     public function forceConfirmedDataProvider()
     {
         return array(
@@ -265,9 +239,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $customerData
-     * @param string $type
-     * @param int|null $origId
      * @dataProvider welcomeEmailDataProvider
      */
     public function testSendWelcomeEmail(array $customerData, $type, $origId)
@@ -287,9 +258,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->create($customerData));
     }
 
-    /**
-     * @return array
-     */
     public function welcomeEmailDataProvider()
     {
         return array(
@@ -333,8 +301,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $customerData
-     * @param int|null $origId
      * @dataProvider welcomeEmailNotCalledDataProvider
      */
     public function testSendWelcomeEmailNotCalled(array $customerData, $origId)
@@ -355,9 +321,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->create($customerData));
     }
 
-    /**
-     * @return array
-     */
     public function welcomeEmailNotCalledDataProvider()
     {
         return array(
@@ -426,7 +389,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $customerData
      * @dataProvider changePasswordDataProvider
      */
     public function testChangePassword(array $customerData)
@@ -453,9 +415,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->update(1, $customerData));
     }
 
-    /**
-     * @return array
-     */
     public function changePasswordDataProvider()
     {
         return array(
@@ -469,12 +428,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $addressData
-     * @param Mage_Customer_Model_Address|null $newAddress
-     * @param Mage_Customer_Model_Address|null $existingAddress
-     * @param array $addressCollection
-     * @param bool $dataChanged
-     * @param bool $expectedDataChange
      * @dataProvider addressesDataProvider
      */
     public function testPrepareCustomerAddressForSave(array $addressData, $newAddress, $existingAddress,
@@ -542,9 +495,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'Customer change data status is incorrect');
     }
 
-    /**
-     * @return array
-     */
     public function addressesDataProvider()
     {
         $newAddress = $this->_createAddress(true, null);

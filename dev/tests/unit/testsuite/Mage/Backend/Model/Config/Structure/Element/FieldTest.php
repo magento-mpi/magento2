@@ -1,5 +1,7 @@
 <?php
 /**
+ * Mage_Backend_Model_Config_Structure_Element_Field
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -11,6 +13,8 @@
 
 class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Framework_TestCase
 {
+    const FIELD_TEST_CONSTANT = "field test constant";
+
     /**
      * @var Mage_Backend_Model_Config_Structure_Element_Field
      */
@@ -49,6 +53,11 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_dsGraphMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_depMapperMock;
 
     /**
@@ -62,11 +71,16 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             'Mage_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
         );
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())->method('__')->will($this->returnCallback(function($arg) {
-            return 'translated ' . $arg;
-        }));
+        $helperMock->expects($this->any())
+            ->method('__')
+            ->will($this->returnCallback(
+                    function ($arg) {
+                        return 'translated ' . $arg;
+                    }
+                )
+            );
         $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_factoryHelperMock->expects($this->any())->method('get')->with('Mage_Module_Helper_Data')
+        $this->_factoryHelperMock->expects($this->any())->method('get')
             ->will($this->returnValue($helperMock));
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $this->_backendFactoryMock = $this->getMock(
@@ -81,6 +95,9 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->_blockFactoryMock = $this->getMock(
             'Mage_Core_Model_BlockFactory', array(), array(), '', false
         );
+        $this->_dsGraphMock = $this->getMock(
+            'Mage_Core_Model_DataService_Graph', array(), array(), '', false
+        );
         $this->_depMapperMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
         );
@@ -92,6 +109,7 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             $this->_sourceFactoryMock,
             $this->_commentFactoryMock,
             $this->_blockFactoryMock,
+            $this->_dsGraphMock,
             $this->_depMapperMock
         );
     }
@@ -273,6 +291,53 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->assertTrue($this->_model->hasSourceModel());
     }
 
+    public function testHasOptionsWithSourceModel()
+    {
+        $this->assertFalse($this->_model->hasOptions());
+        $this->_model->setData(array('source_model' => 'some_model'), 'scope');
+        $this->assertTrue($this->_model->hasOptions());
+    }
+
+    public function testHasOptionsWithOptions()
+    {
+        $this->assertFalse($this->_model->hasOptions());
+        $this->_model->setData(array('options' => 'some_option'), 'scope');
+        $this->assertTrue($this->_model->hasOptions());
+    }
+
+    public function testGetOptionsWithOptions()
+    {
+        $option = array(
+            array('label' => 'test', 'value' => 0),
+            array('label' => 'test2', 'value' => 1)
+        );
+        $expected = array(
+            array('label' => 'translated test', 'value' => 0),
+            array('label' => 'translated test2', 'value' => 1)
+        );
+        $this->_model->setData(array('options' => array('option' => $option)), 'scope');
+        $this->assertEquals($expected, $this->_model->getOptions());
+    }
+
+    public function testGetOptionsWithConstantValOptions()
+    {
+        $option = array(
+            array(
+                'label' => 'test',
+                'value' => "{{Mage_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT}}"
+            ),
+        );
+        $expected = array(
+            array(
+                'label' => 'translated test',
+                'value' => Mage_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT
+            ),
+        );
+
+        $this->_model->setData(array('options' => array('option' => $option)), 'scope');
+        $this->assertEquals($expected, $this->_model->getOptions());
+    }
+
     public function testGetOptionsUsesOptionsInterfaceIfNoMethodIsProvided()
     {
         $this->_model->setData(array('source_model' => 'Source_Model_Name'), 'scope');
@@ -281,7 +346,10 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             ->method('create')
             ->with('Source_Model_Name')
             ->will($this->returnValue($sourceModelMock));
-        $expected = array('testVar' => 'testVal');
+        $expected = array(
+            array('label' => 'test', 'value' => 0),
+            array('label' => 'test2', 'value' => 1)
+        );
         $sourceModelMock->expects($this->once())
             ->method('toOptionArray')
             ->with(false)
@@ -335,6 +403,53 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->assertEquals($expected, $this->_model->getOptions());
     }
 
+    public function testGetOptionsWithServiceOptions()
+    {
+        $option = array(
+            array('customLabel' => 'test', 'customId' => 0),
+            array('customLabel' => 'test2', 'customId' => 1)
+        );
+        $this->_dsGraphMock->expects($this->once())
+            ->method('get')
+            ->with('serviceCallName')
+            ->will($this->returnValue($option));
+
+        $expected = array(
+            array('label' => 'translated test', 'value' => 0),
+            array('label' => 'translated test2', 'value' => 1)
+        );
+        $options = array(
+            'service_call'      => 'serviceCallName',
+            'idField'           => 'customId',
+            'labelField'        => 'customLabel',
+            'includeSelectLine' => 'false',
+        );
+        $this->_model->setData(array('source_service' => $options), 'scope');
+        $this->assertEquals($expected, $this->_model->getOptions());
+    }
+
+    public function testGetOptionsWithServiceOptionsButNoFieldNamesSpecified()
+    {
+        $option = array(
+            array('name' => 'test', 'id' => 0),
+            array('name' => 'test2', 'id' => 1)
+        );
+        $this->_dsGraphMock->expects($this->once())
+            ->method('get')
+            ->with('serviceCallName')
+            ->will($this->returnValue($option));
+
+        $expected = array(
+            array('label' => 'translated test', 'value' => 0),
+            array('label' => 'translated test2', 'value' => 1)
+        );
+        $options = array(
+            'service_call' => 'serviceCallName',
+        );
+        $this->_model->setData(array('source_service' => $options), 'scope');
+        $this->assertEquals($expected, $this->_model->getOptions());
+    }
+
     public function testGetDependenciesWithoutDependencies()
     {
         $this->_depMapperMock->expects($this->never())->method('getDependencies');
@@ -368,5 +483,35 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             ->will($this->returnArgument(0));
 
         $this->assertEquals($fields, $this->_model->getDependencies('test_prefix', 'test_scope'));
+    }
+
+    public function testIsAdvanced()
+    {
+        $this->_model->setData(array(), 'scope');
+        $this->assertFalse($this->_model->isAdvanced());
+
+        $this->_model->setData(
+            array('advanced' => true),
+            'scope'
+        );
+        $this->assertTrue($this->_model->isAdvanced());
+
+        $this->_model->setData(
+            array('advanced' => false),
+            'scope'
+        );
+        $this->assertFalse($this->_model->isAdvanced());
+    }
+
+    public function testGetValidation()
+    {
+        $this->_model->setData(array(), 'scope');
+        $this->assertNull($this->_model->getValidation());
+
+        $this->_model->setData(
+            array('validate' => 'validate'),
+            'scope'
+        );
+        $this->assertEquals('validate', $this->_model->getValidation());
     }
 }

@@ -74,7 +74,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $vdeUrl    = self::TEST_HOST . '/' . self::VDE_FRONT_NAME . self::TEST_PATH;
         $notVdeUrl = self::TEST_HOST . self::TEST_PATH;
 
-        $silencedMethods = array('_canBeStoreCodeInUrl');
+        $silencedMethods = array('_isFrontArea');
         $excludedRouters = array(
             'admin' => 'admin router',
             'vde'   => 'vde router',

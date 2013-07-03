@@ -84,6 +84,9 @@ class Mage_Core_Utility_Layout
             'translator' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Translator', array()),
             'scheduledStructure' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_ScheduledStructure',
                 array()
+            ),
+            'dataServiceGraph' => Mage::getObjectManager()->create('Mage_Core_Model_DataService_Graph',
+                array(), false
             )
         );
     }

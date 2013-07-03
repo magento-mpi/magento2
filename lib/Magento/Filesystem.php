@@ -455,7 +455,7 @@ class Magento_Filesystem
     protected function _checkPathInWorkingDirectory($key, $workingDirectory = null)
     {
         $workingDirectory = $workingDirectory ? $workingDirectory : $this->_workingDirectory;
-        if (!self::isPathInDirectory($key, $workingDirectory)) {
+        if (!$this->isPathInDirectory($key, $workingDirectory)) {
             throw new InvalidArgumentException("Path '$key' is out of working directory '$workingDirectory'");
         }
     }
@@ -511,7 +511,7 @@ class Magento_Filesystem
      * @param string $directory
      * @return bool
      */
-    public static function isPathInDirectory($path, $directory)
+    public function isPathInDirectory($path, $directory)
     {
         return 0 === strpos(self::normalizePath($path), self::normalizePath($directory));
     }

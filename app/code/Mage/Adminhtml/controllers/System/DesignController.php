@@ -13,7 +13,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 {
     public function indexAction()
     {
-        $this->_title($this->__('Design'));
+        $this->_title($this->__('Store Design'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system_design_schedule');
         $this->renderLayout();
@@ -32,7 +32,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
-        $this->_title($this->__('Design'));
+        $this->_title($this->__('Store Design'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system_design_schedule');
@@ -45,7 +45,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
             $design->load($id);
         }
 
-        $this->_title($design->getId() ? $this->__('Edit Design Change') : $this->__('New Design Change'));
+        $this->_title($design->getId() ? $this->__('Edit Store Design Change') : $this->__('New Store Design Change'));
 
         Mage::register('design', $design);
 

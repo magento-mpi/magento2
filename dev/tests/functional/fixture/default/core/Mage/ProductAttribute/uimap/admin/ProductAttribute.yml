@@ -53,7 +53,7 @@ manage_attributes:
 # Add New Product Attribute page
 new_product_attribute:
     mca: catalog_product_attribute/new/
-    title: Product Attributes / Attributes / Stores / Magento Admin
+    title: New Product Attribute / Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &newProductAttributeForm
             tabs:

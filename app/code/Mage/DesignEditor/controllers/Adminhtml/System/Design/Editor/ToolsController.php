@@ -23,6 +23,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     protected function _initContext()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
+        /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
         $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
         return $themeContext->setEditableThemeById($themeId);
     }
@@ -242,7 +243,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('We cannot upload the image file.');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -279,7 +281,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('We cannot upload the image file.');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -323,7 +326,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('We cannot upload the image file.');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -367,7 +371,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('We cannot upload the image file.');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
@@ -396,7 +401,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong saving quick style "%s."', 'some_style_id');
+            $errorMessage = $this->__('Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }

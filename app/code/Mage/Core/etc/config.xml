@@ -125,9 +125,12 @@
                 <Magento_Authorization_RoleLocator>Magento_Authorization_RoleLocator_Default</Magento_Authorization_RoleLocator>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
                 <Mage_Core_Model_Store_ConfigInterface>Mage_Core_Model_Store_Config</Mage_Core_Model_Store_ConfigInterface>
-                <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
                 <Mage_Core_Model_Page_Asset_MergeStrategyInterface>Mage_Core_Model_Page_Asset_MergeStrategy_Direct</Mage_Core_Model_Page_Asset_MergeStrategyInterface>
+                <Twig_LoaderInterface>Mage_Core_Model_TemplateEngine_Twig_FullFileName</Twig_LoaderInterface>
+                <Mage_Core_Model_DataService_ConfigInterface>Mage_Core_Model_DataService_Config</Mage_Core_Model_DataService_ConfigInterface>
+                <Mage_Core_Model_ConfigInterface>Mage_Core_Model_Config</Mage_Core_Model_ConfigInterface>
+                <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
@@ -483,11 +486,6 @@
                 <enabled>0</enabled>
             </single_store_mode>
         </general>
-        <dev>
-            <image>
-                <adapter>GD2</adapter>
-            </image>
-        </dev>
     </default>
     <stores>
         <default>
