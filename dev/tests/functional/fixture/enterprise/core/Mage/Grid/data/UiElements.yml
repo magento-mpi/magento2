@@ -310,25 +310,25 @@ admin_action_log_report:
     fieldset:
         action_logs_grid: tablename
     button:
-        reset_filter:
-        search:
-        export:
+        reset_filter: ~
+        search: ~
+        export: ~
     field:
-        page:
-        short_details:
-        action_name:
-        action_ip:
-        action_time_from:
-        action_time_to:
-        action_full_name:
-        action_short_details:
+        page: ~
+        short_details: ~
+        action_name: ~
+        action_ip: ~
+        action_time_from: ~
+        action_time_to: ~
+        action_full_name: ~
+        action_short_details: ~
     dropdown:
-        action_username:
-        action_status:
-        action_group:
-        view_per_page:
-        export_to:
-        action:
+        action_username: ~
+        action_status: ~
+        action_group: ~
+        view_per_page: ~
+        export_to: ~
+        action: ~
     headers:
         0: Time
         1: Action Group
@@ -345,26 +345,26 @@ manage_gift_card_account:
     fieldset:
         customer_segment_grid: tablename
     button:
-        reset_filter:
-        search:
-        export:
-        submit:
+        reset_filter: ~
+        search: ~
+        export: ~
+        submit: ~
     field:
-        filter_code:
-        filter_id_from:
-        filter_id_to:
-        filter_date_created_from:
-        filter_date_created_to:
-        filter_expiration_data_from:
-        filter_expiration_data_to:
-        filter_balance_from:
-        filter_balance_to:
+        filter_code: ~
+        filter_id_from: ~
+        filter_id_to: ~
+        filter_date_created_from: ~
+        filter_date_created_to: ~
+        filter_expiration_data_from: ~
+        filter_expiration_data_to: ~
+        filter_balance_from: ~
+        filter_balance_to: ~
     dropdown:
-        filter_website:
-        filter_active:
-        filter_status:
-        actions:
-        export_to:
+        filter_website: ~
+        filter_active: ~
+        filter_status: ~
+        actions: ~
+        export_to: ~
     headers:
         0: ' '
         1: ID
