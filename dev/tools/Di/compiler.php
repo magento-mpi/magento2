@@ -61,6 +61,9 @@ try {
     $scanner->addChild(new Scanner\ArrayScanner(), 'additional');
     $entities = $scanner->collectEntities($files);
 
+    $interceptorScanner = new Scanner\XmlInterceptorScanner();
+    $entities = array_merge($entities, $interceptorScanner->collectEntities($files['config']));
+
     // 1.2 Generation
     $generator = new Magento_Code_Generator();
     foreach ($entities as $entityName) {
