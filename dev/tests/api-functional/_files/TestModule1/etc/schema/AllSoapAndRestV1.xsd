@@ -46,7 +46,7 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:element name="name"  type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
@@ -102,7 +102,7 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:element name="name"  type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
@@ -156,7 +156,7 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:element name="name"  type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
@@ -209,7 +209,7 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:element name="name"  type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
