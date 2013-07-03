@@ -189,12 +189,8 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock(
-                'Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid'
-            )->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
