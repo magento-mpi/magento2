@@ -88,9 +88,6 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
         return $configSourceModel;
     }
 
-    /**
-     * @test
-     */
     public function testToOptionsArray()
     {
         $options = array('mm' => 'Milims', 'm' => 'Meters');
@@ -110,9 +107,6 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
         $actualOptions = $this->_source->toOptionArray();
     }
 
-    /**
-     * @test
-     */
     public function testGetAllOptions()
     {
         $options = array('mm' => 'Milims', 'm' => 'Meters');
@@ -132,9 +126,6 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
         $actualOptions = $this->_source->getAllOptions();
     }
 
-    /**
-     * @test
-     */
     public function testGetDefaultValue()
     {
         $this->assertEquals(
@@ -142,9 +133,6 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
         );
     }
 
-    /**
-     * @test
-     */
     public function testGetFlatColumns()
     {
         $expectedColumns = array(

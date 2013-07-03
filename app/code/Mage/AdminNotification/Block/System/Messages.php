@@ -15,12 +15,12 @@ class Mage_AdminNotification_Block_System_Messages extends Mage_Backend_Block_Te
     protected $_messages;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {
@@ -94,8 +94,24 @@ class Mage_AdminNotification_Block_System_Messages extends Mage_Backend_Block_Te
      *
      * @return string
      */
-    public function getMessagesUrl()
+    protected function _getMessagesUrl()
     {
         return $this->getUrl('adminhtml/system_message/list');
+    }
+
+    /**
+     * Initialize Syste,Message dialog widget
+     *
+     * @return string
+     */
+    public function getSystemMessageDialogJson()
+    {
+        return $this->helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            'systemMessageDialog' => array(
+                'autoOpen' => false,
+                'width' => 600,
+                'ajaxUrl' => $this->_getMessagesUrl(),
+            ),
+        ));
     }
 }

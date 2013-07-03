@@ -85,12 +85,6 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     protected $_isCollectionLoaded;
 
-    protected $_cacheKey;
-
-    protected $_cacheTags = array();
-
-    protected $_cacheLifetime = 86400;
-
     /**
      * Additional collection flags
      *
@@ -745,33 +739,6 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
     {
         $this->load();
         return count($this->_items);
-    }
-
-    public function setCacheKey($key)
-    {
-        $this->_cacheKey = $key;
-        return $this;
-    }
-
-    public function getCacheKey()
-    {
-        return $this->_cacheKey;
-    }
-
-    public function setCacheTags($tags)
-    {
-        $this->_cacheTags = $tags;
-        return $this;
-    }
-
-    public function getCacheTags()
-    {
-        return $this->_cacheTags;
-    }
-
-    public function getCacheLifetime()
-    {
-        return $this->_cacheLifetime;
     }
 
     /**

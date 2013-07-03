@@ -11,15 +11,16 @@
 
 /**
  * Test class for Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form
+ * @magentoAppArea adminhtml
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends Mage_Backend_Area_TestCase
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         /** @var $event Enterprise_CatalogEvent_Model_Event */
         $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
         $event->setCategoryId(1)->setId(1);

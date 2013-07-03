@@ -53,8 +53,6 @@ Supported layout update handles (special):
                 <action method="addJs"><file>mage/backend/floating-header.js</file></action>
 
                 <action method="addJs"><file>prototype/prototype.js</file></action>
-                <action method="addJs"><file>mage/adminhtml/fix-extjs-defer.js</file><params/><if/><condition>can_load_ext_js</condition></action>
-                <action method="addJs"><file>mage/adminhtml/fix-extjs-defer-before.js</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addJs"><file>prototype/window.js</file></action>
                 <action method="addJs"><file>scriptaculous/builder.js</file></action>
                 <action method="addJs"><file>scriptaculous/effects.js</file></action>
@@ -82,7 +80,6 @@ Supported layout update handles (special):
                 <action method="addJs"><file>mage/calendar.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
 
                 <action method="addJs"><file>extjs/ext-tree.js</file><params/><if/><condition>can_load_ext_js</condition></action>
-                <action method="addJs"><file>mage/adminhtml/fix-extjs-defer.js</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addJs"><file>extjs/ext-tree-checkbox.js</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addCss"><file>extjs/resources/css/ext-all.css</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addCss"><file>extjs/resources/css/ytheme-magento.css</file><params/><if/><condition>can_load_ext_js</condition></action>

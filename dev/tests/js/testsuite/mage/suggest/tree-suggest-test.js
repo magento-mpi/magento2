@@ -48,10 +48,8 @@ TreeSuggestTest.prototype.testInit = function() {
     assertEquals(treeSuggestInstance.widgetEventPrefix, 'suggest');
 };
 
-// @TODO See https://jira.corp.x.com/browse/MAGETWO-9269. Test passes locally
-// but fails in Bamboo environment.
-/*
 TreeSuggestTest.prototype.testBind = function() {
+    return; // test is broken, see https://jira.corp.x.com/browse/MAGETWO-9269
     var event = jQuery.Event('keydown'),
         proxyEventsExecuted = false,
         treeSuggestInstance = this.treeSuggestCreate();
@@ -76,7 +74,28 @@ TreeSuggestTest.prototype.testBind = function() {
     treeSuggestInstance.element.trigger(event);
     assertTrue(proxyEventsExecuted);
 };
-*/
+
+TreeSuggestTest.prototype.testClose = function() {
+    var treeSuggestInstance = this.treeSuggestCreate(),
+        elementFocused = false;
+    treeSuggestInstance.element.on('focus', function() {
+        elementFocused = true;
+    });
+    treeSuggestInstance.dropdown.text('test').show();
+    treeSuggestInstance.close();
+    assertEquals(treeSuggestInstance.dropdown.text(), '');
+    assertTrue(treeSuggestInstance.dropdown.is(':hidden'));
+
+    treeSuggestInstance.dropdown.text('test').show();
+    treeSuggestInstance.close(jQuery.Event('select'));
+    assertEquals(treeSuggestInstance.dropdown.text(), '');
+    assertTrue(treeSuggestInstance.dropdown.is(':hidden'));
+
+    treeSuggestInstance.dropdown.text('test').show();
+    treeSuggestInstance.close(jQuery.Event('select_tree_node'));
+    assertEquals(treeSuggestInstance.dropdown.text(), 'test');
+    assertTrue(treeSuggestInstance.dropdown.is(':visible'));
+};
 TreeSuggestTest.prototype.testFilterSelected = function() {
     var treeSuggestInstance = this.treeSuggestCreate();
     assertEquals(treeSuggestInstance._filterSelected([this.uiHash.item], {_allShown: true}), [this.uiHash.item]);

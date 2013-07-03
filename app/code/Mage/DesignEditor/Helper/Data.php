@@ -17,12 +17,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      * XML paths to VDE settings
      */
     const XML_PATH_FRONT_NAME           = 'vde/design_editor/frontName';
-    const XML_PATH_DEFAULT_HANDLE       = 'vde/design_editor/defaultHandle';
     const XML_PATH_DISABLED_CACHE_TYPES = 'vde/design_editor/disabledCacheTypes';
-    const XML_PATH_BLOCK_WHITE_LIST     = 'vde/design_editor/block/white_list';
-    const XML_PATH_BLOCK_BLACK_LIST     = 'vde/design_editor/block/black_list';
-    const XML_PATH_CONTAINER_WHITE_LIST = 'vde/design_editor/container/white_list';
-    const XML_PATH_DAYS_TO_EXPIRE       = 'vde/design_editor/layout_update/days_to_expire';
     /**#@-*/
 
     /**
@@ -38,32 +33,23 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @var bool
      */
-    protected $_isVdeRequest;
+    protected $_isVdeRequest = false;
 
     /**
-     * @var mixed
+     * @var string
      */
     protected $_translationMode;
 
     /**
-     * @var Mage_Backend_Model_Session
-     */
-    protected $_backendSession;
-
-    /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config $configuration
-     * @internal param \Mage_Core_Model_Translate $translator
-     * @param Mage_Backend_Model_Session $backendSession
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config $configuration,
-        Mage_Backend_Model_Session $backendSession
+        Mage_Core_Model_Config $configuration
     ) {
         parent::__construct($context);
         $this->_configuration = $configuration;
-        $this->_backendSession = $backendSession;
     }
 
     /**
@@ -74,16 +60,6 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function getFrontName()
     {
         return (string)$this->_configuration->getNode(self::XML_PATH_FRONT_NAME);
-    }
-
-    /**
-     * Get VDE default handle name
-     *
-     * @return string
-     */
-    public function getDefaultHandle()
-    {
-        return (string)$this->_configuration->getNode(self::XML_PATH_DEFAULT_HANDLE);
     }
 
     /**
@@ -108,78 +84,34 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get list of configuration element values
+     * This method returns an indicator of whether or not the current request is for vde
      *
-     * @param string $xmlPath
-     * @return array
-     */
-    protected function _getElementsList($xmlPath)
-    {
-        $elements = array();
-        $node = $this->_configuration->getNode($xmlPath);
-        if ($node) {
-            $data = $node->asArray();
-            if (is_array($data)) {
-                $elements = array_values($data);
-            }
-        }
-        return $elements;
-    }
-
-    /**
-     * Get list of allowed blocks
-     *
-     * @return array
-     */
-    public function getBlockWhiteList()
-    {
-        return $this->_getElementsList(self::XML_PATH_BLOCK_WHITE_LIST);
-    }
-
-    /**
-     * Get list of not allowed blocks
-     *
-     * @return array
-     */
-    public function getBlockBlackList()
-    {
-        return $this->_getElementsList(self::XML_PATH_BLOCK_BLACK_LIST);
-    }
-
-    /**
-     * Get list of allowed blocks
-     *
-     * @return array
-     */
-    public function getContainerWhiteList()
-    {
-        return $this->_getElementsList(self::XML_PATH_CONTAINER_WHITE_LIST);
-    }
-
-    /**
-     * Get expiration days count
-     *
-     * @return string
-     */
-    public function getDaysToExpire()
-    {
-        return (int)$this->_configuration->getNode(self::XML_PATH_DAYS_TO_EXPIRE);
-    }
-
-    /**
-     * This method returns an indicator of whether or not the current request is for vde.
-     *
-     * @param $request Mage_Core_Controller_Request_Http
-     * @return _isVdeRequest bool
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return bool
      */
     public function isVdeRequest(Mage_Core_Controller_Request_Http $request = null)
     {
         if (null !== $request) {
-            $url = trim($request->getOriginalPathInfo(), '/');
-            $vdeFrontName = $this->getFrontName();
-            $this->_isVdeRequest = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+            $result = false;
+            $splitPath = explode('/', trim($request->getOriginalPathInfo(), '/'));
+            if (count($splitPath) >= 3) {
+                list($frontName, $currentMode, $themeId) = $splitPath;
+                $result = $frontName === $this->getFrontName() && in_array($currentMode, $this->getAvailableModes())
+                    && is_numeric($themeId);
+            }
+            $this->_isVdeRequest = $result;
         }
         return $this->_isVdeRequest;
+    }
+
+    /**
+     * Get available modes for Design Editor
+     *
+     * @return array
+     */
+    public function getAvailableModes()
+    {
+        return array(Mage_DesignEditor_Model_State::MODE_NAVIGATION);
     }
 
     /**
@@ -211,35 +143,6 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isAllowed()
     {
-        return ($this->_translationMode === null ? false : true);
-    }
-
-    /**
-     * Get current handle url
-     *
-     * @return string
-     */
-    public function getCurrentHandleUrl()
-    {
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
-        $vdeUrlModel = $objectManager->get('Mage_DesignEditor_Model_Url_Handle');
-        $handle = $objectManager->get('Mage_Backend_Model_Session')->
-            getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
-        if (empty($handle)) {
-            $handle = 'default';
-        }
-        return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
-    }
-
-    /**
-     * Get staging theme id which was launched in editor
-     *
-     * @return int|null
-     */
-    public function getEditableThemeId()
-    {
-        return $this->_backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY);
+        return $this->_translationMode !== null;
     }
 }

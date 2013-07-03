@@ -35,6 +35,7 @@ class FileScanner implements ScannerInterface
             }
         }
         $output = array_unique($output);
+        $output = $this->_filterEntities($output);
         return $output;
     }
 
@@ -47,5 +48,16 @@ class FileScanner implements ScannerInterface
     protected function _prepareContent($content)
     {
         return $content;
+    }
+
+    /**
+     * Filter found entities if needed
+     *
+     * @param array $output
+     * @return array
+     */
+    protected function _filterEntities(array $output)
+    {
+        return $output;
     }
 }

@@ -92,7 +92,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             }
             catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Checkout_Helper_Data')->__('An error occurred while saving this condition.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Checkout_Helper_Data')->__('Something went wrong while saving this condition.'));
             }
 
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->setAgreementData($postData);
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
         try {
             $model->delete();
 
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Checkout_Helper_Data')->__('The condition has been deleted'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Checkout_Helper_Data')->__('The condition has been deleted.'));
             $this->_redirect('*/*/');
 
             return;
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Checkout_Helper_Data')->__('An error occurred while deleting this condition.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Checkout_Helper_Data')->__('Something went wrong  while deleting this condition.'));
         }
 
         $this->_redirectReferer();
@@ -146,6 +146,6 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Checkout::checkoutagreement');
+        return $this->_authorization->isAllowed('Mage_Checkout::checkoutagreement');
     }
 }

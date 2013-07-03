@@ -23,7 +23,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected function _initCustomer($idFieldName = 'id')
     {
         // Default title
-        $this->_title($this->__('Manage Customers'));
+        $this->_title($this->__('Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -40,7 +40,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Customers'));
+        $this->_title($this->__('Customers'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -123,11 +123,21 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
                         $address = Mage::getModel('Mage_Customer_Model_Address');
+                        $address->setId($addressId);
                         $customer->addAddress($address);
                     }
 
+                    $requestScope = sprintf('address/%s', $addressId);
                     $formData = $addressForm->setEntity($address)
-                        ->extractData($request);
+                        ->extractData($request, $requestScope);
+                    $customer->setDefaultBilling(
+                        !empty($data['account']['default_billing'])
+                        && $data['account']['default_billing'] == $addressId
+                    );
+                    $customer->setDefaultShipping(
+                        !empty($data['account']['default_shipping'])
+                        && $data['account']['default_shipping'] == $addressId
+                    );
                     $addressForm->restoreData($formData);
                 }
             }
@@ -162,7 +172,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             try {
                 $customer->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('The customer has been deleted.'));
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('You deleted the customer.'));
             }
             catch (Exception $exception){
                 $this->_getSession()->addError($exception->getMessage());
@@ -188,8 +198,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $addressesData = $this->_extractCustomerAddressData();
 
                 $request = $this->getRequest();
-                /** @var Mage_Core_Model_Event_Manager $eventManager */
-                $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+
+                $eventManager = $this->_eventManager;
                 $beforeSaveCallback = function ($customer) use ($request, $eventManager) {
                     $eventManager->dispatch('adminhtml_customer_prepare_save', array(
                         'customer'  => $customer,
@@ -215,7 +225,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
 
                 $this->_objectManager->get('Mage_Core_Model_Registry')->register('current_customer', $customer);
-                $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
+                $this->_getSession()->addSuccess($this->_getHelper()->__('You saved the customer.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
                 $customerId = $customer->getId();
@@ -279,11 +289,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customerData = array();
         if ($this->getRequest()->getPost('account')) {
             $serviceAttributes = array(
-                'password', 'new_password', 'default_billing', 'default_shipping', 'confirmation');
+                'new_password', 'default_billing', 'default_shipping', 'confirmation', 'sendemail');
 
             /** @var Mage_Customer_Model_Customer $customerEntity */
             $customerEntity = $this->_objectManager
-                ->get('Mage_Customer_Model_Customer_Factory')
+                ->get('Mage_Customer_Model_CustomerFactory')
                 ->create();
             /** @var Mage_Customer_Helper_Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Mage_Customer_Helper_Data');
@@ -292,9 +302,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         $this->_processCustomerPassword($customerData);
-        /** @var Mage_Core_Model_Authorization $acl */
-        $acl = $this->_objectManager->get('Mage_Core_Model_Authorization');
-        if ($acl->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)) {
+        if ($this->_authorization->isAllowed(null)) {
             $customerData['is_subscribed'] = $this->getRequest()->getPost('subscription') !== null;
         }
 
@@ -324,7 +332,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $eavForm = $this->_objectManager->create('Mage_Customer_Model_Address_Form');
             /** @var Mage_Customer_Model_Address $addressEntity */
             $addressEntity = $this->_objectManager
-                ->get('Mage_Customer_Model_Address_Factory')
+                ->get('Mage_Customer_Model_AddressFactory')
                 ->create();
 
             $addressIdList = array_keys($addresses);
@@ -360,14 +368,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     protected function _processCustomerPassword(&$customerData)
     {
-        if (isset($customerData['new_password']) && $customerData['new_password'] !== false) {
-            $customerData['password'] = $customerData['new_password'];
-            unset($customerData['new_password']);
+        if (isset($customerData['new_password']) && !empty($customerData['new_password'])) {
+            if ($customerData['new_password'] == 'auto') {
+                $customerData['autogenerate_password'] = true;
+            } else {
+                $customerData['password'] = $customerData['new_password'];
+            }
         }
-        if (isset($customerData['password']) && ($customerData['password'] == 'auto')) {
-            unset($customerData['password']);
-            $customerData['autogenerate_password'] = true;
-        }
+        unset($customerData['new_password']);
     }
 
     /**
@@ -662,7 +670,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were updated.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were updated.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());
@@ -687,7 +695,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were updated.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were updated.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());
@@ -714,7 +722,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         ->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were deleted.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were deleted.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());
@@ -740,7 +748,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were updated.', count($customersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) were updated.', count($customersIds))
                 );
             } catch (Exception $exception) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($exception->getMessage());
@@ -827,7 +835,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Customer::manage');
+        return $this->_authorization->isAllowed('Mage_Customer::manage');
     }
 
     /**

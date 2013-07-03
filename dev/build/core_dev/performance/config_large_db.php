@@ -69,7 +69,7 @@ return array(
             'Product Attributes Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'loops' => 3,
@@ -79,7 +79,7 @@ return array(
             'Product Prices Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'loops' => 3,
@@ -89,7 +89,7 @@ return array(
             'Catalog URL Rewrites Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'reindex' => 'catalog_url',
@@ -98,7 +98,7 @@ return array(
             'Product Flat Data Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'reindex' => 'catalog_product_flat',
@@ -107,7 +107,7 @@ return array(
             'Category Flat Data Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'loops' => 10,
@@ -117,7 +117,7 @@ return array(
             'Category Products Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'loops' => 3,
@@ -127,7 +127,7 @@ return array(
             'Stock Status Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'loops' => 5,
@@ -137,20 +137,10 @@ return array(
             'Catalog Search Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
+                    'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
                 'arguments' => array(
                     'reindex' => 'catalogsearch_fulltext',
-                ),
-            ),
-            'Tag Aggregation Data Indexer' => array(
-                'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
-                    'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
-                ),
-                'arguments' => array(
-                    'loops' => 5,
-                    'reindex' => 'tag_summary',
                 ),
             ),
         ),

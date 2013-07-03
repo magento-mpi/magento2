@@ -45,13 +45,14 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $layout = $this->getMock('Mage_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
         $design = $this->getMock('Mage_Core_Model_Design_PackageInterface', array(), array(), '', false);
-        $translator = $this->getMock('Mage_Core_Model_Translate', array(),
-            array(
-                $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false, false),
-                $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false),
-                $this->getMock('Mage_Core_Model_Translate_Factory', array(), array(), '', false, false)
-            )
-        );
+        $translator = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
+
+        $objectManagerMock = $this->getMock('Magento_ObjectManager', array('get', 'create', 'configure'));
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Mage_Core_Model_TemplateEngine_Php')
+            ->will($this->returnValue(new Mage_Core_Model_TemplateEngine_Php()));
+        $engineFactory = new Mage_Core_Model_TemplateEngine_Factory($objectManagerMock);
 
         $arguments = array(
             'designPackage' => $design,
@@ -59,6 +60,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             'dirs'          => $dirMock,
             'filesystem'    => $filesystem,
             'translator'    => $translator,
+            'engineFactory' => $engineFactory,
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
 

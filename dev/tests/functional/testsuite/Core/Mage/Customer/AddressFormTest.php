@@ -26,13 +26,11 @@ class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
-        $this->addParameter('tabName', 'general');
-        $this->addParameter('webSite', 'base');
-        $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
-        $this->systemConfigurationHelper()->expandFieldSet('countries_options');
-        $this->fillCheckbox('default_country_use_default', 'No');
-        $this->fillDropdown('default_country', 'Thailand');
-        $this->clickButton('save_config');
+        $countryOptions = $this->loadDataSet('General', 'general_default_country_options',
+            array('configuration_scope' => 'Main Website',
+                  'default_country_use_default' => 'No',
+                  'default_country' => 'Thailand'));
+        $this->systemConfigurationHelper()->configure($countryOptions);
         $this->navigate('manage_customers');
         $this->clickButton('add_new_customer');
         $this->fillDropdown('associate_to_website', 'Main Website');

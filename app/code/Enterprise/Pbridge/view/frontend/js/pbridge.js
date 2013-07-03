@@ -23,7 +23,7 @@
 
         _create : function() {
             this.element
-                .on('reloadPbridgeIframe', $.proxy(function(event, data) { this.reloadIframe(data); }, this))
+                .on('reloadPbridgeIframe', $.proxy(function(event, data) { this._reloadIframe(data); }, this))
                 .find('span.pbridge-reload a').on('click', $.proxy(function () {
                     var data = {};
                     data.method = this.options.method;
@@ -65,15 +65,14 @@
                 data:{method_code: data.method},
                 success: function(response) {
                     this.element.find(this.options.iframeContainerSelector).html(response);
-                    this.element.trigger('gotoSection', 'payment');
-                    this._toggleContinueButton(this.element.parents('ol'));
+                    this.element.trigger('gotoSection', 'payment').trigger('contentUpdate');
                     this.element.find(this.options.reloadSelector).find('a').show();
                 }
             });
         },
 
         /**
-         *
+         * Keep this code, refer to https://jira.corp.x.com/browse/MAGETWO-7539 for details
          * @param target
          * @return {*}
          * @private
@@ -113,10 +112,7 @@
             });
         }
 
-        /**
-         *
-         */
-        /*
+        /*// leave commented code unchanged, refer to https://jira.corp.x.com/browse/MAGETWO-7539 for details
          preLoadReviewIframe: function() {
          if (review.agreementsForm) {
             checkout.setLoadWaiting('review');

@@ -22,7 +22,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         parent::_construct();
         $this->setId('checkout_manage_container');
 
-        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::create')) {
+        if ($this->_authorization->isAllowed('Mage_Sales::create')) {
             $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Create Order'));
             $this->_updateButton('save', 'onclick', 'setLocation(\'' . $this->getCreateOrderUrl() . '\');');
         } else {
@@ -39,7 +39,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
      */
     protected function _prepareLayout()
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update')) {
+        if (!$this->_authorization->isAllowed('Enterprise_Checkout::update')) {
             return $this;
         }
 
@@ -55,9 +55,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
             'onclick' => 'checkoutObj.updateItems()',
             'style' => 'float:right; margin-left: 5px;'
         ));
-        $deleteAllConfirmString = Mage::helper('Enterprise_Checkout_Helper_Data')->__('Are you sure you want to delete all items from shopping cart?');
+        $deleteAllConfirmString = Mage::helper('Enterprise_Checkout_Helper_Data')->__('Are you sure you want to clear your shopping cart?');
         $this->addChild('empty_customer_cart_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Clear Shopping Cart'),
+            'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Clear the shopping cart.'),
             'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
                 . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
             'style' => 'float:right;'
@@ -173,7 +173,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         );
 
         $messages = array(
-            'chooseProducts' => $this->__('Choose some products to add to shopping cart.')
+            'chooseProducts' => $this->__('Choose  products to add to shopping cart.')
         );
 
         $data = array(

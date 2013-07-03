@@ -129,7 +129,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
             $orderId = $orderId->getId();
         }
         if (!is_numeric($orderId)) {
-            Mage::throwException($this->__('It isn\'t valid order'));
+            Mage::throwException($this->__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
             $this->_orderItems[$orderId] = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')

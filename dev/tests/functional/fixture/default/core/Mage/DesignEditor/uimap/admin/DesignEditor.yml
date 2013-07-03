@@ -14,27 +14,68 @@ design_editor_selector:
     click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
     title: Store Designer / Design / Content / Magento Admin
     uimap: &designEditorSelector
-        pageelements:
-            header_available_themes: //h3[contains(.,'Choose a theme to start with')]
-            theme_list: //div[@class='infinite_scroll']
-            available_themes_tab_content: //div[@id='theme_selector_tabs_available_themes_content']
-            customized_themes_tab_content: //div[@id='theme_selector_tabs_customizations_content']
-            theme_list_elements: //div[@class='infinite_scroll']/ul/li
-            store_view_window: //div[@id='store-view-window']
-            store_view_label_by_title: //div[@id='store-view-window']//label[contains(., '%storeName%')]
-            store_view_input_by_id: //div[@id='store-view-window']//input[@id='%storeId%']
-            theme_thumbnail: //li[@id='theme-id-%id%']//div[@class='theme-content']
-            theme_assigned_storeview: //li[@id='theme-id-%id%']//*[@class='theme-assigned-to-storeview' and contains(.,'%id%')]
-        links:
-            available_themes_tab: //a[@id='theme_selector_tabs_available_themes']
-            customized_themes_tab: //a[@id='theme_selector_tabs_customizations']
-            assign_theme: //li[@id='theme-id-%id%']//*[contains(@class, 'action-theme-assign')]
+        form:
+            tabs:
+                -
+                    available_themes:
+                        xpath: //a[@id='theme_selector_tabs_available_themes']
+                        fieldsets:
+                            -
+                                available_themes_content:
+                                    xpath: //div[@id='theme_selector_tabs_available_themes_content']
+                                    pageelements:
+                                        theme_list: //div[@class='infinite_scroll']
+                                        theme_list_elements: //div[@class='infinite_scroll']/ul/li
+                                        thumbnail: //li[@id='%themeId%']//div[@class='theme-content']
+                                        first_theme_thumbnail: //li[@class='theme'][1]
+                                    links:
+                                        edit_theme: //li[@id='%themeId%']//a[contains(@title, 'Edit')]
+                                    messages:
+                                        success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
+                                    buttons:
+                                        assign_theme_button: //li[@id='%themeId%']//button[contains(@title, 'Assign to a Storeview')]
+                            -
+                                assign_theme_confirmation:
+                                    xpath: //div[div/span[contains(text(), 'Assign theme to your live store-view')]]
+                                    buttons:
+                                        assign: //div[@class='ui-dialog-buttonset']/button/span[text()='Assign']
+                                        close: //div[@class='ui-dialog-buttonset']/button/span[text()='Close']
+                                    links:
+                                        close_x: //span[text()='close']/parent::a
+                                    messages:
+                                        confirmation_for_assign_to_default: //*[normalize-space(@class)='confirm_message' and contains(.,'You are about to apply this theme for your live store, are you really want to do this?')]
+                                        assign_success: //*[normalize-space(@class)='message-success' and contains(.,'Theme successfully assigned')]
+                                    pageelements:
+                                        store_view_label_by_title: //span[@class='storeview-name' and contains(., '%storeName%')]/parent::label
+                                        store_view_input_by_id: //li[@class='storeview']//input[@id='%storeId%']
+                -
+                    my_customization:
+                        xpath: //a[@id='theme_selector_tabs_customizations']
+                        fieldsets:
+                            -
+                                customizations_content:
+                                    xpath: //div[@id='theme_selector_tabs_customizations_content']
+                                    buttons:
+                                        assign_customization_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
+                                        edit_customization_button: //li[@id='theme-id-%id%']//a[contains(@title, 'Edit')]
+                                        delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
+                                        delete_customization_button: //div/article[contains(.,'%themeTitle%')]//button[contains(@title, 'Remove')]
+                                        preview_theme_button: //li[@id='theme-id-%id%']//a[contains(@title, 'Preview Theme')]
+                                        duplicate_theme: //li[@id='theme-id-%id%']//button[contains(@title, 'Duplicate')]
+                                        save_rename_theme: //li[@id='theme-id-%id%']//button[contains(@title, 'Save')]
+                                    fields:
+                                        theme_name: //form[@class='edit-theme-title-form']/input
+                                    pageelements:
+                                        theme_thumbnail: //li[@id='theme-id-%id%']//div[@class='theme-content']
+                                        theme_assigned_storeview: //li[@id='theme-id-%id%']//*[@class='theme-assigned-to-storeview' and contains(.,'%id%')]
+                                        edit_theme_name: //li[@id='theme-id-%id%']//span[@class='edit-theme-title']
+                                        theme_title: //li[@id='theme-id-%id%']/div[@class='theme-assigned-data']/h4[@class='theme-title']
         messages:
             confirmation_for_delete: Are you sure you want to do this?
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
-            confirmation_for_assign_to_default: You are about to apply this theme for your live store, are you really want to do this?
+            confirmation_for_assign_to_default: You are about to assign this theme to your live store. Are you sure you want to do that?
         buttons:
-            assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
+            assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Store View')]
             edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
             delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
             preview_demo_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Theme Demo')]
@@ -44,8 +85,11 @@ design_editor_selector:
             store_assign_close_x: //div[@id='store-view-window']//div[contains (@class, 'popup')]//span[contains(@class, 'action-close-popup')]
             duplicate_theme: //li[@id='theme-id-%id%']//button[@class='action-duplicate']
 
-        dropdowns:
-            locales_switcher: //select[@id='interface_locale']
+design_editor_selector_first_assign:
+    mca: system_design_editor/#theme_selector_tabs_available_themes_content
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
+    title: Store Designer / Design / Content / Magento Admin
+    uimap: *designEditorSelector
 
 preview_theme_in_navigation:
     mca: system_design_editor/launch/theme_id/%id%/mode/navigation/
@@ -54,6 +98,7 @@ preview_theme_in_navigation:
         buttons:
             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
             save_and_assign: //div[@id='vde_toolbar_buttons']//span[contains(text(), 'Save and Assign')]
+            assign: //button[contains(@title, 'Assign')]
         links:
             quit: //div[@id='vde_toolbar_buttons']//a[contains(@href, 'quit/')]
         pageelements:
@@ -61,8 +106,8 @@ preview_theme_in_navigation:
             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
             assign: //button[contains(@title, 'Assign')]
         messages:
-            confirmation_for_assign_to_default_in_nm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
-            confirmation_for_assign_to_default: You are about to apply current changes for your live store, are you sure want to do this?
+            confirmation_for_assign_to_default_in_nm: "Are you sure you want to change the theme of your live store?"
+            confirmation_for_assign_to_default: Are you sure you want to change the design of your live store?
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
@@ -75,17 +120,13 @@ preview_theme_in_design:
                         buttons:
                             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
                             save_and_assign: //div[@id='vde_toolbar_buttons']//span[contains(text(), 'Save and Assign')]
+                            assign: //button[contains(@title, 'Assign')]
                         pageelements:
                             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
                             vde_toolbar_row: //div[@id='vde_toolbar_row']
-                        links:
-                            view_layout: //div[@id='vde_toolbar_buttons']//a[@title='View Layout']
-                        dropdowns:
-                            page: //div[@id='vde_handles_hierarchy']//span[@class='vde_toolbar_cell_value']
-                            view_option: //div[@id='vde_view_options']//div[@class='vde_toolbar_cell_title']
                         messages:
-                            confirmation_for_assign_to_default_in_dm: You are about to apply current changes for your live store, are you sure want to do this?
-                            no_change: No changes found.
+                            confirmation_for_assign_to_default_in_dm: Are you sure you want to change the theme of your live store?
+                            no_change: We found no changes.
                 -
                     bottom_bar:
                         links:
@@ -95,6 +136,18 @@ preview_theme_in_design:
                             settings_doc: //div[@class='vde-tools-tabs']//a[contains(@href, '#vde-tab-settings')]
                         buttons:
                             close: //button[contains(@title, 'Close Panel')]
+                -
+                    iframe:
+                        xpath: //iframe[@id='vde_container_frame']
+                -
+                    assign_theme_confirmation:
+                        xpath: //div[div/span[contains(text(), 'Assign theme to your live store-view')]]
+                        buttons:
+                            save: //div[@class='ui-dialog-buttonset']/button/span[text()='Save']
+                            close: //div[@class='ui-dialog-buttonset']/button/span[text()='Close']
+                        messages:
+                            confirmation_for_assign_to_default: //*[normalize-space(@class)='confirm_message' and contains(.,'You are about to apply this theme for your live store, are you really want to do this?')]
+                            assign_success: //*[normalize-space(@class)='message-success' and contains(.,'Theme successfully assigned')]
             tabs:
                 -
                     header: &header
@@ -309,14 +362,37 @@ preview_theme_in_design:
                                     xpath: //div[@class='custom-code']
                                     buttons:
                                         update_css: //button[@class='action-update']
+                -
+                    iframe:
+                        xpath: //iframe[@id='vde_container_frame']
+                -
+                    page_frame:
+                        fields:
+                            body: //body[contains(@class, '%wrappedPage%')]
+                        pageelements:
+                            vde_element: //div[@data-name='%dataName%']
+                            vde_container: //div[contains(@class, 'vde_container')]
+                            highlight_containers: //div[@class="vde_element_wrapper vde_draggable vde_removable"%displayStyle%]
+                            draggable_elements: //div[contains(@class, 'vde_draggable')]
+                            removable_elements: //div[contains(@class, 'vde_removable')]
+                            main_container: //div[@class='col-main']/div
+                            left_sidebar: //div[@class='col-left sidebar']/div
+                            right_sidebar: //div[@class='col-right sidebar']/div
+                        links:
+                            remove_vde_element: //div[@data-name='%dataName%']/div[contains(@class, 'vde_element_remove')]/a
 
-assigned_theme_default_in_design:
-    mca: system_design_editor/launch/store_id/0/theme_id/%id%/
+assigned_theme_default_in_navigation:
+    mca: system_design_editor/launch/store_id//theme_id/%id%/mode/navigation
     title: Store Designer / Magento Admin
     uimap: *themeInDesign
 
 assigned_theme_in_design:
     mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%/
+    title: Store Designer / Magento Admin
+    uimap: *themeInDesign
+
+assigned_theme_in_navigation:
+    mca: system_design_editor/launch/store_id/%storeId%/theme_id/%id%/mode/navigation
     title: Store Designer / Magento Admin
     uimap: *themeInDesign
 

@@ -21,7 +21,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
      */
     public function getTabTitle()
     {
-        return $this->__('Customized themes not assigned to a storeview');
+        return $this->__('Themes Not Assigned to Store Views');
     }
 
     /**
@@ -33,6 +33,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
     protected function _addRemoveButtonHtml($themeBlock)
     {
         $themeId = $themeBlock->getTheme()->getId();
+        $themeTitle = $themeBlock->getTheme()->getThemeTitle();
         /** @var $removeButton Mage_Backend_Block_Widget_Button */
         $removeButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
 
@@ -47,7 +48,11 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
                             'url' => $this->getUrl(
                                 '*/system_design_theme/delete/',
                                 array('id' => $themeId, 'back' => true)
-                            )
+                            ),
+                            'confirm' => array(
+                                'message' => $this->__('Are you sure you want to delete this theme?'),
+                            ),
+                            'title' => $this->__('Delete %s Theme', $themeTitle)
                         )
                     ),
                 ),
@@ -70,7 +75,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
     {
         parent::_addThemeButtons($themeBlock);
 
-        $this->_addPreviewButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock)
+        $this->_addDuplicateButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock)
             ->_addRemoveButtonHtml($themeBlock);
         return $this;
     }

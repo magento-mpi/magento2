@@ -17,6 +17,7 @@
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
@@ -161,9 +162,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_translator;
 
-    protected $_isLoaded    = false;
-    protected $_isGenerated = false;
-    protected $_isRendered  = false;
+    protected $_serviceCalls = array();
+
+    /** @var Mage_Core_Model_DataService_Graph  */
+    protected $_dataServiceGraph;
+
+    /**
+     * Renderers registered for particular name
+     * @var array
+     */
+    protected $_renderers = array();
 
     /**
      * @param Mage_Core_Model_BlockFactory $blockFactory
@@ -171,6 +179,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param Mage_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Mage_Core_Model_Layout_Translator $translator
      * @param Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure
+     * @param Mage_Core_Model_DataService_Graph $dataServiceGraph
      * @param string $area
      */
     public function __construct(
@@ -179,6 +188,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
+        Mage_Core_Model_DataService_Graph $dataServiceGraph,
         $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
     ) {
         $this->_blockFactory = $blockFactory;
@@ -190,6 +200,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Varien_Object;
         $this->_scheduledStructure = $scheduledStructure;
+        $this->_dataServiceGraph = $dataServiceGraph;
     }
 
     /**
@@ -278,6 +289,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_scheduledStructure->flushScheduledStructure();
 
         $this->_readStructure($this->getNode());
+
+        $this->_dataServiceGraph
+            ->init($this->getServiceCalls());
+
         while (false === $this->_scheduledStructure->isStructureEmpty()) {
             $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
         };
@@ -369,6 +384,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
                 case self::TYPE_BLOCK:
+                    $this->_initServiceCalls($node);
                     $this->_scheduleStructure($node, $parent);
                     $this->_readStructure($node);
                     break;
@@ -402,6 +418,32 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     break;
             }
         }
+    }
+
+    /**
+     * Grab information about data service from the node
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return Mage_Core_Model_Layout
+     */
+    protected function _initServiceCalls($node)
+    {
+        if (!$dataServices = $node->xpath('data')) {
+            return $this;
+        }
+        $nodeName = $node->getAttribute('name');
+        foreach ($dataServices as $dataServiceNode) {
+            $dataServiceName = $dataServiceNode->getAttribute('service_call');
+            if (isset($this->_serviceCalls[$dataServiceName])) {
+                $this->_serviceCalls[$dataServiceName]['namespaces'][$nodeName] =
+                    $dataServiceNode->getAttribute('alias');
+            } else {
+                $this->_serviceCalls[$dataServiceName] = array(
+                    'namespaces' => array($nodeName => $dataServiceNode->getAttribute('alias'))
+                );
+            }
+        }
+        return $this;
     }
 
     /**
@@ -741,10 +783,21 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $arguments = $this->_argumentProcessor->process($arguments);
+        $dictionary = $this->_dataServiceGraph->getByNamespace((string)$node['name']);
 
-        $block = $this->_createBlock($className, $elementName, array('data' => $arguments));
+        $block = $this->_createBlock($className, $elementName,
+            array('data' => $arguments));
+
+        if (!empty($node['module'])) {
+            $block->setModuleName((string)$node['module']);
+        }
+
         if (!empty($node['template'])) {
-            $block->setTemplate((string)$node['template']);
+            $templateFileName = (string)$node['template'];
+            if ($block instanceof Mage_Core_Block_Template) {
+                $block->assign($dictionary);
+            }
+            $block->setTemplate($templateFileName);
         }
 
         $this->_scheduledStructure->unsetElement($elementName);
@@ -756,6 +809,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         return $block;
+    }
+
+    public function getServiceCalls()
+    {
+        return $this->_serviceCalls;
     }
 
     /**
@@ -1069,6 +1127,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         unset($args['@attributes']);
 
         foreach ($args as $key => $arg) {
+            $matches = array();
             if (($arg instanceof Mage_Core_Model_Layout_Element)) {
                 if (isset($arg['helper'])) {
                     $args[$key] = $this->_getArgsByHelper($arg);
@@ -1081,6 +1140,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                         $args[$key] = $arr;
                     }
                 }
+            } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $arg, $matches)) {
+                $args[$key] = $this->_dataServiceGraph->getArgumentValue($matches[1]);
             }
         }
 
@@ -1528,33 +1589,75 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this->_blockFactory;
     }
 
-    public function setIsLoaded($flag)
-    {
-        $this->_isLoaded = $flag;
+    /**
+     * @param $namespace
+     * @param $staticType
+     * @param $dynamicType
+     * @param $type
+     * @param $template
+     * @param string $dataServiceName
+     * @param array $data
+     * @return $this
+     */
+    public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template,
+        $dataServiceName = '', $data = array()
+    ) {
+        if (!isset($namespace)) {
+            $this->_renderers[$namespace] = array();
+        }
+        if (!isset($namespace)) {
+            $this->_renderers[$namespace][$staticType] = array();
+        }
+        $this->_renderers[$namespace][$staticType][$dynamicType] = array(
+            'type' => $type,
+            'template' => $template,
+            'dataServiceName' => $dataServiceName,
+            'data' => $data
+        );
+        return $this;
     }
 
-    public function getIsLoaded()
+    /**
+     * @param $namespace
+     * @param $staticType
+     * @param $dynamicType
+     * @return null
+     */
+    public function getRendererOptions($namespace, $staticType, $dynamicType)
     {
-        return $this->_isLoaded;
+        if (!isset($this->_renderers[$namespace])) {
+            return null;
+        }
+        if (!isset($this->_renderers[$namespace][$staticType])) {
+            return null;
+        }
+        if (!isset($this->_renderers[$namespace][$staticType][$dynamicType])) {
+            return null;
+        }
+        return $this->_renderers[$namespace][$staticType][$dynamicType];
     }
 
-    public function setIsGenerated($flag)
+    /**
+     * @param $namespace
+     * @param $staticType
+     * @param $dynamicType
+     * @param $data
+     */
+    public function executeRenderer($namespace, $staticType, $dynamicType, $data = array())
     {
-        $this->_isGenerated = $flag;
-    }
+        if ($options = $this->getRendererOptions($namespace, $staticType, $dynamicType)) {
+            $dictionary = array();
+            if (!empty($options['dataServiceName'])) {
+                $dictionary = $this->_dataServiceGraph->get($options['dataServiceName']);
+            }
+            /** @var $block Mage_Core_Block_Template */
+            $block = $this->createBlock($options['type'], '')
+                ->setData($data)
+                ->assign($dictionary)
+                ->setTemplate($options['template'])
+                ->assign($data);
 
-    public function getIsGenerated()
-    {
-        return $this->_isGenerated;
-    }
-
-    public function setIsRendered($flag)
-    {
-        $this->_isRendered = $flag;
-    }
-
-    public function getIsRendered()
-    {
-        return $this->_isRendered;
+            echo $block->toHtml();
+        }
     }
 }

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_Loader
+class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
 {
     /**
      * @var Mage_Core_Model_Resource

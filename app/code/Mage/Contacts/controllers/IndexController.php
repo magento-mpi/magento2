@@ -17,12 +17,14 @@
  */
 class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 {
-
     const XML_PATH_EMAIL_RECIPIENT  = 'contacts/email/recipient_email';
     const XML_PATH_EMAIL_SENDER     = 'contacts/email/sender_email_identity';
     const XML_PATH_EMAIL_TEMPLATE   = 'contacts/email/email_template';
     const XML_PATH_ENABLED          = 'contacts/contacts/enabled';
 
+    /**
+     * Check is page enabled
+     */
     public function preDispatch()
     {
         parent::preDispatch();
@@ -32,6 +34,9 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Show Contact Us page
+     */
     public function indexAction()
     {
         $this->loadLayout();
@@ -43,10 +48,19 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    /**
+     * Post user question
+     *
+     * @throws Exception
+     */
     public function postAction()
     {
+        if (!$this->getRequest()->isSecure()) {
+            $this->_redirect('*/*/');
+            return;
+        }
         $post = $this->getRequest()->getPost();
-        if ( $post ) {
+        if ($post) {
             $translate = Mage::getSingleton('Mage_Core_Model_Translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
@@ -96,14 +110,14 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Mage_Contacts_Helper_Data')->__('Your inquiry was submitted and will be responded to as soon as possible. Thank you for contacting us.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Mage_Contacts_Helper_Data')->__('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.'));
                 $this->_redirect('*/*/');
 
                 return;
             } catch (Exception $e) {
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Contacts_Helper_Data')->__('Unable to submit your request. Please, try again later'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Contacts_Helper_Data')->__('Something went wrong submitting your request.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -112,5 +126,4 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
             $this->_redirect('*/*/');
         }
     }
-
 }

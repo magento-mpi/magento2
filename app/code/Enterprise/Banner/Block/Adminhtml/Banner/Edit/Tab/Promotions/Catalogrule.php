@@ -11,6 +11,24 @@
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Url $urlModel
+     * @param Mage_CatalogRule_Model_Resource_Rule_Collection $ruleCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Url $urlModel,
+        Mage_CatalogRule_Model_Resource_Rule_Collection $ruleCollection,
+        array $data = array()
+    ) {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+        $this->setCollection($ruleCollection);
+    }
+
+    /**
      * Initialize grid, set defaults
      *
      */
@@ -29,26 +47,13 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
     }
 
     /**
-     * Set catalor rule collection to grid data
-     *
-     * @return Mage_Adminhtml_Block_Widget_Grid
-     */
-    protected function _prepareCollection()
-    {
-        $bannerId = Mage::registry('current_banner')->getId();
-        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Catalogrule_Collection');
-        $this->setCollection($collection);
-        return parent::_prepareCollection();
-    }
-
-    /* Set custom filter for in banner catalog flag
+     * Set custom filter for in banner catalog flag
      *
      * @param string $column
      * @return Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule
      */
     protected function _addColumnFilterToCollection($column)
     {
-
         if ($column->getId() == 'in_banner_catalogrule') {
             $ruleIds = $this->_getSelectedRules();
             if (empty($ruleIds)) {
@@ -90,13 +95,13 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         ));
 
         $this->addColumn('catalogrule_name', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule Name'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('catalogrule_from_date', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Start Date'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Start on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -104,7 +109,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         ));
 
         $this->addColumn('catalogrule_to_date', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Expiration Date'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('End on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',

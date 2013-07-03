@@ -48,12 +48,12 @@
             <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
                 <arguments>
                     <filter_visibility>0</filter_visibility>
-                    <empty_text translate="true" module="Mage_Reports">No records found for this period.</empty_text>
-                    <empty_cell_label translate="true" module="Mage_Reports">No records found for this period.</empty_cell_label>
+                    <empty_text translate="true" module="Mage_Reports">We couldn't find records for this period.</empty_text>
+                    <empty_cell_label translate="true" module="Mage_Reports">We couldn't find records for this period.</empty_cell_label>
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
                     <arguments>
-                        <header translate="true" module="Mage_Reports">Period</header>
+                        <header translate="true" module="Mage_Reports">Interval</header>
                         <sortable>0</sortable>
                         <type>text</type>
                         <id>period</id>
@@ -95,7 +95,7 @@
             </arguments>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">Customer Name</header>
+                    <header translate="true" module="Mage_Reports">Customer</header>
                     <sortable>0</sortable>
                     <type>text</type>
                     <index>name</index>
@@ -106,7 +106,7 @@
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="orders_count">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">Number of Orders</header>
+                    <header translate="true" module="Mage_Reports">Orders</header>
                     <sortable>0</sortable>
                     <type>number</type>
                     <index>orders_count</index>
@@ -118,7 +118,7 @@
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="orders_avg_amount">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">Average Order Amount</header>
+                    <header translate="true" module="Mage_Reports">Average</header>
                     <sortable>0</sortable>
                     <type>currency</type>
                     <total>orders_sum_amount/orders_count</total>
@@ -130,7 +130,7 @@
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="orders_sum_amount">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">Total Order Amount</header>
+                    <header translate="true" module="Mage_Reports">Total</header>
                     <sortable>0</sortable>
                     <type>currency</type>
                     <total>sum</total>
@@ -187,7 +187,7 @@
             </arguments>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">Product Name</header>
+                    <header translate="true" module="Mage_Reports">Product</header>
                     <type>text</type>
                     <index>order_items_name</index>
                     <id>name</id>
@@ -197,7 +197,7 @@
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="ordered_qty">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">Quantity Ordered</header>
+                    <header translate="true" module="Mage_Reports">Ordered Quantity</header>
                     <total>sum</total>
                     <type>number</type>
                     <index>ordered_qty</index>
@@ -299,7 +299,7 @@
             </arguments>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="accounts">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">Number of New Accounts</header>
+                    <header translate="true" module="Mage_Reports">New Accounts</header>
                     <index>accounts</index>
                     <total>sum</total>
                     <type>number</type>
@@ -371,7 +371,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="customer_name">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Customer Name</header>
+                            <header translate="true" module="Mage_Reports">Customer</header>
                             <index>customer_name</index>
                             <type>text</type>
                             <id>customer_name</id>
@@ -382,7 +382,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="review_cnt">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Number Of Reviews</header>
+                            <header translate="true" module="Mage_Reports">Reviews</header>
                             <type>text</type>
                             <index>review_cnt</index>
                             <column_css_class>col-qty</column_css_class>
@@ -469,7 +469,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Product Name</header>
+                            <header translate="true" module="Mage_Reports">Product</header>
                             <type>text</type>
                             <index>name</index>
                             <column_css_class>col-product</column_css_class>
@@ -478,7 +478,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="review_cnt">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Number of Reviews</header>
+                            <header translate="true" module="Mage_Reports">Reviews</header>
                             <id>review_cnt</id>
                             <index>review_cnt</index>
                             <column_css_class>col-qty</column_css_class>
@@ -487,7 +487,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="avg_rating">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Avg. Rating</header>
+                            <header translate="true" module="Mage_Reports">Average</header>
                             <id>avg_rating</id>
                             <index>avg_rating</index>
                             <column_css_class>col-rating</column_css_class>
@@ -496,7 +496,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="avg_rating_approved">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Avg. Approved Rating</header>
+                            <header translate="true" module="Mage_Reports">Average (Approved)</header>
                             <id>avg_rating_approved</id>
                             <index>avg_rating_approved</index>
                             <column_css_class>col-avg-rating</column_css_class>
@@ -601,7 +601,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="updated_at">
                             <arguments>
-                                <header translate="true" module="Mage_Reports">Updated At</header>
+                                <header translate="true" module="Mage_Reports">Updated</header>
                                 <type>datetime</type>
                                 <sortable>0</sortable>
                                 <id>updated_at</id>

@@ -10,6 +10,8 @@
 
 /**
  * Theme Image model class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme_Image extends Varien_Object
 {
@@ -39,20 +41,28 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     protected $_theme;
 
     /**
+     * @var Mage_Core_Model_Image_Factory
+     */
+    protected $_imageFactory;
+
+    /**
      * Initialize dependencies
      *
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Image_Factory $imageFactory
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Helper_Data $helper,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Image_Factory $imageFactory
     ) {
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;
         $this->_filesystem = $filesystem;
+        $this->_imageFactory = $imageFactory;
     }
 
     /**
@@ -177,6 +187,10 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
         $tmpDir = $dir->getDir(Mage_Core_Model_Dir::MEDIA)
             . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . 'origin';
 
+        if (!$upload->checkAllowedExtension($upload->getFileExtension())) {
+            Mage::throwException($this->_helper->__('Invalid image file type.'));
+        }
+
         if (!$upload->save($tmpDir)) {
             Mage::throwException($this->_helper->__('Image can not be saved.'));
         }
@@ -195,8 +209,7 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     public function createPreviewImage($imagePath)
     {
-        $adapter = $this->_helper->getImageAdapterType();
-        $image = new Varien_Image($imagePath, $adapter);
+        $image = $this->_imageFactory->create($imagePath);
         $image->keepTransparency(true);
         $image->constrainOnly(true);
         $image->keepFrame(true);
@@ -234,11 +247,15 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     {
         $filePath = $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage();
         $destinationFileName = Varien_File_Uploader::getNewFileName($filePath);
-        $this->_filesystem->copy(
-            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
-            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
-        );
-        $this->setPreviewImage($destinationFileName);
+        try {
+            $this->_filesystem->copy(
+                $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
+                $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
+            );
+            $this->setPreviewImage($destinationFileName);
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
         return $this;
     }
 

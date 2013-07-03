@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="payment">
-            <group id="pbridge" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="pbridge" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Payment Bridge</label>
                 <field id="active" translate="label" module="Enterprise_Pbridge" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -123,7 +123,7 @@
                     <frontend_class>validate-number</frontend_class>
                 </field>
             </group>
-            <group id="pbridge_authorizenet" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="pbridge_authorizenet" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="34" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Authorize.net (Payment Bridge only)</label>
                 <comment>
                     <![CDATA[<a href="http://celinks.magento.com/authorize_netRegistration" target="_blank">Click here to sign up for an Authorize.net account</a>]]>
@@ -175,7 +175,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="pbridge_ogone_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="pbridge_ogone_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Ogone Direct Link (Payment Bridge only)</label>
                 <field id="active" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -233,7 +233,7 @@
                     <frontend_class>validate-number</frontend_class>
                 </field>
             </group>
-            <group id="braintree_basic" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="braintree_basic" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Braintree (Payment Bridge only)</label>
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -311,7 +311,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="psigate_basic" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="psigate_basic" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PSi Gate (Payment Bridge only)</label>
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -329,7 +329,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="sagepay_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="sagepay_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sage Pay Direct (Payment Bridge only)</label>
                 <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -359,7 +359,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="worldpay_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="worldpay_direct" translate="label" module="Enterprise_Pbridge" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Worldpay (Payment Bridge only)</label>
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -377,216 +377,183 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-        </section>
-        <section id="paypal">
-            <group id="wpp">
-                <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Use via Payment Bridge</label>
-                    <comment>Gives effect only when payment bridge is active.</comment>
-                    <config_path>payment/paypal_direct/using_pbridge</config_path>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                </field>
-                <field id="cctypes">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_3dsecure">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel_is_mode_strict">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel_api_url">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="line_items_enabled">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="useccv">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_cc">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-            </group>
-            <group id="wpp_pe">
-                <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Use via Payment Bridge</label>
-                    <comment>Gives effect only when payment bridge is active.</comment>
-                    <config_path>payment/paypaluk_direct/using_pbridge</config_path>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                </field>
-                <field id="cctypes">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_3dsecure">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel_is_mode_strict">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel_api_url">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="line_items_enabled">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="useccv">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_cc">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_api">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="partner">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="user">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="vendor">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="pwd">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="sandbox_flag">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="use_proxy">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-            </group>
-            <group id="verisign">
-                <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Use via Payment Bridge</label>
-                    <comment>Gives effect only when payment bridge is active.</comment>
-                    <config_path>payment/verisign/using_pbridge</config_path>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                </field>
-                <field id="cctypes">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_3dsecure">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel_is_mode_strict">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="centinel_api_url">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="useccv">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_cc">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="heading_payflow">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="partner">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="user">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="vendor">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="pwd">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="sandbox_flag">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
-                <field id="use_proxy">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
+            <group id="paypal_payments">
+                <group id="wpp">
+                    <group id="wpp_required_settings">
+                        <group id="wpp_and_express_checkout">
+                            <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                                <label>Use via Payment Bridge</label>
+                                <comment>This feature is functional only when a payment bridge is active.</comment>
+                                <config_path>payment/paypal_direct/using_pbridge</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="wpp_settings">
+                        <field id="heading_cc">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                            </depends>
+                        </field>
+                        <field id="cctypes">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                            </depends>
+                        </field>
+                        <group id="wpp_settings_advanced">
+                            <field id="verify_peer">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="heading_3dsecure">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_is_mode_strict">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_api_url">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="line_items_enabled">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="useccv">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+                <group id="payments_pro_payflow_edition">
+                    <group id="pp_pe_required_settings">
+                        <group id="pp_pe_api_settings">
+                            <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                                <label>Use via Payment Bridge</label>
+                                <comment>This feature is functional only when a payment bridge is active.</comment>
+                                <config_path>payment/paypaluk_direct/using_pbridge</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="settings_pp_pe">
+                        <field id="heading_cc">
+                            <depends>
+                                <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                            </depends>
+                        </field>
+                        <field id="cctypes">
+                            <depends>
+                                <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                            </depends>
+                        </field>
+                        <group id="settings_pp_pe_advanced">
+                            <field id="verify_peer">
+                                <depends>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="useccv">
+                                <depends>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="heading_3dsecure">
+                                <depends>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel">
+                                <depends>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_is_mode_strict">
+                                <depends>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_api_url">
+                                <depends>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+                <group id="paypal_verisign">
+                    <group id="paypal_payflow_required">
+                        <group id="paypal_payflow_api_settings">
+                            <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                                <label>Use via Payment Bridge</label>
+                                <comment>This feature is functional only when a payment bridge is active.</comment>
+                                <config_path>payment/verisign/using_pbridge</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="settings_paypal_payflow">
+                        <field id="cctypes">
+                            <depends>
+                                <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                            </depends>
+                        </field>
+                        <field id="heading_cc">
+                            <depends>
+                                <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                            </depends>
+                        </field>
+                        <group id="settings_paypal_payflow_advanced">
+                            <field id="verify_peer">
+                                <depends>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="useccv">
+                                <depends>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="heading_3dsecure">
+                                <depends>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel">
+                                <depends>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_is_mode_strict">
+                                <depends>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_api_url">
+                                <depends>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                </group>
             </group>
         </section>
     </system>

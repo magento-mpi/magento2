@@ -155,7 +155,7 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
                                             array('general_name' => $productName));
         $checkoutData['billing_address_data']['captcha_register_during_checkout'] = '1234';
-        $message = 'Incorrect CAPTCHA.';
+        $message = 'Incorrect CAPTCHA';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);

@@ -15,13 +15,26 @@
 class Enterprise_CustomerSegment_Model_Observer
 {
     /**
+     * @var Enterprise_CustomerSegment_Helper_Data
+     */
+    private $_segmentHelper;
+
+    /**
+     * @param Enterprise_CustomerSegment_Helper_Data $segmentHelper
+     */
+    public function __construct(Enterprise_CustomerSegment_Helper_Data $segmentHelper)
+    {
+        $this->_segmentHelper = $segmentHelper;
+    }
+
+    /**
      * Add Customer Segment condition to the salesrule management
      *
      * @param Varien_Event_Observer $observer
      */
     public function addSegmentsToSalesRuleCombine(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
+        if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
         $additional = $observer->getEvent()->getAdditional();
@@ -121,136 +134,20 @@ class Enterprise_CustomerSegment_Model_Observer
      */
     public function addFieldsToTargetRuleForm(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
+        if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
         /* @var $form Varien_Data_Form */
         $form = $observer->getEvent()->getForm();
+        /** @var Varien_Object $model */
         $model = $observer->getEvent()->getModel();
+        /** @var Mage_Core_Block_Abstract $block */
         $block = $observer->getEvent()->getBlock();
 
-        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
-        $fieldset = $form->getElement('base_fieldset');
+        /** @var Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies */
+        $fieldDependencies = $block->getLayout()->createBlock('Mage_Backend_Block_Widget_Form_Element_Dependence');
+        $block->setChild('form_after', $fieldDependencies);
 
-        $model->setUseCustomerSegment(count($model->getCustomerSegmentIds()) > 0);
-        $fieldset->addField('use_customer_segment', 'select', array(
-            'name' => 'use_customer_segment',
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segments'),
-            'options' => array(
-                '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('All'),
-                '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Specified'),
-            ),
-            'note' => $model->getUseCustomerSegment() ?
-                $this->_getSpecificSegmentMessage()  : $this->_getAllSegmentsMessage(),
-            'disabled' => $model->getIsReadonly(),
-            'after_element_html' => $this->_getChangeNoteMessageScript(
-                'rule_use_customer_segment',
-                'use_customer_segment-note'
-            )
-        ));
-
-        $fieldset->addField('customer_segment_ids', 'multiselect', array(
-            'name' => 'customer_segment_ids[]',
-            'values' => Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')
-                ->toOptionArray(),
-            'can_be_empty' => true,
-        ));
-
-        $htmlIdPrefix = $form->getHtmlIdPrefix();
-        $block->setChild('form_after', $block->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
-            ->addFieldMap("{$htmlIdPrefix}use_customer_segment", 'use_customer_segment')
-            ->addFieldMap("{$htmlIdPrefix}customer_segment_ids", 'customer_segment_ids')
-            ->addFieldDependence('customer_segment_ids', 'use_customer_segment', '1'));
-    }
-
-    /**
-     * Add Customer Segment form fields to Banner form
-     *
-     * Observe  targetrule_edit_tab_main_after_prepare_form event
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function addFieldsToBannerForm(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
-            return;
-        }
-        /* @var $form Varien_Data_Form */
-        $form = $observer->getEvent()->getForm();
-        $model = $observer->getEvent()->getModel();
-        $block = $observer->getEvent()->getBlock();
-        $afterFormBlock = $observer->getEvent()->getAfterFormBlock();
-        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
-        $fieldset = $form->getElement('base_fieldset');
-        $model->setUseCustomerSegment(count($model->getCustomerSegmentIds()) > 0);
-
-        // whether to specify customer segments - also for UI design purposes only
-        $fieldset->addField('use_customer_segment', 'select', array(
-            'name' => 'use_customer_segment',
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segments'),
-            'options' => array(
-                '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('All'),
-                '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Specified'),
-            ),
-            'note' => $model->getUseCustomerSegment() ?
-                $this->_getSpecificSegmentMessage() : $this->_getAllSegmentsMessage(),
-            'disabled' => (bool)$model->getIsReadonly(),
-            'after_element_html' => $this->_getChangeNoteMessageScript(
-                'banner_properties_use_customer_segment',
-                'use_customer_segment-note'
-            )
-        ));
-
-        $fieldset->addField('customer_segment_ids', 'multiselect', array(
-            'name' => 'customer_segment_ids',
-            'values' => Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')->toOptionArray(),
-            'can_be_empty' => true,
-        ));
-
-        $htmlIdPrefix = $form->getHtmlIdPrefix();
-        $afterFormBlock->addFieldMap("{$htmlIdPrefix}use_customer_segment", 'use_customer_segment')
-            ->addFieldMap("{$htmlIdPrefix}customer_segment_ids", 'customer_segment_ids')
-            ->addFieldDependence('customer_segment_ids', 'use_customer_segment', '1');
-    }
-
-    /**
-     * Get Apply to All Segments Message
-     *
-     * @return string
-     */
-    protected function _getAllSegmentsMessage()
-    {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Applies to All of the Specified Customer Segments');
-    }
-
-    /**
-     * Get apply to specific segment message
-     * @return string
-     */
-    protected function _getSpecificSegmentMessage()
-    {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Apply to the Selected Customer Segments');
-    }
-
-
-    /**
-     * Get change note message script
-     *
-     * @param string $selectBoxId
-     * @param string $noteMessageBlockId
-     * @return string
-     */
-    protected function _getChangeNoteMessageScript($selectBoxId, $noteMessageBlockId)
-    {
-        return "<script type=\"text/javascript\">\r\n"
-            . "(function($) {\r\n"
-            . "'use strict';\r\n"
-            . "var notes = [\"{$this->_getAllSegmentsMessage()}\", \"{$this->_getSpecificSegmentMessage()}\"];\r\n"
-            . "\$('#$selectBoxId').change(function() {\r\n"
-            . "var note = notes[\$('#$selectBoxId').val()];\r\n"
-            . "\$('#$noteMessageBlockId').html(note);\r\n"
-            . "});\r\n"
-            . "})(jQuery);\r\n"
-            . "</script>\r\n";
+        $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $fieldDependencies);
     }
 }

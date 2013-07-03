@@ -200,7 +200,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     {
         if (!$this->getPage()->getId()
             || !Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()
-            || !Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::hierarchy'))
+            || !$this->_authorization->isAllowed('Enterprise_Cms::hierarchy'))
         {
             return false;
         }

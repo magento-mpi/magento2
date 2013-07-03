@@ -37,16 +37,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     const XML_PAGE_TYPE_RENDER_INHERITED = 'global/dev/page_type/render_inherited';
 
     /**
-     * @var Mage_Core_Controller_Request_Http
-     */
-    protected $_request;
-
-    /**
-     * @var Mage_Core_Controller_Response_Http
-     */
-    protected $_response;
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -73,13 +63,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      * @var array
      */
     protected $_cookieCheckActions = array();
-
-    /**
-     * Currently used area
-     *
-     * @var string
-     */
-    protected $_currentArea;
 
     /**
      * Namespace for session.
@@ -124,28 +107,24 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     protected $_layoutFactory;
 
     /**
-     * Constructor
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Controller_Varien_Action_Context $context,
         $areaCode = null
     ) {
-        parent::__construct($request, $response, $areaCode);
+        parent::__construct($context->getRequest(), $context->getResponse(), $areaCode);
 
-        $this->_objectManager   = $objectManager;
-        $this->_frontController = $frontController;
-        $this->_layoutFactory   = $layoutFactory;
+        $this->_objectManager   = $context->getObjectManager();
+        $this->_frontController = $context->getFrontController();
+        $this->_layoutFactory   = $context->getLayoutFactory();
+        $this->_eventManager    = $context->getEventManager();
         $this->_frontController->setAction($this);
 
         $this->_construct();
@@ -168,14 +147,11 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     }
 
     /**
-     * Get current used area code
-     * @return string $areaCode
+     * Check is controller method exist
+     *
+     * @param string $action
+     * @return bool
      */
-    public function getCurrentArea()
-    {
-        return $this->_currentArea;
-    }
-
     public function hasAction($action)
     {
         return method_exists($this, $this->getActionMethodName($action));
@@ -280,7 +256,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      */
     public function addActionLayoutHandles()
     {
-        $renderInherited = (string) Mage::app()->getConfig()->getNode(self::XML_PAGE_TYPE_RENDER_INHERITED);
+        $renderInherited = (string)$this->_objectManager->get('Mage_Core_Model_Config')
+            ->getNode(self::XML_PAGE_TYPE_RENDER_INHERITED);
         if (!$renderInherited || !$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         }
@@ -303,12 +280,17 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         return $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
     }
 
+    /**
+     * Load layout updates
+     *
+     * @return $this
+     */
     public function loadLayoutUpdates()
     {
         Magento_Profiler::start('LAYOUT');
 
         // dispatch event for adding handles to layout update
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'controller_action_layout_load_before',
             array('action' => $this, 'layout' => $this->getLayout())
         );
@@ -322,13 +304,18 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         return $this;
     }
 
+    /**
+     * Generate layout xml
+     *
+     * @return $this
+     */
     public function generateLayoutXml()
     {
         Magento_Profiler::start('LAYOUT');
 
         // dispatch event for adding text layouts
         if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'controller_action_layout_generate_xml_before',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
@@ -343,13 +330,18 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         return $this;
     }
 
+    /**
+     * Generate layout blocks
+     *
+     * @return $this
+     */
     public function generateLayoutBlocks()
     {
         Magento_Profiler::start('LAYOUT');
 
         // dispatch event for adding xml layout elements
         if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_before',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
@@ -361,7 +353,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         Magento_Profiler::stop('layout_generate_blocks');
 
         if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_after',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
@@ -397,10 +389,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $this->getLayout()->addOutputElement($output);
         }
 
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('controller_action_layout_render_before');
-        $eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
+        $this->_eventManager->dispatch('controller_action_layout_render_before');
+        $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
 
         $this->getLayout()->setDirectOutput(false);
 
@@ -413,6 +403,11 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         return $this;
     }
 
+    /**
+     * Dispatch action
+     *
+     * @param string $action
+     */
     public function dispatch($action)
     {
         $this->getRequest()->setDispatched(true);
@@ -546,7 +541,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         }
 
         // Prohibit disabled store actions
-        if (Mage::isInstalled() && !Mage::app()->getStore()->getIsActive()) {
+        $storeManager = $this->_objectManager->get('Mage_Core_Model_StoreManager');
+        if (Mage::isInstalled() && !$storeManager->getStore()->getIsActive()) {
             Mage::app()->throwStoreException();
         }
 
@@ -579,10 +575,10 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      */
     protected function _firePreDispatchEvents()
     {
-        Mage::dispatchEvent('controller_action_predispatch', array('controller_action' => $this));
-        Mage::dispatchEvent('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
+        $this->_eventManager->dispatch('controller_action_predispatch', array('controller_action' => $this));
+        $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
             array('controller_action' => $this));
-        Mage::dispatchEvent('controller_action_predispatch_' . $this->getFullActionName(),
+        $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getFullActionName(),
             array('controller_action' => $this));
     }
 
@@ -595,17 +591,22 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             return;
         }
 
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'controller_action_postdispatch_' . $this->getFullActionName(),
             array('controller_action' => $this)
         );
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'controller_action_postdispatch_' . $this->getRequest()->getRouteName(),
             array('controller_action' => $this)
         );
-        Mage::dispatchEvent('controller_action_postdispatch', array('controller_action' => $this));
+        $this->_eventManager->dispatch('controller_action_postdispatch', array('controller_action' => $this));
     }
 
+    /**
+     * No route action
+     *
+     * @param null $coreRoute
+     */
     public function norouteAction($coreRoute = null)
     {
         $status = $this->getRequest()->getParam('__status__');
@@ -613,7 +614,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $status = new Varien_Object();
         }
 
-        Mage::dispatchEvent('controller_action_noroute', array('action' => $this, 'status' => $status));
+        $this->_eventManager->dispatch('controller_action_noroute', array('action' => $this, 'status' => $status));
 
         if ($status->getLoaded() !== true
             || $status->getForwarded() === true
@@ -631,15 +632,19 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         }
     }
 
+    /**
+     * No cookies action
+     */
     public function noCookiesAction()
     {
         $redirect = new Varien_Object();
-        Mage::dispatchEvent('controller_action_nocookies', array(
+        $this->_eventManager->dispatch('controller_action_nocookies', array(
             'action'    => $this,
             'redirect'  => $redirect
         ));
 
-        if ($url = $redirect->getRedirectUrl()) {
+        $url = $redirect->getRedirectUrl();
+        if ($url) {
             $this->_redirectUrl($url);
         } elseif ($redirect->getRedirect()) {
             $this->_redirect($redirect->getPath(), $redirect->getArguments());
@@ -694,7 +699,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $messagesStorage = array($messagesStorage);
         }
         foreach ($messagesStorage as $storageName) {
-            $storage = Mage::getSingleton($storageName);
+            $storage = $this->_objectManager->get($storageName);
             if ($storage) {
                 $block = $this->getLayout()->getMessagesBlock();
                 $block->addMessages($storage->getMessages(true));
@@ -756,7 +761,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     public function setRedirectWithCookieCheck($path, array $arguments = array())
     {
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session');
+        $session = $this->_objectManager->get('Mage_Core_Model_Session');
         if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
             && $this->_sessionNamespace != Mage_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
         ) {
@@ -764,7 +769,9 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $session->getSessionIdQueryParam() => $session->getSessionId()
             ));
         }
-        $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
+        $this->getResponse()->setRedirect(
+            $this->_objectManager->create('Mage_Core_Model_Url')->getUrl($path, $arguments)
+        );
         return $this;
     }
 
@@ -782,7 +789,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $successUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($successUrl)) {
-            $successUrl = Mage::app()->getStore()->getBaseUrl();
+            $successUrl = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($successUrl);
         return $this;
@@ -801,7 +808,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $errorUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($errorUrl)) {
-            $errorUrl = Mage::app()->getStore()->getBaseUrl();
+            $errorUrl = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($errorUrl);
         return $this;
@@ -847,7 +854,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {
-            $refererUrl = Mage::app()->getStore()->getBaseUrl();
+            $refererUrl = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore()->getBaseUrl();
         }
         return $refererUrl;
     }
@@ -864,8 +871,10 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             /**
              * Url must start from base secure or base unsecure url
              */
-            if ((strpos($url, Mage::app()->getStore()->getBaseUrl()) === 0)
-                || (strpos($url, Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)
+            /** @var $store Mage_Core_Model_StoreManagerInterface */
+            $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore();
+            if ((strpos($url, $store->getBaseUrl()) === 0)
+                || (strpos($url, $store->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)
             ) {
                 return true;
             }
@@ -929,22 +938,22 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         }
 
         if (!($rewrite->actions && $rewrite->actions->$action) || $rewrite->is('override_actions')) {
-            $t = explode('/', (string)$rewrite->to);
-            if (sizeof($t) !== 2 || empty($t[0]) || empty($t[1])) {
+            $rewriteTo = explode('/', (string)$rewrite->to);
+            if (sizeof($rewriteTo) !== 2 || empty($rewriteTo[0]) || empty($rewriteTo[1])) {
                 return false;
             }
-            $t[2] = $action;
+            $rewriteTo[2] = $action;
         } else {
-            $t = explode('/', (string)$rewrite->actions->$action->to);
-            if (sizeof($t) !== 3 || empty($t[0]) || empty($t[1]) || empty($t[2])) {
+            $rewriteTo = explode('/', (string)$rewrite->actions->$action->to);
+            if (sizeof($rewriteTo) !== 3 || empty($rewriteTo[0]) || empty($rewriteTo[1]) || empty($rewriteTo[2])) {
                 return false;
             }
         }
 
         $this->_forward(
-            $t[2] === '*' ? $action : $t[2],
-            $t[1] === '*' ? $controller : $t[1],
-            $t[0] === '*' ? $route : $t[0]
+            $rewriteTo[2] === '*' ? $action : $rewriteTo[2],
+            $rewriteTo[1] === '*' ? $controller : $rewriteTo[1],
+            $rewriteTo[0] === '*' ? $route : $rewriteTo[0]
         );
 
         return true;
@@ -1070,7 +1079,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             return $array;
         }
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => Mage::app()->getLocale()
+                ->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
             'date_format' => Varien_Date::DATETIME_INTERNAL_FORMAT
@@ -1100,8 +1110,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         $content,
         $contentType = 'application/octet-stream',
         $contentLength = null
-    )
-    {
+    ) {
         /** @var Magento_Filesystem $filesystem */
         $filesystem = $this->_objectManager->create('Magento_Filesystem');
         $isFile = false;

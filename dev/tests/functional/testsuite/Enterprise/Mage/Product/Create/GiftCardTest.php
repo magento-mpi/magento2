@@ -14,7 +14,6 @@
  *
  * @package     Mage_Product
  * @subpackage  functional_tests
- * @license     {license_link}
  */
 class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 {
@@ -47,7 +46,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['general_giftcard_data']['general_card_type'] = $giftcardType;
+        $productData['general_card_type'] = $giftcardType;
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard', false);
         if (!$giftcardType == 'Virtual') {
@@ -79,6 +78,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInGiftCard()
     {
+        $this->markTestIncomplete('MAGETWO-8963');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card');
         $productSearch = $this->loadDataSet('Product', 'product_search',
@@ -159,8 +159,8 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['general_giftcard_data']['general_amounts']['general_amount1']['general_giftcard_amount'] = '';
-        $productData['general_giftcard_data']['general_amounts']['general_amount2']['general_giftcard_amount'] = '';
+        $productData['general_amounts']['general_amount1']['general_giftcard_amount'] = '';
+        $productData['general_amounts']['general_amount2']['general_giftcard_amount'] = '';
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
@@ -182,6 +182,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function specialCharactersInBaseFields()
     {
+        $this->markTestIncomplete('MAGETWO-8963');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
@@ -207,6 +208,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function longValuesInBaseFields()
     {
+        $this->markTestIncomplete('MAGETWO-8963');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
@@ -254,7 +256,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['general_giftcard_data']['general_card_type'] = 'Combined';
+        $productData['general_card_type'] = 'Combined';
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard', false);
         $this->openTab('general');

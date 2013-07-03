@@ -47,7 +47,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     public function indexAction()
     {
-        $this->_title($this->__('Rewrite Rules'));
+        $this->_title($this->__('URL Redirects'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_urlrewrite');
@@ -59,8 +59,8 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     public function editAction()
     {
-        $this->_title($this->__('Rewrite Rules'))
-            ->_title($this->__('URL Rewrite'));
+        $this->_title($this->__('URL Redirects'))
+            ->_title($this->__('[New/Edit] URL Redirect'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_urlrewrite');
@@ -406,7 +406,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::urlrewrite');
+        return $this->_authorization->isAllowed('Mage_Catalog::urlrewrite');
     }
 
     /**

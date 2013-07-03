@@ -64,6 +64,15 @@
     </footer>
 </section>
 
+<div class="vde-message no-display" id="vde-message-template">
+    <div class="message-inner">
+        <div class="message-content">${message}</div>
+        <button class="action-close" title="<?php echo $this->__('Close Message'); ?>">
+            <span><?php echo $this->__('Close Message'); ?></span>
+        </button>
+    </div>
+</div>
+
 <script type="text/javascript">
 (function($) {
     'use strict';
@@ -81,29 +90,16 @@
         saveQuickStylesUrl: '<?php echo $this->getSaveUrl(); ?>'
     });
 
-    $(document).ready(function() {
-        var eventData = {
-            elements: {
-                click: [
-                    '#vde-tab-quick-styles .element-image-uploader',
-                    '#vde-tab-quick-styles .element-background .element-checkbox'
-                ],
-                mousedown: ['#vde-tab-quick-styles .color-box'],
-                focus: [
-                    '#vde-tab-quick-styles .element-color-picker input',
-                    '#vde-tab-quick-styles .element-font-picker select'
-                ]
-            }
-        };
-        $('body').trigger('registerElements', eventData);
-    });
-
     $('[class^="action-"][href="#vde-tab-custom"]').on('click.activateCustomCodeTab', function() {
         $('.vde-tab-controls a[href="#vde-tab-custom"]').trigger('click');
     });
 
     $('.action-edit[href="#vde-tab-custom"]').on('click.focusOnCustomCodeTextarea', function() {
         $('#custom_code').focus();
+    });
+
+    $('.vde-tools').vdeMessage({
+        messageTemplateId: '#vde-message-template'
     });
 })(window.jQuery);
 </script>

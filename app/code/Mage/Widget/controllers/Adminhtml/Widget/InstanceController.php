@@ -14,16 +14,6 @@
 class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Session getter
-     *
-     * @return Mage_Adminhtml_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
-    }
-
-    /**
      * Load layout, set active menu and breadcrumbs
      *
      * @return Mage_Widget_Adminhtml_Widget_InstanceController
@@ -46,7 +36,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _initWidgetInstance()
     {
-        $this->_title($this->__('Widgets'));
+        $this->_title($this->__('Frontend Apps'));
 
         /** @var $widgetInstance Mage_Widget_Model_Widget_Instance */
         $widgetInstance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
@@ -59,7 +49,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
             $widgetInstance->load($instanceId);
             if (!$widgetInstance->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Mage_Widget_Helper_Data')->__('Wrong widget instance specified.')
+                    Mage::helper('Mage_Widget_Helper_Data')->__('Please specify a correct widget.')
                 );
                 return false;
             }
@@ -76,7 +66,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     public function indexAction()
     {
-        $this->_title($this->__('Widgets'));
+        $this->_title($this->__('Frontend Apps'));
 
         $this->_initAction()
             ->renderLayout();
@@ -103,7 +93,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
             return;
         }
 
-        $this->_title($widgetInstance->getId() ? $widgetInstance->getTitle() : $this->__('New Instance'));
+        $this->_title($widgetInstance->getId() ? $widgetInstance->getTitle() : $this->__('New Frontend App Instance'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -282,6 +272,6 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Widget::widget_instance');
+        return $this->_authorization->isAllowed('Mage_Widget::widget_instance');
     }
 }

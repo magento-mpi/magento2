@@ -13,13 +13,13 @@
 manage_rma:
     mca: rma/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rma/')]
-    title: Manage RMA / Operations / Sales / Magento Admin
+    title: Returns / Operations / Sales / Magento Admin
 
 #Manage RMA Item Attribute page
 manage_rma_items_attribute:
     mca: rma_item_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rma_item_attribute/')]
-    title: Manage RMA Item Attributes / Attributes / Stores / Magento Admin
+    title: Returns Attributes / Attributes / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -40,13 +40,13 @@ manage_rma_items_attribute:
         buttons:
             add_new_attribute: //button[span='Add New Attribute']
         messages:
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The RMA item attribute has been saved.')]
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The RMA item attribute has been deleted.')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the RMA item attribute.')]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the RMA attribute.')]
 
 #New RMA Item Attribute page
 new_rma_item_attribute:
     mca: rma_item_attribute/new/
-    title: New Attribute / Manage RMA Item Attributes / Attributes / Stores / Magento Admin
+    title: New Return Attribute / Returns Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &rmaAttributeForm
             tabs:
@@ -112,7 +112,7 @@ new_rma_item_attribute:
             save_and_continue_edit: //button[span='Save and Continue Edit']
             delete_attribute: //button[span='Delete Attribute']
         messages: &rmaAttributeMessage
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute with this code already exists.')]
             empty_attribute_code: //*[@id='advice-required-entry-attribute_code']
             empty_sort_order: //*[@id='advice-required-entry-sort_order']
             empty_admin_title: //*[@id='advice-required-option-frontend_label[0]']
@@ -122,7 +122,7 @@ new_rma_item_attribute:
 
 edit_rma_item_attribute:
     mca: rma_item_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage RMA Item Attributes / Attributes / Stores / Magento Admin
+    title: %elementTitle% / Returns Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *rmaAttributeForm
         buttons: *rmaAttributeButton

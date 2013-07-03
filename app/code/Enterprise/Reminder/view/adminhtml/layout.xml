@@ -47,14 +47,14 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='name'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Reminder'>Rule Name</header>
+                            <header translate='true' module='Enterprise_Reminder'>Rule</header>
                             <align>left</align>
                             <index>name</index>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='from_date'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Reminder'>Date Start</header>
+                            <header translate='true' module='Enterprise_Reminder'>Start on</header>
                             <align>left</align>
                             <width>120px</width>
                             <type>date</type>
@@ -64,7 +64,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='to_date'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Reminder'>Date Expire</header>
+                            <header translate='true' module='Enterprise_Reminder'>End on</header>
                             <align>left</align>
                             <width>120px</width>
                             <type>date</type>
@@ -89,7 +89,7 @@
                             <index>website_ids</index>
                             <type>options</type>
                             <sortable>0</sortable>
-                            <options type='options'>Enterprise_Reminder_Model_Reminder_Options_Website</options>
+                            <options type='options'>Mage_Backend_Model_Config_Source_Website_OptionHash</options>
                             <width>200px</width>
                         </arguments>
                     </block>

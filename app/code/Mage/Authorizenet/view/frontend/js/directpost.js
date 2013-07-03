@@ -24,7 +24,7 @@
             hiddenFormTmpl: '<form target="${target}" action="${action}" method="POST" enctype="application/x-www-form-urlencoded" class="no-display">' +
                             '{{each(key, val) inputs}} <input value="${val}" name="${key}" type="hidden"> {{/each}}' +
                             '</form>',
-            reviewAgreementForm: null,
+            reviewAgreementForm: '#checkout-agreements',
             cgiUrl: null,
             orderSaveUrl: null,
             controller: null
@@ -96,6 +96,7 @@
          * @private
          */
         _postPaymentToAuthorizeNet: function(data) {
+            $(this.options.iframeSelector).show();
             $.template('hiddenFormTmpl', this.options.hiddenFormTmpl);
             $.tmpl('hiddenFormTmpl', {
                 target: $(this.options.iframeSelector).attr('name'),

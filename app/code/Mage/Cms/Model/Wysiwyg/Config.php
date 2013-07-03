@@ -26,6 +26,21 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Magento_AuthorizationInterface $authorization
+     * @param array $data
+     */
+    public function __construct(Magento_AuthorizationInterface $authorization, array $data = array())
+    {
+        $this->_authorization = $authorization;
+        parent::__construct($data);
+    }
+
+    /**
      * Return Wysiwyg config as Varien_Object
      *
      * Config options description:
@@ -66,7 +81,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
 
         $config->setData('directives_url_quoted', preg_quote($config->getData('directives_url')));
 
-        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::media_gallery')) {
+        if ($this->_authorization->isAllowed('Mage_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images'               => true,
                 'files_browser_window_url' => Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg_images/index'),

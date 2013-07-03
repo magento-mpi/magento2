@@ -7,6 +7,18 @@
  * @license     {license_link}
  */
 MediabrowserUtility = {
+    getMaxZIndex: function() {
+        var max = 0, i;
+        var cn = document.body.childNodes;
+        for (i = 0; i < cn.length; i++) {
+            var el = cn[i];
+            var zIndex = el.nodeType == 1 ? parseInt(el.style.zIndex, 10) || 0 : 0;
+            if (zIndex < 10000) {
+                max = Math.max(max, zIndex);
+            }
+        }
+        return max + 10;
+    },
     openDialog: function(url, width, height, title, options) {
         var windowId = 'modal_dialog_message';
         jQuery('body').append('<div class="popup-window magento_message" id="' + windowId + '"></div>');
@@ -16,6 +28,7 @@ MediabrowserUtility = {
             modal:      true,
             resizable:  false,
             width:      width || 950,
+            zIndex:     this.getMaxZIndex(),
             close:      function(event, ui) {
                 jQuery(this).dialog('destroy');
                 jQuery('#' + windowId).remove();
@@ -50,6 +63,7 @@ Mediabrowser.prototype = {
     tree: null,
     currentNode: null,
     storeId: null,
+    showBreadcrumbs: null,
     initialize: function (setup) {
         this.newFolderPrompt = setup.newFolderPrompt;
         this.deleteFolderConfirmationMessage = setup.deleteFolderConfirmationMessage;
@@ -61,6 +75,7 @@ Mediabrowser.prototype = {
         this.deleteFolderUrl = setup.deleteFolderUrl;
         this.deleteFilesUrl = setup.deleteFilesUrl;
         this.headerText = setup.headerText;
+        this.showBreadcrumbs = setup.showBreadcrumbs;
     },
     setTree: function (tree) {
         this.tree = tree;
@@ -83,7 +98,8 @@ Mediabrowser.prototype = {
         }
 
         this.updateHeader(this.currentNode);
-        this.drawBreadcrumbs(this.currentNode);
+        if (this.showBreadcrumbs)
+            this.drawBreadcrumbs(this.currentNode);
 
         this.showElement('loading-mask');
         new Ajax.Request(this.contentsUrl, {
@@ -206,7 +222,8 @@ Mediabrowser.prototype = {
      */
     getTargetElement: function() {
         if (typeof(tinyMCE) != 'undefined' && tinyMCE.get(this.targetElementId)) {
-            if ((opener = this.getMediaBrowserOpener())) {
+            var opener = this.getMediaBrowserOpener();
+            if ((opener)) {
                 var targetElementId = tinyMceEditors.get(this.targetElementId).getMediaBrowserTargetElementId();
                 return opener.document.getElementById(targetElementId);
             } else {

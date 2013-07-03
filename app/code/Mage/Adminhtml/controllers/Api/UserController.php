@@ -103,7 +103,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
                         $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
                     }
                 }
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The user has been saved.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You saved the user.'));
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUserData(false);
                 $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
             try {
                 $model = Mage::getModel('Mage_Api_Model_User')->load($id);
                 $model->delete();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The user has been deleted.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Unable to find a user to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('We can\'t find a user to delete.'));
         $this->_redirect('*/*/');
     }
 
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Api::users');
+        return $this->_authorization->isAllowed('Mage_Api::users');
     }
 
 }

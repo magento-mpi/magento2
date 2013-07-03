@@ -11,15 +11,16 @@
 
 /**
  * Test class for Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
+ * @magentoAppArea adminhtml
  */
-class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends Mage_Backend_Area_TestCase
+class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::register('current_reminder_rule', Mage::getModel('Enterprise_Reminder_Model_Rule'));
 
         $block = Mage::app()->getLayout()->createBlock(

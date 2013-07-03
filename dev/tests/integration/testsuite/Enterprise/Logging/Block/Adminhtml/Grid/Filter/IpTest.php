@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip

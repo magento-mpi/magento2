@@ -40,7 +40,7 @@
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="product_name">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Product name</header>
+                        <header translate="true" module="Mage_Wishlist">Product</header>
                         <id>product_name</id>
                         <index>product_name</index>
                         <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item</renderer>
@@ -56,7 +56,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Qty</header>
+                        <header translate="true" module="Mage_Wishlist">Quantity</header>
                         <index>qty</index>
                         <type>number</type>
                         <width>60px</width>
@@ -65,7 +65,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Added From</header>
+                        <header translate="true" module="Mage_Wishlist">Add Locale</header>
                         <index>store_id</index>
                         <type>store</type>
                         <width>160px</width>
@@ -73,7 +73,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_at">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Date Added</header>
+                        <header translate="true" module="Mage_Wishlist">Add Date</header>
                         <index>added_at</index>
                         <gmtoffset>1</gmtoffset>
                         <type>date</type>
@@ -82,7 +82,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="days">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Days in Wishlist</header>
+                        <header translate="true" module="Mage_Wishlist">Days in Wish List</header>
                         <index>days_in_wishlist</index>
                         <type>number</type>
                         <id>days</id>

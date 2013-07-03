@@ -96,13 +96,13 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
                             ->save();
                     }
                     Mage::getSingleton('Mage_Core_Model_Session')->addSuccess(
-                        Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s has been submitted successfully', $rmaModel->getIncrementId())
+                        Mage::helper('Enterprise_Rma_Helper_Data')->__('You submitted Return #%s.', $rmaModel->getIncrementId())
                     );
                     $this->_redirectSuccess(Mage::getUrl('*/*/history'));
                     return;
                 } catch (Exception $e) {
                     Mage::getSingleton('Mage_Core_Model_Session')->addError(
-                        Mage::helper('Enterprise_Rma_Helper_Data')->__('Cannot create New Return, try again later')
+                        Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot create a new return transaction. Please try again later.')
                     );
                     Mage::logException($e);
                 }
@@ -174,7 +174,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
         }
 
         $incrementId    = Mage::registry('current_order')->getIncrementId();
-        $message        = Mage::helper('Enterprise_Rma_Helper_Data')->__('Cannot create rma for order #%s.', $incrementId);
+        $message        = Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot create a return transaction for order #%s.', $incrementId);
         Mage::getSingleton('Mage_Core_Model_Session')->addError($message);
         $this->_redirect('sales/order/history');
         return false;
@@ -199,7 +199,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('Mage_Catalog_Model_Session');
         $this->getLayout()
             ->getBlock('head')
-            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #%s', Mage::registry('current_rma')->getIncrementId()));
+            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s', Mage::registry('current_rma')->getIncrementId()));
 
         $this->renderLayout();
     }
@@ -260,7 +260,7 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
                     $result->setStoreId(Mage::registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
                 } else {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid message.'));
+                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please enter a valid message.'));
                 }
             } catch (Mage_Core_Exception $e) {
                 $response = array(
@@ -301,11 +301,11 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
                 $carriers  = Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Select valid carrier.'));
+                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please select a valid carrier.'));
                 }
 
                 if (empty($number)) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid Tracking Number.'));
+                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please enter a valid tracking number.'));
                 }
 
                 Mage::getModel('Enterprise_Rma_Model_Shipping')
@@ -323,13 +323,13 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Cannot add label.')
+                    'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot add a label.')
                 );
             }
         } else {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA Selected.')
+                'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('The wrong RMA was selected.')
             );
         }
         if (is_array($response)) {
@@ -358,13 +358,13 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
                 $number    = intval($this->getRequest()->getPost('number'));
 
                 if (empty($number)) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid Tracking Number.'));
+                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please enter a valid tracking number.'));
                 }
 
                 $trackingNumber = Mage::getModel('Enterprise_Rma_Model_Shipping')
                     ->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA Selected.'));
+                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('The wrong RMA was selected.'));
                 }
                 $trackingNumber->delete();
 
@@ -376,13 +376,13 @@ class Enterprise_Rma_ReturnController extends Mage_Core_Controller_Front_Action
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Cannot delete label.')
+                    'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot delete the label.')
                 );
             }
         } else {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Wrong RMA Selected.')
+                'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('The wrong RMA was selected.')
             );
         }
         if (is_array($response)) {

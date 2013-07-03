@@ -15,8 +15,8 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Customer/>
-                <Mage_Catalog/>
+                <Mage_Customer />
+                <Mage_Catalog />
             </depends>
         </Mage_Wishlist>
     </modules>
@@ -58,12 +58,21 @@
         <wishlist>
             <item>
                 <product_attributes>
-                    <visibility/>
-                    <url_path/>
-                    <url_key/>
+                    <visibility />
+                    <url_path />
+                    <url_key />
                 </product_attributes>
             </item>
         </wishlist>
+        <di>
+            <Mage_Wishlist_Model_Resource_Item_Collection_Grid>
+                <parameters>
+                    <resource>
+                        <instance>Mage_Wishlist_Model_Resource_Item</instance>
+                    </resource>
+                </parameters>
+            </Mage_Wishlist_Model_Resource_Item_Collection_Grid>
+        </di>
     </global>
     <frontend>
         <routers>
@@ -112,6 +121,13 @@
         <secure_url>
             <wishlist>/wishlist/</wishlist>
         </secure_url>
+        <di>
+            <Mage_Wishlist_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Wishlist_Model_Session>
+        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -130,6 +146,13 @@
                 </wishlist>
             </updates>
         </layout>
+        <di>
+            <Mage_Wishlist_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Wishlist_Model_Session>
+        </di>
     </adminhtml>
     <default>
         <wishlist>
@@ -139,7 +162,9 @@
             <email>
                 <email_identity>general</email_identity>
                 <email_template>wishlist_email_email_template</email_template>
+                <number_limit>10</number_limit>
+                <text_limit>255</text_limit>
             </email>
         </wishlist>
     </default>
-</config>
+</config>

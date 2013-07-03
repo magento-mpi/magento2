@@ -139,7 +139,7 @@ product_page:
                         xpath: //div[@class='box-collateral box-related' or @class='block block-related']
                         links:
                             related_select_all: //*[text()='select all']
-                            related_product: //a[text()='%productName%']
+                            related_product: //a[normalize-space(text())='%productName%']
                 -
                     related_product: &related_product
                         xpath: //div[@class='box-collateral box-related' or @class='block block-related']//li[*//a[text()='%productName%']]
@@ -162,7 +162,7 @@ product_page:
                     upsells: &upsells
                         xpath: //div[@class='box-collateral box-up-sell']
                         links:
-                            up_sells_product: //div[@class='box-collateral box-up-sell']//a[text()='%productName%']
+                            up_sells_product: //a[normalize-space(text())='%productName%']
                 -
                     upsells_product: &upsells_product
                         xpath: //td[*//a[text()='%productName%']]
@@ -195,11 +195,11 @@ product_page:
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             tag_added_to_product: //li[normalize-space(@class)='success-msg' and contains(.,'Tag "%tagName%" has been added to the product.')]
             tag_already_success: //li[normalize-space(@class)='notice-msg' and contains(.,'Tag "%tagName%" has already been added to the product.')]
-            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.,'The product %productName% has been added to comparison list.')]
-            confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
-            confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
-            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
-            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
+            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.,'You added product %productName% to the comparison list.')]
+            confirmation_for_removing_product_from_compare: Are you sure you want to remove this item from the compared products?
+            confirmation_clear_all_from_compare: Are you sure you want to remove all products from your comparison?
+            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'You cleared the comparison list.')]
+            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'You removed product %productName% from the comparison list.')]
             accepted_review: //li[normalize-space(@class)='success-msg' and contains(.//span,'Your review has been accepted for moderation.')]
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
 

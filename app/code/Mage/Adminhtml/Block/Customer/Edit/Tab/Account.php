@@ -190,12 +190,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $sendEmail->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
-                $('{$prefix}website_id').disableSendemail = function() {
-                    $('{$prefix}sendemail').disabled = ('' == this.value || '0' == this.value);".
-                    $_disableStoreField
-                ."}.bind($('{$prefix}website_id'));
-                Event.observe('{$prefix}website_id', 'change', $('{$prefix}website_id').disableSendemail);
-                $('{$prefix}website_id').disableSendemail();
+                document.observe('dom:loaded', function(){
+                    $('{$prefix}website_id').disableSendemail = function() {
+                        $('{$prefix}sendemail').disabled = ('' == this.value || '0' == this.value);".
+                        $_disableStoreField
+                    ."\n}.bind($('{$prefix}website_id'));
+                    Event.observe('{$prefix}website_id', 'change', $('{$prefix}website_id').disableSendemail);
+                    $('{$prefix}website_id').disableSendemail();
+                });
                 "
                 . '</script>'
             );
@@ -376,7 +378,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
      */
     protected function _setCustomerWebsiteId(Mage_Customer_Model_Customer $customer)
     {
-        if (Mage::app()->hasSingleStore()) {
+        if (Mage::app()->isSingleStoreMode()) {
             $customer->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
         }
     }

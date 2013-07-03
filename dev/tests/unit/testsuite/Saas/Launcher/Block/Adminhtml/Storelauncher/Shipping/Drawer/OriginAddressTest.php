@@ -182,9 +182,18 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddressT
         $expectedAddress2['data']['city'] = null;
         $expectedAddress2['show_form'] = true;
 
+        $configAddress3 = $configAddress2;
+        $configAddress3['country_id'] = '';
+        $configAddress3['region_id'] = '';
+
+        $expectedAddress3 = $expectedAddress2;
+        $expectedAddress3['data']['country_id'] = '';
+        $expectedAddress3['data']['region_id'] = '';
+
         return array(
             array($configAddress1, $expectedAddress1),
             array($configAddress2, $expectedAddress2),
+            array($configAddress3, $expectedAddress3),
         );
     }
 }

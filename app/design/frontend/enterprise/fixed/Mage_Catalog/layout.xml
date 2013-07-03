@@ -138,8 +138,8 @@ Product view
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addJs"><file>js/jqzoom/js/jquery.jqzoom-core-pack.js</file></action>
-            <action method="addCss"><file>js/jqzoom/css/jquery.jqzoom.css</file></action>
+            <action method="addJs"><file>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</file></action>
+            <action method="addCss"><file>jquery/jqzoom/css/jquery.jqzoom.css</file></action>
         </reference>
         <update handle="page_calendar"/>
         <reference name="content">

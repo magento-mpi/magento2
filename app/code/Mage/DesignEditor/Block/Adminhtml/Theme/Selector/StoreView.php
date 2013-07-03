@@ -30,13 +30,13 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     protected $_serviceModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Resource_Website_Collection $websiteCollection
      * @param Mage_Core_Model_Theme_Service $serviceModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Resource_Website_Collection $websiteCollection,
         Mage_Core_Model_Theme_Service $serviceModel,
         array $data = array()
@@ -100,7 +100,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array(
-                        'event' => 'assign-next',
+                        'event' => 'assign-confirm',
                         'target' => 'body',
                         'eventData' => array()
                     ),
@@ -156,7 +156,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
      *
      * @return bool
      */
-    protected function _isMultipleStoreViewMode()
+    protected function _hasMultipleStores()
     {
         $isMultipleMode = false;
         $tmpStore = null;
@@ -183,16 +183,15 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     public function getOptionsJson()
     {
         $options = array();
-        $options['storesByThemes']          = $this->_getStoresByThemes();
-        $options['assignUrl']               = $this->getUrl('*/*/assignThemeToStore', array(
+        $options['storesByThemes']    = $this->_getStoresByThemes();
+        $options['assignUrl']         = $this->getUrl('*/*/assignThemeToStore', array(
             'theme_id' => $this->getThemeId()
         ));
-        $options['afterAssignUrl']          = $this->getUrl('*/*/launch');
-        $options['isMultipleStoreViewMode'] = $this->_isMultipleStoreViewMode();
-        $options['redirectOnAssign']        = $this->getData('redirectOnAssign');
-        if ($this->hasData('openNewOnAssign')) {
-            $options['openNewOnAssign'] = $this->getData('openNewOnAssign');
-        }
+        $options['afterAssignUrl']    = $this->getUrl('*/*/index');
+        $options['hasMultipleStores'] = $this->_hasMultipleStores();
+
+        $options['actionOnAssign']   = $this->getData('actionOnAssign');
+        $options['afterAssignOpen']  = false;
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = $this->helper('Mage_Core_Helper_Data');

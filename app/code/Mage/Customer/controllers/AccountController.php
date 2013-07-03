@@ -165,7 +165,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     protected function _loginPostRedirect()
     {
         $session = $this->_getSession();
-
+        $lastCustomerId = $session->getLastCustomerId();
+        if (isset($lastCustomerId) && $session->isLoggedIn() && $lastCustomerId != $session->getId()) {
+            $session->unsBeforeAuthUrl()
+                ->setLastCustomerId($session->getId());
+        }
         if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl()) {
             // Set default URL to redirect customer to
             $session->setBeforeAuthUrl(Mage::helper('Mage_Customer_Helper_Data')->getAccountUrl());
@@ -205,9 +209,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function logoutAction()
     {
+        $lastCustomerId = $this->_getSession()->getId();
         $this->_getSession()->logout()
             ->renewSession()
-            ->setBeforeAuthUrl($this->_getRefererUrl());
+            ->setBeforeAuthUrl($this->_getRefererUrl())
+            ->setLastCustomerId($lastCustomerId);
 
         $this->_redirect('*/*/logoutSuccess');
     }
@@ -259,7 +265,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $this->_validateCustomer($customer, $address);
 
             $customer->save()->setOrigData();
-            Mage::dispatchEvent('customer_register_success',
+            $this->_eventManager->dispatch('customer_register_success',
                 array('account_controller' => $this, 'customer' => $customer)
             );
 
@@ -555,7 +561,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if ($email) {
             if (!Zend_Validate::is($email, 'EmailAddress')) {
                 $this->_getSession()->setForgottenEmail($email);
-                $this->_getSession()->addError($this->__('Invalid email address.'));
+                $this->_getSession()->addError($this->__('Please correct the email address.'));
                 $this->_redirect('*/*/forgotpassword');
                 return;
             }
@@ -614,7 +620,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     /**
      * Reset forgotten password
      *
-     * Used to handle data recieved from reset forgotten password form
+     * Used to handle data received from reset forgotten password form
      *
      */
     public function resetPasswordPostAction()

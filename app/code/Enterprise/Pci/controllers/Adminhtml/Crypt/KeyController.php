@@ -24,7 +24,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
         $filename = Mage::getBaseDir('etc') . DS . 'local.xml';
         if (!is_writeable($filename)) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Enterprise_Pci_Helper_Data')->__('To make key change possible, make sure the following file is writeable: %s', realpath($filename))
+                Mage::helper('Enterprise_Pci_Helper_Data')->__('To enable a key change this file must be writable: %s.', realpath($filename))
             );
             return false;
         }
@@ -37,7 +37,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Encription Key'));
+        $this->_title($this->__('Encryption Key'));
 
         $this->_checkIsLocalXmlWriteable();
         $this->loadLayout();
@@ -75,11 +75,11 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
                 ->changeEncryptionKey($key);
             Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addSuccess(
-                Mage::helper('Enterprise_Pci_Helper_Data')->__('Encryption key has been changed.')
+                Mage::helper('Enterprise_Pci_Helper_Data')->__('The encryption key has been changed.')
             );
 
             if (!$key) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_Pci_Helper_Data')->__('Your new encryption key: <span style="font-family:monospace;">%s</span>. Please make a note of it and make sure you keep it in a safe place.', $newKey));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_Pci_Helper_Data')->__('This is your new encryption key: <span style="font-family:monospace;">%s</span>. Be sure to write it down and take good care of it!', $newKey));
             }
             Mage::app()->cleanCache();
         }
@@ -99,6 +99,6 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Pci::crypt_key');
+        return $this->_authorization->isAllowed('Enterprise_Pci::crypt_key');
     }
 }

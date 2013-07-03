@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule Name'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule'),
             'align'     =>'left',
             'index'     => 'name',
         ));
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Date Start'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Start on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Date Expire'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('End on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('rule_website', array(
-                'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Website'),
+                'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Web Site'),
                 'align'     =>'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',

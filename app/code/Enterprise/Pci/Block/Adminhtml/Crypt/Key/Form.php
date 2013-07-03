@@ -24,7 +24,7 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
         $fieldset = $form->addFieldset('main_fieldset', array('legend' => Mage::helper('Enterprise_Pci_Helper_Data')->__('New Encryption Key')));
         $fieldset->addField('enc_key_note', 'note', array(
-            'text' => Mage::helper('Enterprise_Pci_Helper_Data')->__('The encryption key is used to encrypt passwords and other sensitive data.')
+            'text' => Mage::helper('Enterprise_Pci_Helper_Data')->__('The encryption key is used to protect passwords and other sensitive data.')
         ));
         $fieldset->addField('generate_random', 'select', array(
             'name'    => 'generate_random',

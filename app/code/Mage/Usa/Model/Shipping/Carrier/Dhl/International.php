@@ -67,7 +67,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Countries parameters data
      *
-     * @var SimpleXMLElement|null
+     * @var Mage_Usa_Model_Simplexml_Element|null
      */
     protected $_countryParams = null;
 
@@ -138,12 +138,21 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_isDomestic = false;
 
     /**
+     * Factory for Mage_Usa_Model_Simplexml_Element
+     *
+     * @var Mage_Usa_Model_Simplexml_ElementFactory
+     */
+    protected $_simpleXmlElementFactory;
+
+    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
+     * @var Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      */
-    protected function _construct()
+    public function __construct(Mage_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
     {
+        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
@@ -378,7 +387,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
                     break;
                 default:
-                    Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Content Type.'));
+                    Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Content Type'));
             }
         }
         $methods = array();
@@ -603,8 +612,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
                            $checkWeight = false;
-                       } else {
-                           $itemWeight = $itemWeight * $item->getQty();
                        }
                    }
                 } else {
@@ -640,10 +647,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Make pieces
      *
-     * @param SimpleXMLElement $nodeBkgDetails
+     * @param Mage_Usa_Model_Simplexml_Element $nodeBkgDetails
      * @return void
      */
-    protected function _makePieces(SimpleXMLElement $nodeBkgDetails)
+    protected function _makePieces(Mage_Usa_Model_Simplexml_Element $nodeBkgDetails)
     {
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
         $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
@@ -745,7 +752,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Add dimension to piece
      *
-     * @param SimpleXMLElement $nodePiece
+     * @param Mage_Usa_Model_Simplexml_Element $nodePiece
      * @return void
      */
     protected function _addDimension($nodePiece)
@@ -776,7 +783,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 . 'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" '
                 . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                 . 'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
-        $xml = new SimpleXMLElement($xmlStr);
+        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
         $nodeGetQuote = $xml->addChild('GetQuote', '', '');
         $nodeRequest = $nodeGetQuote->addChild('Request');
 
@@ -942,10 +949,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Add rate to DHL rates array
      *
-     * @param SimpleXMLElement $shipmentDetails
+     * @param Mage_Usa_Model_Simplexml_Element $shipmentDetails
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
-    protected function _addRate(SimpleXMLElement $shipmentDetails)
+    protected function _addRate(Mage_Usa_Model_Simplexml_Element $shipmentDetails)
     {
         if (isset($shipmentDetails->ProductShortName)
             && isset($shipmentDetails->ShippingCharge)
@@ -974,7 +981,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     }
                     if (!isset($rates[$currencyCode]) || !$totalEstimate) {
                         $totalEstimate = false;
-                        $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__("Exchange rate %s (Base Currency) -> %s not found. DHL method %s skipped", $currencyCode, $baseCurrencyCode, $dhlProductDescription);
+                        $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('We had to skip DHL method %s because we couldn\'t find exchange rate %s (Base Currency).', $currencyCode, $baseCurrencyCode, $dhlProductDescription);
                     }
                 }
             }
@@ -1203,7 +1210,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         )->getRegion();
 
         if (!$originRegion) {
-            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Region.'));
+            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Wrong Region'));
         }
 
         if ($originRegion == 'AM') {
@@ -1216,7 +1223,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com ship-val-req'
             . ($originRegion ? '_' . $originRegion : '') . '.xsd" />';
-        $xml = new SimpleXMLElement($xmlStr);
+        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
 
         $nodeRequest = $xml->addChild('Request', '', '');
         $nodeServiceHeader = $nodeRequest->addChild('ServiceHeader');
@@ -1364,7 +1371,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Generation Shipment Details Node according to origin region
      *
-     * @param SimpleXMLElement $xml
+     * @param Mage_Usa_Model_Simplexml_Element $xml
      * @param Mage_Shipping_Model_Rate_Request $rawRequest
      * @param string $originRegion
      * @return void
@@ -1499,7 +1506,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
 
-        $xml = new SimpleXMLElement($xmlStr);
+        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
 
         $requestNode = $xml->addChild('Request', '', '');
         $serviceHeaderNode = $requestNode->addChild('ServiceHeader', '', '');

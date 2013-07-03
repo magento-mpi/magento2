@@ -14,7 +14,7 @@
 manage_customer_address_attributes:
     mca: customer_address_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_address_attribute')]
-    title: Manage Customer Address Attributes / Attributes / Stores / Magento Admin
+    title: Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &searchCustomerAttributeGrid
             fieldsets:
@@ -40,9 +40,9 @@ manage_customer_address_attributes:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &addressAttributeMessages
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
-            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer address attribute has been deleted.')]
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists')]
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer address attribute has been saved.')]
+            success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the customer address attribute.')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'An attribute with this code already exists.')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the customer address attribute.')]
             wrong_length_attribute_code: //label[@class="mage-error" and contains(.,'Maximum length of this field must be equal or less than')]
             invalid_attribute_code: //label[@class="mage-error" and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             error_invalid_position: //div[@id='advice-validate-digits-position']
@@ -54,7 +54,7 @@ manage_customer_address_attributes:
 # Add New Address Attribute page
 new_customer_address_attribute:
     mca: customer_address_attribute/new/
-    title: New Attribute / Manage Customer Address Attributes / Attributes / Stores / Magento Admin
+    title: New Customer Address Attribute / Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &newAddressAttributeForm
             tabs:
@@ -136,7 +136,7 @@ new_customer_address_attribute:
 # Manage Customer Address  Attributes page
 edit_customer_address_attribute:
     mca: customer_address_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage Customer Address Attributes / Attributes / Stores / Magento Admin
+    title: %elementTitle% / Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &editAddressAttributeForm
             tabs:

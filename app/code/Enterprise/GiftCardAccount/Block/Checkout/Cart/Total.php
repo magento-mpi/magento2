@@ -13,13 +13,13 @@ class Enterprise_GiftCardAccount_Block_Checkout_Cart_Total extends Mage_Checkout
 {
     protected $_template = 'Enterprise_GiftCardAccount::cart/total.phtml';
 
-    protected function _getQuote()
+    public function getQuote()
     {
         return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
     }
 
     public function getQuoteGiftCards()
     {
-        return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($this->_getQuote());
+        return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($this->getQuote());
     }
 }

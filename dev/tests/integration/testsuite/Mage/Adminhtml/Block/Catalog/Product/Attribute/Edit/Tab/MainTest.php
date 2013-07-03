@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_MainTest extends Mage_Backend_Area_TestCase
+/**
+ * @magentoAppArea adminhtml
+ */
+class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main

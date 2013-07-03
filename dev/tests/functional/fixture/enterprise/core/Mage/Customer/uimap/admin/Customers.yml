@@ -140,8 +140,8 @@ manage_invitations:
         buttons:
             add_invitations: //button[span='Add Invitations']
         messages: &invitationsMessages
-            failed_send_several_items:  //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% of %numberMessagesOf% invitation(s).')]
-            failed_send: //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% invitation(s).')]
+            failed_send_several_items:  //li[normalize-space(@class)='error-msg' and contains(text()='Something went wrong sending %numberMessagesFailed% of %numberMessagesOf% invitations.')]
+            failed_send: //li[normalize-space(@class)='error-msg' and contains(text()='Something went wrong sending %numberMessagesFailed% invitations.')]
             success_send: //li[normalize-space(@class)='success-msg' and contains(.,'1 invitation(s) were sent.')]
 
 # New invitations page
@@ -206,7 +206,7 @@ manage_gift_card_account:
                             submit: //button[span='Submit']
                             export: //button[span='Export']
                         fields:
-                            filter_code: //input[@id='giftcardaccountGrid_giftcardaccount_filter_code']
+                            filter_code: //input[@id='giftcardaccountGrid_filter_code']
                             filter_id_from: //input[@name='giftcardaccount_id[from]']
                             filter_id_to: //input[@name='giftcardaccount_id[to]']
                             filter_date_created_from: //input[@name='date_created[from]']
@@ -216,9 +216,9 @@ manage_gift_card_account:
                             filter_balance_from: //input[@name='balance[from]']
                             filter_balance_to: //input[@name='balance[to]']
                         dropdowns:
-                            filter_website: //select[@id='giftcardaccountGrid_giftcardaccount_filter_website']
-                            filter_active: //select[@id='giftcardaccountGrid_giftcardaccount_filter_status']
-                            filter_status: //select[@id='giftcardaccountGrid_giftcardaccount_filter_state']
+                            filter_website: //select[@id='giftcardaccountGrid_filter_website']
+                            filter_active: //select[@id='giftcardaccountGrid_filter_status']
+                            filter_status: //select[@id='giftcardaccountGrid_filter_state']
                             actions: //select[@id='giftcardaccountGrid_massaction-select']
                             export_to: //select[@id='giftcardaccountGrid_export']
         buttons:
@@ -299,7 +299,7 @@ manage_reward_rates:
 #New Reward Exchange Rate page
 new_reward_rate:
     mca: reward_rate/new/
-    title: New Rate / Reward Exchange Rates / Other Settings / Stores / Magento Admin
+    title: New Reward Exchange Rate / Reward Exchange Rates / Other Settings / Stores / Magento Admin
     uimap: &newRateUimap
         form:
             fieldsets:

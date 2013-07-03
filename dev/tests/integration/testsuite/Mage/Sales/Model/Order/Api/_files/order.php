@@ -5,6 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
+Mage::app()->loadArea('frontend');
 //Set up customer fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */

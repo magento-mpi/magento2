@@ -1,5 +1,7 @@
 <?php
 /**
+ * Acl object factory.
+ *
  * {license_notice}
  *
  * @copyright {copyright}

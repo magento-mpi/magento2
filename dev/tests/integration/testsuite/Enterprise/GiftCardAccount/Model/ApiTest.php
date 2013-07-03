@@ -74,34 +74,29 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         $pool->delete();
 
         //Test item was really removed and fault was Exception thrown
-        $this->setExpectedException('SoapFault');
-        Magento_Test_Helper_Api::call($this, 'giftcardAccountRemove', array('giftcardAccountId' => $accountId));
+        Magento_Test_Helper_Api::callWithException($this, 'giftcardAccountRemove',
+            array('giftcardAccountId' => $accountId)
+        );
     }
 
     /**
      * Test Exception on invalid data
-     *
-     * @expectedException SoapFault
      */
     public function testCreateExceptionInvalidData()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
-
         $invalidCreateData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidCreate);
-        Magento_Test_Helper_Api::call($this, 'giftcardAccountCreate', array($invalidCreateData));
+        Magento_Test_Helper_Api::callWithException($this, 'giftcardAccountCreate', array($invalidCreateData));
     }
 
     /**
      * Test giftcard account not found exception
-     *
-     * @expectedException SoapFault
      */
     public function testExceptionNotFound()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
-
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidInfo);
-        Magento_Test_Helper_Api::call($this, 'giftcardAccountInfo', array($invalidData->giftcardId));
+        Magento_Test_Helper_Api::callWithException($this, 'giftcardAccountInfo', array($invalidData['giftcard_id']));
     }
 
     /**

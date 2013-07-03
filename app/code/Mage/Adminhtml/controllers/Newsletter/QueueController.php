@@ -206,7 +206,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
                 $template = Mage::getModel('Mage_Newsletter_Model_Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
-                    Mage::throwException($this->__('Wrong newsletter template.'));
+                    Mage::throwException($this->__('Please correct the newsletter template and try again.'));
                 }
 
                 $queue->setTemplateId($template->getId())
@@ -259,6 +259,6 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Newsletter::queue');
+        return $this->_authorization->isAllowed('Mage_Newsletter::queue');
     }
 }

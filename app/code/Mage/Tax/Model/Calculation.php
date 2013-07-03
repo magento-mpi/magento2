@@ -172,7 +172,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
             $this->unsRateValue();
             $this->unsCalculationProcess();
             $this->unsEventModuleId();
-            Mage::dispatchEvent('tax_rate_data_fetch', array('request'=>$request));
+            $this->_eventDispatcher->dispatch('tax_rate_data_fetch', array('request' => $request, 'sender' => $this));
             if (!$this->hasRateValue()) {
                 $rateInfo = $this->_getResource()->getRateInfo($request);
                 $this->setCalculationProcess($rateInfo['process']);
@@ -205,8 +205,9 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      * This rate can be used for conversion store price including tax to
      * store price excluding tax
      *
-     * @param   Varien_Object $request
-     * @return  float
+     * @param Varien_Object $request
+     * @param null|string|bool|int|Mage_Core_Model_Store $store
+     * @return float
      */
     public function getStoreRate($request, $store=null)
     {
@@ -216,9 +217,9 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get request object for getting tax rate based on store shippig original address
+     * Get request object for getting tax rate based on store shipping original address
      *
-     * @param   null|store $store
+     * @param   null|string|bool|int|Mage_Core_Model_Store $store
      * @return  Varien_Object
      */
     public function getRateOriginRequest($store = null)
@@ -241,8 +242,8 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      *  customer_class_id (->getCustomerClassId())
      *  store (->getStore())
      *
-     * @param   null|false|Varien_Object $shippingAddress
-     * @param   null|false|Varien_Object $billingAddress
+     * @param   null|bool|Varien_Object $shippingAddress
+     * @param   null|bool||Varien_Object $billingAddress
      * @param   null|int $customerTaxClass
      * @param   null|int $store
      * @return  Varien_Object
@@ -439,15 +440,16 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Calculate rated tax abount based on price and tax rate.
+     * Calculate rated tax amount based on price and tax rate.
      * If you are using price including tax $priceIncludeTax should be true.
      *
      * @param   float $price
      * @param   float $taxRate
      * @param   boolean $priceIncludeTax
+     * @param   boolean $round
      * @return  float
      */
-    public function calcTaxAmount($price, $taxRate, $priceIncludeTax=false, $round=true)
+    public function calcTaxAmount($price, $taxRate, $priceIncludeTax = false, $round = true)
     {
         $taxRate = $taxRate/100;
 

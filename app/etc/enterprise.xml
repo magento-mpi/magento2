@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
  * {license_notice}
@@ -32,15 +32,25 @@
             </preferences>
             <Enterprise_PageCache_Model_Processor>
                 <parameters>
-                    <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
-                    <metadata>Enterprise_PageCache_Model_Metadata_Proxy</metadata>
-                    <requestIdentifier>Enterprise_PageCache_Model_Request_Identifier_Proxy</requestIdentifier>
+                    <storeManager>
+                        <instance>Mage_Core_Model_StoreManager_Proxy</instance>
+                    </storeManager>
+                    <metadata>
+                        <instance>Enterprise_PageCache_Model_Metadata_Proxy</instance>
+                    </metadata>
+                    <requestIdentifier>
+                        <instance>Enterprise_PageCache_Model_Request_Identifier_Proxy</instance>
+                    </requestIdentifier>
                 </parameters>
             </Enterprise_PageCache_Model_Processor>
             <Enterprise_PageCache_Model_DesignPackage_Rules>
                 <parameters>
-                    <design>Mage_Core_Model_Design_Proxy</design>
-                    <designPackage>Mage_Core_Model_Design_Package_Proxy</designPackage>
+                    <design>
+                        <instance>Mage_Core_Model_Design_Proxy</instance>
+                    </design>
+                    <designPackage>
+                        <instance>Mage_Core_Model_Design_Package_Proxy</instance>
+                    </designPackage>
                 </parameters>
             </Enterprise_PageCache_Model_DesignPackage_Rules>
             <Magento_Http_Handler_Composite>
@@ -53,9 +63,18 @@
                     </handlers>
                 </parameters>
             </Magento_Http_Handler_Composite>
+            <Enterprise_Queue_Helper_Gearman>
+                <parameters>
+                    <config>
+                        <instance>Mage_Core_Model_Config</instance>
+                    </config>
+                </parameters>
+            </Enterprise_Queue_Helper_Gearman>
         </di>
         <configurators>
             <pageCache>Enterprise_PageCache_Model_ObjectManager_Configurator</pageCache>
+            <enterprise_search>Enterprise_Search_Model_ObjectManager_Configurator</enterprise_search>
+            <queue>Enterprise_Queue_Model_ParamMapper</queue>
         </configurators>
     </global>
-</config>
+</config>

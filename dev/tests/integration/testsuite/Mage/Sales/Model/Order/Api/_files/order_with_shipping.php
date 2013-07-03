@@ -6,6 +6,7 @@
  * @license {license_link}
  */
 //Set up customer fixture
+Mage::app()->loadArea('adminhtml');
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
 //Set up customer address fixture

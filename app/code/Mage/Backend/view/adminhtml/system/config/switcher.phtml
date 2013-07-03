@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /* @var $this Mage_Core_Block_Template */ ?>
+<?php /* @var $this Mage_Backend_Block_Template */ ?>
 <div class="field field-store-switcher">
     <label class="label" for="store_switcher"><?php echo $this->__('Current Configuration Scope:') ?></label>
     <div class="control">
@@ -29,7 +29,7 @@
         </select>
     </div>
     <?php echo $this->getHintHtml() ?>
-    <?php if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::store')): ?>
-        <div><a href="<?php echo $this->getUrl('*/system_store') ?>"><?php echo $this->__('Manage Stores') ?></a></div>
+    <?php if ($this->getAuthorization()->isAllowed('Mage_Adminhtml::store')): ?>
+        <div><a href="<?php echo $this->getUrl('*/system_store') ?>"><?php echo $this->__('Stores') ?></a></div>
     <?php endif; ?>
 </div>

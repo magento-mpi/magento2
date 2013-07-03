@@ -75,7 +75,6 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
         /** Check received data validity. */
         $fieldsToCheck = array(
             'increment_id',
-            'parent_id',
             'store_id',
             'order_id',
             'state',
@@ -94,11 +93,11 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
      * Test adding comment to invoice via API.
      *
      * @magentoDataFixture Mage/Sales/_files/invoice.php
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @magentoDbIsolation enabled
      */
     public function testAddComment()
     {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         /** Prepare data. */
         $commentText = "Test invoice comment.";
 

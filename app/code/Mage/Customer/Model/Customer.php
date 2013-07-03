@@ -593,7 +593,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function sendPasswordReminderEmail()
     {
         $storeId = $this->getStoreId();
-        if (is_null($storeId)) {
+        if (Mage_Core_Model_AppInterface::ADMIN_STORE_ID == $storeId && ($this->getWebsiteId() * 1)) {
             $storeId = $this->_getWebsiteStoreId();
         }
 
@@ -606,8 +606,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Send corresponding email template
      *
-     * @param string $emailTemplate configuration path of email template
-     * @param string $emailSender configuration path of email identity
+     * @param string $template configuration path of email template
+     * @param string $sender configuration path of email identity
      * @param array $templateParams
      * @param int|null $storeId
      * @return Mage_Customer_Model_Customer
@@ -780,7 +780,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Invalid email address "%s".', $this->getEmail());
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please correct this email address: "%s".', $this->getEmail());
         }
 
         $password = $this->getPassword();

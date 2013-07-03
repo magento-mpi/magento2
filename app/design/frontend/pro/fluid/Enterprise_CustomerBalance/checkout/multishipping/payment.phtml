@@ -16,18 +16,15 @@
         <?php $balance = Mage::helper('Mage_Core_Helper_Data')->currency($this->getBalance()); ?>
         <label for="use-customer-balance"><strong><?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Use Store Credit (%s available)', $balance); ?></strong></label>
     </div>
-<script type="text/javascript">
-    (function($) {
+    <script type="text/javascript">
         head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/storecredit.js') ?>",
+            "<?php echo $this->getViewFileUrl('Mage_Customer::js/checkout-balance.js') ?>",
             function() {
-                $('#multishipping-billing-form').storeCredit({
-                    customerBalanceSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
-                    baseCustomerBalAmountUsed: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
-                    balance: <?php echo (float)$this->getBalance(); ?>,
-                    quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>
+                jQuery('#use-customer-balance').checkoutBalance({
+                    amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+                    usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
+                    balance: <?php echo (float)$this->getBalance(); ?>
                 });
             });
-    })(jQuery);
-</script>
+    </script>
 <?php endif; ?>

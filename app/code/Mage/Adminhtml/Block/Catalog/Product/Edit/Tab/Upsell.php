@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         $this->setId('up_sell_product_grid');
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
-        if ($this->_getProduct() && $this->_getProduct()->getId()) {
+        if ($this->getProduct() && $this->getProduct()->getId()) {
             $this->setDefaultFilter(array('in_products'=>1));
         }
         if ($this->isReadonly()) {
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getProduct()
+    public function getProduct()
     {
         return Mage::registry('current_product');
     }
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
      */
     public function isReadonly()
     {
-        return $this->_getProduct() && $this->_getProduct()->getUpsellReadonly();
+        return $this->getProduct() && $this->getProduct()->getUpsellReadonly();
     }
 
     /**
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
     {
         $collection = Mage::getModel('Mage_Catalog_Model_Product_Link')->useUpSellLinks()
             ->getProductCollection()
-            ->setProduct($this->_getProduct())
+            ->setProduct($this->getProduct())
             ->addAttributeToSelect('*');
 
         if ($this->isReadonly()) {
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
      */
     protected function _prepareColumns()
     {
-        if (!$this->_getProduct()->getUpsellReadonly()) {
+        if (!$this->getProduct()->getUpsellReadonly()) {
             $this->addColumn('in_products', array(
                 'type'      => 'checkbox',
                 'name'      => 'in_products',
@@ -155,7 +155,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
             'index'     => 'attribute_set_id',
             'type'      => 'options',
             'options'   => $sets,
@@ -203,8 +203,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             'type'              => 'number',
             'validate_class'    => 'validate-number',
             'index'             => 'position',
-            'editable'          => !$this->_getProduct()->getUpsellReadonly(),
-            'edit_only'         => !$this->_getProduct()->getId(),
+            'editable'          => !$this->getProduct()->getUpsellReadonly(),
+            'edit_only'         => !$this->getProduct()->getId(),
             'header_css_class'  => 'col-position',
             'column_css_class'  => 'col-position'
         ));

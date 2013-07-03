@@ -30,6 +30,8 @@ custom_design:
         admin_option_name: Magento Iphone (HTML5)
     option_9:
         admin_option_name: Magento Modern
+    option_10:
+        admin_option_name: Plushe
     default_value: Magento Blank
     default_control_value: Magento Blank
 

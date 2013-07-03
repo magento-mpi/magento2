@@ -64,7 +64,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_segment_name">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Segment Name</header>
+                            <header translate="true" module="Enterprise_CustomerSegment">Segment</header>
                             <align>left</align>
                             <index>name</index>
                         </arguments>
@@ -85,7 +85,7 @@
                             <align>left</align>
                             <index>website_ids</index>
                             <type>options</type>
-                            <options type="options">Enterprise_CustomerSegment_Model_Resource_Grid_Website</options>
+                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
                             <sortable>0</sortable>
                             <width>200</width>
                         </arguments>

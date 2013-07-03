@@ -12,7 +12,7 @@
 manage_cms_static_blocks:
     mca: cms_block/
     click_xpath: //div[@class='submenu']//a[contains(@href, '/cms_block/')]
-    title: Static Blocks / Elements / Content / Magento Admin
+    title: Blocks / Elements / Content / Magento Admin
     uimap:
         form: &searchStaticBlocksGrid
             fieldsets:
@@ -48,7 +48,7 @@ manage_cms_static_blocks:
 # 'Edit Block %blockName%' page
 edit_cms_static_block:
     mca: cms_block/edit/block_id/%id%/
-    title: %elementTitle% / Static Blocks / Elements / Content / Magento Admin
+    title: %elementTitle% / Blocks / Elements / Content / Magento Admin
     uimap:
         form: &editStaticBlockForm
             fieldsets:
@@ -214,14 +214,14 @@ edit_cms_static_block:
 # Default edit page. Opens when an error happens during creating a new block.
 edit_cms_static_block_general:
     mca: cms_block/edit/
-    title: New Block / Static Blocks / Elements / Content / Magento Admin
+    title: New Block / Blocks / Elements / Content / Magento Admin
     uimap:
         messages: *staticBlockMessages
 
 # 'New Block' page
 create_cms_static_block:
     mca: cms_block/new/
-    title: New Block / Static Blocks / Elements / Content / Magento Admin
+    title: New Block / Blocks / Elements / Content / Magento Admin
     uimap: &createStaticBlockUimap
         form: *editStaticBlockForm
         buttons:

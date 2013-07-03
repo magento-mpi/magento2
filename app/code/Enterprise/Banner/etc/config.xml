@@ -19,7 +19,6 @@
                 <Mage_CatalogRule/>
                 <Mage_SalesRule/>
                 <Enterprise_Cms/>
-                <Enterprise_CustomerSegment/>
             </depends>
         </Enterprise_Banner>
     </modules>

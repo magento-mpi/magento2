@@ -16,20 +16,18 @@
         <div class="page-title-inner">
             <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
             <div class="actions">
-                <button class="action-launch-store primary"
+                <button class="action-launch-store primary button-with-tooltip"
                         <?php if (!$this->getPage()->isComplete()): ?>disabled="disabled"<?php endif; ?>
                         id="action-launch-my-store"
                         data-show-popup="launch-my-store">
                     <span><?php echo $this->__('Launch My Store'); ?></span>
                 </button>
+                <div class="button-tooltip">
+                    <div class="tooltip-text">
+                        <p><?php echo $this->__('Please, complete all tiles before Store launches.'); ?></p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div id="store-launcher-content" class="store-launcher-content">
-        <div class="store-launcher-content-inner">
-            <?php foreach($this->getTileBlocks() as $tile):?>
-            <?php echo $tile->toHtml() ?>
-            <?php endforeach;?>
         </div>
     </div>
     <div id="drawer" class="drawer">
@@ -49,6 +47,13 @@
             <div class="drawer-footer-inner"></div>
         </footer>
     </div>
+    <div id="store-launcher-content" class="store-launcher-content">
+        <div class="store-launcher-content-inner">
+            <?php foreach($this->getTileBlocks() as $tile):?>
+            <?php echo $tile->toHtml() ?>
+            <?php endforeach;?>
+        </div>
+    </div>
 </section>
 
 <?php echo $this->getChildBlock('launch.my.store')->toHtml();?>
@@ -57,14 +62,16 @@
     <?php echo $this->getChildBlock('welcome.screen')->toHtml();?>
 <?php endif; ?>
 <script type="text/javascript">
-(function($) {
-    $(document).ready(function() {
-        if ($('#welcome-screen').length) {
-            $('#welcome-screen').welcomScreen(
-                {'ajaxUrl': "<?php echo $this->getUrl('*/storelauncher_index/showScreen');?>"}
-            );
+jQuery(function($) {
+    head.js("<?php echo $this->getViewFileUrl('Saas_Launcher::page/storelauncher/store-tour.js') ?>",
+        function () {
+            if ($('#welcome-screen').length) {
+                $('#welcome-screen').welcomScreen(
+                    {'ajaxUrl': "<?php echo $this->getUrl('*/storelauncher_index/showScreen');?>"}
+                );
+            }
+            $('#store-tour').storeTour();
         }
-        $('#store-tour').storeTour();
-    });
-})(jQuery);
+    );
+});
 </script>

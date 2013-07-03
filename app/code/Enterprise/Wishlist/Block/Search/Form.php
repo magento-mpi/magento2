@@ -31,7 +31,7 @@ class Enterprise_Wishlist_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getFormHeader()
     {
-        return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Search');
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search');
     }
 
     /**
