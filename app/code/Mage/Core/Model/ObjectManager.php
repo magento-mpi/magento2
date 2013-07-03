@@ -26,7 +26,7 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             null,
             $definitionFactory->createPluginDefinition($primaryConfig)
         );
-        return  new Mage_Core_Model_ObjectManager($factory, $primaryConfig, $config);
+        return new Mage_Core_Model_ObjectManager($factory, $primaryConfig, $config);
     }
 
     /**
