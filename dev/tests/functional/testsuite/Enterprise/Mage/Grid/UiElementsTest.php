@@ -57,6 +57,7 @@ class Enterprise_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             array('manage_ratings'),
             array('admin_action_log_report'),
             array('manage_gift_card_account'),
+            array('scheduled_import_export'),
         );
     }
 }

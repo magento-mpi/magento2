@@ -375,3 +375,41 @@ manage_gift_card_account:
         6: Active
         7: Status
         8: Balance
+
+#dataset for ui elements in Scheduled Imports/Exports grid
+scheduled_import_export:
+    fieldset:
+        grid_and_filter: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        submit: ~
+    link:
+        selectall: ~
+    field:
+        name: ~
+        date_from: ~
+        date_to: ~
+        grid: ~
+    dropdown:
+        operation: ~
+        entity_type: ~
+        frequency: ~
+        status: ~
+        last_outcome: ~
+        status_visibility: ~
+        grid_massaction_select: ~
+    headers:
+        0: ' '
+        1: Name
+        2: Operation
+        3: Entity Type
+        4: Last Run
+        5: Frequency
+        6: Status
+        7: Last Outcome
+        8: Action
+
+
+
+
