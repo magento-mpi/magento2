@@ -40,6 +40,9 @@ switch ($entityType) {
     case 'factory':
         $className .= 'Factory';
         break;
+    case 'interceptor':
+        $className .= '_Interceptor';
+        break;
 }
 
 try {

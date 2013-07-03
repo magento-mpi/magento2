@@ -12,7 +12,16 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
     /**
      * Entity type
      */
-    const ENTITY_TYPE = 'Interceptor';
+    const ENTITY_TYPE = 'interceptor';
+
+    /**
+     * @param string $modelClassName
+     * @return string
+     */
+    protected function _getDefaultResultClassName($modelClassName)
+    {
+        return $modelClassName . '_' . ucfirst(static::ENTITY_TYPE);
+    }
 
     /**
      * Returns list of properties for class generator
