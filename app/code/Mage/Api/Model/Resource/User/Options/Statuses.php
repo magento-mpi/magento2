@@ -19,7 +19,7 @@ class Mage_Api_Model_Resource_User_Options_Statuses implements Mage_Core_Model_O
 {
 
     /**
-     * @var
+     * @var Mage_Backend_Helper_Data
      */
     protected $_helper;
 
