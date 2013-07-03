@@ -41,7 +41,7 @@
                 $suggest.click();
             }
         });
-        $('#product-edit-form').on('changeAttributeSet', function(event, data) {
+        $('[data-form=edit-product]').on('changeAttributeSet', function(event, data) {
             $suggest.mage('suggest', 'option', 'ajaxOptions', {
                 data: {'template_id': data.id}
             });
@@ -60,7 +60,7 @@
                         context: 'body'
                     }).done(function() {
                         setTimeout(function() { //do defered
-                            $('#product-edit-form').trigger('changeAttributeSet', {id: templateId});
+                            $('[data-form=edit-product]').trigger('changeAttributeSet', {id: templateId});
                         }, 10);
                     });
                 }
