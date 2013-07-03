@@ -50,26 +50,30 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         } catch (Exception $e) {
             // default httpMethod to GET
-            $httpMethod = 'GET';
+            $httpMethod = HTTP_REQUEST_METHOD_GET;
         }
 
         // delegate the request to vannila cURL REST client
         $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
 
+        $returnArray = array();
         switch ($httpMethod) {
-            case 'GET':
-                return $curlClient->get($resourcePath, $arguments);
+            case HTTP_REQUEST_METHOD_GET:
+                $returnArray = $curlClient->get($resourcePath, $arguments);
                 break;
-            case 'POST':
-                return $curlClient->post($resourcePath, $arguments);
+            case HTTP_REQUEST_METHOD_POST:
+                $returnArray = $curlClient->post($resourcePath, $arguments);
                 break;
-            case 'PUT':
-                return $curlClient->put($resourcePath, $arguments);
+            case HTTP_REQUEST_METHOD_PUT:
+                $returnArray = $curlClient->put($resourcePath, $arguments);
                 break;
-            case 'DELETE':
-                return $curlClient->delete($resourcePath);
+            case HTTP_REQUEST_METHOD_DELETE:
+                $returnArray = $curlClient->delete($resourcePath);
                 break;
+            default:
+                throw new Exception("HttpMethod ${httpMethod} not supported");
         }
+        return $returnArray;
     }
 
     /**

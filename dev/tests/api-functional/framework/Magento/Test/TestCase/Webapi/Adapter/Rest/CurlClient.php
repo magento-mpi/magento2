@@ -30,6 +30,15 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         )
     );
 
+    /**
+     * @var array JSON Error code to error message mapping
+     */
+    protected $_jsonErrorMessages = array(
+        JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
+        JSON_ERROR_STATE_MISMATCH => 'Underflow or the modes mismatch',
+        JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
+        JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON'
+    );
 
     /**
      * @var array Last response
@@ -85,9 +94,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
 
         $curlOpts = $this->_curlOpts;
         $curlOpts[CURLOPT_CUSTOMREQUEST] = 'POST';
-        if (!is_array($data)) {
-            $headers[] = 'Content-Length: ' . strlen($jsonData);
-        }
+        $headers[] = 'Content-Length: ' . strlen($jsonData);
         $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
@@ -115,9 +122,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
 
         $curlOpts = $this->_curlOpts;
         $curlOpts[CURLOPT_CUSTOMREQUEST] = 'PUT';
-        if (!is_array($data)) {
-            $headers[] = 'Content-Length: ' . strlen($jsonData);
-        }
+        $headers[] = 'Content-Length: ' . strlen($jsonData);
         $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
@@ -164,11 +169,11 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     }
 
     /**
-     * Get response status
+     * Get response status code
      *
      * @return int
      */
-    public function getStatus()
+    public function getHttpStatusCode()
     {
         return $this->_lastResponse['meta']['http_code'];
     }
@@ -182,7 +187,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     public function getResponseHeader($header)
     {
         if (empty($this->_lastResponseHeaders[strtolower($header)])) {
-            return NULL;
+            return null;
         }
         return $this->_lastResponseHeaders[strtolower($header)];
     }
@@ -258,11 +263,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         $meta = $this->_lastResponse['meta'];
         $body = $this->_lastResponse['body'];
 
-        if ($meta === false) {
-            return;
-        }
-
-        if ($meta['http_code'] >= 400) {
+        if ($meta && $meta['http_code'] >= 400) {
             throw new Exception ($body, $meta['http_code']);
         }
     }
@@ -292,7 +293,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception(
                 'Encoding error: ' . $this->_getLastJsonErrorMessage(),
-                $this->_getLastJsonErrorCode()
+                $this->json_last_error()
             );
         }
 
@@ -314,7 +315,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception(
                 'Decoding error: ' . $this->_getLastJsonErrorMessage(),
-                $this->_getLastJsonErrorCode()
+                $this->json_last_error()
             );
         }
 
@@ -330,33 +331,12 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     {
         $lastError = json_last_error();
 
-        switch ($lastError) {
-            case JSON_ERROR_DEPTH:
-                return 'Maximum stack depth exceeded';
-                break;
-            case JSON_ERROR_STATE_MISMATCH:
-                return 'Underflow or the modes mismatch';
-                break;
-            case JSON_ERROR_CTRL_CHAR:
-                return 'Unexpected control character found';
-                break;
-            case JSON_ERROR_SYNTAX:
-                return 'Syntax error, malformed JSON';
-                break;
-            default:
-                return 'Unknown';
-                break;
+        $message = 'Unknown';
+        if (isset($this->_jsonErrorMessages[$lastError])) {
+            $message = $this->_jsonErrorMessages[$lastError];
         }
-    }
 
+        return $message;
 
-    /**
-     * Get last JSON error code
-     *
-     * @return int|null
-     */
-    protected function _getLastJsonErrorCode()
-    {
-        return json_last_error();
     }
 }
