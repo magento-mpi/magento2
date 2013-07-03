@@ -32,3 +32,4 @@ atlassian*
 /pub/static/*
 !/pub/static/.htaccess
 /var/*
+/app/code/Mage/TestModule*
