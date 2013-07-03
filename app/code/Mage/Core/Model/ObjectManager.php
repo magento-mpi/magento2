@@ -17,7 +17,7 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
      */
     public static function createInstance(Mage_Core_Model_Config_Primary $primaryConfig)
     {
-        $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory();
+        $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
         $definitions =  $definitionFactory->createClassDefinition($primaryConfig);
         $config = new Magento_ObjectManager_Config();
         $factory = new Magento_ObjectManager_Interception_FactoryDecorator(

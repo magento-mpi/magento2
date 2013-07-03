@@ -32,6 +32,7 @@ $compilationDirs = array(
     $rootDir . '/var/generation'
 );
 $compiledFile = $rootDir . '/var/di/definitions.php';
+$pluginDefFile = $rootDir . '/var/di/plugins.php';
 
 try {
     $opt = new Zend_Console_Getopt(array(
@@ -96,6 +97,22 @@ try {
     }
 
     file_put_contents($compiledFile, $output);
+
+    // 3. Plugin Definition Compilation
+    $pluginScanner = new Scanner\CompositeScanner();
+    $pluginScanner->addChild(new Scanner\PluginScanner(), 'etc');
+    $pluginScanner->addChild(new Scanner\PluginScanner(), 'config');
+    $pluginDefinitios = array();
+    foreach ($pluginScanner->collectEntities($files) as $entity) {
+        $pluginDefinitios[$entity] = get_class_methods($entity);
+    }
+    $output = $serializer->serialize($pluginDefinitios);
+
+    if (!file_exists(dirname($pluginDefFile))) {
+        mkdir(dirname($pluginDefFile), 0777, true);
+    }
+
+    file_put_contents($pluginDefFile, $output);
     //Reporter
     $log->report();
 } catch (Zend_Console_Getopt_Exception $e) {

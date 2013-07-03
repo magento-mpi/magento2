@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase_ControllerAbstract
 {
     protected $_bootstrap;
