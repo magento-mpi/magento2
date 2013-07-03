@@ -179,6 +179,7 @@ class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Ma
         $attributeName = $this->generate('string', 10, ':alnum:');
         //Steps
         $this->productHelper()->selectTypeProduct('simple');
+        $this->addParameter('tab', $this->getControlAttribute('tab', $this->_getActiveTabUimap()->getTabId(), 'name'));
         $this->clickButton('add_attribute', false);
         $this->waitForControlVisible('button', 'create_new_attribute');
         $this->productAttributeHelper()->fillSearchAttributeField($attributeName);

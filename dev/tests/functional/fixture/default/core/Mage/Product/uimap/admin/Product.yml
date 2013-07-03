@@ -130,7 +130,7 @@ new_product:
                     add_attribute:
                         xpath: //*[@id='product_info_tabs_%tab%_content']//div[@class='actions']
                         buttons:
-                            add_attribute: //div[@id='product-attribute-search-container']//button[@data-action='choose']
+                            add_attribute: //div[@id='product-attribute-search-container']//button[span='Add Attribute']
                             create_new_attribute: //button[@title='New Attribute']
                         fields:
                             attribute_search: //*[@data-role='product-attribute-search' and not(contains(@class, 'mage-suggest-state-loading'))]
@@ -317,6 +317,7 @@ new_product:
                                         bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
                                         bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
                                         bundle_item_row: //div[@class='option-box']
+                                        bundle_items_header: //*[@id='bundle_product-content']//div[@class='fieldset-wrapper-title']
                             -
                                 new_bundle_option:
                                     xpath: //div[@id='bundle_option_%optionId%-wrapper']
@@ -370,7 +371,6 @@ new_product:
                                     xpath: //div[*/*/span='Advanced Pricing']
                                     buttons:
                                         add_group_price: //button[span='Add Group Price']
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         add_tier_price: //button[span='Add Tier']
                                     dropdowns:
                                         prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
@@ -454,8 +454,6 @@ new_product:
                             -
                                 product_design:
                                     xpath: //div[*/*/span='Design']
-                                    buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
                                         design_custom_design: //select[@id='custom_design']
                                         design_page_layout: //select[@id='page_layout']
@@ -471,8 +469,6 @@ new_product:
                             -
                                 product_gift_options:
                                     xpath: //div[*/*/span='Autosettings']
-                                    buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
                                         autosettings_allow_gift_message_default: //input[@id='use_config_gift_message_available']
                                     dropdowns:

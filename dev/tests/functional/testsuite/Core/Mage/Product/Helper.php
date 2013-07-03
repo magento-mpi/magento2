@@ -1227,7 +1227,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->verifyForm($optionData, 'general');
             }
         }
-        $this->verifyBlocksOrder($attributePosition, 'attribute_blocks_name');
+        $this->verifyBlocksOrder($attributePosition, self::FIELD_TYPE_INPUT, 'attribute_blocks_name');
     }
 
     /**
@@ -1894,7 +1894,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if (!empty($orderedBlocks)) {
-            $this->verifyBlocksOrder($orderedBlocks, 'custom_options_general_titles');
+            $this->verifyBlocksOrder($orderedBlocks, self::FIELD_TYPE_INPUT, 'custom_options_general_titles');
         }
         foreach($customOptionData as $customOption) {
             $optionId = $this->getCustomOptionIdByName($customOption['custom_options_general_title']);
@@ -1915,7 +1915,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
             if (!empty($orderedRows)) {
-                $this->verifyBlocksOrder($orderedRows, 'custom_options_titles');
+                $this->verifyBlocksOrder($orderedRows, self::FIELD_TYPE_INPUT, 'custom_options_titles');
             }
             $this->verifyForm($customOption, 'custom_options');
         }
@@ -2267,8 +2267,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $bundleItemOrder[$item['bundle_items_default_title']] = 'noValue';
             }
         }
-        $this->verifyBlocksOrder($bundleItemOrder, 'bundle_items_names');
-        $itemDataOrder = $this->getActualItemOrder(self::FIELD_TYPE_INPUT, 'bundle_items_names');
+        $this->verifyBlocksOrder($bundleItemOrder, self::FIELD_TYPE_PAGEELEMENT, 'bundle_items_header');
+        $itemDataOrder = $this->getActualItemOrder(self::FIELD_TYPE_PAGEELEMENT, 'bundle_items_header');
         foreach ($bundleItemsData as $option) {
             $optionData = $this->formBundleItemData($option);
             if (isset($option['bundle_items_default_title'])
@@ -2294,7 +2294,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
             if (isset($optionData['order'])) {
-                $this->verifyBlocksOrder($optionData['order'], 'bundle_assigned_products');
+                $this->verifyBlocksOrder($optionData['order'], self::FIELD_TYPE_PAGEELEMENT,
+                    'bundle_assigned_products');
             }
         }
 
@@ -2385,7 +2386,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     . print_r($product['associated_search_sku'], true));
             }
         }
-        $this->verifyBlocksOrder($formedData['order'], 'grouped_assigned_products');
+        $this->verifyBlocksOrder($formedData['order'], self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
     }
 
     #*********************************************************************************

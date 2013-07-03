@@ -4501,6 +4501,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $locationBeforeMove = $attributeBlock2->location();
                 $attempts = 2;
                 while ($attempts > 0) {
+                    $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
                     $this->moveto($attributeBlock1);
                     $this->buttondown();
                     $this->moveto($attributeBlock2);
@@ -4522,14 +4523,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Verify block sort order
      *
      * @param array $blockOrder
+     * @param string $fieldType
      * @param string $fieldName
      */
-    public function verifyBlocksOrder(array $blockOrder, $fieldName)
+    public function verifyBlocksOrder(array $blockOrder, $fieldType, $fieldName)
     {
-        $fieldType = preg_match('/assigned_products$/', $fieldName)
-            ? self::FIELD_TYPE_PAGEELEMENT
-            : self::FIELD_TYPE_INPUT;
-        $actualOrder = $this->getActualItemOrder($fieldType, $fieldName);
+        $actualOrder = array_keys($this->getActualItemOrder($fieldType, $fieldName));
         //Reorder item order considering duplication and empty position values
         $expectedOrder = array_keys($blockOrder);
         foreach ($blockOrder as $key => $value) {
@@ -4541,11 +4540,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 } else {
                     $expectedOrder[$value - 1] = $key;
                 }
+                ksort($expectedOrder);
             }
         }
-        if (array_diff(array_keys($actualOrder), $expectedOrder)) {
-            $this->addVerificationMessage('Invalid block order');
-        }
+        $this->assertEquals(array_values($expectedOrder), $actualOrder, 'Invalid block order');
     }
 
     /**

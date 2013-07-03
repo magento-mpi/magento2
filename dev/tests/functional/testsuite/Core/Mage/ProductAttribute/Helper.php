@@ -335,7 +335,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
                 ? $attribute[$option]['option_position']
                 : 'noValue';
         }
-        $this->verifyBlocksOrder($optionOrder, 'option_orders');
+        $this->verifyBlocksOrder($optionOrder, self::FIELD_TYPE_INPUT, 'option_orders');
         $itemDataOrder = $this->getActualItemOrder(self::FIELD_TYPE_INPUT, 'option_orders');
         foreach ($options as $option) {
             if (!is_array($attribute[$option])) {
