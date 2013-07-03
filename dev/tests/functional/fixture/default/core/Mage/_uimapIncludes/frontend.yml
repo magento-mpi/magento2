@@ -100,3 +100,4 @@ frontend_header:
             general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
             general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][@for][string-length(.)>1]"
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.']
+            general_js_error: "//*[normalize-space(@class)='error-msg' and @data-role='js-error'][string-length(.)>1]"

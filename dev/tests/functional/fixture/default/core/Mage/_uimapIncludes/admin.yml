@@ -108,3 +108,4 @@ admin_header:
             no_records_found: //td[normalize-space(text())="We couldn't find any records." or contains(@class,'empty-text')]
             specific_table_no_records_found: %tableXpath%//td[normalize-space(text())="We couldn't find any records." or contains(@class,'empty-text')]
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.']
+            general_js_error: "//*[normalize-space(@class)='error-msg' and @data-role='js-error'][string-length(.)>1]"

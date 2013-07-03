@@ -1644,6 +1644,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->fail('Page validation is not done, because there is  message "' . $message . '" on it');
             }
         }
+        $this->assertMessageNotPresent('error', 'general_js_error');
     }
 
     ################################################################################
