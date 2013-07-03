@@ -45,6 +45,7 @@ return array(
     array('Mage_Adminhtml_Block_Api_Tab_Userroles'),
     array('Mage_Adminhtml_Block_Api_User_Grid'),
     array('Mage_Adminhtml_Block_Backup_Grid'),
+    array('Mage_Adminhtml_Block_Cache_Grid'),
     array('Mage_Adminhtml_Block_Catalog'),
     array('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'),
     array('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid'),

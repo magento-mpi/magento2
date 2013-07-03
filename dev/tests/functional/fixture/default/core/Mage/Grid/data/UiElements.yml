@@ -691,6 +691,29 @@ api_soap_users:
         3: Last Name
         4: Email
         5: Status
+
+#dataset for ui elements for Cache grid
+cache_storage_management:
+    fieldset:
+        cache_grid: tablename
+    button:
+        submit: ~
+        flush_magento_cache: ~
+        flush_cache_storage: ~
+    dropdown:
+        cache_action: ~
+    link:
+        select_all:
+        unselect_all:
+        select_visible:
+        unselect_visible:
+    headers:
+        0: ' '
+        1: Cache Type
+        2: Description
+        3: Tags
+        4: Status
+
 #dataset for ui elements for Customer Group grid
 manage_customer_groups:
     fieldset:
