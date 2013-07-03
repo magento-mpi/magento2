@@ -20,6 +20,7 @@ class Mage_Customer_Model_Resource_Group_Grid_Collection extends Mage_Customer_M
 {
     /**
      * Resource initialization
+     * @return Mage_Customer_Model_Resource_Group_Grid_Collection
      */
     protected function _initSelect()
     {

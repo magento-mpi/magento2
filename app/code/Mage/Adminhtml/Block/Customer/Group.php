@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Group extends Mage_Adminhtml_Block_Widget_Grid_Container//Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Customer_Group extends Mage_Adminhtml_Block_Template
 {
 
     /**
