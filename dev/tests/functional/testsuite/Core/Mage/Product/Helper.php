@@ -1163,7 +1163,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $waitLocator .= ']';
         $this->orderBlocks($attributeOrder, 'attributeTitle', 'move_product_variation_attribute',
-            'attribute_blocks_name');
+            self::FIELD_TYPE_PAGEELEMENT, 'attribute_blocks_name');
         $this->clickButton('generate_product_variations', false);
         $this->pleaseWait();
         $this->waitForElementVisible($waitLocator);
@@ -1227,7 +1227,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->verifyForm($optionData, 'general');
             }
         }
-        $this->verifyBlocksOrder($attributePosition, self::FIELD_TYPE_INPUT, 'attribute_blocks_name');
+        $this->verifyBlocksOrder($attributePosition, self::FIELD_TYPE_PAGEELEMENT, 'attribute_blocks_name');
     }
 
     /**
@@ -1834,7 +1834,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
             $this->addCustomOption($value);
         }
-        $this->orderBlocks($orderedBlocks, 'optionName', 'move_option', 'custom_options_general_titles');
+        $this->orderBlocks($orderedBlocks, 'optionName', 'move_option', self::FIELD_TYPE_PAGEELEMENT,
+            'custom_options_general_titles');
     }
 
     /**
@@ -1863,7 +1864,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
-        $this->orderBlocks($orderedRows, 'rowId', 'move_custom_option_row', 'rows_order');
+        $this->orderBlocks($orderedRows, 'rowId', 'move_custom_option_row', self::FIELD_TYPE_INPUT, 'rows_order');
     }
 
     /**
@@ -1894,7 +1895,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if (!empty($orderedBlocks)) {
-            $this->verifyBlocksOrder($orderedBlocks, self::FIELD_TYPE_INPUT, 'custom_options_general_titles');
+            $this->verifyBlocksOrder($orderedBlocks, self::FIELD_TYPE_PAGEELEMENT, 'custom_options_general_titles');
         }
         foreach($customOptionData as $customOption) {
             $optionId = $this->getCustomOptionIdByName($customOption['custom_options_general_title']);
@@ -1953,10 +1954,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getCustomOptionIdByName($optionName)
     {
-        $optionElements = $this->getControlElements(self::FIELD_TYPE_INPUT, 'custom_options_general_titles');
+        $optionElements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'custom_options_general_titles');
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element*/
         foreach ($optionElements as $element) {
-            if ($element->value() == $optionName) {
+            if ($element->text() == $optionName) {
                 $optionId = $element->attribute('id');
                 foreach (explode('_', $optionId) as $value) {
                     if (is_numeric($value)) {
@@ -2144,7 +2145,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
             $this->addBundleOption($item);
         }
-        $this->orderBlocks($orderedBlocks, 'itemTitle', 'move_product_bundle_item', 'bundle_items_names');
+        $this->orderBlocks($orderedBlocks, 'itemTitle', 'move_product_bundle_item', self::FIELD_TYPE_PAGEELEMENT,
+            'bundle_items_header');
     }
 
     /**
@@ -2237,7 +2239,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if (isset($data['order'])) {
-            $this->orderBlocks($data['order'], 'productSku', 'move_bundle_product', 'bundle_assigned_products');
+            $this->orderBlocks($data['order'], 'productSku', 'move_bundle_product', self::FIELD_TYPE_PAGEELEMENT,
+                'bundle_assigned_products');
         }
     }
 
@@ -2360,7 +2363,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->fillField('associated_product_default_qty', $qty);
             }
         }
-        $this->orderBlocks($formedData['order'], 'productSku', 'move_grouped_product', 'grouped_assigned_products');
+        $this->orderBlocks($formedData['order'], 'productSku', 'move_grouped_product', self::FIELD_TYPE_PAGEELEMENT,
+            'grouped_assigned_products');
     }
 
     /**

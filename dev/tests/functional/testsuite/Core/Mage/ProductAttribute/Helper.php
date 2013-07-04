@@ -242,7 +242,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
             $this->fillFieldset($attribute[$option], 'manage_options');
             $optionCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'manage_options_option');
         }
-        $this->orderBlocks($optionOrder, 'fieldOptionNumber', 'move_attribute_option_row', 'option_orders');
+        $this->orderBlocks($optionOrder, 'fieldOptionNumber', 'move_attribute_option_row', self::FIELD_TYPE_INPUT,
+            'option_orders');
     }
 
     /**

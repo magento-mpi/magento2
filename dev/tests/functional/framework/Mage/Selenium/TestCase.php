@@ -4458,7 +4458,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         /** @var $item PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($blocks as $item) {
             if ($fieldType == self::FIELD_TYPE_INPUT) {
-                if(!$item->displayed()) {
+                if($item->attribute('type') == 'hidden') {
                     preg_match_all('/\d+/', $item->attribute('name'), $matches);
                     $key = array_pop($matches[0]);
                 } else {
@@ -4479,15 +4479,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param array $orderedBlocks
      * @param string $blockId
      * @param string $draggableElement
+     * @param string $fieldType
      * @param string $fieldName
      */
-    public function orderBlocks(array $orderedBlocks, $blockId, $draggableElement, $fieldName)
+    public function orderBlocks(array $orderedBlocks, $blockId, $draggableElement, $fieldType, $fieldName)
     {
-        $fieldType = $blockId == 'productSku' ? self::FIELD_TYPE_PAGEELEMENT : self::FIELD_TYPE_INPUT;
-        $actualOrder = $this->getActualItemOrder($fieldType, $fieldName);
         if (count($orderedBlocks) < 2) {
             return;
         }
+        $actualOrder = $this->getActualItemOrder($fieldType, $fieldName);
         foreach ($orderedBlocks as $key => $value) {
             if (isset($actualOrder[$key]) && $value != $actualOrder[$key] && $value != 'noValue') {
                 $this->addParameter($blockId, $key);

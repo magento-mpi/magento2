@@ -175,6 +175,7 @@ class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Ma
      */
     public function addNonexistentAttribute()
     {
+        $this->markTestIncomplete('MAGETWO-11048');
         //Data
         $attributeName = $this->generate('string', 10, ':alnum:');
         //Steps

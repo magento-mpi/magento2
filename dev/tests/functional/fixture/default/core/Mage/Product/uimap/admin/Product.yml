@@ -226,7 +226,6 @@ new_product:
                                     xpath: //div[@id='super_config-wrapper' or @id='config_super_product-wrapper']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
-                                        attribute_blocks_name: //input[contains(@name,'[label]')]
                                     links:
                                         configurable_attribute_select: //div[@class='mage-suggest-dropdown']//a[text()='%attributeTitle%']
                                         is_configurable: //strong[span='Variations']
@@ -236,6 +235,7 @@ new_product:
                                     pageelements:
                                         product_variations_fieldset: //div[@id='config_super_product-content' or @id='super_config-content']
                                         configurable_attributes_list: "//div[@class='mage-suggest-dropdown'][not(contains(@style,'display: none;'))]"
+                                        attribute_blocks_name: //div[@id='configurable-attributes-container']//*[@class='title']/span
                             -
                                 product_variation_attribute:
                                     xpath: //div[*/*/span='%attributeTitle%']
@@ -308,8 +308,6 @@ new_product:
                                         delete_product_bundle_item: //div[//*[text()='%itemTitle%']]//*[@data-ui-id='adminhtml-catalog-product-edit-tab-bundle-option-option-delete-button']
                                     dropdowns:
                                         ship_bundle_items: //select[@id='shipment_type']
-                                    fields:
-                                        bundle_items_names: //input[@class='input-text required-entry']
                                     links:
                                         move_product_bundle_item: //div[strong/*[text()='%itemTitle%']]/*[@class='draggable-handle']
                                         expand_product_bundle_item: //*[@data-toggle='collapse']/*[text()='%itemTitle%']
@@ -627,7 +625,6 @@ new_product:
                                         custom_options_general_input_type: //select[@id='product_option_%optionId%_type']
                                         custom_options_price_type: //select[@id='product_option_%optionId%_price_type' or @id='product_option_%optionId%_select_%rowId%_price_type']
                                     fields:
-                                        custom_options_general_titles: //input[@class='required-entry input-text']
                                         custom_options_general_title: //input[@id='product_option_%optionId%_title']
                                         custom_options_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
                                         custom_options_titles: //*[contains(@id,'product_option_%optionId%') and @class='required-entry input-text select-type-title']
@@ -651,6 +648,7 @@ new_product:
                                     pageelements:
                                         custom_option_row: //tr[contains(@id,'product_option_%optionId%')][not(@style)]
                                         custom_option_verify_row: //fieldset[@class='fieldset-alt']
+                                        custom_options_general_titles: //div[@class='fieldset-wrapper-title']/*[@class='title']/span
                             -
                                 select_product_custom_option:
                                     xpath: //div[div/span='Select Product']
