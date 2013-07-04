@@ -33,7 +33,7 @@
                         <rowUrl>
                             <path>*/*/edit</path>
                             <extraParamsTemplate>
-                                <id>id</id>
+                                <id>getRuleId</id>
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
@@ -91,7 +91,7 @@
                             <sortable>0</sortable>
                             <type>options</type>
                             <width>200</width>
-                            <options type="options">Mage_Promo_Catalog_Model_Resource_Grid_Options_Website</options>
+                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
                         </arguments>
                     </block>
                 </block>
