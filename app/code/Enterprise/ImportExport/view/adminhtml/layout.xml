@@ -35,8 +35,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
                 <arguments>
                     <id>operationGrid</id>
-                    <dataSource type="object">Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection
-                    </dataSource>
+                    <dataSource type="object">Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection</dataSource>
                     <use_ajax>1</use_ajax>
                     <default_sort>id</default_sort>
                     <default_dir>DESC</default_dir>
@@ -47,8 +46,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction"
-                       name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
+                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>id</massaction_id_field>
                         <form_field_name>operation</form_field_name>
@@ -57,9 +55,7 @@
                             <delete>
                                 <label translate="true" module="Enterprise_ImportExport">Delete</label>
                                 <url>*/*/massDelete</url>
-                                <confirm translate="true" module="Enterprise_ImportExport">Are you sure you want to
-                                    delete the selected scheduled imports/exports?
-                                </confirm>
+                                <confirm translate="true" module="Enterprise_ImportExport">Are you sure you want to delete the selected scheduled imports/exports?</confirm>
                             </delete>
                             <status>
                                 <label translate="true" module="Enterprise_ImportExport">Change status</label>
@@ -68,8 +64,7 @@
                             </status>
                         </options>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Massaction_Additional"
-                           name="adminhtml.block.scheduled.operation.massactions.status" as="status">
+                    <block type="Mage_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.block.scheduled.operation.massactions.status" as="status">
                         <arguments>
                             <fields>
                                 <visibility>
@@ -77,9 +72,7 @@
                                     <type>select</type>
                                     <class>required-entry</class>
                                     <label translate="true" module="Enterprise_ImportExport">Status</label>
-                                    <values>
-                                        Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Statuses
-                                    </values>
+                                    <values>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Statuses</values>
                                 </visibility>
                             </fields>
                         </arguments>
@@ -109,9 +102,7 @@
                             <index>operation_type</index>
                             <type>options</type>
                             <width>30</width>
-                            <options type='options'>
-                                Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Operations
-                            </options>
+                            <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Operations</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_type">
@@ -119,9 +110,7 @@
                             <header translate="true" module="Enterprise_ImportExport">Entity Type</header>
                             <index>entity_type</index>
                             <type>options</type>
-                            <options type='options'>
-                                Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Entities
-                            </options>
+                            <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Entities</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="last_run_date">
@@ -135,10 +124,9 @@
                         <arguments>
                             <header translate="true" module="Enterprise_ImportExport">Frequency</header>
                             <index>freq</index>
+                            <width>100</width>
                             <type>options</type>
-                            <options type='options'>
-                                Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Frequency
-                            </options>
+                            <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Frequency</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
@@ -146,9 +134,7 @@
                             <header translate="true" module="Enterprise_ImportExport">Status</header>
                             <index>status</index>
                             <type>options</type>
-                            <options type='options'>
-                                Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Statuses
-                            </options>
+                            <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Statuses</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_success">
@@ -157,12 +143,9 @@
                             <index>is_success</index>
                             <type>options</type>
                             <width>200</width>
-                            <options type='options'>
-                                Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Result
-                            </options>
+                            <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Result</options>
                         </arguments>
                     </block>
-
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <header translate="true" module="Enterprise_ImportExport">Action</header>
