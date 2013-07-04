@@ -10,11 +10,15 @@
 class Magento_Code_Plugin_InvocationChain
 {
     /**
+     * Original instance whose behavior is decorated by plugins
+     *
      * @var mixed
      */
     protected $_subject;
 
     /**
+     * Name of the method to invoke
+     *
      * @var string
      */
     protected $_methodName;
@@ -25,6 +29,8 @@ class Magento_Code_Plugin_InvocationChain
     protected $_objectManager;
 
     /**
+     * List of the plugins
+     *
      * @var array
      */
     protected $_pluginList;

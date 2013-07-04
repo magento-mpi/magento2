@@ -50,21 +50,31 @@ class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_Obj
     protected $_config;
 
     /**
+     * Interceptor class builder
+     *
+     * @var Magento_ObjectManager_Interception_ClassBuilder
+     */
+    protected $_classBuilder;
+
+    /**
      * @param Magento_ObjectManager_Factory $factory
      * @param Magento_ObjectManager_Config $config
      * @param Magento_ObjectManager_ObjectManager $objectManager
      * @param Magento_ObjectManager_Interception_Definition $definitions
+     * @param Magento_ObjectManager_Interception_ClassBuilder $classBuilder
      */
     public function __construct(
         Magento_ObjectManager_Factory $factory,
         Magento_ObjectManager_Config $config,
         Magento_ObjectManager_ObjectManager $objectManager = null,
-        Magento_ObjectManager_Interception_Definition $definitions = null
+        Magento_ObjectManager_Interception_Definition $definitions = null,
+        Magento_ObjectManager_Interception_ClassBuilder $classBuilder = null
     ) {
         $this->_factory = $factory;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Interception_Definition_Runtime();
+        $this->_classBuilder = $classBuilder ?: new Magento_ObjectManager_Interception_ClassBuilder_General();
     }
 
     /**
@@ -88,7 +98,8 @@ class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_Obj
     public function create($type, array $arguments = array())
     {
         if ($this->_config->hasPlugins($type)) {
-            $interceptorClass = $this->_config->getInstanceType($type) . '_Interceptor';
+            $interceptorClass = $this->_classBuilder
+                ->composeInterceptorClassName($this->_config->getInstanceType($type));
             $config = array();
             foreach ($this->_config->getPlugins($type) as $plugin) {
                 $pluginMethods = $this->_definitions->getMethodList(

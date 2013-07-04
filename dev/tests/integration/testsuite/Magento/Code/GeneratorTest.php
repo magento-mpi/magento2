@@ -17,6 +17,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace';
     const CLASS_NAME_WITH_NAMESPACE = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace';
+    const INTERFACE_NAME_WITHOUT_NAMESPACE = 'Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespace';
 
     /**
      * @var string
@@ -183,6 +184,25 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
         $expectedContent = $this->_clearDocBlock(
             file_get_contents(__DIR__ . '/_files/generatedInterceptorWithNamespace.php')
+        );
+        $this->assertEquals($expectedContent, $content);
+    }
+
+    public function testGenerateInterfaceInterceptorWithoutNamespace()
+    {
+        $interceptorClassName = self::INTERFACE_NAME_WITHOUT_NAMESPACE . 'Interceptor';
+        $this->assertEquals(
+            Magento_Code_Generator::GENERATION_SUCCESS,
+            $this->_generator->generateClass($interceptorClassName)
+        );
+
+        $content = $this->_clearDocBlock(
+            file_get_contents(
+                $this->_ioObject->getResultFileName(self::INTERFACE_NAME_WITHOUT_NAMESPACE . 'Interceptor')
+            )
+        );
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedInterfaceInterceptorWithoutNamespace.php')
         );
         $this->assertEquals($expectedContent, $content);
     }

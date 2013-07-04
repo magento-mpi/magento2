@@ -295,6 +295,8 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
     }
 
     /**
+     * Generate resulting class source code
+     *
      * @return string
      */
     protected function _generateCode()

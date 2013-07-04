@@ -20,11 +20,18 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
         $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
         $definitions =  $definitionFactory->createClassDefinition($primaryConfig);
         $config = new Magento_ObjectManager_Config();
+
+        $appMode = $primaryConfig->getParam(Mage::PARAM_MODE, Mage_Core_Model_App_State::MODE_DEFAULT);
+        $classBuilder = ($appMode == Mage_Core_Model_App_State::MODE_DEVELOPER)
+            ? new Magento_ObjectManager_Interception_ClassBuilder_Runtime()
+            : new Magento_ObjectManager_Interception_ClassBuilder_General();
+
         $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
             new Magento_ObjectManager_Factory_Factory($config, null, $definitions),
             $config,
             null,
-            $definitionFactory->createPluginDefinition($primaryConfig)
+            $definitionFactory->createPluginDefinition($primaryConfig),
+            $classBuilder
         );
         return new Mage_Core_Model_ObjectManager($factory, $primaryConfig, $config);
     }
