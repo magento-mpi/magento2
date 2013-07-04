@@ -101,6 +101,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('manage_customer_groups'),
             array('cache_storage_management'),
             array('order_statuses'),
+            array('manage_catalog_price_rules'),
         );
     }
 

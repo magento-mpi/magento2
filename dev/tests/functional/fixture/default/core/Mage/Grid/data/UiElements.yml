@@ -731,7 +731,7 @@ manage_customer_groups:
         0: ID
         1: Group
         2: Tax Class
-
+        
 #dataset for ui elements for Order Statuses grid
 order_statuses:
     fieldset:
@@ -753,3 +753,31 @@ order_statuses:
         2: Default Status
         3: State Code and Title
         4: Action
+
+#dataset for ui elements for Catalog Price Rules grid
+manage_catalog_price_rules:
+     fieldset:
+         rule_search_grid: tablename
+     button:
+         reset_filter: ~
+         search: ~
+     dropdown:
+         view_per_page: ~
+         filter_status: ~
+         filter_website: ~
+     field:
+         page: ~
+         filter_rule_id: ~
+         filter_rule_name: ~
+         filter_date_start_from: ~
+         filter_date_start_to: ~
+         filter_date_expired_from: ~
+         filter_date_expired_to: ~
+     headers:
+         0: ID
+         1: Rule
+         2: Start on
+         3: End on
+         4: Status
+         5: Web Site
+                
