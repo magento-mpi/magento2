@@ -31,11 +31,13 @@ class Mage_PageCache_Model_Resource_Grid_Collection extends Varien_Data_Collecti
     }
 
     /**
-     * Add cache types
+     * Load data
      *
-     * @return $this|Varien_Data_Collection
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return Varien_Data_Collection|void
      */
-    public function loadData()
+    public function loadData($printQuery = false, $logQuery = false)
     {
         if ($this->isLoaded() == false) {
             foreach ($this->_app->getCacheInstance()->getTypes() as $type) {
