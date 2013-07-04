@@ -731,3 +731,25 @@ manage_customer_groups:
         0: ID
         1: Group
         2: Tax Class
+
+#dataset for ui elements for Order Statuses grid
+order_statuses:
+    fieldset:
+        order_statuses: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        create_new_status: ~
+        assign_status_to_state: ~
+    field:
+        status_code: ~
+        status_label: ~
+        status: ~
+    dropdown:
+        default_status: ~
+    headers:
+        0: Status
+        1: Status Code
+        2: Default Status
+        3: State Code and Title
+        4: Action

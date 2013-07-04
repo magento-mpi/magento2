@@ -102,6 +102,7 @@ return array(
     array('Mage_Adminhtml_Block_Report_Search_Grid'),
     array('Mage_Adminhtml_Block_Sales'),
     array('Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Giftmessage'),
+    array('Mage_Adminhtml_Block_Sales_Order_Status_Grid'),
     array('Mage_Adminhtml_Block_Sitemap_Grid'),
     array('Mage_Adminhtml_Block_System_Config_Edit', 'Mage_Backend_Block_System_Config_Edit'),
     array('Mage_Adminhtml_Block_System_Config_Form', 'Mage_Backend_Block_System_Config_Form'),
