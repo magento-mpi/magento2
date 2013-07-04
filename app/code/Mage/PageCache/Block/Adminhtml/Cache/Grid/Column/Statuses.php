@@ -40,7 +40,7 @@ class Mage_PageCache_Block_Adminhtml_Cache_Grid_Column_Statuses extends Mage_Bac
     }
 
     /**
-     * Add to column decorate status
+     * Add to column decorated status
      *
      * @return array
      */
@@ -52,10 +52,10 @@ class Mage_PageCache_Block_Adminhtml_Cache_Grid_Column_Statuses extends Mage_Bac
     /**
      * Decorate status column values
      *
-     * @param $value
-     * @param $row
-     * @param $column
-     * @param $isExport
+     * @param string $value
+     * @param  Mage_Core_Model_Abstract $row
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param bool $isExport
      * @return string
      */
     public function decorateStatus($value, $row, $column, $isExport)
