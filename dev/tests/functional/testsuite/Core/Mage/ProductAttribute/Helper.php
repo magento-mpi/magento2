@@ -242,7 +242,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
             $this->fillFieldset($attribute[$option], 'manage_options');
             $optionCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'manage_options_option');
         }
-        $this->orderBlocks($optionOrder, 'fieldOptionNumber', 'move_attribute_option_row', 'option_orders');
+        $this->orderBlocks($optionOrder, 'fieldOptionNumber', 'move_attribute_option_row', self::FIELD_TYPE_INPUT,
+            'option_orders');
     }
 
     /**
@@ -335,7 +336,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
                 ? $attribute[$option]['option_position']
                 : 'noValue';
         }
-        $this->verifyBlocksOrder($optionOrder, 'option_orders');
+        $this->verifyBlocksOrder($optionOrder, self::FIELD_TYPE_INPUT, 'option_orders');
         $itemDataOrder = $this->getActualItemOrder(self::FIELD_TYPE_INPUT, 'option_orders');
         foreach ($options as $option) {
             if (!is_array($attribute[$option])) {

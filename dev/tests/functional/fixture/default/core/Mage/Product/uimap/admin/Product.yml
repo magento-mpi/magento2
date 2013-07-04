@@ -130,7 +130,7 @@ new_product:
                     add_attribute:
                         xpath: //*[@id='product_info_tabs_%tab%_content']//div[@class='actions']
                         buttons:
-                            add_attribute: //div[@id='product-attribute-search-container']//button[@data-action='choose']
+                            add_attribute: //div[@id='product-attribute-search-container']//button[span='Add Attribute']
                             create_new_attribute: //button[@title='New Attribute']
                         fields:
                             attribute_search: //*[@data-role='product-attribute-search' and not(contains(@class, 'mage-suggest-state-loading'))]
@@ -226,7 +226,6 @@ new_product:
                                     xpath: //div[@id='super_config-wrapper' or @id='config_super_product-wrapper']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
-                                        attribute_blocks_name: //input[contains(@name,'[label]')]
                                     links:
                                         configurable_attribute_select: //div[@class='mage-suggest-dropdown']//a[text()='%attributeTitle%']
                                         is_configurable: //strong[span='Variations']
@@ -236,6 +235,7 @@ new_product:
                                     pageelements:
                                         product_variations_fieldset: //div[@id='config_super_product-content' or @id='super_config-content']
                                         configurable_attributes_list: "//div[@class='mage-suggest-dropdown'][not(contains(@style,'display: none;'))]"
+                                        attribute_blocks_name: //div[@id='configurable-attributes-container']//*[@class='title']/span
                             -
                                 product_variation_attribute:
                                     xpath: //div[*/*/span='%attributeTitle%']
@@ -308,8 +308,6 @@ new_product:
                                         delete_product_bundle_item: //div[//*[text()='%itemTitle%']]//*[@data-ui-id='adminhtml-catalog-product-edit-tab-bundle-option-option-delete-button']
                                     dropdowns:
                                         ship_bundle_items: //select[@id='shipment_type']
-                                    fields:
-                                        bundle_items_names: //input[@class='input-text required-entry']
                                     links:
                                         move_product_bundle_item: //div[strong/*[text()='%itemTitle%']]/*[@class='draggable-handle']
                                         expand_product_bundle_item: //*[@data-toggle='collapse']/*[text()='%itemTitle%']
@@ -317,6 +315,7 @@ new_product:
                                         bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
                                         bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
                                         bundle_item_row: //div[@class='option-box']
+                                        bundle_items_header: //*[@id='bundle_product-content']//div[@class='fieldset-wrapper-title']
                             -
                                 new_bundle_option:
                                     xpath: //div[@id='bundle_option_%optionId%-wrapper']
@@ -370,7 +369,6 @@ new_product:
                                     xpath: //div[*/*/span='Advanced Pricing']
                                     buttons:
                                         add_group_price: //button[span='Add Group Price']
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         add_tier_price: //button[span='Add Tier']
                                     dropdowns:
                                         prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
@@ -454,8 +452,6 @@ new_product:
                             -
                                 product_design:
                                     xpath: //div[*/*/span='Design']
-                                    buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
                                         design_custom_design: //select[@id='custom_design']
                                         design_page_layout: //select[@id='page_layout']
@@ -471,8 +467,6 @@ new_product:
                             -
                                 product_gift_options:
                                     xpath: //div[*/*/span='Autosettings']
-                                    buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
                                         autosettings_allow_gift_message_default: //input[@id='use_config_gift_message_available']
                                     dropdowns:
@@ -631,7 +625,6 @@ new_product:
                                         custom_options_general_input_type: //select[@id='product_option_%optionId%_type']
                                         custom_options_price_type: //select[@id='product_option_%optionId%_price_type' or @id='product_option_%optionId%_select_%rowId%_price_type']
                                     fields:
-                                        custom_options_general_titles: //input[@class='required-entry input-text']
                                         custom_options_general_title: //input[@id='product_option_%optionId%_title']
                                         custom_options_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
                                         custom_options_titles: //*[contains(@id,'product_option_%optionId%') and @class='required-entry input-text select-type-title']
@@ -655,6 +648,7 @@ new_product:
                                     pageelements:
                                         custom_option_row: //tr[contains(@id,'product_option_%optionId%')][not(@style)]
                                         custom_option_verify_row: //fieldset[@class='fieldset-alt']
+                                        custom_options_general_titles: //div[@class='fieldset-wrapper-title']/*[@class='title']/span
                             -
                                 select_product_custom_option:
                                     xpath: //div[div/span='Select Product']
