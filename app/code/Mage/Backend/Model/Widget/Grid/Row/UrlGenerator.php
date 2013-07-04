@@ -17,6 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
+    implements  Mage_Backend_Model_Widget_Grid_Row_Interface
 {
     /**
      * @var Mage_Backend_Model_Url
