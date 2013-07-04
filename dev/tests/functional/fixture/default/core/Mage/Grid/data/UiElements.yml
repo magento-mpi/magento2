@@ -703,10 +703,10 @@ cache_storage_management:
     dropdown:
         cache_action: ~
     link:
-        select_all:
-        unselect_all:
-        select_visible:
-        unselect_visible:
+        select_all: ~
+        unselect_all: ~
+        select_visible: ~
+        unselect_visible: ~
     headers:
         0: ' '
         1: Cache Type
@@ -780,4 +780,33 @@ manage_catalog_price_rules:
          3: End on
          4: Status
          5: Web Site
-                
+                        2: Tax Class
+#dataset for ui elements for Cart Price grid
+manage_shopping_cart_price_rules:
+    fieldset:
+        rule_search_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+    field:
+        filter_id: ~
+        filter_rule_name: ~
+        filter_coupon_code: ~
+        filter_date_start_from: ~
+        filter_date_start_to: ~
+        filter_date_expire_from: ~
+        filter_date_expire_to: ~
+        filter_priority: ~
+    dropdown:
+        filter_status: ~
+        view_per_page: ~
+        filter_website: ~
+    headers:
+        0: ID
+        1: Rule
+        2: Coupon Code
+        3: Start on
+        4: End on
+        5: Status
+        6: Web Site
+        7: Priority
