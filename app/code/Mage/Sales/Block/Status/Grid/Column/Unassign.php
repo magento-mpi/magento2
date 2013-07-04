@@ -31,7 +31,7 @@ class Mage_Sales_Block_Status_Grid_Column_Unassign extends Mage_Backend_Block_Wi
     }
 
     /**
-     * Add to column decorate action
+     * Add decorated action to column
      *
      * @return array
      */
@@ -41,12 +41,12 @@ class Mage_Sales_Block_Status_Grid_Column_Unassign extends Mage_Backend_Block_Wi
     }
 
     /**
-     * Decorate column values
+     * Decorate values to column
      *
-     * @param $value
-     * @param $row
-     * @param $column
-     * @param $isExport
+     * @param string $value
+     * @param Mage_Sales_Model_Order_Status $row
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param bool $isExport
      * @return string
      */
     public function decorateAction($value, $row, $column, $isExport)

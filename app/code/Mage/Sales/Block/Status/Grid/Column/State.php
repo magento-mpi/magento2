@@ -31,7 +31,7 @@ class Mage_Sales_Block_Status_Grid_Column_State extends Mage_Backend_Block_Widge
     }
 
     /**
-     * Add to column decorate status
+     * Add decorated status to column
      *
      * @return array
      */
@@ -43,16 +43,16 @@ class Mage_Sales_Block_Status_Grid_Column_State extends Mage_Backend_Block_Widge
     /**
      * Decorate status column values
      *
-     * @param $value
-     * @param $row
-     * @param $column
-     * @param $isExport
+     * @param string $value
+     * @param Mage_Sales_Model_Order_Status $row
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param bool $isExport
      * @return string
      */
     public function decorateState($value, $row, $column, $isExport)
     {
         if ($value) {
-            $cell = $value . ' [' . $this->_config->getStateLabel($value) . ']';
+            $cell = $value . '[' . $this->_config->getStateLabel($value) . ']';
         } else {
             $cell = $value;
         }
