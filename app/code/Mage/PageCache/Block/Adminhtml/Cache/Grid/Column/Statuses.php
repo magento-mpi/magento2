@@ -62,12 +62,12 @@ class Mage_PageCache_Block_Adminhtml_Cache_Grid_Column_Statuses extends Mage_Bac
     {
         $this->_invalidatedTypes = $this->_app->getCacheInstance()->getInvalidatedTypes();
         if (isset($this->_invalidatedTypes[$row->getId()])) {
-            $cell = '<span class="grid-severity-minor"><span>'.$this->__('Invalidated').'</span></span>';
+            $cell = '<span class="grid-severity-minor"><span>' . $this->__('Invalidated') . '</span></span>';
         } else {
             if ($row->getStatus()) {
-                $cell = '<span class="grid-severity-notice"><span>'.$value.'</span></span>';
+                $cell = '<span class="grid-severity-notice"><span>' . $value . '</span></span>';
             } else {
-                $cell = '<span class="grid-severity-critical"><span>'.$value.'</span></span>';
+                $cell = '<span class="grid-severity-critical"><span>' . $value . '</span></span>';
             }
         }
         return $cell;
