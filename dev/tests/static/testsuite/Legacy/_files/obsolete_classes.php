@@ -78,6 +78,7 @@ return array(
     array('Mage_Adminhtml_Block_Permissions_Edituser'),
     array('Mage_Adminhtml_Block_Permissions_Tab_Userroles'),
     array('Mage_Adminhtml_Block_Permissions_Usernroles'),
+    array('Mage_Adminhtml_Block_Promo_Catalog_Grid'),
     array('Mage_Adminhtml_Block_Rating_Grid'),
     array('Mage_Adminhtml_Block_System_Store_Grid'),
     array('Mage_Adminhtml_Permissions_UserController'),
