@@ -37,7 +37,7 @@
                     <dataSource type="object">Mage_PageCache_Model_Resource_Grid_Collection</dataSource>
                     <pager_visibility>0</pager_visibility>
                 </arguments>
-                <block type='Mage_Backend_Block_Widget_Grid_Massaction'  name='adminhtml.cache.massaction' as='grid.massaction'>
+                <block type='Mage_Backend_Block_Widget_Grid_Massaction'  name="adminhtml.cache.massaction" as='grid.massaction'>
                     <arguments>
                         <massaction_id_field>id</massaction_id_field>
                         <form_field_name>types</form_field_name>

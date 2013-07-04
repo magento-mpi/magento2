@@ -17,7 +17,11 @@
  */
 class Mage_PageCache_Block_Adminhtml_Cache_Grid_Column_Statuses extends Mage_Backend_Block_Widget_Grid_Column
 {
-
+    /**
+     * Invalidated cache types
+     *
+     * @var array
+     */
     protected $_invalidedTypes = array();
 
     /**
@@ -35,11 +39,25 @@ class Mage_PageCache_Block_Adminhtml_Cache_Grid_Column_Statuses extends Mage_Bac
         $this->_app = $app;
     }
 
+    /**
+     * Add to column decorate status
+     *
+     * @return array
+     */
     public function getFrameCallback()
     {
         return array($this, 'decorateStatus');
     }
 
+    /**
+     * Decorate status column values
+     *
+     * @param $value
+     * @param $row
+     * @param $column
+     * @param $isExport
+     * @return string
+     */
     public function decorateStatus($value, $row, $column, $isExport)
     {
         $this->_invalidatedTypes = $this->_app->getCacheInstance()->getInvalidatedTypes();

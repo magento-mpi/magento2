@@ -35,16 +35,16 @@ class Mage_PageCache_Model_Resource_Grid_Collection extends Varien_Data_Collecti
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Varien_Data_Collection|void
+     * @return Mage_PageCache_Model_Resource_Grid_Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
-        if ($this->isLoaded() == false) {
+        if (!$this->isLoaded()) {
             foreach ($this->_app->getCacheInstance()->getTypes() as $type) {
                 $this->addItem($type);
             }
             $this->_setIsLoaded(true);
-            return $this;
         }
+        return $this;
     }
 }
