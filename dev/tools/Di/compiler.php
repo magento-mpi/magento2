@@ -30,23 +30,23 @@ try {
         'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
         'verbose|v' => 'output report after tool run',
         'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
-        'generation=s' => 'relative path to generated classes, var/generation by default',
-        'di=s' => 'relative path to DI directory, var/di by default'
+        'generation=s' => 'absolute path to generated classes, <magento_root>/var/generation by default',
+        'di=s' => 'absolute path to DI definitions directory, <magento_root>/var/di by default'
     ));
     $opt->parse();
 
-    $generationDir = $opt->getOption('generation') ? trim($opt->getOption('generation'), DS) : 'var/generation';
-    Magento_Autoload_IncludePath::addIncludePath($rootDir . DS . $generationDir);
+    $generationDir = $opt->getOption('generation') ? $opt->getOption('generation') : $rootDir . DS . 'var/generation';
+    Magento_Autoload_IncludePath::addIncludePath($generationDir);
 
-    $diDir = $opt->getOption('di') ? trim($opt->getOption('di'), DS) : 'var/di';
-    $compiledFile = $rootDir . DS . $diDir . DS .'definitions.php';
+    $diDir = $opt->getOption('di') ? $opt->getOption('di') : $rootDir . DS . 'var/di';
+    $compiledFile = $diDir . DS .'definitions.php';
 
     $compilationDirs = array(
         $rootDir . DS . 'app/code',
         $rootDir . '/lib/Magento',
         $rootDir . '/lib/Mage',
         $rootDir . '/lib/Varien',
-        $rootDir . DS . $generationDir,
+        $generationDir,
     );
 
     $writer = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
@@ -70,7 +70,7 @@ try {
     $entities = $scanner->collectEntities($files);
 
     // 1.2 Generation
-    $generatorIo = new Magento_Code_Generator_Io(null, null, $rootDir . DS . $generationDir);
+    $generatorIo = new Magento_Code_Generator_Io(null, null, $generationDir);
     $generator = new Magento_Code_Generator(null, null, $generatorIo);
     foreach ($entities as $entityName) {
         switch ($generator->generateClass($entityName)) {
