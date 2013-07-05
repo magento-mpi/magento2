@@ -4555,6 +4555,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function verifyBlocksOrder(array $blockOrder, $fieldType, $fieldName)
     {
+        if (count($blockOrder) < 2) {
+            return;
+        }
         $actualOrder = array_keys($this->getActualItemOrder($fieldType, $fieldName));
         //Reorder item order considering duplication and empty position values
         $expectedOrder = array_keys($blockOrder);

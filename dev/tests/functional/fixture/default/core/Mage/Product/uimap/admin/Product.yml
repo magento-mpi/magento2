@@ -239,12 +239,19 @@ new_product:
                             -
                                 product_variation_attribute:
                                     xpath: //div[*/*/span='%attributeTitle%']
+                                    buttons:
+                                        add_option_value: //*[@data-action='add-option']
+                                        delete_new_option: //tr[@data-role='option-container'][.//input[contains(@name,'[new-option-%newOptionId%]')]]//*[@data-action='delete']
+                                        locked_option: //*[@data-role='option-container'][*[@data-column='name' and text()='%attributeOption%']]//*[@class='action-locked' and @data-action='delete']
                                     checkboxes:
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
+                                        include_new_variation_attribute: //input[contains(@name,'[new-option-%newOptionId%][include]')]
                                         use_default_label: //label[span='Use Default']
                                     fields:
                                         variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
+                                        new_variation_attribute_price: //input[contains(@name,'[new-option-%newOptionId%][pricing_value]')]
                                         frontend_label: //input[contains(@name,'[label]')]
+                                        new_option_label: //*[@data-column='name']//*[contains(@name,'[new-option-%newOptionId%]')]
                                     dropdowns:
                                         variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
                                     links:

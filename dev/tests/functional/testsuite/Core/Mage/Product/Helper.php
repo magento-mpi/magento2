@@ -1129,8 +1129,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Select configurable attribute from searchable control for configurable product creation
      *
      * @param array $attributes
+     * @param bool $generateVariations
      */
-    public function fillConfigurableSettings(array $attributes)
+    public function fillConfigurableSettings(array $attributes, $generateVariations = true)
     {
         $allTitles = array();
         $attributeOrder = array();
@@ -1164,10 +1165,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $waitLocator .= ']';
         $this->orderBlocks($attributeOrder, 'attributeTitle', 'move_product_variation_attribute',
             self::FIELD_TYPE_PAGEELEMENT, 'attribute_blocks_name');
-        $this->clickButton('generate_product_variations', false);
-        $this->pleaseWait();
-        $this->assertMessageNotPresent('validation');
-        $this->waitForElementVisible($waitLocator);
+        if ($generateVariations) {
+            $this->clickButton('generate_product_variations', false);
+            $this->pleaseWait();
+            $this->assertMessageNotPresent('validation');
+            $this->waitForElementVisible($waitLocator);
+        }
     }
 
     /**
@@ -1268,9 +1271,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
             unset($optionsData['use_all_options']);
         }
+        $newOptionId = 0;
         foreach ($optionsData as $optionData) {
             if (isset($optionData['associated_attribute_value'])) {
-                $this->addParameter('attributeOption', $optionData['associated_attribute_value']);
+                if (!in_array($optionData['associated_attribute_value'], $optionNames)) {
+                    $this->addParameter('newOptionId', $newOptionId++);
+                    $this->clickControl('button', 'add_option_value', false);
+                    $this->fillField('new_option_label', $optionData['associated_attribute_value']);
+                } else {
+                    $this->addParameter('attributeOption', $optionData['associated_attribute_value']);
+                }
                 unset($optionData['associated_attribute_value']);
             }
             if (!empty($optionData)) {

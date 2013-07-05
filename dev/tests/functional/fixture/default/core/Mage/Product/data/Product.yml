@@ -337,6 +337,11 @@ general_configurable_attribute_without_price: &general_configurable_attribute_wi
         associated_attribute_value: %var1_attr_value3%
         include_variation_attribute: %var1_attr_include3%
 
+new_attribute_option:
+    associated_attribute_value: %new_attr_value%
+    new_variation_attribute_price: 15
+    include_new_variation_attribute: Yes
+
 general_configurable_attributes: &general_configurable_attributes
     attribute_1: *general_configurable_attribute_without_price
     attribute_2: %noValue%
