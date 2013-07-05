@@ -9,6 +9,7 @@
  */
 return array(
     array('Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid'),
+    array('Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid'),
     array('Enterprise_Cms_Model_Resource_Setup'),
     array('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid'),
     array('Enterprise_GiftCard_Block_Email_Generated'),

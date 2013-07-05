@@ -27,13 +27,14 @@
             </action>
         </reference>
         <reference name="content">
+            <update handle="adminhtml_sku_errors_block"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
             <block type="Enterprise_Checkout_Block_Adminhtml_Manage" name="ID" template="manage.phtml">
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher" name="checkout.store.switcher"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Messages" name="checkout.message"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors" name="errors">
-                    <block type="Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid" name="sku_error_grid"/>
+                    <!--<block type="Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid" name="sku_error_grid"/>-->
                 </block>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion" name="checkout.accordion">
                     <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products" name="products"/>
@@ -121,9 +122,8 @@
 
     <adminhtml_checkout_manage_load_block_errors>
         <reference name="content">
-            <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors" name="errors">
-                <block type="Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid" name="sku_error_grid"/>
-            </block>
+            <update handle="adminhtml_sku_errors_block"/>
+            <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors" name="errors"/>
         </reference>
     </adminhtml_checkout_manage_load_block_errors>
 
@@ -132,6 +132,7 @@
     <!-- shortcut handles -->
 
     <sku_layout_update>
+        <update handle="adminhtml_sku_errors_block"/>
         <reference name="head">
             <action method="addJs"><file>Mage_Adminhtml::catalog/product/composite/configure.js</file></action>
         </reference>
@@ -139,9 +140,7 @@
             <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Mage_Adminhtml::sales/order/create/abstract.phtml">
                 <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
             </block>
-            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors">
-                <block type="Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid" name="sku_error_grid"/>
-            </block>
+            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
         </reference>
     </sku_layout_update>
 
@@ -157,20 +156,76 @@
 
     <adminhtml_sales_order_create_load_block_additional_area>
         <reference name="content">
+            <update handle="adminhtml_sku_errors_block"/>
             <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Mage_Adminhtml::sales/order/create/abstract.phtml">
                 <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
             </block>
-            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors">
-                <block type="Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid" name="sku_error_grid"/>
-            </block>
+            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
         </reference>
     </adminhtml_sales_order_create_load_block_additional_area>
 
     <adminhtml_sales_order_create_load_block_errors>
         <reference name="content">
-            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors">
-                <block type="Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid" name="sku_error_grid"/>
-            </block>
+            <update handle="adminhtml_sku_errors_block"/>
+            <block type="Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
         </reference>
     </adminhtml_sales_order_create_load_block_errors>
+
+    <adminhtml_sku_errors_block>
+        <reference name='errors'>
+            <block type="Mage_Backend_Block_Widget_Grid" name='sku_error_grid' as='grid'>
+                <arguments>
+                    <id>sku_errors</id>
+                    <dataSource type="object">Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection</dataSource>
+                    <pager_visibility>0</pager_visibility>
+                </arguments>
+                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet_Additional' name='sku_error_grid.columnSet' as='grid.columnSet'>
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                    </arguments>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='description'>
+                        <arguments>
+                            <header translate='true' module='Enterprise_Checkout'>Product</header>
+                            <index>description</index>
+                            <class>no-link</class>
+                            <sortable>0</sortable>
+                            <renderer>Enterprise_Checkout_Block_Sku_Column_Description</renderer>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='price'>
+                        <arguments>
+                            <header translate='true' module='Enterprise_Checkout'>Price</header>
+                            <index>price</index>
+                            <class>no-link</class>
+                            <sortable>0</sortable>
+                            <type>text</type>
+                            <width>100</width>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='qty'>
+                        <arguments>
+                            <header translate='true' module='Enterprise_Checkout'>Quantity</header>
+                            <index>qty</index>
+                            <class>no-link sku-error-qty</class>
+                            <sortable>0</sortable>
+                            <type>text</type>
+                            <width>40</width>
+                            <renderer>Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty</renderer>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='remove'>
+                        <arguments>
+                            <header translate='true' module='Enterprise_Checkout'>Remove</header>
+                            <index>remove_button</index>
+                            <class>no-link</class>
+                            <sortable>0</sortable>
+                            <type>text</type>
+                            <width>80</width>
+                            <renderer>Enterprise_Checkout_Block_Sku_Column_Remove</renderer>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sku_errors_block>
 </layout>
