@@ -15,12 +15,13 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
     /**
      * Initialize dependencies.
      *
+     * @param Mage_Core_Model_Config $config
      * @param Mage_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
-    public function __construct(Mage_Webapi_Helper_Data $helper, $uri = null)
+    public function __construct(Mage_Core_Model_Config $config, Mage_Webapi_Helper_Data $helper, $uri = null)
     {
-        parent::__construct(Mage_Webapi_Controller_Front::API_TYPE_SOAP, $uri);
+        parent::__construct($config, Mage_Webapi_Controller_Front::API_TYPE_SOAP, $uri);
         $this->_helper = $helper;
     }
 
