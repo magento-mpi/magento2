@@ -21,10 +21,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
 
     /**
      * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquantity');
         $this->setValue(null);
     }
