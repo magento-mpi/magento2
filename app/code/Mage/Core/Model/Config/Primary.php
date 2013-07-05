@@ -61,6 +61,10 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
             $this->getParam(Mage::PARAM_APP_URIS, array()),
             $this->getParam(Mage::PARAM_APP_DIRS, array())
         );
+        Magento_Autoload_IncludePath::addIncludePath(array(
+            $this->_dir->getDir(Mage_Core_Model_Dir::GENERATION)
+        ));
+
         $this->_loader = $loader ?: new Mage_Core_Model_Config_Loader_Primary(
             new Mage_Core_Model_Config_Loader_Local(
                 $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG),

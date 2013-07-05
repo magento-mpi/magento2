@@ -107,6 +107,7 @@ class Magento_Test_Application
         $this->_installDir = $installDir;
         $this->_installEtcDir = "$installDir/etc";
 
+        $generationDir = "$installDir/generation";
         $this->_initParams = array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
@@ -114,6 +115,7 @@ class Magento_Test_Application
                 Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
                 Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/pub_static",
                 Mage_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
+                Mage_Core_Model_Dir::GENERATION => $generationDir,
             ),
             Mage::PARAM_MODE => $appMode
         );
@@ -170,7 +172,14 @@ class Magento_Test_Application
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
             $definition = new Magento_ObjectManager_Definition_Runtime();
-            $definitionDecorator = new Magento_Code_Generator_DefinitionDecorator($definition);
+
+            // init generation directory and generator class
+            $generationDir = $config->getDirectories()->getDir(Mage_Core_Model_Dir::GENERATION);
+            $generatorIo = new Magento_Code_Generator_Io(null, null, $generationDir);
+            $generator = new Magento_Code_Generator(null, null, $generatorIo);
+            $generatorClass = new Magento_Code_Generator_Class($generator);
+
+            $definitionDecorator = new Magento_Code_Generator_DefinitionDecorator($definition, $generatorClass);
             $instanceConfig = new Magento_Test_ObjectManager_Config();
             $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
                 new Magento_ObjectManager_Factory_Factory($instanceConfig, null, $definitionDecorator),
