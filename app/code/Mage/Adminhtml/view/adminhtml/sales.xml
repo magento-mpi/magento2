@@ -1457,7 +1457,7 @@
                         <dataSource type="object">Mage_Sales_Model_Resource_Status_Collection</dataSource>
                         <default_sort>state</default_sort>
                         <default_dir>desc</default_dir>
-                        <pager_visibility>0</pager_visibility>i
+                        <pager_visibility>0</pager_visibility>
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales_order_status.grid.columnSet">
                         <arguments>
@@ -1467,6 +1467,7 @@
                                     <status>getStatus</status>
                                 </extraParamsTemplate>
                             </rowUrl>
+                            <filter_visibility>1</filter_visibility>
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="label">
                             <arguments>
