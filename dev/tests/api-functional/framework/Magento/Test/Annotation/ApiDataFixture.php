@@ -1,20 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Implementation of the magentoApiDataFixture DocBlock annotation.
  *
  * The difference of magentoApiDataFixture from magentoDataFixture is
  * that no transactions should be used for API data fixtures.
  * Otherwise fixture data will not be accessible to Web API functional tests.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Test_Annotation_ApiDataFixture
 {
@@ -39,7 +34,7 @@ class Magento_Test_Annotation_ApiDataFixture
     public function __construct($fixtureBaseDir)
     {
         if (!is_dir($fixtureBaseDir)) {
-            throw new Magento_Exception("Fixture base directory '$fixtureBaseDir' does not exist.");
+            throw new Magento_Exception("Fixture base directory '{$fixtureBaseDir}' does not exist.");
         }
         $this->_fixtureBaseDir = realpath($fixtureBaseDir);
     }
@@ -51,6 +46,7 @@ class Magento_Test_Annotation_ApiDataFixture
      */
     public function startTest(PHPUnit_Framework_TestCase $test)
     {
+        /** Apply method level fixtures if thy are available, apply class level fixtures otherwise */
         $this->_applyFixtures($this->_getFixtures('method', $test) ?: $this->_getFixtures('class', $test));
     }
 
@@ -103,6 +99,7 @@ class Magento_Test_Annotation_ApiDataFixture
         } else {
             require($fixture);
         }
+        $this->_appliedFixtures[] = $fixture;
     }
 
     /**
@@ -116,11 +113,9 @@ class Magento_Test_Annotation_ApiDataFixture
         /* Execute fixture scripts */
         foreach ($fixtures as $oneFixture) {
             /* Skip already applied fixtures */
-            if (in_array($oneFixture, $this->_appliedFixtures, true)) {
-                continue;
+            if (!in_array($oneFixture, $this->_appliedFixtures, true)) {
+                $this->_applyOneFixture($oneFixture);
             }
-            $this->_applyOneFixture($oneFixture);
-            $this->_appliedFixtures[] = $oneFixture;
         }
     }
 

@@ -7,32 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
-
     /**
-     * Perform call to the specified service method.
-     *
-     * @param string $serviceInfo <pre>
-     * array(
-     *     'rest' => array(
-     *         'resourcePath' => $resourcePath,    // e.g. /products/:id
-     *         'httpMethod' => $httpMethod // e.g. GET
-     *     ),
-     *     'soap' => array(
-     *         'service' => $soapService,           // soap service name e.g. catalogProduct, customer
-     *         'serviceVersion' => $serviceVersion, // with 'V' prefix or without it
-     *         'operation' => $operation            // soap operation name e.g. catalogProductCreate
-     *     ),
-     *     OR
-     *     'serviceInterface' => $phpServiceInterfaceName, // e.g. Mage_Catalog_Service_ProductInterfaceV1
-     *     'method' => serviceMethodName                   // e.g. create
-     * );
-     * </pre>
-     * @param array $arguments
-     * @return array
-     * @thows Exception
+     * {@inheritdoc}
+     * @throws Exception
      */
     public function call($serviceInfo, $arguments = array())
     {
@@ -53,7 +32,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $httpMethod = HTTP_REQUEST_METHOD_GET;
         }
 
-        // delegate the request to vannila cURL REST client
+        // delegate the request to vanilla cURL REST client
         $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
 
         $returnArray = array();
@@ -71,16 +50,16 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
                 $returnArray = $curlClient->delete($resourcePath);
                 break;
             default:
-                throw new Exception("HttpMethod ${httpMethod} not supported");
+                throw new Exception("HttpMethod {$httpMethod} not supported");
         }
         return $returnArray;
     }
 
     /**
-     * Retrieves REST endpoint from $serviceInfo array and returns to the caller
+     * Retrieve REST endpoint from $serviceInfo array and return it to the caller.
      *
      * @param array $serviceInfo
-     * @return string REST endpoind
+     * @return string
      * @throws Exception
      */
     protected function _getRestResourcePath($serviceInfo)
@@ -88,16 +67,15 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
         if (isset($serviceInfo['rest']['resourcePath'])) {
             return $serviceInfo['rest']['resourcePath'];
         } else {
-            // REST endpoint not specified
             throw new Exception("REST endpoint not specified");
         }
     }
 
     /**
-     * Retrieves REST endpoint from $serviceInfo array and returns to the caller
+     * Retrieve HTTP method to be used in REST request.
      *
      * @param array $serviceInfo
-     * @return string REST endpoind
+     * @return string
      * @throws Exception
      */
     protected function _getRestHttpMethod($serviceInfo)
@@ -105,7 +83,6 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
         if (isset($serviceInfo['rest']['httpMethod'])) {
             return $serviceInfo['rest']['httpMethod'];
         } else {
-            // REST endpoint not specified
             throw new Exception("REST httpMethod not specified");
         }
     }

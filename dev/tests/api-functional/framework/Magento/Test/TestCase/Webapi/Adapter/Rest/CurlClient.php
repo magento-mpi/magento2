@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
 {
 
