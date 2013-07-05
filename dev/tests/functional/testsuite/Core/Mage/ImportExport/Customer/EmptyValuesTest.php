@@ -54,7 +54,7 @@ class Core_Mage_ImportExport_Customer_EmptyValuesTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-        $this->customerHelper()->fillForm(array('middle_name' => 'Test Middle Name'), 'account_information');
+        $this->fillForm(array('middle_name' => 'Test Middle Name'), 'account_information');
         $this->saveForm('save_customer');
 
         $data[0]['email'] = $userData['email'];

@@ -70,7 +70,7 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
                 'tag_search_email' => $testData['user'][$customer]['email'],
                 'tag_search_name' => $tag
             ), 'customer_tags');
-            $this->customerHelper()->saveForm('save_customer');
+            $this->saveForm('save_customer');
             $this->assertMessagePresent('success', 'success_saved_customer');
         }
     }
@@ -168,7 +168,7 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
             'Product verification is failure'
         );
         //Fill filter
-        $this->tagsHelper()->fillForm($searchTagCustomer);
+        $this->fillForm($searchTagCustomer);
         $this->clickButton('search', false);
         $this->waitForAjax();
         //Check records count

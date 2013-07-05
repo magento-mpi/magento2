@@ -61,7 +61,7 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
         $addressId = $this->customerHelper()->isAddressPresent($addressData);
         if ($addressId == 0) {
             $this->customerHelper()->addAddress($addressData);
-            $this->customerHelper()->saveForm('save_customer');
+            $this->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
             $this->openTab('addresses');
             $addressId = $this->customerHelper()->isAddressPresent($addressData);

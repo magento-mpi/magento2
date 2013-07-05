@@ -1166,6 +1166,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             self::FIELD_TYPE_PAGEELEMENT, 'attribute_blocks_name');
         $this->clickButton('generate_product_variations', false);
         $this->pleaseWait();
+        $this->assertMessageNotPresent('validation');
         $this->waitForElementVisible($waitLocator);
     }
 

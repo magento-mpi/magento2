@@ -98,7 +98,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
         $this->newsletterHelper()->editNewsletter($newsData, $newNewsletterData);
         $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
-        //$this->assertMessagePresent('success', 'success_save_newsletter');
+        $this->assertMessagePresent('success', 'success_saved_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
         $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template (Name: ' . $newNewsletterData['newsletter_template_name'] . ') is not presented in grid');
@@ -192,7 +192,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
                 . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
         $result = $this->search(array('filter_queue_subject' => $newNewsletter['newsletter_template_subject']),
-            'newsletter_queue_grid');
+            'newsletter_queue');
         $this->assertNull($result, 'Template (Subject:' . $newNewsletter['newsletter_template_subject']
             . ') is presented in queue grid, should be deleted');
     }

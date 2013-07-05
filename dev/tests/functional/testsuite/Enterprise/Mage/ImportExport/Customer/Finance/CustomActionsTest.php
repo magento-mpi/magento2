@@ -71,7 +71,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_CustomActionsTest extends Ma
                         array('update_balance' => $updateData[$i]['reward_points']), true
                     );
                 }
-                $this->customerHelper()->saveForm('save_customer');
+                $this->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
             if ($dataUpdateCsv[$i]['_email'] == '<realEmail>') {
@@ -146,7 +146,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_CustomActionsTest extends Ma
                         array('update_balance' => $emptyData[$i]['reward_points']), true
                     );
                 }
-                $this->customerHelper()->saveForm('save_customer');
+                $this->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
             if ($dataEmptyCsv[$i]['_email'] == '<realEmail>') {
@@ -225,7 +225,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_CustomActionsTest extends Ma
                 } else {
                     $deletePositiveData[$i]['reward_points'] = $this->customerHelper()->getRewardPointsBalance();
                 }
-                $this->customerHelper()->saveForm('save_customer');
+                $this->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
         }
@@ -285,7 +285,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_CustomActionsTest extends Ma
                 } else {
                     $deleteNegativeData[$i]['reward_points'] = $this->customerHelper()->getRewardPointsBalance();
                 }
-                $this->customerHelper()->saveForm('save_customer');
+                $this->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
             if ($dataCsv[$i]['_email'] == '<realEmail>') {

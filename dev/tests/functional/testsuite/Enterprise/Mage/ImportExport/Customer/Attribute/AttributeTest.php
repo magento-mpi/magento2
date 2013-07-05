@@ -77,8 +77,8 @@ class Enterprise_Mage_ImportExport_Customer_Attribute_AttributeTest extends Mage
         //Change label
         $attrData['attribute_properties']['attribute_label'] = 'Text_Field_Admin_'
             . $this->generate('string', 5, ':lower:');
-        $this->attributesHelper()->fillForm($attrData, 'manage_labels_options');
-        $this->attributesHelper()->saveForm('save_attribute');
+        $this->fillForm($attrData, 'manage_labels_options');
+        $this->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps 2-3

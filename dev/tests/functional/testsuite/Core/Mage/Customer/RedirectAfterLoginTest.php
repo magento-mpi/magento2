@@ -82,7 +82,7 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
         //Log in as registered from PreConditions customer
         $this->addParameter('referer', $this->defineParameterFromUrl('referer',
             $this->getControlAttribute(self::FIELD_TYPE_LINK, 'log_in', 'href')));
-        $this->customerHelper()->clickControl('link', 'log_in');
+        $this->clickControl('link', 'log_in');
         $this->fillFieldset($testData['customer_1'], 'log_in_customer');
         $this->clickButton('login');
         //Validate that Product page is opened

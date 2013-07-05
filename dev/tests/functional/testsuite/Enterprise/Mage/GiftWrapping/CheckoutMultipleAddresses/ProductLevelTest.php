@@ -502,13 +502,13 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->productHelper()->openProduct(array('product_name' => $product1));
         $this->selectStoreScope('dropdown', 'choose_store_view', 'Default Values');
         $this->acceptAlert();
-        $this->productHelper()->fillTab($productGiftSettings, 'autosettings');
+        $this->productHelper()->fillProductTab($productGiftSettings, 'autosettings');
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_product');
         $storeView = $website['staging_website_name'] . '/Main Website Store/Default Store View';
         $this->selectStoreScope('dropdown', 'choose_store_view', $storeView);
         $this->acceptAlert();
-        $this->productHelper()->fillTab($productGSOnSView, 'autosettings');
+        $this->productHelper()->fillProductTab($productGSOnSView, 'autosettings');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps

@@ -59,7 +59,7 @@ class Core_Mage_ImportExport_Customer_Address_EmptyValuesTest extends Mage_Selen
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->openTab('addresses');
         $addressId = $this->customerHelper()->isAddressPresent($addressData);
-        $this->customerHelper()->fillForm(array('company' => 'Test_Company'));
+        $this->fillForm(array('company' => 'Test_Company'));
         $addressData['company'] = 'Test_Company';
         $this->saveForm('save_customer');
 

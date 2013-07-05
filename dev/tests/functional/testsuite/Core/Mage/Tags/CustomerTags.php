@@ -67,7 +67,7 @@ class Core_Mage_Tags_CustomerTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
                 'Product tags verification is failure');
             $this->navigate('all_tags');
             $this->tagsHelper()->openTag(array('tags_status' => $status, 'tag_name' => $tag));
-            $this->tagsHelper()->saveForm('save_tag');
+            $this->saveForm('save_tag');
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
     }

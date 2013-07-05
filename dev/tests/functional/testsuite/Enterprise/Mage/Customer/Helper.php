@@ -29,7 +29,6 @@ class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function updateStoreCreditBalance(array $storeCreditData, $continue = false)
     {
         $this->fillTab($storeCreditData, 'store_credit');
-        $this->clearMessages();
         if (!$continue) {
             $this->saveForm('save_customer');
         }
@@ -46,7 +45,6 @@ class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function updateRewardPointsBalance(array $rewardPointsData, $continue = false)
     {
         $this->fillTab($rewardPointsData, 'reward_points');
-        $this->clearMessages();
         if (!$continue) {
             $this->saveForm('save_customer');
         }

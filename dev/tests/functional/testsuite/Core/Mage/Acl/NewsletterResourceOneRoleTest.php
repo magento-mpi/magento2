@@ -124,7 +124,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
         $this->newsletterHelper()->editNewsletter($newsData, $newNewsletterData);
         $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
-        $this->assertMessagePresent('success', 'success_save_newsletter');
+        $this->assertMessagePresent('success', 'success_saved_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
         $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template (Name: ' . $newNewsletterData['newsletter_template_name'] . ') is not presented in grid');

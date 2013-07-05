@@ -32,6 +32,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->clickButton('customize_and_add_to_cart', false);
             $this->waitForControlVisible('fieldset', 'customize_product_info');
             $this->waitForControlNotVisible('fieldset', 'product_info');
+            $this->waitForControlStopsMoving('fieldset', 'customize_product_info');
         }
         parent::frontAddProductToCart($dataForBuy);
     }

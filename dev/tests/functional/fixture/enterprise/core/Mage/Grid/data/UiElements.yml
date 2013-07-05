@@ -303,7 +303,7 @@ customer_segment_report:
         2: Segment
         3: Status
         4: Website
-        5: Number of Customers
+        5: Customers
 
 #dataset for ui elements in Admin Action Log Report grid
 admin_action_log_report:

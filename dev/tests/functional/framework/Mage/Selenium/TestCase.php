@@ -949,6 +949,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             foreach ($tabsWithErrors as $tab) {
                 $isTabOpened = $this->getChildElement($tab, '..')->attribute('aria-selected');
                 $isTabActive = strpos($tab->attribute('class'), 'active');
+                //Expand Advanced Settings block on Product Page if need
+                if (!$tab->displayed()) {
+                    $this->getChildElement($tab, 'ancestor::div/h3')->click();
+                    $this->waitForElementStopsMoving($tab);
+                }
                 if ($isTabOpened == 'false' || $isTabActive === false) {
                     $waitAjax = strpos($tab->attribute('class'), 'ajax');
                     $this->focusOnElement($tab);
@@ -2829,6 +2834,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function waitForAjax($timeout = null)
     {
+        $this->assertMessageNotPresent('error', 'general_js_error');
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
@@ -3748,6 +3754,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function pleaseWait($waitDisappear = null)
     {
+        $this->assertMessageNotPresent('error', 'general_js_error');
         $this->waitUntil(
             function ($testCase) {
                 /** @var Mage_Selenium_TestCase $testCase */
@@ -3943,7 +3950,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function logoutCustomer()
     {
-        if ($this->getArea() !== 'frontend' || $this->url() == 'about:blank') {
+        if ($this->getArea() !== 'frontend' || !preg_match('/^http/', $this->url())) {
             $this->frontend();
         }
         if ($this->controlIsPresent('link', 'log_out')) {
@@ -4261,7 +4268,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         while ($timeout > time() - $iStartTime) {
             usleep(500000);
             $result = $this->execute(array('script' => $jsCondition, 'args' => array()));
-            if ($result === 'complete') {
+            if ($result === 'complete' || $result === 'uninitialized') {
                 return true;
             }
         }
@@ -4430,6 +4437,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForControlStopsMoving($controlType, $controlName, $timeout = null)
     {
         $element = $this->getControlElement($controlType, $controlName);
+        $this->waitForElementStopsMoving($element, $timeout);
+    }
+
+    /**
+     * Wait for Visual JS effects to be finished
+     *
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $element
+     * @param $timeout
+     */
+    public function waitForElementStopsMoving(PHPUnit_Extensions_Selenium2TestCase_Element $element, $timeout = null)
+    {
         $this->waitUntil(
             function () use ($element) {
                 /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */

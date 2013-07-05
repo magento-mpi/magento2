@@ -81,7 +81,7 @@ class Core_Mage_ImportExport_Customer_Address_CustomActionsTest extends Mage_Sel
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->customerHelper()->openCustomer(array('email' => $userUpdateData['email']));
             $this->customerHelper()->addAddress($userAddressData[1]);
-            $this->customerHelper()->saveForm('save_customer');
+            $this->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userUpdateData['email']));
             $this->openTab('addresses');
             self::$_customersUpdateData[] = array(
@@ -177,7 +177,7 @@ class Core_Mage_ImportExport_Customer_Address_CustomActionsTest extends Mage_Sel
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->customerHelper()->openCustomer(array('email' => $userEmptyData['email']));
             $this->customerHelper()->addAddress($userAddressData[1]);
-            $this->customerHelper()->saveForm('save_customer');
+            $this->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userEmptyData['email']));
             $this->openTab('addresses');
             self::$_customersEmptyData[] = array(
@@ -303,10 +303,10 @@ class Core_Mage_ImportExport_Customer_Address_CustomActionsTest extends Mage_Sel
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->customerHelper()->openCustomer(array('email' => $userDeleteData['email']));
             $this->customerHelper()->addAddress($userAddressData[1]);
-            $this->customerHelper()->saveForm('save_customer');
+            $this->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userDeleteData['email']));
             $this->customerHelper()->addAddress($userAddressData[2]);
-            $this->customerHelper()->saveForm('save_customer');
+            $this->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userDeleteData['email']));
             $this->openTab('addresses');
             self::$_customersDeleteData[] = array(

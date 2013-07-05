@@ -85,7 +85,7 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
             )
         );
         //Step 4
-        $this->attributesHelper()->saveForm('save_attribute');
+        $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 5
         $this->navigate('export');
@@ -187,7 +187,7 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
             )
         );
         //Step 10
-        $this->attributesHelper()->saveForm('save_attribute');
+        $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 11
         $this->navigate('export');

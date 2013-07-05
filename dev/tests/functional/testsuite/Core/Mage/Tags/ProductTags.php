@@ -182,7 +182,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
             'Product verification is failure'
         );
         //Fill filter
-        $this->tagsHelper()->fillForm(array(
+        $this->fillForm(array(
             'tag_search_name' => $tags['tag_name'],
             'tag_search_status' => $tags['tag_status'],
             'tag_search_num_of_use_from' => $tags['base_popularity'],
