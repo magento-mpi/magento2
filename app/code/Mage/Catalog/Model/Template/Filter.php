@@ -115,10 +115,10 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
         if (!isset($params['_query'])) {
             $params['_query'] = array();
         }
-        foreach ($params as $k => $v) {
-            if (strpos($k, '_query_') === 0) {
-                $params['_query'][substr($k, 7)] = $v;
-                unset($params[$k]);
+        foreach ($params as $key => $value) {
+            if (strpos($key, '_query_') === 0) {
+                $params['_query'][substr($key, 7)] = $value;
+                unset($params[$key]);
             }
         }
         $params['_absolute'] = $this->_useAbsoluteLinks;
@@ -131,8 +131,7 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
             $path = '';
             $params['_direct'] = $params['direct_url'];
             unset($params['direct_url']);
-        }
-        else {
+        } else {
             $path = isset($params['url']) ? $params['url'] : '';
             unset($params['url']);
         }

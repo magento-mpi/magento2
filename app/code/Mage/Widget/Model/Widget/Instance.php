@@ -63,14 +63,29 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_viewFileSystem;
 
     /**
-     * Internal Constructor
-     *
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param array $data
      */
-    protected function _construct(Mage_Core_Model_View_FileSystem $viewFileSystem)
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        array $data = array()
+    ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_viewFileSystem = $viewFileSystem;
+    }
+
+    /**
+     * Internal Constructor
+     */
+    protected function _construct()
     {
         parent::_construct();
-        $this->_viewFileSystem = $viewFileSystem;
         $this->_init('Mage_Widget_Model_Resource_Widget_Instance');
         $this->_layoutHandles = array(
             'anchor_categories' => self::ANCHOR_CATEGORY_LAYOUT_HANDLE,
@@ -83,7 +98,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
+        foreach (array_keys(Mage_Catalog_Model_Product_Type::getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
@@ -282,9 +297,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
                 if (is_readable($configFile)) {
                     $themeWidgetsConfig = new Varien_Simplexml_Config();
                     $themeWidgetsConfig->loadFile($configFile);
-                    $themeWidgetTypeConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
-                    if ($themeWidgetTypeConfig) {
-                        $this->_widgetConfigXml->extend($themeWidgetTypeConfig);
+                    $themeWidgetConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
+                    if ($themeWidgetConfig) {
+                        $this->_widgetConfigXml->extend($themeWidgetConfig);
                     }
                 }
             }
@@ -293,7 +308,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve widget availabel templates
+     * Retrieve widget available templates
      *
      * @return array
      */

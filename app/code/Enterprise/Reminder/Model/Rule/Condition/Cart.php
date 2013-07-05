@@ -15,11 +15,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart');
         $this->setValue(null);
     }
@@ -103,7 +104,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     {
         $conditionValue = (int) $this->getValue();
         if ($conditionValue < 0) {
-            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Root shopping cart condition should have days value at least 0.'));
+            Mage::throwException(
+                Mage::helper('Enterprise_Reminder_Helper_Data')->__('Root shopping cart condition should have days value at least 0.')
+            );
         }
 
         $table = $this->getResource()->getTable('sales_flat_quote');
@@ -157,7 +160,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer, $website)) {
+            $sql = $condition->getConditionsSql($customer, $website);
+            if ($sql) {
                 $conditions[] = "(" . $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
             }
         }

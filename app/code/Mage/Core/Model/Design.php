@@ -29,7 +29,10 @@
  */
 class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
 {
-    const CACHE_TAG              = 'CORE_DESIGN';
+    /**
+     * Cache tag
+     */
+    const CACHE_TAG = 'CORE_DESIGN';
 
     /**
      * Prefix of model events names
@@ -43,9 +46,9 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
      *
      * When you use true - all cache will be clean
      *
-     * @var string || true
+     * @var string|bool
      */
-    protected $_cacheTag         = self::CACHE_TAG;
+    protected $_cacheTag = self::CACHE_TAG;
 
     /**
      * @var Mage_Core_Model_LocaleInterface

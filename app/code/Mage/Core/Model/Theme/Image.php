@@ -58,19 +58,22 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Image_Factory $imageFactory
      * @param Mage_Core_Model_View_Url $viewUrl
+     * @param array $data
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Helper_Data $helper,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Image_Factory $imageFactory,
-        Mage_Core_Model_View_Url $viewUrl
+        Mage_Core_Model_View_Url $viewUrl,
+        array $data = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;
         $this->_filesystem = $filesystem;
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
+        parent::__construct($data);
     }
 
     /**

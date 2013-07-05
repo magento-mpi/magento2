@@ -12,10 +12,13 @@
 class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
-
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
+     */
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview');
         $this->setValue(null);
     }

@@ -24,11 +24,18 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     const VIEWED    = 'viewed_history';
     const ORDERED   = 'ordered_history';
 
+    /**
+     * @var string
+     */
     protected $_inputType = 'select';
 
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
+     */
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History');
         $this->setValue(self::VIEWED);
     }
@@ -40,7 +47,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      */
     public function getMatchedEvents()
     {
-        $events = array();
         switch ($this->getValue()) {
             case self::ORDERED:
                 $events = array('sales_order_save_commit_after');

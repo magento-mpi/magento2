@@ -10,16 +10,17 @@
 
 /**
  * Adminhtml media library uploader
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 {
-
+    /**
+     * @var Varien_Object
+     */
     protected $_config;
 
+    /**
+     * @var string
+     */
     protected $_template = 'media/uploader.phtml';
 
     /**
@@ -27,11 +28,24 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
      */
     protected $_viewUrl;
 
-    protected function _construct(Mage_Core_Model_View_Url $viewUrl)
+    /**
+     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_viewUrl = $viewUrl;
+        parent::__construct($context, $data);
+
+    }
+
+    protected function _construct()
     {
         parent::_construct();
-
-        $this->_viewUrl = $viewUrl;
 
         $this->setId($this->getId() . '_Uploader');
 
@@ -47,7 +61,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
                 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Media (.avi, .flv, .swf)'),
                 'files' => array('*.avi', '*.flv', '*.swf')
             ),
-            'all'    => array(
+            'all' => array(
                 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
                 'files' => array('*.*')
             )
@@ -95,7 +109,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
      */
     public function getConfig()
     {
-        if(is_null($this->_config)) {
+        if (null === $this->_config) {
             $this->_config = new Varien_Object();
         }
 

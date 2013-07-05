@@ -43,14 +43,14 @@ class Mage_Core_Model_Translate_InlineParser
      *
      * @var bool
      */
-    protected $_isJson              = self::JSON_FLAG_DEFAULT_STATE;
+    protected $_isJson = self::JSON_FLAG_DEFAULT_STATE;
 
     /**
      * Get max translate block in same tag
      *
      * @var int
      */
-    protected $_maxTranslateBlocks    = 7;
+    protected $_maxTranslateBlocks = 7;
 
     /**
      * List of global tags
@@ -550,7 +550,7 @@ class Mage_Core_Model_Translate_InlineParser
         $next = 0;
         $matches = array();
         while (preg_match('#' . $this->_tokenRegex . '#', $this->_content, $matches, PREG_OFFSET_CAPTURE, $next)) {
-            $dataTranslateProperties = json_encode(array(
+            $translateProperties = json_encode(array(
                 'shown' => $matches[1][0],
                 'translated' => $matches[2][0],
                 'original' => $matches[3][0],
@@ -559,7 +559,7 @@ class Mage_Core_Model_Translate_InlineParser
             ));
 
             $spanHtml = $this->_getDataTranslateSpan($inlineInterface,
-                htmlspecialchars('[' . $dataTranslateProperties . ']'), $matches[1][0]);
+                htmlspecialchars('[' . $translateProperties . ']'), $matches[1][0]);
             $this->_content = substr_replace($this->_content, $spanHtml, $matches[0][1], strlen($matches[0][0]));
             $next = $matches[0][1] + strlen($spanHtml) - 1;
         }
@@ -573,7 +573,7 @@ class Mage_Core_Model_Translate_InlineParser
      * @param string $text
      * @return string
      */
-    private function _getDataTranslateSpan($inlineInterface, $data, $text)
+    protected function _getDataTranslateSpan($inlineInterface, $data, $text)
     {
         $translateSpan = '<span '. $this->_getHtmlAttribute(self::DATA_TRANSLATE, $data);
         $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface);
@@ -591,7 +591,7 @@ class Mage_Core_Model_Translate_InlineParser
      * @param mixed|string $tagName
      * @return string
      */
-    private function _getAdditionalHtmlAttribute($inlineInterface, $tagName = null)
+    protected function _getAdditionalHtmlAttribute($inlineInterface, $tagName = null)
     {
         return $inlineInterface->getAdditionalHtmlAttribute($tagName);
     }

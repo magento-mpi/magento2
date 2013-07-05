@@ -25,18 +25,17 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
      *
      * @var array
      */
-    protected $_disabledTargetRuleCodes = array(
-        'status'
-    );
+    protected $_disabledTargetRuleCodes = array('status');
 
     /**
      * Set condition type and value
      *
      * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes');
         $this->setValue(null);
     }

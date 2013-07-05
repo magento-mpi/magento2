@@ -14,9 +14,13 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
+     */
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine');
     }
 
@@ -92,7 +96,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
      * @param $website
      * @return string
      */
-        public function getSubfilterSql($fieldName, $requireValid, $website)
+    public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $table = $this->getResource()->getTable('catalog_product_entity');
 

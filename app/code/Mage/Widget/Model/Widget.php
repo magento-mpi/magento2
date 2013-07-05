@@ -42,13 +42,16 @@ class Mage_Widget_Model_Widget extends Varien_Object
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $configReader,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_View_Url $viewUrl,
-        Mage_Core_Model_View_FileSystem $viewFileSystem
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        array $data = array()
     ) {
+        parent::__construct($data);
         $this->_configReader = $configReader;
         $this->_configCacheType = $configCacheType;
         $this->_viewUrl = $viewUrl;
@@ -319,8 +322,8 @@ class Mage_Widget_Model_Widget extends Varien_Object
                     $result[] = $js;
                 }
             }
-       }
-       return $result;
+        }
+        return $result;
     }
 
     /**
@@ -337,26 +340,26 @@ class Mage_Widget_Model_Widget extends Varien_Object
     /**
      * User-defined widgets sorting by Name
      *
-     * @param array $a
-     * @param array $b
+     * @param array $firstElement
+     * @param array $secondElement
      * @return boolean
      */
-    protected function _sortWidgets($a, $b)
+    protected function _sortWidgets($firstElement, $secondElement)
     {
-        return strcmp($a["name"], $b["name"]);
+        return strcmp($firstElement["name"], $secondElement["name"]);
     }
 
     /**
      * Widget parameters sort callback
      *
-     * @param Varien_Object $a
-     * @param Varien_Object $b
+     * @param Varien_Object $firstElement
+     * @param Varien_Object $secondElement
      * @return int
      */
-    protected function _sortParameters($a, $b)
+    protected function _sortParameters($firstElement, $secondElement)
     {
-        $aOrder = (int)$a->getData('sort_order');
-        $bOrder = (int)$b->getData('sort_order');
+        $aOrder = (int)$firstElement->getData('sort_order');
+        $bOrder = (int)$secondElement->getData('sort_order');
         return $aOrder < $bOrder ? -1 : ($aOrder > $bOrder ? 1 : 0);
     }
 }

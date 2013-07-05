@@ -14,14 +14,18 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_inputType = 'numeric';
 
     /**
-     * Class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount');
         $this->setValue(null);
     }
@@ -149,7 +153,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                Mage::throwException(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Unknown quote total specified.'));
+                Mage::throwException(
+                    Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Unknown quote total specified.')
+                );
         }
 
         if ($joinAddress) {
@@ -163,7 +169,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
             );
 
             $subselect->group('quote_id');
-            $select->joinInner(array('address'=>$subselect), 'address.quote_id = quote.entity_id', array());
+            $select->joinInner(array('address' => $subselect), 'address.quote_id = quote.entity_id', array());
             $field = "address.{$field}";
         }
 

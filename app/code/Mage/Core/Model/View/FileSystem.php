@@ -130,10 +130,10 @@ class Mage_Core_Model_View_FileSystem implements Mage_Core_Model_View_FileSystem
     /**
      * Notify that view file resolved path was changed (i.e. it was published to a public directory)
      *
-     * @param $targetPath
-     * @param $fileId
-     * @param $params
-     * @return Mage_Core_Model_View_Design
+     * @param string $targetPath
+     * @param string $fileId
+     * @param array $params
+     * @return $this
      */
     public function notifyViewFileLocationChanged($targetPath, $fileId, $params)
     {

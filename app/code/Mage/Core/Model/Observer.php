@@ -11,10 +11,6 @@
 
 /**
  * Core Observer model
- *
- * @category   Mage
- * @package    Mage_Core
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Observer
 {
@@ -62,6 +58,7 @@ class Mage_Core_Model_Observer
      * Cron job method to clean old cache resources
      *
      * @param Mage_Cron_Model_Schedule $schedule
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function cleanCache(Mage_Cron_Model_Schedule $schedule)
     {
@@ -112,6 +109,7 @@ class Mage_Core_Model_Observer
      *
      * @param  Varien_Event_Observer $observer
      * @return Mage_Core_Model_Observer
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processReinitConfig(Varien_Event_Observer $observer)
     {

@@ -123,11 +123,18 @@ class Mage_Core_Model_View_Publisher
      */
     public function publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
     {
-        $relativeThemeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
-
-        return $this->getPublishedFilePath($relativeThemeFilePath, $params);
+        $relativeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
+        return $this->getPublishedFilePath($relativeFilePath, $params);
     }
 
+    /**
+     * Publish file
+     *
+     * @param string $filePath
+     * @param array $params
+     * @param string $sourcePath
+     * @return string
+     */
     protected function _publishFile($filePath, $params, $sourcePath)
     {
         $targetPath = $this->_buildPublishedFilePath($filePath, $params, $sourcePath);
@@ -160,6 +167,14 @@ class Mage_Core_Model_View_Publisher
         return $targetPath;
     }
 
+    /**
+     * Build published file path
+     *
+     * @param string $filePath
+     * @param array $params
+     * @param string $sourcePath
+     * @return string
+     */
     protected function _buildPublishedFilePath($filePath, $params, $sourcePath)
     {
         $allowPublication = (string)Mage::getConfig()->getNode(
@@ -284,10 +299,10 @@ class Mage_Core_Model_View_Publisher
 
         $publisher = $this;
         $callback = function ($fileId, $originalPath) use ($publisher, $fileName, $params) {
-            $relatedFilePathPublic = $publisher->publishRelatedViewFile(
+            $relatedPathPublic = $publisher->publishRelatedViewFile(
                 $fileId, $originalPath, $fileName, $params
             );
-            return $relatedFilePathPublic;
+            return $relatedPathPublic;
         };
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);

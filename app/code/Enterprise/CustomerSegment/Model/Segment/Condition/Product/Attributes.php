@@ -23,10 +23,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
 
     /**
      * Init model
+     *
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes');
         $this->setValue(null);
     }
@@ -55,7 +58,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
         if (!is_object($this->getAttributeObject())) {
             return 'string';
         }
-        if ($this->getAttributeObject()->getAttributeCode()=='category_ids') {
+        if ($this->getAttributeObject()->getAttributeCode() == 'category_ids') {
             return 'category';
         }
         $input = $this->getAttributeObject()->getFrontendInput();

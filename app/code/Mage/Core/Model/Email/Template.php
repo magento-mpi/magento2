@@ -107,7 +107,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        parent::__construct($context);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -234,8 +234,8 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         }
 
         if (preg_match('/<!--@styles\s*(.*?)\s*@-->/s', $templateText, $matches)) {
-           $this->setTemplateStyles($matches[1]);
-           $templateText = str_replace($matches[0], '', $templateText);
+            $this->setTemplateStyles($matches[1]);
+            $templateText = str_replace($matches[0], '', $templateText);
         }
 
         /**
@@ -288,7 +288,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      */
     static public function getDefaultTemplatesAsOptionsArray()
     {
-        $options = array(array('value'=> '', 'label'=> '', 'group' => ''));
+        $options = array(array('value' => '', 'label' => '', 'group' => ''));
         $groups = array();
         foreach (self::getDefaultTemplates() as $templateId => $row) {
             $module = $row['@']['module'];
@@ -300,12 +300,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             );
             $groups[$module] = 1;
         }
-        uasort($options, function($a, $b) {
+        uasort($options, function ($firstElement, $secondElement) {
             $key = 'label';
-            if ($a[$key] == $b[$key]) {
+            if ($firstElement[$key] == $secondElement[$key]) {
                 return 0;
             }
-            return ($a[$key] < $b[$key]) ? -1 : 1;
+            return ($firstElement[$key] < $secondElement[$key]) ? -1 : 1;
         });
 
         return $options;
@@ -350,7 +350,8 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      *
      * @return int|string
      */
-    public function getType(){
+    public function getType()
+    {
         return $this->getTemplateType();
     }
 
