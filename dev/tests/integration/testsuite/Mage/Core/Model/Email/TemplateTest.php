@@ -30,7 +30,9 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
                 Mage::getSingleton('Mage_Core_Model_Context'),
-                Mage::getObjectManager()->create('Magento_Filesystem')
+                Mage::getObjectManager()->create('Magento_Filesystem'),
+                Mage::getObjectManager()->create('Mage_Core_Model_View_Url'),
+                Mage::getObjectManager()->create('Mage_Core_Model_View_FileSystem')
             ))
             ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));

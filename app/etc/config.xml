@@ -181,11 +181,11 @@
                     <eventDispatcher>Mage_Core_Model_Event_Manager_Proxy</eventDispatcher>
                 </parameters>
             </Mage_Core_Model_Design>
-            <Mage_Core_Model_Design_Package>
+            <Mage_Core_Model_View_Design>
                 <parameters>
                     <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
                 </parameters>
-            </Mage_Core_Model_Design_Package>
+            </Mage_Core_Model_View_Design>
             <Magento_Acl>
                 <shared>0</shared>
             </Magento_Acl>

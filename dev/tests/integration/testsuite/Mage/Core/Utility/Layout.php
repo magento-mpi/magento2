@@ -37,6 +37,7 @@ class Mage_Core_Utility_Layout
             array('getFileLayoutUpdatesXml'),
             array(
                 Mage::getObjectManager()->get('Mage_Core_Model_View_Design'),
+                Mage::getObjectManager()->get('Mage_Core_Model_View_FileSystem'),
                 $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface'),
             )
         );

@@ -16,15 +16,33 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected $_model;
 
+    /**
+     * @var Mage_Core_Model_View_Service
+     */
+    protected $_viewService;
+
+    /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_fileSystem;
+
+    /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface');
+        $this->_viewService = Mage::getModel('Mage_Core_Model_View_Service');
+        $this->_fileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
+        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
+        $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
     }
 
     protected function tearDown()
     {
         $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
-        $publicDir = $this->_model->getPublicDir();
+        $publicDir = $this->_viewService->getPublicDir();
         $filesystem->delete($publicDir . '/adminhtml');
         $filesystem->delete($publicDir . '/frontend');
         $this->_model = null;
@@ -38,7 +56,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
         $expectedPublicDir = $dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
-        $this->assertEquals($expectedPublicDir, $this->_model->getPublicDir());
+        $this->assertEquals($expectedPublicDir, $this->_viewService->getPublicDir());
     }
 
     /**
@@ -53,9 +71,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $this->_initTestTheme();
 
         Mage::app()->getLocale()->setLocale($locale);
-        $url = $this->_model->getViewFileUrl($file);
+        $url = $this->_viewUrl->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);
-        $viewFile = $this->_model->getViewFile($file);
+        $viewFile = $this->_fileSystem->getViewFile($file);
         $this->assertFileExists($viewFile);
     }
 
@@ -135,7 +153,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testGetViewUrlException($file)
     {
-        $this->_model->getViewFileUrl($file);
+        $this->_viewUrl->getViewFileUrl($file);
     }
 
     /**
@@ -163,7 +181,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function testTemplatePublicationVulnerability($designParams, $filePath)
     {
         $this->_initTestTheme();
-        $this->_model->getViewFileUrl($filePath, $designParams);
+        $this->_viewUrl->getViewFileUrl($filePath, $designParams);
     }
 
     /**
@@ -208,15 +226,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         $this->_initTestTheme();
 
-        $expectedFile = $this->_model->getPublicDir() . '/' . $expectedFile;
+        $expectedFile = $this->_viewService->getPublicDir() . '/' . $expectedFile;
 
         // test doesn't make sense if the original file doesn't exist or the target file already exists
-        $originalFile = $this->_model->getViewFile($file, $designParams);
+        $originalFile = $this->_fileSystem->getViewFile($file, $designParams);
         $this->assertFileExists($originalFile);
 
         // getViewUrl() will trigger publication in development mode
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->_model->getViewFileUrl($file, $designParams);
+        $this->_viewUrl->getViewFileUrl($file, $designParams);
         $this->assertFileExists($expectedFile);
 
         // as soon as the files are published, they must have the same mtime as originals
@@ -271,9 +289,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             'Namespace_Module/absolute_valid_module.gif',
             'Mage_Page/favicon.ico', // non-fixture file from real module
         );
-        $publishedDir = $this->_model->getPublicDir() . '/frontend/package/default/en_US';
+        $publishedDir = $this->_viewService->getPublicDir() . '/frontend/package/default/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
-        $this->_model->getViewFileUrl('css/file.css', array(
+        $this->_viewUrl->getViewFileUrl('css/file.css', array(
             'package' => 'package',
             'theme'   => 'default',
             'locale'  => 'en_US'
@@ -294,9 +312,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $cssViewFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $this->_model->getViewFileUrl($cssViewFile, $designParams);
+        $this->_viewUrl->getViewFileUrl($cssViewFile, $designParams);
 
-        $expectedCssFile = $this->_model->getPublicDir() . '/' . $expectedCssFile;
+        $expectedCssFile = $this->_viewService->getPublicDir() . '/' . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
         $actualCssContent = file_get_contents($expectedCssFile);
 
@@ -311,7 +329,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
 
         foreach ($expectedRelatedFiles as $expectedFile) {
-            $expectedFile = $this->_model->getPublicDir() . '/' . $expectedFile;
+            $expectedFile = $this->_viewService->getPublicDir() . '/' . $expectedFile;
             $this->assertFileExists($expectedFile);
         }
     }
@@ -402,13 +420,19 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface');
+
+        $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test/default');
+
+        $this->_viewService = Mage::getModel('Mage_Core_Model_View_Service');
+        $this->_fileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
+        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
+
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
-        $publishedPath = $this->_model->getPublicDir() . "/$themePath/en_US/";
+        $publishedPath = $this->_viewService->getPublicDir() . "/$themePath/en_US/";
 
-        $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $this->_viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
         // Change main file and referenced files - everything changed and referenced must appear
         file_put_contents(
@@ -421,7 +445,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             '.sub2 {border: 1px solid magenta}',
             FILE_APPEND
         );
-        $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $this->_viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
         $assertFileComparison = $expectedPublished ? 'assertFileEquals' : 'assertFileNotEquals';
         $this->$assertFileComparison($fixtureViewPath . 'style.css', $publishedPath . 'style.css');
@@ -478,12 +502,19 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
+
+        $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test/default');
+
+        $this->_viewService = Mage::getModel('Mage_Core_Model_View_Service');
+        $this->_fileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
+        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
+
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
-        $publishedPath = $this->_model->getPublicDir() . "/$themePath/en_US/";
+        $publishedPath = $this->_viewService->getPublicDir() . "/$themePath/en_US/";
 
-        $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $this->_viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
         // Change referenced files
         copy($fixtureViewPath . 'images/rectangle.gif', $fixtureViewPath . 'images/square.gif');
@@ -494,7 +525,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             FILE_APPEND
         );
 
-        $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $this->_viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
         $assertFileComparison = $expectedPublished ? 'assertFileEquals' : 'assertFileNotEquals';
         $this->$assertFileComparison($fixtureViewPath . 'sub.css', $publishedPath . 'sub.css');
@@ -512,8 +543,14 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface'); // Reinit model with new directories
+
+        // Reinit model with new directories
+        $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test/default');
+
+        $this->_viewService = Mage::getModel('Mage_Core_Model_View_Service');
+        $this->_fileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
+        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
     }
 
     /**
@@ -541,7 +578,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             ->getFirstItem()
             ->save();
 
-        $publishedPath = $this->_model->getPublicDir() . '/frontend/package/default/en_US';
+        $publishedPath = $this->_viewService->getPublicDir() . '/frontend/package/default/en_US';
         $params =  array(
             'area'    => 'frontend',
             'package' => 'package',
@@ -549,10 +586,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             'locale'  => 'en_US',
             'themeModel' => $theme
         );
-        $filePath = $this->_model->getViewFile('css/base64.css', $params);
+        $filePath = $this->_fileSystem->getViewFile('css/base64.css', $params);
 
         // publish static content
-        $this->_model->getViewFileUrl('css/base64.css', $params);
+        $this->_viewUrl->getViewFileUrl('css/base64.css', $params);
         $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
 
         $this->_model->setDesignTheme(Mage::getModel('Mage_Core_Model_Theme'));
@@ -572,10 +609,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         $this->_initTestTheme();
 
-        $expectedFile = $this->_model->getPublicDir() . '/' . $expectedFile;
+        $expectedFile = $this->_viewService->getPublicDir() . '/' . $expectedFile;
 
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->_model->getViewFilePublicPath($file, $designParams);
+        $this->_viewUrl->getViewFilePublicPath($file, $designParams);
         $this->assertFileExists($expectedFile);
     }
 
@@ -586,10 +623,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of public library file');
 
-        $actualFile = $this->_model->getViewFilePublicPath($filePath);
+        $actualFile = $this->_viewUrl->getViewFilePublicPath($filePath);
         $this->assertFileEquals($expectedFile, $actualFile);
 
         // Nothing must have been published
-        $this->assertEmpty(glob($this->_model->getPublicDir() . '/*'));
+        $this->assertEmpty(glob($this->_viewService->getPublicDir() . '/*'));
     }
 }

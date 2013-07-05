@@ -49,11 +49,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
      *
      * @param array $attributes
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl, array $attributes = array())
+    public function __construct(array $attributes = array())
     {
         parent::__construct($attributes);
 
-        $this->_viewUrl = $viewUrl;
+        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
 
         $this->_url = isset($attributes['url']) ? $attributes['url']
             : Mage::getModel('Mage_Backend_Model_Url');
