@@ -21,9 +21,8 @@ class Mage_Core_Model_View_DeployedFilesManager
      *
      * @param Mage_Core_Model_View_Service $viewService
      */
-    public function __construct(
-        Mage_Core_Model_View_Service $viewService
-    ) {
+    public function __construct(Mage_Core_Model_View_Service $viewService)
+    {
         $this->_viewService = $viewService;
     }
 

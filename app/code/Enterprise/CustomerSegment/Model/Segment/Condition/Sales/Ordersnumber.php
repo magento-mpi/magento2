@@ -14,7 +14,9 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
-
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     */
     public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
         parent::__construct($context);
@@ -33,9 +35,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     {
         //filter key "value"
         if (is_array($key) && isset($key['value']) && $key['value'] !== null) {
-            $key['value'] = (int) $key['value'];
+            $key['value'] = (int)$key['value'];
         } elseif ($key == 'value' && $value !== null) {
-            $value = (int) $value;
+            $value = (int)$value;
         }
 
         return parent::setData($key, $value);

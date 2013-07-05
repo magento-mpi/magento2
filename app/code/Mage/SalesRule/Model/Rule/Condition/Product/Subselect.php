@@ -12,14 +12,23 @@
 class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     extends Mage_SalesRule_Model_Rule_Condition_Product_Combine
 {
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
+     */
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Mage_SalesRule_Model_Rule_Condition_Product_Subselect')
             ->setValue(null);
     }
 
-    public function loadArray($arr, $key='conditions')
+    /**
+     * @param array $arr
+     * @param string $key
+     * @return $this
+     */
+    public function loadArray($arr, $key = 'conditions')
     {
         $this->setAttribute($arr['attribute']);
         $this->setOperator($arr['operator']);
@@ -27,14 +36,22 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
         return $this;
     }
 
-    public function asXml($containerKey='conditions', $itemKey='condition')
+    /**
+     * @param string $containerKey
+     * @param string $itemKey
+     * @return string
+     */
+    public function asXml($containerKey = 'conditions', $itemKey = 'condition')
     {
-        $xml = '<attribute>'.$this->getAttribute().'</attribute>'
-            . '<operator>'.$this->getOperator().'</operator>'
+        $xml = '<attribute>' . $this->getAttribute() . '</attribute>'
+            . '<operator>' . $this->getOperator() . '</operator>'
             . parent::asXml($containerKey, $itemKey);
         return $xml;
     }
 
+    /**
+     * @return $this
+     */
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
@@ -44,11 +61,17 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function loadValueOptions()
     {
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
@@ -64,15 +87,21 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'text';
     }
 
+    /**
+     * @return string
+     */
     public function asHtml()
     {
-        $html = $this->getTypeElement()->getHtml().
-        Mage::helper('Mage_SalesRule_Helper_Data')->__("If %s %s %s for a subselection of items in cart matching %s of these conditions:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
+        $html = $this->getTypeElement()->getHtml()
+            . Mage::helper('Mage_SalesRule_Helper_Data')->__("If %s %s %s for a subselection of items in cart matching %s of these conditions:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
         if ($this->getId() != '1') {
             $html .= $this->getRemoveLinkHtml();
         }
@@ -90,11 +119,6 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
         if (!$this->getConditions()) {
             return false;
         }
-
-//        $value = $this->getValue();
-//        $aggregatorArr = explode('/', $this->getAggregator());
-//        $this->setValue((int)$aggregatorArr[0])->setAggregator($aggregatorArr[1]);
-
         $attr = $this->getAttribute();
         $total = 0;
         foreach ($object->getQuote()->getAllVisibleItems() as $item) {
@@ -102,8 +126,6 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
                 $total += $item->getData($attr);
             }
         }
-//        $this->setAggregator(join('/', $aggregatorArr))->setValue($value);
-
         return $this->validateAttribute($total);
     }
 }

@@ -15,11 +15,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
     extends Enterprise_Reminder_Model_Rule_Condition_Combine
 {
     /**
-     * Class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Combine_Root');
     }
 
@@ -69,15 +70,15 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer, $website)) {
+            $sql = $condition->getConditionsSql($customer, $website);
+            if ($sql) {
                 $conditions[] =  '(' . $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
             }
         }
 
         if (!empty($conditions)) {
             $select->where(implode($aggregator, $conditions));
-        }
-        else {
+        } else {
             $select->reset();
         }
 

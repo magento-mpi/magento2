@@ -24,8 +24,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     const WISHLIST  = 'wishlist';
     const CART      = 'shopping_cart';
 
+    /**
+     * @var string
+     */
     protected $_inputType = 'select';
 
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     */
     public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
         parent::__construct($context);

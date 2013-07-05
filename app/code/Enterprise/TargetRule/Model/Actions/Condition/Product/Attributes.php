@@ -31,9 +31,9 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
      * Define action type and default value
      *
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);

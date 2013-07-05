@@ -19,16 +19,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     protected $_inputType = 'multiselect';
 
     /**
-     * Initialize model
-     *
-     * @param Mage_Rule_Model_Condition_Context $context
-     */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
-    {
-        parent::__construct($context);
-    }
-
-    /**
      * Default operator input by type map getter
      *
      * @return array
@@ -129,7 +119,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     public function getValueParsed()
     {
         $value = $this->getData('value');
-        $value = array_map('trim', explode(',',$value));
+        $value = array_map('trim', explode(',', $value));
         return $value;
     }
 
@@ -161,10 +151,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
                 $segments = array();
             }
         } else {
-            $segments = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->getCustomerSegmentIdsForWebsite(
-                $customer->getId(),
-                $quoteWebsiteId
-            );
+            $segments = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')
+                ->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);
         }
         return $this->validateAttribute($segments);
     }

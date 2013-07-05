@@ -20,10 +20,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
      * Initialize model
      *
      * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate');
         $this->setValue(null);
     }
@@ -41,8 +42,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
         return $this->_defaultOperatorInputByType;
     }
 
-     /**
+    /**
      * Customize default operator options getter
+     *
      * Inverted logic for UpToDate condition. For example, condition:
      * Period "equals or less" than 10 Days Up To Date - means:
      * days from _10 day before today_ till today: days >= (today - 10), etc.

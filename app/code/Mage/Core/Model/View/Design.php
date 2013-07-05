@@ -101,7 +101,8 @@ class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterfac
      *
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      */
-    public function __construct(Mage_Core_Model_StoreManagerInterface $storeManager) {
+    public function __construct(Mage_Core_Model_StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
     }
 

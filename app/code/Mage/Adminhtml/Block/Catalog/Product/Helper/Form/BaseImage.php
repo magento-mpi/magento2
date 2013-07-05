@@ -47,13 +47,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     /**
      * Constructor
      *
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param array $attributes
      */
     public function __construct(Mage_Core_Model_View_Url $viewUrl, array $attributes = array())
     {
-        parent::__construct($attributes);
-
         $this->_viewUrl = $viewUrl;
+        parent::__construct($attributes);
 
         $this->_url = isset($attributes['url']) ? $attributes['url']
             : Mage::getModel('Mage_Backend_Model_Url');
@@ -80,8 +80,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
      * Translate message
      *
      * @param string $message
+     * @return string
      */
-    private function __($message) {
+    protected function __($message)
+    {
         return $this->helper('Mage_Catalog_Helper_Data')->__($message);
     }
 

@@ -57,6 +57,7 @@ app/code/Mage/Core/Model/Layout/Argument
 app/code/Mage/Core/Model/Locale/Validator.php
 app/code/Mage/Core/Model/LocaleInterface.php
 app/code/Mage/Core/Model/ObjectManager
+app/code/Mage/Core/Model/Observer.php
 app/code/Mage/Core/Model/Page
 app/code/Mage/Core/Model/Page.php
 app/code/Mage/Core/Model/Resource/Setup/Migration.php

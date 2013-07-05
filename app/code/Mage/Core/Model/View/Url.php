@@ -34,17 +34,17 @@ class Mage_Core_Model_View_Url
     /**
      * @var Mage_Core_Model_View_Publisher
      */
-    private $_publisher;
+    protected $_publisher;
 
     /**
      * @var Mage_Core_Model_View_DeployedFilesManager
      */
-    private $_deployedFilesManager;
+    protected $_deployedFileManager;
 
     /**
      * @var Mage_Core_Model_StoreManager
      */
-    private $_storeManager;
+    protected $_storeManager;
 
 
     /**
@@ -55,7 +55,7 @@ class Mage_Core_Model_View_Url
      * @param Mage_Core_Model_StoreManager $storeManager
      * @param Mage_Core_Model_View_Service $viewService
      * @param Mage_Core_Model_View_Publisher $publisher
-     * @param Mage_Core_Model_View_DeployedFilesManager $deployedFilesManager
+     * @param Mage_Core_Model_View_DeployedFilesManager $deployedFileManager
      */
     public function __construct(
         Magento_Filesystem $filesystem,
@@ -63,14 +63,14 @@ class Mage_Core_Model_View_Url
         Mage_Core_Model_StoreManager $storeManager,
         Mage_Core_Model_View_Service $viewService,
         Mage_Core_Model_View_Publisher $publisher,
-        Mage_Core_Model_View_DeployedFilesManager $deployedFilesManager
+        Mage_Core_Model_View_DeployedFilesManager $deployedFileManager
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
         $this->_storeManager = $storeManager;
         $this->_viewService = $viewService;
         $this->_publisher = $publisher;
-        $this->_deployedFilesManager = $deployedFilesManager;
+        $this->_deployedFileManager = $deployedFileManager;
     }
 
     /**
@@ -107,7 +107,7 @@ class Mage_Core_Model_View_Url
         if ($this->_viewService->isViewFileOperationAllowed()) {
             $publicFilePath = $this->_publisher->getPublishedFilePath($filePath, $params);
         } else {
-            $publicFilePath = $this->_deployedFilesManager->getDeployedFilePath($filePath, $params);
+            $publicFilePath = $this->_deployedFileManager->getDeployedFilePath($filePath, $params);
         }
         return $publicFilePath;
     }

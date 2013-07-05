@@ -47,6 +47,7 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
         $this->_design = $design;
         $this->_fpcCache = $fpcCache;
     }
+
     /**
      * Get package name based on design exception rules
      *

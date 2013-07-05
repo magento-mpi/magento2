@@ -14,8 +14,14 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_inputType = 'numeric';
 
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     */
     public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
         parent::__construct($context);
@@ -79,7 +85,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     /**
      * Get field names map for subfilters
      *
-     * @return unknown_type
+     * @return array
      */
     protected function _getSubfilterMap()
     {

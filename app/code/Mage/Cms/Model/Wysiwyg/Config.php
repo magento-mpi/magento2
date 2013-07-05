@@ -53,7 +53,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      * files_browser_*:         Files Browser (media, images) settings
      * encode_directives:       Encode template directives with JS or not
      *
-     * @param $data Varien_Object constructor params to override default config values
+     * @param array|Varien_Object $data Varien_Object constructor params to override default config values
      * @return Varien_Object
      */
     public function getConfig($data = array())
@@ -70,7 +70,8 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'no_display'                    => false,
             'translator'                    => Mage::helper('Mage_Cms_Helper_Data'),
             'encode_directives'             => true,
-            'directives_url'                => Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
+            'directives_url'                =>
+                Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
                 $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
@@ -83,8 +84,9 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
 
         if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::media_gallery')) {
             $config->addData(array(
-                'add_images'               => true,
-                'files_browser_window_url' => Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg_images/index'),
+                'add_images' => true,
+                'files_browser_window_url' => Mage::getSingleton('Mage_Backend_Model_Url')
+                    ->getUrl('*/cms_wysiwyg_images/index'),
                 'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
                 'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
             ));

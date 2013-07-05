@@ -14,14 +14,18 @@
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_inputType = 'numeric';
 
     /**
-     * Class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Amount');
         $this->setValue(null);
     }
@@ -86,7 +90,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
                 $field = 'quote.base_grand_total';
                 break;
             default:
-                Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown quote total specified'));
+                Mage::throwException(
+                    Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown quote total specified')
+                );
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');

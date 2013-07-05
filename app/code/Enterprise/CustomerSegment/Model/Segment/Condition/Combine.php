@@ -22,10 +22,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
      * Initialize model
      *
      * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context)
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Combine');
     }
 
@@ -49,10 +50,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
                 'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address')
             ),
             // Customer attribute group
-            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Customer')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Customer')
+                ->getNewChildSelectOptions(),
 
             // Shopping cart group
-            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart')->getNewChildSelectOptions(),
+            Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart')
+                ->getNewChildSelectOptions(),
 
             array(
                 'value' => array(
@@ -117,7 +120,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
                 break;
 
             default:
-                Mage::throwException(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wrong "ApplyTo" type'));
+                Mage::throwException(
+                    Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wrong "ApplyTo" type')
+                );
                 break;
         }
         return $returnedConditions;

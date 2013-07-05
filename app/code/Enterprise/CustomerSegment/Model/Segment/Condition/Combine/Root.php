@@ -15,7 +15,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
-     * Class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
      */
     public function __construct(Mage_Rule_Model_Condition_Context $context)
     {

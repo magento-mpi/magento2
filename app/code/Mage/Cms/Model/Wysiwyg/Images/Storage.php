@@ -81,7 +81,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function getDirsCollection($path)
     {
         if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-            $subDirectories = Mage::getModel('Mage_Core_Model_File_Storage_Directory_Database')->getSubdirectories($path);
+            $subDirectories = Mage::getModel('Mage_Core_Model_File_Storage_Directory_Database')
+                ->getSubdirectories($path);
             foreach ($subDirectories as $directory) {
                 $fullPath = rtrim($path, DS) . DS . $directory['name'];
                 $this->_filesystem->ensureDirectoryExists($fullPath, 0777, $path);
@@ -158,8 +159,9 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             if ($this->isImage($item->getBasename())) {
                 $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
                 // generate thumbnail "on the fly" if it does not exists
-                if(! $thumbUrl) {
-                    $thumbUrl = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/*/thumbnail', array('file' => $item->getId()));
+                if (!$thumbUrl) {
+                    $thumbUrl = Mage::getSingleton('Mage_Backend_Model_Url')
+                        ->getUrl('*/*/thumbnail', array('file' => $item->getId()));
                 }
 
                 $size = @getimagesize($item->getFilename());
@@ -303,7 +305,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function uploadFile($targetPath, $type = null)
     {
         $uploader = new Mage_Core_Model_File_Uploader('image');
-        if ($allowed = $this->getAllowedExtensions($type)) {
+        $allowed = $this->getAllowedExtensions($type);
+        if ($allowed) {
             $uploader->setAllowedExtensions($allowed);
         }
         $uploader->setAllowRenameFiles(true);
@@ -311,7 +314,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            Mage::throwException( Mage::helper('Mage_Cms_Helper_Data')->__('Cannot upload file.') );
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Cannot upload file.'));
         }
 
         // create thumbnail
@@ -383,7 +386,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function resizeFile($source, $keepRation = true)
     {
         if (!$this->_filesystem->isFile($source)
-            || !$this->_filesystem->isReadable($source)) {
+            || !$this->_filesystem->isReadable($source)
+        ) {
             return false;
         }
 
@@ -426,7 +430,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     /**
      * Return thumbnails directory path for file/current directory
      *
-     * @param string $filePath Path to the file
+     * @param bool|string $filePath Path to the file
      * @return string
      */
     public function getThumbsPath($filePath = false)
@@ -481,7 +485,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getConfigAsArray()
     {
-        if (! $this->_configAsArray) {
+        if (!$this->_configAsArray) {
             $this->_configAsArray = $this->getConfig()->asCanonicalArray();
         }
 
@@ -498,7 +502,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         $configArray = $this->getConfigAsArray();
-        $key = (string) $key;
+        $key = (string)$key;
 
         return array_key_exists($key, $configArray) ? $configArray[$key] : $default;
     }

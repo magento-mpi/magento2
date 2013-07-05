@@ -14,8 +14,14 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquantity
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_inputType = 'numeric';
 
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     */
     public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
         parent::__construct($context);

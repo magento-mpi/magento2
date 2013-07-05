@@ -103,7 +103,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_View_Url $viewUrl)
     {
-        $this->_translator = $context->getTranslator();
+        parent::__construct($context);
         $this->_viewUrl = $viewUrl;
     }
 

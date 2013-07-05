@@ -294,8 +294,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $path = '';
             $params['_direct'] = $params['direct_url'];
             unset($params['direct_url']);
-        }
-        else {
+        } else {
             $path = isset($params['url']) ? $params['url'] : '';
             unset($params['url']);
         }
@@ -421,8 +420,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         $protocol = $isSecure ? 'https' : 'http';
         if (isset($params['url'])) {
             return $protocol . '://' . $params['url'];
-        }
-        elseif (isset($params['http']) && isset($params['https'])) {
+        } elseif (isset($params['http']) && isset($params['https'])) {
             if ($isSecure) {
                 return $params['https'];
             }
@@ -466,7 +464,8 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $mode = $this->getPlainTemplateMode()
                 ? Mage_Core_Model_Variable::TYPE_TEXT
                 : Mage_Core_Model_Variable::TYPE_HTML;
-            if ($value = $variable->getValue($mode)) {
+            $value = $variable->getValue($mode);
+            if ($value) {
                 $customVarValue = $value;
             }
         }

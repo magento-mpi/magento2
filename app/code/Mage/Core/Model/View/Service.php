@@ -84,7 +84,7 @@ class Mage_Core_Model_View_Service
     /**
      * Return whether developer mode is turned on
      *
-     * @return bool
+     * @return string
      */
     public function getAppMode()
     {

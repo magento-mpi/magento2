@@ -67,4 +67,13 @@ interface Mage_Core_Model_View_DesignInterface
      * @return array
      */
     public function getDesignParams();
+
+    /**
+     * Load design theme
+     *
+     * @param int|string $themeId
+     * @param string $area
+     * @return mixed
+     */
+    public function loadDesignTheme($themeId, $area = Mage_Core_Model_View_DesignInterface::DEFAULT_AREA);
 }

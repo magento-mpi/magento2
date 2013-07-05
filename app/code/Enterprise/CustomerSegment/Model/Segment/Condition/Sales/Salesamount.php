@@ -14,6 +14,9 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
+    /**
+     * @param Mage_Rule_Model_Condition_Context $context
+     */
     public function __construct(Mage_Rule_Model_Condition_Context $context)
     {
         parent::__construct($context);
@@ -32,9 +35,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
     {
         //filter key "value"
         if (is_array($key) && isset($key['value']) && $key['value'] !== null) {
-            $key['value'] = (float) $key['value'];
+            $key['value'] = (float)$key['value'];
         } elseif ($key == 'value' && $value !== null) {
-            $value = (float) $value;
+            $value = (float)$value;
         }
 
         return parent::setData($key, $value);

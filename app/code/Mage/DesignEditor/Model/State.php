@@ -68,11 +68,6 @@ class Mage_DesignEditor_Model_State
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_View_DesignInterface
-     */
-    protected $_design;
-
-    /**
      * @var Mage_Core_Model_App
      */
     protected $_application;

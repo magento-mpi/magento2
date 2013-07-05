@@ -10,7 +10,6 @@
  */
 class Mage_Rule_Model_Condition_Context implements Magento_ObjectManager_ContextInterface
 {
-
     /**
      * @var Mage_Core_Model_View_Url
      */
@@ -18,12 +17,9 @@ class Mage_Rule_Model_Condition_Context implements Magento_ObjectManager_Context
 
     /**
      * @param Mage_Core_Model_View_Url $viewUrl
-     * @param array $data
      */
-    public function __construct(
-        Mage_Core_Model_View_Url $viewUrl,
-        array $data = array()
-    ) {
+    public function __construct(Mage_Core_Model_View_Url $viewUrl)
+    {
         $this->_viewUrl = $viewUrl;
     }
 
