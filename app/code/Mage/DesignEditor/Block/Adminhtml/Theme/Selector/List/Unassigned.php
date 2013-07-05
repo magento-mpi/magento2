@@ -52,7 +52,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
                             'confirm' => array(
                                 'message' => $this->__('Are you sure you want to delete this theme?'),
                             ),
-                            'title' => $this->__('Delete %s Theme', $themeTitle)
+                            'title' => $this->__('Delete')
                         )
                     ),
                 ),
