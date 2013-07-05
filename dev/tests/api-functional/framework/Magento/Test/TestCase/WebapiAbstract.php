@@ -14,7 +14,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      * Auto tear down options in setFixture
      */
     const AUTO_TEAR_DOWN_DISABLED = 0;
-    const AUTO_TEAR_DOWN = 1;
+    const AUTO_TEAR_DOWN_AFTER_METHOD = 1;
     const AUTO_TEAR_DOWN_AFTER_CLASS = 2;
     /**#@-*/
 
@@ -147,6 +147,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Perform Web API call to the system under test.
      *
+     * @see Magento_Test_TestCase_Webapi_AdapterInterface::call()
      * @param array $serviceInfo
      * @param array $arguments
      * @param string|null $webApiAdapterCode
@@ -169,14 +170,14 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      * @param int $tearDown
      * @return void
      */
-    public static function setFixture($key, $fixture, $tearDown = self::AUTO_TEAR_DOWN)
+    public static function setFixture($key, $fixture, $tearDown = self::AUTO_TEAR_DOWN_AFTER_METHOD)
     {
         $fixturesNamespace = self::_getFixtureNamespace();
         if (!isset(self::$_fixtures[$fixturesNamespace])) {
             self::$_fixtures[$fixturesNamespace] = array();
         }
         self::$_fixtures[$fixturesNamespace][$key] = $fixture;
-        if ($tearDown == self::AUTO_TEAR_DOWN) {
+        if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_METHOD) {
             if (!isset(self::$_methodLevelFixtures[$fixturesNamespace])) {
                 self::$_methodLevelFixtures[$fixturesNamespace] = array();
             }

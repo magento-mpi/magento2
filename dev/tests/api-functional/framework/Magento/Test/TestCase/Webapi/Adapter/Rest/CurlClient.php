@@ -9,7 +9,6 @@
  */
 class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
 {
-
     /**
      * @var string REST URL base path
      */
