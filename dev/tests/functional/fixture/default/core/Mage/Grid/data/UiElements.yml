@@ -780,7 +780,6 @@ manage_catalog_price_rules:
          3: End on
          4: Status
          5: Web Site
-                        2: Tax Class
 #dataset for ui elements for Cart Price grid
 manage_shopping_cart_price_rules:
     fieldset:
