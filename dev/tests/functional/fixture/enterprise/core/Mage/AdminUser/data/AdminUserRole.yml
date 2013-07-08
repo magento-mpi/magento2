@@ -29,7 +29,8 @@ generic_admin_user_role_custom_website:
             website_1: Main Website
         role_resources:
             resource_access : Custom
-            resource_acl: Sales
+            resource_acl: sales
+            resource_acl_skip: %noValue%
 
 generic_admin_user_role_acl:
     role_info_tab:
@@ -38,30 +39,9 @@ generic_admin_user_role_acl:
         role_scopes: %noValue%
         role_resources:
             resource_access : Custom
-            resource_acl: Sales/Archive/Orders/Move to Archive
+            resource_acl: sales,products
+            resource_acl_skip: %noValue%
 
 search__locked_user:
     search_user:
         username: %userName%
-
-edit_admin_user_role_custom:
-    search_role:
-        id: %noValue%
-        role_name: %roleName%
-    role_info_tab:
-        role_name: 'Edit Role %randomize%'
-    role_resources_tab:
-        role_scopes:
-            scopes: All
-        role_resources:
-            resource_access : Custom
-            resource_1: Sales/Archive/Orders/Move to Archive
-    role_users_tab:
-        role_users_1:
-            user_id: %noValue%
-            user_name: admin
-            first_name: %noValue%
-            last_name: %noValue%
-            email: %noValue%
-            status: Active
-        role_users_2: %noValue%

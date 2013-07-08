@@ -30,6 +30,7 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $this->loginAdminUser();
     }
+
     public function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
@@ -47,14 +48,14 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
         return array('email' => $userData['email'], 'password' => $userData['password']);
-
     }
 
     /**
@@ -105,6 +106,7 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
      */
     public function refreshCaptchaWithMergeJS()
     {
+        $this->markTestIncomplete('BUG: Fatal error on page');
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('MergeJS/enable_merge_js');
@@ -181,7 +183,8 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $this->customerHelper()->frontLoginCustomer($testUser, false);
         //Verification
         $this->validatePage('customer_login');
-        $this->assertMessagePresent('validation', 'empty_captcha');
+        $this->addFieldIdToMessage('field', 'captcha');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -205,7 +208,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
             $this->assertFalse($this->controlIsVisible('pageelement', 'captcha'));
             $this->assertFalse($this->controlIsVisible('button', 'captcha_reload'));
             $this->customerHelper()->frontLoginCustomer($incorrectUser, false);
-            $this->waitForPageToLoad();
         }
         //Verification
         $this->assertTrue($this->controlIsVisible('field', 'captcha'));

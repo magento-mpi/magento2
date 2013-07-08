@@ -23,12 +23,12 @@ class Enterprise_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelpe
      *
      * Preconditions: 'Manage Segment' page is opened.
      *
-     * @param array $segmData Array which contains DataSet for filling of the current form
+     * @param array $segmentData Array which contains DataSet for filling of the current form
      */
-    public function createSegment($segmData)
+    public function createSegment($segmentData)
     {
         $this->clickButton('add_new_segment');
-        $this->fillTabs($segmData, 'general properties');
+        $this->fillTabs($segmentData, 'general properties');
         $this->saveForm('save_segment');
     }
 
@@ -40,9 +40,15 @@ class Enterprise_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelpe
     public function fillTabs($segmentData)
     {
         $segmentData = $this->fixtureDataToArray($segmentData);
-        $generalPropertiesTab =
-            (isset($segmentData['general_properties'])) ? $segmentData['general_properties'] : array();
-        $this->fillTab($generalPropertiesTab, 'general_properties');
+        $generalTab = (isset($segmentData['general_properties']))
+            ? $segmentData['general_properties']
+            : array();
+        if (isset($generalTab['assigned_to_website'])
+            && !$this->controlIsVisible('multiselect', 'assigned_to_website')
+        ) {
+            unset($generalTab['assigned_to_website']);
+        }
+        $this->fillTab($generalTab, 'general_properties');
     }
 
     /**
@@ -54,14 +60,19 @@ class Enterprise_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelpe
      */
     public function openSegment($searchData)
     {
-        $this->_prepareDataForSearch($searchData);
-        $xpathTR = $this->search($searchData, 'customer_segment_grid');
-        $this->assertNotNull($xpathTR, 'Attribute is not found');
-        $cellId = $this->getColumnIdByName('Segment Name');
-        $this->addParameter('segment_title', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
-        $this->waitForPageToLoad();
+        //Search Segment
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $segmentLocator = $this->search($searchData, 'customer_segment_grid');
+        $this->assertNotNull($segmentLocator, 'Segment is not found with data: ' . print_r($searchData, true));
+        $segmentRowElement = $this->getElement($segmentLocator);
+        $segmentUrl = $segmentRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Segment');
+        $cellElement = $this->getChildElement($segmentRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($segmentUrl));
+        //Open Segment
+        $this->url($segmentUrl);
         $this->validatePage();
     }
 

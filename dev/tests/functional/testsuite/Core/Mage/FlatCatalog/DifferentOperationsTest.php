@@ -20,9 +20,10 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->reindexInvalidedData();
         $this->navigate('system_configuration');
-        $flatCatalogData =
-            $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend', array('use_flat_catalog_product' => 'Yes'));
+        $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
+            array('use_flat_catalog_product' => 'Yes'));
         $this->systemConfigurationHelper()->configure($flatCatalogData);
         $this->reindexInvalidedData();
     }
@@ -42,8 +43,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $flatCatalogData =
-            $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend', array('use_flat_catalog_product' => 'No'));
+        $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
+            array('use_flat_catalog_product' => 'No'));
         $this->systemConfigurationHelper()->configure($flatCatalogData);
         $this->reindexInvalidedData();
     }
@@ -60,41 +61,41 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $attrCode = $attrData['attribute_code'];
+        $attrCode = $attrData['advanced_attribute_properties']['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['advanced_attribute_properties']['attribute_code']));
         $productCat = array('general_categories' => $catPath);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
         $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
-            array('downloadable_links_purchased_separately' => 'No',
-                'general_categories' => $catPath));
+            array('downloadable_links_purchased_separately' => 'No', 'general_categories' => $catPath));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', $productCat,
-            array('add_product_1' => $simple['general_sku'],
-                'add_product_2' => $virtual['general_sku']));
+            array('add_product_1' => $simple['general_sku'], 'add_product_2' => $virtual['general_sku']));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_categories' => $catPath),
             array(
-                'general_attribute_1' => $attrData['admin_title'],
+                'general_attribute_1' => $attrData['attribute_properties']['attribute_label'],
                 'associated_3' => $download['general_sku'],
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
                 'var1_attr_value3' => $attrData['option_3']['admin_option_name']
             )
         );
-        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', $productCat,
-            array('associated_1' => $simple['general_sku'],
-                'associated_2' => $virtual['general_sku'],
-                'associated_3' => $download['general_sku']));
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $configurOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
+        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', $productCat, array(
+            'associated_1' => $simple['general_sku'],
+            'associated_2' => $virtual['general_sku'],
+            'associated_3' => $download['general_sku']
+        ));
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $configurableOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
-        $simpleWithCO =
-            $this->loadDataSet('Product', 'simple_product_visible', array('general_categories' => $catPath,
-                'custom_options_data' => $customOptions));
+        $simpleWithCO = $this->loadDataSet('Product', 'simple_product_visible', array(
+            'general_categories' => $catPath,
+            'custom_options_data' => $customOptions
+        ));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_attributes');
@@ -114,48 +115,50 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
         $allProducts = array(
-            'simple'       => $simple,
-            'virtual'      => $virtual,
+            'simple' => $simple,
+            'virtual' => $virtual,
             'downloadable' => $download,
-            'bundle'       => $bundle,
+            'grouped' => $grouped,
+            'bundle' => $bundle,
             'configurable' => $configurable,
-            'grouped'      => $grouped
         );
         //Steps
         foreach ($allProducts as $key => $value) {
-            //Verifying
             $this->productHelper()->createProduct($value, $key);
+            $this->assertMessagePresent('success', 'success_saved_product');
         }
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($simpleWithCO);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->flushCache();
         $this->reindexInvalidedData();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
-        return array('productNames' => array(
-            'simple'       => $simple['general_name'],
-            'virtual'      => $virtual['general_name'],
-            'bundle'       => $bundle['general_name'],
-            'downloadable' => $download['general_name'],
-            'configurable' => $configurable['general_name'],
-            'grouped'      => $grouped['general_name']),
+        return array(
+            'productNames' => array(
+                'simple' => $simple['general_name'],
+                'virtual' => $virtual['general_name'],
+                'bundle' => $bundle['general_name'],
+                'downloadable' => $download['general_name'],
+                'configurable' => $configurable['general_name'],
+                'grouped' => $grouped['general_name']
+            ),
             'configurableOption' => array(
-                'title'                  => $attrData['admin_title'],
-                'custom_option_dropdown' => $configurOptionName
+                'title'                  => $attrData['attribute_properties']['attribute_label'],
+                'custom_option_dropdown' => $configurableOptionName
             ),
             'groupedOption' => array(
                 'subProduct_1' => $simple['general_name'],
                 'subProduct_2' => $virtual['general_name'],
                 'subProduct_3' => $download['general_name']
             ),
-            'bundleOption'  => array(
+            'bundleOption' => array(
                 'subProduct_1' => $simple['general_name'],
                 'subProduct_2' => $virtual['general_name'],
                 'subProduct_3' => $simple['general_name'],
@@ -166,14 +169,12 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'password' => $userData['password']
             ),
             'withCustomOption' => $simpleWithCO['general_name'],
-            'catName'          => $category['name'],
-            'catPath'          => $catPath
+            'catName' => $category['name'],
+            'catPath' => $catPath
         );
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      *
      * @test
@@ -182,7 +183,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductsWithoutOptionsToWishlistFromProductPage($testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         //Verifying
@@ -201,8 +201,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      *
      * @test
@@ -211,7 +209,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductsWithoutOptionsToWishlistFromCatalog($testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         //Verifying
@@ -229,8 +226,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      *
      * @test
@@ -239,7 +234,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductsWithoutOptionsToShoppingCartFromWishlist($testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Data
         $products = array($testData['productNames']['simple'], $testData['productNames']['downloadable'],
             $testData['productNames']['virtual']);
@@ -263,8 +257,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      * @param string $product
      * @param string $option
@@ -276,7 +268,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -318,8 +309,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      * @param string $product
      * @param string $option
@@ -331,7 +320,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductWithOptionsToWishlistFromShoppingCart($product, $option, $testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -370,8 +358,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      *
      * @test
@@ -380,7 +366,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductWithCustomOptionsToWishlist($testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Data
         $product = $testData['withCustomOption'];
         //Steps
@@ -393,8 +378,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      *
      * @test
@@ -403,7 +386,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlist($testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Data
         $productName = $testData['withCustomOption'];
         $options = $this->loadDataSet('Product', 'custom_options_to_add_to_shopping_cart');
@@ -420,8 +402,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $testData
      *
      * @test
@@ -430,7 +410,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductWithCustomOptionsToWishlistFromShoppingCart($testData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Data
         $productName = $testData['withCustomOption'];
         $options = $this->loadDataSet('Product', 'custom_options_to_add_to_shopping_cart');

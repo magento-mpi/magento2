@@ -34,7 +34,6 @@ class Core_Mage_Vde_TemporarySaveTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
     }
 

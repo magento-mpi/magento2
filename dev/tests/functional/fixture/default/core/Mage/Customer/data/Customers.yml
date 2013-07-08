@@ -74,7 +74,7 @@ generic_address:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: %noValue%
+    vat_number: %noValue%
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
 
@@ -157,7 +157,7 @@ generic_address_vat_valid_domestic:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: 111607872
+    vat_number: 111607872
     default_billing_address: Yes
     default_shipping_address: %noValue%
 
@@ -177,7 +177,7 @@ generic_address_vat_invalid:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: 111111111
+    vat_number: 111111111
     default_billing_address: Yes
     default_shipping_address: %noValue%
 
@@ -197,6 +197,6 @@ generic_address_vat_valid_intraunion:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: 584451913
+    vat_number: 584451913
     default_billing_address: Yes
     default_shipping_address: %noValue%

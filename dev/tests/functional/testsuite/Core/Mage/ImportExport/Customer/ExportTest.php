@@ -156,7 +156,7 @@ class Core_Mage_ImportExport_Customer_ExportTest extends Mage_Selenium_TestCase
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         $this->importExportHelper()->export();
         $this->importExportHelper()->chooseExportOptions('Customer Addresses');
-        $this->ImportExportHelper()->export();
+        $this->importExportHelper()->export();
     }
 
     /**

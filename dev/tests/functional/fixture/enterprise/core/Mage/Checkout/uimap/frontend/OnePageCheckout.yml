@@ -35,8 +35,8 @@ onepage_checkout:
                             item_gift_message_to: //li[./div[h5='%productName%']]//div[label='To']//input
                             item_gift_message: //li[./div[h5='%productName%']]//li[label='Message']//textarea
                         links:
-                            order_gift_message: //div[@id='allow-gift-options-for-order-container']//a[text()='Gift Message']
-                            item_gift_message: //li[./div[h5='%productName%']]//a[text()='Gift Message']
+                            add_order_gift_message: //div[@id='allow-gift-options-for-order-container']//a[text()='Gift Message']
+                            add_item_gift_message: //li[./div[h5='%productName%']]//a[text()='Gift Message']
                         pageelements:
                             order_gift_wrapping_image: //div[@id='allow-gift-options-for-order-container']//img[not(contains(@class,'no-display'))]
                             order_gift_wrapping_price: //div[@id='allow-gift-options-for-order-container']//span[@class='price']
@@ -47,4 +47,4 @@ onepage_checkout:
                 -
                     order_review:
                         pageelements:
-                            product_gift_wrapping: //table[@id='checkout-review-table']/tbody//td[h3= '%productName%']//dd[contains(text(), '%giftWrapping%')]
+                            product_gift_wrapping: //table[@id='checkout-review-table']/tbody//td[h3='%productName%']//dd[contains(text(),'%giftWrapping%')]

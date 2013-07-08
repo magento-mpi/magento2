@@ -148,12 +148,11 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
      * <p>Test Case:</p>
      *
      * @param string $fieldData
-     * @param string $messageName
      *
      * @test
      * @dataProvider incorrectPriceDataProvider
      */
-    public function createWrappingWithIncorrectPrice($fieldData, $messageName)
+    public function createWrappingWithIncorrectPrice($fieldData)
     {
         //Data
         $giftWrapping = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image',
@@ -162,15 +161,15 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
         $this->giftWrappingHelper()->createGiftWrapping($giftWrapping);
         //Verification
         $this->addFieldIdToMessage('field', 'gift_wrapping_price');
-        $this->assertMessagePresent('validation', $messageName);
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function incorrectPriceDataProvider()
     {
         return array(
-            array('-10', 'enter_not_negative_number'),
-            array('abc', 'enter_greater_zero')
+            array('-10'),
+            array('abc')
         );
     }
 }

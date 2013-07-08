@@ -45,25 +45,25 @@ order_gift_options_full:
         shipping_method: Fixed
     gift_messages:
         entire_order:
-            from_order_level: from_%randomize%
-            to_order_level: to_%randomize%
-            message_order_level: message_order_%randomize%
+            order_gift_message_from: from_%randomize%
+            order_gift_message_to: to_%randomize%
+            order_gift_message: message_order_%randomize%
             order_gift_wrapping_design: %giftWrappingDesign%
             send_gift_receipt: Yes
             add_printed_card: Yes
         individual:
             product_1:
                 sku_product: %product1%
-                from: from_%randomize%
-                to: to_%randomize%
-                message: message_%randomize%
-                product_gift_wrapping_design: %giftWrappingDesign%
+                item_gift_message_from: from_%randomize%
+                item_gift_message_to: to_%randomize%
+                item_gift_message: message_%randomize%
+                item_gift_wrapping_design: %giftWrappingDesign%
             product_2:
                 sku_product: %product2%
-                from: from_%randomize%
-                to: to_%randomize%
-                message: message_%randomize%
-                product_gift_wrapping_design: %giftWrappingDesign%
+                item_gift_message_from: from_%randomize%
+                item_gift_message_to: to_%randomize%
+                item_gift_message: message_%randomize%
+                item_gift_wrapping_design: %giftWrappingDesign%
 
 reorder_empty_gift_options:
     entire_order:
@@ -76,7 +76,16 @@ reorder_empty_gift_options:
     individual:
         product_1:
             sku_product: %product1%
-            from: billing_Steven billing_Stevenson
-            to: billing_Steven billing_Stevenson
-            message:
-            product_gift_wrapping_design: Please select
+            item_gift_message_from: billing_Steven billing_Stevenson
+            item_gift_message_to: billing_Steven billing_Stevenson
+            item_gift_message:
+            item_gift_wrapping_design: Please select
+
+gift_wrapping_for_item:
+    individual:
+        product_1:
+            sku_product: %product1%
+            item_gift_message_from: billing_Steven billing_Stevenson
+            item_gift_message_to: billing_Steven billing_Stevenson
+            item_gift_message: message_%randomize%
+            item_gift_wrapping_design: %giftWrappingDesign%

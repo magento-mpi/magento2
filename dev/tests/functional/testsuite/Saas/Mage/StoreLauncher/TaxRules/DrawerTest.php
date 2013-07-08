@@ -358,7 +358,7 @@ class Saas_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $this->fillFieldset($taxRuleData, 'tax_rules_drawer');
         $this->clickButton('save_my_settings', false);
         $this->addFieldIdToMessage('field', 'priority');
-        $this->assertMessagePresent('error', 'enter_not_negative_number');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
     }
 
     /**
@@ -377,7 +377,7 @@ class Saas_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $this->fillFieldset($taxRuleData, 'tax_rules_drawer');
         $this->clickButton('save_my_settings', false);
         $this->addFieldIdToMessage('field', 'sort_order');
-        $this->assertMessagePresent('error', 'enter_not_negative_number');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
     }
 
     /**

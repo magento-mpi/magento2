@@ -1,9 +1,9 @@
 #
 # {license_notice}
 #
-# @category    tests
-# @package     selenium
-# @subpackage  test-data
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #

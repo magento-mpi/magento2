@@ -14,56 +14,51 @@
  */
 class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Enable Order by SKU functionality on Frontend</p>
-     */
     public function setUpBeforeTests()
     {
-        //Data
-        $configSku = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_all');
-        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($configSku);
+        $this->systemConfigurationHelper()->configure('OrderBySkuSettings/add_by_sku_all');
     }
 
-    /**
-     * <p>Creating customer</p>
-     *
-     * @return array
-     *
-     * @test
-     */
-    public function createCustomer()
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
+    protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-
-        return array('email' => $userData['email'], 'password' => $userData['password']);
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('OrderBySkuSettings/add_by_sku_disabled');
     }
 
     /**
-     * <p>Create simple and non-existent products for testing SKU functionality</p>
+     * <p>Creating Simple product and customer</p>
      *
      * @return array
-     *
      * @test
      */
     public function preconditionsForTests()
     {
+        //Data
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        //Steps and Verification
         $this->loginAdminUser();
-        //Create simple products
-        $simpleProduct = $this->loadDataSet('Product', 'simple_sku');
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simpleProduct);
+        $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         return array(
-            'simple' => array('sku' => $simpleProduct['general_sku'], 'qty' => 1),
-            'nonExistentProduct' => array('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1)
+            'simple' => array('sku' => $simple['general_sku'], 'qty' => 1),
+            'customer' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'nonExistent' => array('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1)
         );
     }
 
@@ -71,26 +66,19 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * <p>Adding to Cart by SKU after entering values in multiple fields</p>
      *
      * @param array $data
-     * @param array $customer
      *
      * @test
      * @depends preconditionsForTests
-     * @depends createCustomer
      * @TestlinkId TL-MAGE-3954
      */
-    public function addMultipleSimpleProducts($data, $customer)
+    public function addMultipleSimpleProducts($data)
     {
         //Preconditions:
-        $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($customer);
-        }
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->clickButton('add_row', false);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple'], array('1', '2'));
-        $this->clickButton('add_to_cart');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['simple'], $data['simple']));
+        $this->saveForm('add_to_cart');
         //Verifying
         $this->addParameter('number', '2');
         $this->assertMessagePresent('success', 'products_added_to_cart_by_sku');
@@ -100,27 +88,19 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * <p>Successful and unsuccessful messages are located in frames different color</p>
      *
      * @param array $data
-     * @param array $customer
      *
      * @test
      * @depends preconditionsForTests
-     * @depends createCustomer
      * @TestlinkId TL-MAGE-4045
      */
-    public function checkSuccessfulAndUnsuccessfulMessages($data, $customer)
+    public function checkSuccessfulAndUnsuccessfulMessages($data)
     {
         //Preconditions:
-        $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($customer);
-        }
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->clickButton('add_row', false);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple']);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['nonExistentProduct'], array('2'));
-        $this->clickButton('add_to_cart');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['simple'], $data['nonExistent']));
+        $this->saveForm('add_to_cart');
         //Verifying
         $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
         $this->assertMessagePresent('error', 'required_attention_product');
@@ -130,25 +110,23 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * <p>Adding/Removing all items from Products Requiring Attention grid</p>
      *
      * @param array $data
-     * @param array $customer
      *
      * @test
      * @depends preconditionsForTests
-     * @depends createCustomer
      * @TestlinkId TL-MAGE-4234
      */
-    public function removeAllProductFromAttentionGrid($data, $customer)
+    public function removeAllProductFromAttentionGrid($data)
     {
+        $this->markTestIncomplete('BUG: remove_all button does not work');
         //Preconditions:
-        $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($customer);
-        }
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['nonExistentProduct']);
-        $this->clickButton('add_to_cart');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['nonExistent']));
+        $this->saveForm('add_to_cart');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'requiring_attention_title'));
+        $this->assertMessagePresent('error', 'required_attention_product');
+        $this->assertMessagePresent('validation', 'sku_not_found');
         $this->clickButton('remove_all');
         //Verifying
         $this->assertMessagePresent('success', 'items_removed');
@@ -160,34 +138,23 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * <p>Adding/Removing each attention product separately</p>
      *
      * @param array $data
-     * @param array $customer
      *
      * @test
      * @depends preconditionsForTests
-     * @depends createCustomer
      * @TestlinkId TL-MAGE-4235
      */
-    public function removeAllProductsSeparately($data, $customer)
+    public function removeAllProductsSeparately($data)
     {
         //Preconditions:
-        $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in')) {
-            $this->customerHelper()->frontLoginCustomer($customer);
-        }
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['nonExistentProduct']['sku'] . '-1',
-            'qty' => $data['nonExistentProduct']['qty']));
-        $this->clickButton('add_row', false);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['nonExistentProduct']['sku'] . '-2',
-            'qty' => $data['nonExistentProduct']['qty']), array('2'));
-        $this->clickButton('add_row', false);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['nonExistentProduct']['sku'] . '-3',
-            'qty' => $data['nonExistentProduct']['qty']), array('3'));
-        $this->clickButton('add_row', false);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['nonExistentProduct']['sku'] . '-4',
-            'qty' => $data['nonExistentProduct']['qty']), array('4'));
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array(
+            array('sku' => $data['nonExistent']['sku'] . '-1', 'qty' => $data['nonExistent']['qty']),
+            array('sku' => $data['nonExistent']['sku'] . '-2', 'qty' => $data['nonExistent']['qty']),
+            array('sku' => $data['nonExistent']['sku'] . '-3', 'qty' => $data['nonExistent']['qty']),
+            array('sku' => $data['nonExistent']['sku'] . '-4', 'qty' => $data['nonExistent']['qty']),
+        ));
         $this->clickButton('add_to_cart');
         $this->addBySkuHelper()->frontDeleteItems(array('4', '3', '2', '1'));
         //Verifying

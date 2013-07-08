@@ -37,9 +37,9 @@ manage_ratings:
         messages: &ratingMessages
             success_saved_rating: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rating.')]
             success_deleted_rating: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rating.')]
-            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This is a required field.')]
             existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
-            confirmation_for_delete: Are you sure you want to do this?
+            confirmation_for_delete: Are you sure?
+            confirmation_for_single_delete: Are you sure you want to do this?
 
 new_rating:
     mca: rating/new/
@@ -102,8 +102,8 @@ manage_all_reviews:
                             search: //button[span='Search']
                             submit: //button[span='Submit']
                         dropdowns:
+                            mass_action_select_action: //*[@id='reviwGrid_massaction-select']
                             view_per_page: //select[@name='limit']
-                            actions: //select[@id='reviwGrid_massaction-select']
                             filter_massaction: //select[@name='massaction']
                             filter_status: //select[@name='status']
                             filter_visible_in: //select[@name='visible_in']
@@ -119,10 +119,10 @@ manage_all_reviews:
                             filter_product_name: //input[@name='name']
                             filter_product_sku: //input[@name='sku']
                         links:
-                            select_all: //a[text()='Select All']
-                            unselect_all: //a[text()='Unselect All']
-                            select_visible: //a[text()='Select Visible']
-                            unselect_visible: //a[text()='Unselect Visible']
+                            mass_action_select_all: //a[text()='Select All']
+                            mass_action_select_unselect_all: //a[text()='Unselect All']
+                            mass_action_select_visible: //a[text()='Select Visible']
+                            mass_action_select_unselect_visible: //a[text()='Unselect Visible']
                             pending_reviews_rss: //a[text()='Pending Reviews RSS']
         buttons:
             add_new_review: //button[span='Add New Review']
@@ -130,19 +130,10 @@ manage_all_reviews:
             success_saved_review: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the review.')]
             success_deleted_review: //li[normalize-space(@class)='success-msg' and contains(.,'The review has been deleted.')]
             success_deleted_review_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'record(s) have been deleted.')]
-            confirmation_for_delete_all: Are you sure?
-            confirmation_for_delete: Are you sure you want to do this?
-            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This is a required field.')]
+            confirmation_for_delete: Are you sure?
+            confirmation_for_delete_single_review: Are you sure you want to do this?
             empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
             not_available_rating: //*[@id='rating_detail'][normalize-space(text())="Rating isn't Available"]
-
-manage_pending_reviews:
-    mca: catalog_product_review/pending/
-    click_xpath: //div[@class='submenu']//a[contains(@href, 'catalog_product_review/pending/')]
-    title: Pending Reviews / Customer Reviews / Magento Admin
-    uimap:
-        form: *manageReviews
-        messages: *reviewMessages
 
 add_new_review:
     mca: catalog_product_review/new/
@@ -173,11 +164,11 @@ add_new_review:
                             grid_head: //table[@id='productGrid_table']//tr[@class='headings']
                 -
                     review_details: &reviewDetails
-                        xpath: //div[@id='add_review_form']
+                        xpath: //*[@id='add_review_form']
                         links:
                             product: //a[text()='%productName%']
                         radiobuttons:
-                            detailed_rating: //input[@type='radio' and @id='%ratingName%_%stars%']
+                            detailed_rating: //label[@for='%ratingName%_%stars%']
                         dropdowns:
                             status: //select[@name='status_id']
                         multiselects:
@@ -189,7 +180,7 @@ add_new_review:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_review: //button[@data-ui-id='review-add-save-button']
+            save_review: //button[@id='save_button']
         messages: *reviewMessages
 
 edit_review:
@@ -200,11 +191,11 @@ edit_review:
             fieldsets:
                 -
                     review_details:
-                        xpath: //div[@id='review_details']
+                        xpath: //*[@id='review_details']
                         links:
                             product: //a[text()='%productName%']
                         radiobuttons:
-                            detailed_rating: //input[@type='radio' and @id='%ratingName%_%stars%']
+                            detailed_rating: //label[contains(@for,'%ratingName%')][contains(text(),'%stars% star')]
                         dropdowns:
                             status: //select[@name='status_id']
                         multiselects:
@@ -216,12 +207,12 @@ edit_review:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_review: //button[@data-ui-id='review-add-save-button']
+            save_review: //button[@id='save_button']
             delete_review: //button[span='Delete Review']
             prev_review: //button[span='Previous']
-            prev_save_review: //button[span='Save and Previous']
+            prev_save_review: //button[@id='save_and_previous']
             next_review: //button[span='Next']
-            next_save_review: //button[span='Save and Next']
+            next_save_review: //button[@id='save_and_next']
         messages: *reviewMessages
 
 edit_pending_review:

@@ -18,17 +18,11 @@
  */
 class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Log in to Backend.</p>
-     */
     public function setUpBeforeTests()
     {
-        //Data
-        $config = $this->loadDataSet('ShippingSettings', 'store_information');
-        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('ShippingSettings/store_information');
     }
 
     protected function assertPreConditions()
@@ -36,16 +30,19 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     protected function tearDownAfterTestClass()
     {
-        //Data
-        $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');
-        $settings = $this->loadDataSet('ShippingSettings', 'shipping_settings_default');
-        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
-        $this->systemConfigurationHelper()->configure($settings);
+        $this->systemConfigurationHelper()->configure('ShippingMethod/shipping_disable');
+        $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
     }
 
     /**
@@ -58,18 +55,20 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
 
         //Steps and Verification
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
-        return array('simple' => $simple['general_name'],
-            'user'   => array('email' => $userData['email'], 'password' => $userData['password']));
+        return array(
+            'simple' => $simple['general_name'],
+            'user' => array('email' => $userData['email'], 'password' => $userData['password'])
+        );
     }
 
     /**
@@ -90,14 +89,8 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         //Data
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
         $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'signedin_flatrate_checkmoney_' . $shippingDestination,
-            array(
-                'general_name' => $testData['simple'],
-                'shipping_data' => $shippingData
-            )
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_' . $shippingDestination,
+            array('general_name' => $testData['simple'], 'shipping_data' => $shippingData));
         //Steps
         $this->navigate('system_configuration');
         if ($shippingOrigin) {

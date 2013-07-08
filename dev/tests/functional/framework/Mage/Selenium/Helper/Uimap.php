@@ -80,24 +80,26 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     private function _loadUimapFilesData(array $codePoolNames, array $configUimap)
     {
         $baseCodePoolName = array_shift($codePoolNames);
-        foreach ($configUimap[$baseCodePoolName] as $area => $areaFiles) {
-            foreach ($areaFiles as $file) {
-                $explode = explode(DIRECTORY_SEPARATOR, $file);
-                $fileName = trim(end($explode), '.yml');
-                $this->_uimapFilesData[$area][$fileName][] = $file;
-                foreach ($codePoolNames as $codePoolName) {
-                    $additionalFile = str_replace($baseCodePoolName, $codePoolName, $file);
-                    if (isset($configUimap[$codePoolName][$area])
-                        && in_array($additionalFile, $configUimap[$codePoolName][$area])
-                    ) {
-                        $keyToDelete = array_search($additionalFile, $configUimap[$codePoolName][$area]);
-                        $this->_uimapFilesData[$area][$fileName][] = $additionalFile;
-                        unset($configUimap[$codePoolName][$area][$keyToDelete]);
+        if (isset($configUimap[$baseCodePoolName])) {
+            foreach ($configUimap[$baseCodePoolName] as $area => $areaFiles) {
+                foreach ($areaFiles as $file) {
+                    $explode = explode(DIRECTORY_SEPARATOR, $file);
+                    $fileName = trim(end($explode), '.yml');
+                    $this->_uimapFilesData[$area][$fileName][] = $file;
+                    foreach ($codePoolNames as $codePoolName) {
+                        $additionalFile = str_replace($baseCodePoolName, $codePoolName, $file);
+                        if (isset($configUimap[$codePoolName][$area])
+                            && in_array($additionalFile, $configUimap[$codePoolName][$area])
+                        ) {
+                            $keyToDelete = array_search($additionalFile, $configUimap[$codePoolName][$area]);
+                            $this->_uimapFilesData[$area][$fileName][] = $additionalFile;
+                            unset($configUimap[$codePoolName][$area][$keyToDelete]);
+                        }
                     }
                 }
             }
+            unset($configUimap[$baseCodePoolName]);
         }
-        unset($configUimap[$baseCodePoolName]);
         if (!empty($configUimap)) {
             $this->_loadUimapFilesData($codePoolNames, $configUimap);
         }

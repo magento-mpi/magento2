@@ -20,36 +20,29 @@ class Core_Mage_Captcha_EnableTest extends Mage_Selenium_TestCase
 {
     public function assertPreConditions()
     {
-        $this->admin('log_in_to_admin', false);
-        if ($this->getCurrentPage() != $this->pageAfterAdminLogin) {
-            if ($this->controlIsPresent('field', 'captcha')) {
-                $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
-                                   'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
-                $this->adminUserHelper()->loginAdmin($loginData);
-                $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getMessagesOnPage());
-            } else {
-                $this->loginAdminUser();
-            }
+        $this->admin('log_in_to_admin');
+        $loginData = array(
+            'user_name' => $this->getConfigHelper()->getDefaultLogin(),
+            'password' => $this->getConfigHelper()->getDefaultPassword()
+        );
+        if ($this->controlIsPresent('field', 'captcha')) {
+            $loginData['captcha'] = '1111';
         }
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getMessagesOnPage());
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
     }
 
-    public function tearDownAfterTestClass()
+    public function tearDownAfterTest()
     {
         $this->admin('log_in_to_admin', false);
-        if ($this->getCurrentPage() != $this->pageAfterAdminLogin) {
-            if ($this->controlIsPresent('field', 'captcha')) {
-                $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
-                                   'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
-                $this->adminUserHelper()->loginAdmin($loginData);
-                $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getMessagesOnPage());
-            } else {
-                $this->loginAdminUser();
-            }
-        }
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
+        $this->logoutAdminUser();
+    }
+
+    public function tearDownAfterTestClass()
+    {
+        $this->assertPreConditions();
     }
 
     /**

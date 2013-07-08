@@ -33,7 +33,7 @@ cms_page_link_widget:
                 category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
-            select_block_reference: Shopping Cart Sidebar Extra Actions
+            select_block_reference: Alert Urls
             select_template: CMS Page Link Block Template
             choose_options:
                 product_1:
@@ -127,7 +127,7 @@ cms_static_block_widget:
                 category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
-            select_block_reference: Shopping Cart Sidebar Extra Actions
+            select_block_reference: Alert Urls
             choose_options:
                 product_1:
                     filter_sku: %product_1%
@@ -212,7 +212,7 @@ catalog_category_link_widget:
                 category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
-            select_block_reference: Shopping Cart Sidebar Extra Actions
+            select_block_reference: Alert Urls
             select_template: Category Link Inline Template
             choose_options:
                 product_1:
