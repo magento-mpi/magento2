@@ -18,6 +18,17 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
     const HTTP_METHOD_DELETE = 'DELETE';
     /**#@-*/
 
+    /** @var Mage_Webapi_Config */
+    protected $_restHelper;
+
+    /**
+     * Initialize dependencies.
+     */
+    public function __construct()
+    {
+        $this->_restHelper = Mage::getObjectManager()->get('Mage_Webapi_Config');
+    }
+
     /**
      * {@inheritdoc}
      * @throws Exception
@@ -62,10 +73,32 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
     protected function _getRestResourcePath($serviceInfo)
     {
         if (isset($serviceInfo['rest']['resourcePath'])) {
-            return $serviceInfo['rest']['resourcePath'];
-        } else {
-            throw new Exception("REST endpoint not specified");
+            $resourcePath = $serviceInfo['rest']['resourcePath'];
+        } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
+            /** Identify resource path using service interface name and service method name */
+            $services = $this->_restHelper->getRestServices();
+            $serviceInterface = $serviceInfo['serviceInterface'];
+            $method = $serviceInfo['method'];
+            if (isset($services[$serviceInterface]['operations'][$method])) {
+                $serviceData = $services[$serviceInterface];
+                $methodData = $serviceData['operations'][$method];
+                $routePattern = $serviceData['baseUrl'] . $methodData['route'];
+                $numberOfPlaceholders = substr_count($routePattern, ':');
+                if ($numberOfPlaceholders == 1) {
+                    if (!isset($serviceInfo['entityId'])) {
+                        throw new LogicException('Entity ID is required (to be used instead of placeholder).');
+                    }
+                    $resourcePath = preg_replace('#:\w+#', $serviceInfo['entityId'], $routePattern);
+                } else if ($numberOfPlaceholders > 1) {
+                    throw new LogicException("Current implementation of Web API functional framework "
+                        . "is able to process only one placeholder in REST route.");
+                }
+            }
         }
+        if (!isset($resourcePath)) {
+            throw new Exception("REST endpoint cannot be identified.");
+        }
+        return $resourcePath;
     }
 
     /**
@@ -78,9 +111,19 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
     protected function _getRestHttpMethod($serviceInfo)
     {
         if (isset($serviceInfo['rest']['httpMethod'])) {
-            return $serviceInfo['rest']['httpMethod'];
-        } else {
-            throw new Exception("REST httpMethod not specified");
+            $httpMethod = $serviceInfo['rest']['httpMethod'];
+        } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
+            /** Identify HTTP method using service interface name and service method name */
+            $services = $this->_restHelper->getRestServices();
+            $serviceInterface = $serviceInfo['serviceInterface'];
+            $method = $serviceInfo['method'];
+            if (isset($services[$serviceInterface]['operations'][$method])) {
+                $httpMethod = $services[$serviceInterface]['operations'][$method]['httpMethod'];
+            }
         }
+        if (!isset($httpMethod)) {
+            throw new Exception("REST HTTP method cannot be identified.");
+        }
+        return $httpMethod;
     }
 }

@@ -25,7 +25,8 @@ interface Magento_Test_TestCase_Webapi_AdapterInterface
      *     ),
      *     OR
      *     'serviceInterface' => $phpServiceInterfaceName, // e.g. Mage_Catalog_Service_ProductInterfaceV1
-     *     'method' => serviceMethodName                   // e.g. create
+     *     'method' => $serviceMethodName                  // e.g. create
+     *     'entityId' => $entityId                         // is used in REST route placeholder (if applicable)
      * );
      * </pre>
      * @param array $arguments

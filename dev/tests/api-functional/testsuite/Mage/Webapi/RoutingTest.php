@@ -14,7 +14,8 @@ class Mage_Webapi_RoutingTest extends Magento_Test_TestCase_WebapiAbstract
         $itemId = 1;
         $serviceInfo = array(
                 'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
-                'method' => 'item'
+                'method' => 'item',
+                'entityId' => $itemId
         );
         $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);

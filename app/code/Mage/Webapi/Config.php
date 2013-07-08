@@ -87,8 +87,7 @@ class Mage_Webapi_Config
         Mage_Webapi_Helper_Config $helper,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dir
-    )
-    {
+    ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
@@ -302,6 +301,8 @@ class Mage_Webapi_Config
     }
 
     /**
+     * Generate the list of available REST routes.
+     *
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @return array
      * @throws Mage_Webapi_Exception
