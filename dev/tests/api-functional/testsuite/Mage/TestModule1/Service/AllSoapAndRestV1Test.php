@@ -29,7 +29,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         );
         $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], "Item was retrieved unsuccessfully");
+        $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
     }
 
     /**
@@ -39,7 +39,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
     {
         //TODO: Fix SOAP testModule1AllSoapAndRestItems operation
         $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+            'This test has not been implemented yet'
         );
 
         $itemArr = array(
@@ -54,7 +54,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         );
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/testmodule1/',
+                'resourcePath' => '/V1/testmodule1',
                 'httpMethod' => 'GET'
             ),
             'soap' => array(
@@ -64,7 +64,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
             )
         );
         $item = $this->_webApiCall($serviceInfo, null);
-        $this->assertEquals($itemArr, $item, "Items were not retrieved ");
+        $this->assertEquals($itemArr, $item, 'Items were not retrieved');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         $createdItemName = 'createdItemName';
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/testmodule1/create',
+                'resourcePath' => '/V1/testmodule1',
                 'httpMethod' => 'POST'
             ),
             'soap' => array(
@@ -86,7 +86,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         );
         $requestData = array('name' => $createdItemName);
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($createdItemName, $item['name'], "Item creation failed");
+        $this->assertEquals($createdItemName, $item['name'], 'Item creation failed');
     }
 
 
@@ -95,10 +95,11 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
      */
     public function testUpdate()
     {
+        $itemId = 1;
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/testmodule1/create',
-                'httpMethod' => 'POST'
+                'resourcePath' => '/V1/testmodule1/' . $itemId,
+                'httpMethod' => 'PUT'
             ),
             'soap' => array(
                 'service' => 'testModule1AllSoapAndRest',
@@ -106,8 +107,8 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
                 'operation' => 'testModule1AllSoapAndRestUpdate'
             )
         );
-        $requestData = array('id' => 1, 'name' => 'testName');
+        $requestData = array('id' => $itemId, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['name'], $item['name'], "Item creation failed");
+        $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
     }
 }

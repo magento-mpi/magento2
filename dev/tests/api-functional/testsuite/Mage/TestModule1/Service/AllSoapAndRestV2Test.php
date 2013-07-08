@@ -75,7 +75,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCas
         $createdItemName = 'createdItemName';
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V2/testmodule1/create',
+                'resourcePath' => '/V2/testmodule1',
                 'httpMethod' => 'POST'
             ),
             'soap' => array(
@@ -95,10 +95,11 @@ class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCas
      */
     public function testUpdate()
     {
+        $itemId = 1;
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V2/testmodule1/create',
-                'httpMethod' => 'POST'
+                'resourcePath' => '/V2/testmodule1/' . $itemId,
+                'httpMethod' => 'PUT'
             ),
             'soap' => array(
                 'service' => 'testModule1AllSoapAndRest',
@@ -106,9 +107,9 @@ class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCas
                 'operation' => 'testModule1AllSoapAndRestUpdate'
             )
         );
-        $requestData = array('id' => 1, 'name' => 'testName');
+        $requestData = array('id' => $itemId, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['name'], $item['name'], "Item creation failed");
+        $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
     }
 
     /**
@@ -119,8 +120,8 @@ class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCas
         $itemId = 1;
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V2/testmodule1/delete',
-                'httpMethod' => 'POST'
+                'resourcePath' => '/V2/testmodule1/' . $itemId,
+                'httpMethod' => 'DELETE'
             ),
             'soap' => array(
                 'service' => 'testModule1AllSoapAndRest',
@@ -130,6 +131,6 @@ class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCas
         );
         $requestData = array('id' => $itemId, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], "Item creation failed");
+        $this->assertEquals($itemId, $item['id'], "Item delete failed");
     }
 }
