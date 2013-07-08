@@ -175,6 +175,7 @@ return array(
     array('Mage_Adminhtml_Block_Tag_Tag_Edit'),
     array('Mage_Adminhtml_Block_Tag_Tag_Edit_Form'),
     array('Mage_Adminhtml_Block_Tax_Rate_Grid'),
+    array('Mage_Adminhtml_Block_Tax_Rule_Grid'),
     array('Mage_Adminhtml_Block_Tree'),
     array('Mage_Adminhtml_Block_Urlrewrite_Grid'),
     array('Mage_Adminhtml_Helper_Rss'),
