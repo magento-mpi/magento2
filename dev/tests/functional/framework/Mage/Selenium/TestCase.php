@@ -2930,7 +2930,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if (array_key_exists($message, $this->_messages)) {
                 $exclude = '';
                 foreach ($this->_messages[$message] as $messageText) {
-                    $exclude .= "[not(normalize-space(..//.)='$messageText')]";
+                    if (strpos($messageText, "'") !== false) {
+                        $messageText = "concat('" . str_replace('\'', "',\"'\",'", $messageText) . "')";
+                    } else {
+                        $messageText = "'" . $messageText . "'";
+                    }
+                    $exclude .= "[not(normalize-space(..//.)=$messageText)]";
                 }
                 ${$message} .= $exclude;
             }
@@ -3074,7 +3079,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
-                if (strpos($value, "'")) {
+                if (strpos($value, "'") !== false) {
                     $value = "concat('" . str_replace('\'', "',\"'\",'", $value) . "')";
                 } else {
                     $value = "'" . $value . "'";
