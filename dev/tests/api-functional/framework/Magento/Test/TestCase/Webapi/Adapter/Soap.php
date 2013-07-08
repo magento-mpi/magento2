@@ -39,7 +39,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         $soapOperation = $this->_getSoapOperation($serviceInfo);
         $soapResponse = $this->_getSoapClient($serviceInfo)->$soapOperation($arguments);
 
-        // TODO: Check if code below is necessary
+        // TODO: Check if code below is necessary (when some tests are implemented)
         $result = (is_array($soapResponse) || is_object($soapResponse))
             ? $this->_normalizeResponse($soapResponse)
             : $soapResponse;

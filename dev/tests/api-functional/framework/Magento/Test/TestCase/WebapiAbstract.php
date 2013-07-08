@@ -375,7 +375,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
         }
     }
 
-    /** TODO: Remove methods below if not used, otherwise fix them */
+    /** TODO: Remove methods below if not used, otherwise fix them (after having some tests implemented)*/
 
     /**
      * Get application cache model
