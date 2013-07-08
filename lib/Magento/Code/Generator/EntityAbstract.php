@@ -231,7 +231,21 @@ abstract class Magento_Code_Generator_EntityAbstract
 
         $autoloader = $this->_autoloader;
 
-        if (!$autoloader::getFile($sourceClassName)) {
+        // @todo the controller handling logic below must be removed when controllers become PSR-0 compliant
+        $controllerSuffix = 'Controller';
+        $pathParts = explode('_', $sourceClassName);
+        if (strrpos($sourceClassName, $controllerSuffix) === strlen($sourceClassName) - strlen($controllerSuffix)
+            && isset($pathParts[2])
+            && !in_array($pathParts[2], array('Block', 'Helper', 'Model'))
+        ) {
+            $controllerPath = preg_replace('/^([0-9A-Za-z]*)_([0-9A-Za-z]*)/', '\\1_\\2_controllers', $sourceClassName);
+            $filePath = stream_resolve_include_path(str_replace('_', DIRECTORY_SEPARATOR, $controllerPath) . '.php');
+            $isSourceClassValid = !empty($filePath);
+        } else {
+            $isSourceClassValid =$autoloader::getFile($sourceClassName);
+        }
+
+        if (!$isSourceClassValid) {
             $this->_addError('Source class ' . $sourceClassName . ' doesn\'t exist.');
             return false;
         } elseif ($autoloader::getFile($resultClassName)) {

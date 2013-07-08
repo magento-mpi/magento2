@@ -61,10 +61,37 @@ class XmlInterceptorScanner implements ScannerInterface
     {
         $filteredEntities = array();
         foreach ($output as $entityName) {
+            // @todo the controller handling logic below must be removed when controllers become PSR-0 compliant
+            $controllerSuffix = 'Controller';
+            $pathParts = explode('_', $entityName);
+            if (strrpos($entityName, $controllerSuffix) === strlen($entityName) - strlen($controllerSuffix)
+                && isset($pathParts[2])
+                && !in_array($pathParts[2], array('Block', 'Helper', 'Model'))
+            ) {
+                $this->_handleControllerClassName($entityName);
+            }
             if (class_exists($entityName) || interface_exists($entityName)) {
                 array_push($filteredEntities, $entityName . '_Interceptor');
             }
         }
         return $filteredEntities;
+    }
+
+    /**
+     * Include file with controller declaration if needed
+     *
+     * @param string $className
+     * @todo this method must be removed when controllers become PSR-0 compliant
+     */
+    protected function _handleControllerClassName($className)
+    {
+        if (!class_exists($className)) {
+            $className = preg_replace('/[^a-zA-Z0-9_]/', '', $className);
+            $className = preg_replace('/^([0-9A-Za-z]*)_([0-9A-Za-z]*)/', '\\1_\\2_controllers', $className);
+            $filePath = stream_resolve_include_path(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+            if (file_exists($filePath)) {
+                require_once $filePath;
+            }
+        }
     }
 }
