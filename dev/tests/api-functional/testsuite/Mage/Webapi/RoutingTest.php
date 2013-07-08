@@ -9,10 +9,19 @@
  */
 class Mage_Webapi_RoutingTest extends Magento_Test_TestCase_WebapiAbstract
 {
-    /**
-     * TODO: Temporary test for test framework implementation phase
-     */
-    public function testBasicRouting()
+    public function testBasicRoutingPathAutoDetection()
+    {
+        $itemId = 1;
+        $serviceInfo = array(
+                'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
+                'method' => 'item'
+        );
+        $requestData = array('id' => $itemId);
+        $item = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($itemId, $item['id'], "Item was retrieved unsuccessfully");
+    }
+
+    public function testBasicRoutingExplicitPath()
     {
         $itemId = 1;
         $serviceInfo = array(

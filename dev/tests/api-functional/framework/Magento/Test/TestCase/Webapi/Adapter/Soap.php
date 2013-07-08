@@ -19,6 +19,19 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     protected $_soapClients = array();
 
     /**
+     * @var Mage_Webapi_Helper_Config
+     */
+    protected $_soapHelper;
+
+    /**
+     * Initialize dependencies.
+     */
+    public function __construct()
+    {
+        $this->_soapHelper = Mage::getObjectManager()->get('Mage_Webapi_Helper_Config');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function call($serviceInfo, $arguments = array())
@@ -71,15 +84,19 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      *
      * @param array $serviceInfo
      * @return string
-     * @throws Exception
+     * @throws LogicException
      */
     protected function _getSoapOperation($serviceInfo)
     {
         if (isset($serviceInfo['soap']['operation'])) {
             $soapOperation = $serviceInfo['soap']['operation'];
+        } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
+            $soapOperation = $this->_soapHelper->getSoapOperation(
+                $serviceInfo['serviceInterface'],
+                $serviceInfo['method']
+            );
         } else {
-            // TODO: Implement logic for identification of soap operation from PHP interface name and method
-            throw new Exception("Service operation must be specified");
+            throw new LogicException("SOAP operation cannot be identified.");
         }
         return $soapOperation;
     }
@@ -89,14 +106,21 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      *
      * @param array $serviceInfo
      * @return string
+     * @throws LogicException
      */
     protected function _getSoapServiceVersion($serviceInfo)
     {
         if (isset($serviceInfo['soap']['serviceVersion'])) {
             $version = $serviceInfo['soap']['serviceVersion'];
+        } else if (isset($serviceInfo['serviceInterface'])) {
+            preg_match('/.+[V](\d+)$/', $serviceInfo['serviceInterface'], $matches);
+            if (isset($matches[1])) {
+                $version = $matches[1];
+            } else {
+                throw new LogicException("Service interface name is invalid.");
+            }
         } else {
-            // TODO: Implement logic for identification of version number from PHP interface name
-            throw new Exception("Service version must be specified");
+            throw new LogicException("Service version cannot be identified.");
         }
         /** Normalize version */
         $version = 'V' . ltrim($version, 'vV');
@@ -108,14 +132,16 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      *
      * @param array $serviceInfo
      * @return string
+     * @throws LogicException
      */
     protected function _getSoapServiceName($serviceInfo)
     {
         if (isset($serviceInfo['soap']['service'])) {
             $serviceName = $serviceInfo['soap']['service'];
+        } else if (isset($serviceInfo['serviceInterface'])) {
+            $serviceName = $this->_soapHelper->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
-            // TODO: Implement logic for identification of service name using PHP interface name
-            throw new Exception("Service name must be specified");
+            throw new LogicException("Service name cannot be identified.");
         }
         return $serviceName;
     }

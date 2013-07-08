@@ -39,7 +39,7 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
     {
         $routes = array();
         $routePath = "/:" . Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
-        $routeParts = $this->_helper->getResourceNameParts($methodReflection->getDeclaringClass()->getName());
+        $routeParts = $this->_helper->getServiceNameParts($methodReflection->getDeclaringClass()->getName());
         $partsCount = count($routeParts);
         for ($i = 0; $i < $partsCount; $i++) {
             if ($this->_isParentResourceIdExpected($methodReflection)
@@ -64,7 +64,7 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
         $actionType = Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation(
             $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection)
         );
-        $resourceName = $this->_helper->translateResourceName($methodReflection->getDeclaringClass()->getName());
+        $resourceName = $this->_helper->getServiceName($methodReflection->getDeclaringClass()->getName());
         $optionalParams = $this->_getOptionalParamNames($methodReflection);
         foreach ($this->_getPathCombinations($optionalParams, $routePath) as $finalRoutePath) {
             $routes[$finalRoutePath] = array('actionType' => $actionType, 'resourceName' => $resourceName);

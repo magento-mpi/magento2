@@ -385,9 +385,8 @@ class Mage_Webapi_Config
         if (null == $this->_soapOperations) {
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedResource) as $serviceData) {
-                $resourceName = $this->_helper->translateResourceName($serviceData['class'], false);
                 foreach ($serviceData[self::KEY_OPERATIONS] as $method => $methodData) {
-                    $operationName = $resourceName . ucfirst($method);
+                    $operationName =  $this->_helper->getSoapOperation($serviceData['class'], $method);
                     $this->_soapOperations[$operationName] = array(
                         'class' => $serviceData['class'],
                         'method' => $method
@@ -413,7 +412,7 @@ class Mage_Webapi_Config
         $services = array();
         foreach ($requestedResources as $resourceName => $resourceVersion) {
             foreach ($this->getSoapServices() as $serviceData) {
-                $resourceWithVersion = $this->_helper->translateResourceName($serviceData['class']);
+                $resourceWithVersion = $this->_helper->getServiceName($serviceData['class']);
                 if ($resourceWithVersion != $resourceName . $resourceVersion) {
                     continue;
                 }

@@ -169,7 +169,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      */
     public function getMethodMetadata(ReflectionMethod $methodReflection)
     {
-        $resourceName = $this->_helper->translateResourceName($methodReflection->getDeclaringClass()->getName());
+        $resourceName = $this->_helper->getServiceName($methodReflection->getDeclaringClass()->getName());
         $resourceVersion = $this->_getMethodVersion($methodReflection);
         $methodName = $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection);
 
