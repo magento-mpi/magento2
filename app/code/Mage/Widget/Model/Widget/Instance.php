@@ -64,16 +64,16 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     /**
      * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
-     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
