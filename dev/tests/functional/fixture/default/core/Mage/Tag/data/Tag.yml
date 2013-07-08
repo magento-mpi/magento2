@@ -31,13 +31,13 @@ backend_new_tag:
     tag_name: tag_name_%randomize%
     tag_status: Approved
     base_popularity: %noValue%
-    switch_store: %noValue%
+    choose_store_view: %noValue%
 
 backend_new_tag_with_product:
     tag_name: tag_name_%randomize%
     tag_status: Approved
     base_popularity: %noValue%
-    switch_store: Default Store View
+    choose_store_view: Default Store View
     products_tagged_by_admins:
         prod_tag_admin_id_from: %noValue%
         prod_tag_admin_id_to: %noValue%

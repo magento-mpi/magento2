@@ -45,7 +45,7 @@ manage_product_rules:
 #Create Product Rules page
 create_product_rule:
     mca: targetrule/new/
-    title: New Related Products Rules / Related Products Rules / Promotions / Marketing / Magento Admin
+    title: New Related Products Rule / Related Products Rule / Promotions / Marketing / Magento Admin
     uimap:
         form: &createProductRule
             tabs:

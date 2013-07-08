@@ -27,28 +27,6 @@ class Enterprise_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete Gift Card.</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-5864
-     */
-    public function deleteGiftCard()
-    {
-        //Data
-        $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'giftcard');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-        //Steps
-        $this->productHelper()->openProduct($search);
-        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_deleted_product');
-    }
-
-    /**
      * <p>Delete several Gift Cards.</p>
      *
      * @test

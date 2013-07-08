@@ -324,7 +324,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->designEditorHelper()->assignFromAvailableThemeTab();
 
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
@@ -367,7 +367,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->markTestIncomplete('MAGETWO-9010');
         //Data
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->openTab('available_themes');
@@ -459,7 +459,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->designEditorHelper()->assignFromAvailableThemeTab();
 
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->addParameter('id', $themeId);
@@ -504,7 +504,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->designEditorHelper()->assignFromAvailableThemeTab();
 
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->addParameter('id', $themeId);

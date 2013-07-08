@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
         return parent::_prepareLayout();
     }
 
-    protected function getNewButtonHtml()
+    public function getNewButtonHtml()
     {
         return $this->getChildHtml('addButton');
     }

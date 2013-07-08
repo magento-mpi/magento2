@@ -76,14 +76,10 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodZeroSubtotalTest extends M
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'signedin_flatrate_checkmoney_usa',
-            array(
-                'general_name' => $testData['sku'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')
-            )
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')
+        ));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/zerosubtotal_enable');
@@ -111,22 +107,14 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodZeroSubtotalTest extends M
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'signedin_flatrate_checkmoney_usa',
-            array(
-                'general_name' => $testData['sku'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')
-            )
-        );
-        $paymentConfig = $this->loadDataSet(
-            'PaymentMethod',
-            'zerosubtotal_enable',
-            array(
-                'zsc_new_order_status' => 'Processing',
-                'zsc_automatically_invoice_all_items' => 'Yes'
-            )
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')
+        ));
+        $paymentConfig = $this->loadDataSet('PaymentMethod', 'zerosubtotal_enable', array(
+            'zsc_new_order_status' => 'Processing',
+            'zsc_automatically_invoice_all_items' => 'Yes'
+        ));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);

@@ -69,10 +69,10 @@ order_by_sku:
             fieldsets:
                 -
                     add_by_sku:
-                        xpath: //div[@class='my-account']
+                        xpath: //div[div/h1='Order by SKU']
                         fields:
-                            sku: //tr[%number%]//input[contains(@name, '[sku]')]
-                            qty: //tr[%number%]//input[contains(@name, '[qty]')]
+                            sku: //tr[%number%]//input[contains(@name,'[sku]')]
+                            qty: //tr[%number%]//input[contains(@name,'[qty]')]
                             sku_upload: //*[@id='customer_sku_csv']
                         buttons:
                             add_to_cart: //button[span='Add to Cart']
@@ -80,11 +80,11 @@ order_by_sku:
                             remove_row: //tr[%rowIndex%]//*[@class='btn-remove']
                         pageelements:
                             note_csv: //*[@class='note']
+                            table_lines: //table/tbody/tr
         messages:
             qty_sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
             qty_sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
             qty_sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
-            qty_sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]
 
 create_new_return:
    mca: rma/return/create/order_id/%id%/
@@ -94,7 +94,7 @@ create_new_return:
            fieldsets:
                -
                    create_rma:
-                       xpath: //*[@id='rma_create_form']
+                       xpath: //div[div/form/@id='rma_create_form']
                        links:
                            back: //p[@class='back-link a-left']/a
                            add_item_to_return: //a[text()='Add Item To Return']
@@ -120,7 +120,7 @@ my_returns:
    uimap:
        form:
        messages:
-           successfully_submitted_return: //li[normalize-space(@class)='success-msg' and contains(.,' has been submitted successfully')]
+           successfully_submitted_return: "//li[normalize-space(@class)='success-msg' and contains(.,'You submitted Return #')]"
 
 my_credit_cards:
     mca: enterprise_pbridge/payment_profile/
@@ -130,8 +130,9 @@ my_credit_cards:
             fieldsets:
                 -
                     general_elements:
+                        xpath: //div[div/h1='My Credit Card profiles']
                         pageelements:
-                            account_title: //div[@class='page-title' and contains(., 'My Credit Card profiles')]
+                            account_title: //*[text()='My Credit Card profiles']
 
 my_invitations:
     mca: invitation/

@@ -19,34 +19,26 @@
 class Core_Mage_OrderShipment_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * @param array $shipmentData
-     * @return array $verify
-     */
-    protected function _doShipping(array $shipmentData)
-    {
-        $verify = array();
-        $this->clickButton('ship');
-        foreach ($shipmentData as $options) {
-            if (is_array($options)) {
-                $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : null;
-                $productQty = (isset($options['ship_product_qty'])) ? $options['ship_product_qty'] : '%noValue%';
-                if ($sku) {
-                    $verify[$sku] = $productQty;
-                    $this->addParameter('sku', $sku);
-                    $this->fillField('qty_to_ship', $productQty);
-                }
-            }
-        }
-        return $verify;
-    }
-    /**
      * Provides partial or fill shipment
      *
      * @param array $shipmentData
      */
     public function createShipmentAndVerifyProductQty(array $shipmentData = array())
     {
-        $verify = $this->_doShipping($shipmentData);
+        $verify = array();
+        $this->clickButton('ship');
+        foreach ($shipmentData as $options) {
+            if (!is_array($options)) {
+                continue;
+            }
+            $productQty = (isset($options['ship_product_qty'])) ? $options['ship_product_qty'] : '%noValue%';
+            if (isset($options['ship_product_sku'])) {
+                $sku = $options['ship_product_sku'];
+                $verify[$sku] = $productQty;
+                $this->addParameter('sku', $sku);
+                $this->fillField('qty_to_ship', $productQty);
+            }
+        }
         if (!$verify) {
             $productCount = $this->getControlCount('fieldset', 'product_line_to_ship');
             for ($i = 1; $i <= $productCount; $i++) {

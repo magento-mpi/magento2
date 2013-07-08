@@ -139,6 +139,7 @@ billing_new_signedin_req_physical_withshipping_usa: &newBillingSignedInReqWithSh
     billing_zip_code: 90064
     billing_telephone: (091)019-019(billing.req)
     billing_fax: %noValue%
+    billing_vat_number: %noValue%
     billing_save_in_address_book: %noValue%
     ship_to_this_address: Yes
     ship_to_different_address: %noValue%
@@ -255,6 +256,7 @@ billing_with_register_withshipping_usa: &billingWithRegisterWithShippingUsa
     billing_fax: %noValue%
     billing_password: 123123q
     billing_confirm_password: 123123q
+    billing_vat_number: %noValue%
     ship_to_this_address: Yes
     ship_to_different_address: %noValue%
 

@@ -22,7 +22,7 @@ simple_product_for_prices_validation_1:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 simple_product_for_prices_validation_2:
@@ -38,7 +38,7 @@ simple_product_for_prices_validation_2:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 simple_product_for_prices_validation_3:
@@ -54,16 +54,8 @@ simple_product_for_prices_validation_3:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
-
-customer_account_for_prices_validation:
-    associate_to_website: Main Website
-    group: General
-    first_name: First Name
-    last_name: Last Name
-    email: test_user_%randomize%@unknown-domain.com
-    password: 123123q
 
 customer_account_address_for_prices_validation:
     first_name: First Name
@@ -5977,7 +5969,7 @@ simple_product_for_prices_validation_front_1:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     websites: Main Website
@@ -5995,7 +5987,7 @@ simple_product_for_prices_validation_front_2:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 3
     websites: Main Website
@@ -6013,7 +6005,7 @@ simple_product_for_prices_validation_front_3:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 5
     websites: Main Website
@@ -7714,7 +7706,7 @@ simple_product_for_price_rules_validation_front:
     general_sku: simple_sku_price_rule_validation_%randomize%
     general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     general_qty: 120
     general_stock_availability: In Stock
     general_price: 120
@@ -7732,23 +7724,23 @@ by_percentage_of_the_original_price_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $12.99
-        price_special: $11.69
+        general_price: $12.99
+        prices_special_price: $11.69
 
 by_percentage_of_the_original_price_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $12.99
+        general_price: $12.99
 
 by_percentage_of_the_original_price_simple_product_not_logged:
-    qty: 1
-    price_old: $12.99
-    price_special: $11.69
+    qty: '1'
+    general_price: $12.99
+    prices_special_price: $11.69
 
 by_percentage_of_the_original_price_simple_product_logged:
-    qty: 1
-    price_regular: $12.99
+    qty: '1'
+    general_price: $12.99
 
 #########################################
 #         By Fixed Amount               #
@@ -7758,23 +7750,23 @@ by_fixed_amount_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $12.99
-        price_special: $2.99
+        general_price: $12.99
+        prices_special_price: $2.99
 
 by_fixed_amount_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $12.99
+        general_price: $12.99
 
 by_fixed_amount_simple_product_not_logged:
-    qty: 1
-    price_old: $12.99
-    price_special: $2.99
+    qty: '1'
+    general_price: $12.99
+    prices_special_price: $2.99
 
 by_fixed_amount_simple_product_logged:
-    qty: 1
-    price_regular: $12.99
+    qty: '1'
+    general_price: $12.99
 
 #############################################################
 #         To Percentage of the Original Price               #
@@ -7784,23 +7776,23 @@ to_percentage_of_the_original_price_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $12.99
-        price_special: $1.30
+        general_price: $12.99
+        prices_special_price: $1.30
 
 to_percentage_of_the_original_price_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $12.99
+        general_price: $12.99
 
 to_percentage_of_the_original_price_simple_product_not_logged:
-    qty: 1
-    price_old: $12.99
-    price_special: $1.30
+    qty: '1'
+    general_price: $12.99
+    prices_special_price: $1.30
 
 to_percentage_of_the_original_price_simple_product_logged:
-    qty: 1
-    price_regular: $12.99
+    qty: '1'
+    general_price: $12.99
 
 #########################################
 #         To Fixed Amount               #
@@ -7810,20 +7802,20 @@ to_fixed_amount_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $12.99
-        price_special: $10.00
+        general_price: $12.99
+        prices_special_price: $10.00
 
 to_fixed_amount_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $12.99
+        general_price: $12.99
 
 to_fixed_amount_simple_product_not_logged:
-    qty: 1
-    price_old: $12.99
-    price_special: $10.00
+    qty: '1'
+    general_price: $12.99
+    prices_special_price: $10.00
 
 to_fixed_amount_simple_product_logged:
-    qty: 1
-    price_regular: $12.99
+    qty: '1'
+    general_price: $12.99

@@ -47,9 +47,10 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_AbstractHelper
             $this->productHelper()->frontFillBuyInfo($options);
         }
         $this->addParameter('productName', $productName);
-        $waitConditions = array($this->getBasicXpathMessagesExcludeCurrent('success'),
-                                $this->_getControlXpath('fieldset', 'log_in_customer',
-                                    $this->getUimapPage('frontend', 'customer_login')));
+        $waitConditions = array(
+            $this->getBasicXpathMessagesExcludeCurrent('success'),
+            $this->_getControlXpath('fieldset', 'log_in_customer', $this->getUimapPage('frontend', 'customer_login'))
+        );
         $this->clickControl('link', 'add_to_wishlist', false);
         $this->waitForElement($waitConditions);
         $this->addParameter('id', $this->defineIdFromUrl());
@@ -137,14 +138,13 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->addParameter('productName', $productName);
         $this->navigate('my_wishlist');
-        if ($this->buttonIsPresent('add_to_cart')) {
-            $this->clickButton('add_to_cart');
-            if ($this->getCurrentPage() == 'wishlist_configure_product' && !empty($productOptions)) {
-                $this->productHelper()->frontFillBuyInfo($productOptions);
-                $this->clickButton('add_to_cart');
-            }
-        } else {
+        if (!$this->buttonIsPresent('add_to_cart')) {
             $this->fail('Product ' . $productName . ' is not in the wishlist');
+        }
+        $this->clickButton('add_to_cart');
+        if ($this->getCurrentPage() == 'wishlist_configure_product' && !empty($productOptions)) {
+            $this->productHelper()->frontFillBuyInfo($productOptions);
+            $this->clickButton('add_to_cart');
         }
     }
 }

@@ -18,6 +18,19 @@
  */
 class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+        $this->logoutAdminUser();
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->admin('log_in_to_admin');
+    }
+
     protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
@@ -37,7 +50,10 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $addressData = $this->loadDataSet('SalesOrderActions', 'customer_addresses');
+        $addressData = $this->loadDataSet('Customers', 'generic_address', array(
+            'default_billing_address' => 'Yes',
+            'default_shipping_address' => 'Yes'
+        ));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
@@ -49,54 +65,38 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('sku' => $simple['general_name'], 'email' => $userData['email']);
-    }
-
-    /**
-     * <p>Precondition Method</p>
-     * <p>Create test Role with full permissions for Sales Order Actions</p>
-     *
-     * @return array $roleSource
-     *
-     * @test
-     * @depends preconditionsForTestsCreateProduct
-     */
-    public function createRole()
-    {
-        $this->loginAdminUser();
-        $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_order'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_invoice';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_ship';
-        $roleSource['role_resources_tab']['role_resources']['resource_4'] = 'sales_orders_credit_memos';
-        $this->adminUserHelper()->createRole($roleSource);
-        $this->assertMessagePresent('success', 'success_saved_role');
-
-        return $roleSource;
+        return array('sku' => $simple['general_sku'], 'email' => $userData['email']);
     }
 
     /**
      * <p>Precondition Method</p>
      * <p> Create test Admin user with test Role(Full permissions for order actions) </p>
      *
-     * @param array $roleSource
-     *
      * @return array $testAdminUser
      *
      * @test
-     * @depends createRole
      */
-    public function createAdminWithTestRole($roleSource)
+    public function createAdminWithTestRole()
     {
-        $this->loginAdminUser();
-        $this->navigate('manage_admin_users');
+        //Data
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => array(
+                'sales-operations-orders', 'sales-operations-invoices',
+                'sales-operations-shipments', 'sales-operations-credit_memos'
+            ))
+        );
         $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
             array('role_name' => $roleSource['role_info_tab']['role_name']));
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_roles');
+        $this->adminUserHelper()->createRole($roleSource);
+        $this->assertMessagePresent('success', 'success_saved_role');
+        $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
 
-        return $testAdminUser;
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
@@ -110,14 +110,13 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function verifyScopeOneRole($testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         // Verify that navigation menu has only one element
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 4 child elements
-        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 2');
+        $this->assertEquals(4, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of child Navigation Menu not equal 4');
     }
 
     /**
@@ -136,16 +135,18 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createOrderOneRole($testAdminUser, $orderData)
     {
-        $this->markTestIncomplete('MAGETWO-7635');
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->navigate('manage_sales_orders');
-        $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $orderData['sku'], 'email' => $orderData['email']));
-        $this->orderHelper()->createOrder($orderCreationData);
+        $orderCreationData = $this->loadDataSet('SalesOrder', 'order_physical', array(
+            'filter_sku' => $orderData['sku'],
+            'email' => $orderData['email'],
+            'customer_email' => '%noValue%',
+            'billing_addr_data' => '%noValue%',
+            'shipping_addr_data' => $this->loadDataSet('SalesOrder', 'shipping_address_same_as_blling')
+        ));
+        $orderId = $this->orderHelper()->createOrder($orderCreationData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->validatePage('view_order');
-        $orderId = $this->orderHelper()->defineOrderId();
+        $this->assertTrue($this->checkCurrentPage('view_order'), $this->getParsedMessages());
 
         return $orderId;
     }
@@ -164,7 +165,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createInvoiceTestOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
@@ -184,7 +184,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function holdOrderOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->saveForm('hold');
@@ -206,7 +205,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function unHoldOrderOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->saveForm('unhold');
@@ -228,7 +226,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createShippingOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
@@ -249,7 +246,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createCreditMemoOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
@@ -272,12 +268,10 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function reorderOrderOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->clickButton('reorder');
-        $this->orderHelper()->submitOrder();
-        $orderId = $this->orderHelper()->defineOrderId();
+        $orderId = $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderId;
@@ -299,12 +293,10 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function editOrderOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
-        $this->orderHelper()->submitOrder();
-        $orderId = $this->orderHelper()->defineOrderId();
+        $orderId = $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderId;
@@ -324,7 +316,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function cancelOrderOneRole($orderId, $testAdminUser)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');

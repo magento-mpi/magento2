@@ -58,7 +58,7 @@
          * @private
          */
         _create: function() {
-            this._term = '';
+            this._term = null;
             this._nonSelectedItem = {id: '', label: ''};
             this._renderedContext = null;
             this._selectedItem = this._nonSelectedItem;
@@ -223,7 +223,8 @@
                 cut: this.search,
                 paste: this.search,
                 input: this.search,
-                selectItem: this._onSelectItem
+                selectItem: this._onSelectItem,
+                click: this.search
             }, this.options.events));
 
             this._bindDropdown();
@@ -416,7 +417,7 @@
          */
         search: function(e) {
             var term = this._value();
-            if (this._term !== term && !this.preventBlur) {
+            if ((this._term !== term || term.length === 0) && !this.preventBlur) {
                 this._term = term;
                 if ($.type(term) == 'string' && term.length >= this.options.minLength) {
                     if (this._trigger("search", e) === false) {
@@ -538,7 +539,7 @@
                 var ajaxData = {};
                 ajaxData[this.options.termAjaxArgument] = term;
 
-                this._xhr = $.ajax($.extend({
+                this._xhr = $.ajax($.extend(true, {
                     url: o.source,
                     type: 'POST',
                     dataType: 'json',

@@ -18,10 +18,6 @@
  */
 class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Login as admin to backend</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -45,10 +41,15 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('sku'        => $simpleData['general_sku'], 'name' => $simpleData['general_name'],
-                     'store'      => $storeView['store_view_name'],
-                     'withRating' => array('filter_sku'  => $simpleData['general_sku'],
-                                           'visible_in'  => $storeView['store_view_name']));
+        return array(
+            'sku' => $simpleData['general_sku'],
+            'name' => $simpleData['general_name'],
+            'store' => $storeView['store_view_name'],
+            'withRating' => array(
+                'filter_sku' => $simpleData['general_sku'],
+                'visible_in' => $storeView['store_view_name']
+            )
+        );
     }
 
     /**
@@ -69,19 +70,14 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         $reviewDataSecond = $this->loadDataSet('ReviewAndRating', 'review_required_without_rating',
             array('filter_sku' => $data['sku']));
         $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
-            array('filter_product_sku' => $data['sku']));
-
+            array('filter_product_sku' => $data['sku'], 'filter_title' => $reviewDataFirst['summary_of_review']));
         //Steps
         $this->navigate('manage_all_reviews');
+        $this->runMassAction('Delete', 'all');
         $this->reviewHelper()->createReview($reviewDataFirst);
-        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-
         $this->reviewHelper()->createReview($reviewDataSecond);
         $this->assertMessagePresent('success', 'success_saved_review');
-
-
-        //Steps
         $this->reviewHelper()->openReview($search);
         //Verification
         $this->assertTrue($this->buttonIsPresent('next_review'), 'There is no "Next" button on the page');
@@ -91,7 +87,6 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
             'There is present "Previous" button on the page');
         $this->assertFalse($this->buttonIsPresent('prev_save_review'),
             'There is present "Save and Previous" button on the page');
-
         // Check 'Next' and 'Prev' buttons don't save changes and move to other reviews
         $this->fillField('review', 'test text');
         $this->clickButton('next_review');
@@ -100,17 +95,15 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
             'There is present "Next" button on the page');
         $this->assertFalse($this->buttonIsPresent('next_save_review'),
             'There is present "Next and Previous" button on the page');
-
         // Check 'Next and Save' and 'Prev and Save' buttons save changes
         $this->fillField('review', 'test text');
         $this->clickButton('prev_review');
         $this->assertMessageNotPresent('success', 'success_saved_review');
-
-        $this->assertEquals($reviewDataSecond['review'], $this->getControlAttribute('field', 'review', 'value'));
+        $this->assertEquals($reviewDataFirst['review'], $this->getControlAttribute('field', 'review', 'value'));
 
         $this->clickButton('next_review');
         $this->assertMessageNotPresent('success', 'success_saved_review');
-        $this->assertEquals($reviewDataFirst['review'], $this->getControlAttribute('field', 'review', 'value'));
+        $this->assertEquals($reviewDataSecond['review'], $this->getControlAttribute('field', 'review', 'value'));
 
         $this->fillField('review', 'test text');
         $this->clickButton('prev_save_review');
@@ -144,17 +137,14 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         $reviewData2 = $this->loadDataSet('ReviewAndRating', 'review_required_without_rating',
             array('filter_sku' => $data['sku'], 'review' => $someRandomReviewText));
         $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
-            array( 'filter_review' => $someRandomReviewText));
-
+            array('filter_review' => $someRandomReviewText, 'filter_title' => $reviewData['summary_of_review']));
         //Steps
         $this->navigate('manage_all_reviews');
+        $this->runMassAction('Delete', 'all');
         $this->reviewHelper()->createReview($reviewData);
-        //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
-
         $this->reviewHelper()->createReview($reviewData2);
         $this->assertMessagePresent('success', 'success_saved_review');
-
         //Steps
         $this->reviewHelper()->openReview($search);
         //Verification
@@ -180,5 +170,4 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->buttonIsPresent('next_save_review'),
             'There is no "Save and Next" button on the page');
     }
-
 }

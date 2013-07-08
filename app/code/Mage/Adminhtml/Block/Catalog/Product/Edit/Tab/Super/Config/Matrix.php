@@ -18,6 +18,40 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     extends Mage_Backend_Block_Template
 {
+    /** @var Mage_Core_Model_App */
+    protected $_application;
+
+    /** @var Mage_Core_Model_LocaleInterface */
+    protected $_locale;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_App $application,
+        Mage_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_application = $application;
+        $this->_locale = $locale;
+    }
+
+    /**
+     * Retrieve price rendered according to current locale and currency settings
+     *
+     * @param int|float $price
+     * @return string
+     */
+    public function renderPrice($price)
+    {
+        return $this->_locale->currency($this->_application->getBaseCurrencyCode())->toCurrency(sprintf('%f', $price));
+    }
+
     /**
      * Get configurable product type
      *
@@ -47,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     {
         $variationalAttributes = array();
         $usedProductAttributes = $this->getAttributes();
-        foreach ($usedProductAttributes as &$attribute) {
+        foreach ($usedProductAttributes as $attribute) {
             $options = array();
             foreach ($attribute['options'] as $valueInfo) {
                 foreach ($attribute['values'] as $priceData) {
@@ -64,8 +98,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                 'id' => $attribute['attribute_id'],
                 'values' => $options,
             );
-
         }
+
         $attributesCount = count($variationalAttributes);
         if ($attributesCount === 0) {
             return array();
@@ -135,7 +169,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                     }
                 }
             }
-
             $this->setData('attributes', $attributes);
         }
         return $this->getData('attributes');

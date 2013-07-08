@@ -18,6 +18,13 @@
  */
 class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+    }
+
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to Catalog -> Manage Products</p>

@@ -29,10 +29,9 @@ class Enterprise_Mage_Status_BugsTest extends Mage_Selenium_TestCase
      */
     public function afterClickingWhatIsThisLink()
     {
-        $config = $this->loadDataSet('PersistentShoppingCart', 'enable_persistent_shopping_cart');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('PersistentShoppingCart/enable_persistent_shopping_cart');
         $this->frontend('customer_login');
         $this->clickControl('link', 'what_is_this', false);
         $this->assertTrue($this->controlIsVisible('pageelement', 'checking'),
