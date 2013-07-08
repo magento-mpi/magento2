@@ -1649,7 +1649,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->fail('Page validation is not done, because there is  message "' . $message . '" on it');
             }
         }
-        $this->assertMessageNotPresent('error', 'general_js_error');
+        if ($this->controlIsVisible('message', 'general_js_error')) {
+            $this->fail($this->locationToString() . 'JS error on page.');
+        }
     }
 
     ################################################################################
@@ -2834,7 +2836,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function waitForAjax($timeout = null)
     {
-        $this->assertMessageNotPresent('error', 'general_js_error');
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
@@ -3754,7 +3755,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function pleaseWait($waitDisappear = null)
     {
-        $this->assertMessageNotPresent('error', 'general_js_error');
+        if ($this->controlIsVisible('message', 'general_js_error')) {
+            $this->fail($this->locationToString() . 'JS error on page.');
+        }
         $this->waitUntil(
             function ($testCase) {
                 /** @var Mage_Selenium_TestCase $testCase */
