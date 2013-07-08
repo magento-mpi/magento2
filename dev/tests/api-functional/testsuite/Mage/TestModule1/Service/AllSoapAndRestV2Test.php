@@ -1,6 +1,6 @@
 <?php
 /**
- * Test TestModule1.
+ * Test AllSoapAndRestV2Test in TestModule1
  *
  * {license_notice}
  *
@@ -106,9 +106,9 @@ class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCas
                 'operation' => 'testModule1AllSoapAndRestUpdate'
             )
         );
-        $requestData = array('id'=> 1,'name' => 'testName');
+        $requestData = array('id' => 1, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated'.$requestData['name'], $item['name'], "Item creation failed");
+        $this->assertEquals('Updated' . $requestData['name'], $item['name'], "Item creation failed");
     }
 
     /**
@@ -128,7 +128,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCas
                 'operation' => 'testModule1AllSoapAndRestDelete'
             )
         );
-        $requestData = array('id'=> $itemId ,'name' => 'testName');
+        $requestData = array('id' => $itemId, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], "Item creation failed");
     }
