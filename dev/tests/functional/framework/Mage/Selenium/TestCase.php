@@ -4432,7 +4432,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param $controlType
      * @param $controlName
-     * @param $timeout
+     * @param int|null $timeout
      */
     public function waitForControlStopsMoving($controlType, $controlName, $timeout = null)
     {
@@ -4444,7 +4444,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Wait for Visual JS effects to be finished
      *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $element
-     * @param $timeout
+     * @param int|null $timeout
      */
     public function waitForElementStopsMoving(PHPUnit_Extensions_Selenium2TestCase_Element $element, $timeout = null)
     {
