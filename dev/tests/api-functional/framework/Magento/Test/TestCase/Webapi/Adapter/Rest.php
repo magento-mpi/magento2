@@ -9,50 +9,47 @@
  */
 class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
+    /**#@+
+     * Supported HTTP methods
+     */
+    const HTTP_METHOD_GET = 'GET';
+    const HTTP_METHOD_POST = 'POST';
+    const HTTP_METHOD_PUT = 'PUT';
+    const HTTP_METHOD_DELETE = 'DELETE';
+    /**#@-*/
+
     /**
      * {@inheritdoc}
      * @throws Exception
      */
     public function call($serviceInfo, $arguments = array())
     {
-        // get endpoint & httpMethod are present
-        try {
-            $resourcePath = $this->_getRestResourcePath($serviceInfo);
-        } catch (Exception $e) {
-            // REST endpoint not defined, skip making REST call
-            // TODO: Log Message
-            return;
-        }
-
-        // use HTTP GET as default
-        try {
-            $httpMethod = $this->_getRestHttpMethod($serviceInfo);
-        } catch (Exception $e) {
-            // default httpMethod to GET
-            $httpMethod = HTTP_REQUEST_METHOD_GET;
-        }
-
+        $resourcePath = $this->_getRestResourcePath($serviceInfo);
+        $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         // delegate the request to vanilla cURL REST client
         $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
-
-        $returnArray = array();
         switch ($httpMethod) {
-            case HTTP_REQUEST_METHOD_GET:
-                $returnArray = $curlClient->get($resourcePath, $arguments);
+            case self::HTTP_METHOD_GET:
+                $response = $curlClient->get($resourcePath, $arguments);
                 break;
-            case HTTP_REQUEST_METHOD_POST:
-                $returnArray = $curlClient->post($resourcePath, $arguments);
+            case self::HTTP_METHOD_POST:
+                $response = $curlClient->post($resourcePath, $arguments);
                 break;
-            case HTTP_REQUEST_METHOD_PUT:
-                $returnArray = $curlClient->put($resourcePath, $arguments);
+            case self::HTTP_METHOD_PUT:
+                $response = $curlClient->put($resourcePath, $arguments);
                 break;
-            case HTTP_REQUEST_METHOD_DELETE:
-                $returnArray = $curlClient->delete($resourcePath);
+            case self::HTTP_METHOD_DELETE:
+                $response = $curlClient->delete($resourcePath);
                 break;
             default:
-                throw new Exception("HttpMethod {$httpMethod} not supported");
+                throw new LogicException("HTTP method '{$httpMethod}' is not supported.");
         }
-        return $returnArray;
+        if (!is_array($response)) {
+            /** Array is defined as the only return type in the adapter interface */
+            $responseType = gettype($response);
+            throw new RuntimeException("Response type is invalid. Array expected, '{$responseType}' given.");
+        }
+        return $response;
     }
 
     /**

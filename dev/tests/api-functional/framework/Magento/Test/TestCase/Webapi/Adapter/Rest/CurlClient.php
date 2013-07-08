@@ -54,7 +54,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
      * @param string $resourcePath Resource URL like /V1/Resource1/123
      * @param array $data
      * @param array $headers
-     * @return string
+     * @return mixed
      */
     public function get($resourcePath, $data = array(), $headers = array())
     {
@@ -81,7 +81,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
      * @param string $resourcePath Resource URL like /V1/Resource1/123
      * @param array $data
      * @param array $headers
-     * @return string
+     * @return mixed
      */
     public function post($resourcePath, $data, $headers = array())
     {
@@ -109,7 +109,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
      * @param string $resourcePath Resource URL like /V1/Resource1/123
      * @param array $data
      * @param array $headers
-     * @return string
+     * @return mixed
      */
     public function put($resourcePath, $data, $headers = array())
     {
@@ -138,7 +138,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
      *
      * @param string $resourcePath Resource URL like /V1/Resource1/123
      * @param array $headers
-     * @return string
+     * @return mixed
      */
     public function delete($resourcePath, $headers = array())
     {
