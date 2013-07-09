@@ -60,21 +60,24 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
      */
     public function prepareResponse($outputData = null)
     {
-        switch (strtoupper($this->_request->getHttpMethod())) {
-            // TODO: Introduce constants instead of literals
-            case 'POST':
-                /** @var $createdItem Mage_Core_Model_Abstract */
-                // TODO: Refactor.Currently uses legacy Mage_Webapi_Model_Config_Rest
-                //$this->_response->setHeader('Location', $this->_getCreatedItemLocation($outputData));
-                break;
-            case 'GET':
-                $this->_render($outputData);
-                break;
-            case 'PUT':
-                // break is intentionally omitted
-            case 'DELETE':
-                break;
-        }
+        //TODO: MDS-767 - Temporary fix. Need to revisit once response strategy is finalized
+         /*
+            switch (strtoupper($this->_request->getHttpMethod())) {
+              // TODO: Introduce constants instead of literals
+              case 'POST':
+                  // @var $createdItem Mage_Core_Model_Abstract
+                  // TODO: Refactor.Currently uses legacy Mage_Webapi_Model_Config_Rest
+                  //$this->_response->setHeader('Location', $this->_getCreatedItemLocation($outputData));
+                  break;
+              case 'GET':
+                  $this->_render($outputData);
+                  break;
+              case 'PUT':
+                  // break is intentionally omitted
+              case 'DELETE':
+                  break;
+          }*/
+        $this->_render($outputData);
         $this->_renderMessages();
     }
 
