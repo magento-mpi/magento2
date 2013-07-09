@@ -146,7 +146,7 @@ create_order_for_new_customer_sku:
                             qty: //tr[%rowIndex%]//*[@name='qty']
                         buttons:
                             configure_item: //*[@id='sku_%sku%']//*[@class='sku-configure-button']/button
-                            remove_item: //tr[%rowIndex%]//*[@class='scalable delete']
+                            remove_item: //tr[%rowIndex%]//*[@class='action- scalable delete']
                         pageelements:
                             price_in_error_table: //tr[%rowIndex]//*[@class='price']
                             error_table_grid: //table[@id='sku_errors_table']/tbody/tr
