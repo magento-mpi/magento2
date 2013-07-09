@@ -817,12 +817,12 @@ manage_tax_rule:
             reset_filter: ~
             search: ~
     field:
-        page:~
+        page: ~
         filter_name: ~
         filter_priority: ~
         filter_sort_order: ~
     dropdown:
-        view_per_page:~
+        view_per_page: ~
         filter_customer_tax_class: ~
         filter_product_tax_class: ~
         filter_tax_rate: ~
