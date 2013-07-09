@@ -73,7 +73,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
         $this->_errorTest($serviceInfo, 500, 5678, 'Non service exception');
     }
 
-    private function _errorTest ($serviceInfo, $httpStatus, $errorCode, $errorMessage)
+    protected function _errorTest ($serviceInfo, $httpStatus, $errorCode, $errorMessage)
     {
         // TODO: need to get header info instead of catching the exception
         try {
