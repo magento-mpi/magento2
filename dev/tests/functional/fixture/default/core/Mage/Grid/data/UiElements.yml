@@ -833,3 +833,32 @@ manage_tax_rule:
         3: Tax Rate
         4: Priority
         5: Sort Order
+
+#dataset for ui elements for Cart Price grid
+create_order_for_new_customer:
+    fieldset:
+        order_customer_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        create_new_customer: ~
+    field:
+        id: ~
+        name: ~
+        email: ~
+        telephone: ~
+        zip_code: ~
+        state: ~
+        store_name: ~~
+    dropdown:
+        country: ~
+        pager: ~
+    headers:
+        0: ID
+        1: Name
+        2: Email
+        3: Phone
+        4: ZIP/Post Code
+        5: Country
+        6: State/Province
+        7: Signed-up Point

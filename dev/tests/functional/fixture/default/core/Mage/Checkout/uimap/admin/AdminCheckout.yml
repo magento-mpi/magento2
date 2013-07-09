@@ -136,6 +136,7 @@ create_order_for_new_customer:
                             search: //button[span='Search']
                         dropdowns:
                             country: //select[@name='billing_country_id']
+                            pager: //select[@data-ui-id ='adminhtml-customer-grid-container-per-page']
                         fields:
                             id: //input[@name='entity_id']
                             name: //input[@name='name']
