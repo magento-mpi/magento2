@@ -1,12 +1,14 @@
 <?php
 /**
- * Abstract block context object. Will be used as rule condition constructor modification point after release.
- * Important: Should not be modified by extension developers.
- *
  * {license_notice}
  *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Abstract block context object. Will be used as rule condition constructor modification point after release.
+ * Important: Should not be modified by extension developers.
  */
 class Mage_Rule_Model_Condition_Context implements Magento_ObjectManager_ContextInterface
 {
