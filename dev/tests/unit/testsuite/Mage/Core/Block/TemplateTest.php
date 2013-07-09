@@ -48,12 +48,20 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $design = $this->getMock('Mage_Core_Model_View_DesignInterface', array(), array(), '', false);
         $translator = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
 
+        $objectManagerMock = $this->getMock('Magento_ObjectManager', array('get', 'create', 'configure'));
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Mage_Core_Model_TemplateEngine_Php')
+            ->will($this->returnValue(new Mage_Core_Model_TemplateEngine_Php()));
+        $engineFactory = new Mage_Core_Model_TemplateEngine_Factory($objectManagerMock);
+
         $arguments = array(
             'design'        => $design,
             'layout'        => $layout,
             'dirs'          => $dirMock,
             'filesystem'    => $filesystem,
             'translator'    => $translator,
+            'engineFactory' => $engineFactory,
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
 

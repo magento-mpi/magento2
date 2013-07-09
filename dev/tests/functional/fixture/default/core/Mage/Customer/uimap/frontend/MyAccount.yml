@@ -32,10 +32,10 @@ customer_account:
         messages: &myAccountMessages
             success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
             confirmation_for_delete: Are you sure you want to delete this tag?
-            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
+            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the tag.')]
             vat_number_message: //li[normalize-space(@class)='success-msg' and contains(.,'If you are a registered VAT customer, please click here to enter you billing address for proper VAT calculation')]
             success_validate_vat: //li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated. You will be charged tax.')]
-            success_validate_intraunion_vat: //li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated. You will not be charged tax.')]
+            success_validate_intraunion_vat: "//li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated.')]"
             invalid_vat_number: //li[normalize-space(@class)='error-msg' and contains(.,'The VAT ID entered (%VatNumber%) is not a valid VAT ID. You will be charged tax.')]
             success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
 
@@ -85,7 +85,7 @@ view_order:
                             price_totals_line_index: //table[@id='my-orders-table']/tfoot/descendant::tr[%index%]
                             price_totals_line_index_name: //table[@id='my-orders-table']/tfoot/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //table[@id='my-orders-table']/tfoot/descendant::tr[%index%]/*[2]
-                            product_line:  //table[@id='my-orders-table']/tbody
+                            product_line: //table[@id='my-orders-table']/tbody
         messages: *myAccountMessages
 
 my_account_view_tag:
@@ -104,7 +104,7 @@ my_account_view_tag:
                             show_per_page: //div[@class='pager']/div[@class='limiter']/select
                         links:
                             delete_tag: //p[@class='my-tag-edit']/a[span='Delete']
-                            add_to_wishlist: //tr[*//a='%productName%']//a[text()='Add to Wishlist']
+                            add_to_wishlist: //tr[*//a='%productName%']//a[text()='Add to Wish List']
                             product_name: //h2[a='%productName%']
                             back_to_tags_list: //p[@class='back-link']/a[@href]
                         pageelements:
@@ -218,12 +218,12 @@ adding_new_address_book:
                             fax: //input[@id='fax']
                             street_address_line_1: //input[@id='street_1']
                             street_address_line_2: //input[@id='street_2']
-                            billing_vat_number: //input[@id='vat_id']
+                            vat_number: //input[@id='vat_id']
                             city: //input[@id='city']
                             zip_code: //input[@id='zip']
                         checkboxes:
                             default_billing_address: //input[@id='primary_billing']
-                            default_shipping_address:  //input[@id='primary_shipping']
+                            default_shipping_address: //input[@id='primary_shipping']
                         buttons:
                             save_address: //button[span='Save Address']
         messages: *myAccountMessages

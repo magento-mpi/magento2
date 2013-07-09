@@ -26,18 +26,28 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+    
+    /**
      * @var Mage_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
+     * @param Magento_AuthorizationInterface $authorization
      * @param Mage_Core_Model_View_Url $viewUrl
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl, array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        Magento_AuthorizationInterface $authorization,
+        Mage_Core_Model_View_Url $viewUrl,
+        array $data = array()
+    ) {
+        $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
+        parent::__construct($data);
     }
 
     /**
@@ -82,7 +92,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
 
         $config->setData('directives_url_quoted', preg_quote($config->getData('directives_url')));
 
-        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::media_gallery')) {
+        if ($this->_authorization->isAllowed('Mage_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images' => true,
                 'files_browser_window_url' => Mage::getSingleton('Mage_Backend_Model_Url')

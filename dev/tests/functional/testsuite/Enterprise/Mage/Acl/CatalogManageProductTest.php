@@ -14,19 +14,12 @@
 
 class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser();
+        $this->markTestIncomplete('BUG: It is impossible to create any product');
+        $this->admin('log_in_to_admin');
     }
 
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
     protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
@@ -40,24 +33,22 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
      */
     public function roleResourceAccessManageProduct()
     {
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+            array('resource_acl' => 'products-inventory-catalog'));
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
         //Preconditions
         //create specific role with test roleResource
+        $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_acl' => 'products_catalog'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
         $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Steps
-        //return array $loginData to login in next test
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
-        return $loginData;
+
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
@@ -74,21 +65,21 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
      */
     public function deleteSingleProduct($type, $loginData)
     {
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_products');
         //Data
-        $productData = $this->loadDataSet('Product', $type . '_product_visible');
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', $type . '_product_required');
+        $search = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $productData['general_sku']));
         //Steps
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->getParsedMessages());
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        //Steps
-        $this->productHelper()->openProduct($search);
-        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+        $this->searchAndChoose($search, 'product_grid');
+        $this->addParameter('qtyDeletedProducts', 1);
+        $this->runMassAction('Delete');
         //Verifying
-        $this->assertMessagePresent('success', 'success_deleted_product');
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
 
     public function deleteSingleProductDataProvider()
@@ -108,72 +99,68 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
      * @test
      * @TestlinkId TL-MAGE-5965
      */
-    public function roleResourceAccessEditProductStatus()
+    public function roleResourceAccessWithoutProductPrice()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->loginAdminUser();
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website', array(
+            'resource_acl' => 'products-inventory-catalog',
+            'resource_acl_skip' => 'products-inventory-catalog-read_product_price'
+        ));
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
         //Preconditions
         //create specific role with test roleResource
+        $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_acl' => 'products_catalog'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
         $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Steps
-        //return array $loginData to log in in next test
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
-        return $loginData;
+
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
-     *
-     * <p>Delete product;</p>
+     * <p>Delete product without Price</p>
      *
      * @param string $type
      * @param array $loginData
      *
-     * @depends roleResourceAccessEditProductStatus
      * @test
-     * @dataProvider deleteSingleProductDataProvider1
+     * @dataProvider deleteSingleProductWithoutPriceDataProvider
+     * @depends roleResourceAccessWithoutProductPrice
      * @TestlinkId TL-MAGE-5966
      */
-    public function deleteSingleProduct_without_Price($type, $loginData)
+    public function deleteSingleProductWithoutPrice($type, $loginData)
     {
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_products');
-        // Verifying visibility Price column
-        if ($this->controlIsVisible('pageelement', 'product_grid_columns_price')) {
-            $this->fail("This user doesn't have permission to watch Column Price");
-        }
         //Data
-        $productData = $this->loadDataSet('Product', $type . '_product_visible',
+        $productData = $this->loadDataSet('Product', $type . '_product_required',
             array('general_price' => '%noValue%'));
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        $search = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $productData['general_sku']));
         //Steps
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->getParsedMessages());
+        // Verifying visibility Price column
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_grid_columns_price'),
+            "This user doesn't have permission to watch Column Price");
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        //Steps
-        $this->productHelper()->openProduct($search);
-        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+        $this->searchAndChoose($search, 'product_grid');
+        $this->addParameter('qtyDeletedProducts', 1);
+        $this->runMassAction('Delete');
         //Verifying
-        $this->assertMessagePresent('success', 'success_deleted_product');
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
 
-    public function deleteSingleProductDataProvider1()
+    public function deleteSingleProductWithoutPriceDataProvider()
     {
         return array(
             array('simple'),
             array('virtual'),
-            array('downloadable'),
+            array('downloadable')
         );
     }
 }

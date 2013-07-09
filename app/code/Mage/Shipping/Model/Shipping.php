@@ -208,7 +208,7 @@ class Mage_Shipping_Model_Shipping
 
     /**
      * Compose Packages For Carrier.
-     * Devides order into items and items into parts if it's neccesary
+     * Devides order into items and items into parts if it's necessary
      *
      * @param Mage_Shipping_Model_Carrier_Abstract $carrier
      * @param Mage_Shipping_Model_Rate_Request $request
@@ -442,7 +442,7 @@ class Mage_Shipping_Model_Shipping
             || !Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
             Mage::throwException(
-                Mage::helper('Mage_Sales_Helper_Data')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
             );
         }
 

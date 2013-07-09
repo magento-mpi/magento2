@@ -21,7 +21,8 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $params = array(
             'context' => Mage::getObjectManager()->get('Mage_Core_Model_Context'),
             'configCacheType' => Mage::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
-            'urlModel'    => Mage::getObjectManager()->get('Mage_Core_Model_Url'),
+            'urlModel' => Mage::getObjectManager()->get('Mage_Core_Model_Url'),
+            'appState' => Mage::getObjectManager()->get('Mage_Core_Model_App_State'),
         );
 
         $this->_model = $this->getMock(
@@ -308,28 +309,43 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture limitations/store 1
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation enabled
+     * @dataProvider isUseStoreInUrlDataProvider
      */
-    public function testSaveValidationLimitation()
+    public function testIsUseStoreInUrl($isInstalled, $storeInUrl, $storeId, $expectedResult)
     {
-        // @codingStandardsIgnoreStart
-        $this->setExpectedException('Mage_Core_Exception', 'Sorry, you are using all the store views your account allows. To add more, first delete a store view or upgrade your service.');
-        // @codingStandardsIgnoreEnd
-        $this->_model->setData(
-            array(
-                'code'          => 'test',
-                'website_id'    => 1,
-                'group_id'      => 1,
-                'name'          => 'test name',
-                'sort_order'    => 0,
-                'is_active'     => 1
-            )
+        $appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false, false);
+        $appStateMock->expects($this->any())
+            ->method('isInstalled')
+            ->will($this->returnValue($isInstalled));
+
+        $params = array(
+            'context' => Mage::getObjectManager()->get('Mage_Core_Model_Context'),
+            'configCacheType' => Mage::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
+            'urlModel' => Mage::getObjectManager()->get('Mage_Core_Model_Url'),
+            'appState' => $appStateMock,
         );
 
-        /* emulate admin store */
-        Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
-        $this->_model->save();
+        $model = $this->getMock('Mage_Core_Model_Store', array('getConfig'), $params);
+
+
+        $model->expects($this->any())->method('getConfig')
+            ->with($this->stringContains(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL))
+            ->will($this->returnValue($storeInUrl));
+        $model->setStoreId($storeId);
+        $this->assertEquals($model->isUseStoreInUrl(), $expectedResult);
+    }
+
+    /**
+     * @see self::testIsUseStoreInUrl;
+     * @return array
+     */
+    public function isUseStoreInUrlDataProvider()
+    {
+        return array(
+            array(true, true, 1, true),
+            array(false, true, 1, false),
+            array(true, false, 1, false),
+            array(true, true, 0, false),
+        );
     }
 }

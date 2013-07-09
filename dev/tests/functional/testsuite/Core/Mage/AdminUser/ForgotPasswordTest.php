@@ -74,7 +74,7 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->addParameter('adminEmail', $emailData['email']);
-        $this->assertMessagePresent('success', 'success_forgot_password');
+        $this->assertMessagePresent('success', 'retrieve_password');
     }
 
     /**
@@ -99,7 +99,7 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verification
         $this->addParameter('adminEmail', $emailData['email']);
-        $this->assertMessagePresent('success', 'success_forgot_password');
+        $this->assertMessagePresent('success', 'retrieve_password');
         //Steps
         $this->loginAdminUser();
         //Verification

@@ -34,7 +34,7 @@ create_new_account_options:
                 group_valid_vat_intraunion: %noValue%
                 group_invalid_vat: %noValue%
                 show_vat_number_frontend: Yes
-                default_value_for_disable_automatic_group: %noValue%
+                default_value_for_disable_automatic_group: No
             
 #<-------Disabling "Enable Automatic Assignment to Customer Group" option----------->
 create_new_account_options_disable:
@@ -44,4 +44,6 @@ create_new_account_options_disable:
         configuration:
             create_new_account_options:
                 enable_automatic_assignment_group: No
+                group_default: General
                 default_value_for_disable_automatic_group: No
+                show_vat_number_frontend: No

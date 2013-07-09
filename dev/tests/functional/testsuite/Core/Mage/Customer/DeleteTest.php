@@ -18,9 +18,6 @@
  */
 class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -62,8 +59,8 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
         for ($i = 1; $i <= $customerQty; $i++) {
             //Data
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            ${'searchData' . $i} =
-                $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
+            ${'searchData' . $i} = $this->loadDataSet('Customers', 'search_customer',
+                array('email' => $userData['email']));
             //Steps
             $this->customerHelper()->createCustomer($userData);
             $this->assertMessagePresent('success', 'success_saved_customer');
@@ -72,8 +69,7 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
             $this->searchAndChoose(${'searchData' . $i}, 'customers_grid');
         }
         $this->addParameter('qtyDeletedCustomers', $customerQty);
-        $this->fillDropdown('grid_massaction_select', 'Delete');
-        $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
+        $this->runMassAction('Delete', null, 'confirmation_for_massaction_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_customer_massaction');
     }

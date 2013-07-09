@@ -25,12 +25,12 @@ class Mage_Backend_Block_Widget_Grid_Column_Multistore extends Mage_Backend_Bloc
     protected $_storeManager;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {

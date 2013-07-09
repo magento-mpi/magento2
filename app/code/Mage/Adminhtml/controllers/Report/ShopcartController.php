@@ -135,8 +135,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'customer':
-                return $this->_authorization
-                    ->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL);
+                return $this->_authorization->isAllowed(null);
                 break;
             case 'product':
                 return $this->_authorization->isAllowed('Mage_Reports::product');

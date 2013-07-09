@@ -51,12 +51,13 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
     protected $_tab = null;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder $formBuilder
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder $formBuilder,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
@@ -76,7 +77,8 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
     {
         if (!$this->_formId || !$this->_tab) {
             throw new Mage_Core_Exception(
-                $this->__('Invalid block of class "%s". Not all required properties are defined', get_class($this))
+                $this->__('We found an invalid block of class "%s". Please define the required properties.',
+                    get_class($this))
             );
         }
         $form = $this->_formBuilder->create(array(

@@ -71,7 +71,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Login with empty "Username"/"Password"</p>
      *
      * @param string $emptyField
-     * @param array $fieldId
      * @param array $loginData
      *
      * @test
@@ -79,23 +78,23 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * @depends loginValidUser
      * @TestlinkId TL-MAGE-3154
      */
-    public function loginEmptyOneField($emptyField, $fieldId, $loginData)
+    public function loginEmptyOneField($emptyField, $loginData)
     {
         //Data
         $loginData[$emptyField] = '%noValue%';
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->addParameter('fieldId', $fieldId);
-        $this->assertMessagePresent('validation', 'empty_field');
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function loginEmptyOneFieldDataProvider()
     {
         return array(
-            array('user_name', 'username'),
-            array('password', 'login')
+            array('user_name'),
+            array('password')
         );
     }
 
@@ -161,7 +160,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertMessagePresent('error', 'inactive_account');
+        $this->assertMessagePresent('error', 'wrong_credentials');
     }
 
     /**
@@ -187,7 +186,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertMessagePresent('error', 'access_denied');
+        $this->assertMessagePresent('error', 'wrong_credentials');
     }
 
     /**
@@ -203,8 +202,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
-        $this->addParameter('fieldId', 'email');
-        $this->assertMessagePresent('error', 'empty_field');
+        $this->addFieldIdToMessage('field', 'email');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->getParsedMessages());
     }
 

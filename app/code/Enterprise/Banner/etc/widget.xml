@@ -49,7 +49,7 @@
                 <values>
                     <none translate="label">
                         <value></value>
-                        <label>Do not rotate, display all at once</label>
+                        <label>Display all instead of rotating.</label>
                     </none>
                     <random translate="label">
                         <value>random</value>

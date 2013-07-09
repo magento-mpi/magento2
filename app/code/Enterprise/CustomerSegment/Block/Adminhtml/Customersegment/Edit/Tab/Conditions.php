@@ -50,7 +50,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
 
         if (Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $model->getApplyTo()) {
             $fieldset->addField('conditions-label', 'label', array(
-                'note' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('* Could be applied both for visitors and registered customers'),
+                'note' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('* applicable to visitors and registered customers'),
             ));
         }
 

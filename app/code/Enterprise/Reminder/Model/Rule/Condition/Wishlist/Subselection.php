@@ -68,7 +68,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %s in the wishlist with %s of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %s in the wish list with %s of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

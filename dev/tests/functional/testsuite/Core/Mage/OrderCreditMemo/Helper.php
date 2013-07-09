@@ -64,14 +64,11 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_AbstractHelper
             $this->pleaseWait();
         }
         $this->clickButton($refundButton, false);
-        $this->waitForNewPage();
+        $this->waitForPageToLoad();
         //@TODO
         //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
-        $orderId = $this->orderHelper()->defineOrderId();
-        if ($orderId != 0) {
-            $this->addParameter('%elementTitle%', '#' . $orderId);
-        }
+        $this->orderHelper()->defineOrderId();
         $this->validatePage();
         if ($validate) {
             $this->assertMessagePresent('success', 'success_creating_creditmemo');

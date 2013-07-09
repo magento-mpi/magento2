@@ -59,19 +59,26 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
         $virtual = $this->productHelper()->createVirtualProduct();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        return array('products1' => array('product_1' => $simple1['simple']['product_name'],
-                                          'product_2' => $simple2['simple']['product_name']),
-                     'products2' => array('product_1' => $simple1['simple']['product_name'],
-                                          'product_2' => $virtual['virtual']['product_name']),
-                     'email'     => $userData['email']);
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+
+        return array(
+            'products1' => array(
+                'product_1' => $simple1['simple']['product_name'],
+                'product_2' => $simple2['simple']['product_name']
+            ),
+            'products2' => array(
+                'product_1' => $simple1['simple']['product_name'],
+                'product_2' => $virtual['virtual']['product_name']
+            ),
+            'email' => $userData['email']
+        );
     }
 
     /**
@@ -90,8 +97,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('shipping' => $shippingMethod,
-                  'email'    => $testData['email']), $testData['products1']);
+            array('shipping' => $shippingMethod, 'email' => $testData['email']), $testData['products1']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');
@@ -117,8 +123,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_virtual',
-            array('shipping' => $shippingMethod,
-                  'email'    => $testData['email']), $testData['products2']);
+            array('shipping' => $shippingMethod, 'email' => $testData['email']), $testData['products2']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');
@@ -154,8 +159,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_dhl');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', $dataSet,
-            array('shipping'  => $shippingMethod,
-                  'email'     => $testData['email']), $testData[$productTypes]);
+            array('shipping' => $shippingMethod, 'email' => $testData['email']), $testData[$productTypes]);
         $shippingSettings = $this->loadDataSet('ShippingMethod', 'dhl_enable');
         $shippingOrigin = $this->loadDataSet('ShippingSettings', 'shipping_settings_usa');
         $this->navigate('system_configuration');

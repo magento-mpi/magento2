@@ -18,27 +18,6 @@
  */
 class Saas_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
 {
-    #**************************************************************************************
-    #*                                                    Frontend Helper Methods         *
-    #**************************************************************************************
-    /**
-     * Choose custom options and additional products
-     *
-     * @param array $dataForBuy
-     */
-    public function frontAddProductToCart($dataForBuy = null)
-    {
-        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
-        $customizeFieldset = $this->_getControlXpath('fieldset', 'customize_product_info');
-        if ($customize) {
-            $productInfoFieldset = $this->_getControlXpath('fieldset', 'product_info');
-            $this->clickButton('customize_and_add_to_cart', false);
-            $this->waitForElementVisible($customizeFieldset);
-            $this->waitForControlStopsMoving('fieldset', 'customize_product_info');
-        }
-        $this->helper('Core_Mage_Product_Helper')->frontAddProductToCart($dataForBuy);
-    }
-
     #*********************************************************************************
     #*                         Test  Methods for creating product                    *
     #*********************************************************************************

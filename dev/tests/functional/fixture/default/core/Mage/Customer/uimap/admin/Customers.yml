@@ -13,7 +13,7 @@
 manage_customers:
     mca: customer/
     click_xpath: //*[@id='nav']//a[contains(@href, 'customer/')]
-    title: Manage Customers / Customers / Magento Admin
+    title: Customers / Customers / Magento Admin
     uimap:
         form: &searchCustomerGrid
             fieldsets:
@@ -25,7 +25,7 @@ manage_customers:
                             search: //button[span='Search']
                             submit: //button[span='Submit']
                         dropdowns:
-                            grid_massaction_select: //select[@id='customerGrid_massaction-select']
+                            mass_action_select_action: //select[@id='customerGrid_massaction-select']
                             massaction: //select[@name='massaction']
                             group: //select[@name='group']
                             country: //select[@name='billing_country_id']
@@ -39,21 +39,20 @@ manage_customers:
                             zip_code: //input[@name='billing_postcode']
                             state: //input[@name='billing_region']
                         links:
+                            mass_action_select_all: //a[text()='Select All']
                             open_customer_by_value: ~
                         pageelements:
                             customer_grid_head: //table[@id='customerGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new_customer: //button[span='Add New Customer' or span='Add New']
         messages: &customerMessages
-            success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
-            success_subscribe_unsubscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySubscribeCustomers% record(s) were updated.')]
+            success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedCustomers% record(s) were deleted.')]
+            success_subscribe_unsubscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtySubscribeCustomers% record(s) were updated.')]
             wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.,'"Date Of Birth" does not fit the entered date format.')]
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
-            success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.,'The customer has been deleted.')]
-            success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.,'The customer has been saved.')]
+            success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the customer.')]
+            success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the customer.')]
             customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid')]
-            no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
             password_too_short: //label[(@for)='_accountpassword' and contains(., 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.')]
             invalid_email: //label[(@for)='_accountemail' and contains(., 'Please enter a valid email address. For example johndoe@domain.com.')]
             confirmation_for_delete: Are you sure you want to do this?
@@ -63,7 +62,7 @@ manage_customers:
 # 'New Customer' Page
 create_customer:
     mca: customer/new/
-    title: New Customer / Manage Customers / Customers / Magento Admin
+    title: New Customer / Customers / Customers / Magento Admin
     uimap:
         form: &newCustomerForm
             tabs:
@@ -116,7 +115,7 @@ create_customer:
                                         default_billing_address: //input[@id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping_item%address_number%']
                                     pageelements:
-                                        list_customer_address: //li[not (contains (@class,'adress-list-actions last'))]
+                                        list_customer_address: //li[not(contains(@class,'address-list-actions last'))]
                                         list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
@@ -138,7 +137,7 @@ create_customer:
                                         zip_code: //input[@id='_item%address_number%postcode']
                                         telephone: //input[@id='_item%address_number%telephone']
                                         fax: //input[@id='_item%address_number%fax']
-                                        billing_vat_number: //input[@id='_item%address_number%vat_id']
+                                        vat_number: //input[@id='_item%address_number%vat_id']
                                         state: //input[@id='_item%address_number%region_id']
                                     required: [first_name, last_name, street_address_line_1, city, country, state, zip_code, telephone]
         buttons:
@@ -151,7 +150,7 @@ create_customer:
 # 'Edit Customer' Page
 edit_customer:
     mca: customer/edit/id/%id%/
-    title: %elementTitle% / Manage Customers / Customers / Magento Admin
+    title: %elementTitle% / Customers / Customers / Magento Admin
     uimap: &edit_customer-uimap
         form: &editCustomerForm
             tabs:
@@ -218,12 +217,12 @@ edit_customer:
                                         default_billing_address: //input[@id='address_item_billing%address_number%' or @id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping%address_number%' or @id='address_item_shipping_item%address_number%']
                                     pageelements:
-                                        list_customer_address: //li[not (contains (@class,'adress-list-actions last'))]
+                                        list_customer_address: //li[not(contains(@class,'address-list-actions last'))]
                                         list_customer_address_index: //li[%index%]
                                         list_customer_address_address: //li[%index%]/address
                             -
                                 edit_address:
-                                    xpath:  //fieldset[@id='_item%address_number%address_fieldset']
+                                    xpath: //fieldset[@id='_item%address_number%address_fieldset']
                                     dropdowns:
                                         country: //select[@id='_item%address_number%country_id']
                                         state: //select[@id='_item%address_number%region_id']
@@ -241,7 +240,7 @@ edit_customer:
                                         zip_code: //input[@id='_item%address_number%postcode']
                                         telephone: //input[@id='_item%address_number%telephone']
                                         fax: //input[@id='_item%address_number%fax']
-                                        billing_vat_number: //input[@id='_item%address_number%vat_id']
+                                        vat_number: //input[@id='_item%address_number%vat_id']
                                     required: [first_name, last_name, street_address_line_1, city, country, zip_code, telephone]
                 -
                     orders:
@@ -337,11 +336,16 @@ edit_customer:
 
 edit_customer_save_and_continue:
     mca: customer/edit/id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Manage Customers / Customers / Magento Admin
+    title: %elementTitle% / Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
-new_customer_with_error:
+new_customer_with_error_account:
     mca: customer/new/active_tab/account/
+    title: New Customer / Customers / Customers / Magento Admin
+    uimap: *edit_customer-uimap
+
+new_customer_with_error_addresses:
+    mca: customer/new/active_tab/addresses/
     title: New Customer / Manage Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
@@ -349,7 +353,7 @@ new_customer_with_error:
 online_customers:
     mca: customer_online/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
-    title: Online Customers / Customers / Magento Admin
+    title: Customers Now Online / Customers / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -373,4 +377,4 @@ online_customers:
                             last_activity_to: //input[@name='last_activity_to']
                             last_url: //input[@name='last_url']
                         pageelements:
-                            online_grid_head:  //table[@id='onlineGrid_table']/thead/tr[@class='headings']
+                            online_grid_head: //table[@id='onlineGrid_table']/thead/tr[@class='headings']

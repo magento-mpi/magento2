@@ -27,19 +27,14 @@ home:
                         pageelements:
                           compare_block_empty: //p[text()='You have no items to compare.']
                           compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
-                -
-                    global_footer:
-                        xpath: //div[@class='footer']
-                        links:
-                            select_store: //ul[@id='select-store']/li//a[text()='%store%']
         messages: &homeMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             tag_already_success: //li[normalize-space(@class)='notice-msg' and contains(.,'Tag "%tagName%" has already been added to the product.')]
-            confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
-            confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
-            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
-            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
-            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
+            confirmation_for_removing_product_from_compare: Are you sure you want to remove this item from the compared products?
+            confirmation_clear_all_from_compare: Are you sure you want to remove all products from your comparison?
+            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'You cleared the comparison list.')]
+            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'You added product %productName% to the comparison list.')]
+            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'You removed product %productName% from the comparison list.')]
 
 home_page:
     mca:

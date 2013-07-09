@@ -373,7 +373,7 @@
          */
         _sendAssignRequest: function(themeId, stores, reportToSession) {
             if (!this.options.assignUrl) {
-                throw Error($.mage.__('Url to assign themes to store is not defined'));
+                throw Error($.mage.__('The URL to assign stores is not defined.'));
             }
 
             var data = {
@@ -402,7 +402,7 @@
                     this.assignThemeSuccess(response, stores, themeId);
                 }, this),
                 error: $.proxy(function() {
-                    var message = $.mage.__('Unknown error.');
+                    var message = $.mage.__('Sorry, there was an unknown error.');
                     this._dialog.messages.set(message, 'error');
                 }, this)
             });

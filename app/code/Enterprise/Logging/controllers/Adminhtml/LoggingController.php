@@ -30,7 +30,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 
@@ -39,8 +39,6 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function detailsAction()
     {
-        $this->_title($this->__('View Entry'));
-
         $eventId = $this->getRequest()->getParam('event_id');
         $model   = Mage::getModel('Enterprise_Logging_Model_Event')
             ->load($eventId);
@@ -48,6 +46,8 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
             $this->_redirect('*/*/');
             return;
         }
+        $this->_title($this->__("Log Entry #%d", $eventId));
+
         Mage::register('current_event', $model);
 
         $this->loadLayout();
@@ -60,9 +60,11 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function exportCsvAction()
     {
-        $this->_prepareDownloadResponse('log.csv',
-            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getCsvFile()
-        );
+        $this->loadLayout();
+        $fileName = 'log.csv';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
 
     /**
@@ -70,9 +72,11 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function exportXmlAction()
     {
-        $this->_prepareDownloadResponse('log.xml',
-            $this->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Index_Grid')->getExcelFile()
-        );
+        $this->loadLayout();
+        $fileName = 'log.xml';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -80,7 +84,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function archiveAction()
     {
-        $this->_title($this->__('Archive'));
+        $this->_title($this->__('Admin Actions Archive'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging_backups');

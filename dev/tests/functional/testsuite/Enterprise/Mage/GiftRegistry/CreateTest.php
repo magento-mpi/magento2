@@ -18,11 +18,6 @@
  */
 class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to Customers -> Gift Registry./p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -212,7 +207,7 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
         $giftRegistryData = $this->loadDataSet('GiftRegistry', 'new_gift_registry', $incorrectValue);
         //Steps
         $this->giftRegistryHelper()->createGiftRegistry($giftRegistryData);
-        $this->addFieldIdToMessage('field','code');
+        $this->addFieldIdToMessage('field', 'code');
         //Verification
         $this->assertMessagePresent('validation', 'invalid_code');
     }
@@ -257,8 +252,8 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialCharactersExceptCode()
     {
         //Data
-        $specialCharacters = array('label'  => $this->generate('string', 32, ':punct:'),
-            'sort_order'  => $this->generate('string', 32, ':punct:'),);
+        $specialCharacters = array('label' => $this->generate('string', 32, ':punct:'),
+            'sort_order' => $this->generate('string', 32, ':punct:'),);
         $giftRegistryData = $this->loadDataSet('GiftRegistry', 'new_gift_registry', $specialCharacters);
         //Steps
         $this->giftRegistryHelper()->createGiftRegistry($giftRegistryData);

@@ -10,7 +10,6 @@
 ---
 #It was created for version CE 1.5.0.0. Observability fot other versions is not guaranteed.
 #Theme change can also influence accuracy of UIMap forms
-
 # 'Create an Account' page
 register_account:
     mca: customer/account/create/
@@ -23,7 +22,7 @@ register_account:
                         xpath: //form[@id='form-validate']
                         buttons:
                             submit: //button[span='Submit']
-                            captcha_reload: //*[@id='captcha-reload']
+                            captcha_reload: //img[@class='captcha-reload']
                         checkboxes:
                             sign_up_newsletter: //input[@id='is_subscribed']
                             remember_me: //input[@name='persistent_remember_me']
@@ -37,20 +36,18 @@ register_account:
                             password_confirmation: //input[@id='confirmation']
                             captcha: //*[@id='captcha_user_create']
                         pageelements:
-                            captcha: //*[@id='user_create']
+                            captcha: //img[@class='captcha-img']
                         required: [first_name, last_name, email, password, password_confirmation]
         messages: &customerMessages
             not_valid_length_first_name: //*[@data-ui-id="messages-message-error" and contains(.,'"First Name" length must be equal or less than 255 characters.')]
             not_valid_length_last_name: //*[@data-ui-id="messages-message-error" and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
             not_valid_length_email: //*[@data-ui-id="messages-message-error" and contains(.,'"Email" exceeds the allowed length.')]
-            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
             invalid_mail: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid email address.')]
             passwords_not_match: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter the same value again.')]
             short_passwords: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter 6 or more characters. Leading or trailing spaces will be ignored.')]
             email_exists: //*[@data-ui-id="messages-message-error" and contains(.,'There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.')]
             invalid_login_or_password: //*[@data-ui-id="messages-message-error" and contains(.,'Invalid login or password.')]
-            empty_captcha: //input[@id='captcha_user_login']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]
-            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
             success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %email% you will receive an email with a link to reset your password.')]
 
 # 'Login or Create an Account' page
@@ -71,7 +68,7 @@ customer_login:
                         xpath: //div[contains(@class,'registered-users')]
                         buttons:
                             login: //button[span='Login']
-                            captcha_reload: //*[@id='captcha-reload']
+                            captcha_reload: //img[@class='captcha-reload']
                         links:
                             forgot_password: //a[text()='Forgot Your Password?']
                         fields:
@@ -79,7 +76,7 @@ customer_login:
                             password: //input[@id='pass']
                             captcha: //*[@id='captcha_user_login']
                         pageelements:
-                            captcha: //*[@id='user_login']
+                            captcha: //*[@data-captcha='user_login']//img[@class='captcha-img']
         messages: *customerMessages
 
 edit_account_info:
@@ -97,7 +94,7 @@ edit_account_info:
                             change_password: //input[@id='change_password']
                         fields:
                             first_name: //input[@id='firstname']
-                            last_name:  //input[@id='lastname']
+                            last_name: //input[@id='lastname']
                             email: //input[@id='email']
                             current_password: //input[@id='current_password']
                             new_password: //input[@id='password']
@@ -117,15 +114,14 @@ forgot_customer_password:
                             back_to_login: //a[text()='Back to Login']
                         buttons:
                             submit: //button[span='Submit']
-                            captcha_reload: //*[@id='captcha-reload']
+                            captcha_reload: //*[@class='captcha-reload']
                         fields:
                             email: //*[@id='email_address']
                             captcha: //*[@id='captcha_user_forgotpassword']
                         pageelements:
-                            captcha: //*[@id='user_forgotpassword']
+                            captcha: //*[@data-captcha='user_forgotpassword']//img[@class='captcha-img']
         messages:
-            empty_captcha: //*[@id='advice-required-entry-captcha_user_forgotpassword']
-            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
             forgot_password_invalid_email: //div[@class='mage-error' and text()='Please enter a valid email address. For example johndoe@domain.com.']
 
 #'Success LogOut page
@@ -138,13 +134,4 @@ customer_login_refer:
     mca: customer/account/login/referer/%referer%/
     title: Customer Login
     uimap:
-        form:
-            fieldsets:
-                -
-                    log_in_customer:
-                        xpath:
-                        buttons:
-                            login: //button[span='Login']
-                        fields:
-                            email: //input[@id='email']
-                            password: //input[@id='pass']
+        form: *customerLogin

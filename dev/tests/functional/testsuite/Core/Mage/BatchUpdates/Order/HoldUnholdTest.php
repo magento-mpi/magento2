@@ -18,9 +18,13 @@
  */
 class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -308,32 +312,30 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
      *
      * @return array $searchData
      */
-    public function createOrders()
+    private function createOrders()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
+        $simpleSku = $productData['general_sku'];
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
-        $simpleSku = $productData['general_name'];
-        //Data
-        $orderData1 = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simpleSku));
-        $searchData['order1'] = $this->loadDataSet('SalesOrder', 'backend_search_order',
-            array('filter_billing_name' => $orderData1['billing_addr_data']['billing_first_name']));
-        $orderData2 = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simpleSku));
-        $searchData['order2'] = $this->loadDataSet('SalesOrder', 'backend_search_order',
-            array('filter_billing_name' => $orderData2['billing_addr_data']['billing_first_name']));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData1, false);
+        $orderId1 = $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData2, false);
+        $orderId2 = $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->navigate('manage_sales_orders');
-
+        $searchData['order1'] = $this->loadDataSet('SalesOrder', 'backend_search_order',
+            array('filter_order_id' => $orderId1));
+        $searchData['order2'] = $this->loadDataSet('SalesOrder', 'backend_search_order',
+            array('filter_order_id' => $orderId2));
         return $searchData;
     }
 }

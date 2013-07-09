@@ -18,6 +18,11 @@
  */
 class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_TestCase
 {
+    public function assertPreConditions()
+    {
+        $this->frontend();
+    }
+
     /**
      * <p>Creating categories and products</p>
      *
@@ -39,16 +44,19 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $dropDown = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $multiSelect = $this->loadDataSet('ProductAttribute', 'product_attribute_multiselect_with_options');
         $price = $this->loadDataSet('ProductAttribute', 'product_attribute_price');
-        $attributes = array($dropDown['attribute_code'], $multiSelect['attribute_code'], $price['attribute_code']);
+        $dropDownCode = $dropDown['advanced_attribute_properties']['attribute_code'];
+        $multiSelectCode = $multiSelect['advanced_attribute_properties']['attribute_code'];
+        $priceCode = $price['advanced_attribute_properties']['attribute_code'];
+        $attributes = array($dropDownCode, $multiSelectCode, $priceCode);
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('associated_attributes' => array('Product Details' => $attributes)));
         $simpleWithAttributes = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $anchorCategoryPath . '/' . $anchorSubCategory['name'],
                 'product_attribute_set' => $attributeSet['set_name']));
-        $simpleWithAttributes['general_user_attr']['dropdown'][$dropDown['attribute_code']] =
+        $simpleWithAttributes['general_user_attr']['dropdown'][$dropDownCode] =
             $dropDown['option_1']['admin_option_name'];
-        $simpleWithAttributes['general_user_attr']['field'][$price['attribute_code']] = '999';
-        $simpleWithAttributes['general_user_attr']['multiselect'][$multiSelect['attribute_code']] =
+        $simpleWithAttributes['general_user_attr']['field'][$priceCode] = '999';
+        $simpleWithAttributes['general_user_attr']['multiselect'][$multiSelectCode] =
             $multiSelect['option_2']['admin_option_name'];
         $simpleWithoutAttrs = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $anchorCategoryPath));
@@ -77,17 +85,21 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
             $this->productHelper()->createProduct($product);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
+        $this->flushCache();
+        $this->reindexInvalidedData();
 
-        return array('simpleAnchor'          => $simpleWithAttributes['general_name'],
-                     'simpleNonAnchor'       => $simpleWithoutAttrs['general_name'],
-                     'multiselectOptionName' => $multiSelect['option_2']['store_view_titles']['Default Store View'],
-                     'dropdownOptionName'    => $dropDown['option_1']['store_view_titles']['Default Store View'],
-                     'multiselectCode'       => $multiSelect['attribute_code'],
-                     'dropdownCode'          => $dropDown['attribute_code'],
-                     'priceCode'             => $price['attribute_code'],
-                     'anchorCategory'        => $anchorCategory['name'],
-                     'anchorSubCategory'     => $anchorSubCategory['name'],
-                     'nonAnchorCategory'     => $nonAnchorCategory['name']);
+        return array(
+            'simpleAnchor' => $simpleWithAttributes['general_name'],
+            'simpleNonAnchor' => $simpleWithoutAttrs['general_name'],
+            'multiselectOptionName' => $multiSelect['option_2']['store_view_titles']['Default Store View'],
+            'dropdownOptionName' => $dropDown['option_1']['store_view_titles']['Default Store View'],
+            'multiselectCode' => $multiSelectCode,
+            'dropdownCode' => $dropDownCode,
+            'priceCode' => $priceCode,
+            'anchorCategory' => $anchorCategory['name'],
+            'anchorSubCategory' => $anchorSubCategory['name'],
+            'nonAnchorCategory' => $nonAnchorCategory['name']
+        );
     }
 
     /**
@@ -102,7 +114,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
     public function checkLayeredNavigationOnNonAnchorCategoryPage($data)
     {
         //Steps
-        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['nonAnchorCategory']);
         //Verifying
         $this->assertTrue($this->controlIsPresent('fieldset', 'layered_navigation'),
@@ -121,7 +132,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
     public function checkLayeredNavigationOnAnchorCategoryPage($data)
     {
         //Steps
-        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         //Verifying
         $this->assertTrue($this->controlIsPresent('fieldset', 'layered_navigation_anchor'),
@@ -129,54 +139,38 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Selecting subcategory in anchor category layered navigation block</p>
+     * <p>Selecting/Removing subcategory in anchor category layered navigation block</p>
      *
      * @param array $data
      *
      * @test
      * @depends preconditionsForTests
      * @depends checkLayeredNavigationOnAnchorCategoryPage
-     * @TestlinkId TL-MAGE-5607
+     * @TestlinkId TL-MAGE-5607,TL-MAGE-5608
      */
     public function selectCategoryAnchor($data)
     {
         //Steps
-        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()->setCategoryIdFromLink($data['anchorSubCategory']);
         $this->clickControl('link', 'category_name');
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name'),
             'Product assigned to category page displays after filtering');
-    }
 
-    /**
-     * <p>Removing selected category from the anchor category layered navigation block using Remove button</p>
-     *
-     * @param array $data
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @depends selectCategoryAnchor
-     * @depends checkLayeredNavigationOnAnchorCategoryPage
-     * @TestlinkId TL-MAGE-5608
-     */
-    public function removeSelectedCategoryAnchor($data)
-    {
-        //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 
@@ -194,6 +188,7 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
     public function removeSelectedCategoryAnchorClearAll($data)
     {
         //Steps
+        $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()->setCategoryIdFromLink($data['anchorSubCategory']);
         $this->clickControl('link', 'category_name');
         $this->assertTrue($this->controlIsPresent('pageelement', 'currently_shopping_by'),
@@ -202,26 +197,25 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 
     /**
-     * <p>Selecting dropdown attribute</p>
+     * <p>Selecting/Removing dropdown attribute</p>
      *
      * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5649
+     * @TestlinkId TL-MAGE-5649,TL-MAGE-5650
      */
     public function selectDropdownAttribute($data)
     {
         //Steps
-        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()
             ->setAttributeIdFromLink($data['anchorCategory'], $data['dropdownCode'], $data['dropdownOptionName']);
@@ -229,35 +223,20 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name'),
             'Product assigned to category page displays after filtering');
-    }
 
-    /**
-     * <p>Removing selected dropdown attribute using Remove button</p>
-     *
-     * @param array $data
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @depends selectDropdownAttribute
-     * @depends checkLayeredNavigationOnAnchorCategoryPage
-     * @TestlinkId TL-MAGE-5650
-     */
-    public function removeSelectedDropdown($data)
-    {
-        //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 
@@ -275,6 +254,7 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
     public function removeDropdownAttributeClearAll($data)
     {
         //Steps
+        $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()
             ->setAttributeIdFromLink($data['anchorCategory'], $data['dropdownCode'], $data['dropdownOptionName']);
         $this->clickControl('link', 'attribute_name');
@@ -284,26 +264,25 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 
     /**
-     * <p>Selecting multiselect attribute</p>
+     * <p>Selecting/Removing multiselect attribute</p>
      *
      * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5649
+     * @TestlinkId TL-MAGE-5649,TL-MAGE-5650
      */
     public function selectMultiselectAttribute($data)
     {
         //Steps
-        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()
             ->setAttributeIdFromLink($data['anchorCategory'], $data['multiselectCode'], $data['multiselectOptionName']);
@@ -311,35 +290,20 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name'),
             'Product assigned to category page displays after filtering');
-    }
 
-    /**
-     * <p>Removing selected multiselect attribute using Remove button</p>
-     *
-     * @param array $data
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @depends selectMultiselectAttribute
-     * @depends checkLayeredNavigationOnAnchorCategoryPage
-     * @TestlinkId TL-MAGE-5650
-     */
-    public function removeSelectedMultiselect($data)
-    {
-        //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 
@@ -357,6 +321,7 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
     public function removeMultiselectAttributeClearAll($data)
     {
         //Steps
+        $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()
             ->setAttributeIdFromLink($data['anchorCategory'], $data['multiselectCode'], $data['multiselectOptionName']);
         $this->clickControl('link', 'attribute_name');
@@ -366,61 +331,45 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 
     /**
-     * <p>Selecting price attribute</p>
+     * <p>Selecting/Removing price attribute</p>
      *
      * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5649
+     * @TestlinkId TL-MAGE-5649,TL-MAGE-5650
      */
     public function selectPriceAttribute($data)
     {
         //Steps
-        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()->setAttributeIdFromLink($data['anchorCategory'], $data['multiselectCode']);
         $this->clickControl('link', 'price_attribute');
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertFalse($this->controlIsPresent('pageelement', 'product_name'),
             'Product assigned to category page displays after filtering');
-    }
 
-    /**
-     * <p>Removing selected price attribute using Remove button</p>
-     *
-     * @param array $data
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @depends selectPriceAttribute
-     * @depends checkLayeredNavigationOnAnchorCategoryPage
-     * @TestlinkId TL-MAGE-5650
-     */
-    public function removeSelectedPriceAttribute($data)
-    {
-        //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 
@@ -438,6 +387,7 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
     public function removePriceAttributeClearAll($data)
     {
         //Steps
+        $this->categoryHelper()->frontOpenCategory($data['anchorCategory']);
         $this->layeredNavigationHelper()->setAttributeIdFromLink($data['anchorCategory'], $data['multiselectCode']);
         $this->clickControl('link', 'price_attribute');
         $this->assertTrue($this->controlIsPresent('pageelement', 'currently_shopping_by'),
@@ -446,10 +396,10 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         //Verifying
         $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simpleAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no ' . $data['simpleAnchor'] . 'product on the page');
         $this->addParameter('productName', $data['simpleNonAnchor']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name_header'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'There is no' . $data['simpleNonAnchor'] . 'product on the page');
     }
 }

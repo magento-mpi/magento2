@@ -20,22 +20,25 @@ import:
             fieldsets:
                 -
                     import_settings:
-                        xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Settings')]]
+                        xpath: //*[@id='base_fieldset']
                         dropdowns:
                             entity_type: //select[@id='entity']
-                        fields:
-                            file_to_import: //input[@id='import_file']
                         pageelements:
                             import_file_note: //span[@id='importFileNote' and contains(., 'Import allows to change only status, _shipment_track_number, _shipment_comment_comment, _order_status_history_comment columns. Any changes in other columns will be ignored.')]
                 -
                     import_behavior:
-                        xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Behavior')]]
+                        xpath: //*[legend/span='Import Behavior'][not(@style='display: none;')]
                         dropdowns:
                             import_behavior: //select[@name='behavior' and not(@disabled)]
+                -
+                    upload_file:
+                        xpath: //*[@id='upload_file_fieldset']
+                        fields:
+                            file_to_import: //input[@id='import_file']
         messages:
             extension_not_supported: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'%extension% file extension is not supported')]
             no_extension: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'Uploaded file has no extension')]
-            fix_and_reupload: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Please fix errors and re-upload file')]
+            fix_and_reupload: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Please fix errors and re-upload file.')]
             status_wrong: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'The Order Status "pending" must not be set manually in row %row%')]
             checked_rows: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Checked rows: %rows%')]"
             checked_entities: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'checked entities: %entities%')]"
@@ -57,32 +60,32 @@ export:
             fieldsets:
                 -
                     export_settings:
-                        xpath: //div[@id="base_fieldset"]
+                        xpath: //*[@id='base_fieldset']
                         dropdowns:
                             entity_type: //select[@id='entity']
                             file_format: //select[@id='file_format']
                 -
                     grid_and_filter:
-                        xpath: //div[@id='export_filter_grid_container']
+                        xpath: //*[@id='export_filter_grid']
                         fields:
-                            attribute_label: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_frontend_label']
-                            attribute_code: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_attribute_code']
-                            date_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%'][contains(@class, 'input-text-range-date')]
-                            date_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%_to'][contains(@class, 'input-text-range-date')]
-                            input_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-export-filter')]
-                            text_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][1]
-                            text_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][2]
+                            attribute_label: //th//input[@id='export_filter_grid_filter_frontend_label']
+                            attribute_code: //th//input[@id='export_filter_grid_filter_attribute_code']
+                            date_filter_from: //tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%'][contains(@class, 'input-text-range-date')]
+                            date_filter_to: //tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%_to'][contains(@class, 'input-text-range-date')]
+                            input_filter: //tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-export-filter')]
+                            text_filter_from: //tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][1]
+                            text_filter_to: //tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][2]
                         buttons:
-                            reset_filter: //table[@class='actions']//button[@title='Reset Filter']
-                            search: //table[@class='actions']//button[@title='Search']
+                            reset_filter: //button[@title='Reset Filter']
+                            search: //button[@title='Search']
                         dropdowns:
-                            select_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
+                            select_filter: //tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
         messages:
             task_in_queue: //div[@id='messages']//*[@class='success-msg']//span[contains(text(),'Export task has been added to queue')]
         buttons:
             download: //div[@id='export_file_downloader_file_exist']//button[@class='scalable' and @title='Download']
             remove: //div[@id='export_file_downloader_file_exist']//button[@class='scalable' and @title='Remove']
-            continue: //div[@class='a-right']//button//span[text()='Continue']
+            continue: //*[@id='export_filter_container']//button[span='Continue']
         pageelements:
             export_file_name: //div[@id='export_file_downloader_file_exist']//*[@id='export_file_downloader_filename']
             downloader_block: //div[@id='export_file_downloader']

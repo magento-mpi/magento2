@@ -39,7 +39,7 @@ cache_storage_management:
             flush_cache_storage: //button[span='Flush Cache Storage']
         messages:
             success_refreshed_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) refreshed.')]"
-            success_disabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) disabled.')]"
-            success_enabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) enabled.')]"
+            success_disabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'We disabled %qtySelected% cache type(s).')]"
+            success_enabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'We enabled %qtySelected% cache type(s).')]"
             success_flushed_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'The Magento cache storage has been flushed.')]"
             flush_cache_confirmation: Cache storage may contain additional data. Are you sure that you want flush it?

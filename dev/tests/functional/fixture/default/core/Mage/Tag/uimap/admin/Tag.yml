@@ -23,7 +23,7 @@ all_tags:
                             select_all: //a[text()='Select All']
                             unselect_all: //a[text()='Unselect All']
                             select_visible: //a[text()='Select Visible']
-                            unselect_visible: //a[text()='Unselect Visible']                            
+                            unselect_visible: //a[text()='Unselect Visible']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -48,14 +48,13 @@ all_tags:
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
             success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
-            success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been deleted.')]
+            success_deleted_tag_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedTags% record(s) have been deleted.')]
             error_deleted_tag_has_no_permissions: //li[normalize-space(@class)='error-msg' and contains(.,'Not enough permissions to delete this item.')]
-            success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
+            success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedTags% record(s) have been updated.')]
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_massaction_delete: Are you sure?
             select_items_to_delete: Please select items.
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
-            required_name: //*[@class='mage-error' and @for='name' and text()='This is a required field.' and not(contains(@style, 'display: none;'))]
 
 all_tags_index:
     mca: tag/index/
@@ -70,11 +69,6 @@ edit_tag:
     uimap: &editTagUimap
         form:
             fieldsets:
-                -
-                    store_views:
-                        xpath: //p[@class='switcher']
-                        dropdowns:
-                            switch_store: //select[@id='store_switcher']
                 -
                     general_info:
                         xpath: //div[@class='entry-edit form-inline']
@@ -139,6 +133,11 @@ edit_tag:
             save_and_continue_edit: //button[@data-ui-id='tag-edit-save-and-edit-button-button']
         messages: *tagsMesssages
 
+edit_tag_from_product:
+    mca: tag/edit/store/%storeId%/tag_id/%id%/product_id/%product_id%
+    title: %elementTitle% / Tags / User Content / Marketing / Magento Admin
+    uimap: *editTagUimap
+
 # Edit tag '%tagName%' page
 edit_tag_more_options:
     mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
@@ -158,11 +157,6 @@ new_tag:
         form:
             fieldsets:
                 -
-                    store_views:
-                        xpath: //p[@class='switcher']
-                        dropdowns:
-                            switch_store: //select[@id='store_switcher']
-                -
                     general_info:
                         xpath: //div[@class='entry-edit form-inline']
                         dropdowns:
@@ -175,41 +169,6 @@ new_tag:
             reset: //button[span='Reset']
             save_tag: //button[@data-ui-id='tag-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='tag-edit-save-and-edit-button-button']
-        messages: *tagsMesssages
-
-# Pending Tags page
-pending_tags:
-    mca: tag/pending/
-    title: Pending Tags / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    tags_grid:
-                        xpath: //div[@id='pending_grid']
-                        links:
-                            select_all: //a[text()='Select All']
-                            unselect_all: //a[text()='Unselect All']
-                            select_visible: //a[text()='Select Visible']
-                            unselect_visible: //a[text()='Unselect Visible']
-                        buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                            submit: //button[span='Submit']
-                        dropdowns:
-                            tags_massaction: //select[@id='pending_grid_massaction-select']
-                            filter_massaction: //select[@name='massaction']
-                            tags_status: //select[@name='status']
-                            filter_visible_in: //select[@name='visible_in']
-                        fields:
-                            tag_name: //input[@id='pending_grid_filter_name']
-                            products_from: //input[@id='pending_grid_filter_products_from']
-                            products_to: //input[@id='pending_grid_filter_products_to']
-                            customers_from: //input[@id='pending_grid_filter_customers_from']
-                            customers_to: //input[@id='pending_grid_filter_customers_to']
-                        pageelements:
-                            tags_grid_head: //table[@id='pending_grid_table']//thead/tr[@class='headings']
-                            tags_grid: //table[@id='pending_grid_table']
         messages: *tagsMesssages
 
 product_tags:

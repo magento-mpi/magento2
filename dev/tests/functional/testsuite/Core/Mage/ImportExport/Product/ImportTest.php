@@ -18,16 +18,25 @@
  */
 class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Import/p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -39,10 +48,11 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
      */
     public function preconditionAppendImport()
     {
+        $options = $this->loadDataSet('Product', 'custom_options_data',
+            array('option_10' => '%noValue%'));
+        $productData = $this->loadDataSet('Product', 'simple_product_required',
+            array('custom_options_data' => $options));
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
-        unset($productData['custom_options_data']['custom_options_file']);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -140,10 +150,11 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
      */
     public function preconditionReplaceImport()
     {
+        $options = $this->loadDataSet('Product', 'custom_options_data',
+            array('option_10' => '%noValue%'));
+        $productData = $this->loadDataSet('Product', 'simple_product_required',
+            array('custom_options_data' => $options));
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
-        unset($productData['custom_options_data']['custom_options_file']);
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -172,11 +183,12 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
         $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Remove custom options columns from export csv
         $csvWithoutOptions = array($csv[0]);
-        $customOptionsData =
-            array('_custom_option_store', '_custom_option_type', '_custom_option_title', '_custom_option_is_required',
-                  '_custom_option_price', '_custom_option_sku', '_custom_option_max_characters',
-                  '_custom_option_sort_order', '_custom_option_row_title', '_custom_option_row_price',
-                  '_custom_option_row_sku', '_custom_option_row_sort',);
+        $customOptionsData = array(
+            '_custom_option_store', '_custom_option_type', '_custom_option_title', '_custom_option_is_required',
+            '_custom_option_price', '_custom_option_sku', '_custom_option_max_characters',
+            '_custom_option_sort_order', '_custom_option_row_title', '_custom_option_row_price',
+            '_custom_option_row_sku', '_custom_option_row_sort'
+        );
         foreach ($customOptionsData as $value) {
             $csvWithoutOptions[0][$value] = '';
         }
@@ -251,7 +263,8 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $this->assertFalse($this->productHelper()->isProductPresentInGrid($productSearch), 'Product is found');
+        $this->assertFalse($this->productHelper()->isProductPresentInGrid($productSearch),
+            'Product is found with data: ' . print_r($productSearch, true));
     }
 
     /**
@@ -298,9 +311,10 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
                 "Custom options have different types. in rows: 1"
             ),
             'validation' => array(
-                "File is totally invalid. Please fix errors and re-upload file",
-                "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")),
-        );
+                "File is totally invalid. Please fix errors and re-upload file.",
+                "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
+            )
+        ));
         $returnData[] = array($productData, array($customOptionCsv), $validation);
         //Create second product
         $productData = $this->loadDataSet('Product', 'simple_product_required');
@@ -316,24 +330,10 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
                 "There are several existing custom options with such name. in rows: 1"
             ),
             'validation' => array(
-                "File is totally invalid. Please fix errors and re-upload file",
+                "File is totally invalid. Please fix errors and re-upload file.",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")),
         );
         $returnData[] = array($productData, array($customOptionCsv), $validation);
         return $returnData;
-    }
-
-    /**
-     * Delete products after test
-     */
-    protected function tearDownAfterTestClass()
-    {
-        //Precondition: create product
-        $this->navigate('manage_products');
-        if (!$this->controlIsPresent('message', 'no_records_found')) {
-            $this->clickControl('link', 'selectall', false);
-            $this->fillDropdown('mass_action_select_action', 'Delete');
-            $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
-        }
     }
 }

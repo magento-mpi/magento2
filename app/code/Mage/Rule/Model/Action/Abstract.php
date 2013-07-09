@@ -180,7 +180,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Please choose an action to add...')
+                'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Please choose an action to add.')
             ),
         );
     }

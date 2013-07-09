@@ -40,7 +40,7 @@
 </div>
 
 <div class="no-display" id="no-js-files-found-template">
-    <span class="filename"><?php echo $this->__('No files found') ?></span>
+    <span class="filename"><?php echo $this->__('We found no files.') ?></span>
 </div>
 
 
@@ -59,7 +59,7 @@ jQuery(function($) {
     });
     $('body').trigger(
         'refreshJsList',
-        {jsList: <?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')
+        {jsList: <?php echo $this->helper('Mage_Core_Helper_Data')
             ->jsonEncode($this->getJsFiles()->getFilesInfo()) ?>}
     );
 });

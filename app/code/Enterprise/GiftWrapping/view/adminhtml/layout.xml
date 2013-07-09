@@ -92,7 +92,7 @@
                                 <sortable>0</sortable>
                                 <index>website_ids</index>
                                 <id>websites</id>
-                                <options type="options">Enterprise_GiftWrapping_Model_Website</options>
+                                <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
                                 <header_css_class>col-websites</header_css_class>
                                 <column_css_class>col-websites</column_css_class>
                             </arguments>
@@ -146,7 +146,7 @@
             </block>
         </reference>
     </adminhtml_giftwrapping_index>
-    
+
     <adminhtml_giftwrapping_new>
         <reference name="content">
             <block type="Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit" name="giftwrapping_edit" />

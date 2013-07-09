@@ -9,6 +9,66 @@
 #
 ---
 #Manage Sales Orders and related pages
+# 'New Order' page
+create_order_for_new_customer:
+    uimap: &create_order-uimap
+        form:
+            fieldsets:
+                -
+                    add_to_cart_by_sku: &add_to_cart_by_sku-fieldset
+                        xpath: //div[@id='order-additional_area']
+                        buttons:
+                            submit_sku_form: //button[span='Add to Order']
+                            add_row: //button[@data-ui-id='additional-area-schedule-block-addbutton']
+                            remove_row: //tr[%number%]//button[@data-ui-id='additional-area-schedule-block-deletebutton']
+                            reset_file: //button[@class='button btn-reset']
+                        fields:
+                            sku: //tr[%number%]//input[@name='sku']
+                            qty: //tr[%number%]//input[@name='qty']
+                            sku_upload: //*[@id='sku_upload']
+                        pageelements:
+                            note_csv: //*[@class='note']
+                            table_lines: //table/tbody/tr
+                -
+                    order_items_ordered: &order_items_ordered-fieldset
+                        pageelements:
+                            sku_product_added: //*[@id='order-items_grid' and contains(.,'%productData%')]
+                        buttons:
+                            add_products_by_sku: //button[span='Add Products By SKU']
+                -
+                    gift_options: &gift_options-fieldset
+                        dropdowns:
+                            item_gift_wrapping_design: //select[@id='giftwrapping_design_item']
+                        pageelements:
+                            item_gift_wrapping_block: //div[@id='wrapping-item-container' and h4='Gift Wrapping']
+                            item_gift_wrapping_price: //div[@class='gift-wrapping-design']//span[@class='price']//span[@class='price']
+                            item_gift_wrapping: //div[@class='gift-wrapping-design']/span
+                -
+                    gift_options_for_order: &gift_options_for_order-fieldset
+                        dropdowns:
+                            order_gift_wrapping_design: //select[@id='giftwrapping_design']
+                        checkboxes:
+                            add_printed_card: //input[@id='add-printed-card']
+                            send_gift_receipt: //input[@id='allow-gift-receipt']
+                        pageelements:
+                            printed_card_price: //*[@id='card-price-box' or @id='price-card-box']//span[@class='price']
+                            order_gift_wrapping_price: //*[@id='wrapping-price-box']//span[@id='wrapping-price']
+                            order_gift_wrapping_block: //fieldset[legend='Gift Wrapping for the Entire Order']
+                            order_gift_wrapping: //div[@class='gift-wrapping-form']/span
+                -
+                    order_totals: &order_totals-fieldset
+                        pageelements:
+                            total_printed_card_price: //tr[normalize-space(td)='Printed Card']/td/span
+
+create_order_for_existing_customer:
+    uimap: *create_order-uimap
+
+reorder_create_new_order:
+    uimap: *create_order-uimap
+
+edit_order:
+    uimap: *create_order-uimap
+
 view_order:
     uimap:
         form:
@@ -16,200 +76,50 @@ view_order:
                 -
                     information:
                         fieldsets:
-                           -
-                              gift_options_for_order:
-                                  xpath: //div[@id='orderCreateGiftWrapping']
-                                  checkboxes:
-                                      add_printed_card: //input[@id='add-printed-card']
-                                      send_gift_receipt: //input[@id='allow-gift-receipt']
-                                  pageelements:
-                                      printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
-                                      order_gift_wrapping_price: //div[@class='gift-wrapping-design']//div[@id='price-box']//span[@class='price']/span
-                                      gift_wrapping: //div[@class='gift-wrapping-form']/span
-                           -
-                              gift_options:
-                                  pageelements:
-                                      item_gift_wrapping_price: //div[@class='gift-wrapping-design']//span[@class='price']//span[@class='price']
-                                      gift_wrapping: //div[@class='gift-wrapping-design']/span
-                           -
-                              order_totals:
-                                  pageelements:
-                                      total_printed_card_price: //tr[normalize-space(td)='Printed Card']/td/span
+                            -
+                                gift_options: *gift_options-fieldset
+                            -
+                                gift_options_for_order: *gift_options_for_order-fieldset
+                            -
+                                order_totals: *order_totals-fieldset
 
-# 'New Order' page
-create_order_for_new_customer:
-    uimap:
-        form:
-            fieldsets: &newOrderForNewCustomerFieldsets
-                -
-                    gift_options: &giftMessage
-                        dropdowns:
-                            product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
-                        pageelements:
-                            product_gift_wrapping_block: //div[@id='wrapping-item-container' and contains(.,'Gift Wrapping')]
-                -
-                    gift_options_for_order: &giftMessageForOrder
-                        xpath: //div[@id='orderCreateGiftWrapping']
-                        dropdowns:
-                            order_gift_wrapping_design: //select[@id='giftwrapping_design']
-                        checkboxes:
-                            send_gift_receipt: //input[@id='allow-gift-receipt']
-                            add_printed_card: //input[@id='add-printed-card']
-                        pageelements:
-                            printed_card_price: //div[@id='card-price-box']//span[@id='card-price']
-                            order_gift_wrapping_block: //div[@id='orderCreateGiftWrapping' and contains(., 'Gift Wrapping for the Entire Order')]
-                -
-                    sku_options:
-                        buttons:
-                            add_products_by_sku: //button[span='Add Products By SKU']
-                            submit_sku_form: //button[span='Add to Order']
-                -
-                    add_to_order_sku:
-                        xpath: //*[@id='order-additional_area' and (@style = '')]
-                        buttons:
-                            add_row: //*[@id='sku_container']//button[@class='scalable add']
-                            remove_row: //*[@id='sku_container']//button[@class='scalable delete']
-                            reset_file: //button[@class='button btn-reset']
-                        fields:
-                            sku: //*[@id='sku_%itemId%']
-                            sku_qty: //*[@id='sku_qty_%itemId%']
-                            sku_upload: //*[@id='sku_upload']
-                        pageelements:
-                            note_csv: //*[@class='note']
-                -
-                    sku_options:
-                        buttons:
-                            add_products_by_sku: //button[span='Add Products By SKU']
-                            submit_sku_form: //button[span='Add to Order']
-                -
-                    order_items_ordered: &orderItemsOrdered
-                        pageelements:
-                            sku_product_added: //*[@id='order-items_grid' and contains(.,'%productData%')]
-                -
-                    order_items_ordered_sku: &addItemsBySku
-                        buttons:
-                            add_by_sku_add: //*[@id='sku_container']//button[@class='scalable add']
-                            add_by_sku_del: //*[@id='sku_container']//button[@class='scalable delete']
-                            reset_upload: //button[@class='button btn-reset']
-                        fields:
-                            sku: //*[@id='sku_%itemId%']
-                            qty_sku: //*[@id='sku_qty_%itemId%']
-                            sku_upload: //*[@id='sku_upload']
-                        pageelements:
-                            note_csv: //*[@class='note']
-                            add_by_sku_fieldset: //*[@id='order-additional_area' and (@style = '')]
-
-edit_order:
-    uimap:
-        form:
-            fieldsets:
-               -
-                  gift_options_for_order:
-                      xpath: //div[@id='orderCreateGiftWrapping']
-                      dropdowns:
-                          order_gift_wrapping_design: //select[@id='giftwrapping_design']
-                      checkboxes:
-                          send_gift_receipt: //input[@id='allow-gift-receipt']
-                          add_printed_card: //input[@id='add-printed-card']
-               -
-                  gift_options:
-                      dropdowns:
-                          product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
-
-create_order_for_new_customer_sku:
+create_order_for_product_added_by_sku:
     mca: sales_order_create/processData/
     title: New Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form:
-            fieldsets: &newOrderForNewCustomerFieldsets
+            fieldsets:
                 -
-                    order_items_ordered: &orderItemsOrdered
-                        xpath: //*[@id='order-items_grid']
-                        pageelements:
-                            product_table_head: /table/thead
-                            product_table_tfoot: /table/tfoot
-                            product_line: /table/tbody
-                        buttons:
-                            configure_order_item: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
+                    add_to_cart_by_sku: *add_to_cart_by_sku-fieldset
                 -
-                    sku_order_fieldset: *newOrderForNewCustomerFieldsets
+                    order_items_ordered: *order_items_ordered-fieldset
                 -
-                    order_error_table: &orderItemsAttention
-                        xpath: //*[@id='order-errors']
+                    gift_options: *gift_options-fieldset
+                -
+                    gift_options_for_order: *gift_options_for_order-fieldset
+                -
+                    order_totals: *order_totals-fieldset
+                -
+                    products_requiring_attention:
+                        xpath: //div[@id='order-errors']/div
                         buttons:
                             remove_all: //button[@title='Remove All']
-                            add_to_order_from_error: //button[span='Add Products to Order']
-                -
-                    sku_error_table:
-                        xpath: //*[@id='order-errors']//*[@id='sku_errors']
-                        fields:
-                            qty: //tr[%rowIndex%]//*[@name='qty']
-                        buttons:
-                            configure_item: //*[@id='sku_%sku%']//*[@class='sku-configure-button']/button
-                            remove_item: //tr[%rowIndex%]//*[@class='scalable delete']
+                            add_to_cart_from_error: //button[@title='Add Products to Order']
+                            configure_item: //*[@id='sku_%sku%']//button[@title='Configure']
+                            remove_item: //tr[%rowIndex%]//button[@title='Remove']
                         pageelements:
                             price_in_error_table: //tr[%rowIndex]//*[@class='price']
-                            error_table_grid: //table[@id='sku_errors_table']/tbody/tr
-                            error_table_head: //*[@id='sku_errors_table']/thead
-                            error_table_line: //*[@id='sku_errors_table']/tbody/tr
-                -
-                    order_items_attention: &orderItemsAttention
-                        pageelements:
-                            sku_required_grid: //*[@id='sku_errors']
-                            sku_product_required: //*[@id='sku_errors_table' and contains(.,'%productData%')]
-                            qty_invalid_qty: //*[@id='sku_%productData%']/*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
-                            required_product_message: //*[@id='order-errors']//*[@class='icon-head'][contains(.,'%lastRow% product(s) require attention')]
-                            add_by_sku_fieldset: //*[@id='order-additional_area' and (@style = '')]
-                        buttons:
-                            remove_all_invalid: //*[@id='order-errors']//*[contains(.,'Remove All')]/button
-                            remove_one_invalid: //*[@id='sku_errors_table']//tr[%itemId%]//button[@class='scalable delete']
-                            submit_sku_configured_form: //button[span='Add Products to Order']
-                        fields:
-                            required_qty_enabled: //*[@id='sku_errors_table']//*[@name='qty' and not(@disabled)]
-                            required_qty: //*[@id='sku_errors_table']//*[@name='qty']
-                -
-                    order_items_ordered_sku: &addItemsBySku
-                         buttons:
-                             add_by_sku_add: //*[@id='sku_container']//button[@class='scalable add']
-                             add_by_sku_del: //*[@id='sku_container']//button[@class='scalable delete']
-                             reset_upload: //button[@class='button btn-reset']
-                             add_products_by_sku: //button[span='Add Products By SKU']
-                             submit_sku_form: //button[span='Add to Order']
-                         fields:
-                             sku: //*[@id='sku_%itemId%']
-                             qty_sku: //*[@id='sku_qty_%itemId%']
-                             sku_upload: //*[@id='sku_upload']
-                -
-                    product_composite_configure_form: &productCompositeConfigureForm
-                        xpath: //*[@id='product_composite_configure']
-                        checkboxes:
-                            option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
-                        fields:
-                            option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
-                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
-                            option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
-                            option_field_4: //tr[td='%optionParameter%']//input[@type='text']
-                            option_field_5: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//textarea
-                            option_field_6: //tr[td='Qty']//input[@type='text']
-                        dropdowns:
-                            option_dropdown_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@name,'%optionParameter%')]
-                            option_dropdown_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
-                        multiselects:
-                            option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
-                        radiobuttons:
-                            option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='radio']
-                        buttons:
-                            ok: //button[contains(span, 'OK')]
-                            cancel: //button[span[contains(text(),'Cancel')]]
+                            error_table_head: //table[@id='sku_errors_table']/thead
+                            error_table_line: //table[@id='sku_errors_table']/tbody/tr
         messages:
             qty_sku_invalid_number: //*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
             sku_assigned_another_website: //*[@class='notice']//div[contains(.,'The product is assigned to another website.')]
             sku_not_found: //*[@class='notice']//div[contains(.,'SKU not found in catalog.')]
             specify_option: //*[@class='notice']//div[contains(.,"Please specify the product's options.")]
-            required_attention_product: //*[@class='icon-head'][contains(.,'%number% product(s) require attention')]
-            disabled_product: //*[@class='error']//div[contains(.,'This product is currently disabled.')]
-            out_of_stock: //*[@class='error']//div[contains(.,'This product is currently out of stock.')]
-            qty_increment: //*[@class='error' and contains(.,'This product is available for purchase in increments of %qty% only.')]
-            qty_not_available: //*[@class='notice' and contains(.,'The requested quantity for "%productName%" is not available.')]
-            max_qty: //*[@class='error' and contains(.,'The maximum quantity allowed for purchase is %qty%.')]
-            min_qty: //*[@class='error' and contains(.,'The minimum quantity allowed for purchase is %qty%.')]
+            required_attention_product: //div[contains(span,'%number% product(s) require attention.')]/span
+            disabled_product: //*[@class='error']//div[contains(.,'This product is disabled.')]
+            out_of_stock: //*[@class='error']//div[contains(.,'This product is out of stock.')]
+            qty_increment: //*[@class='error' and contains(.,'You can buy this product only in increments of %qty%.')]
+            qty_not_available: //*[@class='notice' and contains(.,'We don't have as many "%productName%" as you requested.')]
+            max_qty: //*[@class='error' and contains(.,'The most you may purchase is %qty%.')]
+            min_qty: //*[@class='error' and contains(.,'The fewest you may purchase is %qty%.')]

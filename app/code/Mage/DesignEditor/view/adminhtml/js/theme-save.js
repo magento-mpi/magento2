@@ -57,18 +57,18 @@
                     eventData.confirm.message,
                     [
                         {
-                            text: 'Yes',
-                            click: function() {
-                                $('body').trigger(saveConfirmEvent, eventData);
-                            },
-                            'class': 'primary'
-                        },
-                        {
                             text: 'No',
                             click: $.proxy(function() {
                                 this.close();
                             }, dialog),
                             'class': 'action-close'
+                        },
+                        {
+                            text: 'Yes',
+                            click: function() {
+                                $('body').trigger(saveConfirmEvent, eventData);
+                            },
+                            'class': 'primary'
                         }
                     ]
                 );

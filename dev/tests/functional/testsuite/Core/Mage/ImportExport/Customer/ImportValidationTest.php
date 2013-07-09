@@ -18,18 +18,26 @@
  */
 class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium_TestCase
 {
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export/p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('import');
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
     /**
      * Import File with not supported extensions
      *
@@ -37,38 +45,33 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
      * @dataProvider importDataFileName
      * @TestlinkId TL-MAGE-5613
      */
-    public function importFileWithNotSupportedExtensions($dataFileName)
+    public function importFileWithNotSupportedExtensions($fileType)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-1766');
-        $customerDataRow = $this->loadDataSet('ImportExport', 'generic_customer_csv',
-            array(
-                'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
-                'firstname' => 'first_' . $this->generate('string', 10),
-                'lastname' => 'last_' . $this->generate('string', 10)
-            ));
+        $customerDataRow = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
+            'firstname' => 'first_' . $this->generate('string', 10),
+            'lastname' => 'last_' . $this->generate('string', 10)
+        ));
         //Build CSV array
-        $data = array(
-            $customerDataRow
-        );
+        $data = array($customerDataRow);
         $entityTypes = $this->importExportHelper()->getCustomerEntityType();
         foreach ($entityTypes as $entityType) {
             $this->navigate('import');
             $this->importExportHelper()->chooseImportOptions($entityType, 'Add/Update Complex Data');
-            $report = $this->importExportHelper()->import($data, $dataFileName);
-            $this->assertArrayNotHasKey('import', $report,
-                'Incorrect file has been imported');
+            $report = $this->importExportHelper()->import($data, 'example.' . $fileType);
+            $this->assertArrayNotHasKey('import', $report, 'Incorrect file has been imported');
             $this->assertArrayHasKey('error', $report['validation'],
                 'Error notification is missing on the Check Data');
             foreach ($report['validation']['error'] as $errorMessage) {
-                $this->assertNotContains('Fatal error', $errorMessage,
-                    'Fatal error is occurred');
+                $this->assertNotContains('Fatal error', $errorMessage, 'Fatal error is occurred');
             }
             foreach ($report['validation']['error'] as $errorMessage) {
-                $this->assertContains('Incorrect file type', $errorMessage,
+                $this->assertContains("'$fileType' file extension is not supported", $errorMessage,
                     'Incorrect file type message is not displayed');
             }
         }
     }
+
     /**
      * Customer Import, if file data is invalid
      *
@@ -82,11 +85,9 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
         //Step 1
         $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
         //Build CSV array
-        $data = array(
-            $customerData
-        );
+        $data = array($customerData);
         //Import file
-        $report = $this->importExportHelper()->import($data) ;
+        $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertEquals($validationMessage, $report, 'Import has been finished with issues');
     }
@@ -94,44 +95,39 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
     public function importDataFileName()
     {
         return array(
-            array('example.pdf'),
-            array('example.jpg')
+            array('pdf'),
+            array('jpg')
         );
-
     }
+
     public function importDataInvalid()
     {
-        $customerCsv[0] = $this->loadDataSet('ImportExport', 'generic_customer_csv',
-            array(
-                'email' => '',
-                'firstname' => '',
-                'lastname' => ''
-            ));
-        $customerCsv[1] = $this->loadDataSet('ImportExport', 'generic_customer_csv',
-            array(
-                'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
-                'lastname' => 'last_' . $this->generate('string', 10)
-            ));
+        $customerCsv[0] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => '',
+            'firstname' => '',
+            'lastname' => ''
+        ));
+        $customerCsv[1] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
+            'lastname' => 'last_' . $this->generate('string', 10)
+        ));
         unset($customerCsv[1]['firstname']);
-        $customerCsv[2] = $this->loadDataSet('ImportExport', 'generic_customer_csv',
-            array(
-                '_website' => 'notexist',
-                'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
-                'lastname' => 'last_' . $this->generate('string', 10),
-                'firstname' => 'last_' . $this->generate('string', 10)
-            ));
-        $customerCsv[3] = $this->loadDataSet('ImportExport', 'generic_customer_csv',
-            array(
-                'email' => 'test_admin_' . $this->generate('string', 5) . '@@unknown-domain.com',
-                'lastname' => 'last_' . $this->generate('string', 10),
-                'firstname' => 'last_' . $this->generate('string', 10)
-            ));
-        $customerCsv[4] = $this->loadDataSet('ImportExport', 'generic_customer_csv',
-            array(
-                'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
-                'lastname' => 'last_' . $this->generate('string', 10),
-                'firstname' => 'last_' . $this->generate('string', 10),
-            ));
+        $customerCsv[2] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            '_website' => 'notExist',
+            'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
+            'lastname' => 'last_' . $this->generate('string', 10),
+            'firstname' => 'last_' . $this->generate('string', 10)
+        ));
+        $customerCsv[3] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => 'test_admin_' . $this->generate('string', 5) . '@@unknown-domain.com',
+            'lastname' => 'last_' . $this->generate('string', 10),
+            'firstname' => 'last_' . $this->generate('string', 10)
+        ));
+        $customerCsv[4] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
+            'lastname' => 'last_' . $this->generate('string', 10),
+            'firstname' => 'last_' . $this->generate('string', 10),
+        ));
         $customerCsv[4]['disable_auto_group_change'] = '23123d123';
         return array(
             array($customerCsv[0], array('validation' => array(
@@ -139,56 +135,48 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
                     "E-mail is not specified in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-            )
-            )
-            ),
+            ))),
             array($customerCsv[1], array('validation' => array(
                 'error' => array(
                     "Required attribute 'firstname' has an empty value in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-            )
-            )
-            ),
+            ))),
             array($customerCsv[2], array('validation' => array(
                 'error' => array(
                     "Invalid value in website column in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-            )
-            )
-            ),
+            ))),
             array($customerCsv[3], array('validation' => array(
                 'error' => array(
                     "E-mail is invalid in rows: 1"
                 ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
+                    "File is totally invalid. Please fix errors and re-upload file.",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-            )
-            )
-            ),
-            array($customerCsv[4], array('validation' => array(
+            ))),
+            array($customerCsv[4], array(
                 'validation' => array(
-                    "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"
+                    'validation' => array(
+                        "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"
+                    ),
+                    'success' => array(
+                        "File is valid! To start import process press \"Import\" button  Import"
+                    )
                 ),
-                'success' => array(
-                    "File is valid! To start import process press \"Import\" button  Import"
-                )
-            ),
                 'import' => array(
                     'success' => array(
-                        "Import successfully done."
+                        'Import successfully done'
                     )
                 )
-            )
-            )
+            ))
         );
     }
 
@@ -253,7 +241,6 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
 
         foreach ($csv as $value) {
             $report = $this->importExportHelper()->import($value);
-
             //Verifying
             $this->assertArrayHasKey('import', $report, 'Import is not done');
             $this->assertArrayHasKey('error', $report['validation'],
@@ -261,8 +248,10 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
             $this->assertEquals($errorMessage, $report['validation']['error'][0],
                 'Incorrect error message is displayed');
             $this->assertEquals(
-            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
-            $report['validation']['validation'][0], 'Wrong validation message is shown');
+                "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                $report['validation']['validation'][0],
+                'Wrong validation message is shown'
+            );
             $this->assertEquals('Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
                 $report['validation']['validation'][1], 'Wrong message about checked rows');
         }

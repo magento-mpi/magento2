@@ -77,7 +77,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             if ($tracks) {
                 foreach ($tracks as $data) {
                     if (empty($data['number'])) {
-                        Mage::throwException($this->__('Tracking number cannot be empty.'));
+                        Mage::throwException($this->__('Please enter a tracking number.'));
                     }
                     $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
                         ->addData($data);
@@ -112,9 +112,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
      */
     public function viewAction()
     {
-        if ($this->_initShipment()) {
-            $this->_title($this->__('View Shipment'));
-
+        $shipment = $this->_initShipment();
+        if ($shipment) {
+            $this->_title("#" . $shipment->getIncrementId());
             $this->loadLayout();
             $this->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
@@ -207,7 +207,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $shipment->sendEmail(!empty($data['send_email']), $comment);
 
             $shipmentCreatedMessage = $this->__('The shipment has been created.');
-            $labelCreatedMessage    = $this->__('The shipping label has been created.');
+            $labelCreatedMessage    = $this->__('You created the shipping label.');
 
             $this->_getSession()->addSuccess($isNeedCreateLabel ? $shipmentCreatedMessage . ' ' . $labelCreatedMessage
                 : $shipmentCreatedMessage);
@@ -256,7 +256,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
-                $this->_getSession()->addSuccess($this->__('The shipment has been sent.'));
+                $this->_getSession()->addSuccess($this->__('You sent the shipment.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -278,10 +278,10 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $number  = $this->getRequest()->getPost('number');
             $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
-                Mage::throwException($this->__('The carrier needs to be specified.'));
+                Mage::throwException($this->__('Please specify a carrier.'));
             }
             if (empty($number)) {
-                Mage::throwException($this->__('Tracking number cannot be empty.'));
+                Mage::throwException($this->__('Please enter a tracking number.'));
             }
             $shipment = $this->_initShipment();
             if ($shipment) {
@@ -407,7 +407,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                Mage::throwException($this->__('Comment text field cannot be empty.'));
+                Mage::throwException($this->__("The comment text field cannot be empty."));
             }
             $shipment = $this->_initShipment();
             $shipment->addComment(
@@ -495,7 +495,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('The shipping label has been created.'));
+                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You created the shipping label.'));
                 $response->setOk(true);
             }
         } catch (Mage_Core_Exception $e) {
@@ -527,7 +527,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('File extension not known or unsupported type in the following shipment: %s', $shipment->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('We don\'t recognize or support the file extension in this shipment: %s.', $shipment->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();

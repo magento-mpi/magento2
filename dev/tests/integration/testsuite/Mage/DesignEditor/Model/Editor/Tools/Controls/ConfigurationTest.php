@@ -76,7 +76,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends PH
             ),
             array(Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, 'product-list', array(
                 'type'         => 'image-sizing',
-                'layoutParams' => array('title' => 'Up Sell Product List'),
+                'layoutParams' => array('title' => 'Up-sell Products List'),
                 'components'   => array(
                     'image-type'   => array(
                         'type'    => 'image-type',

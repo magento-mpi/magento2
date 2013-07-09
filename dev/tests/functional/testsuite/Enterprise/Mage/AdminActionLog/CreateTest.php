@@ -17,17 +17,9 @@
  */
 class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->closeLastWindow();
     }
 
     /**
@@ -44,7 +36,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         //Open API Roles Management page
         $this->navigate('api_roles_management');
         //Click Add New Role button
-        $this->clickButton('add_new_role', true);
+        $this->clickButton('add_new_role');
         //Fill Role name field
         $this->fillField('role_name', $fieldData['role_name']);
         //Open Resources Tab
@@ -62,8 +54,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Save');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
 
         return ($fieldData);
     }
@@ -92,8 +83,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Edit');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 
     /**
@@ -114,8 +104,8 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->searchAndOpen($userSearch, 'api_roles_grid');
         $roleId = $this->defineParameterFromUrl('role_id');
         //Click Delete API Role button
-        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
-        //Verify that message "The role has been deleted." is displayed
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+        //Verify that message "You deleted the role." is displayed
         $this->assertMessagePresent('success', 'success_deleted_role');
         //Open Admin Actions Logs page
         $this->navigate('admin_action_log_report');
@@ -123,8 +113,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Delete');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 
     /**
@@ -133,14 +122,14 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6449
      */
-    public function saveUserActionLog ()
+    public function saveUserActionLog()
     {
         //Create new Role
         $userData = $this->loadDataSet('ApiUsers', 'new_api_users_create');
         $roleData = $this->loadDataSet('ApiRoles', 'api_role_new');
 
         $this->navigate('api_roles_management');
-        $this->clickButton('add_new_role', true);
+        $this->clickButton('add_new_role');
         $this->fillField('role_name', $roleData['role_name']);
         $this->openTab('resources');
         $this->fillDropdown('role_access', 'All');
@@ -149,7 +138,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
         //Create Data and open APi Users page
         $this->navigate('api_users');
-        $this->clickButton('add_new_api_user', true);
+        $this->clickButton('add_new_api_user');
         $this->fillField('api_user_contact_email', $userData['api_user_contact_email']);
         $this->fillField('api_user_api_key', $userData['api_user_api_key']);
         $this->fillField('api_user_api_secret', $userData['api_user_api_secret']);
@@ -172,11 +161,8 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
         $userSearch = array('filter_user_id' => $userId, 'action_name' => 'adminhtml_webapi_user_save');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
-        $this->validatePage();
-
-        //Check page title
-        $this->assertSame('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        //Check that log info page is opened
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
 
         return $userData;
     }
@@ -190,7 +176,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      * @depends saveUserActionLog
      * @TestlinkId TL-MAGE-6451
      */
-    public function editUserActionLog ($userData)
+    public function editUserActionLog($userData)
     {
         $this->navigate('api_users');
         $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
@@ -203,11 +189,8 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('admin_action_log_report');
         $userSearch = array('filter_user_id' => $userId, 'action' => 'Edit');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
-        $this->validatePage();
-
-        //Check page title
-        $this->assertSame('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        //Check that log info page is opened
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 
     /**
@@ -219,7 +202,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      * @depends saveUserActionLog
      * @TestlinkId TL-MAGE-6450
      */
-    public function deleteUserActionLog ($userData)
+    public function deleteUserActionLog($userData)
     {
         $this->navigate('api_users');
         $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
@@ -228,15 +211,12 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->waitForPageToLoad();
         $this->addParameter('id', $this->defineParameterFromUrl('user_id'));
         $userId = $this->defineParameterFromUrl('user_id');
-        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Open Admin Action Log Page
         $this->navigate('admin_action_log_report');
         $userSearch = array('filter_user_id' => $userId, 'action' => 'Delete');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
-        $this->validatePage();
-
-        //Check page title
-        $this->assertSame('View Entry / Action Log / System / Magento Admin',
-            $this->title(), 'Wrong page');
+        //Check that log info page is opened
+        $this->assertTrue($this->checkCurrentPage('admin_action_log_view'), $this->getParsedMessages());
     }
 }

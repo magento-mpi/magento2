@@ -15,16 +15,22 @@ var Product = {};
             this._on({'click':'_showPopup'});
         },
         _prepareUrl: function() {
+            var name = $('[data-role=product-attribute-search]').val();
             return this.options.url +
                 (/\?/.test(this.options.url) ? '&' : '?') +
-                'set=' + $('#attribute_set_id').val();
+                'set=' + $('#attribute_set_id').val() +
+                '&attribute[frontend_label]=' +
+                window.encodeURIComponent(name) +
+                '&attribute[attribute_code]=' +
+                window.encodeURIComponent(name.replace(/[^a-z0-9]+/g, '_').toLowerCase());
         },
         _showPopup: function (event) {
             var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
                 title: 'New Attribute',
-                minWidth: 1000,
-                minHeight: 700,
+                width: 600,
+                minHeight: 650,
                 modal: true,
+                resizable: false,
                 resizeStop: function(event, ui) {
                     iframe.height($(this).outerHeight() + 'px');
                     iframe.width($(this).outerWidth() + 'px');

@@ -38,7 +38,7 @@ class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
         $attribute = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield',
             array('values_required' => 'Yes'));
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('Product Details' => array($attribute['attribute_code'])));
+            array('Product Details' => array($attribute['advanced_attribute_properties']['attribute_code'])));
         //Creating attribute
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attribute);
@@ -50,7 +50,7 @@ class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
 
         return array(
             'attributeSet' => $attributeSet['set_name'],
-            'attributeCode' => $attribute['attribute_code']
+            'attributeCode' => $attribute['advanced_attribute_properties']['attribute_code']
         );
     }
 

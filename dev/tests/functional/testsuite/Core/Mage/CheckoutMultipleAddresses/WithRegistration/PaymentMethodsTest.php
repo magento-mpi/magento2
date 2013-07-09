@@ -18,6 +18,8 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
+    private static $_paypalAccount;
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -33,8 +35,10 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
+        if (isset(self::$_paypalAccount)) {
+            $this->paypalHelper()->paypalDeveloperLogin();
+            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
+        }
     }
 
     /**
@@ -45,15 +49,23 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
     {
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
+        self::$_paypalAccount = $accountInfo['email'];
 
-        return array('products' => array('product_1' => $simple1['simple']['product_name'],
-                                         'product_2' => $simple2['simple']['product_name']), 'api' => $api,
-                     'visa'     => $accounts['visa']['credit_card']);
+        return array(
+            'products' => array(
+                'product_1' => $simple1['simple']['product_name'],
+                'product_2' => $simple2['simple']['product_name']
+            ),
+            'api' => $api,
+            'visa' => $accounts['visa']['credit_card']
+        );
     }
 
     /**
@@ -75,7 +87,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
             array('payment' => $paymentData), $testData['products']);
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
-        if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
+        if ($payment != 'payflowpro' && isset($paymentData['payment_info']['card_number'])) {
             $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
         if ($payment == 'paypaldirect') {

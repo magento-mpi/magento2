@@ -12,7 +12,7 @@
 manage_cms_widgets:
     mca: widget_instance/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'widget_instance/')]
-    title: Widgets / Elements / Content / Magento Admin
+    title: Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -32,18 +32,20 @@ manage_cms_widgets:
                             filter_title: //input[@name='title']
                             filter_sort_order: //input[@name='sort_order']
                         pageelements:
-                            widget_grid_head: //div[@id='widgetInstanceGrid']//thead/tr[@class='headings']
+                            widget_grid_head: //thead/tr[@class='headings']
+                            cms_table_line: //table[@id='widgetInstanceGrid_table']/tbody/tr
+                        links:
+                            next_page: //a[text()='Next page']
         buttons:
             add_new_widget_instance: //button[span='Add New Widget Instance']
         messages: &cmsWidgetMessages
             successfully_saved_widget: //li[normalize-space(@class)='success-msg' and contains(.,'The widget instance has been saved.')]
             successfully_deleted_widget: //li[normalize-space(@class)='success-msg' and contains(.,'The widget instance has been deleted.')]
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_widget:
     mca: widget_instance/new/
-    title: New Instance / Widgets / Elements / Content / Magento Admin
+    title: New Frontend App Instance / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form:
             tabs:
@@ -66,7 +68,7 @@ create_cms_widget:
 
 add_widget_options:
     mca: widget_instance/edit/type/%type%/theme_id/%theme_id%/
-    title: New Instance / Widgets / Elements / Content / Magento Admin
+    title: New Frontend App Instance / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: &addWidgetOptions
             tabs:
@@ -92,7 +94,7 @@ add_widget_options:
                                         add_layout_update: //button[span='Add Layout Update']
                             -
                                 layout_updates_body:
-                                    xpath: //div[@class='entry-edit-head' and h4='Layout Updates']/following-sibling::div[@class='fieldset']
+                                    xpath: //fieldset[legend/span='Layout Updates']
                                     dropdowns:
                                         select_display_on: //select[@name='widget_instance[%layoutIndex%][page_group]']
                                         select_block_reference: //select[@name='widget_instance[%layoutIndex%][%layout%][block]']
@@ -120,7 +122,7 @@ add_widget_options:
                                         layout_updates_body_category_index_text: %categoryXpath%[%index%]/div/a/span
                                         layout_updates_body_category_index_link: %categoryXpath%[%index%]/div/a
                                         layout_updates_option_box: //div[@id='page_group_container_%layoutIndex%']
-                                        layout_updates_option_boxes: //div[@class='options-box page_group_container']
+                                        layout_updates_option_boxes: //div[@id='page_group_container']/div
 #                                    checkboxes:
 #                                        select_category_non_anchor: //div[@id='page_group_container_%index%']//div[./a[span='%categoryName%']]//input[@type='checkbox']
                                     buttons:
@@ -140,6 +142,9 @@ add_widget_options:
                         xpath: //a[@title='Widget Options']
                         fieldsets:
                             -
+                                every_popup:
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content')]
+                            -
                                 widget_options_fieldset:
                                     xpath: //div[@id='widget_instace_tabs_properties_section_content']
                                     fields:
@@ -149,7 +154,7 @@ add_widget_options:
                                         number_of_products_to_display_compared_and_viewed: //input[@name='parameters[page_size]']
                                         cache_lifetime: //input[@name='parameters[cache_lifetime]']
                                     buttons:
-                                        select_option: //div[div/h4='Widget Options']//button[contains(span,'Select')]
+                                        select_option: //button[contains(span,'Select')]
                                     pageelements:
                                         chosen_option: //label[@class='widget-option-label']
                                         chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
@@ -158,7 +163,7 @@ add_widget_options:
                                         category_id: //input[@name='parameters[id_path]']
                             -
                                 select_page:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Page...']]
+                                    xpath: //*[div/span[text()='Select Page...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -176,7 +181,7 @@ add_widget_options:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_block:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Block...']]
+                                    xpath: //*[div/span[text()='Select Block...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -193,11 +198,11 @@ add_widget_options:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_category:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
+                                    xpath: //*[div/span[text()='Select Category...']]
                                     links:
-                                        select_category_root_category: %widgetParam%//ul/div/li[contains(div/a/span,'%rootName%')]
-                                        select_category_sub_category: %widgetParam%//*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        select_category_expand_category: %widgetParam%//*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     pageelements:
                                         select_category_category_text: %categoryXpath%/div/a/span
                                         select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
@@ -206,7 +211,7 @@ add_widget_options:
                                         close_category_insertion: //div[@id='widget-chooser_close']
                             -
                                 select_product:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Product...']]
+                                    xpath: //*[div/span[text()='Select Product...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='entity_id']
@@ -219,9 +224,9 @@ add_widget_options:
                                         search: //button[span='Search']
                                         close_product_insertion: //div[@id='widget-chooser_close']
                                     links:
-                                        select_product_root_category: %widgetParam%//ul/div/li[contains(div/a/span,'%rootName%')]
-                                        select_product_sub_category: %widgetParam%//*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        select_product_expand_category: %widgetParam%//*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        select_product_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        select_product_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        select_product_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     pageelements:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                                         select_product_category_text: %categoryXpath%/div/a/span
@@ -236,7 +241,7 @@ add_widget_options:
 
 edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/
-    title: %elementTitle% / Widgets / Elements / Content / Magento Admin
+    title: %elementTitle% / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: *addWidgetOptions
         buttons:
@@ -249,7 +254,7 @@ edit_cms_widget:
 
 save_and_continue_edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Widgets / Elements / Content / Magento Admin
+    title: %elementTitle% / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: *addWidgetOptions
         buttons:

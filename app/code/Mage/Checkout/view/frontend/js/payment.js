@@ -69,7 +69,7 @@
             var methods = this.element.find('[name^="payment["]'),
                 isValid = false;
             if (methods.length === 0) {
-                alert($.mage.__('Your order cannot be completed at this time as there is no payment methods available for it.'));
+                alert($.mage.__("We can't complete your order because you don't have a payment method available."));
             }
             else if (methods.filter(':checked').length) {
                 isValid = true;

@@ -58,14 +58,11 @@ class Enterprise_Mage_Invitation_Helper extends Mage_Selenium_AbstractHelper
      */
     public function sendInvitationWithNewlyCreatedCustomer($count)
     {
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $loginData = array('email' => $userData['email'], 'password' => $userData['password']);
-        $this->customerHelper()->frontLoginCustomer($loginData);
-        $this->validatePage('customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $this->logoutCustomer();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
         $this->sendInvitationFrontend($count, $messageType = 'success', $messageName = 'success_send');
     }
 }

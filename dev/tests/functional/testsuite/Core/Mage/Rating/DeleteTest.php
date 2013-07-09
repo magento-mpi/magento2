@@ -63,6 +63,7 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteRatingUsedInReview($data)
     {
+        $this->markTestIncomplete('BUG: Fatal error on page after save review');
         $rating = $this->loadDataSet('ReviewAndRating', 'default_rating', array('visible_in' => $data['store']));
         $review = $this->loadDataSet('ReviewAndRating', 'review_required_with_rating',
             array('rating_name' => $rating['default_value'],

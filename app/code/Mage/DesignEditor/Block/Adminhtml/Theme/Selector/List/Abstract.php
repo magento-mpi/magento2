@@ -23,7 +23,7 @@
  */
 // @codingStandardsIgnoreEnd
 abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
-    extends Mage_Core_Block_Template
+    extends Mage_Backend_Block_Template
 {
     /**
      * Get tab title
@@ -100,14 +100,14 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
-        $title = $this->__('Assign to a Store View');
+        $title = $this->__('Assign New Theme');
         if ($this->getHasThemeAssigned()) {
             // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a new theme for your live store. Click "Ok" to replace your current theme.');
+            $message = $this->__('You chose a new theme for your live store. Click "OK" to replace your current theme.');
             // @codingStandardsIgnoreEnd
         } else {
             // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a theme for your new store. Click "Ok" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
+            $message = $this->__('You chose a theme for your new store. Click "OK" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
             // @codingStandardsIgnoreEnd
         }
         $themeId = $themeBlock->getTheme()->getId();
@@ -153,7 +153,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
             'label'  => $this->__('Edit'),
             'class'  => 'action-edit',
             'href'   => $this->_getEditUrl($themeBlock->getTheme()->getId()),
-            'target' => '_blank',
+            'target' => 'edittheme',
         ));
 
         $themeBlock->addButton($editButton);

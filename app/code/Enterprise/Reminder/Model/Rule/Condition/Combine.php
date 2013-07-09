@@ -36,7 +36,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine
         $conditions = array(
             array( // customer wishlist combo
                 'value' => 'Enterprise_Reminder_Model_Rule_Condition_Wishlist',
-                'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wishlist')),
+                'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wish List')),
 
             array( // customer shopping cart combo
                 'value' => 'Enterprise_Reminder_Model_Rule_Condition_Cart',

@@ -130,7 +130,7 @@
                 error: $.proxy(function() {
                     this.setLocked(false);
                     this.options.url = '';
-                    throw Error($.mage.__('Some problem with theme loading'));
+                    throw Error($.mage.__('Something went wrong while loading the theme.'));
                 }, this)
             });
         },

@@ -14,6 +14,7 @@
  * @category   Saas
  * @package    Saas_PrintedTemplate
  * @subpackage Models
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Saas_PrintedTemplate_Model_Observer
 {
@@ -44,6 +45,19 @@ class Saas_PrintedTemplate_Model_Observer
         'Enterprise_Cms_Block_Widget_Node',
         'Enterprise_Banner_Block_Widget_Banner',
     );
+
+    /**
+     * @var Magento_AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @param Magento_AuthorizationInterface $authorization
+     */
+    public function __construct(Magento_AuthorizationInterface $authorization)
+    {
+        $this->_authorization = $authorization;
+    }
 
     /**
      * Save order detailed tax information on event sales_order_save_after
@@ -223,7 +237,8 @@ class Saas_PrintedTemplate_Model_Observer
     public function removeWidgetsFromWidgetInstanceGridFilter(Varien_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!($block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Grid)) {
+        if (!($block->getNameInLayout() == 'adminhtml.widget.instance.grid.container' &&
+            $block instanceof Mage_Adminhtml_Block_Widget_Grid)) {
             return $this;
         }
 
@@ -262,7 +277,7 @@ class Saas_PrintedTemplate_Model_Observer
         }
 
         $block = $observer->getEvent()->getBlock();
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Saas_PrintedTemplate::print')) {
+        if (!$this->_authorization->isAllowed('Saas_PrintedTemplate::print')) {
             if ($block instanceof Mage_Backend_Block_Widget_Grid
                 && $block->getMassactionBlock() instanceof Mage_Backend_Block_Widget) {
                 $gridBlocks = array('pdfdocs_order','pdfshipments_order','pdfcreditmemos_order','pdfinvoices_order');

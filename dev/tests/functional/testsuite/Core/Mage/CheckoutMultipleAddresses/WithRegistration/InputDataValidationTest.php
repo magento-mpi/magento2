@@ -31,6 +31,8 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
     public function preconditionsForTests()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
         return array('product_1' => $simple1['simple']['product_name'],
@@ -107,8 +109,8 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
                                            array('general_customer_data' => $address),
                                            $testData);
         //Steps
-        if ($field == 'country') {
-            $message = '"' . $fieldName . '": Please select an option';
+        if ($field == 'country' || $field == 'state') {
+            $message = '"' . $fieldName . '": Please select an option.';
         } else {
             $message = '"' . $fieldName . '": This is a required field.';
         }
@@ -174,7 +176,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
                                            array('general_customer_data' => $address),
                                            $testData);
-        $message = '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
+        $message = '"Email Address": Please enter a valid email address (for example, johndoe@domain.com.).';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);

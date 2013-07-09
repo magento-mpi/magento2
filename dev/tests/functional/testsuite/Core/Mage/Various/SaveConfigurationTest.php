@@ -14,6 +14,13 @@
 
 class Core_Mage_Various_SaveConfigurationTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
+    }
+
     /**
      * <p>Bug Cover<p/>
      * <p>Verification of MAGETWO-1918:</p>
@@ -23,13 +30,13 @@ class Core_Mage_Various_SaveConfigurationTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6290
      */
-    public function saveMultiselectWithNoSelectedValuesOnStoreView ()
+    public function saveMultiselectWithNoSelectedValuesOnStoreView()
     {
-        $this->markTestIncomplete('MAGETWO-1918');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
+        $this->systemConfigurationHelper()->openConfigurationTab('general_general');
         $this->systemConfigurationHelper()->expandFieldSet('locale_options');
         if (!$this->getControlElement('checkbox', 'weekend_days_use_default')->selected()) {
             $this->fillMultiselect('weekend_days', 'Sunday');

@@ -26,7 +26,7 @@
                 <field id="interval" translate="label comment" module="Enterprise_Reminder" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Interval</label>
                     <source_model>Enterprise_Reminder_Model_Observer::getCronMinutes</source_model>
-                    <comment>Set this value not less than your cron.php launch period.</comment>
+                    <comment>Set this value equal or greater to your cron.php launch period.</comment>
                     <depends>
                         <field id="frequency">I</field>
                     </depends>
@@ -46,7 +46,7 @@
                 </field>
                 <field id="threshold" translate="label comment" module="Enterprise_Reminder" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Email Send Failure Threshold</label>
-                    <comment>Empty value disables this limitation. If not limited, the reminder emails may stuck sending over and over.</comment>
+                    <comment>Make sure to enter a limit value, or reminder emails will be re-issued to customers in a loop.</comment>
                 </field>
                 <field id="identity" translate="label" module="Enterprise_Reminder" type="select" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="1">
                     <label>Reminder Email Sender</label>

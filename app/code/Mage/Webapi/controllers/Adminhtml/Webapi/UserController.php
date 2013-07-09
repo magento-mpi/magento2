@@ -191,7 +191,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      */
     protected function _isAllowed()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_Webapi::webapi_users');
+        return $this->_authorization->isAllowed('Mage_Webapi::webapi_users');
     }
 
     /**

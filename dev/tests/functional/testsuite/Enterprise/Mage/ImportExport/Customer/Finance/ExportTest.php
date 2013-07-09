@@ -51,7 +51,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ExportTest extends Mage_Sele
         //Step 2
         $this->importExportHelper()->chooseExportOptions('Customer Finances');
         //Steps 3-4
-        $report = $this->ImportExportHelper()->export();
+        $report = $this->importExportHelper()->export();
         $this->assertNotNull($this->importExportHelper()->lookForEntity('finance',
                 array(
                     '_email' => $attrData['email'],

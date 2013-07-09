@@ -15,12 +15,22 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
+     * @var Mage_Core_Model_Date
+     */
+    protected $_dateModel;
+
+    /**
      * @param Mage_Rule_Model_Condition_Context $context
+     * @param Mage_Core_Model_Date $dateModel
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Mage_Rule_Model_Condition_Context $context,
+        Mage_Core_Model_Date $dateModel,
+        array $data = array()
+    ) {
         parent::__construct($context, $data);
+        $this->_dateModel = $dateModel;
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart');
         $this->setValue(null);
     }
@@ -104,9 +114,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     {
         $conditionValue = (int) $this->getValue();
         if ($conditionValue < 0) {
-            Mage::throwException(
-                Mage::helper('Enterprise_Reminder_Helper_Data')->__('Root shopping cart condition should have days value at least 0.')
-            );
+            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('The root shopping cart condition should have a days value of 0 or greater.'));
         }
 
         $table = $this->getResource()->getTable('sales_flat_quote');
@@ -117,22 +125,17 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
-        $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate('Y-m-d');
+        $currentTime = $this->_dateModel->gmtDate('Y-m-d');
         $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
             ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
-
         if ($operator == '=') {
             $select->where($daysDiffSql . ' < ?', $conditionValue);
             $select->where($daysDiffSql . ' > ?', $conditionValue - 1);
         } else {
-            if ($operator == '>=') {
-                if ($conditionValue > 0) {
-                    $conditionValue--;
-                } else {
-                    $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
-                    $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
-                        ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
-                }
+            if ($operator == '>=' && $conditionValue == 0) {
+                $currentTime = $this->_dateModel->gmtDate();
+                $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
+                    ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
             }
             $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         }

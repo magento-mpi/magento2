@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
@@ -37,7 +40,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->getRequest()->setParam('theme_id', $wrongThemeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertSessionMessages($this->equalTo(
-            array('Theme "' . $wrongThemeId . '" was not found.')),
+            array('We can\'t find theme "' . $wrongThemeId . '".')),
             Mage_Core_Model_Message::ERROR
         );
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';

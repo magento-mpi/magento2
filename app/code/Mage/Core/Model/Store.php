@@ -226,9 +226,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_urlModel;
 
     /**
+     * @var Mage_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Url $urlModel
+     * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -237,12 +243,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Url $urlModel,
+        Mage_Core_Model_App_State $appState,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
+        $this->_appState = $appState;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -302,17 +310,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             Zend_Validate_Regex::NOT_MATCH
         );
         $validator->addRule($storeCodeRule, 'code');
-
-        if ($this->isObjectNew()) {
-            /** @var $limitation Mage_Core_Model_Store_Limitation */
-            $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Limitation');
-            $storeSavingAllowance = new Zend_Validate_Callback(array($limitation, 'canCreate'));
-            $storeSavingAllowance->setMessage(
-                $limitation->getCreateRestrictionMessage(), Zend_Validate_Callback::INVALID_VALUE
-            );
-
-            $validator->addRule($storeSavingAllowance);
-        }
 
         return $validator;
     }
@@ -382,7 +379,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return $this->_configCache[$path];
         }
 
-        if (!Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             /** @var $config Mage_Core_Model_ConfigInterface */
             $config = Mage::getSingleton('Mage_Core_Model_Config_Modules');
         } else {
@@ -392,7 +389,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
         $fullPath = 'stores/' . $this->getCode() . '/' . $path;
         $data = $config->getNode($fullPath);
-        if (!$data && !Mage::isInstalled()) {
+        if (!$data && !$this->_appState->isInstalled()) {
             $data = $config->getNode('default/' . $path);
         }
         if (!$data) {
@@ -561,7 +558,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
             /** @var $dirs Mage_Core_Model_Dir */
             $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
-            
+
             switch ($type) {
                 case self::URL_TYPE_WEB:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_URL : self::XML_PATH_UNSECURE_BASE_URL;
@@ -645,7 +642,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         if ($this->isAdmin()
             || !$this->getConfig(self::XML_PATH_USE_REWRITES)
-            || !Mage::isInstalled()
+            || !$this->_appState->isInstalled()
         ) {
             if ($this->_isCustomEntryPoint()) {
                 $indexFileName = 'index.php';
@@ -696,7 +693,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     protected function _updatePathUseStoreView($url)
     {
-        if ($this->getStoreInUrl()) {
+        if ($this->isUseStoreInUrl()) {
             $url .= $this->getCode() . '/';
         }
         return $url;
@@ -705,11 +702,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Returns whether url forming scheme prepends url path with store view code
      *
-     * @return bool
+     * @return boolean
      */
-    public function getStoreInUrl()
+    public function isUseStoreInUrl()
     {
-        return Mage::isInstalled() && $this->getConfig(self::XML_PATH_STORE_IN_URL);
+        return $this->_appState->isInstalled()
+            && $this->getConfig(self::XML_PATH_STORE_IN_URL)
+            && !$this->isAdmin();
     }
 
     /**
@@ -725,7 +724,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Check if store is admin store
      *
-     * @return unknown
+     * @return boolean
      */
     public function isAdmin()
     {
@@ -775,7 +774,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return true;
         }
 
-        if (Mage::isInstalled()) {
+        if ($this->_appState->isInstalled()) {
             $secureBaseUrl = Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_SECURE_URL);
 
             if (!$secureBaseUrl) {
@@ -1029,11 +1028,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             if ($this->getBaseCurrency() && $this->getCurrentCurrency()) {
                 $this->_priceFilter = $this->getCurrentCurrency()->getFilter();
                 $this->_priceFilter->setRate($this->getBaseCurrency()->getRate($this->getCurrentCurrency()));
-            }
-            elseif($this->getDefaultCurrency()) {
+            } elseif($this->getDefaultCurrency()) {
                 $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
-            }
-            else {
+            } else {
                 $this->_priceFilter = new Varien_Filter_Sprintf('%s', 2);
             }
         }
@@ -1158,7 +1155,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $storeParsedQuery[$k] = $v;
         }
 
-        if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getCode())) {
+        if (!$this->isUseStoreInUrl()) {
             $storeParsedQuery['___store'] = $this->getCode();
         }
         if ($fromStore !== false) {
@@ -1201,7 +1198,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
+        Mage::getSingleton('Mage_Index_Model_Indexer')
+            ->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
         return parent::_beforeDelete();
     }
 

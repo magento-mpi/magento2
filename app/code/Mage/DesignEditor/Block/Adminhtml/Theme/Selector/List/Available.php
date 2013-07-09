@@ -23,12 +23,12 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     protected $_serviceModel;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Theme_Service $serviceModel
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Theme_Service $serviceModel,
         array $data = array()
     ) {
@@ -53,7 +53,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      */
     public function getTabTitle()
     {
-        return $this->__('Available theme list');
+        return $this->__('Available Themes');
     }
 
     /**

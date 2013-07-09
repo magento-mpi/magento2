@@ -18,6 +18,13 @@
  */
 class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -40,7 +47,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $addressData = $this->loadDataSet('SalesOrderActions', 'customer_addresses');
+        $addressData = $this->loadDataSet('Customers', 'generic_address', array(
+            'default_billing_address' => 'Yes',
+            'default_shipping_address' => 'Yes'
+        ));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
@@ -52,7 +62,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('sku' => $simple['general_name'], 'email' => $userData['email']);
+        return array('sku' => $simple['general_sku'], 'email' => $userData['email']);
     }
 
     /**
@@ -66,12 +76,13 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
      */
     public function permissionCreateOrder($testData)
     {
-        $this->markTestIncomplete('MAGETTWO-7635');
         // Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_create'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
+            array('resource_acl' => array(
+                'sales-operations-orders-actions-create', 'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -84,16 +95,20 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Data
-        $orderData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $testData['sku'], 'email' => $testData['email']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array(
+            'filter_sku' => $testData['sku'],
+            'email' => $testData['email'],
+            'customer_email' => '%noValue%',
+            'billing_addr_data' => '%noValue%',
+            'shipping_addr_data' => $this->loadDataSet('SalesOrder', 'shipping_address_same_as_blling')
+        ));
         //Steps And Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->validatePage('view_order');
-        $buttonsFalse =
-            array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo', 'invoice', 'ship', 'reorder',
-                  'void');
+        $this->assertTrue($this->checkCurrentPage('view_order'), $this->getParsedMessages());
+        $buttonsFalse = array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo',
+            'invoice', 'ship', 'reorder', 'void');
         $buttonsTrue = array('back');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -120,15 +135,18 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
      */
     public function createOrderForTest($testData)
     {
-        $this->markTestIncomplete('MAGETTWO-7635');
-        $orderData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $testData['sku'], 'email' => $testData['email']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array(
+            'filter_sku' => $testData['sku'],
+            'email' => $testData['email'],
+            'customer_email' => '%noValue%',
+            'billing_addr_data' => '%noValue%',
+            'shipping_addr_data' => $this->loadDataSet('SalesOrder', 'shipping_address_same_as_blling')
+        ));
         //Steps And Verifying
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->validatePage('view_order');
-        $orderId = $this->orderHelper()->defineOrderId();
+        $this->assertTrue($this->checkCurrentPage('view_order'), $this->getParsedMessages());
 
         return $orderId;
     }
@@ -147,9 +165,12 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         // Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_invoice'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Invoices';
+            array('resource_acl' => array(
+                'sales-operations-invoices',
+                'sales-operations-orders-actions-invoice',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -161,9 +182,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
-        $buttonsFalse =
-            array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo', 'ship', 'reorder', 'void');
+        $buttonsFalse = array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo',
+            'ship', 'reorder', 'void');
         $buttonsTrue = array('back', 'invoice');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -193,8 +215,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_hold'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
+            array('resource_acl' => array(
+                'sales-operations-orders-actions-hold',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -206,10 +231,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         //Steps And Verifying
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
-        $buttonsFalse =
-            array('edit', 'cancel', 'send_email', 'ship', 'unhold', 'credit_memo', 'invoice', 'reorder', 'void');
+        $buttonsFalse = array('edit', 'cancel', 'send_email', 'ship', 'unhold', 'credit_memo', 'invoice',
+            'reorder', 'void');
         $buttonsTrue = array('back', 'hold');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -242,8 +268,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_unhold'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
+            array('resource_acl' => array(
+                'sales-operations-orders-actions-unhold',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -255,9 +284,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
-        $buttonsFalse =
-            array('edit', 'cancel', 'send_email', 'ship', 'hold', 'credit_memo', 'invoice', 'reorder', 'void');
+        $buttonsFalse = array('edit', 'cancel', 'send_email', 'ship', 'hold', 'credit_memo', 'invoice',
+            'reorder', 'void');
         $buttonsTrue = array('back', 'unhold');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -289,9 +319,12 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_ship'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_ship';
+            array('resource_acl' => array(
+                'sales-operations-shipments',
+                'sales-operations-orders-actions-ship',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -304,9 +337,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Steps And Verifying
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
-        $buttonsFalse =
-            array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo', 'invoice', 'reorder', 'void');
+        $buttonsFalse = array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo',
+            'invoice', 'reorder', 'void');
         $buttonsTrue = array('back', 'ship');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -338,9 +372,12 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_credit_memos'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_credit_memos';
+            array('resource_acl' => array(
+                'sales-operations-credit_memos',
+                'sales-operations-orders-actions-credit_memos',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -352,6 +389,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         ////Steps And Verifying
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse = array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'reorder', 'void');
@@ -387,9 +425,12 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_reorder'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_create';
+            array('resource_acl' => array(
+                'sales-operations-orders-actions-create',
+                'sales-operations-orders-actions-reorder',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -401,10 +442,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         ////Steps And Verifying
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
-        $buttonsFalse =
-            array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'credit_memo', 'void');
+        $buttonsFalse = array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'ship',
+            'invoice', 'credit_memo', 'void');
         $buttonsTrue = array('back', 'reorder');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -418,8 +460,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         }
         $this->assertEmptyVerificationErrors();
         $this->clickButton('reorder');
-        $this->orderHelper()->submitOrder();
-        $orderId = $this->orderHelper()->defineOrderId();
+        $orderId = $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderId;
@@ -440,9 +481,12 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_edit'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_create';
+            array('resource_acl' => array(
+                'sales-operations-orders-actions-create',
+                'sales-operations-orders-actions-edit',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -454,10 +498,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         ////Steps And Verifying
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
-        $buttonsFalse =
-            array('reorder', 'cancel', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'credit_memo', 'void');
+        $buttonsFalse = array('reorder', 'cancel', 'send_email', 'hold', 'unhold', 'ship',
+            'invoice', 'credit_memo', 'void');
         $buttonsTrue = array('back', 'edit');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -470,8 +515,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
             }
         }
         $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
-        $this->orderHelper()->submitOrder();
-        $orderId = $this->orderHelper()->defineOrderId();
+        $orderId = $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderId;
@@ -491,8 +535,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'sales_orders_cancel'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
+            array('resource_acl' => array(
+                'sales-operations-orders-actions-cancel',
+                'sales-operations-orders-actions-view'
+            ))
+        );
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -504,10 +551,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->getParsedMessages());
         ////Steps And Verifying
         $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
-        $buttonsFalse =
-            array('reorder', 'edit', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'credit_memo', 'void');
+        $buttonsFalse = array('reorder', 'edit', 'send_email', 'hold', 'unhold', 'ship',
+            'invoice', 'credit_memo', 'void');
         $buttonsTrue = array('back', 'cancel');
         foreach ($buttonsFalse as $button) {
             if ($this->buttonIsPresent($button)) {
@@ -519,6 +567,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
                 $this->addVerificationMessage("Button $button is not present on the page");
             }
         }
+        $this->assertEmptyVerificationErrors();
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }

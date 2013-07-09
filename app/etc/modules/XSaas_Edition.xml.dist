@@ -30,7 +30,6 @@
         <Mage_Connect><active>false</active></Mage_Connect>
         <Mage_Downloadable><active>false</active></Mage_Downloadable>
         <Mage_Oauth><active>false</active></Mage_Oauth>
-        <Mage_Ogone><active>false</active></Mage_Ogone>
         <Mage_Webapi><active>false</active></Mage_Webapi>
         <Saas_Backend><active>true</active></Saas_Backend>
         <Saas_Backup><active>true</active></Saas_Backup>
@@ -42,6 +41,7 @@
         <Saas_Index><active>true</active></Saas_Index>
         <Saas_JobNotification><active>true</active></Saas_JobNotification>
         <Saas_Launcher><active>true</active></Saas_Launcher>
+        <Saas_Limitation><active>true</active></Saas_Limitation>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
         <Saas_Page><active>true</active></Saas_Page>
         <Saas_PageCache><active>true</active></Saas_PageCache>

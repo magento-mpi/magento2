@@ -18,17 +18,19 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Catalog_Model_CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Catalog_Model_CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->setUseContainer(true);
+        $this->_categoryFactory = $categoryFactory;
     }
-
 
     /**
      * Form preparation
@@ -53,12 +55,35 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
             'required' => true,
-            'options'  => array(),
+            'options'  => $this->_getParentCategoryOptions(),
             'class'    => 'validate-parent-category',
             'name'     => 'new_category_parent',
+            // @codingStandardsIgnoreStart
+            'note'     => Mage::helper('Mage_Catalog_Helper_Data')->__('If there are no custom parent categories, please use the default parent category. You can reassign the category at any time in <a href="%s" target="_blank">Products > Categories</a>.', $this->getUrl('*/catalog_category')),
+            // @codingStandardsIgnoreEnd
         ));
 
         $this->setForm($form);
+    }
+
+    /**
+     * Get parent category options
+     *
+     * @return array
+     */
+    protected function _getParentCategoryOptions()
+    {
+        $items = $this->_categoryFactory->create()
+            ->getCollection()
+            ->addAttributeToSelect('name')
+            ->addAttributeToSort('entity_id', 'ASC')
+            ->setPageSize(3)
+            ->load()
+            ->getItems();
+
+        return count($items) === 2
+            ? array($items[2]->getEntityId() => $items[2]->getName())
+            : array();
     }
 
     /**

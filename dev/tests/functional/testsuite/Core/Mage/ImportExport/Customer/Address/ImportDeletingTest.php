@@ -22,10 +22,6 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
 {
     static protected $_customerData = array();
 
-    /**
-     * Precondition:
-     * Create new customer
-     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -33,16 +29,22 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
         self::$_customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer(self::$_customerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     */
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
     /**
      * Verify that deleting customer address via import works correctly
      *
@@ -56,13 +58,14 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         $this->openTab('addresses');
-        if ($this->customerHelper()->isAddressPresent($addressData) == 0) {
+        $addressId = $this->customerHelper()->isAddressPresent($addressData);
+        if ($addressId == 0) {
             $this->customerHelper()->addAddress($addressData);
-            $this->customerHelper()->saveForm('save_customer');
+            $this->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
             $this->openTab('addresses');
-        };
-        $addressId = $this->customerHelper()->isAddressPresent($addressData);
+            $addressId = $this->customerHelper()->isAddressPresent($addressData);
+        }
 
         //Step 1
         $this->navigate('import');
@@ -94,24 +97,26 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
 
     public function importDeleteAddress()
     {
-        $basicAddressData = $this->loadDataSet('Customers', 'generic_address', array('first_name' => 'William',
-            'middle_name' => 'E.', 'last_name' => 'Holler', 'company' => 'Team Electronics',
-            'street_address_line_1' => '3186 Lincoln Street', 'street_address_line_2' => '',
-            'city' => 'Camden', 'state' => 'New Jersey', 'zip_code' => '08102', 'telephone' => '609-504-6350',
-            'fax' => '609-504-6350',));
+        $basicAddressData = $this->loadDataSet('Customers', 'generic_address', array(
+            'first_name' => 'William', 'middle_name' => 'E.', 'last_name' => 'Holler',
+            'company' => 'Team Electronics', 'street_address_line_1' => '3186 Lincoln Street',
+            'street_address_line_2' => '', 'city' => 'Camden', 'state' => 'New Jersey', 'zip_code' => '08102',
+            'telephone' => '609-504-6350', 'fax' => '609-504-6350'
+        ));
         $basicAddressRow = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
             'city' => 'Camden', 'company' => 'Team Electronics', 'fax' => '609-504-6350', 'firstname' => 'William',
             'lastname' => 'Holler', 'middlename' => 'E.', 'postcode' => '08102', 'prefix' => '',
-            'region' => 'New Jersey', 'street' => '3186 Lincoln Street', 'telephone' => '609-504-6350',));
+            'region' => 'New Jersey', 'street' => '3186 Lincoln Street', 'telephone' => '609-504-6350'
+        ));
         $addressData = array();
         $addressRows = array();
         $streets = array('4040 Hickory Ridge Drive', '3129 Parkway Street', '746 Goodwin Avenue');
-        for ($i=0; $i<6; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             $addressData[$i] = $basicAddressData;
             $addressRows[$i] = $basicAddressRow;
             $addressRows[$i]['_email'] = '<realEmail>';
             $addressRows[$i]['_entity_id'] = '<realAddressId>';
-            if ($i<3) {
+            if ($i < 3) {
                 $addressData[$i]['street_address_line_1'] = $streets[$i];
                 $addressRows[$i]['street'] = $streets[$i];
             } else {
@@ -137,32 +142,37 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
         $addressRows[5]['_entity_id'] = '';
 
         //validation messages
-        $successfulImport = array('validation' => array(
+        $successfulImport = array(
+            'validation' => array(
                 'validation' => array("Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"),
                 'success' => array(
                     "File is valid! To start import process press \"Import\" button  Import"
                 )),
             'import' => array(
-                'success' => array('Import successfully done.')
-            ));
+                'success' => array('Import successfully done')
+            )
+        );
         $customerNotFound = array('validation' => array(
-                'error' => array("Customer with such email and website code doesn't exist in rows: 1"),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
-                )));
+            'error' => array("Customer with such email and website code doesn't exist in rows: 1"),
+            'validation' => array(
+                "File is totally invalid. Please fix errors and re-upload file.",
+                "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
+            )
+        ));
         $addressNotFound = array('validation' => array(
-                'error' => array("Customer address for such customer doesn't exist in rows: 1"),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
-                )));
+            'error' => array("Customer address for such customer doesn't exist in rows: 1"),
+            'validation' => array(
+                "File is totally invalid. Please fix errors and re-upload file.",
+                "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
+            )
+        ));
         $emptyEntityId = array('validation' => array(
             'error' => array("Customer address id column is not specified in rows: 1"),
             'validation' => array(
-                "File is totally invalid. Please fix errors and re-upload file",
+                "File is totally invalid. Please fix errors and re-upload file.",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
-            )));
+            )
+        ));
 
         return array(
             array($addressData[0], array($addressRows[0]), true, $successfulImport),
@@ -171,6 +181,6 @@ class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Se
             array($addressData[3], array($addressRows[3]), false, $customerNotFound),
             array($addressData[4], array($addressRows[4]), false, $addressNotFound),
             array($addressData[5], array($addressRows[5]), false, $emptyEntityId),
-            );
+        );
     }
 }

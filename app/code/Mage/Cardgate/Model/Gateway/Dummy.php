@@ -20,6 +20,9 @@ class Mage_Cardgate_Model_Gateway_Dummy extends Mage_Cardgate_Model_Gateway_Cred
      *
      * @param Mage_Sales_Model_Quote $quote
      * @return bool
+     *
+     * Suppress this rule as $order parameter is a part of method signature
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function isAvailable($quote = null)
     {

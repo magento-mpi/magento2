@@ -31,10 +31,8 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $configFirst = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
-        $this->systemConfigurationHelper()->configure($configFirst);
-        $configSecond = $this->loadDataSet('SingleStoreMode', 'disable_single_store_mode');
-        $this->systemConfigurationHelper()->configure($configSecond);
+        $this->systemConfigurationHelper()->configure('CustomerSegment/enable_customer_segment');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
     }
 
     /**
@@ -58,9 +56,9 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_customer_segments');
         $this->customerSegmentHelper()->createSegment($segmentData);
-        $this->addFieldIdToMessage($fieldType, $fieldName);
         //Verification
-        $this->assertMessagePresent('validation', 'segment_empty_required_field');
+        $this->addFieldIdToMessage($fieldType, $fieldName);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 

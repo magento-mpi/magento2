@@ -13,7 +13,7 @@
 manage_shopping_cart_price_rules:
     mca: promo_quote/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'promo_quote')]
-    title: Shopping Cart Price Rules / Promotions / Marketing / Magento Admin
+    title: Cart Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -42,26 +42,21 @@ manage_shopping_cart_price_rules:
         buttons:
             add_new_rule: //button[span='Add New Rule']
         messages: &ruleMessages
+            enter_greater_than_zero: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number greater than 0 in this field.']
+            use_numbers_only: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please enter a valid number in this field.')]
             success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
             success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been saved.')]
             error_coupon_code_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Coupon with the same code already exists.')]
-            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             enter_valid_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
-            success_generated_coupons: //li[normalize-space(@class)='success-msg' and contains(.,'%qtyGeneratedCoupons% Coupon(s) have been generated')]
+            success_generated_coupons: //li[normalize-space(@class)='success-msg' and contains(.,'%qtyGeneratedCoupons% coupon(s) have been generated.')]
             confirmation_for_delete_coupons: Are you sure you want to delete the selected coupon(s)?
             select_coupons_for_delete: Please select items.
-            validation_for_field_coupon_qty: //div[@id='advice-required-entry-coupons_qty']
-            validation_for_field_coupon_qty_negative: //div[@id='advice-validate-digits-coupons_qty']
-            validation_for_field_coupon_qty_zero: //div[@id='advice-validate-greater-than-zero-coupons_qty']
-            validation_for_field_code_length: //div[@id='advice-required-entry-coupons_length']
-            validation_for_field_code_length_negative: //div[@id='advice-validate-digits-coupons_length']
-            validation_for_field_dash_every_x_characters_negative: //div[@id='advice-validate-digits-coupons_dash']
 
 create_shopping_cart_price_rule:
     mca: promo_quote/new/
-    title: New Rule / Promotions / Marketing / Magento Admin
+    title: New Cart Price Rule / Promotions / Marketing / Magento Admin
     uimap:
         form: &createNewRule
             tabs:
@@ -98,8 +93,8 @@ create_shopping_cart_price_rule:
                                 apply_for_rule_condition:
                                     xpath: //*[@id='rule_conditions_fieldset']
                                     links:
-                                        conditions_aggregator: //*[@id='rule_conditions_fieldset']/span[.//select[contains(@name,'aggregator')]]/a
-                                        conditions_value: //*[@id='rule_conditions_fieldset']/span[.//select[contains(@name,'value')]]/a
+                                        conditions_aggregator: /*/span[.//select[contains(@name,'aggregator')]]/a
+                                        conditions_value: /*/span[.//select[contains(@name,'value')]]/a
                                     dropdowns:
                                         select_conditions_aggregator: //select[@name='rule[conditions][1][aggregator]']
                                         select_conditions_value: //select[@name='rule[conditions][1][value]']
@@ -142,7 +137,7 @@ create_shopping_cart_price_rule:
                         fieldsets:
                             -
                                 update_prices_using_the_following_information:
-                                    xpath: //fieldset[@id='rule_action_fieldset']
+                                    xpath: //*[@id='rule_action_fieldset']
                                     fields:
                                         discount_amount: //input[@name='discount_amount']
                                         maximum_qty_discount_is_applied_to: //input[@name='discount_qty']
@@ -156,8 +151,8 @@ create_shopping_cart_price_rule:
                                 apply_for_rule_action:
                                     xpath: //*[@id='rule_actions_fieldset']
                                     links:
-                                        actions_aggregator: //*[@id='rule_actions_fieldset']/span[.//select[contains(@name,'aggregator')]]/a
-                                        actions_value: //*[@id='rule_actions_fieldset']/span[.//select[contains(@name,'value')]]/a
+                                        actions_aggregator: /*/span[.//select[contains(@name,'aggregator')]]/a
+                                        actions_value: /*/span[.//select[contains(@name,'value')]]/a
                                     dropdowns:
                                         select_actions_aggregator: //select[@name='rule[actions][1][aggregator]']
                                         select_actions_value: //select[@name='rule[actions][1][value]']
@@ -200,14 +195,14 @@ create_shopping_cart_price_rule:
                         fieldsets:
                             -
                                 default_label:
-                                    xpath: //div[@id='rule_default_label_fieldset']
+                                    xpath: //*[@id='rule_default_label_fieldset']
                                     fields:
                                         default_rule_label: //input[@name='store_labels[0]']
                             -
                                 store_view_specific_labels:
-                                    xpath: //div[@id='rule_store_labels_fieldset']
+                                    xpath: //*[@id='rule_store_labels_fieldset']
                                     fields:
-                                        store_view_rule_label: //tr[td='%storeViewName%']//input
+                                        store_view_rule_label: //*[label/span='%storeViewName%']//input
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -235,7 +230,7 @@ edit_shopping_cart_price_rule:
                         fieldsets:
                             -
                                 coupons_information:
-                                    xpath: //div[@id='coupons_information_fieldset']
+                                    xpath: //*[@id='coupons_information_fieldset']
                                     fields:
                                         coupon_qty: //input[@id='coupons_qty']
                                         code_length: //input[@id='coupons_length']

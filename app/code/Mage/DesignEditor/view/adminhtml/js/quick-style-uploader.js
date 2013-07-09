@@ -21,6 +21,7 @@
             uploader_id:       null,
             value:             null,
             container:         null,
+            tile_available:    null,
 
             /**
              * Add file
@@ -54,7 +55,7 @@
              * @param data
              */
             fail: function(e, data) {
-                alert($.mage.__('File extension not known or unsupported type.'));
+                alert($.mage.__('We don\'t recognize or support this file extension type.'));
             },
 
             /**
@@ -97,7 +98,7 @@
                     }
                 }, this),
                 error: function() {
-                    alert($.mage.__('Error: unknown error.'));
+                    alert($.mage.__('Sorry, there was an unknown error.'));
                 }
             });
         },
@@ -160,7 +161,9 @@
             if (this.options.hide_uploader == true) {
                 $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
             }
-            $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
+            if (this.options.tile_available == true) {
+                $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
+            }
         },
 
         /**

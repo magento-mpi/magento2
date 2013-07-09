@@ -113,8 +113,10 @@ class Mage_DesignEditor_Model_State
         $mode = $request->getAlias('editorMode') ?: self::MODE_NAVIGATION;
         $this->_themeContext->setEditableThemeById($request->getAlias('themeId'));
 
-        $this->_backendSession->setData(self::CURRENT_URL_SESSION_KEY, $request->getPathInfo());
-        $this->_backendSession->setData(self::CURRENT_MODE_SESSION_KEY, $mode);
+        if (!$request->isAjax()) {
+            $this->_backendSession->setData(self::CURRENT_URL_SESSION_KEY, $request->getPathInfo());
+            $this->_backendSession->setData(self::CURRENT_MODE_SESSION_KEY, $mode);
+        }
         $this->_injectUrlModel($mode);
         $this->_injectLayout($mode, $areaCode);
         $this->_setTheme();

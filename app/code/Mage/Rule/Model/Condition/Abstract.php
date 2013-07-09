@@ -388,7 +388,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
         return array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Please choose a condition to add...')
+                'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Please choose a condition to add.')
             )
         );
     }

@@ -63,7 +63,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
              * Check invoice create availability
              */
             if (!$order->canInvoice()) {
-                $this->_getSession()->addError($this->__('The order does not allow creating an invoice.'));
+                $this->_getSession()->addError($this->__('The order does not allow an invoice to be created.'));
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
@@ -258,9 +258,9 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 $transactionSave->save();
 
                 if (isset($shippingResponse) && $shippingResponse->hasErrors()) {
-                    $this->_getSession()->addError($this->__('The invoice and the shipment  have been created. The shipping label cannot be created at the moment.'));
+                    $this->_getSession()->addError($this->__('The invoice and the shipment  have been created. The shipping label cannot be created now.'));
                 } elseif (!empty($data['do_shipment'])) {
-                    $this->_getSession()->addSuccess($this->__('The invoice and shipment have been created.'));
+                    $this->_getSession()->addSuccess($this->__('You created the invoice and shipment.'));
                 } else {
                     $this->_getSession()->addSuccess($this->__('The invoice has been created.'));
                 }
@@ -274,14 +274,14 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                     $invoice->sendEmail(!empty($data['send_email']), $comment);
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $this->_getSession()->addError($this->__('Unable to send the invoice email.'));
+                    $this->_getSession()->addError($this->__('We can\'t send the invoice email.'));
                 }
                 if ($shipment) {
                     try {
                         $shipment->sendEmail(!empty($data['send_email']));
                     } catch (Exception $e) {
                         Mage::logException($e);
-                        $this->_getSession()->addError($this->__('Unable to send the shipment email.'));
+                        $this->_getSession()->addError($this->__('We can\'t send the shipment.'));
                     }
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCommentText(true);
@@ -293,7 +293,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Unable to save the invoice.'));
+            $this->_getSession()->addError($this->__('We can\'t save the invoice.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/new', array('order_id' => $orderId));
@@ -313,7 +313,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Invoice capturing error.'));
+                $this->_getSession()->addError($this->__('Invoice capturing error'));
             }
             $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
         } else {
@@ -330,11 +330,11 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             try {
                 $invoice->cancel();
                 $this->_saveInvoice($invoice);
-                $this->_getSession()->addSuccess($this->__('The invoice has been canceled.'));
+                $this->_getSession()->addSuccess($this->__('You canceled the invoice.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Invoice canceling error.'));
+                $this->_getSession()->addError($this->__('Invoice canceling error'));
             }
             $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
         } else {
@@ -355,7 +355,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Invoice voiding error.'));
+                $this->_getSession()->addError($this->__('Invoice voiding error'));
             }
             $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
         } else {

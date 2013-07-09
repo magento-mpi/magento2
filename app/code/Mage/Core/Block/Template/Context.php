@@ -36,6 +36,11 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     protected $_viewFileSystem;
 
     /**
+     * @var Mage_Core_Model_TemplateEngine_Factory
+     */
+    protected $_engineFactory;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -53,6 +58,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Mage_Core_Model_TemplateEngine_Factory $engineFactory
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
@@ -71,8 +77,8 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_View_FileSystem $viewFileSystem
-
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Mage_Core_Model_TemplateEngine_Factory $engineFactory
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache,
@@ -83,6 +89,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_engineFactory = $engineFactory;
     }
 
     /**
@@ -122,5 +129,15 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     public function getViewFileSystem()
     {
         return $this->_viewFileSystem;
+    }
+
+    /**
+     * Get the template engine factory instance
+     *
+     * @return Mage_Core_Model_TemplateEngine_Factory
+     */
+    public function getEngineFactory()
+    {
+        return $this->_engineFactory;
     }
 }

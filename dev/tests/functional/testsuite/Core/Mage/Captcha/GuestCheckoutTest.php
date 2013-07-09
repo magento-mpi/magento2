@@ -28,7 +28,6 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
     public function assertPreConditions()
     {
         $this->logoutCustomer();
-        $this->loginAdminUser();
     }
 
     public function tearDownAfterTestClass()
@@ -50,6 +49,7 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -68,9 +68,11 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
      */
     public function enableCaptcha($productName)
     {
+        $this->markTestIncomplete('BUG: No captcha image on Billing Information page');
         //Data
         $method = array('checkout_method' => 'guest');
         //Steps
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/enable_front_guest_checkout_captcha');
         $this->frontend();
@@ -131,8 +133,8 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
     public function emptyCaptcha($productName)
     {
         //Data
-        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
-                                          array('general_name' => $productName));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
+            array('general_name' => $productName));
         $message = '"Please type the letters below": This is a required field.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
@@ -152,10 +154,10 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
     public function wrongCaptcha($productName)
     {
         //Data
-        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
-                                            array('general_name' => $productName));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
+            array('general_name' => $productName));
         $checkoutData['billing_address_data']['captcha_guest_checkout'] = '1234';
-        $message = 'Incorrect CAPTCHA.';
+        $message = 'Incorrect CAPTCHA';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);

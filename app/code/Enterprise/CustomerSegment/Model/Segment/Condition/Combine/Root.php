@@ -15,13 +15,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
+     * @var Mage_Customer_Model_Config_Share
+     */
+    protected $_configShare;
+
+    /**
      * @param Mage_Rule_Model_Condition_Context $context
+     * @param Mage_Customer_Model_Config_Share $configShare
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Mage_Rule_Model_Condition_Context $context,
+        Mage_Customer_Model_Config_Share $configShare,
+        array $data = array()
+    ) {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root');
+        $this->_configShare = $configShare;
     }
 
     /**
@@ -68,11 +78,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
             // For existing customer
             $select->from($table, new Zend_Db_Expr(1));
         } else {
-            $select->from($table, array('entity_id'));
-            if ($customer === null) {
-                if (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope()) {
-                    $select->where('website_id=?', $website);
-                }
+            $select->from($table, array('entity_id', 'website_id'));
+            if ($customer === null && $this->_configShare->isWebsiteScope()) {
+                $select->where('website_id=?', $website);
             }
         }
 

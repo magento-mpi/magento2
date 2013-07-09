@@ -866,7 +866,11 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testIsPathInDirectory($path, $directory, $expectedValue)
     {
-        $this->assertEquals($expectedValue, Magento_Filesystem::isPathInDirectory($path, $directory));
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+            ->getMock();
+
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $this->assertEquals($expectedValue, $filesystem->isPathInDirectory($path, $directory));
     }
 
     /**

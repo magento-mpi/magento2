@@ -316,12 +316,4 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_voided_order');
     }
-
-    /**
-     * @test
-     * @TODO temporary fix for tearDownAfterTestClass()
-     */
-    public function temporaryFixTearDownAfterTestClass()
-    {
-    }
 }

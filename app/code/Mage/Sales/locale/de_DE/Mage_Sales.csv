@@ -723,7 +723,7 @@
 "Tax Percent","Steuer Prozent"
 "Telephone","Telefon"
 "The Order State ""%s"" must not be set manually.","Der Auftragsstatus ""%s"" darf nicht manuell festgelegt werden."
-"The address total model should be extended from Mage_Sales_Model_Quote_Address_Total_Abstract.","Das adress total model sollte von Mage_Sales_Model_Quote_Address_Total_Abstract erweitert werden."
+"The address total model should be extended from Mage_Sales_Model_Quote_Address_Total_Abstract.","Das adresse total model sollte von Mage_Sales_Model_Quote_Address_Total_Abstract erweitert werden."
 "The billing agreement ""%s"" has been canceled.","Die Rechnungsvereinbarung ""%s"" wurde annuliert."
 "The billing agreement ""%s"" has been created.","Die Rechnungsvereinbarung ""%s"" wurde erstellt."
 "The coupon code has been accepted.","Der Gutscheincode ist akzeptiert worden."
