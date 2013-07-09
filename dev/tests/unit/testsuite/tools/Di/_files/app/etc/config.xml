@@ -20,7 +20,7 @@
             <Mage_Core_Controller_Varien_Action_Context>
                 <plugins>
                     <first><instance>Mage_Core_Model_Action_Plugin</instance></first>
-                    <second><instance>Enterprise_PageCache_Model_Action_Plugin</instance></second>
+                    <second><instance>Mage_PageCache_Model_Action_Plugin</instance></second>
                 </plugins>
                 <parameters>
                     <layoutFactory>

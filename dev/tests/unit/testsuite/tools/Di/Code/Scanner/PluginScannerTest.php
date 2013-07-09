@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -31,7 +31,7 @@ class Magento_Tools_Di_Code_Scanner_PluginScannerTest extends PHPUnit_Framework_
         $expected = array(
             'Mage_Core_Model_Cache_TagPlugin',
             'Mage_Core_Model_Action_Plugin',
-            'Enterprise_PageCache_Model_Action_Plugin',
+            'Mage_PageCache_Model_Action_Plugin',
         );
         $this->assertEquals($expected, $actual);
     }
