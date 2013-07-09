@@ -812,7 +812,7 @@ manage_shopping_cart_price_rules:
 
 manage_tax_rule:
     fieldset:
-        online_customer_grid: tablename
+        manage_tax_rule: tablename
     button:
             reset_filter: ~
             search: ~
