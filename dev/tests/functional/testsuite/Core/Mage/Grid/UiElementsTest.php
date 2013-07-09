@@ -103,6 +103,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('manage_shopping_cart_price_rules'),
             array('order_statuses'),
             array('manage_catalog_price_rules'),
+            array('manage_tax_rule'),
         );
     }
 
