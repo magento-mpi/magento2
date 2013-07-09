@@ -5,8 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-require_once __DIR__ . '/../_files/Interface.php';
-require_once __DIR__ . '/../_files/Parent.php';
 require_once __DIR__ . '/../_files/Child.php';
 require_once __DIR__ . '/../_files/Child/A.php';
 require_once __DIR__ . '/../_files/Child/Circular.php';
