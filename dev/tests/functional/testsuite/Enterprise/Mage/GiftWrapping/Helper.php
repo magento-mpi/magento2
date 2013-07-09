@@ -39,24 +39,27 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillGiftWrappingForm($inputData, $save = true)
     {
-        $title = (isset($inputData['gift_wrapping_design'])) ? $inputData['gift_wrapping_design'] : '';
-        $this->addParameter('elementTitle', $title);
+        if (isset($inputData['gift_wrapping_design'])) {
+            $this->addParameter('elementTitle', $inputData['gift_wrapping_design']);
+        }
         if (isset($inputData['gift_wrapping_websites'])
-            && !$this->controlIsPresent('multiselect', 'gift_wrapping_websites')
+            && !$this->controlIsVisible('multiselect', 'gift_wrapping_websites')
         ) {
             unset($inputData['gift_wrapping_websites']);
         }
         if (isset($inputData['gift_wrapping_file'])) {
-            //@TODO uploading file
+            $image = $inputData['gift_wrapping_file'];
             unset($inputData['gift_wrapping_file']);
         }
-        $this->clickControl('field', 'gift_wrapping_file', false);
-        $this->fillForm($inputData);
-        if (isset($inputData['gift_wrapping_file'])) {
-            $xpathArray = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
-                                $this->_getControlXpath('checkbox', 'delete_image'));
+        $this->fillFieldset($inputData, 'gift_wrapping_info');
+        if (isset($image)) {
+            $this->markTestIncomplete('@TODO uploading file in fillGiftWrappingForm');
             $this->clickButton('upload_file', false);
-            $this->waitForElement($xpathArray);
+            $this->waitForElement(array(
+                $this->_getMessageXpath('general_error'),
+                $this->_getMessageXpath('general_validation'),
+                $this->_getControlXpath('checkbox', 'delete_image')
+            ));
         }
         if ($save) {
             $this->saveForm('save');
