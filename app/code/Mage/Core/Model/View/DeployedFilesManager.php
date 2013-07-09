@@ -12,7 +12,7 @@
 /**
  * Builds path for files deployed into public directory in advance
  */
-class Mage_Core_Model_View_DeployedFilesManager
+class Mage_Core_Model_View_DeployedFilesManager implements Mage_Core_Model_View_PublicFilesManagerInterface
 {
     /**
      * @var Mage_Core_Model_View_Service
@@ -30,27 +30,15 @@ class Mage_Core_Model_View_DeployedFilesManager
     }
 
     /**
-     * Get deployed file path
+     * Get public file path
      *
-     * @param string $filePath
+     * @param $filePath
      * @param array $params
      * @return string
      */
-    public function getDeployedFilePath($filePath, $params)
+    public function getPublicFilePath($filePath, $params)
     {
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $params['themeModel'];
-        $themePath = $themeModel->getThemePath();
-        while (empty($themePath) && $themeModel) {
-            $themePath = $themeModel->getThemePath();
-            $themeModel = $themeModel->getParentTheme();
-        }
-        $subPath = self::buildDeployedFilePath(
-            $params['area'], $themePath, $params['locale'], $filePath, $params['module']
-        );
-        $deployedFilePath = $this->_viewService->getPublicDir() . DIRECTORY_SEPARATOR . $subPath;
-
-        return $deployedFilePath;
+        return $this->_getDeployedFilePath($filePath, $params);
     }
 
     /**
@@ -70,5 +58,29 @@ class Mage_Core_Model_View_DeployedFilesManager
     {
         return $area . DIRECTORY_SEPARATOR . $themePath . DIRECTORY_SEPARATOR
             . ($module ? $module . DIRECTORY_SEPARATOR : '') . $file;
+    }
+
+    /**
+     * Get deployed file path
+     *
+     * @param string $filePath
+     * @param array $params
+     * @return string
+     */
+    protected function _getDeployedFilePath($filePath, $params)
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $params['themeModel'];
+        $themePath = $themeModel->getThemePath();
+        while (empty($themePath) && $themeModel) {
+            $themePath = $themeModel->getThemePath();
+            $themeModel = $themeModel->getParentTheme();
+        }
+        $subPath = self::buildDeployedFilePath(
+            $params['area'], $themePath, $params['locale'], $filePath, $params['module']
+        );
+        $deployedFilePath = $this->_viewService->getPublicDir() . DIRECTORY_SEPARATOR . $subPath;
+
+        return $deployedFilePath;
     }
 }

@@ -106,7 +106,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         /** @var $publisher Mage_Core_Model_View_Publisher|PHPUnit_Framework_MockObject_MockObject */
         $publisher = $this->getMock('Mage_Core_Model_View_Publisher', array(), array(), '', false);
         $publisher->expects($this->any())
-            ->method('getPublishedFilePath')
+            ->method('getPublicFilePath')
             ->will($this->returnValue(str_replace('/', DIRECTORY_SEPARATOR, 'some_dir/public_dir/a/t/m/file.js')));
 
         // 7. Get deployed file manager

@@ -11,7 +11,7 @@
 /**
  * Handles file publication
  */
-class Mage_Core_Model_View_Publisher
+class Mage_Core_Model_View_Publisher implements Mage_Core_Model_View_PublicFilesManagerInterface
 {
     /**#@+
      * Extensions group for static files
@@ -84,29 +84,15 @@ class Mage_Core_Model_View_Publisher
     }
 
     /**
-     * Check, if requested theme file has public access, and move it to public folder, if the file has no public access
+     * Get public file path
      *
-     * @param  string $filePath
-     * @param  array $params
+     * @param $filePath
+     * @param array $params
      * @return string
-     * @throws Magento_Exception
      */
-    public function getPublishedFilePath($filePath, $params)
+    public function getPublicFilePath($filePath, $params)
     {
-        if (!$this->_viewService->isViewFileOperationAllowed()) {
-            throw new Magento_Exception('Filesystem operations are not permitted for view files');
-        }
-
-        $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
-
-        if (!$this->_filesystem->has($sourcePath)) {
-            throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
-        }
-        if (!$this->_needToProcessFile($sourcePath)) {
-            return $sourcePath;
-        }
-
-        return $this->_publishFile($filePath, $params, $sourcePath);
+        return $this->_getPublishedFilePath($filePath, $params);
     }
 
     /**
@@ -126,7 +112,35 @@ class Mage_Core_Model_View_Publisher
     public function publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
     {
         $relativeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
-        return $this->getPublishedFilePath($relativeFilePath, $params);
+        return $this->_getPublishedFilePath($relativeFilePath, $params);
+    }
+
+    /**
+     * Get published file path
+     *
+     * Check, if requested theme file has public access, and move it to public folder, if the file has no public access
+     *
+     * @param  string $filePath
+     * @param  array $params
+     * @return string
+     * @throws Magento_Exception
+     */
+    protected function _getPublishedFilePath($filePath, $params)
+    {
+        if (!$this->_viewService->isViewFileOperationAllowed()) {
+            throw new Magento_Exception('Filesystem operations are not permitted for view files');
+        }
+
+        $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
+
+        if (!$this->_filesystem->has($sourcePath)) {
+            throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
+        }
+        if (!$this->_needToProcessFile($sourcePath)) {
+            return $sourcePath;
+        }
+
+        return $this->_publishFile($filePath, $params, $sourcePath);
     }
 
     /**

@@ -107,10 +107,12 @@ class Mage_Core_Model_View_Url
         $filePath = $this->_viewService->extractScope($fileId, $params);
 
         if ($this->_viewService->isViewFileOperationAllowed()) {
-            $publicFilePath = $this->_publisher->getPublishedFilePath($filePath, $params);
+            $filesManager = $this->_publisher;
         } else {
-            $publicFilePath = $this->_deployedFileManager->getDeployedFilePath($filePath, $params);
+            $filesManager = $this->_deployedFileManager;
         }
+        $publicFilePath = $filesManager->getPublicFilePath($filePath, $params);
+
         return $publicFilePath;
     }
 
