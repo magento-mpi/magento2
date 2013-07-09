@@ -8,8 +8,9 @@
  * @license     {license_link}
  */
 
-
-// used in both FS and publisher, probably stay here or move to some kind of helper
+/**
+ * Design service model
+ */
 class Mage_Core_Model_View_Service
 {
     /**

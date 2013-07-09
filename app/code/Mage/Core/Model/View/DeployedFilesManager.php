@@ -9,6 +9,9 @@
  */
 
 
+/**
+ * Builds path for files deployed into public directory in advance
+ */
 class Mage_Core_Model_View_DeployedFilesManager
 {
     /**

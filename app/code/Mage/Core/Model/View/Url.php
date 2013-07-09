@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-// work with URL, publicly accessible files (URL builder, path to URL converter)
+/**
+ * Builds URLs for publicly accessible files
+ */
 class Mage_Core_Model_View_Url
 {
     /**

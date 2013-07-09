@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-
+/**
+ * Keeps design settings for current request
+ */
 class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterface
 {
     /**#@+

@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Design proxy
+ */
 class Mage_Core_Model_View_Design_Proxy implements Mage_Core_Model_View_DesignInterface
 {
     /**

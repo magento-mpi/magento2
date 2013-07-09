@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Handles theme view.xml files
+ */
 class Mage_Core_Model_View_Config
 {
     /**

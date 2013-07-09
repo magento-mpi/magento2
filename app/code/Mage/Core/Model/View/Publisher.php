@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-
+/**
+ * Handles file publication
+ */
 class Mage_Core_Model_View_Publisher
 {
     /**#@+

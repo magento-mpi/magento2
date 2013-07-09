@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-
+/**
+ * FileSystem Interface
+ */
 interface Mage_Core_Model_View_FileSystemInterface
 {
     /**

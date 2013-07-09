@@ -9,49 +9,7 @@
  */
 
 /**
- * View responsibilities:
- * - process input params
- * - get correct file search strategy
- * - use strategy to get file
- *
- * Publisher responsibilities:
- * - copy file to public directory
- * - replace URLs in CSS file and move related files
- *
- * Service responsibilities:
- * - extract scope
- * - process params array
- * - build url by public path
- *
- * (Design?) params object:
- * - contains params for correct fetching of given view file
- * - options:
- *      _secure - used for URLs only
- *      skipProxy
- *      area
- *      themeModel
- *      themeId
- *      package + theme
- *      locale
- *      module
- *  - every type of file requires different params:
- *      - URL: _secure, area, locale, module, themeModel
- *      - common file: skipProxy, area, themeModel, module
- *      - locale file: skipProxy, area, themeModel, locale
- *      - view file: skipProxy, area, themeModel, locale, module
- *
- *
- *
- *
- *
- * @TODO
- *  - We can extract object that builds paths and urls
- *  - remove area
- *
- * Used path variables:
- *  - $fileId = 'Mage_Core::css/style.css' or more simple case 'css/style.css'
- *  - $filePath = 'css/style.css'
- *  - $sourcePath = '/usr/local/.../css/style.css'
+ * Model that finds file paths by their fileId
  */
 class Mage_Core_Model_View_FileSystem implements Mage_Core_Model_View_FileSystemInterface
 {
