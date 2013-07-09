@@ -498,42 +498,6 @@ google_content_manage_attributes:
         1: Target Country
         2: Total Qty Content Items
 
-##dataset for ui elements for Products Tags grid
-#report_tag_product:
-#    fieldset:
-#        report_tag_product_grid: tablename
-#    button:
-#         export: ~
-#    field:
-#        page: ~
-#    dropdown:
-#        view_limit: ~
-#        export_to: ~
-#    headers:
-#        0: ID
-#        1: Product Name
-#        2: Number of Unique Tags
-#        3: Number of Total Tags
-#        4: Action
-#
-##dataset for ui elements for Customer Tags grid
-#report_tag_customer:
-#    fieldset:
-#        report_tag_customer_grid: tablename
-#    button:
-#         export: ~
-#    field:
-#        page: ~
-#    dropdown:
-#        view_limit: ~
-#        export_to: ~
-#    headers:
-#        0: ID
-#        1: First Name
-#        2: Last Name
-#        3: Total Tags
-#        4: Action
-
 #dataset for ui elements for Report Search Terms grid
 report_search:
     fieldset:
