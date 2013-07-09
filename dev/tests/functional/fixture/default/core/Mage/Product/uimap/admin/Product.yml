@@ -183,7 +183,7 @@ new_product:
                                         any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
                                         category: //a[@data-suggest-option='%categoryId%']
                                     pageelements:
-                                        no_category_found: //span[text()="We couldn't find any records."]
+                                        no_category_found: //span[text()="No records found."]
                                         category_node: //li[a/@data-suggest-option='%categoryId%']
                             -
                                 chosen_category:
@@ -212,7 +212,7 @@ new_product:
                                         parent_any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
                                         parent_category: //a[@data-suggest-option='%categoryId%']
                                     pageelements:
-                                        parent_no_category_found: //span[text()="We couldn't find any records."]
+                                        parent_no_category_found: //span[text()="No records found."]
                                         parent_category_node: //li[a/@data-suggest-option='%categoryId%']
                             -
                                 chosen_parent_category:

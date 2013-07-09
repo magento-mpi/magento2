@@ -428,6 +428,7 @@ return array(
     array('getTrackingPopUpUrlByOrderId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getTrackingPopUpUrlByShipId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getTrackingPopUpUrlByTrackId', '', 'getTrackingPopupUrlBySalesModel'),
+    array('getUnixProcessMemoryUsage', 'Magento_Test_Helper_Memory', 'getRealMemoryUsage'),
     array('getUnprocessedEvents', 'Mage_Index_Model_Resource_Event',
         'Mage_Index_Model_EventRepository::getUnprocessed()'
     ),
@@ -446,6 +447,7 @@ return array(
     array('getWebsite', 'Mage_Captcha_Helper_Data'),
     array('getWidgetSupportedBlocks', 'Mage_Widget_Model_Widget_Instance'),
     array('getWidgetSupportedTemplatesByBlock', 'Mage_Widget_Model_Widget_Instance'),
+    array('getWinProcessMemoryUsage', 'Magento_Test_Helper_Memory', 'getRealMemoryUsage'),
     array('hasItems', 'Mage_Wishlist_Helper_Data'),
     array('htmlEscape', '', 'escapeHtml'),
     array('imageAction', 'Mage_Catalog_ProductController'),
@@ -471,6 +473,7 @@ return array(
     array('isThemeCompatible', 'Mage_Core_Model_Design_Package', 'Mage_Core_Model_Theme::isThemeCompatible'),
     array('isUserSavingAllowed', 'Mage_User_Model_Resource_User'),
     array('isVerbose', 'Magento_Shell'),
+    array('isWindowsOs', 'Magento_Test_Helper_Memory'),
     array('load', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     array('loadBase', 'Mage_Core_Model_Config'),
     array('loadDb', 'Mage_Core_Model_Config'),
