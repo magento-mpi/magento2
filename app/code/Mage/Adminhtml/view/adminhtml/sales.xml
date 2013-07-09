@@ -991,7 +991,7 @@
                     <use_ajax>1</use_ajax>
                     <default_sort>entity_id</default_sort>
                     <dataSource type="object">Mage_Sales_Model_Resource_Order_Customer_Collection</dataSource>
-                    <pager_visibility>0</pager_visibility>
+                    <pager_visibility>1</pager_visibility>
                     <grid_url type="url">
                         <path>*/*/loadBlock</path>
                         <params>
@@ -1002,6 +1002,7 @@
                 </arguments>
                 <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.customer.grid.columnSet' as='grid.columnSet'>
                     <arguments>
+                        <filter_visibility>1</filter_visibility>
                         <rowUrl>
                             <generatorClass>Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorId</generatorClass>
                         </rowUrl>
