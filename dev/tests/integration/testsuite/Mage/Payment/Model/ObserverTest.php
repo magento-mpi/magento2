@@ -43,8 +43,8 @@ class Mage_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $statusCode = 'custom_new_status';
         $data = array(
             'section' => 'payment',
-            'website' => null,
-            'store' => null,
+            'website' => 1,
+            'store' => 1,
             'groups' => array(
                 'checkmo' => array(
                     'fields' => array(
@@ -57,6 +57,7 @@ class Mage_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
         );
         $this->_objectManager->create('Mage_Backend_Model_Config')
             ->setSection('payment')
+            ->setWebsite('base')
             ->setGroups(array('groups' => $data['groups']))
             ->save();
 
