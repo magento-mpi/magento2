@@ -110,7 +110,6 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('first_name'),
             array('last_name'),
-            array('password'),
             array('email')
         );
     }
@@ -131,8 +130,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
                   'middle_name'    => $this->generate('string', 32, ':punct:'),
                   'last_name'      => $this->generate('string', 32, ':punct:'),
                   'suffix'         => $this->generate('string', 32, ':punct:'),
-                  'tax_vat_number' => $this->generate('string', 32, ':punct:'),
-                  'password'       => $this->generate('string', 32, ':punct:')));
+                  'tax_vat_number' => $this->generate('string', 32, ':punct:')));
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
         //Steps
         $this->customerHelper()->createCustomer($userData);
@@ -161,8 +159,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
                             'last_name'      => $this->generate('string', 255, ':alnum:'),
                             'suffix'         => $this->generate('string', 255, ':alnum:'),
                             'email'          => $this->generate('email', 128, 'valid'),
-                            'tax_vat_number' => $this->generate('string', 255, ':alnum:'),
-                            'password'       => $this->generate('string', 255, ':alnum:'));
+                            'tax_vat_number' => $this->generate('string', 255, ':alnum:'));
         $userData = $this->loadDataSet('Customers', 'generic_customer_account', $longValues);
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
         //Steps
@@ -214,6 +211,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      */
     public function withInvalidPassword()
     {
+        $this->markTestSkipped('Password field was removed from create customer form: MAGETWO-9619');
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account',
             array('password' => $this->generate('string', 5, ':alnum:')));
