@@ -24,8 +24,8 @@ class Mage_Tax_Model_Resource_Rule_Grid_Collection extends Mage_Tax_Model_Resour
 
     /**
      * @param array|string $field
-     * @param array|null|string $condition
-     * @return Varien_Data_Collection_Db
+     * @param null $condition
+     * @return Mage_Tax_Model_Resource_Rule_Grid_Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {

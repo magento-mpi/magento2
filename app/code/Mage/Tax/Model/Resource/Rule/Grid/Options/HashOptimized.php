@@ -24,7 +24,7 @@ class Mage_Tax_Model_Resource_Rule_Grid_Options_HashOptimized
     }
 
     /**
-     * Return websites array
+     * Return Hash Optimized array
      *
      * @return array
      */

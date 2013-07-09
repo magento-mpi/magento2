@@ -24,7 +24,7 @@ class Mage_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass
     }
 
     /**
-     * Return websites array
+     * Return Product Tax Class array
      *
      * @return array
      */

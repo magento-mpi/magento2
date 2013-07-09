@@ -24,7 +24,7 @@ class Mage_Tax_Model_Resource_Rule_Grid_Options_CustomerTaxClass
     }
 
     /**
-     * Return websites array
+     * Return Customer Tax Class array
      *
      * @return array
      */
