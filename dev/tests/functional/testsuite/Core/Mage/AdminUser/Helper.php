@@ -158,7 +158,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $productSearch = $this->_prepareDataForSearch($searchRole);
         $xpathTR = $this->search($productSearch, 'role_list');
         $this->assertNotNull($xpathTR, 'Role is not found');
-        $cellId = $this->getColumnIdByName('Role Name');
+        $cellId = $this->getColumnIdByName('Role');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
         $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');

@@ -24,7 +24,7 @@ manage_roles:
         role_list: tablename
     headers:
         0: ID
-        1: Role Name
+        1: Role
         2: Allowed Scopes
 
 #dataset for ui elements in Manage Product Rules grid
@@ -49,9 +49,9 @@ manage_product_rules:
          filter_priority: ~
     headers:
         0: ID
-        1: Rule Name
-        2: Date Start
-        3: Date Expire
+        1: Rule
+        2: Start on
+        3: End on
         4: Priority
         5: Applies To
         6: Status
@@ -99,9 +99,9 @@ manage_automated_email_reminder_rules:
         view_per_page: ~
     headers:
         0: ID
-        1: Rule Name
-        2: Date Start
-        3: Date Expire
+        1: Rule
+        2: Start on
+        3: End on
         4: Status
         5: Website
 
@@ -125,7 +125,7 @@ manage_customer_segments:
         customer_segment_grid_head: ~
     headers:
         0: ID
-        1: Segment Name
+        1: Segment
         2: Status
         3: Website
 
@@ -144,14 +144,14 @@ manage_gift_registry:
         page: ~
         id: ~
         code: ~
-        label: ~
+        filter_label: ~
         sort_order: ~
     headers:
         0: ID
         1: Code
         2: Label
         3: Sort Order
-        4: Is Listed
+        4: Listed
 
 #dataset for ui elements in Manage Catalog Events grid
 manage_catalog_events:
@@ -179,10 +179,10 @@ manage_catalog_events:
         0: ID
         1: Category ID
         2: Category
-        3: Starts On
-        4: Ends On
+        3: Start On
+        4: End On
         5: Status
-        6: Display Countdown Ticker On
+        6: Countdown Ticker
         7: Sort Order
         8: Action
 
@@ -211,7 +211,7 @@ manage_customer_address_attributes:
         1: Attribute Label
         2: Required
         3: System
-        4: Visible on Frontend
+        4: Visible to Customer
         5: Sort Order
 
 #dataset for ui elements in Manage Customer Attribute grid
@@ -270,7 +270,7 @@ manage_invitations:
         4: Sent
         5: Registered
         6: Status
-        7: Valid on Website
+        7: Valid Website
         8: Invitee Group
 
 #dataset for ui elements in Customer Segment Report grid
@@ -300,10 +300,10 @@ customer_segment_report:
     headers:
         0: ' '
         1: ID
-        2: Segment Name
+        2: Segment
         3: Status
         4: Website
-        5: Number of Customers
+        5: Customers
 
 #dataset for ui elements in Admin Action Log Report grid
 admin_action_log_report:
@@ -424,6 +424,28 @@ create_order_for_new_customer_sku:
         1: Price
         2: Quantity
         3: Remove
+        
+#dataset for ui elements in Permissions Locked Users
+permissions_locked_users:
+    fieldset:
+        locked_user_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        submit: ~
+    dropdown:
+        locked_actions: ~
+    field:
+        username: ~
+    dropdown:
+            locked_actions: ~
+    headers:
+        0: ' '
+        1: ID
+        2: Username
+        3: Last login
+        4: Failures
+        5: Unlocked
 
 
 
