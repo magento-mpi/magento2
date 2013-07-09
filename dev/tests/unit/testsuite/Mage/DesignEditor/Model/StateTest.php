@@ -123,7 +123,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Mage_Core_Model_StoreManager', array('setConfig'), array(), '', false);
         $storeManager->expects($this->any())
             ->method('setConfig')
-            ->with($this->equalTo(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID), $this->equalTo(self::THEME_ID))
+            ->with($this->equalTo(Mage_Core_Model_View_Design::XML_PATH_THEME_ID), $this->equalTo(self::THEME_ID))
             ->will($this->returnSelf());
 
         $this->_application->expects($this->any())
@@ -134,7 +134,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $configMock->expects($this->any())
             ->method('setNode')
             ->with(
-                $this->equalTo('default/' . Mage_Core_Model_Design_Package::XML_PATH_THEME_ID),
+                $this->equalTo('default/' . Mage_Core_Model_View_Design::XML_PATH_THEME_ID),
                 $this->equalTo(self::THEME_ID)
             )
             ->will($this->returnSelf());

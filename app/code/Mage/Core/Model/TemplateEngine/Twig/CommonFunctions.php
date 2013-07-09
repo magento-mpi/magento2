@@ -30,9 +30,14 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctions
     private $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_View_Url
      */
-    private $_designPackage;
+    private $_viewUrl;
+
+    /**
+     * @var Mage_Core_Model_View_Config
+     */
+    private $_viewConfig;
 
     /**
      * @var Mage_Catalog_Helper_Image
@@ -54,7 +59,8 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctions
         Mage_Core_Helper_Url $urlHelper,
         Mage_Core_Helper_Data $dataHelper,
         Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_Config $viewConfig,
         Mage_Catalog_Helper_Image $helperImage,
         Mage_Core_Model_Logger $logger,
         Mage_Core_Model_LocaleInterface $locale
@@ -63,7 +69,8 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctions
         $this->_urlHelper = $urlHelper;
         $this->_dataHelper = $dataHelper;
         $this->_storeManager = $storeManager;
-        $this->_designPackage = $designPackage;
+        $this->_viewUrl = $viewUrl;
+        $this->_viewConfig = $viewConfig;
         $this->_helperImage = $helperImage;
         $this->_logger = $logger;
         $this->_locale = $locale;
@@ -88,7 +95,7 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctions
             new Twig_SimpleFunction('isModuleOutputEnabled',
                 array($this->_dataHelper, 'isModuleOutputEnabled'), $options),
             new Twig_SimpleFunction('getStoreConfig', array($this->_storeManager->getStore(), 'getConfig'), $options),
-            new Twig_SimpleFunction('getDesignVarValue', array($this->_designPackage->getViewConfig(), 'getVarValue'),
+            new Twig_SimpleFunction('getDesignVarValue', array($this->_viewConfig->getViewConfig(), 'getVarValue'),
                 $options),
             new Twig_SimpleFunction('getDefaultImage', array($this->_helperImage, 'getDefaultImage'), $options),
         );
@@ -105,7 +112,7 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctions
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
-            return $this->_designPackage->getViewFileUrl($file, $params);
+            return $this->_viewUrl->getViewFileUrl($file, $params);
         } catch (Magento_Exception $e) {
             $this->_logger->logException($e);
             return $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
