@@ -13,7 +13,6 @@
     <modules>
         <Mage_Catalog>
             <version>1.6.0.0.23</version>
-            <current_api_version>1</current_api_version>
             <active>true</active>
             <depends>
                 <Mage_Eav />
@@ -87,15 +86,6 @@
                     </type_transition>
                 </observers>
             </catalog_product_transition_product_type>
-
-            <sales_order_place_before>
-                <observers>
-                    <ns_module_bla>
-                        <class>Mage_Catalog_Model_Observer</class>
-                        <method>transitionProductType</method>
-                    </ns_module_bla>
-                </observers>
-            </sales_order_place_before>
         </events>
         <catalog>
             <product>
@@ -316,9 +306,6 @@
                     </attributeLabelCache>
                 </parameters>
             </Mage_Catalog_Model_Product_Attribute_Api_V2>
-            <preferences>
-                <Mage_Catalog_Service_ProductInterfaceV1>Mage_Catalog_Service_Product</Mage_Catalog_Service_ProductInterfaceV1>
-            </preferences>
         </di>
     </global>
     <adminhtml>

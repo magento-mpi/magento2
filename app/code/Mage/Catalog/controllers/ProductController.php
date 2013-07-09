@@ -89,24 +89,4 @@ class Mage_Catalog_ProductController
         $this->loadLayout();
         $this->renderLayout();
     }
-
-    /**
-     * Test action for product service
-     * @todo remove
-     */
-    public function serviceAction()
-    {
-        /** @var $manager Mage_Core_Service_Manager */
-        $manager = Mage::getObjectManager()->create('Mage_Core_Service_Manager');
-
-        try {
-            $product = $manager->call('Mage_Catalog_Service_Product', 'item', array('entity_id' => 1));
-        } catch (Exception $e) {
-            echo $e;d();
-        }
-
-
-        die(nl2br(var_dump($product)));
-    }
-
 }
