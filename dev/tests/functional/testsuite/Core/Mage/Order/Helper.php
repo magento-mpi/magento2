@@ -130,7 +130,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
         if ($paymentMethod) {
             $this->selectPaymentMethod($paymentMethod, $validate);
         }
-        $this->addGiftMessage($giftMessages);
+        $this->addGiftOptions($giftMessages);
         if ($verProduct && $verTotal) {
             $this->shoppingCartHelper()->verifyPricesDataOnPage($verProduct, $verTotal);
         }
@@ -145,6 +145,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      */
     public function submitOrder()
     {
+        $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
         $this->saveForm('submit_order', false);
         //@TODO
         //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
@@ -209,7 +210,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
         }
 
         $needKeys = array('first_name', 'last_name', 'street_address_1', 'street_address_2', 'city', 'zip_code',
-                          'country', 'state', 'region');
+            'country', 'state', 'region');
         foreach ($needKeys as $value) {
             if (array_key_exists($addressType . $value, $addressData)) {
                 $inString[$addressType . $value] = $addressData[$addressType . $value];
@@ -290,9 +291,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
         }
 
         if ($productData) {
+            $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
             $this->clickButton('add_products', false);
             $xpathProduct = $this->search($productData, 'select_products_to_add');
-            $this->assertNotEquals(null, $xpathProduct, 'Product is not found');
+            $this->assertNotNull($xpathProduct, 'Product is not found with data: ' . print_r($productData, true));
             $this->addParameter('productXpath', $xpathProduct);
             $this->addParameter('tableLineXpath', $xpathProduct);
             $configurable = false;
@@ -395,6 +397,33 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Clicking button "Validate VAT Number" and confirm popup message
+     *
+     * @param string $currentGroup
+     * @param string $expectedGroup
+     * @param string $vatNumber
+     * @param bool $successChange
+     */
+    public function validateVatNumber($currentGroup, $expectedGroup, $vatNumber, $successChange = true)
+    {
+        $message = $successChange ? 'valid_domestic_group_message' : 'invalid_vat_id_message';
+        $this->addParameter('currentCustomerGroup', $currentGroup);
+        $this->addParameter('newCustomerGroup', $expectedGroup);
+        $this->addParameter('vatNumber', $vatNumber);
+        $this->clickButton('billing_validate_vat_number', false);
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            $testCase->alertText();
+            return true;
+        });
+        $actualText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame($this->_getMessageXpath($message), $actualText, 'The confirmation text incorrect');
+        $this->verifyForm(array('customer_group' => $expectedGroup));
+        $this->assertEmptyVerificationErrors();
+    }
+
+    /**
      * Validates 3D secure frame
      *
      * @param string $password
@@ -403,17 +432,17 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
     {
         if ($this->controlIsPresent('button', 'start_reset_validation')) {
             $this->clickButton('start_reset_validation', false);
-            $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
+            $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
             $this->pleaseWait();
             $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
             if ($this->controlIsPresent('pageelement', 'element_not_disabled_style')) {
-                $waitCondition = array($this->_getControlXpath('button', '3d_continue'),
-                                       $this->_getControlXpath('pageelement', 'incorrect_password'),
-                                       $this->_getControlXpath('pageelement', 'verification_successful'));
+                $waitCondition = array(
+                    $this->_getControlXpath('button', '3d_continue'),
+                    $this->_getControlXpath('pageelement', 'incorrect_password'),
+                    $this->_getControlXpath('pageelement', 'verification_successful')
+                );
                 if (!$this->controlIsVisible('pageelement', '3d_secure_iframe')) {
-                    //Skipping test, but not failing
                     $this->skipTestWithScreenshot('3D Secure frame is not loaded(maybe wrong card)');
-                    //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
                 }
                 $this->frame('centinel-authenticate-iframe');
                 $this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10);
@@ -449,10 +478,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
                 || $this->controlIsPresent('message', 'no_shipping')
             ) {
                 if ($validate) {
-                    //@TODO
-                    //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                     $this->skipTestWithScreenshot('Shipping Service "' . $shipService . '" is currently unavailable.');
-                    //$this->addVerificationMessage('Shipping Service "'.$shipService . '" is currently unavailable.');
                 }
             } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
                 if ($this->controlIsPresent('radiobutton', 'ship_method')) {
@@ -463,10 +489,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
                         'Shipping Method "' . $shipMethod . '" for "' . $shipService . '" is currently unavailable.');
                 }
             } elseif ($validate) {
-                //@TODO
-                //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                 $this->skipTestWithScreenshot($shipService . ': This shipping method is currently not displayed');
-                //$this->addVerificationMessage($shipService . ': This shipping method is currently not displayed');
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -524,18 +547,19 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $giftMessages Array with the gift messages for the products
      */
-    public function addGiftMessage(array $giftMessages)
+    public function addGiftOptions(array $giftMessages)
     {
         if (array_key_exists('entire_order', $giftMessages)) {
-            $this->fillForm($giftMessages['entire_order']);
+            $this->fillFieldset($giftMessages['entire_order'], 'gift_options_for_order');
         }
         if (array_key_exists('individual', $giftMessages)) {
             foreach ($giftMessages['individual'] as $options) {
                 if (is_array($options) && isset($options['sku_product'])) {
                     $this->addParameter('sku', $options['sku_product']);
+                    unset($options['sku_product']);
                     $this->clickControl('link', 'gift_options', false);
-                    $this->waitForAjax();
-                    $this->fillForm($options);
+                    $this->waitForControlVisible('fieldset', 'gift_options');
+                    $this->fillFieldset($options, 'gift_options');
                     $this->clickButton('ok', false);
                     $this->pleaseWait();
                 }
@@ -544,11 +568,11 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Verify gift message
+     * Verify gift Options
      *
      * @param array $giftMessages
      */
-    public function verifyGiftMessage(array $giftMessages)
+    public function verifyGiftOptions(array $giftMessages)
     {
         if (array_key_exists('entire_order', $giftMessages)) {
             $this->verifyForm($giftMessages['entire_order']);
@@ -557,9 +581,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
             foreach ($giftMessages['individual'] as $options) {
                 if (is_array($options) && isset($options['sku_product'])) {
                     $this->addParameter('sku', $options['sku_product']);
+                    unset($options['sku_product']);
                     $this->clickControl('link', 'gift_options', false);
-                    $this->waitForAjax();
-                    $this->verifyForm($options);
+                    $this->waitForControlVisible('fieldset', 'gift_options');
+                    $this->verifyForm($options, null, array('sku_product'));
                     $this->clickButton('ok', false);
                     $this->pleaseWait();
                 }
@@ -620,7 +645,6 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
 
         $this->assertEmptyVerificationErrors();
     }
-
 
     /**
      * Compare arrays
@@ -751,19 +775,24 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $searchOrder
+     * @param array $searchData
      */
-    public function openOrder($searchOrder)
+    public function openOrder(array $searchData)
     {
-        $xpathTR = $this->search($searchOrder, 'sales_order_grid');
-        $this->assertNotNull($xpathTR, 'Order is not found');
-        $cellId = $this->getColumnIdByName('Order #');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', '#' . $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search order
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $orderLocator = $this->search($searchData, 'sales_order_grid');
+        $this->assertNotNull($orderLocator, 'Order is not found with data: ' . print_r($searchData, true));
+        $orderRowElement = $this->getElement($orderLocator);
+        $orderUrl = $orderRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Order');
+        $cellElement = $this->getChildElement($orderRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', '#' . trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($orderUrl));
+        //Open order
+        $this->url($orderUrl);
+        $this->validatePage('view_order');
     }
 
     /**

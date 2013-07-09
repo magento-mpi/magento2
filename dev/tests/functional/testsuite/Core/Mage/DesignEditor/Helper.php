@@ -90,8 +90,8 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * Focus on the theme
-     * @param PHPUnit_Extensions_Selenium2TestCase_Element $controlType
-     * @param PHPUnit_Extensions_Selenium2TestCase_Element $controlName
+     * @param string $controlType
+     * @param string $controlName
      */
     public function focusOnThemeElement($controlType, $controlName)
     {

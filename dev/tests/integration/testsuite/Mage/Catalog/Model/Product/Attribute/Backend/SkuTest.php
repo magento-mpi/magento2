@@ -42,10 +42,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Frame
     /**
      * @param $product Mage_Catalog_Model_Product
      * @dataProvider uniqueLongSkuDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testGenerateUniqueLongSku($product)
     {
-        $this->markTestIncomplete('MAGETWO-8308');
         $existedProduct = clone $product;
         $existedProduct->setId(2);
         $existedProduct->save();

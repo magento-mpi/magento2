@@ -40,7 +40,6 @@ api_soap_users:
         messages: &pageMessages
             success_user_saved: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the user.')]
             success_user_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the user.')]
-            api_user_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             user_exist: //li[normalize-space(@class)='error-msg' and contains(.,'API Key already exists.')]
             confirmation_for_delete: Are you sure you want to do this?
 

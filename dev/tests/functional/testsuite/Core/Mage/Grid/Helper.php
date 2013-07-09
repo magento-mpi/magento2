@@ -27,10 +27,14 @@ class Core_Mage_Grid_Helper extends Mage_Selenium_AbstractHelper
     public function fillDateFromTo($dateFrom = null, $dateTo = null)
     {
         if ($dateFrom === null) {
-            $dateFrom = date('m/d/y');
+            $dateFrom = date("n/j/Y");
+        } else {
+            $dateFrom = date_format(new DateTime($dateFrom), "n/j/Y");
         }
         if ($dateTo === null) {
-            $dateTo = date('m/d/y');
+            $dateTo = date("n/j/Y");
+        } else {
+            $dateTo = date_format(new DateTime($dateTo), "n/j/Y");
         }
         $this->fillField('filter_from', $dateFrom);
         $this->fillField('filter_to', $dateTo);
@@ -67,12 +71,9 @@ class Core_Mage_Grid_Helper extends Mage_Selenium_AbstractHelper
     public function getGridHeaders(array $data, $fieldsetFlag = 'tablename')
     {
         $tableNameValue = array_search($fieldsetFlag, $data['fieldset']);
-        if ($tableNameValue) {
-            $tableXpath = $this->_getControlXpath('fieldset', $tableNameValue);
-            $actualHeadersName = $this->getTableHeadRowNames($tableXpath);
-            return $actualHeadersName;
-        } else {
+        if (!$tableNameValue) {
             $this->fail("Should be at least one key in field section with value $fieldsetFlag");
         }
+        return $this->getTableHeadRowNames($this->_getControlXpath('fieldset', $tableNameValue));
     }
 }

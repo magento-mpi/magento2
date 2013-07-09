@@ -192,11 +192,7 @@ class Mage_Backend_Block_Widget_Button_Split extends Mage_Backend_Block_Widget
     protected function _getDataAttributes($data, &$attributes)
     {
         foreach ($data as $key => $attr) {
-            if (is_scalar($attr)) {
-                $attributes['data-' . $key] = $attr;
-            } else {
-                $attributes['data-' . $key] = json_encode($attr);
-            }
+            $attributes['data-' . $key] = is_scalar($attr) ? $attr : json_encode($attr);
         }
     }
 

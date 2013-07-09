@@ -66,7 +66,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3265
+     * @TestlinkId TL-MAGE-3265
      */
     public function newCustomerWithoutAddress($simpleSku)
     {

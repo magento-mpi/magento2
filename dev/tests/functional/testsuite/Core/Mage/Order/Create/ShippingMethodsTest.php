@@ -80,7 +80,7 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3267
+     * @TestlinkId TL-MAGE-3267
      */
     public function differentShipmentMethods($shipment, $shippingOrigin, $shippingDestination, $simpleSku)
     {

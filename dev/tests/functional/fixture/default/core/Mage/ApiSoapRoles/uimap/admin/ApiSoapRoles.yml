@@ -34,7 +34,6 @@ api_soap_roles_management:
             success_saved_role: //li[normalize-space(@class)='success-msg' and contains(.,'The role has been saved.')]
             success_deleted_role: //li[normalize-space(@class)='success-msg' and contains(.,'The role has been deleted.')]
             role_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Role name is already in use')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 new_soap_role:

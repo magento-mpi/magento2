@@ -46,7 +46,7 @@ class SourceClassWithNamespaceProxy extends \Magento\Code\Generator\TestAsset\So
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace', $shared = false)
+    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace', $shared = true)
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -86,8 +86,8 @@ class SourceClassWithNamespaceProxy extends \Magento\Code\Generator\TestAsset\So
     {
         if (!$this->_subject) {
             $this->_subject = true === $this->_isShared
-                ? $this->_objectManager->create($this->_instanceName)
-                : $this->_objectManager->get($this->_instanceName);
+                ? $this->_objectManager->get($this->_instanceName)
+                : $this->_objectManager->create($this->_instanceName);
         }
         return $this->_subject;
     }

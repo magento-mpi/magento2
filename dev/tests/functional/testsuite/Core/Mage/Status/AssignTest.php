@@ -93,7 +93,7 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
         $this->storeHelper()->assignStatus($statusData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 

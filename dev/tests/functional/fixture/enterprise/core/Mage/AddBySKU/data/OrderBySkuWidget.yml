@@ -13,7 +13,7 @@
 sku_widget_without_link:
     settings:
         type: Order by SKU
-        design_package_theme: Enterprise / Enterprise
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: test_sku_%randomize%
@@ -27,7 +27,7 @@ sku_widget_without_link:
 sku_widget_with_link:
     settings:
         type: Order by SKU
-        design_package_theme: Enterprise / Enterprise
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: test_sku_%randomize%

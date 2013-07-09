@@ -18,22 +18,28 @@
  */
 class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }
 
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
     protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -44,11 +50,11 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsFullRights()
     {
-        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotions Menu
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'role_promotions_full_rights');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'marketing-promotions'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with full rights to Promotions Menu
@@ -88,7 +94,8 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with only to Catalog Promotions Menu rights
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'role_promotions_catalog_rights');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'marketing-promotions-catalog_price_rules'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with  rights to Catalog Price Rules Menu
@@ -124,11 +131,11 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsShoppingCartOnlyRights()
     {
-        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotion Menu
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'role_promotions_shopping_cart_rights');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'marketing-promotions-cart_price_rules'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with  rights to Catalog Price Rules Menu

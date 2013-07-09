@@ -14,7 +14,4 @@
 create_automated_email_rule:
     info:
         rule_name: 'My Test Rule %randomize%'
-        assigned_to_website: 'Main Website'
-
-
-
+        websites: 'Main Website'

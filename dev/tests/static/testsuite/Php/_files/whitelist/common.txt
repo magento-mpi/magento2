@@ -3,6 +3,7 @@
 #
 app/bootstrap.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Attributes/Search.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php

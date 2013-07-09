@@ -27,7 +27,7 @@ grid:
             refresh: ~
             export: ~
         dropdown:
-            filter_show_report_for: ~
+            choose_store_view: ~
             show_by: ~
             export_to: ~
         field:
@@ -47,7 +47,7 @@ grid:
             export: ~
         dropdown:
             show_by: ~
-            filter_show_report_for: ~
+            choose_store_view: ~
             export_to: ~
         link:
             period: ~

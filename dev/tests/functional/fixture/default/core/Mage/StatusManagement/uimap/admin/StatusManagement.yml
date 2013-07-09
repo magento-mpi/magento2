@@ -23,22 +23,20 @@ order_statuses:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
-                            
                         links:
                             select_store_view: //td[normalize-space(@class)='a-left last']/a[text()='%NAME%']
                         fields:
                             status_code: //input[@id='status']
                             status_label: //input[@id='label']
                             status: //input[@id='sales_order_status_grid_filter_label']
-                            
         buttons:
             create_new_status: //button[span='Create New Status']
             assign_status_to_state: //button[span='Assign Status to State']
-        messages:
-            success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'You have saved the order status.')]
-            success_assigned_status:  //li[normalize-space(@class)='success-msg' and contains(., 'You have saved the order status.')]
-            search_no_result: //td[@class='empty-text a-center' and contains(., "We couldn't find any records.")]
-            success_search: //table[@id='sales_order_status_grid_table']//td[contains(., 'Generic Label')]
+        messages: &order_statuses-messages
+            success_saved_status: //li[normalize-space(@class)='success-msg' and contains(.,'You have saved the order status.')]
+            success_assigned_status: //li[normalize-space(@class)='success-msg' and contains(.,'You have assigned the order status.')]
+            order_status_exist: //li[normalize-space(@class)='error-msg' and contains(.,'We found another order status with the same order status code.')]
+            wrong_status_view_code: "//label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]"
 
 # 'New Order Status' Page
 new_order_status:
@@ -61,12 +59,8 @@ new_order_status:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_status: //button[@data-ui-id='sales-order-status-new-container-save-button']
-        messages:
-            success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'You have saved the order status.')]
-            order_status_exist: //li[normalize-space(@class)='error-msg' and contains(., 'We found another order status with the same order status code.')]
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
-            wrong_status_view_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
-            
+        messages: *order_statuses-messages
+
 # 'Assign Order Status to State' Page
 assign_order_status:
     mca: sales_order_status/assign/
@@ -90,6 +84,4 @@ assign_order_status:
             save_status_assignment: //button[@data-ui-id='sales-order-status-assign-container-save-button']
         checkboxes:
             use_order_status_as_default: //input[@id='is_default']
-        messages:
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
-            succes_assigned_status: //li[normalize-space(@class)='success-msg' and contains(., 'You have assigned the order status.')]
+        messages: *order_statuses-messages

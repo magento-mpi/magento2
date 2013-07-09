@@ -33,10 +33,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Sel
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
-                                          array('general_name' => $simple['general_name']));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
+            array('general_name' => $simple['general_name']));
         //Steps
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -44,11 +46,13 @@ class Enterprise_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Sel
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         $this->assertMessagePresent('success', 'success_checkout');
 
-        return array('order_id'          => $orderNumber,
-                     'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                     'search_type_id'    => 'Email Address',
-                     'email'             => $checkoutData['billing_address_data']['billing_email'],
-                     'zip'               => $checkoutData['billing_address_data']['billing_zip_code']);
+        return array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email'],
+            'zip' => $checkoutData['billing_address_data']['billing_zip_code']
+        );
     }
 
     /**
@@ -96,9 +100,9 @@ class Enterprise_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Sel
         //Steps
         $this->fillFieldset($testData, 'orders_and_returns_form');
         $this->clickControlAndWaitMessage('button', 'continue');
-        $message = 'empty_' . $field;
         //Verification
-        $this->assertMessagePresent('error', $message);
+        $this->addFieldIdToMessage('field', $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     public function emptyFieldsDataProvider()

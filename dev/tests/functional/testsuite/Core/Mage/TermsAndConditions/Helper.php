@@ -37,24 +37,28 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Opens Terms and Conditions
      *
-     * @param array $searchTerms
+     * @param array $searchData
      */
-    public function openTermsAndConditions(array $searchTerms)
+    public function openTermsAndConditions(array $searchData)
     {
-        if (array_key_exists('filter_store_view', $searchTerms)
-            && !$this->controlIsPresent('dropdown', 'filter_store_view')
-        ) {
-            unset($searchTerms['filter_store_view']);
+        if (isset($searchData['filter_store_view']) && !$this->controlIsVisible('dropdown', 'filter_store_view')) {
+            unset($searchData['filter_store_view']);
         }
-        $xpathTR = $this->search($searchTerms, 'sales_checkout_terms_and_conditions_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Terms is not found');
-        $termId = $this->getColumnIdByName('Condition Name');
-        $param = trim($this->getElement($xpathTR . '//td[' . $termId . ']')->text());
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->getElement($xpathTR)->click();
-        $this->waitForPageToLoad();
-        $this->validatePage();
+        //Search Terms and Conditions
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $termsLocator = $this->search($searchData, 'sales_checkout_terms_and_conditions_grid');
+        $this->assertNotNull($termsLocator, 'Terms and Conditions is not found with data: '
+            . print_r($searchData, true));
+        $termsRowElement = $this->getElement($termsLocator);
+        $termsUrl = $termsRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Condition');
+        $cellElement = $this->getChildElement($termsRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($termsUrl));
+        //Open Terms and Conditions
+        $this->url($termsUrl);
+        $this->validatePage('edit_condition');
     }
 
     /**
@@ -73,7 +77,7 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteAllTerms()
     {
-        $termId = $this->getColumnIdByName('Condition Name');
+        $termId = $this->getColumnIdByName('Condition');
         while (!$this->controlIsPresent('message', 'no_records_found')) {
             $this->addParameter('columnId', $termId);
             $this->addParameter('elementTitle',

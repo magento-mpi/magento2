@@ -391,8 +391,9 @@
         $('details').details();
         $('.page-actions').floatingHeader();
         $('[data-store-label]').useDefault();
-        $('.collapse').collapsable();
 
+        /* @TODO refactor collapsable as widget and avoid logic binding with such a general selectors */
+        $('.collapse').collapsable();
         $.each($('.entry-edit'), function(i, entry) {
             $('.collapse:first', entry).collapse('show');
         });
