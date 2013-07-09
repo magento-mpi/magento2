@@ -259,7 +259,7 @@ store_launcher:
                             any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
                             category: //a[@data-suggest-option='%categoryId%']
                         pageelements:
-                            no_category_found: //span[text()="We couldn't find any records."]
+                            no_category_found: //span[text()="No records found."]
                             category_node: //li[a/@data-suggest-option='%categoryId%']
                 -
                     chosen_category:
