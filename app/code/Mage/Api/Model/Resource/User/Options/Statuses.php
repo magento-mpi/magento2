@@ -15,7 +15,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Resource_User_Options_Statuses implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Api_Model_Resource_User_Options_Statuses extends Mage_Backend_Model_Config_Source_Activity_Options
 {
 
     /**
@@ -29,18 +29,5 @@ class Mage_Api_Model_Resource_User_Options_Statuses implements Mage_Core_Model_O
     public function __construct(Mage_Backend_Helper_Data $helper)
     {
         $this->_helper = $helper;
-    }
-
-    /**
-     * Return options
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return array(
-            '1' => $this->_helper->__('Active'),
-            '0' => $this->_helper->__('Inactive'),
-        );
     }
 }

@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Promo_Catalog_Model_Resource_Grid_Options_Statuses implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Promo_Catalog_Model_Resource_Grid_Options_Statuses
+    extends Mage_Backend_Model_Config_Source_Activity_Options
 {
     /**
      * @var Mage_CatalogRule_Helper_Data
@@ -20,18 +21,5 @@ class Mage_Promo_Catalog_Model_Resource_Grid_Options_Statuses implements Mage_Co
     public function __construct(Mage_CatalogRule_Helper_Data $helper)
     {
         $this->_helper = $helper;
-    }
-
-    /**
-     * Return options
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return array(
-            '1' => $this->_helper->__('Active'),
-            '0' => $this->_helper->__('Inactive'),
-        );
     }
 }

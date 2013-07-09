@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_PageCache_Model_Resource_Grid_Options_Statuses implements Mage_Core_Model_Option_ArrayInterface
+class Mage_PageCache_Model_Resource_Grid_Options_Statuses extends Mage_Backend_Model_Config_Source_Statuses_Options
 {
     /**
      * @var Mage_Index_Helper_Data
@@ -31,16 +31,4 @@ class Mage_PageCache_Model_Resource_Grid_Options_Statuses implements Mage_Core_M
         $this->_helper = $helper;
     }
 
-    /**
-     * Return options
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return array(
-            '0' => $this->_helper->__('Disabled'),
-            '1' => $this->_helper->__('Enabled'),
-        );
-    }
 }
