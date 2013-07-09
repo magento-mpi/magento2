@@ -68,18 +68,18 @@ class Enterprise_PageCache_Model_Request_Identifier
     protected $_storeKeyCacheKey;
 
     /**
-     * @param string $scopeCode
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_DesignPackage_Info $designInfo
      * @param Enterprise_PageCache_Model_Environment $environment
      * @param Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
+     * @param string $scopeCode
      */
     public function __construct(
-        $scopeCode,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_DesignPackage_Info $designInfo,
         Enterprise_PageCache_Model_Environment $environment,
-        Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
+        Enterprise_PageCache_Model_Store_Identifier $storeIdentifier,
+        $scopeCode = ''
     ) {
         $this->_scopeCode = $scopeCode;
         $this->_fpcCache = $fpcCache;

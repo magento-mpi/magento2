@@ -40,6 +40,7 @@ try {
 
     $diDir = $opt->getOption('di') ? $opt->getOption('di') : $rootDir . DS . 'var/di';
     $compiledFile = $diDir . DS . 'definitions.php';
+    $relationsFile = $diDir . DS . 'relations.php';
     $pluginDefFile = $diDir . DS . 'plugins.php';
 
     $compilationDirs = array(
@@ -101,15 +102,18 @@ try {
             $directoryCompiler->compile($path);
         }
     }
+    list($definitions, $relations) = $directoryCompiler->getResult();
 
     // 2.2 Compression
     $compressor = new Compressor($serializer);
-    $output = $compressor->compress($directoryCompiler->getResult());
+    $output = $compressor->compress($definitions);
     if (!file_exists(dirname($compiledFile))) {
         mkdir(dirname($compiledFile), 0777, true);
     }
 
     file_put_contents($compiledFile, $output);
+    file_put_contents($relationsFile, $serializer->serialize($relations));
+
 
     // 3. Plugin Definition Compilation
     $pluginScanner = new Scanner\CompositeScanner();

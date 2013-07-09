@@ -53,19 +53,50 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
     protected $_creationStack = array();
 
     /**
+     * Application init arguments
+     *
+     * @var array
+     */
+    protected $_globalArguments = array();
+
+    /**
      * @param Magento_ObjectManager_Config $config
      * @param Magento_ObjectManager_ObjectManager $objectManager
      * @param Magento_ObjectManager_Definition $definitions
+     * @param array $globalArguments
      */
     public function __construct(
         Magento_ObjectManager_Config $config,
         Magento_ObjectManager_ObjectManager $objectManager = null,
-        Magento_ObjectManager_Definition $definitions = null
+        Magento_ObjectManager_Definition $definitions = null,
+        $globalArguments = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_config = $config;
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
+        $this->_globalArguments = $globalArguments;
     }
+
+    /**
+     * Retrieve class definitions
+     *
+     * @return Magento_ObjectManager_Definition
+     */
+    public function getDefinitions()
+    {
+        return $this->_definitions;
+    }
+
+    /**
+     * Set Object manager config
+     *
+     * @param Magento_ObjectManager_Config $config
+     */
+    public function setConfig(Magento_ObjectManager_Config $config)
+    {
+        $this->_config = $config;
+    }
+
 
     /**
      * Resolve constructor arguments
@@ -120,6 +151,9 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                     ? $this->_objectManager->get($argumentType)
                     : $this->_objectManager->create($argumentType);
                 unset($this->_creationStack[$requestedType]);
+            } else if (is_array($argument) && isset($argument['argument'])) {
+                $argKey = constant($argument['argument']);
+                $argument = isset($this->_globalArguments[$argKey]) ? $this->_globalArguments[$argKey] : $paramDefault;
             }
             $resolvedArguments[] = $argument;
         }
@@ -179,67 +213,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                 return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
 
             case 8:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7]
-                );
-
-            case 9:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8]
-                );
-
-            case 10:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9]
-                );
-
-            case 11:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10]
-                );
-
-            case 12:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11]
-                );
-
-            case 13:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12]
-                );
-
-            case 14:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13]
-                );
-
-            case 15:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14]
-                );
-
-            case 16:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15]
-                );
-
-            case 17:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16]
-                );
-
-            case 18:
-                return new $type(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16], $args[17]
-                );
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7]);
 
             default:
                 $reflection = new \ReflectionClass($type);

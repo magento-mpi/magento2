@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_ObjectManager_Config extends Magento_ObjectManager_Config
+class Magento_Test_ObjectManager_Config extends Magento_ObjectManager_Config_Config
 {
     /**
      * Clean configuration

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
  * {license_notice}
@@ -30,6 +30,16 @@
             <preferences>
                 <Enterprise_PageCache_Model_Processor_RestrictionInterface>Enterprise_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
             </preferences>
+            <Enterprise_PageCache_Model_Cache>
+                <parameters>
+                    <config><instance>Mage_Core_Model_Config_Proxy</instance></config>
+                </parameters>
+            </Enterprise_PageCache_Model_Cache>
+            <Enterprise_PageCache_Model_Request_Identifier>
+                <parameters>
+                    <scopeCode><argument>Mage::PARAM_RUN_CODE</argument></scopeCode>
+                </parameters>
+            </Enterprise_PageCache_Model_Request_Identifier>
             <Enterprise_PageCache_Model_Processor>
                 <parameters>
                     <storeManager>
@@ -70,11 +80,14 @@
                     </config>
                 </parameters>
             </Enterprise_Queue_Helper_Gearman>
+            <Enterprise_Queue_Model_Queue>
+                <parameters>
+                    <taskNamePrefix><argument>Enterprise_Queue_Model_Queue::PARAM_TASK_NAME_PREFIX</argument></taskNamePrefix>
+                </parameters>
+            </Enterprise_Queue_Model_Queue>
         </di>
         <configurators>
-            <pageCache>Enterprise_PageCache_Model_ObjectManager_Configurator</pageCache>
             <enterprise_search>Enterprise_Search_Model_ObjectManager_Configurator</enterprise_search>
-            <queue>Enterprise_Queue_Model_ParamMapper</queue>
         </configurators>
     </global>
-</config>
+</config>

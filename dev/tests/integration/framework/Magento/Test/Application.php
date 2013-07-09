@@ -185,7 +185,11 @@ class Magento_Test_Application
                 new Magento_ObjectManager_Factory_Factory($instanceConfig, null, $definitionDecorator),
                 $instanceConfig
             );
-            $objectManager = new Magento_Test_ObjectManager($factory, $config, $instanceConfig);
+            $objectManager = new Magento_Test_ObjectManager($factory, $instanceConfig, array(
+                'Mage_Core_Model_Config_Primary' => $config,
+                'Mage_Core_Model_Dir' => $config->getDirectories()
+            ));
+            $config->configure($objectManager);
             Mage::setObjectManager($objectManager);
         } else {
             $objectManager = Mage::getObjectManager();

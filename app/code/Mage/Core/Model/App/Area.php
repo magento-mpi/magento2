@@ -212,12 +212,7 @@ class Mage_Core_Model_App_Area
      */
     protected function _initConfig()
     {
-        $configurationNode = $this->_config->getNode($this->_code . '/di');
-        if ($configurationNode) {
-            $configuration = $configurationNode->asArray();
-            $this->_objectManager->configure($configuration);
-        }
-
+        $this->_objectManager->loadArea($this->_code, $this->_config);
     }
 
     /**

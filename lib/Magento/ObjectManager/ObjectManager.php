@@ -43,7 +43,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         Magento_ObjectManager_Config $config = null,
         array $sharedInstances = array()
     ) {
-        $this->_config = $config ?: new Magento_ObjectManager_Config();
+        $this->_config = $config ?: new Magento_ObjectManager_Config_Config();
         $this->_factory = $factory ?: new Magento_ObjectManager_Factory_Factory($this->_config, $this);
         $this->_factory->setObjectManager($this);
         $this->_sharedInstances = $sharedInstances;

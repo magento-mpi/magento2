@@ -29,7 +29,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $config = new Magento_ObjectManager_Config();
+        $config = new Magento_ObjectManager_Config_Config();
         $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
             new Magento_ObjectManager_Factory_Factory($config), $config
         );
@@ -142,7 +142,6 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
         $this->assertSame($childOne, $childTwo);
     }
 
-    /*
     public function testInterfacePluginsAreAppliedToImplementation()
     {
         $this->_locator->configure(array(
@@ -154,7 +153,7 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
                     'first' => array('instance' => 'Magento_Test_Di_Child_Interceptor_A'),
                 )
             ),
-            'Magento_Test_Di_Child' => array(
+            'Magento_Test_Di_Parent' => array(
                 'plugins' => array(
                     'second' => array('instance' => 'Magento_Test_Di_Child_Interceptor_B')
                 )
@@ -163,9 +162,9 @@ class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
 
         $childOne = $this->_locator->create('Magento_Test_Di_Interface');
         $childTwo = $this->_locator->create('Magento_Test_Di_Child');
+        $this->assertEquals($childOne, $childTwo);
         $this->assertInstanceOf('Magento_Test_Di_Child', $childOne);
-        $this->assertInstanceOf('Magento_Test_Di_Child', $childTwo);
-        $this->assertEquals('_A_|AtestStringA|_A_', $childOne->wrap('testString'));
+        $this->assertEquals('_A__B_|BAtestStringAB|_B__A_', $childOne->wrap('testString'));
         $this->assertEquals('_A__B_|BAtestStringAB|_B__A_', $childTwo->wrap('testString'));
-    }*/
+    }
 }

@@ -89,6 +89,18 @@ class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_Obj
     }
 
     /**
+     * Set object manager config
+     *
+     * @param Magento_ObjectManager_Config $config
+     */
+    public function setConfig(Magento_ObjectManager_Config $config)
+    {
+        $this->_config = $config;
+        $this->_factory->setConfig($config);
+    }
+
+
+    /**
      * Create instance of requested type with requested arguments
      *
      * @param string $type
@@ -102,6 +114,9 @@ class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_Obj
                 ->composeInterceptorClassName($this->_config->getInstanceType($type));
             $config = array();
             foreach ($this->_config->getPlugins($type) as $plugin) {
+                if (isset($plugin['disabled']) && (!$plugin['disabled'] || $plugin['disabled'] === 'false')) {
+                    continue;
+                }
                 $pluginMethods = $this->_definitions->getMethodList(
                     $this->_config->getInstanceType($plugin['instance'])
                 );
@@ -122,5 +137,15 @@ class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_Obj
             );
         }
         return $this->_factory->create($type, $arguments);
+    }
+
+    /**
+     * Retrieve definitions
+     *
+     * @return Magento_ObjectManager_Definition
+     */
+    public function getDefinitions()
+    {
+        return $this->_factory->getDefinitions();
     }
 }
