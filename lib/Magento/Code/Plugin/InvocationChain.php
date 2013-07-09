@@ -58,10 +58,10 @@ class Magento_Code_Plugin_InvocationChain
     public function proceed(array $arguments)
     {
         $pluginClassName = array_shift($this->_pluginList);
-        $methodName = $this->_methodName;
+        $aroundMethodName = $this->_methodName . 'Around';
         if (!is_null($pluginClassName)) {
-            return $this->_objectManager->get($pluginClassName)->$methodName($arguments, $this);
+            return $this->_objectManager->get($pluginClassName)->$aroundMethodName($arguments, $this);
         }
-        return call_user_func_array(array($this->_subject, $methodName), $arguments);
+        return call_user_func_array(array($this->_subject, $this->_methodName), $arguments);
     }
 }

@@ -98,8 +98,9 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
                     ->$beforeMethodName($methodArguments);
             }
         }
-        $insteadPluginList = isset($this->_pluginList[$methodName])
-            ? $this->_pluginList[$methodName] : array();
+        $aroundMethodName = $methodName . 'Around';
+        $insteadPluginList = isset($this->_pluginList[$aroundMethodName])
+            ? $this->_pluginList[$aroundMethodName] : array();
         $invocationChain = new Magento_Code_Plugin_InvocationChain(
             $this->_getSubject(),
             $methodName,

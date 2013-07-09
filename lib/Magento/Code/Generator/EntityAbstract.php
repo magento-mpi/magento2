@@ -319,4 +319,37 @@ abstract class Magento_Code_Generator_EntityAbstract
 
         return $value;
     }
+
+    /**
+     * Retrieve method parameter info
+     *
+     * @param ReflectionParameter $parameter
+     * @return array
+     */
+    protected function _getMethodParameterInfo(ReflectionParameter $parameter)
+    {
+        $parameterInfo = array(
+            'name' => $parameter->getName(),
+            'passedByReference' => $parameter->isPassedByReference()
+        );
+
+        if ($parameter->isArray()) {
+            $parameterInfo['type'] = 'array';
+        } elseif ($parameter->getClass()) {
+            $parameterInfo['type'] = $this->_getFullyQualifiedClassName($parameter->getClass()->getName());
+        }
+
+        if ($parameter->isOptional() && $parameter->isDefaultValueAvailable()) {
+            $defaultValue = $parameter->getDefaultValue();
+            if (is_string($defaultValue)) {
+                $parameterInfo['defaultValue'] = $this->_escapeDefaultValue($parameter->getDefaultValue());
+            } elseif ($defaultValue === null) {
+                $parameterInfo['defaultValue'] = $this->_getNullDefaultValue();
+            } else {
+                $parameterInfo['defaultValue'] = $defaultValue;
+            }
+        }
+
+        return $parameterInfo;
+    }
 }
