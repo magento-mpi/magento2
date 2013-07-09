@@ -1,0 +1,48 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+class Xml_Formatter
+{
+    /**
+     * @var string
+     */
+    private $_indent;
+
+    /**
+     * @param string $indent
+     */
+    public function __construct($indent = "\t")
+    {
+        $this->_indent = $indent;
+    }
+
+    /**
+     * Return a well-formatted XML string
+     *
+     * @param string $xmlString
+     * @return string
+     */
+    public function format($xmlString)
+    {
+        // render formatted XML
+        $xmlDom = new DOMDocument('1.0');
+        $xmlDom->formatOutput = true;
+        $xmlDom->preserveWhiteSpace = false;
+        $xmlDom->loadXML($xmlString);
+        $result = $xmlDom->saveXML();
+
+        // replace the default 2-space indents
+        $indent = $this->_indent;
+        $result = preg_replace_callback('/^(?:\s{2})+/m', function (array $matches) use ($indent) {
+            $indentCount = strlen($matches[0]) >> 1;
+            return str_repeat($indent, $indentCount);
+        }, $result);
+
+        return $result;
+    }
+}
