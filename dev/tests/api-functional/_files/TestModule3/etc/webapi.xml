@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-    <service class="Mage_TestModule3_Service_ErrorInterfaceV1" baseUrl="/errortest">
+    <service class="Mage_TestModule3_Service_ErrorInterfaceV1" baseUrl="/V1/errortest">
         <rest-route httpMethod="GET" method="success">/success</rest-route>
         <rest-route httpMethod="GET" method="resourceNotFoundException">/notfound</rest-route>
         <rest-route httpMethod="GET" method="serviceException">/serviceexception</rest-route>

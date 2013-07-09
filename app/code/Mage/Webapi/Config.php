@@ -87,8 +87,7 @@ class Mage_Webapi_Config
         Mage_Webapi_Helper_Config $helper,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dir
-    )
-    {
+    ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
@@ -302,13 +301,15 @@ class Mage_Webapi_Config
     }
 
     /**
+     * Generate the list of available REST routes.
+     *
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @return array
      * @throws Mage_Webapi_Exception
      */
     public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
     {
-        $baseUrlRegExp = '#^/\w+#';
+        $baseUrlRegExp = '#^/\w+/\w+#';
         preg_match($baseUrlRegExp, $request->getPathInfo(), $matches);
         $serviceBaseUrl = isset($matches[0]) ? $matches[0] : null;
         $httpMethod = $request->getHttpMethod();
@@ -385,9 +386,8 @@ class Mage_Webapi_Config
         if (null == $this->_soapOperations) {
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedResource) as $serviceData) {
-                $resourceName = $this->_helper->translateResourceName($serviceData['class'], false);
                 foreach ($serviceData[self::KEY_OPERATIONS] as $method => $methodData) {
-                    $operationName = $resourceName . ucfirst($method);
+                    $operationName =  $this->_helper->getSoapOperation($serviceData['class'], $method);
                     $this->_soapOperations[$operationName] = array(
                         'class' => $serviceData['class'],
                         'method' => $method
@@ -413,7 +413,7 @@ class Mage_Webapi_Config
         $services = array();
         foreach ($requestedResources as $resourceName => $resourceVersion) {
             foreach ($this->getSoapServices() as $serviceData) {
-                $resourceWithVersion = $this->_helper->translateResourceName($serviceData['class']);
+                $resourceWithVersion = $this->_helper->getServiceName($serviceData['class']);
                 if ($resourceWithVersion != $resourceName . $resourceVersion) {
                     continue;
                 }

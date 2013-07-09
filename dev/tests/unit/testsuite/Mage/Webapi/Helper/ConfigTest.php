@@ -34,7 +34,7 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceNameParts($className, $preserveVersion, $expected)
     {
-        $actual = $this->_helper->getResourceNameParts(
+        $actual = $this->_helper->getServiceNameParts(
             $className,
             $preserveVersion
         );

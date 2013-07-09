@@ -148,25 +148,23 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Translate controller class name into resource name.
+     * Translate service interface name into service name.
      * Example:
      * <pre>
-     *  Mage_Customer_Controller_Webapi_CustomerController => customer
-     *  Mage_Customer_Controller_Webapi_Customer_AddressController => customerAddress
-     *  Mage_Catalog_Controller_Webapi_ProductController => catalogProduct
-     *  Mage_Catalog_Controller_Webapi_Product_ImagesController => catalogProductImages
-     *  Mage_Catalog_Controller_Webapi_CategoryController => catalogCategory
+     * - Mage_Customer_Service_CustomerInterfaceV1         => customer          // $preserveVersion == false
+     * - Mage_Customer_Service_Customer_AddressInterfaceV1 => customerAddressV1 // $preserveVersion == true
+     * - Mage_Catalog_Service_ProductInterfaceV2           => catalogProductV2  // $preserveVersion == true
      * </pre>
      *
-     * @param string $class
-     * @param bool $preserveVersion Should version be preserved during class name conversion into resource name
+     * @param string $interfaceName
+     * @param bool $preserveVersion Should version be preserved during interface name conversion into service name
      * @return string
      * @throws InvalidArgumentException
      */
-    public function translateResourceName($class, $preserveVersion = true)
+    public function getServiceName($interfaceName, $preserveVersion = true)
     {
-        $resourceNameParts = $this->getResourceNameParts($class, $preserveVersion);
-        return lcfirst(implode('', $resourceNameParts));
+        $serviceNameParts = $this->getServiceNameParts($interfaceName, $preserveVersion);
+        return lcfirst(implode('', $serviceNameParts));
     }
 
     /**
@@ -182,7 +180,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * @return array
      * @throws InvalidArgumentException When class is not valid API resource.
      */
-    public function getResourceNameParts($className, $preserveVersion = false)
+    public function getServiceNameParts($className, $preserveVersion = false)
     {
         if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
@@ -355,5 +353,19 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
         throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
+    }
+
+    /**
+     * Generate SOAP operation name.
+     *
+     * @param string $interfaceName e.g. Mage_Catalog_Service_ProductInterfaceV1
+     * @param string $methodName e.g. create
+     * @return string e.g. catalogProductCreate
+     */
+    public function getSoapOperation($interfaceName, $methodName)
+    {
+        $serviceName = $this->getServiceName($interfaceName, false);
+        $operationName = $serviceName . ucfirst($methodName);
+        return $operationName;
     }
 }

@@ -68,13 +68,11 @@ class Mage_Webapi_Controller_Router_Rest
      */
     protected function _matchVersion(Mage_Webapi_Controller_Request_Rest $request)
     {
-        $versionPattern = '#^/(' . Mage_Webapi_Config::VERSION_NUMBER_PREFIX .'\d+)#i';
+        $versionPattern = '/^\/(' . Mage_Webapi_Config::VERSION_NUMBER_PREFIX .'\d+)/';
         preg_match($versionPattern, $request->getPathInfo(), $matches);
         if (isset($matches[1])) {
             $version = $matches[1];
             $request->setResourceVersion($version);
-            /** Remove version from path info is set */
-            $request->setPathInfo(preg_replace($versionPattern, '', $request->getPathInfo()));
         }
     }
 }
