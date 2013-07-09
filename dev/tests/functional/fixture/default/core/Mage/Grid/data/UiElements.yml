@@ -810,55 +810,33 @@ manage_shopping_cart_price_rules:
         6: Web Site
         7: Priority
 
-manage_tax_rule:
+#dataset for ui elements for customers online grid
+online_customers:
     fieldset:
-        manage_tax_rule: tablename
+        online_customer_grid: tablename
     button:
         reset_filter: ~
         search: ~
     field:
-        page: ~
-        filter_name: ~
-        filter_priority: ~
-        filter_sort_order: ~
-    dropdown:
-        view_per_page: ~
-        filter_customer_tax_class: ~
-        filter_product_tax_class: ~
-        filter_tax_rate: ~
-    headers:
-        0: Name
-        1: Customer Tax Class
-        2: Product Tax Class
-        3: Tax Rate
-        4: Priority
-        5: Sort Order
-
-#dataset for ui elements for Cart Price grid
-create_order_for_new_customer:
-    fieldset:
-        order_customer_grid: tablename
-    button:
-        reset_filter: ~
-        search: ~
-        create_new_customer: ~
-    field:
-        id: ~
-        name: ~
+        id_from: ~
+        id_to: ~
+        firstname: ~
+        lastname: ~
         email: ~
-        telephone: ~
-        zip_code: ~
-        state: ~
-        store_name: ~~
+        session_start_time_from: ~
+        session_start_time_to: ~
+        last_activity_from: ~
+        last_activity_to:  ~
+        last_url: ~
     dropdown:
-        country: ~
-        pager: ~
+        type: ~
     headers:
         0: ID
-        1: Name
-        2: Email
-        3: Phone
-        4: ZIP/Post Code
-        5: Country
-        6: State/Province
-        7: Signed-up Point
+        1: First Name
+        2: Last Name
+        3: Email
+        4: IP Address
+        5: Session Start Time
+        6: Last Activity
+        7: Type
+        8: Last URL
