@@ -91,7 +91,10 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
             ->with($this->_storeId, $this->_currentDate)
             ->will($this->returnValue($this->_designChange));
 
-        $this->_designChangeMock->expects($this->once())->method('getResource')->will($this->returnValue($resourceMock));
+        $this->_designChangeMock
+            ->expects($this->once())
+            ->method('getResource')
+            ->will($this->returnValue($resourceMock));
 
         $valueMap = array(
             array(Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY, false),
