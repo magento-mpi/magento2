@@ -59,7 +59,7 @@ class Magento_Code_Reader_ClassReader
                 if ($parentInterfaces) {
                     $result = array_values(array_diff($parentInterfaces, $interfaces));
                 } else {
-                    $result = array_values($parentInterfaces);
+                    $result = array_values($interfaces);
                 }
             }
             array_unshift($result, $parentClass);

@@ -64,7 +64,10 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             $this->_config = unserialize($data);
             $this->_factory->setConfig($this->_config);
         } else {
-            $this->_config->extend($config->getNode($areaCode . '/di')->asArray());
+            $diNode = $config->getNode($areaCode . '/di');
+            if ($diNode) {
+                $this->_config->extend($diNode->asArray());
+            }
             if ($this->_factory->getDefinitions() instanceof Magento_ObjectManager_Definition_Compiled) {
                 if (!$this->_compiledRelations) {
                     $this->_compiledRelations = new Mage_Core_Model_ObjectManager_Relations(
