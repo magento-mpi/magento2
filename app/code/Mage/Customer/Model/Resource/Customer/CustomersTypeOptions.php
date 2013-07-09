@@ -2,14 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterpise_CatalogEvent
+ * @category    Mage
+ * @package     Mage_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Catalog Event statuses option array
+ * Customer type option array
  *
  * @category   Mage
  * @package    Mage_Customer

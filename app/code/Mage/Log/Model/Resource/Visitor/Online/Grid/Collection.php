@@ -19,7 +19,6 @@
 class Mage_Log_Model_Resource_Visitor_Online_Grid_Collection extends Mage_Log_Model_Resource_Visitor_Online_Collection
 {
     /**
-     * joined fields array
      *
      * @var array
      * @return Mage_Log_Model_Resource_Visitor_Online_Grid_Collection
