@@ -15,12 +15,12 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller_Action
+class Mage_CurrencySymbol_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Init currency by currency code from request
      *
-     * @return Mage_Adminhtml_Controller_Action
+     * @return Mage_CurrencySymbol_Adminhtml_System_CurrencyController
      */
     protected function _initCurrency()
     {
@@ -41,7 +41,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_CurrencySymbol::system_currency_rates');
-        $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Currency'));
+        $this->_addContent($this->getLayout()->createBlock('Mage_CurrencySymbol_Block_Adminhtml_System_Currency'));
         $this->renderLayout();
     }
 
