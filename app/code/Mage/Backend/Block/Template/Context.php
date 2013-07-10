@@ -36,6 +36,8 @@ class Mage_Backend_Block_Template_Context extends Mage_Core_Block_Template_Conte
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Mage_Core_Model_TemplateEngine_Factory $engineFactory
      * @param Magento_AuthorizationInterface $authorization
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
