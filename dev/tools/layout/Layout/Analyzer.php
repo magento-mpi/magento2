@@ -44,17 +44,12 @@ class Layout_Analyzer
      */
     public function aggregateHandles(array $files)
     {
-        $xmlNodes = array();
+        $handles = array();
         foreach ($files as $file) {
             $rootNode = @simplexml_load_file($file);
             if ($rootNode === false) {
                 throw new Exception("Unable to read file '$file'.");
             }
-            $xmlNodes[] = $rootNode;
-        }
-
-        $handles = array();
-        foreach ($xmlNodes as $rootNode) {
             $layout = new Layout_Reader($rootNode);
             $handles = array_merge($handles, $layout->getHandles());
         }
