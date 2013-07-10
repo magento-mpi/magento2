@@ -24,9 +24,9 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testBuildDeployedFilePath($area, $themePath, $locale, $file, $module, $expected)
     {
-        $this->markTestIncomplete('It should be checked and may be fixed after task MAGETWO-10693');
-        $actual = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath($area, $themePath, $locale, $file,
-            $module, $expected);
+        $actual = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
+            $area, $themePath, $locale, $file, $module, $expected
+        );
         $this->assertEquals($expected, $actual);
     }
 
