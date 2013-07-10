@@ -14,7 +14,8 @@
  * @package     Mage_Core
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Backend_Block_Widget_Grid_ColumnSet_Additional extends Mage_Backend_Block_Widget_Grid_ColumnSet
+class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_Additional
+    extends Mage_Backend_Block_Widget_Grid_ColumnSet
 {
     /**
      * Retrieve row css class for specified item
