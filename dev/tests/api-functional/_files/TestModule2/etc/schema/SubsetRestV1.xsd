@@ -56,7 +56,7 @@
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray"
-                         type="typens:testModule2SubsetRestItemsArray">
+                         type="testModule2SubsetRestItemsArray">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">

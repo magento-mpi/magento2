@@ -68,7 +68,7 @@
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray"
-                         type="typens:testModule1AllSoapAndRestItemsArray">
+                         type="testModule1AllSoapAndRestItemsArray">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
@@ -82,8 +82,6 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-
-
     <xsd:complexType name="testModule1AllSoapAndRestItemsArray">
         <xsd:annotation>
             <xsd:documentation>Response container for the testModule1AllSoapAndRestItems call.</xsd:documentation>

@@ -34,4 +34,8 @@ interface Mage_TestModule1_Service_AllSoapAndRestInterfaceV1
      */
     public function update($request);
 
+    /**
+     * @return array
+     */
+    public function items();
 }
