@@ -30,6 +30,7 @@
     <adminhtml_system_config_edit>
         <reference name="head">
             <action method="addJs"><file>jquery/jquery.ba-hashchange.min.js</file></action>
+            <action method="addJs"><file>Mage_Backend::system/config/js/accordion.js</file></action>
         </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="Mage_Adminhtml::system/shipping/ups.phtml"/>

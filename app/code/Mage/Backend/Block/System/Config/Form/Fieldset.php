@@ -56,7 +56,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
         if ($element->getIsNested()) {
             $html = '<tr class="nested"><td colspan="4"><div class="' . $this->_getFrontendClass($element) . '">';
         } else {
-            $html = '<div class="' . $this->_getFrontendClass($element) . '">';
+            $html = '<div class="' . $this->_getFrontendClass($element) . ' " data-mage-init="{accordion}">';
         }
 
         $html .= '<div class="entry-edit-head collapseable">'
