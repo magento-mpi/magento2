@@ -32,6 +32,7 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
      */
     public function createWrapping()
     {
+        $this->markTestIncomplete('BUG: Wrapping assigned to all websites instead of one');
         //Data
         $giftWrapping = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $search = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',

@@ -20,9 +20,7 @@ var Product = {};
                 (/\?/.test(this.options.url) ? '&' : '?') +
                 'set=' + $('#attribute_set_id').val() +
                 '&attribute[frontend_label]=' +
-                window.encodeURIComponent(name) +
-                '&attribute[attribute_code]=' +
-                window.encodeURIComponent(name.replace(/[^a-z0-9]+/g, '_').toLowerCase());
+                window.encodeURIComponent(name);
         },
         _showPopup: function (event) {
             var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
@@ -71,10 +69,7 @@ var Product = {};
                 (/\?/.test(this.options.url) ? '&' : '?') +
                 'set=' + window.encodeURIComponent($('#attribute_set_id').val()) +
                 '&attribute[frontend_label]=' +
-                window.encodeURIComponent(name) +
-                '&attribute[attribute_code]=' +
-                window.encodeURIComponent(name.replace(/[^a-z0-9]+/g, '_').toLowerCase())
-                + "&attribute[apply_to]=simple,configurable,virtual";
+                window.encodeURIComponent(name);
         }
     });
 })(jQuery);

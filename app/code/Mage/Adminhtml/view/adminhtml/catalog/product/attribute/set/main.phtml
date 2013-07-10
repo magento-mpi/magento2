@@ -286,17 +286,18 @@
 
                     validateGroupName : function(name, exceptNodeId) {
                         name = name.strip();
+                        var result = true;
                         if (name === '') {
-                            return false;
+                            result = false;
                         }
                         for (var i=0; i < TreePanels.root.childNodes.length; i++) {
                             if (TreePanels.root.childNodes[i].text.toLowerCase() == name.toLowerCase() && TreePanels.root.childNodes[i].id != exceptNodeId) {
-                                errorText = "<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('An attribute group named \/name/\" already exists".') ?>";
+                                errorText = '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('An attribute group named "/name/" already exists".') ?>';
                                 alert(errorText.replace("/name/",name));
-                                return false;
+                                result =  false;
                             }
                         }
-                        return true;
+                        return result;
                     },
 
                     save : function() {

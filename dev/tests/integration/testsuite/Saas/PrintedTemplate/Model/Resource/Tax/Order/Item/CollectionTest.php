@@ -12,7 +12,7 @@
 class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Saas_PrintedTemplate_Model_Resource_Template_Collection
+     * @var Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
      */
     protected $_collection;
 
@@ -38,8 +38,12 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_CollectionTest extends 
 
         $invoice = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
             ->prepareInvoice($items)->save();
-        $collection = $this->_collection->addFilterByInvoice($invoice);
-        foreach ($collection->getItems() as $key => $item) {
+        $this->_collection->addFilterByInvoice($invoice);
+
+        $collectionItems = $this->_collection->getItems();
+        $this->assertCount(1, $collectionItems);
+
+        foreach ($collectionItems as $key => $item) {
             $expectedId = $orderItems[$key]->getItemId();
             $this->assertEquals($expectedId, $item->getItemId());
         }

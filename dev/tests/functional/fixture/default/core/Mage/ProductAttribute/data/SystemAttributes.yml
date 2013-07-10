@@ -156,8 +156,6 @@ tax_class_id:
         admin_option_name: None
     option_2:
         admin_option_name: Taxable Goods
-    option_3:
-        admin_option_name: Shipping
     default_value: Taxable Goods
 
 visibility:

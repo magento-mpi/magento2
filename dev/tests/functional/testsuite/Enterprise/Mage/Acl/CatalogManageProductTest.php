@@ -9,14 +9,16 @@
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
-
 class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
+    public function setUpBeforeTests()
     {
         $this->markTestIncomplete('BUG: It is impossible to create any product');
+    }
+
+    protected function assertPreConditions()
+    {
         $this->admin('log_in_to_admin');
     }
 
