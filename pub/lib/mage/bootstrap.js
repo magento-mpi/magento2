@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint jquery:true browser:true */
-jQuery(function ($) {
+jQuery(function ($,console) {
     'use strict';
     $.ajaxSetup({
         cache: false

@@ -85,7 +85,7 @@
         hide: function() {
             if (this.loaderStarted > 0) {
                 this.loaderStarted--;
-                if (this.loaderStarted == 0) {
+                if (this.loaderStarted === 0) {
                     if (this.loader) {
                         this.loader.hide();
                     }
