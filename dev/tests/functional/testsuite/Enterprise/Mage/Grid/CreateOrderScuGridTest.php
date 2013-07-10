@@ -36,12 +36,16 @@ class Enterprise_Mage_Grid_CreateOrderScuGridTest extends Mage_Selenium_TestCase
         $this->clickButton('create_new_order');
         $this->clickButton('create_new_customer');
         $this->pleaseWait();
+        if (!$this->controlIsPresent('button', 'add_products_by_sku')) {
+            $this->clickControl('radiobutton', 'choose_first_store', false);
+            $this->pleaseWait();
+        }
         $this->clickButton('add_products_by_sku');
-        $this->addParameter('itemId', 0);
+        $this->addParameter('number', 1);
         $this->addParameter('rowIndex', 1);
         $this->addParameter('sku', 'failData');
         $this->fillField('sku', 'failData');
-        $this->fillField('qty_sku', 1);
+        $this->fillField('qty', 1);
         $this->clickButton('submit_sku_form');
     }
 
@@ -49,7 +53,7 @@ class Enterprise_Mage_Grid_CreateOrderScuGridTest extends Mage_Selenium_TestCase
      * <p>Post conditions:</p>
      * <p>Log out from Backend.</p>
      */
-    protected function tearDownAfterTestClass()
+    protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
     }
@@ -83,5 +87,4 @@ class Enterprise_Mage_Grid_CreateOrderScuGridTest extends Mage_Selenium_TestCase
         $this->assertEquals($expectedHeadersName, $actualHeadersName,
             "Header names are not equal on create_order_for_new_customer_sku page");
     }
-
 }

@@ -26,9 +26,11 @@ order_statuses:
                         links:
                             select_store_view: //td[normalize-space(@class)='a-left last']/a[text()='%NAME%']
                         fields:
-                            status_code: //input[@id='status']
-                            status_label: //input[@id='label']
-                            status: //input[@id='sales_order_status_grid_filter_label']
+                            status_code: //input[@id='sales_order_status_grid_filter_status']
+                            status_label: //input[@id='sales_order_status_grid_filter_label']
+                            status: //input[@id='sales_order_status_grid_filter_state']
+                        dropdowns:
+                            default_status: //select[@id='sales_order_status_grid_filter_is_default']
         buttons:
             create_new_status: //button[span='Create New Status']
             assign_status_to_state: //button[span='Assign Status to State']

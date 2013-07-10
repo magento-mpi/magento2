@@ -201,7 +201,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $roleRowElement = $this->getElement($roleLocator);
         $roleUrl = $roleRowElement->attribute('title');
         //Define and add parameters for new page
-        $cellId = $this->getColumnIdByName('Name');
+        $cellId = $this->getColumnIdByName('Role');
         $cellElement = $this->getChildElement($roleRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($roleUrl));

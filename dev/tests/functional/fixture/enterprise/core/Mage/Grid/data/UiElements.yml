@@ -375,3 +375,18 @@ manage_gift_card_account:
         6: Active
         7: Status
         8: Balance
+
+#dataset for ui elements for SKU Error Grid grid
+create_order_for_new_customer_sku:
+    fieldset:
+        sku_error_table: tablename
+    button:
+        configure_item: ~
+        remove_item: ~
+    field:
+        qty: ~
+    headers:
+        0: Product
+        1: Price
+        2: Quantity
+        3: Remove
