@@ -85,7 +85,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Web Site</header>
+                            <header translate="true" module="Mage_CatalogRule">Web Site</header>
                             <align>left</align>
                             <index>website_ids</index>
                             <sortable>0</sortable>

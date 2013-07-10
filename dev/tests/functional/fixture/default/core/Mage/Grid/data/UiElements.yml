@@ -777,7 +777,7 @@ manage_tax_rule:
         4: Priority
         5: Sort Order
 
-#dataset for ui elements for Cart Price grid
+#dataset for ui elements for Customer grid during order create grid
 create_order_for_new_customer:
     fieldset:
         order_customer_grid: tablename
@@ -836,3 +836,43 @@ online_customers:
         6: Last Activity
         7: Type
         8: Last URL
+
+#dataset for ui elements for Newsletter Subscriber grid
+newsletter_subscribers:
+    fieldset:
+        subscribers_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        export: ~
+        submit: ~
+    field:
+        filter_id: ~
+        filter_email: ~
+        filter_customer_first_name: ~
+        filter_customer_last_name: ~
+    dropdown:
+        subscribers_massaction: ~
+        export_to: ~
+        filter_massaction: ~
+        filter_type: ~
+        filter_status: ~
+        filter_website: ~
+        filter_store: ~
+        filter_store_view: ~
+    link:
+        select_all: ~
+        unselect_all: ~
+        select_visible: ~
+        unselect_visible: ~
+    headers:
+        0: ' '
+        1: ID
+        2: Email
+        3: Type
+        4: Customer First Name
+        5: Customer Last Name
+        6: Status
+        7: Web Site
+        8: Store
+        9: Store View

@@ -34,31 +34,25 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
         $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'));
         $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'));
 
-        $this->_addContent(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber','subscriber')
-        );
-
         $this->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber_Grid')->toHtml()
-        );
-    }
+        $this->loadLayout(false);
+        $this->renderLayout();
+     }
 
     /**
      * Export subscribers grid to CSV format
      */
     public function exportCsvAction()
     {
-        $fileName   = 'subscribers.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber_Grid')
-            ->getCsvFile();
+        $this->loadLayout();
+        $fileName = 'subscribers.csv';
+        $content = $this->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
     }
 
     /**
@@ -66,11 +60,10 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
      */
     public function exportXmlAction()
     {
-        $fileName   = 'subscribers.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber_Grid')
-            ->getExcelFile();
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout();
+        $fileName = 'subscribers.xml';
+        $content = $this->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
     }
 
     public function massUnsubscribeAction()
