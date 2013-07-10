@@ -14,6 +14,7 @@
  */
 class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Mage_Selenium_TestCase
 {
+
     /**
      * Preconditions:
      * Navigate to Products - Catalog.
@@ -127,7 +128,7 @@ class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Ma
         $this->assertTrue($this->controlIsVisible('pageelement', 'element_by_id'),
             'Added attribute was not found on the "Search Optimization" tab');
         $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->openAttributeSet(array('set_name' => $data['setName']));
+        $this->attributeSetHelper()->openAttributeSet(array('set_name' => $product['product_attribute_set']));
         $this->attributeSetHelper()->verifyAttributeAssignment(array($data[1]['code']));
     }
 
@@ -175,19 +176,21 @@ class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Ma
      */
     public function addNonexistentAttribute()
     {
-        $this->markTestIncomplete('MAGETWO-11048');
         //Data
         $attributeName = $this->generate('string', 10, ':alnum:');
         //Steps
         $this->productHelper()->selectTypeProduct('simple');
         $this->addParameter('tab', $this->getControlAttribute('tab', $this->_getActiveTabUimap()->getTabId(), 'name'));
         $this->clickButton('add_attribute', false);
-        $this->waitForControlVisible('button', 'create_new_attribute');
+        $this->waitForControlVisible('field', 'attribute_search');
         $this->productAttributeHelper()->fillSearchAttributeField($attributeName);
         //Verifying
         $this->assertTrue($this->controlIsVisible('pageelement', 'attribute_no_records'), 'Some attributes were found');
-        $this->clickButton('create_new_attribute', false);
-        $this->waitForControlVisible('field', 'attribute_label');
+        $this->getElement($this->_getControlXpath('button', 'create_new_attribute'))->click();
+        $this->waitForControl('pageelement', 'add_new_attribute_iframe');
+        $this->pleaseWait();
+        $this->frame('create_new_attribute_container');
+        $this->setCurrentPage('new_product_attribute_from_product_page');
         $this->assertEquals($attributeName, $this->getControlAttribute('field', 'attribute_label', 'value'));
     }
 
@@ -220,7 +223,7 @@ class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Ma
             $this->productAttributeHelper()->selectAttribute();
         }
         //Verifying
-        $this->clickControl('link', 'attribute', false);
+        $this->clickButton('add_attribute', false);
         $this->productAttributeHelper()->fillSearchAttributeField($attributeName);
         $this->assertTrue($this->controlIsVisible('pageelement', 'attribute_no_records'), 'Some attributes were found');
     }

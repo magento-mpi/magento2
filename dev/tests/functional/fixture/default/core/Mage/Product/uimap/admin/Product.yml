@@ -138,7 +138,7 @@ new_product:
                             attribute: //div[@class='mage-suggest-dropdown']//li[contains(@data-suggest-option, '%attributeData%')]/a
                         pageelements:
                             attribute_suggest_list: //div[@class='mage-suggest-dropdown']
-                            attribute_no_records: //div[@class='mage-suggest-dropdown']/*[@class='mage-suggest-no-records']
+                            attribute_no_records: //div[@class='mage-suggest-dropdown']//*[@class='mage-suggest-no-records']
             tabs:
                 -
                     general: &generalTab
