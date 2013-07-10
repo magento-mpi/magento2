@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_Grid_CreateOrderScuGridTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_Grid_CreateOrderSkuGridTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Pre Conditions</p>
@@ -25,8 +25,8 @@ class Enterprise_Mage_Grid_CreateOrderScuGridTest extends Mage_Selenium_TestCase
      * <p>3. Click Create New Order button</p>
      * <p>4. Click Create New Customer button</p>
      * <p>5. Click Add Product By SKU button</p>
-     * <p>6. Add invalid data </p>
-     * <p>7. Click Add to Order button </p>
+     * <p>6. Add invalid data</p>
+     * <p>7. Click Add to Order button</p>
      */
     protected function assertPreConditions()
     {

@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Backend
+ * @category    Enterprise
+ * @package     Enterprise_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- *
- * @category    Mage
- * @package     Mage_Core
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_Additional
     extends Mage_Backend_Block_Widget_Grid_ColumnSet
 {
