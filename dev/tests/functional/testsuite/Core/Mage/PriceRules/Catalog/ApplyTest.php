@@ -25,6 +25,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
         $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
         $this->systemConfigurationHelper()->configure('Currency/enable_usd');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         $this->navigate('manage_catalog_price_rules');
         $this->priceRulesHelper()->deleteAllRules();
         $this->clickButton('apply_rules', false);
@@ -59,17 +60,19 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $data = $this->productHelper()->createSimpleProduct(true);
-        return array('customer'     => array('email' => $userData['email'], 'password' => $userData['password']),
-                     'categoryPath' => $data['category']['path'], 'categoryName' => $data['category']['name'],
-                     'simpleName'   => $data['simple']['product_name']);
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
+        return array(
+            'customer' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'categoryPath' => $data['category']['path'],
+            'categoryName' => $data['category']['name'],
+            'simpleName' => $data['simple']['product_name']
+        );
     }
 
     /**
@@ -87,11 +90,11 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
     {
         //Data
         $action = $this->loadDataSet('CatalogPriceRule', $ruleType);
-        $condition =
-            $this->loadDataSet('CatalogPriceRule', 'condition', array('category' => $testData['categoryPath']));
+        $condition = $this->loadDataSet('CatalogPriceRule', 'condition',
+            array('category' => $testData['categoryPath']));
         $priceRule = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
             array('conditions' => $condition, 'status' => 'Active', 'actions' => $action));
-        $override = array('product_name' => $testData['simpleName'], 'category'     => $testData['categoryName']);
+        $override = array('product_name' => $testData['simpleName'], 'category' => $testData['categoryName']);
         $productPriceLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_logged');
         $prodPriceNotLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_not_logged');
         $inCategoryLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_logged_category', $override);
@@ -106,12 +109,12 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->waitForNewPage();
         $this->assertMessagePresent('success', 'success_applied_rule');
         $this->flushCache();
-        $this->reindexAllData();
+        $this->reindexInvalidedData();
         //Verification on frontend
         $this->frontend();
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($inCategoryNotLogged);
         $this->productHelper()->frontOpenProduct($testData['simpleName']);
-        $this->categoryHelper()->frontVerifyProductPrices($prodPriceNotLogged, $testData['simpleName']);
+        $this->categoryHelper()->frontVerifyProductPrices($prodPriceNotLogged);
         $this->customerHelper()->frontLoginCustomer($testData['customer']);
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($inCategoryLogged);
         $this->productHelper()->frontOpenProduct($testData['simpleName']);

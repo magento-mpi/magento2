@@ -28,7 +28,7 @@ class Core_Mage_Captcha_DisableTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Captcha/disable_admin_captcha');
+        $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
         $this->logoutAdminUser();
         $this->assertFalse($this->controlIsVisible('field', 'captcha'), 'There is "Captcha" field form on the page');
         $this->clickControl('link', 'forgot_password');

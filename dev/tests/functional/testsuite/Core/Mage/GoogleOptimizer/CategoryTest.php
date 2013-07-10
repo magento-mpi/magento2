@@ -14,8 +14,6 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
-        parent::setUpBeforeTests();
-
         $this->loginAdminUser();
 
         // Enable in System Configuration
@@ -36,12 +34,11 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
     public function tearDownAfterTestClass()
     {
-        parent::tearDownAfterTestClass();
-
         $this->loginAdminUser();
 
         // Delete fixture
         $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->selectCategory(
             sprintf('%s/%s', self::$_categoryData['parent_category'], self::$_categoryData['name'])
         );
@@ -56,7 +53,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
     public function checkBehaviorOnCreate()
     {
         // Open category on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
@@ -85,7 +82,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $this->clickButton('save_category');
 
         // Open category on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
@@ -113,7 +110,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $this->clickButton('save_category');
 
         // Open category on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
         // Check result
         $this->assertFalse($this->textIsPresent(self::$_categoryData['experiment_code']),
@@ -133,7 +130,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
 
         // Open category on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result

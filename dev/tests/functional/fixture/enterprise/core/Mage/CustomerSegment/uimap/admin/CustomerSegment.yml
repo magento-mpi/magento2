@@ -19,7 +19,7 @@ manage_customer_segments:
             fieldsets:
                 -
                     customer_segment_grid:
-                        xpath:  //div[@id='customersegmentGrid']
+                        xpath: //div[@id='customersegmentGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -38,7 +38,6 @@ manage_customer_segments:
         messages: &customerSegmentMessages
             success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the segment.')]
             note_apply_to: //p[@id='note_apply_to']
-            segment_empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
             success_deleted_segment: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the segment.')]
 
@@ -75,7 +74,7 @@ new_customer_segment:
 # Edit Customer Segment page
 edit_customer_segment:
     mca: customersegment/edit/id/%id%/
-    title: %segment_title% / Customer Segments / Customers / Magento Admin
+    title: %elementTitle% / Customer Segments / Customers / Magento Admin
     uimap:
         form: &editCustomerSegmentForm
             tabs:

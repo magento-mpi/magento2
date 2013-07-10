@@ -12,50 +12,49 @@
 #*      Gift Wrapping on Product Page        *
 #*********************************************
 gift_options_use_default:
-    gift_options_allow_gift_message_default: Yes
-    gift_options_allow_gift_wrapping_default: Yes
-    gift_options_price_for_gift_wrapping: ''
+    autosettings_allow_gift_message_default: Yes
+    autosettings_allow_gift_wrapping_default: Yes
+    autosettings_price_for_gift_wrapping: ''
 
 gift_options_message_yes_wrapping_yes:
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
-    gift_options_allow_gift_wrapping_default: No
-    gift_options_allow_gift_wrapping: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
+    autosettings_allow_gift_wrapping_default: No
+    autosettings_allow_gift_wrapping: Yes
 
 gift_options_message_yes_wrapping_no:
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
-    gift_options_allow_gift_wrapping_default: No
-    gift_options_allow_gift_wrapping: No
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
+    autosettings_allow_gift_wrapping_default: No
+    autosettings_allow_gift_wrapping: No
 
 gift_options_message_no_wrapping_yes:
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: No
-    gift_options_allow_gift_wrapping_default: No
-    gift_options_allow_gift_wrapping: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: No
+    autosettings_allow_gift_wrapping_default: No
+    autosettings_allow_gift_wrapping: Yes
 
 gift_options_message_no_wrapping_no:
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: No
-    gift_options_allow_gift_wrapping_default: No
-    gift_options_allow_gift_wrapping: No
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: No
+    autosettings_allow_gift_wrapping_default: No
+    autosettings_allow_gift_wrapping: No
 
 gift_options_custom_wrapping_price:
-    gift_options_allow_gift_message_default: Yes
-    gift_options_allow_gift_wrapping_default: No
-    gift_options_allow_gift_wrapping: Yes
-    gift_options_price_for_gift_wrapping: 17.77
+    autosettings_allow_gift_message_default: Yes
+    autosettings_allow_gift_wrapping_default: No
+    autosettings_allow_gift_wrapping: Yes
+    autosettings_price_for_gift_wrapping: 17.77
 
 gift_options_custom_wrapping_price_on_store_view:
-    gift_options_allow_gift_message_default: Yes
-    gift_options_allow_gift_wrapping_use_default: No
-    gift_options_allow_gift_wrapping_default: No
-    gift_options_allow_gift_wrapping: Yes
-    gift_options_allow_gift_wrapping_price_use_default: No
-    gift_options_price_for_gift_wrapping: 15.67
+    autosettings_allow_gift_message_default: Yes
+    autosettings_allow_gift_wrapping_use_default: No
+    autosettings_allow_gift_wrapping_default: No
+    autosettings_allow_gift_wrapping: Yes
+    autosettings_allow_gift_wrapping_price_use_default: No
+    autosettings_price_for_gift_wrapping: 15.67
 
 #Test data for Gift Wrapping
-
 gift_wrapping_with_image:
     gift_wrapping_design: gift wrapping %randomize%
     gift_wrapping_websites: Main Website

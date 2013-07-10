@@ -23,7 +23,8 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
     }
 
@@ -39,7 +40,8 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
         $this->fillField('coupon_qty', '');
         $this->clickButton('generate', false);
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_coupon_qty');
+        $this->addFieldIdToMessage('field', 'coupon_qty');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -72,7 +74,8 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
         $this->clickButton('generate', false);
         $this->pleaseWait();
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_coupon_qty_zero');
+        $this->addFieldIdToMessage('field', 'coupon_qty');
+        $this->assertMessagePresent('validation', 'enter_greater_than_zero');
     }
 
     /**
@@ -89,7 +92,8 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
         $this->fillField('coupon_qty', $value);
         $this->clickButton('generate', false);
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_coupon_qty_negative');
+        $this->addFieldIdToMessage('field', 'coupon_qty');
+        $this->assertMessagePresent('validation', 'use_numbers_only');
     }
 
     public function withFilledCouponQtyFieldNegativeDataProvider()
@@ -111,10 +115,12 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
     public function withBlankCodeLengthField()
     {
         //Steps
+        $this->fillField('coupon_qty', 2);
         $this->fillField('code_length', '');
         $this->clickButton('generate', false);
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_code_length');
+        $this->addFieldIdToMessage('field', 'code_length');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -146,10 +152,12 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
     public function withFilledCodeLengthFieldNegative($value)
     {
         //Steps
+        $this->fillField('coupon_qty', 2);
         $this->fillField('code_length', $value);
         $this->clickButton('generate', false);
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_code_length_negative');
+        $this->addFieldIdToMessage('field', 'code_length');
+        $this->assertMessagePresent('validation', 'use_numbers_only');
     }
 
     public function withFilledCodeLengthFieldNegativeDataProvider()
@@ -289,7 +297,8 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
         $this->fillField('dash_every_x_characters', $value);
         $this->clickButton('generate', false);
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_dash_every_x_characters_negative');
+        $this->addFieldIdToMessage('field', 'dash_every_x_characters');
+        $this->assertMessagePresent('validation', 'use_numbers_only');
     }
 
     public function withFilledDashFieldNegativeDataProvider()

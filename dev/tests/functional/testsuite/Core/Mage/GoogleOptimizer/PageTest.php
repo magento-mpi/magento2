@@ -14,8 +14,6 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
-        parent::setUpBeforeTests();
-
         $this->loginAdminUser();
 
         // Enable in System Configuration
@@ -37,8 +35,6 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
 
     public function tearDownAfterTestClass()
     {
-        parent::tearDownAfterTestClass();
-
         // Delete fixture
         $this->loginAdminUser();
         $this->navigate('manage_cms_pages');
@@ -57,7 +53,7 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
     public function checkBehaviorOnCreate()
     {
         // Open page on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->cmsPagesHelper()->frontOpenCmsPage(self::$_pageData);
 
         // Check result
@@ -85,7 +81,7 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
         $this->saveForm('save_page');
 
         // Open page on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->cmsPagesHelper()->frontOpenCmsPage(self::$_pageData);
 
         // Check result
@@ -108,7 +104,7 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
 
         // Open page on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->cmsPagesHelper()->frontOpenCmsPage(self::$_pageData);
 
         // Check result

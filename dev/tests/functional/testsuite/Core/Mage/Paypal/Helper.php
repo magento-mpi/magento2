@@ -18,20 +18,26 @@
  */
 class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
 {
-    public static $monthMap = array('1'  => '01 - January', '2'  => '02 - February', '3'  => '03 - March',
-                                    '4'  => '04 - April', '5'  => '05 - May', '6'  => '06 - June', '7'  => '07 - July',
-                                    '8'  => '08 - August', '9'  => '09 - September', '10' => '10 - October',
-                                    '11' => '11 - November', '12' => '12 - December');
+    public static $monthMap = array('1' => '01 - January', '2' => '02 - February', '3' => '03 - March',
+        '4' => '04 - April', '5' => '05 - May', '6' => '06 - June', '7' => '07 - July',
+        '8' => '08 - August', '9' => '09 - September', '10' => '10 - October',
+        '11' => '11 - November', '12' => '12 - December'
+    );
 
     /**
      * Verify errors after order submitting. Skip tests if error from Paypal
      */
     public function verifyMagentoPayPalErrors()
     {
-        $paypalErrors = array('PayPal gateway rejected the request', 'PayPal gateway has rejected request',
-                              'We can\'t contact the PayPal gateway.',
-                              'Please verify the card with the issuer bank before placing the order.',
-                              'Something went wrong while processing your order.');
+        $paypalErrors = array(
+            'PayPal gateway rejected the request',
+            'PayPal gateway has rejected request',
+            'We can\'t contact the PayPal gateway.',
+            'Gateway error: This transaction cannot be accepted.',
+            'Gateway error: Unable to read response, or response is empty',
+            'Please verify the card with the issuer bank before placing the order.',
+            'Something went wrong while processing your order.'
+        );
         $submitErrors = $this->getMessagesOnPage('error,validation,verification');
         foreach ($submitErrors as $error) {
             foreach ($paypalErrors as $paypalError) {
@@ -53,20 +59,27 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     public function paypalDeveloperLogin()
     {
         try {
-            $this->goToArea('paypal_developer', 'paypal_developer_home', false);
+            $this->goToArea('paypal_developer', 'paypal_developer_home');
         } catch (Exception $e) {
             $this->skipTestWithScreenshot($e->getMessage());
         }
-        $loginData = array('login_email'     => $this->getConfigHelper()->getDefaultLogin(),
-                           'login_password'  => $this->getConfigHelper()->getDefaultPassword());
-        $this->validatePage();
         if ($this->controlIsPresent('button', 'login_with_paypal')) {
+            $loginData = array(
+                'login_email' => $this->getConfigHelper()->getDefaultLogin(),
+                'login_password' => $this->getConfigHelper()->getDefaultPassword()
+            );
             $this->clickButton('login_with_paypal', false);
             $this->selectLastWindow();
             $this->fillFieldset($loginData, 'login_form');
             $this->getControlElement('button', 'login')->click();
+            $this->waitForElementVisible(array(
+                $this->_getControlXpath('pageelement', 'loadingHolder'),
+                $this->_getMessageXpath('general_validation')
+            ));
+            $error = $this->errorMessage();
+            $validation = $this->validationMessage();
+            $this->assertFalse($error['success'] || $validation['success'], $this->getMessagesOnPage());
             $this->waitForWindowToClose();
-            $this->validatePage();
             $this->waitForControlVisible('button', 'logout');
         }
         $result = $this->errorMessage();
@@ -89,7 +102,12 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->fillFieldset($parameters, 'create_test_account_form');
         $this->clickButton('create_account');
         $this->validatePage();
-        $this->assertMessagePresent('success', 'success_created_account');
+        $result = $this->successMessage('success_created_account');
+        if (!$result['success']) {
+            $this->takeScreenshot(time() . '-error in paypal-' . $this->getTestId());
+            $parameters['login_email'] = $this->generate('email', 20, 'valid');
+            $this->createPreconfiguredAccount($parameters);
+        }
 
         return $this->getPaypalSandboxAccountInfo($parameters);
     }
@@ -110,7 +128,6 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('propertyName', 'Credit card number:');
         $data['credit_card']['card_number'] =
             $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'property', 'text');
-
         $this->addParameter('propertyName', 'Expiration date:');
         list($expMonth, $expYear) =
             explode('/', $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'property', 'text'));
@@ -133,10 +150,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->openAccountDetailsTab($email, 'api_credentials_tab');
         $apiCredentials = array();
 
-        $keys = array('api_username','api_password', 'api_signature');
-        foreach($keys as $value) {
-            $apiCredentials[$value] =
-                $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, $value, 'text');
+        $keys = array('api_username', 'api_password', 'api_signature');
+        foreach ($keys as $value) {
+            $apiCredentials[$value] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, $value, 'text');
         }
         $apiCredentials['email_associated_with_paypal_merchant_account'] = $email;
         return $apiCredentials;
@@ -145,8 +161,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open tab on account details popup
      *
-     * @param $email Account email address
-     * @param $tabName Link to open tab
+     * @param string $email Account email address
+     * @param string $tabName Link to open tab
      */
     private function openAccountDetailsTab($email, $tabName)
     {
@@ -161,10 +177,10 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'account_details_popup');
         }
         $this->clickControl(self::FIELD_TYPE_LINK, $tabName, false);
-        $this->addParameter('tabTitle',
-            $this->getControlAttribute(self::FIELD_TYPE_LINK, $tabName, 'text'));
+        $this->addParameter('tabTitle', $this->getControlAttribute(self::FIELD_TYPE_LINK, $tabName, 'text'));
         $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'active_tab');
     }
+
     /**
      * Deletes all accounts at PayPal sandbox
      */
@@ -175,7 +191,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('paypal_developer_sandbox_accounts');
         $this->setUrlPostfix(null);
         $this->fillCheckbox('select_all_accounts', 'Yes');
-        if (!$this->getControlAttribute('button', 'delete_account', 'disabled')) {
+        if ($this->controlIsVisible('button', 'delete_account')) {
             $this->clickButton('delete_account', false);
             $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'delete_account_popup');
             $this->clickButton('delete');
@@ -194,8 +210,10 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('paypal_developer_sandbox_accounts');
         $this->setUrlPostfix(null);
         $this->addParameter('accountEmail', $email);
-        $this->fillCheckbox('select_account', 'Yes');
-        if (!$this->getControlAttribute('button', 'delete_account', 'disabled')) {
+        if ($this->controlIsVisible('pageelement', 'account_line')
+            && $this->controlIsEditable('checkbox', 'select_account')
+        ) {
+            $this->fillCheckbox('select_account', 'Yes');
             $this->clickButton('delete_account', false);
             $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'delete_account_popup');
             $this->clickButton('delete');

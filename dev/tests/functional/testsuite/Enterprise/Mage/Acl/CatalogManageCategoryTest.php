@@ -14,19 +14,11 @@
 
 class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser();
+        $this->admin('log_in_to_admin');
     }
 
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
     protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
@@ -40,24 +32,22 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
      */
     public function roleResourceAccessManageCategory()
     {
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+            array('resource_acl' => 'products-inventory-categories'));
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
         //Preconditions
         //create specific role with test roleResource
+        $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_acl' => 'products_inventory_categories'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
         $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Steps
-        //return array $loginData to log in in the next test
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
-        return $loginData;
+
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
@@ -71,21 +61,22 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
      */
     public function deleteSubCategory($loginData)
     {
-        $this->admin('log_in_to_admin', false);
-        $waitCondition = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
-                               $this->_getControlXpath('pageelement', 'admin_logo'));
-        $this->fillFieldset($loginData, 'log_in');
-        $this->clickButton('login', false);
-        $this->waitForElement($waitCondition);
-        $this->categoryHelper()->checkCategoriesPage();
-        //Verifying that button "Add Root Category" doesn't present on page
-        if ($this->buttonIsPresent('add_root_category')) {
-            $this->fail("This user doesn't have permission to create root category.
-                       The button Create Root Category is present on page");
-        }
         //Data
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
         //Steps
+        $waitCondition = array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('pageelement', 'admin_logo')
+        );
+        $this->fillFieldset($loginData, 'log_in');
+        $this->clickButton('login', false);
+        $this->waitForElement($waitCondition);
+        $this->pleaseWait();
+        $this->categoryHelper()->checkCategoriesPage();
+        //Verifying that button "Add Root Category" doesn't present on page
+        $this->assertFalse($this->buttonIsPresent('add_root_category'),
+            'This user have permission to create root category. The button Create Root Category is present on page');
         $this->categoryHelper()->createCategory($subCategoryData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');

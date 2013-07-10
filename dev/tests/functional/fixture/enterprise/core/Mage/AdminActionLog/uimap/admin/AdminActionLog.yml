@@ -1,9 +1,9 @@
 #
 # {license_notice}
 #
-# @category    tests
-# @package     selenium
-# @subpackage  uimaps
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
@@ -46,7 +46,7 @@ admin_action_log_report:
 
 admin_action_log_view:
     mca: logging/details/event_id/%id%/
-    title: View Entry / Action Log / System / Magento Admin
+    title: "Log Entry #%id% / Action Log / System / Magento Admin"
 
 # Admin Actions Log Report page
 admin_action_log_archive:

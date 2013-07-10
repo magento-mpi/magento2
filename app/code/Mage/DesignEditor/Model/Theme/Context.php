@@ -19,7 +19,7 @@ class Mage_DesignEditor_Model_Theme_Context
     protected $_themeFactory;
 
     /**
-     * @var Mage_Captcha_Helper_Data
+     * @var Mage_Core_Helper_Data
      */
     protected $_helper;
 
@@ -79,10 +79,15 @@ class Mage_DesignEditor_Model_Theme_Context
         if (!$this->_theme->load($themeId)->getId()) {
             throw new Mage_Core_Exception($this->_helper->__('We can\'t find theme "%s".', $themeId));
         }
+        if ($this->_theme->getType() === Mage_Core_Model_Theme::TYPE_STAGING) {
+            throw new Mage_Core_Exception($this->_helper->__('Wrong theme type set as editable'));
+        }
         return $this;
     }
 
     /**
+     * Get current editable theme
+     *
      * @return Mage_Core_Model_Theme
      * @throws Mage_Core_Exception
      */
@@ -102,14 +107,17 @@ class Mage_DesignEditor_Model_Theme_Context
      */
     public function getStagingTheme()
     {
-        $editableTheme = $this->getEditableTheme();
-        if (!$editableTheme->isVirtual()) {
-            throw new Mage_Core_Exception(
-                $this->_helper->__('Theme "%s" can\'t be edited.', $editableTheme->getThemeTitle())
-            );
+        if (null === $this->_stagingTheme) {
+            $editableTheme = $this->getEditableTheme();
+            if (!$editableTheme->isVirtual()) {
+                throw new Mage_Core_Exception(
+                    $this->_helper->__('Theme "%s" is not editable.', $editableTheme->getThemeTitle())
+                );
+            }
+            $this->_stagingTheme = $editableTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+                ->getStagingTheme();
         }
-        $stagingTheme = $editableTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
-        return $stagingTheme;
+        return $this->_stagingTheme;
     }
 
     /**

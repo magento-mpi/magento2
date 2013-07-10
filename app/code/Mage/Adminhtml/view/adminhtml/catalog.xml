@@ -284,41 +284,61 @@
 
     <adminhtml_catalog_product_simple>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
-                <block type="Mage_Core_Block_Template" name="attribute-block-template"
-                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
-                       as="template"/>
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
-                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
-                       as="attribute-renderer"/>
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
-                       template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
-                       as="matrix"/>
+        <reference name="product_tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                   name="admin.product.edit.tab.super.config.grid.container">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                       template="Mage_Adminhtml::catalog/product/edit/super/generator.phtml"
+                       name="product-variations-generator"
+                       as="generator">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
+                           as="template"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
+                           as="attribute-renderer"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
+                           template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
+                           as="matrix"/>
+                </block>
             </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_simple>
 
     <adminhtml_catalog_product_virtual>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
-                <block type="Mage_Core_Block_Template" name="attribute-block-template"
-                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
-                       as="template"/>
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
-                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
-                       as="attribute-renderer"/>
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
-                       template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
-                       as="matrix"/>
+        <reference name="product_tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                   name="admin.product.edit.tab.super.config.grid.container">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                       template="Mage_Adminhtml::catalog/product/edit/super/generator.phtml"
+                       name="product-variations-generator"
+                       as="generator">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
+                           as="template"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
+                           as="attribute-renderer"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
+                           template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
+                           as="matrix"/>
+                </block>
             </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_virtual>
 
     <adminhtml_catalog_product_grouped>
         <update handle="adminhtml_catalog_product_grouped_grid_popup"/>
-        <reference name="product-type-tabs">
+        <reference name="product_tabs">
             <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Mage_Catalog::product/grouped/container.phtml">
                 <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Mage_Catalog::product/grouped/grouped.phtml">
                     <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts_List"
@@ -328,6 +348,10 @@
                     <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.grid.popup.container" as="catalog.product.group.grid.popup.container"/>
                 </block>
             </block>
+            <action method="addTab">
+                <name>grouped</name>
+                <block>catalog.product.edit.grouped.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_grouped>
 
@@ -399,22 +423,13 @@
         <container output="1" name="catalog.product.edit.tab.super.grid.popup.container" label="grid"/>
     </adminhtml_catalog_product_supergrouppopup>
 
-    <adminhtml_catalog_product_variationsmatrix>
+    <adminhtml_catalog_product_generatevariations>
         <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
-                   template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
-                   as="matrix"/>
-        </container>
-    </adminhtml_catalog_product_variationsmatrix>
-<!--
-Layout handle for configurable products
--->
-
-    <adminhtml_catalog_product_configurable_new>
-        <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
-                <block type="Mage_Core_Block_Template" name="attribute-block-template"
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                   template="Mage_Adminhtml::catalog/product/edit/super/generator.phtml"
+                   name="product-variations-generator"
+                   as="generator">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
                        template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
                        as="template"/>
                 <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
@@ -424,23 +439,60 @@ Layout handle for configurable products
                        template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
                        as="matrix"/>
             </block>
+        </container>
+    </adminhtml_catalog_product_generatevariations>
+
+    <adminhtml_catalog_product_configurable_new>
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
+        <reference name="product_tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                   name="admin.product.edit.tab.super.config.grid.container">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                       template="Mage_Adminhtml::catalog/product/edit/super/generator.phtml"
+                       name="product-variations-generator"
+                       as="generator">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
+                           as="template"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
+                           as="attribute-renderer"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
+                           template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
+                           as="matrix"/>
+                </block>
+            </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_configurable_new>
 
     <adminhtml_catalog_product_configurable>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
-                <block type="Mage_Core_Block_Template" name="attribute-block-template"
-                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
-                       as="template"/>
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
-                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
-                       as="attribute-renderer"/>
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
-                       template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
-                       as="matrix"/>
+        <reference name="product_tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                   name="admin.product.edit.tab.super.config.grid.container">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                       template="Mage_Adminhtml::catalog/product/edit/super/generator.phtml"
+                       name="product-variations-generator"
+                       as="generator">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
+                           as="template"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
+                           template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
+                           as="attribute-renderer"/>
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
+                           template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
+                           as="matrix"/>
+                </block>
             </block>
+            <action method="addTab">
+                <name>super_config</name>
+                <block>admin.product.edit.tab.super.config.grid.container</block>
+            </action>
         </reference>
     </adminhtml_catalog_product_configurable>
 
@@ -463,7 +515,15 @@ Layout handle for configurable products
 
     <adminhtml_catalog_product_attribute_edit>
         <reference name="left">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs">
+                <container label="Main" name="main">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="base" />
+                    <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced" />
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options" />
+                </container>
+                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels" />
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front" />
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit" name="attribute_edit_content"></block>
@@ -472,6 +532,22 @@ Layout handle for configurable products
             <block type="Mage_Adminhtml_Block_Template" name="attribute_edit_js" template="catalog/product/attribute/js.phtml"></block>
         </reference>
     </adminhtml_catalog_product_attribute_edit>
+
+    <adminhtml_catalog_product_attribute_edit_popup>
+        <remove name="left" />
+        <reference name="attribute_edit_content">
+            <arguments>
+                <template>Mage_Adminhtml::catalog/product/attribute/form.phtml</template>
+            </arguments>
+            <container name="form" label="Form">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="main" />
+                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options" />
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options" />
+                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels" />
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front-options" />
+            </container>
+        </reference>
+    </adminhtml_catalog_product_attribute_edit_popup>
 
     <adminhtml_catalog_category_edit>
         <update handle="editor"/>

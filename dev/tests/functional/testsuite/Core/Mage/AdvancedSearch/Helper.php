@@ -21,22 +21,29 @@ class Core_Mage_AdvancedSearch_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Do Advanced Search
      *
-     * @param $productData
+     * @param array $productData
      */
-    public function frontCatalogAdvancedSearch($productData)
+    public function frontCatalogAdvancedSearch(array $productData)
     {
-        $searchFormFieldMap =
-            array('name' => 'name', 'description' => 'description', 'short_description' => 'short_description',
-                  'sku'  => 'sku', 'price[from]' => 'price_from', 'price[to]' => 'price_to',);
-        $searchString = '';
-        foreach ($searchFormFieldMap as $fieldName => $attributeName) {
-            $attributeValue = !empty($productData[$attributeName]) ? $productData[$attributeName] : '';
-            $searchString .= '&' . urlencode($fieldName) . '=' . urlencode($attributeValue);
-        }
-        if (!empty($searchString)) {
-            $searchString = substr($searchString, 1);
-        }
-        $this->addParameter('searchResult', $searchString);
         $this->fillFieldset($productData, 'advanced_search_information');
+        $this->formAdvancedSearchUrlParameter();
+        $this->saveForm('search');
+    }
+
+    /**
+     * Form Url data for Advanced Search
+     */
+    public function formAdvancedSearchUrlParameter()
+    {
+        $paramData = array();
+        $fieldsetElement = $this->getControlElement('fieldset', 'advanced_search_information');
+        /** @var $element PHPUnit_Extensions_Selenium2TestCase_Element */
+        foreach ($this->getChildElements($fieldsetElement, '//input', false) as $element) {
+            $paramData[$element->attribute('name')] = $element->attribute('value');
+        }
+        foreach ($this->getChildElements($fieldsetElement, '//select', false) as $element) {
+            $paramData[$element->attribute('name')] = $element->attribute('value');
+        }
+        $this->addParameter('searchResult', http_build_query($paramData));
     }
 }

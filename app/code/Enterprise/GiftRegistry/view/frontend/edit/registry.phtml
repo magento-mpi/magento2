@@ -71,6 +71,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                     head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
                         function() {
                             $('#<?php echo $field ?>').regionUpdater({
+                                optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
                                 regionListId: '#<?php echo $field ?>_region',
                                 regionInputId: '#<?php echo $field ?>_region_text',
                                 isRegionRequired: false,

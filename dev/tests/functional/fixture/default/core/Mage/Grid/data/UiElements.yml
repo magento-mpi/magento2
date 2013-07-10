@@ -200,6 +200,27 @@ url_rewrite_management:
         6: Options
         7: Action
 
+#dataset for ui elements in Permissions Locked Users
+permissions_locked_users:
+    fieldset:
+        locked_user_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        submit: ~
+    dropdown:
+        locked_actions: ~
+    field:
+        username: ~
+    dropdown:
+            locked_actions: ~
+    headers:
+        0: ' '
+        1: ID
+        2: Username
+        3: Last login
+        4: Failures
+        5: Locked until
 
 #dataset for ui elements in Manage Attribute Sets grid
 manage_attribute_sets:

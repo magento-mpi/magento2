@@ -18,6 +18,13 @@
  */
 class Enterprise_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
 {
+    public function setUpBeforeTests()
+    {
+        parent::setUpBeforeTests();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('CustomerSegment/enable_customer_segment');
+    }
+
     public function uiElementsTestDataProvider()
     {
         return array(
@@ -51,6 +58,8 @@ class Enterprise_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             array('google_content_manage_attributes'),
             array('manage_invitations'),
             array('customer_segment_report'),
+            //array('report_tag_product'),
+            //array('report_tag_customer'),
             array('report_search'),
             array('manage_ratings'),
             array('admin_action_log_report'),

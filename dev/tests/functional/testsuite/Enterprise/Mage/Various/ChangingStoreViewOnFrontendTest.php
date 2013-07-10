@@ -32,39 +32,31 @@ class Enterprise_Mage_Various_ChangingStoreViewOnFrontendTest extends Mage_Selen
     public function changingStoreViewOnEnterpriseTheme()
     {
         $storeData = $this->loadDataSet('Store', 'generic_store');
-        $firstStoreViewData =
-            $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
-        $secondStoreViewData =
-            $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
+        $firstStoreView = $this->loadDataSet('StoreView', 'generic_store_view',
+            array('store_name' => $storeData['store_name']));
+        $secondStoreView = $this->loadDataSet('StoreView', 'generic_store_view',
+            array('store_name' => $storeData['store_name']));
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
-        $xpath = $this->_getControlXpath('link', 'design_theme_link');
-        if (!$this->elementIsPresent($xpath . "[@class='open']")) {
-            $this->clickControl('link', 'design_theme_link', false);
-        }
-        $dropdownXpath = $this->_getControlXpath('dropdown', 'design_theme');
-        if (!$this->elementIsPresent(
-            $dropdownXpath . "//option[@selected='selected' and @value='enterprise/default/default']")
-        ) {
-            $this->fillDropdown('design_theme', 'enterprise/default/default');
-            $this->clickButton('save_config');
-            $this->assertMessagePresent('success', 'success_saved_config');
-        }
+        $this->systemConfigurationHelper()->expandFieldSet('design_themes');
+        $this->fillDropdown('design_theme', 'Magento Fixed Design');
+        $this->clickButton('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore($storeData, 'store');
         $this->assertMessagePresent('success', 'success_saved_store');
-        $this->storeHelper()->createStore($firstStoreViewData, 'store_view');
+        $this->storeHelper()->createStore($firstStoreView, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
-        $this->storeHelper()->createStore($secondStoreViewData, 'store_view');
+        $this->storeHelper()->createStore($secondStoreView, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
         $this->reindexInvalidedData();
         $this->flushCache();
         $this->frontend();
+        $this->addParameter('storeViewCode', $secondStoreView['store_view_code']);
         $this->addParameter('store', $storeData['store_name']);
-        $this->addParameter('storeViewCode', $secondStoreViewData['store_view_code']);
-        $this->clickControl('link', 'select_store_link');
-        $this->selectFrontStoreView($secondStoreViewData['store_view_name']);
+        $this->clickControl('link', 'select_store');
+        $this->selectFrontStoreView($secondStoreView['store_view_name']);
         $this->validatePage();
     }
 }

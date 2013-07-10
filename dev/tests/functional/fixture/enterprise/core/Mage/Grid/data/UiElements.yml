@@ -30,7 +30,7 @@ manage_roles:
 #dataset for ui elements in Manage Product Rules grid
 manage_product_rules:
     fieldset:
-          cms_banners_grid: tablename
+        cms_banners_grid: tablename
     button:
         reset_filter: ~
         search: ~
@@ -59,7 +59,7 @@ manage_product_rules:
 #dataset for ui elements in Manage Reward Exchange Rates grid
 manage_reward_rates:
     fieldset:
-          reward_point_grid: tablename
+        reward_point_grid: tablename
     button:
         reset_filter: ~
         search: ~
@@ -200,7 +200,7 @@ manage_customer_address_attributes:
         visible: ~
         view_on_page: ~
     field:
-        page: ~
+        page:
         attribute_code: ~
         attribute_label: ~
         sort: ~
@@ -375,77 +375,3 @@ manage_gift_card_account:
         6: Active
         7: Status
         8: Balance
-
-#dataset for ui elements in Scheduled Imports/Exports grid
-scheduled_import_export:
-    fieldset:
-        grid_and_filter: tablename
-    button:
-        reset_filter: ~
-        search: ~
-        submit: ~
-    link:
-        selectall: ~
-    field:
-        name: ~
-        date_from: ~
-        date_to: ~
-        grid: ~
-    dropdown:
-        operation: ~
-        entity_type: ~
-        frequency: ~
-        status: ~
-        last_outcome: ~
-        status_visibility: ~
-        grid_massaction_select: ~
-    headers:
-        0: ' '
-        1: Name
-        2: Operation
-        3: Entity Type
-        4: Last Run
-        5: Frequency
-        6: Status
-        7: Last Outcome
-        8: Action
-
-#dataset for ui elements for SKU Error Grid grid
-create_order_for_new_customer_sku:
-    fieldset:
-        sku_error_table: tablename
-    button:
-        configure_item: ~
-        remove_item: ~
-    field:
-        qty: ~
-    headers:
-        0: Product
-        1: Price
-        2: Quantity
-        3: Remove
-        
-#dataset for ui elements in Permissions Locked Users
-permissions_locked_users:
-    fieldset:
-        locked_user_grid: tablename
-    button:
-        reset_filter: ~
-        search: ~
-        submit: ~
-    dropdown:
-        locked_actions: ~
-    field:
-        username: ~
-    dropdown:
-            locked_actions: ~
-    headers:
-        0: ' '
-        1: ID
-        2: Username
-        3: Last login
-        4: Failures
-        5: Unlocked
-
-
-

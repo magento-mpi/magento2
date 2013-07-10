@@ -27,15 +27,34 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->clickButton('add_new_admin_user');
         $this->fillForm($userData, 'user_info');
-        $first = (isset($userData['first_name'])) ? $userData['first_name'] : '';
-        $last = (isset($userData['last_name'])) ? $userData['last_name'] : '';
-        $param = $first . ' ' . $last;
-        $this->addParameter('elementTitle', $param);
         if (array_key_exists('role_name', $userData)) {
             $this->openTab('user_role');
             $this->searchAndChoose(array('role_name' => $userData['role_name']), 'permissions_user_roles');
         }
         $this->saveForm('save_admin_user');
+    }
+
+    /**
+     * @param array $searchData
+     */
+    public function openAdminUser(array $searchData)
+    {
+        //Search Admin User
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $userLocator = $this->search($searchData, 'permissionsUserGrid');
+        $this->assertNotNull($userLocator, 'Admin User is not found with data: ' . print_r($searchData, true));
+        $userRowElement = $this->getElement($userLocator);
+        $userUrl = $userRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId1 = $this->getColumnIdByName('First Name');
+        $cellId2 = $this->getColumnIdByName('Last Name');
+        $cellElement1 = trim($this->getChildElement($userRowElement, 'td[' . $cellId1 . ']')->text());
+        $cellElement2 = trim($this->getChildElement($userRowElement, 'td[' . $cellId2 . ']')->text());
+        $this->addParameter('elementTitle', $cellElement1 . ' ' . $cellElement2);
+        $this->addParameter('id', $this->defineIdFromUrl($userUrl));
+        //Open Admin User
+        $this->url($userUrl);
+        $this->validatePage('edit_admin_user');
     }
 
     /**
@@ -45,12 +64,33 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function loginAdmin($loginData)
     {
-        $waitCondition = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
-                               $this->_getControlXpath('pageelement', 'admin_logo'));
-        $this->fillForm($loginData);
+        $waitCondition = array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('pageelement', 'admin_logo')
+        );
+        $this->fillFieldset($loginData, 'log_in');
         $this->clickButton('login', false);
         $this->waitForElement($waitCondition);
         $this->validatePage();
+        if ($this->controlIsVisible('button', 'close_notification')) {
+            $this->clickControl('button', 'close_notification', false);
+        }
+    }
+
+    /**
+     * Go to My Account link from Account Settings area
+     */
+    public function goToMyAccount()
+    {
+        $adminUserLocator = $this->_getControlXpath('link', 'account_avatar');
+        $availableElement = $this->elementIsPresent($adminUserLocator);
+        if ($availableElement) {
+            $this->focusOnElement($availableElement);
+            $this->clickControl('link', 'account_avatar', false);
+            $this->clickControl('link', 'account_settings');
+        }
+        $this->assertTrue($this->checkCurrentPage('my_account'), $this->getParsedMessages('verification'));
     }
 
     /**
@@ -60,8 +100,11 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function forgotPassword($emailData)
     {
-        $waitCondition = array($this->_getMessageXpath('general_success'), $this->_getMessageXpath('general_error'),
-                               $this->_getMessageXpath('general_validation'));
+        $waitCondition = array(
+            $this->_getMessageXpath('general_success'),
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation')
+        );
         $this->clickControl('link', 'forgot_password');
         $this->assertTrue($this->checkCurrentPage('forgot_password'));
         $this->fillForm($emailData);
@@ -74,16 +117,15 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      * Create New Role.
      *
      * @param array $roleData
-     * @param string $separator
      */
-    public function createRole(array $roleData, $separator = '/')
+    public function createRole(array $roleData)
     {
-        $roleInfo = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
+        $roleName = (isset($roleData['role_info_tab']['role_name'])) ? $roleData['role_info_tab']['role_name'] : '';
         $roleResources = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
         $this->clickButton('add_new_role');
-        $this->fillTab($roleInfo, 'role_info');
+        $this->fillField('role_name', $roleName);
         if ($roleResources) {
-            $this->fillRolesResources($roleResources, $separator);
+            $this->fillRolesResources($roleResources);
         }
         $this->saveForm('save_role');
     }
@@ -92,15 +134,14 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      * Fill Roles Resources Tab
      *
      * @param array $roleResources
-     * @param string $separator
      */
-    public function fillRolesResources(array $roleResources, $separator = '/')
+    public function fillRolesResources(array $roleResources)
     {
         $roleWebsites = (isset($roleResources['role_scopes'])) ? $roleResources['role_scopes'] : array();
         $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
-        $aclResource = (isset($roleAccess['resource_acl'])) ? $roleAccess['resource_acl'] : array();
+        $this->openTab('role_resources');
         $this->fillRoleScopes($roleWebsites);
-        $this->fillRoleAccess($roleAccess, $aclResource, $separator);
+        $this->fillRoleAccess($roleAccess);
     }
 
     /**
@@ -110,17 +151,13 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillRoleScopes(array $roleWebsites)
     {
-        if (!empty($roleWebsites)) {
-            if (isset($roleWebsites['scopes'])) {
-                $this->fillTab(array('role_scopes' => $roleWebsites['scopes']), 'role_resources');
-                unset($roleWebsites['scopes']);
-            }
-            if (!empty($roleWebsites)) {
-                foreach ($roleWebsites as $website) {
-                    $this->addParameter('websiteName', $website);
-                    $this->fillCheckbox('websites', 'yes');
-                }
-            }
+        if (isset($roleWebsites['scopes'])) {
+            $this->fillDropdown('role_scopes', $roleWebsites['scopes']);
+            unset($roleWebsites['scopes']);
+        }
+        foreach ($roleWebsites as $website) {
+            $this->addParameter('websiteName', $website);
+            $this->fillCheckbox('websites', 'yes');
         }
     }
 
@@ -128,78 +165,70 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      * Fill Roles Access on Roles Resources Tab
      *
      * @param array $roleAccess
-     * @param string $separator
      */
-    public function fillRoleAccess(array $roleAccess, $aclResource, $separator = '/')
+    public function fillRoleAccess(array $roleAccess)
     {
-        if (!empty($roleAccess)) {
-            if (isset($roleAccess['resource_access'])) {
-                $this->fillTab(array('resource_access' => $roleAccess['resource_access']), 'role_resources');
-                unset($roleAccess['resource_access']);
+        if (isset($roleAccess['resource_access'])) {
+            $this->fillDropdown('resource_access', $roleAccess['resource_access']);
+        }
+        if (isset($roleAccess['resource_acl'])) {
+            $access = is_string($roleAccess['resource_acl'])
+                ? explode(',', $roleAccess['resource_acl'])
+                : $roleAccess['resource_acl'];
+            foreach ($access as $path) {
+                $this->fillCheckbox(trim($path), 'Yes');
             }
-            if (!empty($roleAccess)) {
-                if (isset($roleAccess['resource_acl'])) {
-                    $this->clickControl('checkbox', $aclResource, false);
-                    unset($roleAccess['resource_acl']);
-                } else {
-                    foreach ($roleAccess as $category) {
-                        $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
-                    }
-                }
+        }
+        if (isset($roleAccess['resource_acl_skip'])) {
+            $access = is_string($roleAccess['resource_acl_skip'])
+                ? explode(',', $roleAccess['resource_acl_skip'])
+                : $roleAccess['resource_acl_skip'];
+            foreach ($access as $path) {
+                $this->fillCheckbox(trim($path), 'No');
             }
         }
     }
 
     /**
-     * @param array $searchRole
+     * @param array $searchData
      */
-    public function openRole(array $searchRole)
+    public function openRole(array $searchData)
     {
-        $productSearch = $this->_prepareDataForSearch($searchRole);
-        $xpathTR = $this->search($productSearch, 'role_list');
-        $this->assertNotNull($xpathTR, 'Role is not found');
-        $cellId = $this->getColumnIdByName('Role');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
-    }
-
-    /*
-     * EditRole identify variables
-     * @param array $roleData
-     */
-    protected function _editRoleVars(array $roleData)
-    {
-        $result = array();
-        $result['searchUserRole'] = (isset($roleData['search_role'])) ? $roleData['search_role'] : array();
-        $result['roleInfo'] = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
-        $result['roleResources'] = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
-        $result['roleUsers'] = (isset($roleData['role_users_tab'])) ? $roleData['role_users_tab'] : array();
-        return $result;
+        //Search Role
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $roleLocator = $this->search($searchData, 'role_list');
+        $this->assertNotNull($roleLocator, 'Role is not found with data: ' . print_r($searchData, true));
+        $roleRowElement = $this->getElement($roleLocator);
+        $roleUrl = $roleRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Name');
+        $cellElement = $this->getChildElement($roleRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($roleUrl));
+        //Open Role
+        $this->url($roleUrl);
+        $this->validatePage('admin_edit_role');
     }
 
     /**
      * Edit Role
      *
      * @param array $roleData
-     * @param string $separator
      */
-    public function editRole(array $roleData, $separator = '/')
+    public function editRole(array $roleData)
     {
-        $result = $this->_editRoleVars($roleData);
-        if (!empty($result['searchUserRole'])) {
-            $this->openRole($result['searchUserRole']);
+        if (isset($roleData['search_role'])) {
+            $this->openRole($roleData['search_role']);
         }
-        $this->fillTab($result['roleInfo'], 'role_info');
-        if (!empty($roleResources)) {
-            $this->fillRolesResources($roleResources, $separator);
+        if (isset($roleData['role_info_tab'])) {
+            $this->fillTab($roleData['role_info_tab'], 'role_info');
         }
-        if (!empty($roleUsers)) {
+        if (isset($roleData['role_resources_tab'])) {
+            $this->fillRolesResources($roleData['role_resources_tab']);
+        }
+        if (isset($roleData['role_users_tab'])) {
             $this->openTab('role_users');
-            foreach ($roleUsers as $user) {
+            foreach ($roleData['role_users_tab'] as $user) {
                 $this->searchAndChoose($user, 'role_users');
             }
         }
@@ -213,9 +242,8 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteRole(array $roleData)
     {
-        $searchUserRole = (isset($roleData['search_role'])) ? $roleData['search_role'] : array();
-        if (!empty($searchUserRole)) {
-            $this->openRole($searchUserRole);
+        if (isset($roleData['search_role'])) {
+            $this->openRole($roleData['search_role']);
         }
         $this->clickButtonAndConfirm('delete_role', 'confirmation_for_delete');
     }

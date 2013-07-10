@@ -36,10 +36,12 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
         $this->addNewGroup($groups);
         $this->addAttributeToSet($associatedAttr);
         if ($groups || $associatedAttr) {
-            $waitCondition =
-                array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
-                      $this->_getControlXpath('fieldset', 'attribute_sets_grid',
-                          $this->getUimapPage('admin', 'manage_attribute_sets')));
+            $waitCondition = array(
+                $this->_getMessageXpath('general_error'),
+                $this->_getMessageXpath('general_validation'),
+                $this->_getControlXpath('fieldset', 'attribute_sets_grid',
+                    $this->getUimapPage('admin', 'manage_attribute_sets'))
+            );
             $this->clickButton('save_attribute_set', false);
             $this->waitForElement($waitCondition);
             $this->validatePage();
@@ -168,11 +170,9 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
     {
         foreach ($attributes as $attributeCode) {
             $this->addParameter('attributeName', $attributeCode);
-            $unassignedGroup = $this->getControlElement('pageelement', 'unassigned_placeholder');
-            $assignedAttribute = $this->getControlElement('link', 'group_attribute');
-            $this->focusOnElement($unassignedGroup);
             $this->clickControl('link', 'group_attribute', false);
-            $this->moveto($assignedAttribute);
+            $this->focusOnElement($this->getControlElement('pageelement', 'unassigned_placeholder'));
+            $this->moveto($this->getControlElement('link', 'group_attribute'));
             $this->buttondown();
             $this->focusOnElement($this->waitForControl('pageelement', 'unassigned_placeholder'));
             $this->moveto($this->getControlElement('pageelement', 'unassigned_placeholder'));

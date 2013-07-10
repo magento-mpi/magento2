@@ -18,7 +18,14 @@
  */
 class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_TestCase
 {
-    protected $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual', 'downloadable');
+    protected $_productTypes = array('grouped', 'configurable', 'bundle', 'simple', 'virtual', 'downloadable');
+
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+    }
 
     protected function assertPreconditions()
     {
@@ -44,7 +51,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Review Related products(inStock) on frontend assigned to Configurable product.</p>
+     * <p>Review Related products(inStock) on frontend assigned to configurable product.</p>
      *
      * @param array $testData
      * @param string $linkingType
@@ -61,15 +68,17 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         list($linking, $forLinking) = $testData;
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
-        $assign = $this->loadDataSet('Product', $assignType . '_1',
-                                     array($assignType . '_search_name' => $forLinking['product_name'],
-                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        $assign = $this->loadDataSet('Product', $assignType . '_1', array(
+            $assignType . '_search_name' => $forLinking['product_name'],
+            $assignType . '_search_sku' => $forLinking['product_sku']
+        ));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
         $this->productHelper()->saveProduct('continueEdit');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -78,7 +87,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $this->addParameter('productName', $forLinking['product_name']);
         if (!$this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
-                                              . ' is not on "' . $this->getCurrentPage() . '" page');
+                . ' is not on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -99,19 +108,21 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $assignType = 'cross_sells';
         $assignProductType = 'configurable';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = $this->loadDataSet('Product', 'configurable_options_to_add_to_shopping_cart',
-                                         $linking[$assignProductType . 'Option']);
+        $dataForBuy = $this->loadDataSet('Product', $assignProductType . '_options_to_add_to_shopping_cart',
+            $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
-        $assign = $this->loadDataSet('Product', $assignType . '_1',
-                                     array($assignType . '_search_name' => $forLinking['product_name'],
-                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        $assign = $this->loadDataSet('Product', $assignType . '_1', array(
+            $assignType . '_search_name' => $forLinking['product_name'],
+            $assignType . '_search_sku' => $forLinking['product_sku']
+        ));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
         $this->productHelper()->saveProduct('continueEdit');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -123,7 +134,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $this->addParameter('productName', $forLinking['product_name']);
         if (!$this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
-                                              . ' is not on "' . $this->getCurrentPage() . '" page');
+                . ' is not on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -146,15 +157,17 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         list($linking, $forLinking) = $testData;
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
-        $assign = $this->loadDataSet('Product', $assignType . '_1',
-                                     array($assignType . '_search_name' => $forLinking['product_name'],
-                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        $assign = $this->loadDataSet('Product', $assignType . '_1', array(
+            $assignType . '_search_name' => $forLinking['product_name'],
+            $assignType . '_search_sku' => $forLinking['product_sku']
+        ));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
         $this->productHelper()->saveProduct('continueEdit');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -163,7 +176,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $this->addParameter('productName', $forLinking['product_name']);
         if (!$this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
-                                              . ' is not on "' . $this->getCurrentPage() . '" page');
+                . ' is not on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -186,23 +199,24 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         list($linking, $forLinking) = $testData;
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
-        $assign = $this->loadDataSet('Product', $assignType . '_1',
-                                     array($assignType . '_search_name' => $forLinking['product_name'],
-                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        $assign = $this->loadDataSet('Product', $assignType . '_1', array(
+            $assignType . '_search_name' => $forLinking['product_name'],
+            $assignType . '_search_sku' => $forLinking['product_sku']
+        ));
         $searchAssigned = $this->loadDataSet('Product', 'product_search', $forLinking);
         //Steps
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->productHelper()->openProductTab('inventory');
-        $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->productHelper()->saveProduct('continueEdit');
+        $this->fillDropdown('general_stock_availability', 'Out of Stock');
+        $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Assign product
-        $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
         $this->productHelper()->saveProduct('continueEdit');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -212,7 +226,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $this->addParameter('productName', $forLinking['product_name']);
         if ($this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
-                                              . ' is on "' . $this->getCurrentPage() . '" page');
+                . ' is on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -234,27 +248,28 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $assignProductType = 'configurable';
         list($linking, $forLinking) = $testData;
         $dataForBuy = $this->loadDataSet('Product', $assignProductType . '_options_to_add_to_shopping_cart',
-                                         $linking[$assignProductType . 'Option']);
+            $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
-        $assign = $this->loadDataSet('Product', $assignType . '_1',
-                                     array($assignType . '_search_name' => $forLinking['product_name'],
-                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        $assign = $this->loadDataSet('Product', $assignType . '_1', array(
+            $assignType . '_search_name' => $forLinking['product_name'],
+            $assignType . '_search_sku' => $forLinking['product_sku']
+        ));
         //Steps
         $searchAssigned = $this->loadDataSet('Product', 'product_search', $forLinking);
         //Steps
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->productHelper()->openProductTab('inventory');
-        $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->productHelper()->saveProduct('continueEdit');
+        $this->fillDropdown('general_stock_availability', 'Out of Stock');
+        $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Assign product
-        $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
         $this->productHelper()->saveProduct('continueEdit');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -266,7 +281,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $this->addParameter('productName', $forLinking['product_name']);
         if ($this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
-                                              . ' is on "' . $this->getCurrentPage() . '" page');
+                . ' is on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -289,24 +304,25 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         list($linking, $forLinking) = $testData;
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
-        $assign = $this->loadDataSet('Product', $assignType . '_1',
-                                     array($assignType . '_search_name' => $forLinking['product_name'],
-                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        $assign = $this->loadDataSet('Product', $assignType . '_1', array(
+            $assignType . '_search_name' => $forLinking['product_name'],
+            $assignType . '_search_sku' => $forLinking['product_sku']
+        ));
         //Steps
         $searchAssigned = $this->loadDataSet('Product', 'product_search', $forLinking);
         //Steps
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->productHelper()->openProductTab('inventory');
-        $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->productHelper()->saveProduct('continueEdit');
+        $this->fillDropdown('general_stock_availability', 'Out of Stock');
+        $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
         //Assign product
-        $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
         $this->productHelper()->saveProduct('continueEdit');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -315,7 +331,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
         $this->addParameter('productName', $forLinking['product_name']);
         if ($this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
-                                              . ' is on "' . $this->getCurrentPage() . '" page');
+                . ' is on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }

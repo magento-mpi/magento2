@@ -18,6 +18,13 @@
  */
 class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -25,27 +32,31 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
 
     /**
      * <p>Get TOP entity, Customer Name and Total Amount, from Grid </p>
+     * @param null|string $dateFrom
+     * @param null|string $dateTo
      * @return array
      */
-    protected  function _getTopCustomerNameAndTotalAmount()
+    protected function _getTopCustomerNameAndTotalAmount($dateFrom = null, $dateTo = null)
     {
         $this->navigate('report_customer_totals');
-        $this->gridHelper()->fillDateFromTo();
+        $this->gridHelper()->fillDateFromTo($dateFrom, $dateTo);
         $this->clickButton('refresh');
         //get TOP  "Total Order Amount" from first row in grid
-        if ($this->controlIsPresent('pageelement', 'top_order_amount')) {
-            $topOrderAmountData =
-                preg_replace("/[^\d.]/", "", $this->getControlAttribute('pageelement', 'top_order_amount', 'text'));
-            //get TOP "Customer Name" from first row in grid
-            $topCustomerNameData = $this->getControlAttribute('pageelement', 'top_customer_name', 'text');
-            //get "Number of Orders" from first row in grid
-            $topNumberOfOrderData = $this->getControlAttribute('pageelement', 'top_number_of_order', 'text');
-
-            return array('customer_name'    => $topCustomerNameData, 'order_amount' => $topOrderAmountData,
-                         'number_of_orders' => $topNumberOfOrderData);
+        if (!$this->controlIsVisible('pageelement', 'top_order_amount')) {
+            return array('customer_name' => '', 'order_amount' => '', 'number_of_orders' => '');
         }
+        $topOrderAmountData = preg_replace('/[^\d.]/', '',
+            $this->getControlAttribute('pageelement', 'top_order_amount', 'text'));
+        //get TOP "Customer Name" from first row in grid
+        $topCustomerNameData = $this->getControlAttribute('pageelement', 'top_customer_name', 'text');
+        //get "Number of Orders" from first row in grid
+        $topNumberOfOrderData = $this->getControlAttribute('pageelement', 'top_number_of_order', 'text');
 
-        return null;
+        return array(
+            'customer_name' => $topCustomerNameData,
+            'order_amount' => $topOrderAmountData,
+            'number_of_orders' => $topNumberOfOrderData
+        );
     }
 
     /**
@@ -64,13 +75,24 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
     {
         $topReportData = $this->_getTopCustomerNameAndTotalAmount();
         $priceForTestProduct = array();
-        if (isset($topReportData)) {
+        if ($topReportData['order_amount'] != '') {
             $priceForTestProduct['general_price'] = $topReportData['order_amount'] * 2;
         }
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $priceForTestProduct);
         $userData = $this->loadDataSet('Customers', 'generic_customer_account',
             array('first_name' => $this->generate('string', 10, ':alnum:')));
-        $addressData = $this->loadDataSet('SalesOrderActions', 'customer_addresses');
+        $addressData = $this->loadDataSet('Customers', 'generic_address', array(
+            'first_name' => $userData['first_name'],
+            'default_billing_address' => 'Yes',
+            'default_shipping_address' => 'Yes'
+        ));
+        $orderCreationData = $this->loadDataSet('SalesOrder', 'order_physical', array(
+            'filter_sku' => $simple['general_sku'],
+            'email' => $userData['email'],
+            'customer_email' => '%noValue%',
+            'billing_addr_data' => '%noValue%',
+            'shipping_addr_data' => $this->loadDataSet('SalesOrder', 'shipping_address_same_as_blling')
+        ));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
@@ -81,22 +103,19 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-       $orderData = array(
-           'sku'   => $simple['general_name'],
-           'email' => $userData['email'],
-       );
-        $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $orderData['sku'], 'email' => $orderData['email']));
+        //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderCreationData);
+        //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-
+        $orderDate = $this->getControlAttribute('pageelement', 'order_date', 'text');
         return array(
+            'order_date' => $orderDate,
             'first_name' => $userData['first_name'],
-            'last_name'  => $userData['last_name'],
-            'email'      => $userData['email'],
-            'price'      => $simple['general_price'],
-            'sku'        => $simple['general_name'],
+            'last_name' => $userData['last_name'],
+            'email' => $userData['email'],
+            'price' => $simple['general_price'],
+            'sku' => $simple['general_sku'],
         );
     }
 
@@ -108,34 +127,40 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
      * <p>4. Create the second order with test product</p>
      * <p>5. Go to Report>Customers> Orders total</p>
      * <p>Expected results:</p>
-     * <p>After step 3: TOP line in grid conatains First and Last name of test customer, number of order =1. Total amount is equals of simple test product price</p>
-     * <p>After step 5: TOP line in grid conatains First and Last name of test customer, number of order =2. Total amount is equals of simple test product price *2</p>
-     *
-     * @depends createTopEntityInReportGridTest
+     * <p>After step 3: TOP line in grid contains First and Last name of test customer, number of order =1.
+     *    Total amount is equals of simple test product price</p>
+     * <p>After step 5: TOP line in grid contains First and Last name of test customer, number of order =2.
+     *    Total amount is equals of simple test product price *2</p>
      *
      * @test
+     * @depends createTopEntityInReportGridTest
      * @TestlinkId TL-MAGE-6442
      */
-    public function verifyDataInGridTest($testOrderData)
+    public function verifyDataInGridTest($orderData)
     {
-        $topReportGridData = $this->_getTopCustomerNameAndTotalAmount();
+        $topReportData = $this->_getTopCustomerNameAndTotalAmount($orderData['order_date'], $orderData['order_date']);
 
-        $this->assertEquals($topReportGridData['customer_name'], $testOrderData['first_name'] . ' '
-                             . $testOrderData['last_name'], 'Customer Name is wrong' );
-        $this->assertEquals(1 , $topReportGridData['number_of_orders'], 'Number of orders is wrong');
-        $this->assertEquals($testOrderData['price'] , $topReportGridData['order_amount'], 'Order amount is wrong');
+        $this->assertEquals($orderData['first_name'] . ' ' . $orderData['last_name'], $topReportData['customer_name'],
+            'Customer Name is wrong');
+        $this->assertEquals(1, $topReportData['number_of_orders'], 'Number of orders is wrong');
+        $this->assertEquals($orderData['price'], $topReportData['order_amount'], 'Order amount is wrong');
         $this->navigate('manage_sales_orders');
-        $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data', array(
-            'filter_sku' => $testOrderData['sku'],
-            'email' => $testOrderData['email'])
-        );
+        $orderCreationData = $this->loadDataSet('SalesOrder', 'order_physical', array(
+            'filter_sku' => $orderData['sku'],
+            'email' => $orderData['email'],
+            'customer_email' => '%noValue%',
+            'billing_addr_data' => '%noValue%',
+            'shipping_addr_data' => $this->loadDataSet('SalesOrder', 'shipping_address_same_as_blling')
+        ));
         $this->orderHelper()->createOrder($orderCreationData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $topReportGridDataUpdated = $this->_getTopCustomerNameAndTotalAmount();
-        $this->assertEquals($topReportGridDataUpdated['customer_name'], $testOrderData['first_name'] . ' '
-                             . $testOrderData['last_name'], 'Customer Name is wrong' );
-        $this->assertEquals(2 , $topReportGridDataUpdated['number_of_orders'], 'Number of orders is wrong');
-        $this->assertEquals($testOrderData['price'] * 2 , $topReportGridDataUpdated['order_amount'],
+        $date = $this->getControlAttribute('pageelement', 'order_date', 'text');
+
+        $topReportDataUpdated = $this->_getTopCustomerNameAndTotalAmount($orderData['order_date'], $date);
+        $this->assertEquals($topReportDataUpdated['customer_name'], $orderData['first_name'] . ' '
+            . $orderData['last_name'], 'Customer Name is wrong');
+        $this->assertEquals(2, $topReportDataUpdated['number_of_orders'], 'Number of orders is wrong');
+        $this->assertEquals($orderData['price'] * 2, $topReportDataUpdated['order_amount'],
             'Order amount is wrong');
     }
 
@@ -162,26 +187,34 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
      */
     public function verifyCountOfEntityInNewAccountGrid()
     {
-        $this->navigate('report_customer_accounts');
-        $this->gridHelper()->fillDateFromTo();
-        $this->clickButton('refresh');
-        $this->pleaseWait();
-        $gridXpath = $this->_getControlXpath('pageelement', 'report_customer_accounts_table') . '/tfoot/tr/th[2]';
-        $count = count($this->getElements($gridXpath, false));
+        //Data
+        $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData2 = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData1);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $firstDate = $this->customerHelper()->getCustomerRegistrationDate(array('email' => $userData1['email']));
+        $this->navigate('report_customer_accounts');
+        $this->gridHelper()->fillDateFromTo($firstDate, $firstDate);
+        $this->clickButton('refresh');
+        $gridXpath = $this->_getControlXpath('pageelement', 'report_customer_accounts_table') . '/tfoot/tr/th[2]';
+        $beforeCount = trim($this->getElement($gridXpath)->text());
+
         $this->frontend();
         $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
+        $this->customerHelper()->registerCustomer($userData2);
         $this->assertMessagePresent('success', 'success_registration');
         $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $secondDate = $this->customerHelper()->getCustomerRegistrationDate(array('email' => $userData1['email']));
         $this->navigate('report_customer_accounts');
-        $this->gridHelper()->fillDateFromTo();
+        $this->gridHelper()->fillDateFromTo($firstDate, $secondDate);
         $this->clickButton('refresh');
-        $this->pleaseWait();
         //Verifying
-        $this->assertEquals($count + 1, count($this->getElements($gridXpath, false)),
-            'Wrong records number in grid report_customer_accounts_table');
+        $afterCount = trim($this->getElement($gridXpath)->text());
+        $this->assertEquals($beforeCount + 1, $afterCount,
+            'Wrong records number in grid report_customer_accounts_table. Before was ' . $afterCount
+                . ' after - ' . $afterCount);
     }
 }

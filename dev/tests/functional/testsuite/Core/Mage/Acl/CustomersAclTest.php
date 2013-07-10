@@ -20,15 +20,11 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 {
     public function assertPreConditions()
     {
-        $this->admin('log_in_to_admin', false);
+        $this->admin('log_in_to_admin');
         $this->logoutAdminUser();
         $this->loginAdminUser();
     }
 
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
     protected function tearDownAfterTestClass()
     {
         $this->logoutAdminUser();
@@ -46,7 +42,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'customers_manage'));
+            array('resource_acl' => 'customers-all_customers'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -58,7 +54,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //login as admin user with specific(test) role
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_customers');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->getParsedMessages());
         //Verifying  count of main menu elements
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
@@ -137,7 +133,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'customer_groups'));
+            array('resource_acl' => 'stores-other_settings-customer_groups'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -149,7 +145,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //login as admin user with specific(test) role
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_customer_groups');
+        $this->assertTrue($this->checkCurrentPage('manage_customer_groups'), $this->getParsedMessages());
         //Verifying  count of main menu elements
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
@@ -185,7 +181,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'customers_online'));
+            array('resource_acl' => 'customers-now_online'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -197,7 +193,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //login as admin user with specific(test) role
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('online_customers');
+        $this->assertTrue($this->checkCurrentPage('online_customers'), $this->getParsedMessages());
         //Verifying  count of main menu elements
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present

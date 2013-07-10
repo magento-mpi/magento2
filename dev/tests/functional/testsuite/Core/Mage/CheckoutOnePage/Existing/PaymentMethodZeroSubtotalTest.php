@@ -49,23 +49,20 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodZeroSubtotalTest extends M
      *
      * @return string
      * @test
-     * @skipTearDown
      */
     public function preconditionsForTests()
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_zero_price');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
-        //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+
         return array('sku' => $simple['general_name'], 'email' => $userData['email']);
     }
 

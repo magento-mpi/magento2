@@ -28,7 +28,6 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
     public function assertPreConditions()
     {
         $this->logoutCustomer();
-        $this->loginAdminUser();
     }
 
     public function tearDownAfterTestClass()
@@ -46,6 +45,7 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
     public function enableCaptcha()
     {
         //Steps
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/enable_front_forgot_password_captcha');
         $this->frontend('forgot_customer_password');
@@ -72,8 +72,8 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
         $this->clickButton('submit', false);
         //Verification
         $this->validatePage('forgot_customer_password');
-        $this->assertMessagePresent('validation', 'empty_captcha');
-
+        $this->addFieldIdToMessage('field', 'captcha');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -85,6 +85,7 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
      */
     public function wrongCaptcha()
     {
+        $this->markTestIncomplete('BUG: Work with Wrong captcha');
         //Data
         $data = array('email' => $this->generate('email', 20, 'valid'), 'captcha' => '1234');
         //Steps
