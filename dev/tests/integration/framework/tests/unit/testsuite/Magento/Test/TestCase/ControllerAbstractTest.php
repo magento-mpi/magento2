@@ -29,7 +29,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
 
                 new Magento_Test_ObjectManager(
                     $factory,
-                    $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false)
+                    $instanceConfig
                 )
             );
         }
