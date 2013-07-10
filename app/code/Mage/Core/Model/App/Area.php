@@ -120,8 +120,8 @@ class Mage_Core_Model_App_Area
     public function detectDesign($request = null)
     {
         if ($this->_code == self::AREA_FRONTEND) {
-            $designExceptionApplied = ($request && $this->_applyUserAgentDesignException($request));
-            if (!$designExceptionApplied) {
+            $isDesignException = ($request && $this->_applyUserAgentDesignException($request));
+            if (!$isDesignException) {
                 $this->_getDesignChange()
                     ->loadChange(Mage::app()->getStore()->getId())
                     ->changeDesign($this->_getDesign());

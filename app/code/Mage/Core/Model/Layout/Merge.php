@@ -600,6 +600,7 @@ class Mage_Core_Model_Layout_Merge
          */
         $updatesRootPath = $this->_area . '/layout/updates';
         $updatesRoot = Mage::app()->getConfig()->getNode($updatesRootPath);
+        /** dispatch event to remove some nodes */
         Mage::dispatchEvent('core_layout_update_updates_get_after', array('updates' => $updatesRoot));
 
         /* Layout update files declared in configuration */
