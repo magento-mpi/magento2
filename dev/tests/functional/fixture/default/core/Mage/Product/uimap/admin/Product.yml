@@ -241,25 +241,29 @@ new_product:
                                     xpath: //div[*/*/span='%attributeTitle%']
                                     buttons:
                                         add_option_value: //*[@data-action='add-option']
-                                        delete_new_option: //tr[@data-role='option-container'][.//input[contains(@name,'[new-option-%newOptionId%]')]]//*[@data-action='delete']
-                                        locked_option: //*[@data-role='option-container'][*[@data-column='name' and text()='%attributeOption%']]//*[@class='action-locked' and @data-action='delete']
                                     checkboxes:
-                                        include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
-                                        include_new_variation_attribute: //input[contains(@name,'[new-option-%newOptionId%][include]')]
                                         use_default_label: //label[span='Use Default']
                                     fields:
-                                        variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
-                                        new_variation_attribute_price: //input[contains(@name,'[new-option-%newOptionId%][pricing_value]')]
-                                        frontend_label: //input[contains(@name,'[label]')]
-                                        new_option_label: //*[@data-column='name']//*[contains(@name,'[new-option-%newOptionId%]')]
-                                    dropdowns:
-                                        variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
+                                        frontend_label: //input[contains(@name,'[label]')][@data-store-label]
                                     links:
                                         delete_product_variation_attribute: //button[@title='Delete Variations Group']
                                         move_product_variation_attribute: //div[@title='Sort Variations']
                                         expand_product_variation_attribute: //strong[@data-toggle]
                                     pageelements:
                                         option_line: //tbody/tr
+                            -
+                                product_variation_attribute_option:
+                                    xpath: //div[*/*/span='%attributeTitle%']//tr[td='%attributeOption%' or .//input[contains(@name,'new-option-%newOptionId%')]]
+                                    buttons:
+                                        variation_attribute_price_type: //button[@data-toggle='dropdown']
+                                        variation_attribute_price_type_value: //div[button[@data-toggle='dropdown']]//a[text()='%priceType%']
+                                        delete_new_option: //button[@data-action='delete']
+                                        locked_option: //button[@disabled and @title='Delete']
+                                    checkboxes:
+                                        include_variation_attribute: //td[@data-column='include']//input[@type='checkbox']
+                                    fields:
+                                        variation_attribute_price: "//input[contains(@name,'[pricing_value]')]"
+                                        associated_attribute_value: //td[@data-column='name']//input
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@data-role='product-variations-matrix']//table

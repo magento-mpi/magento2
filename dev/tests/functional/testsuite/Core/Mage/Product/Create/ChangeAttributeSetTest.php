@@ -84,6 +84,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->createProduct($productData, $productType, false);
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
+        $this->productHelper()->openProductTab('general');
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is absent attribute $assignedAttribute, but shouldn't");
@@ -115,6 +116,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->createProduct($productData, $productType, false);
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
+        $this->productHelper()->openProductTab('general');
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");

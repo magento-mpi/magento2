@@ -55,8 +55,8 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
     public function deleteOptionValue($attributeData)
     {
         //Data
-        $newOption = $this->loadDataSet('Product', 'new_attribute_option', null, array(
-            'new_attr_value' => $this->generate('string', 15)));
+        $newOption = $this->loadDataSet('Product', 'general_configurable_attribute_with_price/option_1',
+            array('associated_attribute_value' => $this->generate('string', 15)));
         $attribute['attribute_1'] = $this->loadDataSet('Product', 'general_configurable_attribute_without_price',
             array('option_2' => $newOption),
             array(
@@ -99,7 +99,8 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
     public function addOptionValue($attributeData)
     {
         //Data
-        $newOption = $this->loadDataSet('Product', 'new_attribute_option', null, array('new_attr_value' => ''));
+        $newOption = $this->loadDataSet('Product', 'general_configurable_attribute_with_price/option_1',
+            array('associated_attribute_value' => ''));
         $attribute['attribute_1'] = $this->loadDataSet('Product', 'general_configurable_attribute_without_price',
             array('option_1' => $newOption),
             array('general_attribute_1' => $attributeData['attribute_properties']['attribute_label'])
@@ -120,9 +121,9 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->productHelper()->fillConfigurableSettings($attribute, false);
         $this->clickButton('generate_product_variations', false);
-        $this->addFieldIdToMessage(self::FIELD_TYPE_INPUT, 'new_option_label');
+        $this->addFieldIdToMessage(self::FIELD_TYPE_INPUT, 'associated_attribute_value');
         $this->assertMessagePresent(self::MESSAGE_TYPE_VALIDATION, 'empty_required_field');
-        $this->fillField('new_option_label', $attributeData['option_4']['admin_option_name']);
+        $this->fillField('associated_attribute_value', $attributeData['option_4']['admin_option_name']);
         $this->clickButton('generate_product_variations', false);
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->openAttribute($searchData);
@@ -143,8 +144,8 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
     public function verifyNewOptionAfterSave($attributeData)
     {
         //Data
-        $newOption = $this->loadDataSet('Product', 'new_attribute_option', null, array(
-            'new_attr_value' => $this->generate('string', 15)));
+        $newOption = $this->loadDataSet('Product', 'general_configurable_attribute_with_price/option_1',
+            array('associated_attribute_value' => $this->generate('string', 15)));
         $attribute['attribute_1'] = $this->loadDataSet('Product', 'general_configurable_attribute_without_price',
             array('option_1' => $newOption),
             array('general_attribute_1' => $attributeData['attribute_properties']['attribute_label'])
