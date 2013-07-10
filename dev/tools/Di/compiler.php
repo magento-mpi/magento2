@@ -110,6 +110,7 @@ try {
     if (!file_exists(dirname($compiledFile))) {
         mkdir(dirname($compiledFile), 0777, true);
     }
+    $relations = array_filter($relations);
 
     file_put_contents($compiledFile, $output);
     file_put_contents($relationsFile, $serializer->serialize($relations));
@@ -119,11 +120,11 @@ try {
     $pluginScanner = new Scanner\CompositeScanner();
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'etc');
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'config');
-    $pluginDefinitios = array();
+    $pluginDefinitions = array();
     foreach ($pluginScanner->collectEntities($files) as $entity) {
-        $pluginDefinitios[$entity] = get_class_methods($entity);
+        $pluginDefinitions[$entity] = get_class_methods($entity);
     }
-    $output = $serializer->serialize($pluginDefinitios);
+    $output = $serializer->serialize($pluginDefinitions);
 
     if (!file_exists(dirname($pluginDefFile))) {
         mkdir(dirname($pluginDefFile), 0777, true);

@@ -68,7 +68,7 @@ class Magento_Code_Reader_ClassReader
             if ($result) {
                 array_unshift($result, null);
             } else {
-                $result = null;
+                $result = array();
             }
         }
         return $result;

@@ -181,7 +181,7 @@ class Magento_Application
     {
         if (!Mage::getObjectManager()) {
             $config = new Mage_Core_Model_Config_Primary(BP, $_SERVER);
-            Mage::setObjectManager(Mage_Core_Model_ObjectManager::createInstance($config));
+            Mage::setObjectManager(new Mage_Core_Model_ObjectManager($config));
         }
 
         /** @var $app Mage_Core_Model_App */

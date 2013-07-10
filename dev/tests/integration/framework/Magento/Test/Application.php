@@ -171,25 +171,7 @@ class Magento_Test_Application
         Mage::$headersSentThrowsException = false;
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
-            $definition = new Magento_ObjectManager_Definition_Runtime();
-
-            // init generation directory and generator class
-            $generationDir = $config->getDirectories()->getDir(Mage_Core_Model_Dir::GENERATION);
-            $generatorIo = new Magento_Code_Generator_Io(null, null, $generationDir);
-            $generator = new Magento_Code_Generator(null, null, $generatorIo);
-            $generatorClass = new Magento_Code_Generator_Class($generator);
-
-            $definitionDecorator = new Magento_Code_Generator_DefinitionDecorator($definition, $generatorClass);
-            $instanceConfig = new Magento_Test_ObjectManager_Config();
-            $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-                new Magento_ObjectManager_Factory_Factory($instanceConfig, null, $definitionDecorator),
-                $instanceConfig
-            );
-            $objectManager = new Magento_Test_ObjectManager($factory, $instanceConfig, array(
-                'Mage_Core_Model_Config_Primary' => $config,
-                'Mage_Core_Model_Dir' => $config->getDirectories()
-            ));
-            $config->configure($objectManager);
+            $objectManager = new Magento_Test_ObjectManager($config, new Magento_Test_ObjectManager_Config());
             Mage::setObjectManager($objectManager);
         } else {
             $objectManager = Mage::getObjectManager();

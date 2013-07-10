@@ -29,7 +29,7 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
     protected $_arguments = array();
 
     /**
-     * Type sharebility
+     * Type shareability
      *
      * @var array
      */

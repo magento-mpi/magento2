@@ -20,13 +20,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected $_factory;
 
     /**
-     * Interface preferences
-     *
-     * @var array
-     */
-    protected $_preferences = array();
-
-    /**
      * List of shared instances
      *
      * @var array

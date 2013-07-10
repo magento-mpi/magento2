@@ -57,7 +57,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
     protected function _initObjectManager()
     {
         if (!$this->_objectManager) {
-            $this->_objectManager = Mage_Core_Model_ObjectManager::createInstance($this->_config);
+            $this->_objectManager = new Mage_Core_Model_ObjectManager($this->_config);
         }
 
         $this->_setGlobalObjectManager();

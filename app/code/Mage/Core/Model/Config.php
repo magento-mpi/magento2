@@ -156,14 +156,14 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_invalidator;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_ObjectManager $objectManager,
         Mage_Core_Model_Config_StorageInterface $storage,
         Mage_Core_Model_AppInterface $app,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,

@@ -6,6 +6,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
 {
@@ -15,19 +16,17 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
     protected $_compiledRelations;
 
     /**
-     * Crate instance of object manager
-     *
      * @param Mage_Core_Model_Config_Primary $primaryConfig
-     * @return Mage_Core_Model_ObjectManager
+     * @param Magento_ObjectManager_Config $config
      */
-    public static function createInstance(Mage_Core_Model_Config_Primary $primaryConfig)
-    {
+    public function __construct(
+        Mage_Core_Model_Config_Primary $primaryConfig,
+        Magento_ObjectManager_Config $config = null
+    ) {
         $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
-        $definitions =  $definitionFactory->createClassDefinition($primaryConfig);
-        $config = new Magento_ObjectManager_Config_Config(
-            new Magento_ObjectManager_Relations_Runtime(new Magento_Code_Reader_ClassReader())
-        );
-        
+        $definitions = $definitionFactory->createClassDefinition($primaryConfig);
+        $config = $config ?: new Magento_ObjectManager_Config_Config();
+
         $appMode = $primaryConfig->getParam(Mage::PARAM_MODE, Mage_Core_Model_App_State::MODE_DEFAULT);
         $classBuilder = ($appMode == Mage_Core_Model_App_State::MODE_DEVELOPER)
             ? new Magento_ObjectManager_Interception_ClassBuilder_Runtime()
@@ -40,12 +39,12 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             $definitionFactory->createPluginDefinition($primaryConfig),
             $classBuilder
         );
-        $objectManager =  new Mage_Core_Model_ObjectManager($factory, $config, array(
+        parent::__construct($factory, $config, array(
             'Mage_Core_Model_Config_Primary' => $primaryConfig,
-            'Mage_Core_Model_Dir' => $primaryConfig->getDirectories()
+            'Mage_Core_Model_Dir' => $primaryConfig->getDirectories(),
+            'Mage_Core_Model_ObjectManager' => $this
         ));
-        $primaryConfig->configure($objectManager);
-        return $objectManager;
+        $primaryConfig->configure($this);
     }
 
     /**
