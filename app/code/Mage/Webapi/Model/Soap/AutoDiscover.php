@@ -49,6 +49,13 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected $_cache;
 
     /**
+     * The list of registered complex types.
+     *
+     * @var string[]
+     */
+    protected $_registeredTypes = array();
+
+    /**
      * Construct auto discover with resource config and list of requested resources.
      *
      * @param Mage_Webapi_Config $newApiConfig
@@ -65,8 +72,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
-    )
-    {
+    ) {
         $this->_apiConfig = $apiConfig;
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -125,19 +131,39 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Extract complex type element from dom document by type name.
+     * Extract complex type element from dom document by type name (include referenced types as well).
      *
-     * @param $complexTypeName string Name of the input or output parameter
+     * @param $complexTypeName string
      * @param $domDocument DOMDocument
-     * @return DOMNode|null
+     * @return DOMNode[]
      */
-    protected function _getComplexTypeNode($complexTypeName, $domDocument)
+    protected function _getComplexTypeNodes($complexTypeName, $domDocument)
     {
+        $response = array();
         /** TODO: Use object manager to instantiate objects */
         $xpath = new DOMXPath($domDocument);
         /** @var $elemList DOMNode */
         $complexTypeNode = $xpath->query("//xsd:complexType[@name='$complexTypeName']")->item(0);
-        return !is_null($complexTypeNode) ? $complexTypeNode->cloneNode(true) : null;
+        if (!empty($complexTypeNode)) {
+            $this->_registeredTypes[] = $complexTypeName;
+
+            $referencedTypes = $xpath->query("//xsd:complexType[@name='$complexTypeName']//@type");
+            foreach ($referencedTypes as $type) {
+                /**
+                 * TODO: Take into account target and current namespaces after implementation
+                 * of NS support for entities on module level.
+                 * Currently it is supposed that custom complex types does not have NS prefix
+                 */
+                $typeName = $type->value;
+                if (!strpos($typeName, ':') && !in_array($typeName, $this->_registeredTypes)) {
+                    $response += $this->_getComplexTypeNodes($typeName, $domDocument);
+                    /** Add target namespace to the referenced type name */
+                    $type->value = Wsdl::TYPES_NS . ':' . $typeName;
+                }
+            }
+            $response[$complexTypeName] = $complexTypeNode->cloneNode(true);
+        }
+        return $response;
     }
 
     /**
@@ -160,7 +186,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($resourceName);
             $serviceName = $this->getServiceName($resourceName);
-            $wsdl->addService($serviceName, $portName, 'tns:' . $bindingName, $endPointUrl, SOAP_1_2);
+            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($resourceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($resourceName, $methodName);
@@ -169,7 +195,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
                 $outputMessageName = false;
                 $outputBinding = false;
-                if (isset($methodData['interface']['out']['schema'])) {
+                if (isset($methodData['interface']['outputComplexTypes'])) {
                     $outputBinding = $inputBinding;
                     $outputMessageName = $this->_createOperationOutput($wsdl, $operationName, $methodData);
                 }
@@ -212,9 +238,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'name' => $inputMessageName,
             'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
         );
-        if (isset($methodData['interface']['in']['schema'])) {
-            $inputComplexTypeNode = $methodData['interface']['in']['schema'];
-            $wsdl->addComplexType($inputComplexTypeNode);
+        if (isset($methodData['interface']['inputComplexTypes'])) {
+            foreach ($methodData['interface']['inputComplexTypes'] as $complexTypeNode) {
+                $wsdl->addComplexType($complexTypeNode);
+            }
         } else {
             $elementData['nillable'] = 'true';
         }
@@ -248,9 +275,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         );
-        if (isset($methodData['interface']['out']['schema'])) {
-            $outputComplexTypeNode = $methodData['interface']['out']['schema'];
-            $wsdl->addComplexType($outputComplexTypeNode);
+        if (isset($methodData['interface']['outputComplexTypes'])) {
+            foreach ($methodData['interface']['outputComplexTypes'] as $complexTypeNode) {
+                $wsdl->addComplexType($complexTypeNode);
+            }
         }
         $wsdl->addMessage(
             $outputMessageName,
@@ -378,22 +406,22 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($resourceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
-            $inputComplexType = $this->_getComplexTypeNode($inputParameterName, $payloadSchemaDom);
-            if (empty($inputComplexType)) {
+            $inputComplexTypes = $this->_getComplexTypeNodes($inputParameterName, $payloadSchemaDom);
+            if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
                     // TODO: throw proper exception according to new error handling strategy
                     throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
                     . "must have '{$inputParameterName}' complex type defined in its schema.");
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
-                    $inputComplexType = $this->_generateEmptyComplexType($inputParameterName);
+                    $inputComplexTypes[] = $this->_generateEmptyComplexType($inputParameterName);
                 }
             }
-            $resourceData['methods'][$serviceMethod]['interface']['in']['schema'] = $inputComplexType;
+            $resourceData['methods'][$serviceMethod]['interface']['inputComplexTypes'] = $inputComplexTypes;
             $outputParameterName = $this->getOutputMessageName($operationName);
-            $outputComplexType = $this->_getComplexTypeNode($outputParameterName, $payloadSchemaDom);
-            if (!empty($outputComplexType)) {
-                $resourceData['methods'][$serviceMethod]['interface']['out']['schema'] = $outputComplexType;
+            $outputComplexTypes = $this->_getComplexTypeNodes($outputParameterName, $payloadSchemaDom);
+            if (!empty($outputComplexTypes)) {
+                $resourceData['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
                 // TODO: throw proper exception according to new error handling strategy
                 throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "

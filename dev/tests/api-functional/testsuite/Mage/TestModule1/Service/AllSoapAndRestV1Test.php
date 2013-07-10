@@ -37,11 +37,6 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
      */
     public function testItems()
     {
-        //TODO: Fix SOAP testModule1AllSoapAndRestItems operation
-        $this->markTestIncomplete(
-            'This test has not been implemented yet'
-        );
-
         $itemArr = array(
             array(
                 'id' => 1,
@@ -63,7 +58,7 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
                 'operation' => 'testModule1AllSoapAndRestItems'
             )
         );
-        $item = $this->_webApiCall($serviceInfo, null);
+        $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
     }
 

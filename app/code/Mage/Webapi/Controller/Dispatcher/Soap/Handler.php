@@ -134,7 +134,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 }
                 // TODO: Check why 'result' node is not generated in WSDL
                 // return (object)array(self::RESULT_NODE_NAME => $outputData);
-                return (object)$outputData;
+                return $outputData;
             } catch (Mage_Webapi_Exception $e) {
                 throw new Mage_Webapi_Model_Soap_Fault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
