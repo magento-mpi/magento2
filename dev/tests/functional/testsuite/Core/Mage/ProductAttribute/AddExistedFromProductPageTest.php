@@ -14,7 +14,6 @@
  */
 class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Mage_Selenium_TestCase
 {
-
     /**
      * Preconditions:
      * Navigate to Products - Catalog.
@@ -186,7 +185,7 @@ class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Ma
         $this->productAttributeHelper()->fillSearchAttributeField($attributeName);
         //Verifying
         $this->assertTrue($this->controlIsVisible('pageelement', 'attribute_no_records'), 'Some attributes were found');
-        $this->getElement($this->_getControlXpath('button', 'create_new_attribute'))->click();
+        $this->getControlElement('button', 'create_new_attribute')->click();
         $this->waitForControl('pageelement', 'add_new_attribute_iframe');
         $this->pleaseWait();
         $this->frame('create_new_attribute_container');
