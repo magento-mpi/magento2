@@ -121,11 +121,28 @@ class SourceClassWithNamespaceInterceptor extends \Magento\Code\Generator\TestAs
     }
 
     /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        $this->_getSubject();
+        return array('_subject', '_pluginList');
+    }
+
+    /**
      * Clone subject instance
      */
     public function __clone()
     {
         $this->_subject = clone $this->_getSubject();
+    }
+
+    /**
+     * Retrieve ObjectManager from the global scope
+     */
+    public function __wakeup()
+    {
+        $this->_objectManager = Mage::getObjectManager();
     }
 
     /**

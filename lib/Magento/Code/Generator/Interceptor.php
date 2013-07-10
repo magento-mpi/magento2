@@ -183,11 +183,29 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
             ),
         );
         $methods[] = array(
+            'name' => '__sleep',
+            'body' => "\$this->_getSubject();\nreturn array('_subject', '_pluginList');",
+            'docblock' => array(
+                'tags' => array(
+                    array(
+                        'name' => 'return', 'description' => 'array',
+                    )
+                ),
+            ),
+        );
+        $methods[] = array(
             'name' => '__clone',
             'body' => "\$this->_subject = clone \$this->_getSubject();",
             'docblock' => array(
                 'shortDescription' => 'Clone subject instance',
             ),
+        );
+        $methods[] = array(
+            'name' => '__wakeup',
+            'docblock' => array(
+                'shortDescription' => 'Retrieve ObjectManager from the global scope',
+            ),
+            'body' => '$this->_objectManager = Mage::getObjectManager();',
         );
 
         $reflectionClass = new ReflectionClass($this->_getSourceClassName());
