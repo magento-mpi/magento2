@@ -29,13 +29,13 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     protected $_viewUrl;
 
     /**
-     * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
+        Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_View_Url $viewUrl,
-        Mage_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
