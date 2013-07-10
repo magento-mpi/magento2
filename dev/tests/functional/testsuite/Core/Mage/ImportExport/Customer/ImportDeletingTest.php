@@ -63,12 +63,10 @@ class Core_Mage_ImportExport_Customer_ImportDeletingTest extends Mage_Selenium_T
         $data[0]['email'] = $userData[0]['email'];
         $data[0]['firstname'] = $userData[0]['first_name'];
         $data[0]['lastname'] = $userData[0]['last_name'];
-        $data[0]['password'] = $userData[0]['password'];
 
         $data[1]['email'] = $userData[1]['email'];
         $data[1]['firstname'] = 'firstname_new';
         $data[1]['lastname'] = 'lastname_new';
-        $data[1]['password'] = 'qqqqqqq';
 
         //Steps 1-2
         $this->navigate('import');
@@ -124,12 +122,10 @@ class Core_Mage_ImportExport_Customer_ImportDeletingTest extends Mage_Selenium_T
         $data[0]['email'] = 'not_existing_email@example.co';
         $data[0]['firstname'] = $userData[0]['first_name'];
         $data[0]['lastname'] = $userData[0]['last_name'];
-        $data[0]['password'] = $userData[0]['password'];
 
         $data[1]['email'] = $userData[1]['email'];
         $data[1]['firstname'] = $userData[1]['first_name'];
         $data[1]['lastname'] = $userData[1]['last_name'];
-        $data[1]['password'] = $userData[1]['password'];
 
         //Steps 1-2
         $this->navigate('import');
