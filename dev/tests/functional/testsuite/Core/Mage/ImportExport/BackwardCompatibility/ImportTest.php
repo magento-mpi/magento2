@@ -59,6 +59,7 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
      */
     public function validationResultBlock()
     {
+        $this->markTestIncomplete('Customers option is not present while Export now');
         //Precondition
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers');
@@ -229,8 +230,7 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
             'middle_name' => 'O.',
             'date_of_birth' => '1/14/1929',
             'gender' => 'Male',
-            'tax_vat_number' => '538-92-5393',
-            'password' => ''
+            'tax_vat_number' => '538-92-5393'
         ));
         $addressAfterImport[0] = $this->loadDataSet('Customers', 'generic_address', array(
             'city' => 'Kingsport',
@@ -277,8 +277,7 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
             'middle_name' => 'M.',
             'date_of_birth' => '2/28/1986',
             'gender' => 'Male',
-            'tax_vat_number' => '150-84-1427',
-            'password' => ''
+            'tax_vat_number' => '150-84-1427'
         ));
         $addressAfterImport[1] = $this->loadDataSet('Customers', 'generic_address', array(
             'city' => 'Dallas',
