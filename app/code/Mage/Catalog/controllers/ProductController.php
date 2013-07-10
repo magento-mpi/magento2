@@ -57,6 +57,7 @@ class Mage_Catalog_ProductController
         $specifyOptions = $this->getRequest()->getParam('options');
 
         // Prepare helper and params
+        /** @var Mage_Catalog_Helper_Product_View $viewHelper */
         $viewHelper = Mage::helper('Mage_Catalog_Helper_Product_View');
 
         $params = new Varien_Object();

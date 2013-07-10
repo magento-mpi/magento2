@@ -110,8 +110,7 @@ class Mage_Core_Model_View_Service
      */
     public function updateDesignParams(array &$params)
     {
-        $design = $this->_design;
-        $defaults = $design->getDesignParams();
+        $defaults = $this->_design->getDesignParams();
 
         // Set area
         if (empty($params['area'])) {
@@ -127,11 +126,11 @@ class Mage_Core_Model_View_Service
             $themePath = $params['package'] . '/' . $params['theme'];
             $theme = $themePath;
         } elseif (empty($params['themeModel']) && $area !== $defaults['area']) {
-            $theme = $design->getConfigurationDesignTheme($area);
+            $theme = $this->_design->getConfigurationDesignTheme($area);
         }
 
         if ($theme) {
-            $params['themeModel'] = $design->loadDesignTheme($theme, $area);
+            $params['themeModel'] = $this->_design->loadDesignTheme($theme, $area);
         } elseif (empty($params['themeModel'])) {
             $params['themeModel'] = $defaults['themeModel'];
         }

@@ -40,7 +40,6 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     ) {
         $this->_viewUrl = $viewUrl;
         parent::__construct($context, $data);
-
     }
 
     protected function _construct()
