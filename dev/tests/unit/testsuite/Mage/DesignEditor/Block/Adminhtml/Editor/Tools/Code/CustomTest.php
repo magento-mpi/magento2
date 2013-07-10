@@ -80,14 +80,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
             'Mage_Core_Model_Theme', array('getCustomizationData', 'getFirstItem'), array(), '', false
         );
 
-        /** @var $cssFile Mage_Core_Model_Theme_Customization_Files_Css */
+        /** @var $cssFile Mage_Core_Model_Theme_Customization_File_Css */
         $cssFile = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_Files_Css', array('getContent'), array(), '', false
+            'Mage_Core_Model_Theme_Customization_File_Css', array('getContent'), array(), '', false
         );
 
         $theme->expects($this->once())
             ->method('getCustomizationData')
-            ->with(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)
+            ->with(Mage_Core_Model_Theme_Customization_File_Css::TYPE)
             ->will($this->returnValue($theme));
 
         $theme->expects($this->once())

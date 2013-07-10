@@ -83,14 +83,14 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
         $this->_request->expects($this->once(6))->method('getPost')->will($this->returnValue(true));
 
         $filesCssMock = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_Files_Css', array('setDataForSave'), array(), '', false
+            'Mage_Core_Model_Theme_Customization_File_Css', array('setDataForSave'), array(), '', false
         );
         $filesCssMock->expects($this->at(0))->method('setDataForSave')->with(
-            array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $customCssContent)
+            array(Mage_Core_Model_Theme_Customization_File_Css::CUSTOM_CSS => $customCssContent)
         );
 
         $filesJsMock = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_Files_Js',
+            'Mage_Core_Model_Theme_Customization_File_Js',
             array('setDataForSave', 'setDataForDelete', 'setJsOrderData'),
             array(),
             '',
@@ -116,13 +116,13 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
         $this->_objectManagerMock
             ->expects($this->at(1))
             ->method('create')
-            ->with('Mage_Core_Model_Theme_Customization_Files_Css')
+            ->with('Mage_Core_Model_Theme_Customization_File_Css')
             ->will($this->returnValue($filesCssMock));
 
         $this->_objectManagerMock
             ->expects($this->at(2))
             ->method('create')
-            ->with('Mage_Core_Model_Theme_Customization_Files_Js')
+            ->with('Mage_Core_Model_Theme_Customization_File_Js')
             ->will($this->returnValue($filesJsMock));
 
         $this->_model->saveAction();

@@ -345,9 +345,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _loadThemeById($themeId)
     {
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
-        if (!$themeId || !$theme->load($themeId)->getId()) {
+        /** @var $themeFactory Mage_Core_Model_Theme_FlyweightFactory */
+        $themeFactory = $this->_objectManager->create('Mage_Core_Model_Theme_FlyweightFactory');
+        $theme = $themeFactory->create($themeId);
+        if (empty($theme)) {
             throw new Mage_Core_Exception($this->__('We can\'t find this theme.'));
         }
         return $theme;
@@ -391,20 +392,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $toolsBlock->setMode($mode);
         }
 
-        /** @var $customTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */
-        $customTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_custom');
-        if ($customTabBlock) {
-            $theme->setCustomization($this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css'));
-            $customTabBlock->setTheme($theme);
-        }
-
-        /** @var $customTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */
-        $customTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_custom');
-        if ($customTabBlock) {
-            $theme->setCustomization($this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css'));
-            $customTabBlock->setTheme($theme);
-        }
-
         /** @var $cssTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css */
         $cssTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_css');
         if ($cssTabBlock) {
@@ -415,17 +402,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 ->setThemeId($theme->getId());
         }
 
-        /** @var $jsTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js */
-        $jsTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_js');
-        if ($jsTabBlock) {
-            /** @var $jsFileModel Mage_Core_Model_Theme_Customization_Files_Js */
-            $jsFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
-            $theme->setCustomization($jsFileModel);
-
-            $jsTabBlock->setTheme($theme);
-        }
-
         $blocks = array(
+            'design_editor_tools_code_custom',
+            'design_editor_tools_code_js',
             'design_editor_tools_code_image_sizing',
             'design_editor_tools_quick-styles_header',
             'design_editor_tools_quick-styles_backgrounds',

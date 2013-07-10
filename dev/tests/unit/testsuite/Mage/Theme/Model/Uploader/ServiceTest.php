@@ -154,7 +154,7 @@ class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
         );
 
         $fileJs = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_Files_Js', array(), array(), '', false
+            'Mage_Core_Model_Theme_Customization_File_Js', array(), array(), '', false
         );
 
         $fileJs->expects($this->once())
@@ -215,7 +215,7 @@ class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
         );
 
         $fileJs = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_Files_Js', array(), array(), '', false
+            'Mage_Core_Model_Theme_Customization_File_Js', array(), array(), '', false
         );
 
         $service->expects($this->once())

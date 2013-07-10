@@ -178,7 +178,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         $theme = $this->_model->getDesignTheme();
-        $customConfigFile = $theme->getCustomViewConfigPath();
+        $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem Magento_Filesystem */
         $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);

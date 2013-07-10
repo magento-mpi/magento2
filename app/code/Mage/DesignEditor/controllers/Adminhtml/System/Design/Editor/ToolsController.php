@@ -32,24 +32,24 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function uploadAction()
     {
-        /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
-        $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
+        /** @var $cssService Mage_Theme_Model_Theme_Customization_File_CustomCss */
+        $cssService = $this->_objectManager->get('Mage_Theme_Model_Theme_Customization_File_CustomCss');
+        /** @var $singleFile Mage_Theme_Model_Theme_SingleFile */
+        $singleFile = $this->_objectManager->create('Mage_Theme_Model_Theme_SingleFile',
+            array('fileService' => $cssService));
         /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
         $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
-            $cssFileContent = $serviceModel->uploadCssFile(
+            $cssFileData = $serviceModel->uploadCssFile(
                 Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom::FILE_ELEMENT_NAME
-            )->getFileContent();
-            $themeCss->setDataForSave(
-                array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $cssFileContent)
             );
-            $themeCss->saveData($editableTheme);
+            $singleFile->update($editableTheme, $cssFileData['content']);
             $response = array(
                 'success' => true,
                 'message' => $this->__('You updated the custom.css file.'),
-                'content' => $cssFileContent
+                'content' => $cssFileData['content']
             );
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -67,15 +67,15 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     public function saveCssContentAction()
     {
         $customCssContent = (string)$this->getRequest()->getParam('custom_css_content', '');
+        /** @var $cssService Mage_Theme_Model_Theme_Customization_File_CustomCss */
+        $cssService = $this->_objectManager->get('Mage_Theme_Model_Theme_Customization_File_CustomCss');
+        /** @var $singleFile Mage_Theme_Model_Theme_SingleFile */
+        $singleFile = $this->_objectManager->create('Mage_Theme_Model_Theme_SingleFile',
+            array('fileService' => $cssService));
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
-            /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
-            $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
-            $themeCss->setDataForSave(
-                array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $customCssContent)
-            );
-            $editableTheme->setCustomization($themeCss)->save();
+            $singleFile->update($editableTheme, $customCssContent);
             $response = array(
                 'success' => true,
                 'message' => $this->__('You updated the custom.css file.')
@@ -98,12 +98,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
-            /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
-            $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
-            /** @var $customJsFiles Mage_Core_Model_Resource_Theme_File_Collection */
-            $customJsFiles = $editableTheme->setCustomization($filesJs)
-                ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
-            $result = array('error' => false, 'files' => $customJsFiles->getFilesInfo());
+            $customization = $editableTheme->getCustomization();
+            $customJsFiles = $customization->getFilesByType(Mage_Core_Model_Theme_Customization_File_Js::TYPE);
+            $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
             $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
@@ -117,11 +114,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
         $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
+        /** @var $jsService Mage_Core_Model_Theme_Customization_File_Js */
+        $jsService = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_File_Js');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
-            $serviceModel->uploadJsFile('js_files_uploader', $editableTheme, false);
-            $editableTheme->setCustomization($serviceModel->getJsFiles())->save();
+            $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
+            $jsFile = $jsService->create();
+            $jsFile->setTheme($editableTheme);
+            $jsFile->setFileName($jsFileData['filename']);
+            $jsFile->setData('content', $jsFileData['content']);
+            $jsFile->save();
             $this->_forward('jsList');
             return;
         } catch (Mage_Core_Exception $e) {
@@ -143,11 +146,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
-            /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
-            $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
-            $editableTheme->setCustomization($themeJs);
-            $themeJs->setDataForDelete($removeJsFiles);
-            $editableTheme->save();
+            $editableTheme->getCustomization()->delete($removeJsFiles);
             $this->_forward('jsList');
         } catch (Exception $e) {
             $this->_redirectUrl($this->_getRefererUrl());
@@ -161,15 +160,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     public function reorderJsAction()
     {
         $reorderJsFiles = (array)$this->getRequest()->getParam('js_order', array());
-        /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
-        $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
-            $themeJs->setJsOrderData($reorderJsFiles);
-            $editableTheme->setCustomization($themeJs);
-            $editableTheme->save();
-
+            $editableTheme->getCustomization()->reorder(
+                Mage_Core_Model_Theme_Customization_File_Js::TYPE, $reorderJsFiles
+            );
             $result = array('success' => true);
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());

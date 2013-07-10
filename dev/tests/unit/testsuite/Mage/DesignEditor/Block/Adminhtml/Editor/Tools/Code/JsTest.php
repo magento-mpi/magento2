@@ -112,7 +112,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
 
         $theme->expects($this->once())
             ->method('getCustomizationData')
-            ->with(Mage_Core_Model_Theme_Customization_Files_Js::TYPE)
+            ->with(Mage_Core_Model_Theme_Customization_File_Js::TYPE)
             ->will($this->returnValue($filesCollection));
 
         $this->_model->setTheme($theme);

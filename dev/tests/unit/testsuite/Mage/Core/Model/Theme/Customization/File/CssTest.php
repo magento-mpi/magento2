@@ -12,7 +12,7 @@
 /**
  * Test theme js file model
  */
-class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Theme_Customization_File_CssTest extends PHPUnit_Framework_TestCase
 {
     public function testSaveDataWithoutData()
     {
@@ -20,7 +20,7 @@ class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framewor
         $themeModel = $this->_getMockThemeModel();
 
         $modelCssFile = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_Files_Css',
+            'Mage_Core_Model_Theme_Customization_File_Css',
             array('_save'),
             array($filesModel)
         );
@@ -54,8 +54,8 @@ class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framewor
 
         $themeModel = $this->_getMockThemeModel($themeId);
 
-        $modelCssFile = new Mage_Core_Model_Theme_Customization_Files_Css($filesModel);
-        $modelCssFile->setDataForSave(array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $cssContent));
+        $modelCssFile = new Mage_Core_Model_Theme_Customization_File_Css($filesModel);
+        $modelCssFile->setDataForSave(array(Mage_Core_Model_Theme_Customization_File_Css::CUSTOM_CSS => $cssContent));
         $modelCssFile->saveData($themeModel);
     }
 

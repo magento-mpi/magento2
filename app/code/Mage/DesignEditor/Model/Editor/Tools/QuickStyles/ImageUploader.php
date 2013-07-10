@@ -31,9 +31,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
     protected $_filesystem;
 
     /**
-     * @var Magento_ObjectManager
+     * @var Mage_Core_Model_File_UploaderFactory
      */
-    protected $_objectManager;
+    protected $_uploaderFactory;
 
     /**
      * Allowed extensions
@@ -42,20 +42,24 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
      */
     protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
 
+
     /**
      * Generic constructor of change instance
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Theme_Customization $customization
      * @param array $data
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_File_UploaderFactory $uploaderFactory,
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_Theme_Customization $customization,
         array $data = array()
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_uploaderFactory = $uploaderFactory;
         $this->_filesystem = $filesystem;
+        $this->_customization = $customization;
         parent::__construct($data);
     }
 
@@ -68,7 +72,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
     {
         if (null === $this->_storagePath) {
             $this->_storagePath = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
-                Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomizationPath()),
+                Magento_Filesystem::fixSeparator($this->_customization->getCustomizationPath($this->_getTheme())),
                 self::PATH_PREFIX_QUICK_STYLE,
             ));
         }
@@ -113,7 +117,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
     {
         $result = array();
         /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader', array('fileId' => $key));
+        $uploader = $this->_uploaderFactory->create(array('fileId' => $key));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->setAllowRenameFiles(true);
         $uploader->setAllowCreateFolders(true);

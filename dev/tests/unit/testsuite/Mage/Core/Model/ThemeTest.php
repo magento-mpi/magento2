@@ -89,18 +89,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Model_Theme::saveThemeCustomization
-     */
-    public function testSaveThemeCustomization()
-    {
-        $jsFile = $this->getMock('Mage_Core_Model_Theme_Customization_Files_Js', array('saveData'), array(), '', false);
-        $jsFile->expects($this->atLeastOnce())->method('saveData');
-
-        $this->_model->setCustomization($jsFile);
-        $this->assertInstanceOf('Mage_Core_Model_Theme', $this->_model->saveThemeCustomization());
-    }
-
-    /**
      * @dataProvider isVirtualDataProvider
      * @param int $type
      * @param string $isVirtual
@@ -256,32 +244,32 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             array('1.0.0.0', '*', 'Title', 'Title')
         );
     }
-
-    /**
-     * @dataProvider getThemeFilesPathDataProvider
-     * @param string $type
-     * @param string $expectedPath
-     */
-    public function testGetThemeFilesPath($type, $expectedPath)
-    {
-        $this->_model->setId(123);
-        $this->_model->setType($type);
-        $this->_model->setArea('area51');
-        $this->_model->setThemePath('theme_path');
-        $this->assertEquals($expectedPath, $this->_model->getThemeFilesPath());
-    }
-
-    /**
-     * @return array
-     */
-    public function getThemeFilesPathDataProvider()
-    {
-        return array(
-            array(Mage_Core_Model_Theme::TYPE_PHYSICAL, 'design/area51/theme_path'),
-            array(Mage_Core_Model_Theme::TYPE_VIRTUAL, 'media/theme_customization/123'),
-            array(Mage_Core_Model_Theme::TYPE_STAGING, 'media/theme_customization/123'),
-        );
-    }
+//
+//    /**
+//     * @dataProvider getThemeFilesPathDataProvider
+//     * @param string $type
+//     * @param string $expectedPath
+//     */
+//    public function testGetThemeFilesPath($type, $expectedPath)
+//    {
+//        $this->_model->setId(123);
+//        $this->_model->setType($type);
+//        $this->_model->setArea('area51');
+//        $this->_model->setThemePath('theme_path');
+//        $this->assertEquals($expectedPath, $this->_model->getThemeFilesPath());
+//    }
+//
+//    /**
+//     * @return array
+//     */
+//    public function getThemeFilesPathDataProvider()
+//    {
+//        return array(
+//            array(Mage_Core_Model_Theme::TYPE_PHYSICAL, 'design/area51/theme_path'),
+//            array(Mage_Core_Model_Theme::TYPE_VIRTUAL, 'media/theme_customization/123'),
+//            array(Mage_Core_Model_Theme::TYPE_STAGING, 'media/theme_customization/123'),
+//        );
+//    }
 
     /**
      * @param $customizationPath
@@ -293,7 +281,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setData('customization_path', $customizationPath);
         $this->_model->setId($themeId);
-        $actual = $this->_model->getCustomViewConfigPath();
+        $actual = $this->_model->getCustomization()->getCustomViewConfigPath();
         $this->assertThat($actual, $expected);
     }
 
@@ -326,6 +314,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $collection = $this->getMock('Mage_Core_Model_Resource_Theme_File_Collection', array(), array(), '', false);
         $this->_fileFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($collection));
         $collection->expects($this->once())->method('addThemeFilter')->with($this->_model);
-        $this->assertEquals($collection, $this->_model->getFiles());
+        $this->assertEquals($collection, $this->_model->getCustomization()->getFiles());
     }
 }

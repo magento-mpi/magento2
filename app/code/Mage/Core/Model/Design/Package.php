@@ -806,7 +806,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         }
 
         $configFiles = $this->_moduleReader->getModuleConfigurationFiles(Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG);
-        $themeConfigFile = $currentTheme->getCustomViewConfigPath();
+        $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
             $themeConfigFile = $this->getFilename(Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG, $params);
         }

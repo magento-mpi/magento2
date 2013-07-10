@@ -56,11 +56,11 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         /** Prepare CSS */
         $cssFile = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_Files_Css', array('setDataForSave'), array(), '', false
+            'Mage_Core_Model_Theme_Customization_File_Css', array('setDataForSave'), array(), '', false
         );
         $cssFile->expects($this->once())
             ->method('setDataForSave')
-            ->with(array(Mage_Core_Model_Theme_Customization_Files_Css::QUICK_STYLE_CSS => $generatedContent))
+            ->with(array(Mage_Core_Model_Theme_Customization_File_Css::QUICK_STYLE_CSS => $generatedContent))
             ->will($this->returnValue($renderer));
 
         /** Prepare theme */
@@ -109,7 +109,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $objectManager->expects($this->at(1))
             ->method('create')
-            ->with('Mage_Core_Model_Theme_Customization_Files_Css')
+            ->with('Mage_Core_Model_Theme_Customization_File_Css')
             ->will($this->returnValue($cssFile));
 
         $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $helper, $cacheManager);

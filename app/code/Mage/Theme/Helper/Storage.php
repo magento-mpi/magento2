@@ -148,7 +148,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     {
         if (null === $this->_storageRoot) {
             $this->_storageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
-                Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomizationPath()),
+                Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
                 $this->getStorageType()
             ));
         }
@@ -165,7 +165,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     {
         $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
         $theme = $this->_themeFactory->create($themeId);
-        if (!$themeId || !$theme || $themeId && !$theme->getId()) {
+        if (!$themeId || !$theme) {
             throw new InvalidArgumentException('Theme was not found.');
         }
         return $theme;

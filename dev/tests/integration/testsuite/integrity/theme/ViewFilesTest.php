@@ -139,7 +139,9 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      */
     protected function _collectGetViewUrlInvokes($theme, &$files)
     {
-        $searchDir = $theme->getThemeFilesPath();
+        $searchDir = $theme->isPhysical()
+            ? $theme->getCustomization()->getThemeFilesPath()
+            : $theme->getCustomization()->getCustomViewConfigPath();
         $dirLength = strlen($searchDir);
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
             // Check that file path is valid

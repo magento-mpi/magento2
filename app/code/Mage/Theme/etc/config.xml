@@ -47,4 +47,11 @@
             </updates>
         </layout>
     </adminhtml>
+    <default>
+        <theme>
+            <customization>
+                <custom_css>Mage_Theme_Model_Theme_Customization_File_CustomCss</custom_css>
+            </customization>
+        </theme>
+    </default>
 </config>

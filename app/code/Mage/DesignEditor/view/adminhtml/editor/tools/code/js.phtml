@@ -59,7 +59,7 @@
             refreshFileListEvent : 'refreshJsList',
             prefixItemId: 'js-file-'
         });
-        $('body').trigger('refreshJsList', {jsList : <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getJsFiles()->getFilesInfo()) ?>});
+        $('body').trigger('refreshJsList', {jsList : <?php echo $this->getFiles() ?>});
 
         $('#vde-tab-js .js-file .action-delete').live('click', function() {
             if (!confirm('<?php echo $this->getConfirmMessageDelete() ?>')) {

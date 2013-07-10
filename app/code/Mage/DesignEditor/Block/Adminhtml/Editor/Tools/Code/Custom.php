@@ -21,8 +21,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     const FILE_ELEMENT_NAME = 'css_file_uploader';
 
-    protected $_customFileNameExt = ".css";
-
     /**
      * Create a form element with necessary controls
      *
@@ -89,27 +87,39 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
     }
 
     /**
-     * Get theme custom css content
+     * Get theme file (with custom CSS)
      *
      * @param Mage_Core_Model_Theme $theme
-     * @return string
+     * @return Mage_Core_Model_Theme_FileInterface|null
      */
-    public function getCustomCssContent($theme)
+    protected function _getCustomCss($theme)
     {
-        /** @var $cssFile Mage_Core_Model_Theme_File */
-        $cssFile = $theme->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
-        return $cssFile->getContent();
+        $files = $theme->getCustomization()->getFilesByType(
+            Mage_Theme_Model_Theme_Customization_File_CustomCss::TYPE
+        );
+        return reset($files);
+    }
+
+    /**
+     * Get theme custom CSS content
+     *
+     * @return null|string
+     */
+    public function getCustomCssContent()
+    {
+        $customCss = $this->_getCustomCss($this->getTheme());
+        return $customCss ? $customCss->getContent() : null;
     }
 
     /**
      * Get custom CSS file name
      *
-     * @return string
+     * @return string|null
      */
     public function getCustomFileName()
     {
-        return pathinfo(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS, PATHINFO_BASENAME)
-          . $this->_customFileNameExt;
+        $customCss = $this->_getCustomCss($this->getTheme());
+        return $customCss ? $customCss->getFileName() : null;
     }
 
     /**

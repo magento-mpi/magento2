@@ -86,10 +86,10 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 ->save();
         }
 
-        /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
-        $filesJs = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_Files_Js');
+        /** @var $filesJs Mage_Core_Model_Theme_Customization_File_Js */
+        $filesJs = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_File_Js');
         $themeFilesCollection = $themeModel->setCustomization($filesJs)
-            ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
+            ->getCustomizationData(Mage_Core_Model_Theme_Customization_File_Js::TYPE);
         $this->assertInstanceOf('Mage_Core_Model_Resource_Theme_File_Collection', $themeFilesCollection);
         $themeFiles = $themeFilesCollection->toArray();
         foreach ($themeFiles['items'] as &$themeFile) {

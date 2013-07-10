@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.12</version>
+            <version>1.6.0.13</version>
             <active>true</active>
             <system_requirements>
                 <php>
@@ -470,6 +470,12 @@
                 <adapter>GD2</adapter>
             </image>
         </dev>
+        <theme>
+            <customization>
+                <css>Mage_Core_Model_Theme_Customization_File_Css</css>
+                <js>Mage_Core_Model_Theme_Customization_File_Js</js>
+            </customization>
+        </theme>
     </default>
     <stores>
         <default>

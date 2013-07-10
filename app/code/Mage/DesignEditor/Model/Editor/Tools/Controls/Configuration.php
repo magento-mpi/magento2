@@ -277,7 +277,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     protected function _saveViewConfiguration(DOMDocument $config)
     {
-        $targetPath = $this->_theme->getCustomViewConfigPath();
+        $targetPath = $this->_theme->getCustomization()->getCustomViewConfigPath();
         $this->_filesystem->setIsAllowCreateDirectories(true)->write($targetPath, $config->saveXML());
         return $this;
     }

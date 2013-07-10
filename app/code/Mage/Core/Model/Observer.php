@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Core Observer model
- *
- * @category   Mage
- * @package    Mage_Core
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Observer
 {
@@ -34,28 +29,34 @@ class Mage_Core_Model_Observer
     private $_pageAssets;
 
     /**
-     * Instance of config model
-     *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
+
+    /**
+     * @var Mage_Core_Model_Page_Asset_PublicFileFactory
+     */
+    protected $_assetFileFactory;
 
     /**
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
      * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Page $page
      * @param Mage_Core_Model_ConfigInterface $config
+     * @param Mage_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
      */
     public function __construct(
         Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
         Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_Page $page,
-        Mage_Core_Model_ConfigInterface $config
+        Mage_Core_Model_ConfigInterface $config,
+        Mage_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $designPackage->getDesignTheme();
         $this->_pageAssets = $page->getAssets();
         $this->_config = $config;
+        $this->_assetFileFactory = $assetFileFactory;
     }
 
     /**
@@ -99,10 +100,13 @@ class Mage_Core_Model_Observer
     public function applyThemeCustomization(Varien_Event_Observer $observer)
     {
         /** @var $themeFile Mage_Core_Model_Theme_File */
-        foreach ($this->_currentTheme->getFiles() as $themeFile) {
-            $asset = $themeFile->getAsset();
-            if ($asset) {
-                $this->_pageAssets->add($themeFile->getFilePath(), $asset);
+        foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
+            if ($themeFile->getContent()) {
+                $asset = $this->_assetFileFactory->create(array(
+                    'file'        => $themeFile->getFullPath(),
+                    'contentType' => $themeFile->getCustomizationService()->getContentType()
+                ));
+                $this->_pageAssets->add($themeFile->getData('file_path'), $asset);
             }
         }
     }

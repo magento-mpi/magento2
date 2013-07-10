@@ -12,7 +12,7 @@
 /**
  * Test for js files
  */
-class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Theme_Customization_File_JsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDbIsolation enabled
@@ -24,8 +24,8 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme = $themeModel->getCollection()->getFirstItem();
 
-        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_Files_Js */
-        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_Files_Js');
+        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_File_Js */
+        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_File_Js');
         $file = $jsFileModel->saveJsFile($theme, $data);
 
         $this->assertNotEmpty($file->getId());
@@ -41,8 +41,8 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme = $themeModel->getCollection()->getFirstItem();
 
-        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_Files_Js */
-        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_Files_Js');
+        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_File_Js */
+        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_File_Js');
         $oldJsFilesCount = $jsFileModel->getCollectionByTheme($theme)->count();
         $oldJsFilesCount++;
         $jsFileModel->saveJsFile($theme, $data);
@@ -60,8 +60,8 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme = $themeModel->getCollection()->getFirstItem();
 
-        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_Files_Js */
-        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_Files_Js');
+        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_File_Js */
+        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_File_Js');
         /** @var $file  */
         $file = $jsFileModel->saveJsFile($theme, $data);
 
@@ -85,8 +85,8 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme = $themeModel->getCollection()->getFirstItem();
 
-        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_Files_Js */
-        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_Files_Js');
+        /** @var $jsFileModel Mage_Core_Model_Theme_Customization_File_Js */
+        $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_File_Js');
         $jsFileModel->saveJsFile($theme, $data);
 
         $oldJsFilesCount = $jsFileModel->getCollectionByTheme($theme)->count();
