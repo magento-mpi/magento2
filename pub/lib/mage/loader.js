@@ -37,6 +37,13 @@
          * @private
          */
         _init: function() {
+            // Default icon to loadingMask icon if not set.
+            if (this.options.icon === '') {
+                var loadingImage = this.element.find('#loading_mask_loader img');
+                if (loadingImage !== undefined) {
+                    this.options.icon = loadingImage.attr('src');
+                }
+            }
             if (this.options.showOnInit) {
                 this.show();
             }
@@ -72,9 +79,7 @@
          * Show loader
          */
         show: function() {
-            if (!this.element.find('[data-role="loader"]').length) {
-                this._render();
-            }
+            this._render();
             this.loaderStarted++;
             this.loader.show();
         },
@@ -98,10 +103,11 @@
          * @protected
          */
         _render: function() {
-            this.loader = $.tmpl(this.options.template, this.options)
-                .css(this._getCssObj());
-
-            this.element.prepend(this.loader);
+            if (!this.loader) {
+                this.loader = $.tmpl(this.options.template, this.options)
+                    .css(this._getCssObj());
+                this.element.prepend(this.loader);
+            }
         },
 
         /**
@@ -125,8 +131,9 @@
          * Destroy loader
          */
         _destroy: function() {
-            this.loader.remove();
-            // bindings are automatically removed by jquery since we used the _on method to register them
+            if (this.loader) {
+                this.loader.remove();
+            }
         }
     });
 })(jQuery);

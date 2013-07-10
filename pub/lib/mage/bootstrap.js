@@ -20,11 +20,13 @@ jQuery(function ($,console) {
          */
         $('body').on('ajaxSend', function(e, jqxhr, settings) {
             if (settings && settings.showLoader) {
-                $(e.target).trigger('processStart');
-                // Check to make sure the loader is there on the page
-                if (!$(e.target).element.find('[data-role="loader"]').length && console) {
+                // Check to make sure the loader is there on the page if not report it on the console.
+                // NOTE that this check should be removed before going live. It is just an aid to help
+                // in finding the uses of the loader that maybe broken.
+                if (console && !$(e.target).element.find('[data-role="loader"]').length) {
                     console.warn('Expected to start loader but did not find one in the dom');
                 }
+                $(e.target).trigger('processStart');
             }
         });
 
@@ -32,7 +34,9 @@ jQuery(function ($,console) {
          * Hide loader on ajax complete
          */
         $('body').on('ajaxComplete ajaxError', function(e, jqxhr, settings) {
-            $(e.target).trigger('processStop');
+            if (settings && settings.showLoader) {
+                $(e.target).trigger('processStop');
+            }
         });
 
         /**
