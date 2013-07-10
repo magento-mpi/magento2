@@ -42,13 +42,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <saas_index module="Saas_Index">
-                    <file>layout.xml</file>
-                </saas_index>
-            </updates>
-        </layout>
         <di>
             <Mage_AdminNotification_Model_System_MessageList>
                 <parameters>

@@ -69,12 +69,5 @@
                 </parameters>
             </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>
-        <layout>
-            <updates>
-                <saas_system_account module="Saas_Backend">
-                    <file>system/account.xml</file>
-                </saas_system_account>
-            </updates>
-        </layout>
     </adminhtml>
 </config>

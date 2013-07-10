@@ -84,13 +84,6 @@
                 </Mage_Paypal>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <paypal module="Mage_Paypal">
-                    <file>layout.xml</file>
-                </paypal>
-            </updates>
-        </layout>
         <secure_url>
             <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
         </secure_url>
@@ -130,13 +123,6 @@
                 </Mage_Paypal>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <paypal module="Mage_Paypal">
-                    <file>layout.xml</file>
-                </paypal>
-            </updates>
-        </layout>
         <di>
             <Mage_Paypal_Model_Session>
                 <parameters>

@@ -42,13 +42,6 @@
         </di>
     </adminhtml>
     <frontend>
-        <layout>
-            <updates>
-                <saas_sales module="Saas_Sales">
-                    <file>layout.xml</file>
-                </saas_sales>
-            </updates>
-        </layout>
         <di>
             <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>

@@ -248,13 +248,6 @@
                 </Enterprise_CustomerBalance>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <enterprise_customerbalance module="Enterprise_CustomerBalance">
-                    <file>layout.xml</file>
-                </enterprise_customerbalance>
-            </updates>
-        </layout>
         <routers>
             <enterprise_customerbalance>
                 <use>standard</use>
@@ -280,13 +273,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_customerbalance module="Enterprise_CustomerBalance">
-                    <file>layout.xml</file>
-                </enterprise_customerbalance>
-            </updates>
-        </layout>
         <events>
             <adminhtml_customer_prepare_save>
                 <observers>

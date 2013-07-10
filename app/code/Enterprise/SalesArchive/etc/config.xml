@@ -144,13 +144,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_salesarchive module="Enterprise_SalesArchive">
-                    <file>layout.xml</file>
-                </enterprise_salesarchive>
-            </updates>
-        </layout>
         <events>
             <sales_order_load_after>
                 <observers>

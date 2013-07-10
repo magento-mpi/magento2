@@ -74,13 +74,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_importexport module="Enterprise_ImportExport">
-                    <file>layout.xml</file>
-                </enterprise_importexport>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_ImportExport>

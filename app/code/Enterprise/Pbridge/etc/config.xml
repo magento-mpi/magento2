@@ -62,13 +62,6 @@
                 </Enterprise_Pbridge>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <enterprise_pbridge module="Enterprise_Pbridge">
-                    <file>layout.xml</file>
-                </enterprise_pbridge>
-            </updates>
-        </layout>
         <di>
             <Enterprise_Pbridge_Model_Session>
                 <parameters>
@@ -78,13 +71,6 @@
         </di>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_pbridge module="Enterprise_Pbridge">
-                    <file>layout.xml</file>
-                </enterprise_pbridge>
-            </updates>
-        </layout>
         <events>
             <admin_system_config_changed_section_payment>
                 <observers>

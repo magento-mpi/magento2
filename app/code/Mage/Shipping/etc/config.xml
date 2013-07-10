@@ -59,13 +59,6 @@
                 </args>
             </shipping>
         </routers>
-        <layout>
-            <updates>
-                <shipping module="Mage_Shipping">
-                    <file>layout.xml</file>
-                </shipping>
-            </updates>
-        </layout>
     </frontend>
     <default>
         <shipping>

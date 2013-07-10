@@ -31,12 +31,5 @@
                 </parameters>
             </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>
-        <layout>
-            <updates>
-                <saas_customer module="Saas_Customer">
-                    <file>layout.xml</file>
-                </saas_customer>
-            </updates>
-        </layout>
     </adminhtml>
 </config>

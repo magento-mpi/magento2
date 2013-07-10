@@ -142,13 +142,6 @@
                 </Enterprise_GiftWrapping>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <enterprise_giftwrapping module="Enterprise_GiftWrapping">
-                    <file>layout.xml</file>
-                </enterprise_giftwrapping>
-            </updates>
-        </layout>
     </frontend>
     <admin>
         <routers>
@@ -190,13 +183,6 @@
                 </observers>
             </sales_convert_order_item_to_quote_item>
         </events>
-        <layout>
-            <updates>
-                <enterprise_giftwrapping module="Enterprise_GiftWrapping">
-                    <file>layout.xml</file>
-                </enterprise_giftwrapping>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_GiftWrapping>

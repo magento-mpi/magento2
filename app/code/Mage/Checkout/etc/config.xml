@@ -97,13 +97,6 @@
                 </Mage_Checkout>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <checkout module="Mage_Checkout">
-                    <file>layout.xml</file>
-                </checkout>
-            </updates>
-        </layout>
         <di>
             <Mage_Checkout_Model_Session>
                 <parameters>

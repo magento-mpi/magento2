@@ -233,13 +233,6 @@
                 <Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>Enterprise_Reward_Model_Observer_PlaceOrder_Restriction_Backend</Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>
             </preferences>
         </di>
-        <layout>
-            <updates>
-                <enterprise_reward module="Enterprise_Reward">
-                    <file>layout.xml</file>
-                </enterprise_reward>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Reward>
@@ -354,13 +347,6 @@
                 <Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>Enterprise_Reward_Model_Observer_PlaceOrder_Restriction_Frontend</Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>
             </preferences>
         </di>
-        <layout>
-            <updates>
-                <enterprise_reward module="Enterprise_Reward">
-                    <file>layout.xml</file>
-                </enterprise_reward>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Reward>
@@ -464,4 +450,4 @@
             </enterprise_reward_expire_points>
         </jobs>
     </crontab>
-</config>
+</config>

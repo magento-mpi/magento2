@@ -31,13 +31,6 @@
         </resources>
     </global>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_admingws module="Enterprise_AdminGws">
-                    <file>layout.xml</file>
-                </enterprise_admingws>
-            </updates>
-        </layout>
         <events>
             <admin_roles_load_after>
                 <observers>

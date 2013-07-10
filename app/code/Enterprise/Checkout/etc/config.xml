@@ -33,13 +33,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_checkout module="Enterprise_Checkout">
-                    <file>layout.xml</file>
-                </enterprise_checkout>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Checkout>
@@ -65,13 +58,6 @@
         </events>
     </adminhtml>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_checkout module="Enterprise_Checkout">
-                    <file>layout.xml</file>
-                </enterprise_checkout>
-            </updates>
-        </layout>
         <routers>
             <checkout>
                 <args>

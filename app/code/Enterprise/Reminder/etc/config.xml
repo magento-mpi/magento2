@@ -97,13 +97,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_reminder module="Enterprise_Reminder">
-                    <file>layout.xml</file>
-                </enterprise_reminder>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Reminder>

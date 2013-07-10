@@ -263,13 +263,6 @@
                 </Mage_Core>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <core module="Mage_Core">
-                    <file>layout.xml</file>
-                </core>
-            </updates>
-        </layout>
         <events>
             <controller_action_layout_render_before>
                 <observers>

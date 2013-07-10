@@ -104,13 +104,6 @@
                 </args>
             </captcha>
         </routers>
-        <layout>
-            <updates>
-                <captcha module="Mage_Captcha">
-                    <file>layout.xml</file>
-                </captcha>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Captcha>
@@ -133,13 +126,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <captcha module="Mage_Captcha">
-                    <file>layout.xml</file>
-                </captcha>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Captcha>

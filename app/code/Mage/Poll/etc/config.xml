@@ -39,13 +39,6 @@
                 </Mage_Poll>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <poll module="Mage_Poll">
-                    <file>layout.xml</file>
-                </poll>
-            </updates>
-        </layout>
     </frontend>
     <adminhtml>
         <translate>

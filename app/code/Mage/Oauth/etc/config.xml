@@ -88,13 +88,6 @@
                 </Mage_Oauth>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <oauth module="Mage_Oauth">
-                    <file>layout.xml</file>
-                </oauth>
-            </updates>
-        </layout>
     </adminhtml>
     <frontend>
         <routers>
@@ -106,13 +99,6 @@
                 </args>
             </oauth>
         </routers>
-        <layout>
-            <updates>
-                <oauth module="Mage_Oauth">
-                    <file>layout.xml</file>
-                </oauth>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Oauth>
