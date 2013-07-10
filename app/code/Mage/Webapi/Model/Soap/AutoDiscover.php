@@ -137,7 +137,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param $domDocument DOMDocument
      * @return DOMNode[]
      */
-    protected function _getComplexTypeNodes($complexTypeName, $domDocument)
+    public function getComplexTypeNodes($complexTypeName, $domDocument)
     {
         $response = array();
         /** TODO: Use object manager to instantiate objects */
@@ -156,7 +156,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                  */
                 $typeName = $type->value;
                 if (!strpos($typeName, ':') && !in_array($typeName, $this->_registeredTypes)) {
-                    $response += $this->_getComplexTypeNodes($typeName, $domDocument);
+                    $response += $this->getComplexTypeNodes($typeName, $domDocument);
                     /** Add target namespace to the referenced type name */
                     $type->value = Wsdl::TYPES_NS . ':' . $typeName;
                 }
@@ -406,7 +406,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($resourceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
-            $inputComplexTypes = $this->_getComplexTypeNodes($inputParameterName, $payloadSchemaDom);
+            $inputComplexTypes = $this->getComplexTypeNodes($inputParameterName, $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
                     // TODO: throw proper exception according to new error handling strategy
@@ -419,7 +419,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             }
             $resourceData['methods'][$serviceMethod]['interface']['inputComplexTypes'] = $inputComplexTypes;
             $outputParameterName = $this->getOutputMessageName($operationName);
-            $outputComplexTypes = $this->_getComplexTypeNodes($outputParameterName, $payloadSchemaDom);
+            $outputComplexTypes = $this->getComplexTypeNodes($outputParameterName, $payloadSchemaDom);
             if (!empty($outputComplexTypes)) {
                 $resourceData['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {

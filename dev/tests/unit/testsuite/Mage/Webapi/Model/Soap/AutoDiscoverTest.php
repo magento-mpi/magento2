@@ -91,6 +91,59 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
+    public function testGetComplexTypeNodes()
+    {
+        $nodesList = $this->_autoDiscover->getComplexTypeNodes('ItemsResponse', $this->_getXsdDocument());
+        $expectedCount = 2;
+        $this->assertCount($expectedCount, $nodesList, "Defined complex types count does not match.");
+        $actualTypes = array();
+        foreach ($nodesList as $node) {
+            $actualTypes[] = $node->getAttribute('name');
+        }
+        $expectedTypes = array('ItemsResponse', 'ItemsArray');
+        $this->assertEquals(
+            $expectedCount,
+            count(array_intersect($expectedTypes, $actualTypes)),
+            "Complex types does not match."
+        );
+    }
+
+    /**
+     * @return DOMDocument
+     */
+    protected function _getXsdDocument()
+    {
+        $xsd =
+            '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                <xsd:complexType name="ItemRequest">
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+                <xsd:complexType name="ItemResponse">
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int" />
+                        <xsd:element name="name"  type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+
+                <xsd:complexType name="ItemsResponse">
+                    <xsd:sequence>
+                        <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="ItemsArray" />
+                    </xsd:sequence>
+                </xsd:complexType>
+                <xsd:complexType name="ItemsArray">
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int" />
+                        <xsd:element name="name" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:schema>';
+        $xsdDom = new DOMDocument();
+        $xsdDom->loadXML($xsd);
+        return $xsdDom;
+    }
+
     /**
      * Test success case for handle
      */
