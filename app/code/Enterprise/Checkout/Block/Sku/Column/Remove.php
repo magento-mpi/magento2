@@ -21,17 +21,15 @@ class Enterprise_Checkout_Block_Sku_Column_Remove extends Mage_Backend_Block_Wid
 {
     public function render(Varien_Object $row)
     {
-        $buttonType = 'button';
-        $buttonClass = 'action- scalable delete';
-        $buttonLabel = 'Remove';
-        $buttonOnclick = 'addBySku.removeFailedItem(this)';
-        return '<button'
-        . (' type="' . $buttonType . '"' )
-        . (' class="' . $buttonClass . '"')
-        . (' onclick="' . $buttonOnclick . '"' )
-        . (' title="' . $buttonLabel . '"' )
-        .'>'
-        . $this->getColumn()->getHeader()
-        . '</button>';
+        $removeButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
+            'data' => array(
+                'class' => 'delete',
+                'label' => 'Remove',
+                'onclick' => 'addBySku.removeFailedItem(this)',
+                'type' => 'button',
+            )
+        ));
+
+        return $removeButtonHtml->toHtml();
     }
 }
