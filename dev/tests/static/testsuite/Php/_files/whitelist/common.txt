@@ -63,6 +63,7 @@ app/code/Mage/Core/Model/Page.php
 app/code/Mage/Core/Model/Resource/Setup/Migration.php
 app/code/Mage/Core/Model/Resource/Theme
 app/code/Mage/Core/Model/Resource/Theme.php
+app/code/Mage/Core/Model/Sender.php
 app/code/Mage/Core/Model/ShellAbstract.php
 app/code/Mage/Core/Model/TemplateEngine
 app/code/Mage/Core/Model/Theme

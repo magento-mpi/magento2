@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Adminhtml_Block_Template
+class Mage_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends Mage_Backend_Block_Template
 {
 
     protected $_template = 'system/currency/rate/matrix.phtml';
@@ -30,15 +30,15 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Adminhtml_Bl
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
         $oldCurrencies = $this->_prepareRates($currencyModel->getCurrencyRates($defaultCurrencies, $currencies));
 
-        foreach( $currencies as $currency ) {
-            foreach( $oldCurrencies as $key => $value ) {
-                if( !array_key_exists($currency, $oldCurrencies[$key]) ) {
+        foreach ($currencies as $currency) {
+            foreach ($oldCurrencies as $key => $value) {
+                if (!array_key_exists($currency, $oldCurrencies[$key])) {
                     $oldCurrencies[$key][$currency] = '';
                 }
             }
         }
 
-        foreach( $oldCurrencies as $key => $value ) {
+        foreach ($oldCurrencies as $key => $value) {
             ksort($oldCurrencies[$key]);
         }
 
@@ -52,24 +52,24 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Adminhtml_Bl
         return parent::_prepareLayout();
     }
 
-    protected function getRatesFormAction()
+    public function getRatesFormAction()
     {
         return $this->getUrl('*/*/saveRates');
     }
 
     protected function _prepareRates($array)
     {
-        if( !is_array($array) ) {
+        if (!is_array($array)) {
             return $array;
         }
 
         foreach ($array as $key => $rate) {
             foreach ($rate as $code => $value) {
                 $parts = explode('.', $value);
-                if( sizeof($parts) == 2 ) {
+                if (sizeof($parts) == 2) {
                     $parts[1] = str_pad(rtrim($parts[1], 0), 4, '0', STR_PAD_RIGHT);
                     $array[$key][$code] = join('.', $parts);
-                } elseif( $value > 0 ) {
+                } elseif ($value > 0) {
                     $array[$key][$code] = number_format($value, 4);
                 } else {
                     $array[$key][$code] = null;
