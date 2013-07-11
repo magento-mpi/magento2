@@ -3,19 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Page cache grid collection
- *
- * @category    Mage
- * @package     Mage_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_PageCache_Model_Resource_Grid_Collection extends Varien_Data_Collection
+class Mage_Backend_Model_Cache_Resource_Grid_Collection extends Varien_Data_Collection
 {
     /**
      * @var Mage_Core_Model_App
@@ -35,7 +28,7 @@ class Mage_PageCache_Model_Resource_Grid_Collection extends Varien_Data_Collecti
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Mage_PageCache_Model_Resource_Grid_Collection
+     * @return Mage_Backend_Model_Resource_Grid_Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

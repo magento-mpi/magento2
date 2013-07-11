@@ -3,19 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * System cache Statuses Column
- *
- * @category    Mage
- * @package     Mage_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_PageCache_Block_Adminhtml_Cache_Grid_Column_Statuses extends Mage_Backend_Block_Widget_Grid_Column
+class Mage_Backend_Block_Cache_Grid_Column_Statuses extends Mage_Backend_Block_Widget_Grid_Column
 {
     /**
      * Invalidated cache types
