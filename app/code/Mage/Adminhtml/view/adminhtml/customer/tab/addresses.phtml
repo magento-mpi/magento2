@@ -61,8 +61,8 @@
         <!-- Template for adding address item to list -->
         <?php $_templatePrefix = $this->getTemplatePrefix() ?>
         <div id="address_item_template" class="hidden template">
-            <li class="address-list-item">
-                <a>
+            <li class="address-list-item" id="address_item_">
+                <a href="#form_new_item">
                 <?php if (!$this->isReadonly()): ?>
                 <div class="address-list-item-actions">
                     <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>">
