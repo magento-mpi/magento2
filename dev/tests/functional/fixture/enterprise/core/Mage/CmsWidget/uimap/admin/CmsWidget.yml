@@ -19,7 +19,7 @@ add_widget_options:
                         fieldsets:
                             -
                                 layout_updates_header:
-                                    xpath: //div[@class='entry-edit-head' and h4='Layout Updates']
+                                    xpath: //fieldset[legend/span='Layout Updates']
                                     buttons:
                                         add_layout_update: //button[span='Add Layout Update']
                 -

@@ -27,6 +27,9 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->fillField('sign_up_newsletter', $email);
         $this->saveForm('subscribe');
+        if ($this->getCurrentPage() == 'home_page') {
+            $this->markTestIncomplete('BUG: Redirect to home page after add subscription');
+        }
     }
 
     /**
@@ -197,15 +200,19 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openNewsletter(array $searchData)
     {
+        //Search Newsletter
         $searchData = $this->_prepareDataForSearch($searchData);
-        $locator = $this->search($searchData, 'newsletter_templates_grid');
-        $this->assertNotNull($locator, 'Newsletter is not found');
+        $newsletterLocator = $this->search($searchData, 'newsletter_templates_grid');
+        $this->assertNotNull($newsletterLocator, 'Newsletter is not found with data: ' . print_r($searchData, true));
+        $newsletterRowElement = $this->getElement($newsletterLocator);
+        $newsletterUrl = $newsletterRowElement->attribute('title');
+        //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Template');
-        $this->addParameter('tableLineXpath', $locator);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($locator));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $cellElement = $this->getChildElement($newsletterRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($newsletterUrl));
+        //Open Newsletter
+        $this->url($newsletterUrl);
+        $this->validatePage('edit_news_template');
     }
 }

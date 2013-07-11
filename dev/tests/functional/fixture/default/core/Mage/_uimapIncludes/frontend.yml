@@ -43,8 +43,11 @@ frontend_header:
                             contact_us: //a[@title='Contact Us']
                             select_store: //ul[@id='select-store']/li//a[text()='%store%']
                 -
-                    categories_menu:
-                        xpath: //ul[@id='nav']
+                    categories:
+                        xpath:
+                        pageelements:
+                            category_container: //li[normalize-space(a/span)='%catName%']
+                            categories_menu: //ul[@id='nav']
                         buttons:
                             category_button: //a[span='%catName%']
                 -
@@ -95,4 +98,6 @@ frontend_header:
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
             general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
-            general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][string-length(.)>1]"
+            general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][@for][string-length(.)>1]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.']
+            general_js_error: "//*[normalize-space(@class)='error-msg' and @data-role='js-error'][string-length(.)>1]"

@@ -103,8 +103,10 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
-        $this->assertMessagePresent('validation', 'invalid_discount_amount');
-        $this->assertMessagePresent('validation', 'invalid_sub_discount_amount');
+        $this->addFieldIdToMessage('field', 'discount_amount');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->addFieldIdToMessage('field', 'sub_discount_amount');
+        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 

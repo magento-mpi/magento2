@@ -490,6 +490,7 @@ addressesModel.prototype = {
                 this.countryEl = countryElement;
                 if (countryElement.value) {
                     var url = this.regionsUrl + 'parent/' + countryElement.value;
+                    console.log(url);
                     this.loader.load(url, {}, this.refreshRegionField.bind(this));
                 } else {
                     // Set empty text field in region
@@ -525,7 +526,8 @@ addressesModel.prototype = {
             html+= '<option value=""></option>';
             for (var i in data){
                 if(data[i].label) {
-                    html+= '<option value="'+data[i].value+'"';
+                    var val = (data[i].value == 0) ? '' : data[i].value;
+                    html+= '<option value="'+val+'"';
                     if(this.regionElement.value && (this.regionElement.value == data[i].value || this.regionElement.value == data[i].label)){
                         html+= ' selected="selected"';
                     }

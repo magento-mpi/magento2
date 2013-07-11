@@ -22,7 +22,8 @@ customer_address_attribute_search_data:
 
 # Test Datasets for Add New TextField type Customer Address Attribute
 customer_address_attribute_textfield: &customerAddressAttributeTextfield
-    properties:
+    attribute_properties:
+        attribute_label: Textfield_attribute_label_%randomize%
         input_type: Text Field
         default_value: %noValue%
         attribute_code: textfield_%randomize%
@@ -32,17 +33,18 @@ customer_address_attribute_textfield: &customerAddressAttributeTextfield
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Textfield_Admin_Title_%randomize%
         store_view_titles:
             Default Store View: Textfield_Title_%randomize%
 
 # Test Datasets for Add New TextArea type Customer Address Attribute
 customer_address_attribute_textarea: &customerAddressAttributeTextarea
-    properties:
+    attribute_properties:
+        attribute_label: Text_Area_Admin
         input_type: Text Area
         attribute_code: textarea_%randomize%
         default_text_field_value: %noValue%
@@ -51,17 +53,18 @@ customer_address_attribute_textarea: &customerAddressAttributeTextarea
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Text_Area_Admin
         store_view_titles:
             Default Store View: Textarea_Title_%randomize%
 
 # Test Datasets for Add New Multiple Line type Customer Address Attribute
 customer_address_attribute_multipleline: &customerAddressAttributeMultipLine
-    properties:
+    attribute_properties:
+        attribute_label: MultipLine_Area_Admin
         input_type: Multiple Line
         attribute_code: multiline_%randomize%
         lines_count: 2
@@ -72,17 +75,18 @@ customer_address_attribute_multipleline: &customerAddressAttributeMultipLine
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: MultipLine_Area_Admin
         store_view_titles:
             Default Store View: MultipLine_Title_%randomize%
 
 # Test Datasets for Add New Date type Customer Address Attribute
 customer_address_attribute_date: &customerAddressAttributeDate
-    properties:
+    attribute_properties:
+        attribute_label: Date_Admina
         input_type: Date
         attribute_code: date_%randomize%
         default_data_value: %noValue%
@@ -92,26 +96,27 @@ customer_address_attribute_date: &customerAddressAttributeDate
         values_required: %noValue%
         input_output_filter: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Date_Admina
         store_view_titles:
             Default Store View: Date_Title_%randomize%
 
 # Test Datasets for Add New Dropdown type  Customer Address Attribute
 customer_address_attribute_dropdown: &customerAddressAttributeDropdown
-    properties:
+    attribute_properties:
+        attribute_label: Dropdown_Admin_%randomize%
         input_type: Dropdown
         attribute_code: dropdown_%randomize%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Dropdown_Admin_%randomize%
         store_view_titles:
             Default Store View: Dropdown_StoreView
         option_1:
@@ -138,16 +143,17 @@ customer_address_attribute_dropdown: &customerAddressAttributeDropdown
 
 # Test Datasets for Add New MultipleSelect type Customer Address Attribute
 customer_address_attribute_multiselect: &customerAddressAttributeMultiselect
-    properties:
+    attribute_properties:
+        attribute_label: Multipleselect_Admin_%randomize%
         input_type: Multiple Select
         attribute_code: mselect_%randomize%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Multipleselect_Admin_%randomize%
         store_view_titles:
             Default Store View: Multipleselect_StoreView
         option_1:
@@ -174,40 +180,43 @@ customer_address_attribute_multiselect: &customerAddressAttributeMultiselect
 
 # Test Datasets for Add New Yes/No type Customer Address Attribute
 customer_address_attribute_yesno: &customerAddressAttributeYesno
-    properties:
+    attribute_properties:
+        attribute_label: Yes/No_Admin
         input_type: Yes/No
         attribute_code: yesno_%randomize%
         default_value: %noValue%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        admin_title: Yes/No_Admin
         store_view_titles:
             Default Store View: Yesno_Title_%randomize%
 
 # Test Datasets for Attach File type Customer Address Attribute
 customer_address_attribute_attach_file: &customerAddressAttributeAttachFile
-    properties:
+    attribute_properties:
+        attribute_label: File Attachment_Admin
         input_type: File (attachment)
         attribute_code: file__%randomize%
         maximum_file_size: %noValue%
         file_extensions: %noValue%
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        admin_title: File Attachment_Admin
         store_view_titles:
             Default Store View: Price_StoreView
 
 # Test Datasets for Image File type Customer  Address Attribute
 customer_address_attribute_image_file: &customerAddressAttributeImageFile
-    properties:
+    attribute_properties:
+        attribute_label: Image file_Admin
         input_type: Image File
         attribute_code: image_file_%randomize%
         maximum_image_file_size:
@@ -215,11 +224,11 @@ customer_address_attribute_image_file: &customerAddressAttributeImageFile
         maximum_image_height:
         values_required: %noValue%
         use_customer_segment: %noValue%
+    frontend_properties:
         show_on_frontend: %noValue%
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        admin_title: Image file_Admin
         store_view_titles:
             Default Store View: ImageFile_Title_%randomize%
 
@@ -236,7 +245,8 @@ customer_address_attributes:
     customer_address_attribute_image_file: *customerAddressAttributeImageFile
 
 generic_customer_address_attribute:
-    properties:
+    attribute_properties:
+        attribute_label: 'Text_Field_Admin_%randomize%'
         input_type: Text Field
         attribute_code: 'attr_%randomize%'
         default_text_field_value: 'attr_default_%randomize%'
@@ -246,10 +256,10 @@ generic_customer_address_attribute:
         max_text_length: 255
         input_filter: None
         used_for_customer_segment: No
+    frontend_properties:
         visible_on_frontend: Yes
         sort_order: 1
         used_in_forms: Customer Account Address, Customer Address Registration
     manage_labels_options:
-        admin_title: 'Text_Field_Admin_%randomize%'
         store_view_titles:
-                    Default Store View: Textfield_Title_%randomize%
+            Default Store View: Textfield_Title_%randomize%

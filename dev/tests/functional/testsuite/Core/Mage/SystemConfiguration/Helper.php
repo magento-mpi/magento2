@@ -93,8 +93,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             $this->expandFieldSet($fieldsetName);
             $this->verifyForm($fieldsetData, $tab);
         }
-        if ($this->getParsedMessages('verification')) {
-            $messages = $this->getParsedMessages('verification');
+        $messages = $this->getParsedMessages('verification');
+        if ($messages) {
             $this->clearMessages('verification');
             $skipError = preg_quote("' != '**");
             foreach ($messages as $errorMessage) {
@@ -166,15 +166,73 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         );
         $this->fillFieldset($data, 'secure');
         $this->clickButton('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
 
     /**
-     * @param $parameters
+     * PayPal System Configuration
+     *
+     * @param array|string $parameters
+     *
+     * @throws RuntimeException
      */
     public function configurePaypal($parameters)
     {
-        $this->configure($parameters);
+        $parameters = $this->fixtureDataToArray($parameters);
+        $configuration = (isset($parameters['configuration'])) ? $parameters['configuration'] : array();
+        if (isset($parameters['configuration_scope']) &&
+            $this->controlIsVisible('dropdown', 'current_configuration_scope')
+        ) {
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
+        }
+        $this->openConfigurationTab('sales_payment_methods');
+        $this->disableAllPaypalMethods();
+        foreach ($configuration as &$payment) {
+            if (!isset($payment['payment_name']) || !isset($payment['general_fieldset'])) {
+                throw new RuntimeException('Required parameter "payment_name"(or "general_fieldset") is not set');
+            }
+            $this->disclosePaypalFieldset($payment['general_fieldset']);
+            if ($this->controlIsVisible('button', $payment['payment_name'] . '_configure')) {
+                $this->clickButton($payment['payment_name'] . '_configure', false);
+            }
+            foreach ($payment as &$dataSet) {
+                if (!is_array($dataSet)) {
+                    continue;
+                }
+                $fieldsetName = $this->disclosePaypalFieldset($dataSet['path']);
+                foreach ($dataSet['data'] as $key => $value) {
+                    $dataSet['data'][$payment['payment_name'] . '_' . $key] = $value;
+                    unset($dataSet['data'][$key]);
+                }
+                $this->fillFieldset($dataSet['data'], $fieldsetName);
+            }
+        }
+        $this->saveForm('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
+        foreach ($configuration as $payment) {
+            $this->disclosePaypalFieldset($payment['general_fieldset']);
+            if ($this->controlIsVisible('button', $payment['payment_name'] . '_configure')) {
+                $this->clickButton($payment['payment_name'] . '_configure', false);
+            }
+            foreach ($payment as $dataSet) {
+                if (is_array($dataSet)) {
+                    $this->disclosePaypalFieldset($dataSet['path']);
+                    $this->verifyForm($dataSet['data'], 'sales_payment_methods');
+                }
+            }
+        }
+        $messages = $this->getParsedMessages('verification');
+        if ($messages) {
+            $this->clearMessages('verification');
+            $skipError = preg_quote("' != '**");
+            foreach ($messages as $errorMessage) {
+                if (!preg_match('#' . $skipError . '#i', $errorMessage)) {
+                    $this->addVerificationMessage($errorMessage);
+                }
+            }
+        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -203,10 +261,64 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
                     && !$this->elementIsPresent($fieldLocator . $storeView)
                 ) {
                     $this->addVerificationMessage('Scope label for element "' . $fieldName . '" with locator "'
-                        . $fieldLocator . '" is not on the page');
+                    . $fieldLocator . '" is not on the page');
                 }
             }
         }
         $this->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * Disable all active paypal payment methods
+     *
+     * @return null
+     */
+    public function disableAllPaypalMethods()
+    {
+        if (!$this->controlIsPresent('button', 'active_paypal_method')) {
+            return;
+        }
+        $closePaypalFieldsetButtons = array();
+        foreach ($this->_getActiveTabUimap()->getAllButtons() as $key => $value) {
+            if (preg_match('/_close$/', $key)) {
+                $closePaypalFieldsetButtons[preg_replace('/_close$/', '', $key)] = $value;
+            }
+        }
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+        foreach ($this->getControlElements('button', 'active_paypal_method') as $element) {
+            $idRegExp = preg_quote('@id=\'' . $element->attribute('id'));
+            foreach ($closePaypalFieldsetButtons as $name => $locator) {
+                if (preg_match('/' . $idRegExp . '/', $locator)) {
+                    $this->moveto($element);
+                    $element->click();
+                    if ($this->controlIsEditable('dropdown', $name . '_enable')) {
+                        $this->fillDropdown($name . '_enable', 'No');
+                    }
+                    unset($closePaypalFieldsetButtons[$name]);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Disclose Paypal fieldset
+     *
+     * @param string $path
+     *
+     * @return string Fieldset name for filling in
+     */
+    public function disclosePaypalFieldset($path)
+    {
+        $fullPath = explode('/', $path);
+        $fullPath = array_map('trim', $fullPath);
+        foreach ($fullPath as $node) {
+            $class = $this->getControlAttribute('fieldset', $node, 'class');
+            if (!preg_match('/active/', $class)) {
+                $this->clickControl('link', $node . '_section', false);
+            }
+        }
+
+        return end($fullPath);
     }
 }

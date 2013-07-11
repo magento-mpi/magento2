@@ -29,7 +29,6 @@ class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function updateStoreCreditBalance(array $storeCreditData, $continue = false)
     {
         $this->fillTab($storeCreditData, 'store_credit');
-        $this->clearMessages();
         if (!$continue) {
             $this->saveForm('save_customer');
         }
@@ -46,7 +45,6 @@ class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function updateRewardPointsBalance(array $rewardPointsData, $continue = false)
     {
         $this->fillTab($rewardPointsData, 'reward_points');
-        $this->clearMessages();
         if (!$continue) {
             $this->saveForm('save_customer');
         }
@@ -62,12 +60,14 @@ class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function getStoreCreditBalance($webSiteName = '')
     {
         $this->openTab('store_credit');
-        $this->addParameter('webSiteName', 'No records found');
-        if ($this->controlIsPresent('field', 'current_balance')) {
+        $fieldsetLocator = $this->_getControlXpath('fieldset', 'current_store_balance');
+        $this->addParameter('tableXpath', $fieldsetLocator);
+        if ($this->controlIsVisible('message', 'specific_table_no_records_found')) {
             return 'No records found.';
         }
         $this->addParameter('webSiteName', $webSiteName);
-        return trim($this->getControlAttribute('field', 'current_balance', 'text'));
+        $this->addParameter('index', $this->getColumnIdByName('Balance', $fieldsetLocator));
+        return trim($this->getControlAttribute('field', 'store_credit_balance', 'text'));
     }
 
     /**
@@ -80,12 +80,14 @@ class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function getRewardPointsBalance($webSiteName = '')
     {
         $this->openTab('reward_points');
-        $this->addParameter('webSiteName', 'No records found');
-        if ($this->controlIsPresent('field', 'balance_is_present')) {
+        $fieldsetLocator = $this->_getControlXpath('fieldset', 'current_reward_balance');
+        $this->addParameter('tableXpath', $fieldsetLocator);
+        if ($this->controlIsVisible('message', 'specific_table_no_records_found')) {
             return 'No records found.';
         }
         $this->addParameter('webSiteName', $webSiteName);
-        return trim($this->getControlAttribute('field', 'current_balance', 'text'));
+        $this->addParameter('index', $this->getColumnIdByName('Balance', $fieldsetLocator));
+        return trim($this->getControlAttribute('field', 'reward_points_balance', 'text'));
     }
 
     /*

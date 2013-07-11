@@ -35,18 +35,24 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $ruleData
-     * @return array
+     * Create new Rule
+     *
+     * @param string|array $ruleData
+     * @param string $pageToVerify
      */
-    protected function _ruleData($ruleData)
+    public function createRuleAndContinueEdit($ruleData, $pageToVerify = '')
     {
-        $ruleVars = array();
-        $ruleVars['ruleInfo'] = (isset($ruleData['info'])) ? $ruleData['info'] : array();
-        $ruleVars['Conditions'] = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
-        $ruleVars['ruleActions'] = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
-        $ruleVars['ruleLabels'] = (isset($ruleData['labels'])) ? $ruleData['labels'] : array();
-        return $ruleVars;
+        $this->clickButton('add_new_rule');
+        $this->fillTabs($ruleData);
+        if (isset($ruleData['info']['rule_name'])) {
+            $this->addParameter('elementTitle', $ruleData['info']['rule_name']);
+        }
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        if ($pageToVerify !== '') {
+            $this->assertTrue($this->checkCurrentPage($pageToVerify), $this->getParsedMessages());
+        }
     }
+
     /**
      * Filling tabs
      *
@@ -55,20 +61,23 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     public function fillTabs($ruleData)
     {
         $ruleData = $this->fixtureDataToArray($ruleData);
-        $ruleVars = $this->_ruleData($ruleData);
-        if (array_key_exists('websites', $ruleVars['ruleInfo'])
-            && !$this->controlIsPresent('multiselect', 'websites')) {
-            unset($ruleVars['ruleInfo']['websites']);
+        if (isset($ruleData['info'])) {
+            $this->openTab('rule_information');
+            if (array_key_exists('websites', $ruleData['info'])
+                && !$this->controlIsVisible('multiselect', 'websites')
+            ) {
+                unset($ruleData['info']['websites']);
+            }
+            $this->fillTab($ruleData['info'], 'rule_information');
         }
-        $this->fillTab($ruleVars['ruleInfo'], 'rule_information');
-        if ($ruleVars['Conditions']) {
-            $this->fillConditionsTab($ruleVars['Conditions']);
+        if (isset($ruleData['conditions'])) {
+            $this->fillConditionsTab($ruleData['conditions']);
         }
-        if ($ruleVars['ruleActions']) {
-            $this->fillActionsTab($ruleVars['ruleActions']);
+        if (isset($ruleData['actions'])) {
+            $this->fillActionsTab($ruleData['actions']);
         }
-        if ($ruleVars['ruleLabels']) {
-            $this->fillLabelsTab($ruleVars['ruleLabels']);
+        if (isset($ruleData['labels'])) {
+            $this->fillLabelsTab($ruleData['labels']);
         }
     }
 
@@ -215,8 +224,12 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
                 continue;
             }
             $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
-            $this->_fill(array('type'  => $formField['type'], 'name' => $formFieldName,
-                               'value' => $formField['value'], 'locator' => $formField['path']));
+            $this->_fill(array(
+                'type' => $formField['type'],
+                'name' => $formFieldName,
+                'value' => $formField['value'],
+                'locator' => $formField['path']
+            ));
             $this->clearActiveFocus();
         }
     }
@@ -224,20 +237,24 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open Rule
      *
-     * @param array $ruleSearch
+     * @param array $searchData
      */
-    public function openRule(array $ruleSearch)
+    public function openRule(array $searchData)
     {
-        $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
-        $this->assertNotNull($xpathTR,
-            'Rule with next search criteria:' . "\n" . implode(' and ', $ruleSearch) . "\n" . 'is not found');
-        $cellId = $this->getColumnIdByName('Rule Name');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search Rule
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $ruleLocator = $this->search($searchData, 'rule_search_grid');
+        $this->assertNotNull($ruleLocator, 'Rule is not found with data: ' . print_r($searchData, true));
+        $ruleRowElement = $this->getElement($ruleLocator);
+        $ruleUrl = $ruleRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Rule');
+        $cellElement = $this->getChildElement($ruleRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($ruleUrl));
+        //Open Rule
+        $this->url($ruleUrl);
+        $this->validatePage();
     }
 
     /**
@@ -257,7 +274,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     public function deleteAllRules()
     {
         $this->addParameter('tableXpath', $this->_getControlXpath('pageelement', 'rule_grid'));
-        $cellId = $this->getColumnIdByName('Rule Name');
+        $cellId = $this->getColumnIdByName('Rule');
         $xpath = $this->_getControlXpath('pageelement', 'price_rule');
         $this->addParameter('tableLineXpath', $this->_getControlXpath('pageelement', 'price_rule'));
         $this->addParameter('cellIndex', $cellId);
@@ -281,7 +298,8 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
         foreach ($ruleData as $tabName => $tabData) {
             switch ($tabName) {
                 case 'info':
-                    if (array_key_exists('websites', $tabData) && !$this->controlIsPresent('multiselect', 'websites')) {
+                    $this->openTab('rule_information');
+                    if (array_key_exists('websites', $tabData) && !$this->controlIsVisible('multiselect', 'websites')) {
                         unset($tabData['websites']);
                     }
                     $this->verifyForm($tabData, 'rule_information');
@@ -314,7 +332,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
         if (!$xpathTR) {
             return true;
         }
-        $cellId = $this->getColumnIdByName('Rule Name');
+        $cellId = $this->getColumnIdByName('Rule');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
         while ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {

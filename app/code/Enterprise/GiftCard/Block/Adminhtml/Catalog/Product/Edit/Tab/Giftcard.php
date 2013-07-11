@@ -169,4 +169,14 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
         }
         return 'value-scope="' . $this->_helperFactory->get('Mage_Backend_Helper_Data')->__($text) . '"';
     }
+
+    /**
+     * Get parent tab code
+     *
+     * @return string
+     */
+    public function getParentTab()
+    {
+        return 'product-details';
+    }
 }

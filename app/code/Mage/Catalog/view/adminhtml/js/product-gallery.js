@@ -253,7 +253,7 @@
                 this.element.trigger('removeItem', $imageContainer.data('imageData'));
             };
             this._on(events);
-            this.element.on('sortstart addItem', $.proxy(function() {
+            this.element.on('sortstart', $.proxy(function() {
                 this.element.find('[data-role=dialog]').trigger('close');
             }, this));
 

@@ -96,7 +96,7 @@
                         resizable: true,
                         buttons: [
                             {
-                                text: $.mage.__('Close'),
+                                text: $.mage.__('Cancel'),
                                 id: 'import-custom-options-close-button',
                                 click: function () {
                                     $(this).dialog('close');
@@ -105,6 +105,7 @@
                             {
                                 text: $.mage.__('Import'),
                                 id: 'import-custom-options-apply-button',
+                                'class': 'primary',
                                 click: function (event, massActionTrigger) {
                                     var request = [];
                                     $(this).find('input[name=product]:checked').map(function () {
@@ -328,7 +329,8 @@
                 this.options.itemCount = data.item_count;
             }
             this.element.find('#custom-option-base-template').tmpl(data)
-                .appendTo(this.element.find('#product_options_container_top'));
+                .appendTo(this.element.find('#product_options_container_top'))
+                .find('.collapse').collapsable();
             //set selected type value if set
             if (data.type) {
                 $('#' + this.options.fieldId + '_' + data.id + '_type').val(data.type).trigger('change', data);
@@ -337,7 +339,6 @@
             if (data.is_require) {
                 $('#' + this.options.fieldId + '_' + data.id + '_is_require').val(data.is_require).trigger('change');
             }
-            $('.collapse').collapsable();
             this.refreshSortableElements();
             this._bindCheckboxHandlers();
             this._bindReadOnlyMode();

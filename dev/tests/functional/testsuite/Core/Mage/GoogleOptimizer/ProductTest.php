@@ -14,8 +14,6 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
-        parent::setUpBeforeTests();
-
         $this->loginAdminUser();
 
         // Enable in System Configuration
@@ -36,8 +34,6 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
 
     public function tearDownAfterTestClass()
     {
-        parent::tearDownAfterTestClass();
-
         // Delete fixture
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -53,7 +49,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
     public function checkBehaviorOnCreate()
     {
         // Open product on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
@@ -80,7 +76,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
         $this->productHelper()->saveProduct();
 
         // Open product on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
@@ -101,7 +97,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
 
         // Open product on frontend
-        $this->frontend('home');
+        $this->frontend();
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result

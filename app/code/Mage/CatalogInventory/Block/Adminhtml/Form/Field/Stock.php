@@ -152,7 +152,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
 
                     var disabler = function(event) {
-                        var hasVariation = $('#config_super_product-wrapper').is('.opened');
+                        var hasVariation = $('[data-panel=product-variations]').is('.opened');
                         if ((productType == 'configurable' && hasVariation)
                             || productType == 'grouped'
                             || productType == 'bundle'//@TODO move this check to Mage_Bundle after refactoring as widget
@@ -161,11 +161,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                             return;
                         }
                         var manageStockValue = (qty.val() === '') ? 0 : 1;
-                        if (manageStockValue) {
-                            stockAvailabilityField.prop('disabled', false);
-                        } else {
-                            stockAvailabilityField.prop('disabled', true);
-                        }
+                        stockAvailabilityField.prop('disabled', !manageStockValue);
                         if (manageStockField.val() != manageStockValue && !(event && event.type == 'keyup')) {
                             if (useConfigManageStockField.val() == 1) {
                                 useConfigManageStockField.removeAttr('checked').val(0);

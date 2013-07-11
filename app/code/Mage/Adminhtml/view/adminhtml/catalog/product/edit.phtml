@@ -50,21 +50,20 @@
 </div>
 
 <?php if ($this->getUseContainer()): ?>
-<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data"
+      data-form="edit-product" data-product-id="<?php echo $this->getProduct()->getId()?>">
 <?php endif; ?>
     <?php echo $this->getBlockHtml('formkey')?>
-    <div id="product-edit-form-tabs"></div>
+    <div data-role="tabs" id="product-edit-form-tabs"></div> <?php /* @TODO: remove id after elimination of setDestElementId('product-edit-form-tabs') */?>
     <?php echo $this->getChildHtml('product-type-tabs') ?>
-    <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
     <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
 <?php if ($this->getUseContainer()): ?>
 </form>
 <?php endif; ?>
 <script type="text/javascript">
-
 jQuery(function($) {
-    var $form = $('#product-edit-form');
+    var $form = $('[data-form=edit-product]');
     $form.data('typeSwitcher', new TypeSwitcher(<?php echo $this->getTypeSwitcherData();?>).bindAll());
 
     $('#meta_description').on('change keyup paste', function () {
@@ -95,17 +94,12 @@ jQuery(function($) {
     });
     $form.mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
-    $('#product_info_tabs').on('tabsbeforeactivate tabscreate', function (event, ui) {
-        var action = $(ui.newPanel || ui.panel).find('#attribute-name-container').length ? 'show' : 'hide';
-        $('#config_super_product, #grouped_product_container')[action]();
-    });
-
     var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
     var availablePlaceholders = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
     var Autogenerator = function(masks) {
         this._masks = masks || {};
         this._fieldReverseIndex = this._buildReverseIndex(this._masks);
-        this.form = $('#product-edit-form, #drawer-form');
+        this.form = $('[data-form=edit-product], #drawer-form');
     };
 
     $.extend(Autogenerator.prototype, {
@@ -118,7 +112,7 @@ jQuery(function($) {
             var self = this;
             var elementSelector = _(this._masks).keys().map(function(key) {
                 return '#' + key;
-            }).join(',')
+            }).join(',');
             var disabler = function() {
                 this.form.on(
                     'change init',
@@ -199,6 +193,7 @@ jQuery(function($) {
     $form.on('changeAttributeSet', function(event, data) {
         if (data.label) {
             $('#product-template-suggest-container .action-toggle>span').text(data.label);
+            $('[data-id=affected-attribute-set-selector] [data-id=current-attribute-set] [data-role=name-container]').text(data.label);
         }
         $('#product-template-suggest').suggest('option', "currentlySelected", data.id).val('');
 
@@ -206,7 +201,7 @@ jQuery(function($) {
         uri += /\?/.test(uri) ? '&' : '?';
         uri += 'set=' + window.encodeURIComponent(data.id);
 
-        var $form = $('#product-edit-form');
+        var $form = $('[data-form=edit-product]');
         $form.attr('action', $form.attr('action').replace(/(\/|&|\?)?\bset(\/|=)\d+/g, ''));
         $form.find('#attribute_set_id').attr('name', 'set').val(data.id);
         $.ajax({
@@ -230,10 +225,10 @@ jQuery(function($) {
             $page.find('#product_info_tabs .tabs').each(function(i, tabContainer) {
                 $newPage.find('#product_info_tabs .tabs').each(function(j, newTabContainer) {
                     if (i != j) {
-                        return
+                        return;
                     }
                     var $tabContainer = $(tabContainer);
-                    $(tabContainer).find('li').removeClass(removedElementClass)
+                    $(tabContainer).find('li').removeClass(removedElementClass);
                     var $tabs = $(tabContainer)
                         .find('li:not(.' + removedElementClass + ')  .tab-item-link.user-defined:not(.ajax)');
                     var $newTabs = $(newTabContainer).find('.tab-item-link.user-defined:not(.ajax)'),
@@ -244,7 +239,7 @@ jQuery(function($) {
                         _.difference(tabsNames, $newTabs.map(nameMapper).toArray()),
                         function(index, tabName) {
                             $tabContainer.find('[name=' + tabName + ']').closest('li')
-                                .addClass(removedElementClass)
+                                .addClass(removedElementClass);
                             $page.find('#' + tabName)
                                 .addClass(removedElementClass)
                                 .addClass('ignore-validate');
@@ -279,7 +274,7 @@ jQuery(function($) {
                 return $(this).data('elementId');
             };
             //add new element elements or reorder
-            $page.find('#product-edit-form-tabs .fieldset, #product_info_tabs .fieldset')
+            $page.find('[data-form=edit-product] [data-role=tabs] .fieldset, #product_info_tabs .fieldset')
                 .removeClass('ignore-validate')
                 .removeClass(removedElementClass)
                 .each(function(i, fieldSet) {

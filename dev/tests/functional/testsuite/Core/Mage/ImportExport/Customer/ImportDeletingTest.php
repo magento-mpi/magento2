@@ -18,17 +18,26 @@
  */
 class Core_Mage_ImportExport_Customer_ImportDeletingTest extends Mage_Selenium_TestCase
 {
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export/p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $this->runMassAction('Delete', 'all', 'confirmation_for_massaction_delete');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('import');
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -54,12 +63,10 @@ class Core_Mage_ImportExport_Customer_ImportDeletingTest extends Mage_Selenium_T
         $data[0]['email'] = $userData[0]['email'];
         $data[0]['firstname'] = $userData[0]['first_name'];
         $data[0]['lastname'] = $userData[0]['last_name'];
-        $data[0]['password'] = $userData[0]['password'];
 
         $data[1]['email'] = $userData[1]['email'];
         $data[1]['firstname'] = 'firstname_new';
         $data[1]['lastname'] = 'lastname_new';
-        $data[1]['password'] = 'qqqqqqq';
 
         //Steps 1-2
         $this->navigate('import');
@@ -75,22 +82,20 @@ class Core_Mage_ImportExport_Customer_ImportDeletingTest extends Mage_Selenium_T
         //Step 6
         $this->navigate('manage_customers');
         //Verify that the first customer is absent after import 'Delete Entities'
-        $this->assertFalse(
-            $this->customerHelper()->isCustomerPresentInGrid($userData[0]),
-            'Customer is found'
-        );
+        $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData[0]),
+            'Customer is found with data: ' . print_r($userData[0], true));
         //Verify that the second customer is absent after import 'Delete Entities'
-        $this->assertFalse(
-            $this->customerHelper()->isCustomerPresentInGrid($userData[1]),
-            'Customer is found'
-        );
+        $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData[1]),
+            'Customer is found with data: ' . print_r($userData[1], true));
     }
 
     public function importData()
     {
         return array(
-            array(array($this->loadDataSet('ImportExport', 'generic_customer_csv'),
-                $this->loadDataSet('ImportExport', 'generic_customer_csv')))
+            array(array(
+                $this->loadDataSet('ImportExport', 'generic_customer_csv'),
+                $this->loadDataSet('ImportExport', 'generic_customer_csv')
+            ))
         );
     }
 
@@ -117,12 +122,10 @@ class Core_Mage_ImportExport_Customer_ImportDeletingTest extends Mage_Selenium_T
         $data[0]['email'] = 'not_existing_email@example.co';
         $data[0]['firstname'] = $userData[0]['first_name'];
         $data[0]['lastname'] = $userData[0]['last_name'];
-        $data[0]['password'] = $userData[0]['password'];
 
         $data[1]['email'] = $userData[1]['email'];
         $data[1]['firstname'] = $userData[1]['first_name'];
         $data[1]['lastname'] = $userData[1]['last_name'];
-        $data[1]['password'] = $userData[1]['password'];
 
         //Steps 1-2
         $this->navigate('import');
@@ -144,8 +147,11 @@ class Core_Mage_ImportExport_Customer_ImportDeletingTest extends Mage_Selenium_T
     public function importCustomerData()
     {
         return array(
-            array(array($this->loadDataSet('ImportExport', 'generic_customer_csv'),
+            array(array(
+                $this->loadDataSet('ImportExport', 'generic_customer_csv'),
                 $this->loadDataSet('ImportExport', 'generic_customer_csv',
-                    array('_website' => $this->generate('string', 30, ':digit:'))))));
+                    array('_website' => $this->generate('string', 30, ':digit:')))
+            ))
+        );
     }
 }

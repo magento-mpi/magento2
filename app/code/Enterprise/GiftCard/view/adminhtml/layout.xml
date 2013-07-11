@@ -11,9 +11,15 @@
 -->
 
 <layout>
+    <adminhtml_catalog_product_new>
+        <reference name="head">
+            <action method="addCss"><file>Enterprise_GiftCard::styles.css</file></action>
+        </reference>
+    </adminhtml_catalog_product_new>
+
     <adminhtml_catalog_product_giftcard>
-        <reference name="product-type-tabs">
-            <block type="Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard"></block>
+        <reference name="product_tabs">
+            <action method="addTab"><name>giftcard_info</name><block>Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</block></action>
         </reference>
     </adminhtml_catalog_product_giftcard>
 

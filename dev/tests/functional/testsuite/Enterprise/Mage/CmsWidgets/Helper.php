@@ -19,25 +19,16 @@
 class Enterprise_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
 {
     /**
-     * Opens widget
-     *
-     * @param array $searchWidget
-     */
-    public function openWidget(array $searchWidget)
-    {
-        parent::openWidget($searchWidget);
-        $this->pleaseWait();
-    }
-
-    /**
      * Fills "Widget Options" tab
      *
      * @param array $widgetOptions
      */
     public function fillWidgetOptions(array $widgetOptions)
     {
+        $this->openTab('widgets_options');
         if (array_key_exists('banner_name', $widgetOptions)) {
             $this->searchAndChoose(array('filter_banner_name' => $widgetOptions['banner_name']), 'specify_banner_grid');
+            unset($widgetOptions['banner_name']);
         }
         parent::fillWidgetOptions($widgetOptions);
     }

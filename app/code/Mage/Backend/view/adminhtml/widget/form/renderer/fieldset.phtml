@@ -15,7 +15,7 @@ $containerId = $element->getFieldsetContainerId();
 $id = $element->getHtmlId();
 $isCollapsable = $element->getCollapsable();
 $isWrapped = $containerId || $element->getHeaderBar() || $isCollapsable;
-$titleActions = $element->getHeaderBar() ? '<div class="actions">' . $element->getHeaderBar() . '</div>' : '';
+$titleActions = '<div class="actions">' . $element->getHeaderBar() . '</div>';
 $isField = $element->getFieldsetType() == 'field';
 $advancedAfter = $element->getAdvancedPosition() == 'after'; // To place advanced options inside or after fieldset
 $advancedLabel = $element->getAdvancedLabel();
@@ -39,14 +39,18 @@ if ($isField) {
 */ ?>
 
 <?php if ($isWrapped): ?>
-    <div class="fieldset-wrapper <?php echo ($isCollapsable) ? 'collapsable-wrapper ' : ''; ?>" id="<?php echo $containerId ? $containerId : $id . '-wrapper';?>">
+    <div class="fieldset-wrapper <?php echo ($isCollapsable) ? 'collapsable-wrapper ' : ''; ?>"
+        id="<?php echo $containerId ? $containerId : $id . '-wrapper';?>"
+        data-role="<?php echo $id ?>-wrapper">
         <div class="fieldset-wrapper-title">
             <strong class="title"<?php echo ($isCollapsable) ? ' data-toggle="collapse" data-target="#' . $id . '-content"' : ''; ?>>
                 <span><?php echo $element->getLegend() ?></span>
             </strong>
             <?php echo $titleActions; ?>
         </div>
-        <div class="fieldset-wrapper-content<?php echo ($isCollapsable) ? ' collapse' : ''; ?>" id="<?php echo $id ?>-content">
+        <div class="fieldset-wrapper-content<?php echo ($isCollapsable) ? ' collapse' : ''; ?>"
+            id="<?php echo $id ?>-content"
+            data-role="<?php echo $id ?>-content">
 <?php endif; ?>
 
     <?php if (!$element->getNoContainer()): ?>

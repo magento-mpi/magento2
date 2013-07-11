@@ -36,21 +36,14 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_without_agcc');
         $verificationData = $this->loadDataSet('Agcc', 'verification_scpr_required_fields_without_agcc');
         //Steps
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $verificationData['info'])
-            && !$this->controlIsPresent('multiselect', 'websites')
-        ) {
-            unset($verificationData['info']['websites']);
-        }
-        $this->verifyForm($verificationData['info'], 'rule_information');
+        $this->priceRulesHelper()->verifyRuleData($verificationData);
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if ($this->controlIsEditable('field', 'coupon_qty')) {
-            $this->fail('Manage Coupon Codes tab is active');
-        }
+        $this->assertFalse($this->controlIsEditable('field', 'coupon_qty'), 'Manage Coupon Codes tab is active');
     }
 
     /**
@@ -64,21 +57,14 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Data
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         //Steps
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $ruleData['info'])
-            && !$this->controlIsPresent('multiselect', 'websites')
-        ) {
-            unset($ruleData['info']['websites']);
-        }
-        $this->verifyForm($ruleData['info'], 'rule_information');
+        $this->priceRulesHelper()->verifyRuleData($ruleData);
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if (!$this->controlIsEditable('field', 'coupon_qty')) {
-            $this->fail('Manage Coupon Codes tab is not active');
-        }
+        $this->assertTrue($this->controlIsEditable('field', 'coupon_qty'), 'Manage Coupon Codes tab is not active');
     }
 
     /**
@@ -93,21 +79,14 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc_and_coupon_code');
         $verificationData = $this->loadDataSet('Agcc', 'verification_scpr_required_fields_with_agcc_and_coupon_code');
         //Steps
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $verificationData['info'])
-            && !$this->controlIsPresent('multiselect', 'websites')
-        ) {
-            unset($verificationData['info']['websites']);
-        }
-        $this->verifyForm($verificationData['info'], 'rule_information');
+        $this->priceRulesHelper()->verifyRuleData($verificationData);
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if (!$this->controlIsEditable('field', 'coupon_qty')) {
-            $this->fail('Manage Coupon Codes tab is not active');
-        }
+        $this->assertTrue($this->controlIsEditable('field', 'coupon_qty'), 'Manage Coupon Codes tab is not active');
     }
 
     /**
@@ -121,9 +100,10 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Data
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc_negative');
         //Steps
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         //Verification
-        $this->assertMessagePresent('validation', 'this_is_a_required_field');
+        $this->addFieldIdToMessage('field', 'coupon_code');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -137,34 +117,25 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Data
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         //Steps
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $ruleData['info'])
-            && !$this->controlIsPresent('multiselect', 'websites')
-        ) {
-            unset($ruleData['info']['websites']);
-        }
-        $this->verifyForm($ruleData['info'], 'rule_information');
+        $this->priceRulesHelper()->verifyRuleData($ruleData);
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if ($this->controlIsEditable('field', 'coupon_qty')) {
-            //Data
-            $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_deactivate_agcc');
-            //Steps
-            $this->priceRulesHelper()->fillTabs($ruleData);
-            $this->saveForm('save_and_continue_edit');
-            //Verification
-            $this->assertMessagePresent('success', 'success_saved_rule');
-            //Steps
-            $this->openTab('manage_coupon_codes');
-            //Verification
-            if ($this->controlIsEditable('field', 'coupon_qty')) {
-                $this->fail('Manage Coupon Codes tab is active');
-            }
-        } else {
-            $this->fail('Manage Coupon Codes tab is not active');
-        }
+        $this->assertTrue($this->controlIsEditable('field', 'coupon_qty'), 'Manage Coupon Codes tab is not active');
+        //Data
+        $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_deactivate_agcc');
+        //Steps
+        $this->priceRulesHelper()->fillTabs($ruleData);
+        $this->addParameter('elementTitle', $ruleData['info']['rule_name']);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_rule');
+        //Steps
+        $this->openTab('manage_coupon_codes');
+        //Verification
+        $this->assertFalse($this->controlIsEditable('field', 'coupon_qty'), 'Manage Coupon Codes tab is active');
     }
 }

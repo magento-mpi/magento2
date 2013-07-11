@@ -24,6 +24,13 @@ function toggleApplyVisibility(select) {
         }
     }
 }
+function getFrontTab() {
+    if ($('product_attribute_tabs_front')) {
+        return $('product_attribute_tabs_front').up('li');
+    } else {
+        return $('front_fieldset-wrapper');
+    }
+}
 
 function checkOptionsPanelVisibility(){
     if($('manage-options-panel')){
@@ -128,17 +135,6 @@ function switchIsFilterable()
     }
 }
 
-function disableApplyToValue(value)
-{
-    var applyToSelect = $('apply_to');
-    for (i=0;i<applyToSelect.options.length;i++) {
-        if (value == applyToSelect.options[i].value) {
-            applyToSelect.options[i].disabled = true;
-            applyToSelect.options[i].selected = false;
-        }
-    }
-}
-
 function switchDefaultValueField()
 {
     if (!$('frontend_input')) {
@@ -184,25 +180,9 @@ function switchDefaultValueField()
             break;
     }
 
-    var applyToSelect = $('apply_to');
-    switch (currentValue) {
-        <?php foreach (Mage::helper('Mage_Catalog_Helper_Data')->getAttributeDisabledTypes() as $type=>$disabled): ?>
-            case '<?php echo $type; ?>':
-            <?php foreach ($disabled as $one): ?>
-                disableApplyToValue('<?php echo $one; ?>');
-            <?php endforeach; ?>
-            break;
-        <?php endforeach; ?>
-        default:
-        for (i=0;i<applyToSelect.options.length;i++) {
-            applyToSelect.options[i].disabled = false;
-        }
-        break;
-    }
-
     switch (currentValue) {
         case 'media_image':
-            $('front_fieldset').hide();
+            getFrontTab().hide();
 
             setRowVisibility('is_required', false);
             setRowVisibility('is_unique', false);
@@ -213,7 +193,7 @@ function switchDefaultValueField()
             case '<?php echo $type; ?>':
                 <?php foreach ($fields as $one): ?>
                     <?php if ($one == '_front_fieldset'): ?>
-                        $('front_fieldset').hide();
+                        getFrontTab().hide();
                     <?php elseif ($one == '_default_value'): ?>
                         defaultValueTextVisibility =
                         defaultValueTextareaVisibility =
@@ -229,7 +209,8 @@ function switchDefaultValueField()
         <?php endforeach; ?>
 
         default:
-            $('front_fieldset').show();
+            getFrontTab().show();
+
             setRowVisibility('is_required', true);
             setRowVisibility('is_unique', true);
             setRowVisibility('frontend_class', true);
@@ -331,5 +312,12 @@ if ($('is_required')) {
     Event.observe($('is_required'), 'change', updateRequriedOptions);
 }
 bindAttributeInputType();
+
+jQuery(function($) {
+    // @todo: refactor collapsable component
+    $('.attribute-popup .collapse, [data-role="advanced_fieldset-content"]')
+        .collapsable()
+        .collapse('hide');
+});
 //]]>
 </script>

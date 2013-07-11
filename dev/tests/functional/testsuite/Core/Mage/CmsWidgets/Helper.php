@@ -84,7 +84,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             $layoutIndex = $this->getControlCount('pageelement', 'layout_updates_option_boxes');
             $this->addParameter('layoutIndex', $layoutIndex);
             $this->clickButton('add_layout_update', false);
-            $this->waitForElement($this->_getControlXpath('pageelement', 'layout_updates_option_box'));
+            $this->waitForControlVisible('pageelement', 'layout_updates_option_box');
             $this->fillDropdown('select_display_on', $displayOn);
             $layoutName = $this->getControlAttribute('dropdown', 'select_display_on', 'selectedValue');
             $this->addParameter('layout', $layoutName);
@@ -142,19 +142,25 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Opens widget
      *
-     * @param array $searchWidget
+     * @param array $searchData
      */
-    public function openWidget(array $searchWidget)
+    public function openWidget(array $searchData)
     {
-        $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
-        $this->assertNotNull($xpathTR, 'Widget is not found');
-        $cellId = $this->getColumnIdByName('Widget Instance Title');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        //Search Widget
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $widgetLocator = $this->search($searchData, 'cms_widgets_grid');
+        $this->assertNotNull($widgetLocator, 'Widget is not found with data: ' . print_r($searchData, true));
+        $widgetRowElement = $this->getElement($widgetLocator);
+        $widgetUrl = $widgetRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Widget Instance');
+        $cellElement = $this->getChildElement($widgetRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($widgetUrl));
+        //Open Widget
+        $this->url($widgetUrl);
+        $this->pleaseWait();
+        $this->validatePage('edit_cms_widget');
     }
 
     /**
@@ -166,5 +172,35 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->openWidget($searchWidget);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+    }
+
+    /**
+     * Delete All Widgets
+     */
+    public function deleteAllWidgets()
+    {
+        $this->clickButton('reset_filter');
+        $cellId = $this->getColumnIdByName('Widget Instance');
+        $widgetUrl = array();
+        do {
+            $isNextPage = $this->controlIsVisible('link', 'next_page');
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+            foreach ($this->getControlElements('pageelement', 'cms_table_line', null, false) as $element) {
+                $title = trim($this->getChildElement($element, 'td[' . $cellId . ']')->text());
+                $widgetUrl[$title] = trim($element->attribute('title'));
+            }
+            if ($isNextPage) {
+                $this->clickControl('link', 'next_page', false);
+                $this->waitForPageToLoad();
+            }
+        } while ($isNextPage);
+        foreach ($widgetUrl as $title => $url) {
+            $this->url($url);
+            $this->pleaseWait();
+            $this->addParameter('elementTitle', $title);
+            $this->addParameter('id', $this->defineIdFromUrl($url));
+            $this->validatePage('edit_cms_widget');
+            $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+        }
     }
 }

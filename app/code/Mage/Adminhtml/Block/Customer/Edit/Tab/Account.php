@@ -214,8 +214,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
     {
         $fieldset->removeField('created_in');
 
-        $this->_addPasswordManagementFieldset($form, 'Password', false);
-
         // Prepare send welcome email checkbox
         $fieldset->addField('sendemail', 'checkbox', array(
             'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Send Welcome Email'),
@@ -286,7 +284,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         if ($customer->isReadonly()) {
             return;
         }
-        $this->_addPasswordManagementFieldset($form, 'New Password', true);
 
         // Prepare customer confirmation control (only for existing customers)
         $confirmationKey = $customer->getConfirmation();

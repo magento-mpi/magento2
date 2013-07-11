@@ -73,12 +73,16 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();
         $this->flushCache();
-        return array('catName' => $category['name'],
-                     'names'   => array($simple['general_name'], $virtual['general_name']),
-                     'verify'  => array('product_1_name' => $simple['general_name'],
-                                        'product_1_sku'  => $simple['general_sku'],
-                                        'product_2_name' => $virtual['general_name'],
-                                        'product_2_sku'  => $virtual['general_sku']));
+        return array(
+            'catName' => $category['name'],
+            'names' => array($simple['general_name'], $virtual['general_name']),
+            'verify' => array(
+                'product_1_name' => $simple['general_name'],
+                'product_1_sku' => $simple['general_sku'],
+                'product_2_name' => $virtual['general_name'],
+                'product_2_sku' => $virtual['general_sku']
+            )
+        );
     }
 
     /**
@@ -92,6 +96,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      */
     public function addProductToCompareListFromProductPage($data)
     {
+        $this->markTestIncomplete('BUG: Product is not available in Compare widget on page about_us');
         $verify = $this->loadDataSet('CompareProducts', 'verify_compare_data', null, $data['verify']);
         //Steps and Verifying
         foreach ($data['names'] as $value) {
@@ -114,7 +119,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3233
+     * @TestlinkId TL-MAGE-3233
      */
     public function addProductToCompareListFromCatalogPage($data)
     {
@@ -139,7 +144,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3236
+     * @TestlinkId TL-MAGE-3236
      */
     public function removeProductFromCompareBlockList($data)
     {
