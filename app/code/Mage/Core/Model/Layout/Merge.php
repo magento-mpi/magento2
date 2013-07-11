@@ -83,6 +83,11 @@ class Mage_Core_Model_Layout_Merge
     protected $_subst = array();
 
     /**
+     * @var Mage_Core_Model_Layout_File_SourceInterface
+     */
+    private $_fileSource;
+
+    /**
      * @var Magento_Cache_FrontendInterface
      */
     protected $_cache;
@@ -91,11 +96,13 @@ class Mage_Core_Model_Layout_Merge
      * Init merge model
      *
      * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_Layout_File_SourceInterface $fileSource,
      * @param Magento_Cache_FrontendInterface $cache
      * @param array $arguments
      */
     public function __construct(
         Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_Layout_File_SourceInterface $fileSource,
         Magento_Cache_FrontendInterface $cache,
         array $arguments = array()
     ) {
@@ -119,6 +126,7 @@ class Mage_Core_Model_Layout_Merge
             $this->_subst['to'][] = $value;
         }
         $this->_design = $design;
+        $this->_fileSource = $fileSource;
         $this->_cache = $cache;
     }
 
@@ -584,47 +592,10 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _loadFileLayoutUpdatesXml()
     {
-        $layoutParams = array('area' => $this->_area, 'themeId' => $this->_theme);
-
-        /*
-         * Allow to modify declared layout updates.
-         * For example, the module can remove all its updates to not participate in rendering depending on settings.
-         */
-        $updatesRootPath = $this->_area . '/layout/updates';
-        $updatesRoot = Mage::app()->getConfig()->getNode($updatesRootPath);
-        Mage::dispatchEvent('core_layout_update_updates_get_after', array('updates' => $updatesRoot));
-
-        /* Layout update files declared in configuration */
-        $updateFiles = array();
-        foreach ($updatesRoot->children() as $updateNode) {
-            $module = $updateNode->getAttribute('module');
-            $file = (string)$updateNode->file;
-            if (!$module || !$file) {
-                $updateNodePath = $updatesRootPath . '/' . $updateNode->getName();
-                throw new Magento_Exception(
-                    "Layout update instruction '{$updateNodePath}' must specify module and file."
-                );
-            }
-            if (Mage::getStoreConfigFlag("advanced/modules_disable_output/{$module}", $this->_storeId)) {
-                continue;
-            }
-            /* Resolve layout update filename with fallback to the module */
-            $filename = $this->_design->getFilename($file, $layoutParams + array('module' => $module));
-            if (!is_readable($filename)) {
-                throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
-            }
-            $updateFiles[] = $filename;
-        }
-
-        /* Custom local layout updates file for the current theme */
-        $filename = $this->_design->getFilename('local.xml', $layoutParams);
-        if (is_readable($filename)) {
-            $updateFiles[] = $filename;
-        }
-
         $layoutStr = '';
-        foreach ($updateFiles as $filename) {
-            $fileStr = file_get_contents($filename);
+        $updateFiles = $this->_fileSource->getFiles($this->_design->getDesignTheme());
+        foreach ($updateFiles as $file) {
+            $fileStr = file_get_contents($file->getFilename());
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
             /** @var $fileXml Mage_Core_Model_Layout_Element */
             $fileXml = simplexml_load_string($fileStr, $this->_elementClass);

@@ -230,6 +230,65 @@
                     </layoutCache>
                 </parameters>
             </Mage_Core_Model_Theme_Service>
+            <!-- Decorate layout file sources to filter out files that belong to inactive modules -->
+            <layoutFileSourceBase>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
+                <parameters>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Base</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceBase>
+            <layoutFileSourceTheme>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
+                <parameters>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Theme</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceTheme>
+            <layoutFileSourceOverrideBase>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
+                <parameters>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Override_Base</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceOverrideBase>
+            <layoutFileSourceOverrideTheme>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
+                <parameters>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Override_Theme</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceOverrideTheme>
+            <Mage_Core_Model_Layout_File_List>
+                <shared>0</shared>
+            </Mage_Core_Model_Layout_File_List>
+            <Mage_Core_Model_Layout_File_Source_Aggregated>
+                <parameters>
+                    <baseFiles>
+                        <instance>layoutFileSourceBase</instance>
+                    </baseFiles>
+                    <themeFiles>
+                        <instance>layoutFileSourceTheme</instance>
+                    </themeFiles>
+                    <overridingBaseFiles>
+                        <instance>layoutFileSourceOverrideBase</instance>
+                    </overridingBaseFiles>
+                    <overridingThemeFiles>
+                        <instance>layoutFileSourceOverrideTheme</instance>
+                    </overridingThemeFiles>
+                </parameters>
+            </Mage_Core_Model_Layout_File_Source_Aggregated>
+            <Mage_Core_Model_Layout_Merge>
+                <parameters>
+                    <fileSource>
+                        <instance>Mage_Core_Model_Layout_File_Source_Aggregated</instance>
+                    </fileSource>
+                </parameters>
+            </Mage_Core_Model_Layout_Merge>
         </di>
     </global>
     <frontend>
