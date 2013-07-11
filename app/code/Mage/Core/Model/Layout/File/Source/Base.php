@@ -29,13 +29,11 @@ class Mage_Core_Model_Layout_File_Source_Base implements Mage_Core_Model_Layout_
     /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Mage_Core_Model_Layout_File_Factory $fileFactory
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Design_PackageInterface $design,
         Mage_Core_Model_Layout_File_Factory $fileFactory
     ) {
         $this->_filesystem = $filesystem;
