@@ -220,7 +220,7 @@ permissions_locked_users:
         2: Username
         3: Last login
         4: Failures
-        5: Locked until
+        5: Unlocked
 
 #dataset for ui elements in Manage Attribute Sets grid
 manage_attribute_sets:
