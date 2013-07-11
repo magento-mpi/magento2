@@ -177,6 +177,8 @@ jQuery(function($) {
                     $matrixRow.find(columnSelectorTemplate.replace('%s', 'entity_id'))
                         .prop({checked: true, disabled: false});
 
+                    $matrixRow.find('[data-action=no-image]').trigger('click');
+
                     var parentElement = $matrixRow.find('[data-column=image]'),
                         uploaderControl = parentElement.find('[data-action=upload-image]', parentElement),
                         imageElement = $matrixRow.find('[data-role=image]');
@@ -196,7 +198,6 @@ jQuery(function($) {
                         .prop({disabled: true});
 
                     $matrixRow.find('[name$="[image]"]').remove();
-                    $matrixRow.find('[data-toggle=dropdown]').hide();
                 }
                 $gridDialog.dialog('close');
             };
