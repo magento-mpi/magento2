@@ -163,6 +163,16 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     }
 
     /**
+     * Mark test to be executed for SOAP adapter only.
+     */
+    protected function _markTestAsSoapOnly($message = null)
+    {
+        if (TESTS_WEB_API_ADAPTER != self::ADAPTER_SOAP) {
+            $this->markTestSkipped($message ? $message : "The test is intended to be executed for SOAP adapter only.");
+        }
+    }
+
+    /**
      * Set fixture to registry
      *
      * @param string $key

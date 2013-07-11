@@ -11,9 +11,7 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
 {
     protected function setUp()
     {
-        if (TESTS_WEB_API_ADAPTER != self::ADAPTER_SOAP) {
-            $this->markTestSkipped("WSDL generation tests are intended to be executed for SOAP adapter only.");
-        }
+        $this->_markTestAsSoapOnly("WSDL generation tests are intended to be executed for SOAP adapter only.");
         parent::setUp();
     }
 
