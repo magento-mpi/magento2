@@ -37,13 +37,6 @@
          * @private
          */
         _init: function() {
-            // Default icon to loadingMask icon if not set.
-            if (this.options.icon === '') {
-                var loadingImage = this.element.find('#loading_mask_loader img');
-                if (loadingImage !== undefined) {
-                    this.options.icon = loadingImage.attr('src');
-                }
-            }
             if (this.options.showOnInit) {
                 this.show();
             }
