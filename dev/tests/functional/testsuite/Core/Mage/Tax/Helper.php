@@ -87,33 +87,31 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open Tax Rate|Tax Rule
      *
-     * @param array $taxSearchData Data for search
+     * @param array $searchData Data for search
      * @param string $type search type rate|rule
      *
      * @throws OutOfRangeException
      */
-    public function openTaxItem(array $taxSearchData, $type)
+    public function openTaxItem(array $searchData, $type)
     {
-        $taxSearchData = $this->_prepareDataForSearch($taxSearchData);
-        $taxLocator = $this->search($taxSearchData, 'manage_tax_' . $type);
-        $this->assertNotNull($taxLocator, 'Search item is not found');
-        $taxRowElement = $this->getElement($taxLocator);
-        $taxUrl = $taxRowElement->attribute('title');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $taxLocator = $this->search($searchData, 'manage_tax_' . $type);
+        $this->assertNotNull($taxLocator, 'Search item is not found with data: ' . print_r($searchData, true));
         switch ($type) {
             case 'rate':
-                $cellId = $this->getColumnIdByName('Name');
-                $cellElement = $this->getChildElement($taxRowElement, 'td[' . $cellId . ']');
-                $this->addParameter('elementTitle', trim($cellElement->text()));
+                $cellId = $this->getColumnIdByName('Tax Identifier');
                 break;
             case 'rule':
-                $cellId = $this->getColumnIdByName('Tax Identifier');
-                $cellElement = $this->getChildElement($taxRowElement, 'td[' . $cellId . ']');
-                $this->addParameter('elementTitle', trim($cellElement->text()));
+                $cellId = $this->getColumnIdByName('Name');
                 break;
             default:
                 throw new OutOfRangeException('Unsupported value for parameter $type');
                 break;
         }
+        $taxRowElement = $this->getElement($taxLocator);
+        $taxUrl = $taxRowElement->attribute('title');
+        $taxElement = $this->getChildElement($taxRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($taxElement->text()));
         $this->addParameter($type, $this->defineParameterFromUrl($type, $taxUrl));
         $this->url($taxUrl);
         $this->validatePage();
@@ -152,7 +150,11 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $this->moveto($deleteButton);
         $deleteButton->click();
         //First message
-        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            $testCase->alertText();
+            return true;
+        }, 5);
         $alertText = $this->alertText();
         $this->acceptAlert();
         $this->assertSame($this->_getMessageXpath('confirmation_for_delete_class'), $alertText,
@@ -162,7 +164,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
             /** @var Mage_Selenium_TestCase $testCase */
             $testCase->alertText();
             return true;
-        }, 5000);
+        }, 5);
         $alertText = $this->alertText();
         $this->acceptAlert();
         $this->assertSame($this->_getMessageXpath($msg), $alertText, 'Confirmation message is incorrect');
@@ -173,14 +175,12 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $excludeList
      */
-    public function deleteRulesExceptSpecified(array $excludeList)
+    public function deleteRulesExceptSpecified(array $excludeList = array())
     {
         $rules = array();
         $columnId = $this->getColumnIdByName('Name');
-        $elements = $this->getControlElements('pageelement', 'rule_line');
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-         */
+        $elements = $this->getControlElements('pageelement', 'rule_line', null, false);
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
         foreach ($elements as $element) {
             $name = trim($this->getChildElement($element, "td[$columnId]")->text());
             if (!in_array($name, $excludeList)) {

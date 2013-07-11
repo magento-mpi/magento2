@@ -13,7 +13,7 @@
 manage_product_rules:
     mca: targetrule/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'targetrule/')]
-    title: Related Product Rules / Promotions / Marketing / Magento Admin
+    title: Related Products Rules / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -45,7 +45,7 @@ manage_product_rules:
 #Create Product Rules page
 create_product_rule:
     mca: targetrule/new/
-    title: New Related Product Rules / Rule-based Product Relations / Promotions / Marketing / Magento Admin
+    title: New Related Products Rule / Related Products Rule / Promotions / Marketing / Magento Admin
     uimap:
         form: &createProductRule
             tabs:

@@ -84,6 +84,11 @@ Default layout, loads most of the pages
         <update handle="catalog_product_view"/>
     </checkout_cart_configure>
 
+    <checkout_cart_configure_type_simple translate="label" type="page" parent="checkout_cart_configure">
+        <label>Configure Cart Item (Simple)</label>
+        <update handle="catalog_product_view_type_simple"/>
+    </checkout_cart_configure_type_simple>
+
 <!--
 Multi address shipping checkout main layout,
 will be rendered on all checkout pages

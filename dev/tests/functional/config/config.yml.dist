@@ -68,7 +68,7 @@ applications:
         design_theme: Default/Magento Demo
         ftp: &ftp
             url: 'localhost'
-            base_dir: ''
+            base_dir: '/'
             login: 'admin'
             password: '123123q'
         areas:
@@ -78,7 +78,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
-                after_login_page: 'store_launcher'
+                after_login_page: 'dashboard'
             frontend:
                 url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
@@ -107,7 +107,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
-                after_login_page: 'store_launcher'
+                after_login_page: 'dashboard'
             frontend:
                 url: 'http://www.localhost.com/magento2_enterprise/'
                 base_page_uimap: 'home_page'

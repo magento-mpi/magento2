@@ -28,13 +28,11 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function frontAddProductToCart($dataForBuy = null)
     {
-        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
-        $customizeFieldset = $this->_getControlXpath('fieldset', 'customize_product_info');
-        if ($customize) {
-            $productInfoFieldset = $this->_getControlXpath('fieldset', 'product_info');
+        if ($this->controlIsPresent('button', 'customize_and_add_to_cart')) {
             $this->clickButton('customize_and_add_to_cart', false);
-            $this->waitForElementVisible($customizeFieldset);
-            $this->waitForElement($productInfoFieldset . "/parent::*[@style='display: none;']");
+            $this->waitForControlVisible('fieldset', 'customize_product_info');
+            $this->waitForControlNotVisible('fieldset', 'product_info');
+            $this->waitForControlStopsMoving('fieldset', 'customize_product_info');
         }
         parent::frontAddProductToCart($dataForBuy);
     }
@@ -60,12 +58,10 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function fillGeneralTab(array $generalTab)
     {
-        $this->openProductTab('general');
         parent::fillGeneralTab($generalTab);
         if (isset($generalTab['general_amounts'])) {
             foreach ($generalTab['general_amounts'] as $value) {
                 $this->addGiftCardAmount($value);
-                unset($generalTab['general_amounts']);
             }
         }
     }
@@ -78,10 +74,8 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function verifyGeneralTab(array $generalTab)
     {
         parent::verifyGeneralTab($generalTab);
-        $this->openTab('general');
         if (isset($generalTab['general_amounts'])) {
             $this->verifyGiftCardAmounts($generalTab['general_amounts']);
-            unset($generalTab['general_amounts']);
         }
     }
 
@@ -120,14 +114,12 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         }
         $index = 0;
         foreach ($giftCardData as $value) {
-            if ($index < $rowQty){
             $this->addParameter('giftCardId', $index);
             if (!$this->controlIsVisible('dropdown', 'general_giftcard_website')) {
                 unset($value['general_giftcard_website']);
             }
             $this->verifyForm($value, 'general');
             $index++;
-            }
         }
         $this->assertEmptyVerificationErrors();
         return true;

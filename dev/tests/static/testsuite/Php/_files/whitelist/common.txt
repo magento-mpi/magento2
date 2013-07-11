@@ -3,6 +3,7 @@
 #
 app/bootstrap.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Attributes/Search.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
@@ -41,6 +42,7 @@ app/code/Mage/Core/Helper/Css.php
 app/code/Mage/Core/Model/Abstract.php
 app/code/Mage/Core/Model/Config
 app/code/Mage/Core/Model/Cache
+app/code/Mage/Core/Model/DataService
 app/code/Mage/Core/Model/Design.php
 app/code/Mage/Core/Model/Design/FileResolution
 app/code/Mage/Core/Model/Design/Fallback
@@ -61,7 +63,9 @@ app/code/Mage/Core/Model/Page.php
 app/code/Mage/Core/Model/Resource/Setup/Migration.php
 app/code/Mage/Core/Model/Resource/Theme
 app/code/Mage/Core/Model/Resource/Theme.php
+app/code/Mage/Core/Model/Sender.php
 app/code/Mage/Core/Model/ShellAbstract.php
+app/code/Mage/Core/Model/TemplateEngine
 app/code/Mage/Core/Model/Theme
 app/code/Mage/Core/Model/Theme.php
 app/code/Mage/Core/Model/ThemeInterface.php

@@ -63,7 +63,9 @@
         <di>
             <Mage_DesignEditor_Model_Resource_Layout_Update>
                 <parameters>
-                    <cache>Mage_Core_Model_Cache_Type_Layout</cache>
+                    <cache>
+                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
+                    </cache>
                 </parameters>
             </Mage_DesignEditor_Model_Resource_Layout_Update>
         </di>

@@ -230,7 +230,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      *
      * @return array
      */
-    protected function _getMessageTypes()
+    public function getMessageTypes()
     {
         return $this->_messageTypes;
     }
@@ -272,7 +272,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
     protected function _renderMessagesByType()
     {
         $html = '';
-        foreach ($this->_getMessageTypes() as $type) {
+        foreach ($this->getMessageTypes() as $type) {
             if ($messages = $this->getMessages($type)) {
                 if (!$html) {
                     $html .= '<' . $this->_messagesFirstLevelTagName . ' class="messages">';
@@ -352,5 +352,15 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
     public function addStorageType($type)
     {
         $this->_usedStorageTypes[] = $type;
+    }
+
+    /**
+     * Whether or not to escape the message.
+     *
+     * @return boolean
+     */
+    public function shouldEscapeMessage()
+    {
+        return $this->_escapeMessageFlag;
     }
 }

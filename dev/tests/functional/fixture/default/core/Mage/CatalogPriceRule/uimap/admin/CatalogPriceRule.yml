@@ -42,18 +42,15 @@ manage_catalog_price_rules:
             add_new_rule: //button[span='Add New Rule']
             apply_rules: //button[span='Apply Rules']
         messages: &catalogPriceRuleMessages
-            success_saved_rule: //li[@class='success-msg']//span[text() = 'You saved the rule.']
-            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rule.')]
+            success_saved_rule: //li[@class='success-msg']//span[text()='The rule has been saved.']
+            success_deleted_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rule has been deleted.')]
             success_applied_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The rules have been applied.')]
-            notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please click "Apply Rules" to see how they affect your catalog.')]
+            notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')]
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'Something went wrong saving the rule. Please review the log and try again.')]
-            invalid_discount_amount: //label[(@for)='rule_discount_amount' and contains(.,'Please select one of these options.')]
-            invalid_sub_discount_amount: //label[(@for)='rule_sub_discount_amount' and contains(.,'Please select one of these options.')]
-            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
+            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
-            no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
 
 add_new_rule:
     mca: promo_catalog/new/
@@ -89,8 +86,8 @@ add_new_rule:
                                 apply_for_rule_condition:
                                     xpath: //*[@id='rule_conditions_fieldset']
                                     links:
-                                        conditions_aggregator: //*[@id='rule_conditions_fieldset']/span[.//select[contains(@name,'aggregator')]]/a
-                                        conditions_value: //*[@id='rule_conditions_fieldset']/span[.//select[contains(@name,'value')]]/a
+                                        conditions_aggregator: /*/span[.//select[contains(@name,'aggregator')]]/a
+                                        conditions_value: /*/span[.//select[contains(@name,'value')]]/a
                                     dropdowns:
                                         select_conditions_aggregator: //select[@name='rule[conditions][1][aggregator]']
                                         select_conditions_value: //select[@name='rule[conditions][1][value]']

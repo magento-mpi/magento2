@@ -44,18 +44,6 @@ system_backup:
             database_and_media_backup: //button[span='Database and Media Backup']
             database_backup: //button[span='Database Backup']
 
-# Web Services: Users page
-api_user:
-    mca: api_user/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_user/')]
-    title: Users / Web Services / System / Magento Admin
-
-# Web Services: Roles page
-api_role:
-    mca: api_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_role/')]
-    title: Roles / SOAP/XML – RPC / System / Magento Admin
-
 # Web Services: OAuth Consumers page
 oauth_consumer:
     mca: oauth_consumer/
@@ -78,7 +66,7 @@ oauth_admin_token:
 system_design:
     mca: system_design/
     click_xpath: //div[@class='submenu']//a[contains(@href, 'system_design/')]
-    title: Design / Design / Content / Magento Admin
+    title: Store Design / Design / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -104,7 +92,7 @@ system_design:
 # Add Design Change
 new_system_design:
     mca: system_design/new/
-    title: New Store Design Change / Design / Design / Content / Magento Admin
+    title: New Store Design Change / Store Design / Design / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -150,7 +138,7 @@ system_email_template:
             fieldsets:
                 -
                     system_email_template_grid:
-                        xpath:  //div[@id='systemEmailTemplateGrid']
+                        xpath: //div[@id='systemEmailTemplateGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -167,12 +155,11 @@ system_email_template:
                             filter_template_type: //select[@name='type']
                             view_per_page: //select[@name='limit']
         buttons:
-            add_new_template:  //button[span='Add New Template']
+            add_new_template: //button[span='Add New Template']
         messages: &templateMessages
             success_create_template: //li[normalize-space(@class)='success-msg' and contains(.,'The email template has been saved.')]
             confirmation_for_delete: Are you sure that you want to delete this template?
             success_deleted_template: //li[normalize-space(@class)='success-msg' and contains(.,'The email template has been deleted.')]
-            required_field_message: //label[@for='%field%' and contains(., 'This is a required field.')]
             confirmation_convert_to_plain_text: Are you sure that you want to strip tags?
 
 #Add New transactional email
@@ -184,13 +171,13 @@ new_email_template:
             fieldsets:
                 -
                     load_default_template:
-                        xpath:  //form[@id='email_template_load_form']
+                        xpath: //form[@id='email_template_load_form']
                         dropdowns:
                             template: //select[@name='code']
                         buttons:
                             load_template: //button[span='Load Template']
                 -
-                    template_information:
+                    template_information: &template_information-fieldset
                         xpath: //form[@id='email_template_edit_form']
                         buttons:
                             insert_variable: //button[span='Insert Variable...']
@@ -200,10 +187,10 @@ new_email_template:
                             template_content: //textarea[@name='template_text']
                             template_styles: //textarea[@name='template_styles']
                 -
-                    variable_insertion:
+                    variable_insertion: &variable_insertion-fieldset
                         xpath: //div[@id='variables-chooser']
                         links:
-                            reset_password_url_variable: //a[text()='Reset Password URL']
+                            variable: //a[text()='%variableName%']
                         buttons:
                             close_variable_insertion: //div[@id='variables-chooser_close']
         buttons: &templateButtons
@@ -224,20 +211,9 @@ edit_email_template:
         form:
             fieldsets:
                 -
-                    template_information:
-                        xpath: //form[@id='email_template_edit_form']
-                        buttons:
-                            insert_variable: //button[span='Insert Variable...']
-                        fields:
-                            template_name: //input[@name='template_code']
-                            template_subject: //input[@name='template_subject']
-                            template_content: //textarea[@name='template_text']
-                            template_styles: //textarea[@name='template_styles']
+                    template_information: *template_information-fieldset
                 -
-                    variable_insertion:
-                        xpath: //div[@id='variables-chooser']
-                        buttons:
-                            close_variable_insertion: //div[@id='variables-chooser_close']
+                    variable_insertion: *variable_insertion-fieldset
         buttons: *templateButtons
         messages: *templateMessages
 

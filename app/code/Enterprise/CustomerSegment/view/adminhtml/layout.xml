@@ -85,7 +85,7 @@
                             <align>left</align>
                             <index>website_ids</index>
                             <type>options</type>
-                            <options type="options">Enterprise_CustomerSegment_Model_Resource_Grid_Website</options>
+                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
                             <sortable>0</sortable>
                             <width>200</width>
                         </arguments>

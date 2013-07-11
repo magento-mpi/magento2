@@ -85,16 +85,12 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodDirectPostTest ext
      */
     public function authorizeDirectPost($testData)
     {
-        $this->markTestIncomplete('MAGETWO-8885');
+        $this->markTestIncomplete('MAGETWO-9104');
         //Data
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'with_register_flatrate_checkmoney_usa',
-            array(
-                'general_name' => $testData['sku'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')
-            )
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')
+        ));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');

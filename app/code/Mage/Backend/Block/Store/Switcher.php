@@ -241,7 +241,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      *
      * @return string
      */
-    public function getCurentStoreName()
+    public function getCurrentStoreName()
     {
         $store = $this->_storeFactory->create();
         $store->load($this->getStoreId());

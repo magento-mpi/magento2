@@ -447,15 +447,24 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     {
         $methods = array('_construct', '_getResource', '_getBaseDir', '_getFileObject', '_afterSave',
             '_getStoreBaseUrl', '_getCurrentDateTime', '_getCategoryItemsCollection', '_getProductItemsCollection',
-            '_getPageItemsCollection', '_getDocumentRoot');
+            '_getPageItemsCollection', '_getDocumentRoot', '_getFilesystem');
         if ($mockBeforeSave) {
             $methods[] = '_beforeSave';
         }
+
         /** @var $model Mage_Sitemap_Model_Sitemap */
         $model = $this->getMockBuilder('Mage_Sitemap_Model_Sitemap')
             ->setMethods($methods)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+            ->getMock();
+        $filesystem = new Magento_Filesystem($adapterMock);
+
+        $model->expects($this->any())
+            ->method('_getFilesystem')
+            ->will($this->returnValue($filesystem));
         $model->expects($this->any())
             ->method('_getResource')
             ->will($this->returnValue($this->_resourceMock));
@@ -540,9 +549,18 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     {
         /** @var $model Mage_Sitemap_Model_Sitemap */
         $model = $this->getMockBuilder('Mage_Sitemap_Model_Sitemap')
-            ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir'))
+            ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_getFilesystem'))
             ->disableOriginalConstructor()
             ->getMock();
+
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+            ->getMock();
+
+        $filesystem = new Magento_Filesystem($adapterMock);
+
+        $model->expects($this->any())
+            ->method('_getFilesystem')
+            ->will($this->returnValue($filesystem));
 
         $model->expects($this->any())
             ->method('_getStoreBaseUrl')
@@ -579,6 +597,12 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 'c:\\http\\mage2\\', 'c:\\http\\mage2\\',
                 '/sitemaps/store2', 'sitemap.xml',
                 'http://store.com/sitemaps/store2/sitemap.xml'
+            ),
+            array(
+                'http://store.com/builds/regression/ee/',
+                '/var/www/html', '/opt/builds/regression/ee',
+                '/', 'sitemap.xml',
+                'http://store.com/builds/regression/ee/sitemap.xml'
             ),
             array(
                 'http://store.com/store2',

@@ -16,9 +16,10 @@ paypal_developer:
                     general_elements:
                         xpath:
                         pageelements:
-                            navigation_menu: //*[@id='nav-menu']
+                            loadingHolder: //*[@id='loadingImg']
         messages:
-            general_validation: "//*[contains(@class, 'error') and not(contains(@class, 'toolTip'))]"
+            general_validation: //*[@class='error-input' or @aria-invalid='true' or @class='alert-error']
             general_success: "//div[@class='alert alert-success']"
-            general_error: "//div[@class='alert alert-failure']"
+            general_error: "//div[@class='alert alert-failure' or @class='err-msg']"
             success_created_account: "//div[@class='alert alert-success']/p[text()='You just created a new test account.']"
+            success_deleted_accounts: "//div[@class='alert alert-success']/p[text()='Successfully deleted accounts.']"

@@ -47,9 +47,11 @@
                 }
             },
             termAjaxArgument: 'label_part',
+            filterProperty: 'label',
             className: null,
             inputWrapper:'<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
             dropdownWrapper: '<div class="mage-suggest-dropdown"></div>',
+            preventClickPropagation: true,
             currentlySelected: null
         },
 
@@ -58,7 +60,7 @@
          * @private
          */
         _create: function() {
-            this._term = '';
+            this._term = null;
             this._nonSelectedItem = {id: '', label: ''};
             this._renderedContext = null;
             this._selectedItem = this._nonSelectedItem;
@@ -223,7 +225,8 @@
                 cut: this.search,
                 paste: this.search,
                 input: this.search,
-                selectItem: this._onSelectItem
+                selectItem: this._onSelectItem,
+                click: this.search
             }, this.options.events));
 
             this._bindDropdown();
@@ -269,15 +272,18 @@
                 }, this));
             }, this));
 
+            if (this.options.preventClickPropagation) {
+                this._on(this.dropdown, events);
+            }
             // Fix for IE 8
-            this._on(this.dropdown, $.extend(events, {
+            this._on(this.dropdown, {
                 mousedown: function() {
                     this.preventBlur = true;
                 },
                 mouseup: function() {
                     this.preventBlur = false;
                 }
-            }));
+            });
         },
 
         /**
@@ -416,7 +422,7 @@
          */
         search: function(e) {
             var term = this._value();
-            if (this._term !== term && !this.preventBlur) {
+            if ((this._term !== term || term.length === 0) && !this.preventBlur) {
                 this._term = term;
                 if ($.type(term) == 'string' && term.length >= this.options.minLength) {
                     if (this._trigger("search", e) === false) {
@@ -538,7 +544,7 @@
                 var ajaxData = {};
                 ajaxData[this.options.termAjaxArgument] = term;
 
-                this._xhr = $.ajax($.extend({
+                this._xhr = $.ajax($.extend(true, {
                     url: o.source,
                     type: 'POST',
                     dataType: 'json',
@@ -576,10 +582,11 @@
             var itemsArray = $.isArray(items) ? items : $.map(items, function(element) {
                 return element;
             });
+            var property = this.options.filterProperty;
             return $.grep(
                 itemsArray,
                 function(value) {
-                    return matcher.test(value.label || value.id || value);
+                    return matcher.test(value[property] || value.id || value);
                 }
             );
         }

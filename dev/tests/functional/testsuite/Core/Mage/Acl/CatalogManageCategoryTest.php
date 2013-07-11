@@ -18,19 +18,11 @@
  */
 class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser();
+        $this->admin('log_in_to_admin');
     }
 
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
     protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
@@ -48,9 +40,10 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         //create specific role with test roleResource
+        $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'products_inventory_categories'));
+            array('resource_acl' => 'products-inventory-categories'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -62,8 +55,7 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         //Steps
         //return array $loginData to login in the next step
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
-        return $loginData;
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
@@ -77,9 +69,7 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
      */
     public function rootCategoryWithRequiredFieldsOnly($loginData)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         //Data
         $rootCategoryData = $this->loadDataSet('Category', 'root_category_required');
@@ -105,9 +95,8 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
      */
     public function deleteSubCategory($loginData)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         //Data
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
         //Steps

@@ -221,7 +221,7 @@ simple_low_qty:
     general_weight: 18.56
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 simple_with_increments:
@@ -236,7 +236,7 @@ simple_with_increments:
     general_weight: 18.56
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_enable_qty_increments_default: No
     inventory_enable_qty_increments: Yes
     inventory_qty_increments_default: No
@@ -255,7 +255,7 @@ simple_out_of_stock:
     general_weight: 18.56
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
 
 simple_min_allowed_qty:
@@ -270,7 +270,7 @@ simple_min_allowed_qty:
     general_weight: 18.56
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 10
     websites: Main Website
@@ -287,7 +287,7 @@ simple_max_allowed_qty:
     general_weight: 18.56
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     inventory_max_allowed_qty_default: No
     inventory_max_allowed_qty: 10
     websites: Main Website
@@ -305,7 +305,7 @@ downloadable_product_for_order:
     general_categories: %noValue%
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
     downloadable_information_data:
@@ -333,7 +333,7 @@ grouped_product_for_order:
     general_categories: %noValue%
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_grouped_data:
         associated_grouped_1:
@@ -359,7 +359,7 @@ fixed_bundle_for_order:
     general_categories: %noValue%
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items:
         ship_bundle_items: Separately
@@ -421,7 +421,7 @@ configurable_product_for_order:
     general_categories: %noValue%
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_visibility: Catalog, Search
+    autosettings_visibility: %noValue%
     websites: Main Website
     general_configurable_attributes:
         attribute_1:
@@ -430,7 +430,7 @@ configurable_product_for_order:
             option_1:
                 associated_attribute_value: %var1_attr_value1%
                 variation_attribute_price: 1.99
-                variation_attribute_price_type: USD
+                variation_attribute_price_type: $
                 include_variation_attribute: Yes
             option_2:
                 associated_attribute_value: %var1_attr_value2%
@@ -835,15 +835,15 @@ gift_messages_individual:
     individual: &forProduct
         product_1:
             sku_product: %noValue%
-            to: me
-            from: guess_who
-            message: How you doing?
+            item_gift_message_from: guess_who
+            item_gift_message_to: you
+            item_gift_message: How you doing?
 
 gift_messages_per_order:
     entire_order: &forOrder
-        from_order_level: guess_who
-        to_order_level: me
-        message_order_level: How you doing?
+        order_gift_message_from: guess_who_%randomize%
+        order_gift_message_to: me_%randomize%
+        order_gift_message: How you doing?
 
 gift_messages: &allGiftMessages
     entire_order: *forOrder
@@ -851,27 +851,27 @@ gift_messages: &allGiftMessages
 
 gift_messages_with_empty_fields:
     entire_order:
-        from_order_level: ''
-        to_order_level: ''
-        message_order_level: How you doing?
+        order_gift_message_from: ''
+        order_gift_message_to: ''
+        order_gift_message: How you doing?
     individual:
         product_1:
             sku_product: %noValue%
-            to: ''
-            from: ''
-            message: How you doing?
+            item_gift_message_from: ''
+            item_gift_message_to: ''
+            item_gift_message: How you doing?
 
 gift_messages_with_empty_fields_expected:
     entire_order:
-        from_order_level: billing_Steven billing_Stevenson
-        to_order_level: shipping_Steven shipping_Stevenson
-        message_order_level: How you doing?
+        order_gift_message_from: billing_Steven billing_Stevenson
+        order_gift_message_to: shipping_Steven shipping_Stevenson
+        order_gift_message: How you doing?
     individual:
         product_1:
             sku_product: %noValue%
-            to: shipping_Steven shipping_Stevenson
-            from: billing_Steven billing_Stevenson
-            message: How you doing?
+            item_gift_message_from: billing_Steven billing_Stevenson
+            item_gift_message_to: shipping_Steven shipping_Stevenson
+            item_gift_message: How you doing?
 
 #*************************************************
 #         3D-Secure Log Verification Data        *

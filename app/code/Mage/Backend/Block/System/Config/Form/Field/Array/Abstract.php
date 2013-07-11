@@ -187,7 +187,7 @@ abstract class Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
      * @param string $columnName
      * @return string
      */
-    protected function _renderCellTemplate($columnName)
+    public function renderCellTemplate($columnName)
     {
         if (empty($this->_columns[$columnName])) {
             throw new Exception('Wrong column name specified.');
@@ -233,5 +233,25 @@ abstract class Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
             throw new Exception('At least one column must be defined.');
         }
         return parent::_toHtml();
+    }
+
+    /**
+     * Returns true if the addAfter directive is set
+     *
+     * @return bool
+     */
+    public function isAddAfter()
+    {
+        return $this->_addAfter;
+    }
+
+    /**
+     * Returns columns array
+     *
+     * @return array
+     */
+    public function getColumns()
+    {
+        return $this->_columns;
     }
 }

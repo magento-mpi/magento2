@@ -115,5 +115,5 @@ shopping_cart:
         messages:
             product_added_to_cart: //li[normalize-space(@class)='success-msg' and contains(.,'You added %productName% to your shopping cart.')]
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
-            success_applied_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'Coupon code "%couponCode%" was applied.')]
+            success_applied_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'The coupon code "%couponCode%" was applied.')]
             moved_to_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% has been moved to wishlist Wishlist')]

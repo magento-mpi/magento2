@@ -39,3 +39,13 @@ enable_map_before_confirmation:
                 enable_map: Yes
                 apply_map: Yes
                 display_actual_prise: Before Order Confirmation
+
+disable_map:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            minimum_advertised_price:
+                enable_map: No
+                apply_map: No
+                display_actual_prise: On Gesture

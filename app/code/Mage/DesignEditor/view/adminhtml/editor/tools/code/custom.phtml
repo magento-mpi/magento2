@@ -110,6 +110,15 @@
                     message: data.result.message
                 });
                 $('.vde-tools-content').trigger('resize.vdeToolsResize');
+            },
+
+            /**
+             * Handle on "upload ajax request fail" event
+             * @param e
+             * @param data
+             */
+            fail: function (e, data) {
+                $('#vde-tab-custom').customCssPanel('updateButtons');
             }
         });
     })(jQuery);

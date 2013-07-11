@@ -93,7 +93,7 @@ design_editor_selector_first_assign:
 
 preview_theme_in_navigation:
     mca: system_design_editor/launch/theme_id/%id%/mode/navigation/
-    title: Store Designer / Magento Admin
+    title: Editor / Magento Admin
     uimap:
         buttons:
             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
@@ -111,7 +111,7 @@ preview_theme_in_navigation:
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
-    title: Store Designer / Magento Admin
+    title: Editor / Magento Admin
     uimap: &themeInDesign
         form:
             fieldsets:
@@ -125,14 +125,8 @@ preview_theme_in_design:
                             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
                             vde_toolbar_row: //div[@id='vde_toolbar_row']
                         messages:
-<<<<<<< HEAD
-                            confirmation_for_assign_to_default_in_dm: Are you sure you want to change the design of your live store?
+                            confirmation_for_assign_to_default_in_dm: Are you sure you want to change the theme of your live store?
                             no_change: We found no changes.
-=======
-                            confirmation_for_assign_to_default_in_dm: You are about to apply current changes for your live store, are you sure want to do this?
-                            assign_physical_theme_to_default_in_dm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
-                            no_change: No changes found.
->>>>>>> go-ga-dev
                 -
                     bottom_bar:
                         links:
@@ -394,7 +388,7 @@ assigned_theme_default_in_navigation:
 
 assigned_theme_in_design:
     mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%/
-    title: Store Designer / Magento Admin
+    title: Editor / Magento Admin
     uimap: *themeInDesign
 
 assigned_theme_in_navigation:

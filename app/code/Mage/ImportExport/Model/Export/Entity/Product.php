@@ -17,6 +17,12 @@
  */
 class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Model_Export_Entity_Abstract
 {
+    /**
+     * Attributes that should be exported
+     * @var array
+     */
+    protected $_bannedAttributes = array('media_gallery');
+
     const CONFIG_KEY_PRODUCT_TYPES = 'global/importexport/export_product_types';
 
     /**
@@ -997,6 +1003,10 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $validTypes = array_keys($this->_productTypeModels);
 
         foreach (parent::filterAttributeCollection($collection) as $attribute) {
+            if (in_array($attribute->getAttributeCode(), $this->_bannedAttributes)) {
+                $collection->removeItemByKey($attribute->getId());
+                continue;
+            }
             $attrApplyTo = $attribute->getApplyTo();
             $attrApplyTo = $attrApplyTo ? array_intersect($attrApplyTo, $validTypes) : $validTypes;
 

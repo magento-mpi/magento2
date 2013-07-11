@@ -16,7 +16,7 @@ manage_sales_orders:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order/')]
     title: Orders / Operations / Sales / Magento Admin
     uimap:
-        form: &orderGridMassactionForm
+        form:
             fieldsets:
                 -
                     sales_order_grid:
@@ -66,42 +66,41 @@ manage_sales_orders:
             success_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'You canceled the order.')]
             success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'You put the order on hold.')]
             success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'You released the order from holding status.')]
-            success_massaction_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,We have put '%orderQty% order(s) on hold.')]
-            success_massaction_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,You have released '%orderQty% order(s) from hold.')]
-            success_massaction_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,We canceled '%orderQty% order(s).')]
+            success_massaction_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'You have put %orderQty% order(s) on hold.')]
+            success_massaction_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been released from on hold status.')]
+            success_massaction_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'We canceled %orderQty% order(s).')]
             success_voided_order: //li[normalize-space(@class)='success-msg' and contains(.,'The payment has been voided.')]
             success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'The coupon code has been accepted.')]
             #error
             ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is not available. To use this shipping method, please contact us.']
             failed_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot cancel the order(s).')]
             failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were put on hold.')]
-            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were released from holding status.')]
+            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were released from on hold status.')]
             failed_massaction_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot cancel the order(s).')]
             failed_massaction_cancel_different_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) cannot be canceled.')]
             failed_massaction_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not put on hold.')]
-            failed_massaction_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not released from holding status.')]
-            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'The coupon code "%code%" is not valid.')]
+            failed_massaction_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not released from on hold status.')]
+            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             empty_required_field_cc_number: //*[@class='mage-error' and @for='ccsave_cc_number' and contains(.,'Please enter a valid credit card number.')]
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify a shipping method.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
-            empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'The payment method you requested is not available.')]
+            empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'This payment method is not available.')]
             invalid_cvv: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a valid credit card verification number.')]
             invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'We found an incorrect credit card expiration date.')]
             out_of_stock_product: //div[@id='order-items_grid']//div[text()='This product is out of stock.']
-            requested_quantity_not_available: //div[@id='order-items_grid']//div[text()='We don't have as many "%productTitle%" as you requested.']
+            requested_quantity_not_available: //div[@id='order-items_grid']//div[text()=concat("We don't",' have as many "%productTitle%" as you requested.')]
             min_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The most you may purchase is %qty%.']
             max_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The most you may purchase is %qty%.']
             wrong_increments_qty: //div[@id='order-items_grid']//div[text()='You can buy this product only in increments of %qty%.']
-            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists')]
+            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
             hostname_not_valid: //li[normalize-space(@class)='error-msg' and contains(.,'appears to be a local network name but local network names are not allowed.')]
-            not_valid_email: //*[text()='Please enter a valid email address (for example, johndoe@domain.com.).']
-            order_id: //h1[@class='title']
+            not_valid_email: //*[text()='Please enter a valid email address. For example johndoe@domain.com.']
+            order_id: //h1[@class='title'][contains(text(),'#')]
             #confirmation
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you want to continue?
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead.
@@ -146,9 +145,9 @@ create_order_for_new_customer:
                             store_name: //input[@name='store_name']
                 -
                     order_store_selector: &orderStoreSelector
-                        xpath: //div[@id='order-store-selector']
+                        xpath: //*[@id='order-store-selector']
                         radiobuttons:
-                            choose_main_store: //span[label/text()='%storeName%']/input
+                            choose_main_store: //*[label='%storeName%']/input
                 -
                     select_products_to_add: &selectProductsToAdd
                         xpath: //div[@id='order-search']
@@ -309,7 +308,7 @@ create_order_for_new_customer:
                             order_comments: //textarea[@id='order-comment']
                 -
                     order_totals: &orderTotals
-                        xpath: //div[div/h4[contains(text(),'Order Totals')]]
+                        xpath: //fieldset[legend/span[contains(text(),'Order Totals')]]
                         pageelements:
                             price_totals: //*[@id='order-totals']//tbody
                             price_totals_line: //*[@id='order-totals']//tbody/descendant::tr
@@ -338,25 +337,29 @@ create_order_for_new_customer:
                             append_comments: //input[@name='order[comment][customer_note_notify]']
                             email_order_confirmation: //input[@name='order[send_confirmation]']
                         buttons:
-                            submit_order: //button[span='Submit Order']
+                            order_total_submit_order: //button[span='Submit Order']
                 -
                     product_composite_configure_form: &productCompositeConfigureForm
                         xpath: //div[div/span[contains(text(),'Configure Product')]]
                         checkboxes:
-                            option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
+                            option_checkbox_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
+                            option_checkbox_2: //div[contains(label[@class='label'],'%optionTitle%')]//div[contains(label/span,'%optionParameter%')]//input[@type='checkbox']
                         fields:
-                            option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
-                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
-                            option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
-                            option_field_4: //tr[td='%optionParameter%']//input[@type='text']
-                            option_field_5: //*[@id='product_composite_configure_input_qty']
+                            option_field_1: //div[contains(label[@class='label'],'%optionTitle%')]//input[@type='text']
+                            option_field_2: //div[contains(label[@class='label'],'%optionTitle%')]//textarea
+                            option_field_3: //tr[td='%optionParameter%']//input[@type='text']
+                            option_field_4: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
+#                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
+#                            option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
                         dropdowns:
                             option_dropdown_1: //dd[div[@class='input-box']]//select[not(contains(@class,'multiselect'))]
-                            option_dropdown_2: //div[contains(label,'%optionTitle%')]//select
+                            option_dropdown_2: //div[contains(label[@class='label'],'%optionTitle%')]//select
                         multiselects:
-                            option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
+                            option_multiselect_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
+                            option_multiselect_2: //div[contains(label[@class='label'],'%optionTitle%')]//select[contains(@class,'multiselect')]
                         radiobuttons:
-                            option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='radio']
+                            option_radio_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='radio']
+                            option_radio_2: //div[contains(label[@class='label'],'%optionTitle%')]//div[contains(label/span,'%optionParameter%')]//input[@type='radio']
                         buttons:
                             composite_configure_ok: //button[contains(span, 'OK')]
                             composite_configure_cancel: //button[span[contains(text(),'Cancel')]]
@@ -364,33 +367,33 @@ create_order_for_new_customer:
                     gift_options: &giftMessage
                         xpath: //div[@id='gift_options_configure']
                         fields:
-                            from: //input[@name='current_item_giftmessage_sender']
-                            to: //input[@name='current_item_giftmessage_recipient']
-                            message: //textarea[@name='current_item_giftmessage_message']
+                            item_gift_message_from: //input[@name='current_item_giftmessage_sender']
+                            item_gift_message_to: //input[@name='current_item_giftmessage_recipient']
+                            item_gift_message: //textarea[@name='current_item_giftmessage_message']
                         pageelements:
-                            product_gift_message_block: //div[@class='giftcard-send-form' and contains(.,'Gift Message')]
+                            item_gift_message_block: //div[@id='gift_options_giftmessage']
                         buttons:
                             ok: //button[span='OK']
                             cancel: //button[span='Cancel']
                 -
-                    gift_options_for_order: &giftMessageForOrder
-                        xpath: //div[@id='order-giftmessage']
+                    gift_options_for_order: &gift_options_for_order-fieldset
+                        xpath: //div[div/span='Gift Options']
                         fields:
-                            from_order_level: //input[contains(@name, '[sender]')]
-                            to_order_level: //input[contains(@name, '[recipient]')]
-                            message_order_level: //textarea[contains(@name, '[message]')]
+                            order_gift_message_from: "//input[contains(@name,'[sender]')]"
+                            order_gift_message_to: "//input[contains(@name,'[recipient]')]"
+                            order_gift_message: "//textarea[contains(@name,'[message]')]"
                         pageelements:
-                            order_gift_message_block: //div[@class='giftmessage-order-create box-left' and contains(.,'Gift Message for the Entire Order')]
+                            order_gift_message_block: //fieldset[legend='Gift Message for the Entire Order']
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
-            submit_order: //button[span='Submit Order']
+            submit_order: //div[@class='page-actions']//button[@id='submit_order_top_button']
         messages: *orderMessages
 
 reorder_create_new_order:
     mca: sales_order_create/reorder/order_id/%id%/
     title: New Order / Orders / Operations / Sales / Magento Admin
-    uimap: &create_order_for_new_customer
+    uimap: *create_order_for_new_customer
 
 create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
@@ -431,7 +434,7 @@ create_order_for_existing_customer:
                 -
                     gift_options: *giftMessage
                 -
-                    gift_options_for_order: *giftMessageForOrder
+                    gift_options_for_order: *gift_options_for_order-fieldset
                 -
                     order_sidebar:
                         xpath: //div[@id='order-sidebar']
@@ -470,13 +473,14 @@ create_order_for_existing_customer:
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
+            submit_order: //div[@class='page-actions']//button[@id='submit_order_top_button']
         messages: *orderMessages
 
 view_order:
     mca: sales_order/view/order_id/%id%/
     title: '%elementTitle% / Orders / Operations / Sales / Magento Admin'
     uimap:
-        form: &orderView
+        form:
             tabs:
                 -
                     information:
@@ -484,22 +488,24 @@ view_order:
                         fieldsets:
                             -
                                 order_information:
-                                    xpath: //div[@class='entry-edit'][./div/h4[contains(.,'Order #')]]
+                                    xpath: "//div[contains(div/span,'Order #')]"
+                                    pageelements:
+                                        order_date: //tr[th='Order Date']/td
                             -
                                 account_information:
-                                    xpath: //div[@class='entry-edit'][./div/h4='Account Information']
+                                    xpath: //div[div/span='Account Information']
                             -
                                 billing_address:
-                                    xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
+                                    xpath: //div[div/span='Billing Address']
                             -
                                 shipping_address:
-                                    xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
+                                    xpath: //div[div/span='Shipping Address']
                             -
                                 payment_information:
-                                    xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
+                                    xpath: //div[div/span='Payment Information']
                             -
                                 shipping_and_handling_information:
-                                    xpath: //div[@class='entry-edit'][./div/h4='Shipping & Handling Information']
+                                    xpath: //div[div/span='Shipping & Handling Information']
                             -
                                 items_ordered:
                                     xpath: //div[@class='grid']
@@ -516,14 +522,7 @@ view_order:
                             -
                                 gift_options: *giftMessage
                             -
-                                gift_options_for_order:
-                                    xpath: //form[@id='giftmessage_order_%orderId%_form']
-                                    fields:
-                                        from_order_level: //input[contains(@name, '[sender]')]
-                                        to_order_level: //input[contains(@name, '[recipient]')]
-                                        message_order_level: //textarea[contains(@name, '[message]')]
-                                    pageelements:
-                                        order_gift_message_block: //div[@class='giftmessage-order-create box-left' and contains(.,'Gift Message for the Entire Order')]
+                                gift_options_for_order: *gift_options_for_order-fieldset
                             -
                                 comments_history:
                                     xpath: //div[@class='entry-edit'][./div/h4='Comments History']
@@ -674,4 +673,8 @@ edit_order:
     title: Edit Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: *newOrderForExistCustomerForm
+        buttons:
+            back: //button[span='Back']
+            cancel: //button[span='Cancel']
+            submit_order: //div[@class='page-actions']//button[@id='submit_order_top_button']
         messages: *orderMessages

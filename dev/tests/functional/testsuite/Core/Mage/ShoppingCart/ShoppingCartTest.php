@@ -15,7 +15,6 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Core_Mage_ShoppingCart_ShoppingCartTest extends Mage_Selenium_TestCase
 {
     /**
@@ -26,20 +25,22 @@ class Core_Mage_ShoppingCart_ShoppingCartTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
-        return array( 'user'     => $userData,
-                      'product' => array ('name' => $simple['general_name'],
-                                          'sku'  => $simple['general_sku']));
+        return array(
+            'user' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'product' => array('name' => $simple['general_name'], 'sku' => $simple['general_sku'])
+        );
     }
 
     /**
@@ -56,9 +57,8 @@ class Core_Mage_ShoppingCart_ShoppingCartTest extends Mage_Selenium_TestCase
         //Data
         $this->addParameter('websiteId', '1');
         $this->addParameter('productName', $testData['product']['name']);
-        $loginData = array('email' => $testData['user']['email'], 'password' => $testData['user']['password']);
         //Steps
-        $this->customerHelper()->frontLoginCustomer($loginData);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->productHelper()->frontOpenProduct($testData['product']['name']);
         $this->productHelper()->frontAddProductToCart();
         $this->loginAdminUser();

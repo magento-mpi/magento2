@@ -130,15 +130,19 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                     return;
                 }
             }
+
             /** @var Magento_Filesystem $filesystem */
             $filesystem = $this->_objectManager->get('Magento_Filesystem');
-            $filesystem->setWorkingDirectory($model->getSitemapPath());
 
             if ($this->getRequest()->getParam('sitemap_id')) {
-                $model ->load($this->getRequest()->getParam('sitemap_id'));
+                $model->load($this->getRequest()->getParam('sitemap_id'));
                 $fileName = $model->getSitemapFilename();
-                if ($fileName && $filesystem->isFile($fileName)) {
-                    $filesystem->delete($fileName);
+
+                $filesystem->setWorkingDirectory(Mage::getBaseDir() . $model->getSitemapPath());
+                $filePath = Mage::getBaseDir() . $model->getSitemapPath() . DS . $fileName;
+
+                if ($fileName && $filesystem->isFile($filePath)) {
+                    $filesystem->delete($filePath);
                 }
             }
 

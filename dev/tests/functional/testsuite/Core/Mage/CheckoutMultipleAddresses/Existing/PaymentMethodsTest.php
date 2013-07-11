@@ -18,6 +18,8 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
+    private static $_paypalAccount;
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -34,8 +36,10 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
+        if (isset(self::$_paypalAccount)) {
+            $this->paypalHelper()->paypalDeveloperLogin();
+            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
+        }
     }
 
     /**
@@ -45,23 +49,31 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
+        self::$_paypalAccount = $accountInfo['email'];
 
-        return array('products' => array('product_1' => $simple1['simple']['product_name'],
-                                         'product_2' => $simple2['simple']['product_name']),
-                     'email'    => $userData['email'], 'api'      => $api,
-                     'visa'     => $accounts['visa']['credit_card']);
+        return array(
+            'products' => array(
+                'product_1' => $simple1['simple']['product_name'],
+                'product_2' => $simple2['simple']['product_name']
+            ),
+            'email' => $userData['email'],
+            'api' => $api,
+            'visa' => $accounts['visa']['credit_card']
+        );
     }
 
     /**

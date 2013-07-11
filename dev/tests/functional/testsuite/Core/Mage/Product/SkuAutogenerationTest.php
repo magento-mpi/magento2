@@ -278,7 +278,11 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $sku = $this->generate('string', 15, ':alnum:');
         //Preconditions
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->editAttribute('sku', array('default_text_field_value' => $sku));
+        $this->productAttributeHelper()->editAttribute('sku',
+            array(
+                 'advanced_attribute_properties' => array('default_text_field_value' => $sku)
+            )
+        );
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_products');

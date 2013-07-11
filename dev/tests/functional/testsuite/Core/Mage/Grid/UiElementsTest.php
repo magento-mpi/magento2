@@ -18,6 +18,14 @@
  */
 class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -91,10 +99,12 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('newsletter_queue'),
             array('theme_list'),
             array('google_content_manage_attributes'),
-            array('report_tag_product'),
-            array('report_tag_customer'),
+            //array('report_tag_product'),
+            //array('report_tag_customer'),
             array('report_search'),
             array('manage_ratings'),
+            array('manage_cms_widgets'),
+            array('paypal_reports'),
         );
     }
 
@@ -126,39 +136,41 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
     public function uiElementForUsersRole()
     {
         //Precondition - create new test admin users
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user');
-        $this->navigate('manage_admin_users');
-        $this->adminUserHelper()->createAdminUser($testAdminUser);
-        unset($testAdminUser['password']);
-        unset($testAdminUser['password_confirmation']);
-        $this->assertMessagePresent('success', 'success_saved_user');
         //Data
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user');
+        $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user', array(
+            'email' => $userData['email'],
+            'user_name' => $userData['user_name']
+        ));
         $testData = $this->loadDataSet('UiElements', 'user_role');
         //Steps
-        $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
+        $this->navigate('manage_admin_users');
+        $this->adminUserHelper()->createAdminUser($userData);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->adminUserHelper()->openAdminUser($searchData);
         $this->openTab('user_role');
         $this->gridHelper()->prepareData($testData);
         //Verification
         $this->assertEmptyVerificationErrors();
 
-        return $testAdminUser;
+        return $searchData;
     }
 
     /**
      * <p>Need to verify all header names and order in grid</p>
      *
      * @depends uiElementForUsersRole
-     * @param array $testAdminUser
+     * @param array $searchData
      * @test
      */
-    public function headersForUserRole($testAdminUser)
+    public function headersForUserRole($searchData)
     {
         //Data
         $testData = $this->loadDataSet('UiElements', 'user_role');
         $expectedHeadersName = $testData['headers'];
         //Steps
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
+        $this->adminUserHelper()->openAdminUser($searchData);
         $this->openTab('user_role');
         $actualHeadersName = $this->gridHelper()->getGridHeaders($testData);
         //Verifications

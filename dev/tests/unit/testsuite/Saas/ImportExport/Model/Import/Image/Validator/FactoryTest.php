@@ -103,7 +103,7 @@ class Saas_ImportExport_Model_Import_Image_Validator_FactoryTest extends PHPUnit
 
         $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
             ->with(array(
-                array(
+                'constraints' => array(
                     array(
                         'alias' => 'FileName',
                         'type' => '',

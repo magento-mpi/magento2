@@ -89,7 +89,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      *
      * @test
      * @depends orderSmoke
-     * @TestlinkId	TL-MAGE-3606
+     * @TestlinkId TL-MAGE-3606
      */
     public function fullInvoice($orderData)
     {
@@ -111,7 +111,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      * @test
      * @depends orderSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3610
+     * @TestlinkId TL-MAGE-3610
      */
     public function partialInvoice($orderData, $sku)
     {
@@ -134,7 +134,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      *
      * @test
      * @depends orderSmoke
-     * @TestlinkId	TL-MAGE-319
+     * @TestlinkId TL-MAGE-319
      */
     public function fullCreditMemoWithCheck($orderData)
     {
@@ -155,7 +155,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      * @test
      * @depends orderSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3609
+     * @TestlinkId TL-MAGE-3609
      */
     public function partialCreditMemoWithCheck($orderData, $sku)
     {
@@ -177,7 +177,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      *
      * @test
      * @depends orderSmoke
-     * @TestlinkId	TL-MAGE-3607
+     * @TestlinkId TL-MAGE-3607
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -199,7 +199,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      * @test
      * @depends orderSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3611
+     * @TestlinkId TL-MAGE-3611
      */
     public function partialShipmentForOrderWithoutInvoice($orderData, $sku)
     {
@@ -243,7 +243,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      *
      * @test
      * @depends orderSmoke
-     * @TestlinkId	TL-MAGE-3608
+     * @TestlinkId TL-MAGE-3608
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -269,7 +269,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
      *
      * @test
      * @depends orderSmoke
-     * @TestlinkId	TL-MAGE-3612
+     * @TestlinkId TL-MAGE-3612
      */
     public function reorderPendingOrder($orderData)
     {

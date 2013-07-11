@@ -134,9 +134,8 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('error', 'api_user_empty_required_field');
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 

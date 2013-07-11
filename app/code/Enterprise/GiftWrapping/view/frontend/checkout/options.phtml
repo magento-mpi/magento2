@@ -10,7 +10,7 @@
 ?>
 <?php if ($this->canDisplayGiftWrapping()): ?>
 
-<?php if ($this->getDesignCollectionCount() && ($this->getAllowForOrder() || $this->getAllowForItems() || $this->_giftWrappingAvailable)): ?>
+<?php if ($this->getDesignCollectionCount() && ($this->getAllowForOrder() || $this->getAllowForItems() || $this->getGiftWrappingAvailable())): ?>
     <script id="gift-wrapping-container" type="text/x-jQuery-tmpl">
         <div class="gift-wrapping-form">
             <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>

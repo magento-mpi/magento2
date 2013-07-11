@@ -36,9 +36,6 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
      */
     public function reviewInfoInProductDetails($productType, $availability)
     {
-        if ($availability == 'In Stock') {
-            $this->markTestIncomplete('MAGETWO-7170');
-        }
         $productData = $this->loadDataSet('Product', 'frontend_' . $productType . '_product_details_validation',
             array('general_stock_availability' => $availability));
         $this->productHelper()->createProduct($productData, $productType);

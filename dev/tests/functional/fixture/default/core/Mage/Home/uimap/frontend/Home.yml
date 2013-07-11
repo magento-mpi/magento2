@@ -27,11 +27,6 @@ home:
                         pageelements:
                           compare_block_empty: //p[text()='You have no items to compare.']
                           compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
-                -
-                    global_footer:
-                        xpath: //div[@class='footer']
-                        links:
-                            select_store: //ul[@id='select-store']/li//a[text()='%store%']
         messages: &homeMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             tag_already_success: //li[normalize-space(@class)='notice-msg' and contains(.,'Tag "%tagName%" has already been added to the product.')]

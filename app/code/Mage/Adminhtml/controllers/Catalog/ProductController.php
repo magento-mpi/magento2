@@ -42,7 +42,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _initProduct()
     {
-        $this->_title($this->__('Manage Products'));
+        $this->_title($this->__('Products'));
 
         $productId  = (int) $this->getRequest()->getParam('id');
         /** @var $product Mage_Catalog_Model_Product */
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Manage Products'));
+        $this->_title($this->__('Products'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_products');
         $this->renderLayout();
@@ -319,14 +319,62 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Get variations matrix block
-     *
+     * Generate product variations matrix
      */
-    public function variationsMatrixAction()
+    public function generateVariationsAction()
     {
+        $this->_saveAttributeOptions();
         $this->_initProductSave($this->_initProduct());
         $this->loadLayout();
         $this->renderLayout();
+    }
+
+    /**
+     * Save attribute options just created by user
+     *
+     * @TODO Move this logic to configurable product type model when full set of operations for attribute options during
+     *  product creation will be implemented: edit labels, remove, reorder. Currently only addition of options to end
+     *  and removal of just added option is supported.
+     */
+    protected function _saveAttributeOptions()
+    {
+        $productData = (array)$this->getRequest()->getParam('product');
+        if (!isset($productData['configurable_attributes_data'])) {
+            return;
+        }
+
+        foreach ($productData['configurable_attributes_data'] as &$attributeData) {
+            $values = array();
+            foreach ($attributeData['values'] as $valueId => $priceData) {
+                if (isset($priceData['label'])) {
+                    /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                    $attribute = $this->_objectManager->create('Mage_Catalog_Model_Resource_Eav_Attribute');
+                    $attribute->load($attributeData['attribute_id']);
+                    $optionsBefore = $attribute->getSource()->getAllOptions(false);
+
+                    $attribute->setOption(array(
+                        'value' => array('option_0' => array($priceData['label'])),
+                        'order' => array('option_0' => count($optionsBefore) + 1),
+                    ));
+                    $attribute->save();
+
+                    /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                    $attribute = $this->_objectManager->create('Mage_Catalog_Model_Resource_Eav_Attribute');
+                    $attribute->load($attributeData['attribute_id']);
+                    $optionsAfter = $attribute->getSource()->getAllOptions(false);
+
+                    $newOption = array_pop($optionsAfter);
+
+                    unset($priceData['label']);
+                    $valueId = $newOption['value'];
+                    $priceData['value_index'] = $valueId;
+                }
+                $values[$valueId] = $priceData;
+            }
+            $attributeData['values'] = $values;
+        }
+
+        $this->getRequest()->setParam('product', $productData);
     }
 
     /**
@@ -695,7 +743,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             $product->setNewVariationsAttributeSetId($this->getRequest()->getPost('new-variations-attribute-set-id'));
             $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
-            if ($this->getRequest()->getActionName() != 'variationsMatrix') {
+            if ($this->getRequest()->getActionName() != 'generateVariations') {
                 $generatedProductIds = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')
                     ->generateSimpleProducts($product, $this->getRequest()->getPost('variations-matrix', array()));
                 $associatedProductIds = array_merge($associatedProductIds, $generatedProductIds);
@@ -732,9 +780,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      *
      * @param array $stockData
      */
-    protected function _filterStockData(&$stockData) {
+    protected function _filterStockData(&$stockData)
+    {
         if (!isset($stockData['use_config_manage_stock'])) {
             $stockData['use_config_manage_stock'] = 0;
+        }
+        if ($stockData['use_config_manage_stock'] == 1 && !isset($stockData['manage_stock'])) {
+            $stockData['manage_stock'] = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()
+                ->getConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         }
         if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
             $stockData['qty'] = self::MAX_QTY_VALUE;
@@ -791,7 +844,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAllRulesToProduct($productId);
 
-                $this->_getSession()->addSuccess($this->__('The product has been saved.'));
+                $this->_getSession()->addSuccess($this->__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(
                         $this->__('SKU for product %s has been changed to %s.', Mage::helper('Mage_Core_Helper_Data')
@@ -807,7 +860,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
-                    $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
+                    $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
                 }
 
             } catch (Mage_Core_Exception $e) {
@@ -859,33 +912,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product = $this->_initProduct();
         try {
             $newProduct = $product->duplicate();
-            $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
+            $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('_current'=>true));
         }
-    }
-
-    /**
-     * Delete product action
-     */
-    public function deleteAction()
-    {
-        if ($id = $this->getRequest()->getParam('id')) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
-                ->load($id);
-            $sku = $product->getSku();
-            try {
-                $product->delete();
-                $this->_getSession()->addSuccess($this->__('The product has been deleted.'));
-            } catch (Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            }
-        }
-        $this->getResponse()
-            ->setRedirect($this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store'))));
     }
 
     /**
@@ -938,7 +971,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                         $product->delete();
                     }
                     $this->_getSession()->addSuccess(
-                        $this->__('Total of %d record(s) have been deleted.', count($productIds))
+                        $this->__('A total of %d record(s) have been deleted.', count($productIds))
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
@@ -964,7 +997,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
-                $this->__('Total of %d record(s) have been updated.', count($productIds))
+                $this->__('A total of %d record(s) have been updated.', count($productIds))
             );
         }
         catch (Mage_Core_Model_Exception $e) {
@@ -973,7 +1006,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()
-                ->addException($e, $this->__('An error occurred while updating the product(s) status.'));
+                ->addException($e, $this->__('Something went wrong while updating the product(s) status.'));
         }
 
         $this->_redirect('*/*/', array('store'=> $storeId));
@@ -992,7 +1025,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
             if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
                 throw new Mage_Core_Exception(
-                    $this->__('Some of the processed products have no SKU value defined. Please fill it prior to performing operations on these products.')
+                    $this->__('Please make sure to define SKU values for all processed products.')
                 );
             }
         }
@@ -1056,5 +1089,57 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->getLayout()->createBlock('Mage_Catalog_Block_Product_TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
+    }
+
+    /**
+     * Search for attributes by part of attribute's label in admin store
+     */
+    public function suggestAttributesAction()
+    {
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search')
+                ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
+        ));
+    }
+
+    /**
+     * Add attribute to product template
+     */
+    public function addAttributeToTemplateAction()
+    {
+        $request = $this->getRequest();
+        try {
+            /** @var Mage_Eav_Model_Entity_Attribute $attribute */
+            $attribute = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute')
+                ->load($request->getParam('attribute_id'));
+
+            $attributeSet = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute_Set')
+                ->load($request->getParam('template_id'));
+
+            /** @var Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attributeGroupCollection */
+            $attributeGroupCollection = $this->_objectManager
+                ->get('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection');
+            $attributeGroupCollection->setAttributeSetFilter($attributeSet->getId());
+            $attributeGroupCollection->addFilter('attribute_group_code', $request->getParam('group'));
+            $attributeGroupCollection->setPageSize(1);
+
+            $attributeGroup = $attributeGroupCollection->getFirstItem();
+
+            $attribute->setAttributeSetId($attributeSet->getId())->loadEntityAttributeIdBySet();
+
+            $attribute->setEntityTypeId($attributeSet->getEntityTypeId())
+                ->setAttributeSetId($request->getParam('template_id'))
+                ->setAttributeGroupId($attributeGroup->getId())
+                ->setSortOrder('0')
+                ->save();
+
+            $this->getResponse()->setBody($attribute->toJson());
+        } catch (Exception $e) {
+            $response = new Varien_Object();
+            $response->setError(false);
+            $response->setMessage($e->getMessage());
+            $this->getResponse()->setBody($response->toJson());
+        }
+
     }
 }

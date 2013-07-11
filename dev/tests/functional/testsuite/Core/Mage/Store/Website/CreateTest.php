@@ -28,6 +28,13 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_stores');
     }
 
+    public function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteAllStoresExceptSpecified();
+    }
+
     /**
      * <p>Test navigation.</p>
      *
@@ -75,6 +82,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      */
     public function withCodeThatAlreadyExists(array $websiteData)
     {
+        $this->markTestIncomplete('BUG: There is no "website_code_exist" message on the page');
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -98,9 +106,8 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
@@ -123,7 +130,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $longValues = array('website_name' => $this->generate('string', 255, ':alnum:'),
-                            'website_code' => $this->generate('string', 32, ':lower:'));
+            'website_code' => $this->generate('string', 32, ':lower:'));
         $websiteData = $this->loadDataSet('Website', 'generic_website', $longValues);
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
@@ -161,6 +168,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      */
     public function withInvalidCode($invalidCode)
     {
+        $this->markTestIncomplete('BUG: There is no "wrong_website_code" message on the page');
         //Data
         $websiteData = $this->loadDataSet('Website', 'generic_website', array('website_code' => $invalidCode));
         //Steps

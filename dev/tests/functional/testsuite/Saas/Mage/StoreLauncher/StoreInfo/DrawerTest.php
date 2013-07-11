@@ -114,8 +114,7 @@ class Saas_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
 
         $validateData = $this->loadDataSet('StoreInfo', 'store_info_complete_validate', null,
                 array('email' => $data['store_contact_email'], 'storeName' => $data['store_name']));
-        foreach ($validateData as $key => $value)
-        {
+        foreach ($validateData as $value) {
             $this->addParameter('listInfo', $value);
             $helper->mouseOverDrawer('bussines_info_tile');
             if (!$this->controlIsVisible('pageelement', 'bussines_info_text')) {

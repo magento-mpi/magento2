@@ -109,9 +109,7 @@ newsletter_template_new:
             convert_to_plain_text: //button[@data-ui-id='template-edit-to-plain-button']
             preview_template: //button[@data-ui-id='template-edit-preview-button']
             save_template: //button[@data-ui-id='template-edit-save-button']
-
         messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
             invalid_email: //label[@class='mage-error' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
 
 # Newsletter edit template page
@@ -126,7 +124,7 @@ edit_news_template:
             convert_to_plain_text: //button[span='Convert to Plain Text']
             preview_template: //button[span='Preview Template']
             save_template: //button[@data-ui-id='template-edit-save-button']
-            delete_template: //button[@class='scalable delete']
+            delete_template: //button[@data-ui-id='template-edit-delete-button']
         messages: *newsTemplateMessages
 
 # Newsletter Newsletter Queue page
@@ -145,8 +143,8 @@ newsletter_queue:
                             filter_queue_id: //input[@id='queueGrid_filter_queue_id']
                             filter_queue_start_from: //input[@name='start_at[from]']
                             filter_queue_start_to: //input[@name='start_at[to]']
-                            filter_queue_finish_from:  //input[@name='finish_at[from]']
-                            filter_queue_finish_to:  //input[@name='finish_at[to]']
+                            filter_queue_finish_from: //input[@name='finish_at[from]']
+                            filter_queue_finish_to: //input[@name='finish_at[to]']
                             filter_queue_subject: //input[@id='queueGrid_filter_newsletter_subject']
                             filter_queue_processed_from: //input[@id='queueGrid_filter_subscribers_sent_from']
                             filter_queue_processed_to: //input[@id='queueGrid_filter_subscribers_sent_to']
@@ -186,7 +184,7 @@ newsletter_queue_edit:
 newsletter_problem_reports:
     mca: newsletter_problem/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_problem/')]
-    title: Newsletter Problems / Marketing / Reports / Magento Admin
+    title: Newsletter Problems Report / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

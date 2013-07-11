@@ -14,7 +14,7 @@
  */
 class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
 {
-    //---------------------------------------------------Backend--------------------------------------------------------
+    //---------------------------------------------------Backend------------------------------
     /**
      * Add next product
      *
@@ -24,48 +24,23 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function addProductsBySkuToShoppingCart(array $productsToAdd, $pressButton = true, $isShoppingCart = true)
     {
-        if (!empty($productsToAdd)) {
-            if ($isShoppingCart) {
-                if (!$this->controlIsPresent('pageelement', 'opened_add_to_shopping_cart_by_sku')) {
-                    $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
-                    $this->waitForAjax();
-                }
+        if ($isShoppingCart) {
+            if (!$this->controlIsVisible('fieldset', 'add_to_cart_by_sku')) {
+                $this->clickControl('link', 'add_to_cart_by_sku_link', false);
             }
-            if (!$isShoppingCart) {
-                $this->clickButton('add_products_by_sku', false);
-            }
-            $this->_fillSkuQty($productsToAdd);
-            if ($pressButton && $isShoppingCart) {
-                $this->clickButton('add_selected_products_to_shopping_cart', false);
-            }
-            if ($pressButton && !$isShoppingCart) {
-                $this->clickButton('submit_sku_form');
-            }
-            $this->pleaseWait();
+        } else {
+            $this->clickButton('add_products_by_sku', false);
         }
-    }
-
-    /**
-     * Get parameter for product in Shopping Cart
-     *
-     * @param array $productsToAdd
-     */
-    protected function _fillSkuQty(array $productsToAdd)
-    {
-        $item = 0;
-        foreach ($productsToAdd as $value) {
-            if ($item > 0) {
-                $this->clickButton('add_row', false);
-                $this->waitForAjax();
-            }
-            $this->addParameter('itemId', $item++);
-            if (is_array($value)) {
-                $this->fillField('sku', $value['sku']);
-                $this->fillField('sku_qty', $value['qty']);
-                $this->waitForAjax();
-            } else {
-                $this->fail('Got incorrect parameter');
-            }
+        $this->waitForControlVisible('fieldset', 'add_to_cart_by_sku');
+        $this->frontFulfillSkuQtyRows($productsToAdd, 'add_to_cart_by_sku');
+        if (!$pressButton) {
+            return;
+        }
+        if ($isShoppingCart) {
+            $this->clickButton('add_selected_products_to_shopping_cart', false);
+            $this->pleaseWait();
+        } else {
+            $this->clickButton('submit_sku_form');
         }
     }
 
@@ -84,108 +59,70 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Gets products info from table
      *
-     * @param string $tableHeadName
-     * @param string $productTableLine
+     * @param string $headName
+     * @param string $lineName
      * @param array $skipFields
      * @return array
      */
     public function getProductInfoInTable(
-        $tableHeadName = 'product_table_head',
-        $productTableLine = 'product_line',
-        $skipFields = array('move_to_wishlist','remove')
-    ) {
+        $headName = 'product_table_head',
+        $lineName = 'product_line',
+        $skipFields = array('move_to_wishlist', 'remove')
+    )
+    {
         $productValues = array();
-        $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($tableHeadName);
-        $productLine = $this->_getControlXpath('pageelement', $productTableLine);
-        $productCount = $this->getControlCount('pageelement', $productTableLine);
-        for ($index = 1; $index <= $productCount; $index++) {
+        $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($headName);
+        /** @var $element PHPUnit_Extensions_Selenium2TestCase_Element */
+        /** @var $element2 PHPUnit_Extensions_Selenium2TestCase_Element */
+        $index = 1;
+        foreach ($this->getControlElements('pageelement', $lineName) as $element) {
             foreach ($tableRowNames as $key => $value) {
                 if (in_array($key, $skipFields)) {
                     continue;
                 }
-                $xpathValue = $productLine . "[$index]//td[$value]";
-                if ($key == 'qty') {
-                    $productValues['product_' . $index][$key] = $this->getElement($xpathValue . '/input')->value();
+                if ($key == 'qty' || $key == 'quantity') {
+                    $productValues['product_' . $index]['qty'] =
+                        $this->getChildElement($element, "td[$value]/input")->value();
+                    continue;
+                }
+                $text = trim($this->getChildElement($element, "td[$value]")->text());
+                if ($key == 'product') {
+                    if ($headName == 'error_table_head') { //@TODO remove when design fixed
+                        foreach ($this->getChildElements($element, "td[$value]/div/div") as $element2) {
+                            $text = trim(str_replace($element2->text(), '', $text));
+                        }
+                    }
+                    list($name, $sku) = explode('SKU:', $text);
+                    $productValues['product_' . $index][$key . '_name'] = trim($name);
+                    $productValues['product_' . $index][$key . '_sku'] = trim($sku);
+                    continue;
+                }
+                if (preg_match('/Excl. Tax/', $text)) {
+                    $values = explode("\n", $text);
+                    $values = array_map('trim', $values);
+                    foreach ($values as $k => $v) {
+                        if ($v == 'Excl. Tax' && isset($values[$k + 1])) {
+                            $productValues['product_' . $index][$key . '_excl_tax'] = $values[$k + 1];
+                        }
+                        if ($v == 'Incl. Tax' && isset($values[$k + 1])) {
+                            $productValues['product_' . $index][$key . '_incl_tax'] = $values[$k + 1];
+                        }
+                    }
+                } elseif (preg_match('/Ordered/', $text)) {
+                    $values = explode(' ', $text);
+                    $values = array_map('trim', $values);
+                    foreach ($values as $k => $v) {
+                        if ($k % 2 != 0 && isset($values[$k - 1])) {
+                            $indexKey = $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]));
+                            $productValues['product_' . $index][$indexKey] = $v;
+                        }
+                    }
                 } else {
-                    $productValues = $this->_defineProductValues($productValues, $xpathValue, $index, $key);
+                    $productValues['product_' . $index][$key] = $text;
                 }
             }
-        }
-
-        $productValues = $this->_defineSkuValues($productValues);
-
-        return $productValues;
-    }
-
-    /**
-     * Defines product values without qty
-     *
-     * @param $productValues
-     * @param $xpathValue
-     * @param $index
-     * @param $key
-     * @return mixed
-     */
-    protected function _defineProductValues($productValues, $xpathValue, $index, $key)
-    {
-        $text = $this->getElement($xpathValue)->attribute('text');
-        if (preg_match('/Excl. Tax/', $text)) {
-            $productValues = $this->_defineExclTax($productValues, $text, $index, $key);
-        } elseif (preg_match('/Ordered/', $text)) {
-            $values = explode(' ', $text);
-            $values = array_map('trim', $values);
-            foreach ($values as $k => $v) {
-                if ($k % 2 != 0 && isset($values[$k - 1])) {
-                    $productValues['product_' . $index][
-                    $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
-                }
-            }
-        } else {
-            $productValues['product_' . $index][$key] = trim($text);
-        }
-
-        return $productValues;
-    }
-
-    protected function _defineExclTax($productValues, $text, $index, $key)
-    {
-        $text = preg_replace("/ \\n/", ':', $text);
-        $values = explode(':', $text);
-        $values = array_map('trim', $values);
-        foreach ($values as $k => $v) {
-            if ($v == 'Excl. Tax' && isset($values[$k + 1])) {
-                $productValues['product_' . $index][$key . '_excl_tax'] = $values[$k + 1];
-            }
-            if ($v == 'Incl. Tax' && isset($values[$k + 1])) {
-                $productValues['product_' . $index][$key . '_incl_tax'] = $values[$k + 1];
-            }
-        }
-
-        return $productValues;
-    }
-
-    /**
-     * Returns sku values
-     *
-     * @param $productValues
-     * @return mixed
-     */
-    protected function _defineSkuValues($productValues)
-    {
-        foreach ($productValues as &$productData) {
-            $productData = array_diff($productData, array(''));
-            foreach ($productData as &$fieldValue) {
-                if (preg_match('/([\d]+\.[\d]+)|([\d]+)/', $fieldValue)) {
-                    preg_match_all('/^([\D]+)?(([\d]+\.[\d]+)|([\d]+))(\%)?/', $fieldValue, $price);
-                    $fieldValue = $price[0][0];
-                }
-                if (preg_match('/SKU:/', $fieldValue)) {
-                    $skuArr = explode('SKU:', $fieldValue);
-                    $sku = end($skuArr);
-                    $productData['sku'] = $sku;
-                    $fieldValue = substr($fieldValue, 0, strpos($fieldValue, ':') - 3);
-                }
-            }
+            $productValues['product_' . $index] = array_diff($productValues['product_' . $index], array(''));
+            $index++;
         }
 
         return $productValues;
@@ -197,8 +134,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     public function removeAllItemsFromShoppingCart()
     {
         if ($this->controlIsVisible('button', 'clear_shop_cart')) {
-            $this->clickButtonAndConfirm('clear_shop_cart', 'confirmation_to_clear_shopping_cart', false);
-            $this->pleaseWait();
+            $this->clickButtonAndConfirm('clear_shop_cart', 'confirmation_to_clear_shopping_cart');
         }
     }
 
@@ -220,12 +156,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function isShoppingCartEmpty()
     {
-        if ($this->getControlCount('pageelement', 'table_row') == 1
-            && $this->controlIsVisible('pageelement', 'no_items')
-        ) {
-            return true;
-        }
-        return false;
+        return ($this->getControlCount('pageelement', 'table_row') == 1
+            && $this->controlIsVisible('pageelement', 'no_items'));
     }
 
     /**
@@ -233,13 +165,11 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return bool
      */
-    public function isAttentionTableEmpty() {
+    public function isAttentionTableEmpty()
+    {
         if ($this->controlIsVisible('pageelement', 'error_table_head')) {
             $productValues = $this->getProductInfoInTable('error_table_head', 'error_table_line');
-            if (empty($productValues)) {
-                return true;
-            }
-            return false;
+            return empty($productValues);
         }
         return true;
     }
@@ -247,29 +177,24 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Remove items from Attention Table
      *
-     * @param array $productsToRemove
+     * @param array|string $skuToRemove
      */
-    public function removeItemsFromAttentionTable(array $productsToRemove)
+    public function removeItemsFromAttentionTable($skuToRemove)
     {
-        if (!empty($productsToRemove)) {
-            if (!$this->isAttentionTableEmpty()) {
-                $xpath = $this->_getControlXpath('pageelement', 'error_table_grid');
-                foreach ($productsToRemove as $key => $productSku) {
-                    $count = $this->getControlCount('pageelement', 'error_table_grid');
-                    $i = 1;
-                    $productSku = 'sku_' . trim($productSku);
-                    while ($i <= $count) {
-                        $value = $this->getAttribute($xpath . "[$i]/td/div/@id");
-                        if (trim($value) == $productSku) {
-                            $this->addParameter('rowIndex', $i);
-                            $this->clickButton('remove_item', false);
-                            unset($productsToRemove[$key]);
-                            $i = $count + 1;
-                            $this->pleaseWait();
-                        } else {
-                            $i++;
-                        }
-                    }
+        if ($this->isAttentionTableEmpty()) {
+            return;
+        }
+        if (is_string($skuToRemove)) {
+            $skuToRemove = array($skuToRemove);
+        }
+        foreach ($skuToRemove as $sku) {
+            /** @var $element PHPUnit_Extensions_Selenium2TestCase_Element */
+            foreach ($this->getControlElements('pageelement', 'error_table_line') as $key => $element) {
+                if (strpos($element->text(), 'SKU: ' . $sku) !== false) {
+                    $this->addParameter('rowIndex', $key + 1);
+                    $this->clickButton('remove_item', false);
+                    $this->pleaseWait();
+                    break(1);
                 }
             }
         }
@@ -282,45 +207,37 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function removeItemsFromShoppingCartTable(array $productsToRemove)
     {
-        if (!empty($productsToRemove)) {
-            if (!$this->isShoppingCartEmpty()) {
-                $productsData = $this->getProductInfoInTable('product_table_head', 'table_row');
-                $rowNumber=1;
-                foreach ($productsData as $value) {
-                    if(in_array(trim($value['sku']), $productsToRemove)) {
-                        $this->addParameter('rowNumber', $rowNumber);
-                        $this->select($this->_getControlXpath('dropdown', 'grid_massaction_select'), 'Remove');
-                        $this->pleaseWait();
-                    }
-                    $rowNumber++;
+        if (!$this->isShoppingCartEmpty()) {
+            $productsData = $this->getProductInfoInTable('product_table_head', 'table_row');
+            $rowNumber = 1;
+            foreach ($productsData as $value) {
+                if (in_array(trim($value['sku']), $productsToRemove)) {
+                    $this->addParameter('rowNumber', $rowNumber);
+                    $this->fillDropdown('grid_massaction_select', 'Remove');
+                    $this->pleaseWait();
                 }
+                $rowNumber++;
             }
-            $this->clickButton('update_items_and_qty', false);
-            $this->pleaseWait();
         }
+        $this->clickButton('update_items_and_qty', false);
+        $this->pleaseWait();
     }
 
     /**
      * Configure product in Required Attention grid and add it to Shopping cart if possible
      *
      * @param array $product
-     * @param array $msgShoppingCart
-     * @param string $msgAttentionGrid
      */
-    public function configureProduct(array $product, array $msgShoppingCart, $msgAttentionGrid)
+    public function configureProduct(array $product)
     {
-        if ($msgShoppingCart !== null && $msgAttentionGrid !== null && $msgAttentionGrid == 'specify_option') {
-            $popupXpath = $this->_getControlXpath('fieldset', 'product_composite_configure_form');
-            $this->addParameter('sku', $product['sku']);
-            $this->clickControl('button', 'configure_item', false);
-            $this->waitForElement($popupXpath);
-            $this->waitForAjax();
-            $this->orderHelper()->configureProduct($product['Options_backend']);
-            $uimap = $this->_findUimapElement('fieldset', 'product_composite_configure_form');
-            $this->click($this->_getControlXpath('button', 'ok', $uimap));
-        } else {
-            $this->fail('Added product is not composite product');
+        $this->addParameter('sku', $product['sku']);
+        if ($this->getControlAttribute('button', 'configure_item', 'disabled')) {
+            return;
         }
+        $this->clickControl('button', 'configure_item', false);
+        $this->waitForControlVisible('fieldset', 'product_composite_configure_form');
+        $this->orderHelper()->configureProduct($product['Options_backend']);
+        $this->clickButton('composite_configure_ok', false);
     }
 
     //---------------------------------------------------Frontend-------------------------------------------------------
@@ -328,13 +245,22 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      * Fulfill product SKU and qty fields to the according row
      *
      * @param array $data
-     * @param array $rows, default value = 1
+     * @param string $fieldset
      */
-    public function frontFulfillSkuQtyRows(array $data, $rows = array('1'))
+    public function frontFulfillSkuQtyRows(array $data, $fieldset = 'add_by_sku')
     {
-        foreach ($rows as $row) {
-            $this->addParameter('number', $row);
-            $this->fillFieldset($data, 'add_by_sku');
+        foreach ($data as $dataRow) {
+            $this->addParameter('number', $this->getControlCount('pageelement', 'table_lines'));
+            if ($this->getControlAttribute('field', 'sku', 'selectedValue') != ''
+                || $this->getControlAttribute('field', 'qty', 'selectedValue') != ''
+            ) {
+                $this->clickButton('add_row', false);
+                $this->addParameter('number', 1 + (int)$this->getParameter('number'));
+                if (!$this->controlIsVisible('field', 'sku')) {
+                    $this->markTestIncomplete('BUG: Add Row link does not work on frontend');
+                }
+            }
+            $this->fillFieldset($dataRow, $fieldset);
         }
     }
 
@@ -393,9 +319,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('id', $this->defineParameterFromUrl('id'));
         $this->addParameter('qty', $this->defineParameterFromUrl('qty'));
         $this->addParameter('sku', $this->defineParameterFromUrl('sku'));
-        if (is_string($productName)) {
-            $this->addParameter('elementTitle', $productName);
-        }
+        $this->addParameter('elementTitle', $productName);
         $this->validatePage();
     }
 
@@ -404,58 +328,11 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontClearRequiredAttentionGrid()
     {
-        if ($this->getArea() == 'frontend') {
-            $this->frontend('shopping_cart');
-            if ($this->controlIsPresent('fieldset', 'products_requiring_attention')) {
-                $this->clickButton('remove_all');
-                $this->assertMessagePresent('success', 'items_removed');
-            }
+        $this->frontend('shopping_cart');
+        if ($this->controlIsPresent('fieldset', 'products_requiring_attention')) {
+            $this->clickButton('remove_all');
+            $this->assertMessagePresent('success', 'items_removed');
         }
-    }
-
-    /**
-     * Configure product which require specifying link in Required Attention grid
-     *
-     * @param array $product
-     * @param string $productType
-     */
-    protected function _frontSpecifyOptions(array $product, $productType)
-    {
-        if (strlen(strstr($productType, 'grouped')) > 0) {
-            $this->frontCheckFields($product, false, false);
-        } else {
-            $this->frontCheckFields($product, true, true);
-        }
-        $this->clickSpecifyLink($product['product_name']);
-        $this->productHelper()->frontFillBuyInfo($product['Options']);
-        $this->clickButton('update_cart');
-        //Verifying
-        if (strlen(strstr($productType, 'grouped')) > 0) {
-            $this->addParameter('productName',
-                $product['Options']['option_1']['parameters']['subproductName']);
-        }
-    }
-
-    /**
-     * Configure product which require quantity modification in Required Attention grid
-     *
-     * @param array $product
-     * @param $productType
-     * @param array $msgShoppingCart
-     * @param array $msgGrid
-     */
-    protected function _frontRequestedQuantity(array $product, $productType, array $msgShoppingCart, array $msgGrid)
-    {
-        $this->frontCheckFields($product, true, true);
-        if ($productType == 'simpleMin') {
-            $qty = $product['qty'] + 1;
-        } else {
-            $qty = $product['qty'] - 1;
-        }
-        $this->addParameter('qty', $qty);
-        $this->assertMessagePresent($msgShoppingCart['type'], $msgGrid['messageTwo']);
-        $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
-        $this->clickButton('add_to_cart');
     }
 
     /**
@@ -473,10 +350,31 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             switch ($msgAttentionGrid['messageOne']) {
                 case 'qty_not_available':
                 case 'requested_qty':
-                    $this->_frontRequestedQuantity($product, $productType, $msgShoppingCart, $msgAttentionGrid);
+                    $this->frontCheckFields($product, true, true);
+                    if ($productType == 'simpleMin') {
+                        $qty = $product['qty'] + 1;
+                    } else {
+                        $qty = $product['qty'] - 1;
+                    }
+                    $this->addParameter('qty', $qty);
+                    $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageTwo']);
+                    $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
+                    $this->clickButton('add_to_cart');
                     break;
                 case 'specify_option':
-                    $this->_frontSpecifyOptions($product, $productType);
+                    if (strlen(strstr($productType, 'grouped')) > 0) {
+                        $this->frontCheckFields($product, false, false);
+                    } else {
+                        $this->frontCheckFields($product, true, true);
+                    }
+                    $this->clickSpecifyLink($product['product_name']);
+                    $this->productHelper()->frontFillBuyInfo($product['Options']);
+                    $this->clickButton('update_cart');
+                    //Verifying
+                    if (strlen(strstr($productType, 'grouped')) > 0) {
+                        $this->addParameter('productName',
+                            $product['Options']['option_1']['parameters']['subproductName']);
+                    }
                     break;
                 case 'out_of_stock':
                     $this->frontCheckFields($product, true, false);

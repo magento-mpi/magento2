@@ -41,7 +41,6 @@ poll_manager:
         messages: &pollMesssages
             success_saved_poll: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the poll.')]
             success_deleted_poll: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the poll.')]
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             existing_poll: //li[normalize-space(@class)='error-msg' and contains(.,'Poll with the same question already exists.')]
             duplicate_poll_answer: //li[normalize-space(@class)='error-msg' and contains(.,'Your answers contain duplicates.')]
             add_answers: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter answer options for this poll.')]

@@ -10,7 +10,7 @@
  /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
 ?>
 <div class="entry-edit form-inline" id="<?php echo $this->getId() ?>">
-    <div class="fieldset-wrapper collapsable-wrapper" id="<?php echo $this->getId() ?>-wrapper">
+    <div class="fieldset-wrapper collapsable-wrapper" id="<?php echo $this->getId() ?>-wrapper" data-panel="product-variations">
         <div class="fieldset-wrapper-title">
             <strong class="title" data-toggle="collapse" data-target="#<?php echo $this->getId() ?>-content">
                 <span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Variations') ?></span>
@@ -29,24 +29,7 @@
                     <?php echo $this->getChildHtml('add_attribute'); ?>
                 </div>
 
-                <!-- Configurable Attributes list -->
-                <div id="configurable-attributes-container">
-                    <?php echo $this->getChildHtml('template'); ?>
-                    <?php
-                    foreach ($this->getAttributes() as $attribute) {
-                        echo $this->getChildBlock('attribute-renderer')->render(array(
-                            'attribute' => $attribute,
-                        ));
-                    } ?>
-                </div>
-
-                <!-- "Generate Variations" button -->
-                <?php echo $this->getChildHtml('generate'); ?>
-
-                <!-- Variations -->
-                <div id="product-variations-matrix" data-role="product-variations-matrix">
-                    <?php echo $this->getChildHtml('matrix'); ?>
-                </div>
+                <?php echo $this->getChildHtml('generator'); ?>
 
                 <!-- Select Associated Product popup -->
                 <div id="associated-products-container">
@@ -57,7 +40,7 @@
             </fieldset>
         </div>
     </div>
-
+</div>
 <script type="text/javascript">
 jQuery(function($) {
     'use strict';
@@ -69,9 +52,7 @@ jQuery(function($) {
         qtyField = $('#qty'),
         currentProductTemplateControl = $('#product-template-suggest-container .actions-split > .action-toggle'),
         attributesInput = $("input[name='attributes[]']", variationsContainer),
-        hasVariations = <?php echo ($this->_getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>;
-
-    $('#configurable-attributes-container').variationsAttributes();
+        hasVariations = <?php echo ($this->getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>;
 
     collapsableArea
         .on('show', function() {
@@ -117,27 +98,47 @@ jQuery(function($) {
         resizable: true
     });
 
-    $('[data-role=product-variations-matrix]')
-        .on('generate', function(event, data) {
+    $('[data-panel=product-variations]')
+        .on('generate', '[data-role=product-variations-matrix]', function(event, data) {
+            var form = $('[data-form=edit-product]');
+            if (!form.valid()) {
+                form.data('validator').focusInvalid();
+                return;
+            }
             $.ajax({
                 url: data.url,
-                data: $('#product-edit-form').serialize(),
+                data: form.serialize(),
                 dataType: 'html',
                 context: variationsContainer,
                 showLoader: true
             }).success(function(data) {
-                $('[data-role=product-variations-matrix]').html(data);
+                $('[data-role=product-variations-generator]').html(data).trigger('contentUpdated');
                 $('#product_type_id').val('configurable').trigger('change');
             });
         })
-        .on('disable', function() {
+        .on('add-option', '[data-action=add-option]', function(event) {
+            var attributeContainer = $(event.target).closest('[data-role=configurable-attribute]'),
+                panel = attributeContainer.closest('[data-panel=product-variations]'),
+                newOptionsCount = attributeContainer.data('newOptionsCount') || 0,
+                attribute = attributeContainer.data('attribute');
+            attributeContainer.find('[data-role=options]')
+                .append(
+                    panel.find('[data-template-for=new-option]').tmpl({
+                        attribute: {id: attribute.attribute_id || attribute.id},
+                        option: {id: 'new-option-' + newOptionsCount}
+                    })
+                )
+                .trigger('contentUpdated');
+            attributeContainer.data('newOptionsCount', ++newOptionsCount);
+        })
+        .on('disable', '[data-role=product-variations-matrix]', function() {
             $(this).html('');
         })
         .on('click', '[data-column=entity_id]', function() {
             $(this).closest('tr').find('input[type!=checkbox],button')
                 .prop('disabled', !$(this).is(':checked'));
         })
-        .on('click', '.action-choose', function(event) {
+        .on('click', '[data-action=choose]', function(event) {
             event.preventDefault();
             var grid = window.<?php echo $this->getGridJsObject() ?>;
             var $button = $(this);
@@ -162,13 +163,13 @@ jQuery(function($) {
                     columnSelectorTemplate = '[data-column="%s"]';
 
                 if ($gridRow.find(columnSelectorTemplate.replace('%s', 'entity_id')).length) {
-                    var $matrixRow = $button.parents('tr');
+                    var $matrixRow = $button.parents('[data-role=row]');
 
                     $.each('name,sku,qty,weight,entity_id'.split(','), function () {
                         var columnSelector = columnSelectorTemplate.replace('%s', this),
                             target = $matrixRow.find(columnSelector),
                             value = $.trim($gridRow.find(columnSelector).text()),
-                            button = target.find('.action-choose');
+                            button = target.find('[data-action=choose]');
 
                         target[target.is('input[type=checkbox]') ? 'val' : 'text'](value).append(button);
                     });
@@ -176,21 +177,17 @@ jQuery(function($) {
                     $matrixRow.find(columnSelectorTemplate.replace('%s', 'entity_id'))
                         .prop({checked: true, disabled: false});
 
-                    var parentElement = $matrixRow.find('.col-image'),
-                        imageElement = $matrixRow.find('img');
+                    var parentElement = $matrixRow.find('[data-column=image]'),
+                        uploaderControl = parentElement.find('[data-action=upload-image]', parentElement),
+                        imageElement = $matrixRow.find('[data-role=image]');
+
                     if (imageElement.length) {
                         imageElement.attr('src', $gridRow.find('[data-role=image-url]').val());
                     } else {
-                        parentElement.find('.action-upload').remove();
-                        $('<img>', {
-                            src: $gridRow.find('[data-role=image-url]').val(),
-                            style: 'width:55px;height:55px'
-                        }).appendTo(parentElement);
-                        parentElement.find('img').on('click', function (event) {
-                            if ($(event.target).closest('tr').find('[data-column=entity_id]').is(':checked')) {
-                                $(event.target).closest('.col-image').find('[name=image]').trigger('click');
-                            }
-                        });
+                        var matrix = $('[data-role=product-variations-matrix]');
+                        $.tmpl(matrix.find('[data-template-for=variation-image]').html(), {
+                            url: $gridRow.find('[data-role=image-url]').val()
+                        }).prependTo(uploaderControl);
                     }
 
                     $matrixRow.find('[name=image]')
@@ -203,4 +200,3 @@ jQuery(function($) {
         });
 });
 </script>
-</div>

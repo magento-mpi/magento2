@@ -42,7 +42,7 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', $dataName);
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code' => $attrData['attribute_code']));
+            array('attribute_code' => $attrData['advanced_attribute_properties']['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -64,7 +64,6 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
             array('product_attribute_multiselect'),
             array('product_attribute_dropdown'),
             array('product_attribute_price'),
-            array('product_attribute_mediaimage'),
             array('product_attribute_fpt')
         );
     }
@@ -98,13 +97,13 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('Product Details' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['advanced_attribute_properties']['attribute_code']));
         $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
-                  'general_attribute_1' => $attrData['admin_title']));
+                  'general_attribute_1' => $attrData['attribute_properties']['attribute_label']));
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code'  => $attrData['attribute_code'],
-                  'attribute_label' => $attrData['admin_title']));
+            array('attribute_code'  => $attrData['advanced_attribute_properties']['attribute_code'],
+                  'attribute_label' => $attrData['attribute_properties']['attribute_label']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
