@@ -54,29 +54,49 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      */
     protected function _getSoapClient($serviceInfo)
     {
-        $wsdlUrl = $this->_getWsdlUrl(
-            $this->_getSoapServiceName($serviceInfo),
-            $this->_getSoapServiceVersion($serviceInfo)
+        $wsdlUrl = $this->generateWsdlUrl(
+            array($this->_getSoapServiceName($serviceInfo) => $this->_getSoapServiceVersion($serviceInfo))
         );
         /** Check if there is SOAP client initialized with requested WSDL available */
         if (!isset($this->_soapClients[$wsdlUrl])) {
-            $this->_soapClients[$wsdlUrl] = new Zend\Soap\Client($wsdlUrl);
-            $this->_soapClients[$wsdlUrl]->setSoapVersion(SOAP_1_2);
+            $this->_soapClients[$wsdlUrl] = $this->instantiateSoapClient($wsdlUrl);
         }
         return $this->_soapClients[$wsdlUrl];
     }
 
     /**
+     * Create SOAP client instance and initialize it with provided WSDL URL.
+     *
+     * @param string $wsdlUrl
+     * @return \Zend\Soap\Client
+     */
+    public function instantiateSoapClient($wsdlUrl)
+    {
+        $soapClient = new Zend\Soap\Client($wsdlUrl);
+        $soapClient->setSoapVersion(SOAP_1_2);
+        return $soapClient;
+    }
+
+    /**
      * Generate WSDL URL.
      *
-     * @param string $serviceName
-     * @param string $version
+     * @param array $services e.g.<pre>
+     * array(
+     *     'catalogProduct' => 'V1',
+     *     'customer' => 'V2'
+     * );</pre>
      * @return string
      */
-    protected function _getWsdlUrl($serviceName, $version)
+    public function generateWsdlUrl($services)
     {
+        /** Sort list of services to avoid having different WSDL URLs for the identical lists of services. */
+        ksort($services);
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
-        return rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . "&resources[{$serviceName}]={$version}";
+        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH;
+        foreach ($services as $serviceName => $version) {
+            $wsdlUrl .= "&resources[{$serviceName}]={$version}";
+        }
+        return $wsdlUrl;
     }
 
     /**
@@ -152,7 +172,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      * @param object $soapResult
      * @return array
      */
-    public function _normalizeResponse($soapResult)
+    protected function _normalizeResponse($soapResult)
     {
         return $this->_replaceComplexObjectArray($this->_soapResultToArray($soapResult));
     }
