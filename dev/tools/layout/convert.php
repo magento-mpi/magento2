@@ -6,7 +6,10 @@
  * @license    {license_link}
  */
 
-require __DIR__ . '/../../../app/autoload.php';
+error_reporting(E_ALL);
+$rootDir = realpath(__DIR__ . '/../../..');
+
+require $rootDir . '/app/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(__DIR__);
 
 $template = <<<XML
@@ -23,17 +26,45 @@ $template = <<<XML
 XML;
 
 try {
-    $options = getopt('f:');
-    if (empty($options['f'])) {
-        throw new Exception('Usage: php -f convert.php -- -f layout_1.xml [-f layout_2.xml ... -f layout_N.xml]');
-    }
-    $files = (array)$options['f'];
+    /* ---Boilerplating---- */
+    // Module layout files
+    $moduleFilesIterator = new Layout_FileIterator_Verified(
+        new IteratorIterator(new Layout_FileIterator_Module($rootDir))
+    );
+    $moduleGroupedIterator = new Layout_FileIterator_Grouped_ByDirectory($moduleFilesIterator);
 
-    $analyzer = new Layout_Analyzer(new Layout_Merger(), new Xml_Formatter('    '), $template);
-    $result = $analyzer->aggregateHandles($files);
+    // Theme layout files, ordered for parent theme files to come before child theme files
+    $themesFilesIterator = new Layout_FileIterator_Verified(
+        new IteratorIterator(new Layout_FileIterator_Theme($rootDir))
+    );
+    $themeReader = new Theme_Reader($rootDir);
+    $layoutInheritance = new Layout_Inheritance($rootDir, $themeReader);
+    $themesFilesOrderedIterator = new Layout_FileIterator_ByThemeInheritance($themesFilesIterator, $themeReader);
+    $themeGroupedIterator = new Layout_FileIterator_Grouped_ByDirectory($themesFilesOrderedIterator);
+    $themeWithInheritanceIterator = new Layout_FileIterator_Grouped_WithInheritance($themeGroupedIterator,
+        $layoutInheritance);
 
-    var_export($result);
-    echo PHP_EOL;
+    // Aggregated iterator to iterate over layout files
+    $layoutGroupIterator = new AppendIterator();
+    $layoutGroupIterator->append(new IteratorIterator($moduleGroupedIterator));
+    $layoutGroupIterator->append(new IteratorIterator($themeWithInheritanceIterator));
+
+    // Configure final object, which separates handles into files
+    $layoutAnalyzer = new Layout_Analyzer(new Layout_Merger(), new Xml_Formatter('    '), $template);
+    $handleSeparator = new Layout_Handle_Separator($layoutGroupIterator, $layoutAnalyzer, $layoutInheritance);
+
+    // Configure the object to delete all the old layout files
+    $oldLayoutFilesIterator = new AppendIterator();
+    $oldLayoutFilesIterator->append(new IteratorIterator($moduleFilesIterator));
+    $oldLayoutFilesIterator->append(new IteratorIterator($themesFilesIterator));
+    $removal = new Files_Removal($oldLayoutFilesIterator);
+
+    /* Run it */
+    $handleSeparator->performTheJob();
+    $removal->run();
+
+    echo "Completed!\n";
+    echo 'Do not forget to manually fix handles from app/code/Mage/Install/view/install/layout_*.xml';
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);

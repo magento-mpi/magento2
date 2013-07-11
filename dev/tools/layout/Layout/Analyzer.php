@@ -62,4 +62,24 @@ class Layout_Analyzer
         }
         return $result;
     }
+
+    public function getTemplate()
+    {
+        return $this->_template;
+    }
+
+    public function getHandles($file)
+    {
+        $rootNode = @simplexml_load_file($file);
+        if ($rootNode === false) {
+            throw new Exception("Unable to read file '$file'.");
+        }
+
+        $result = array();
+        $handleNodes = $rootNode->children();
+        foreach ($handleNodes as $handleNode) {
+            $result[] = $handleNode->getName();
+        }
+        return $result;
+    }
 }
