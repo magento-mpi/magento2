@@ -194,6 +194,9 @@ jQuery(function($) {
                         .attr('src', $gridRow.find('[data-role=image-url]').val())
                         .trigger('click')
                         .prop({disabled: true});
+
+                    $matrixRow.find('[name$="[image]"]').remove();
+                    $matrixRow.find('[data-toggle=dropdown]').hide();
                 }
                 $gridDialog.dialog('close');
             };
