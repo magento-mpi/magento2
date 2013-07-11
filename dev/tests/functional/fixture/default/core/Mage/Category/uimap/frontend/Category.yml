@@ -54,6 +54,7 @@ category_page_before_reindex:
                             price_special_excluding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-excluding-tax']
                             price_special_inlcuding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-including-tax']
                             as_low_as: //li[h2/a='%productName%']//a[@class='minimal-price-link']/span[@class='price']
+                            price_special_with_value: //li[h2/a='%productName%']//p[@class='special-price']/span[normalize-space(text())='%price%']
                 -
                     category_title:
                         xpath: //div[@class='page-title']

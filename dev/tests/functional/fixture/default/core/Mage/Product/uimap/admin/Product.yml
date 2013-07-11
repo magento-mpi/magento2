@@ -241,15 +241,15 @@ new_product:
                                     xpath: //div[*/*/span='%attributeTitle%']
                                     buttons:
                                         add_option_value: //*[@data-action='add-option']
-                                    checkboxes:
-                                        use_default_label: //label[span='Use Default']
                                     fields:
                                         frontend_label: //input[contains(@name,'[label]')][@data-store-label]
                                     links:
+                                        use_default_label: //label[span='Use Default']
                                         delete_product_variation_attribute: //button[@title='Delete Variations Group']
                                         move_product_variation_attribute: //div[@title='Sort Variations']
                                         expand_product_variation_attribute: //strong[@data-toggle]
                                     pageelements:
+                                        is_collapsed_variation_attribute:
                                         option_line: //tbody/tr
                             -
                                 product_variation_attribute_option:

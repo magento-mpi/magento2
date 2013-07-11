@@ -486,6 +486,7 @@ simple_product_required:
     general_stock_availability: %noValue%
     general_weight: 1.13
     general_description: %noValue%
+    general_categories: %noValue%
     autosettings_short_description: %noValue%
     custom_options_data: %noValue%
 
