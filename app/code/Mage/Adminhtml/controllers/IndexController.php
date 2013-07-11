@@ -23,26 +23,24 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
      */
     public function globalSearchAction()
     {
-        $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
+        $searchModules = $this->_objectManager->get('Mage_Core_Model_Config')->getNode("adminhtml/global_search");
         $items = array();
-
+        
         if (!$this->_authorization->isAllowed('Mage_Adminhtml::global_search')) {
             $items[] = array(
                 'id' => 'error',
-                'type' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Error'),
-                'name' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Access Denied'),
-                'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('You need more permissions to do this.')
+                'type' => $this->__('Error'),
+                'name' => $this->__('Access Denied'),
+                'description' => $this->__('You need more permissions to do this.')
             );
-            $totalCount = 1;
         } else {
             if (empty($searchModules)) {
                 $items[] = array(
                     'id' => 'error',
-                    'type' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Error'),
-                    'name' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No search modules were registered'),
-                    'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please make sure that all global admin search modules are installed and activated.')
+                    'type' => $this->__('Error'),
+                    'name' => $this->__('No search modules were registered'),
+                    'description' => $this->__('Please make sure that all global admin search modules are installed and activated.')
                 );
-                $totalCount = 1;
             } else {
                 $start = $this->getRequest()->getParam('start', 1);
                 $limit = $this->getRequest()->getParam('limit', 10);
@@ -58,7 +56,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     if (empty($className)) {
                         continue;
                     }
-                    $searchInstance = new $className();
+                    $searchInstance = $this->_objectManager->create($className);
                     $results = $searchInstance->setStart($start)
                         ->setLimit($limit)
                         ->setQuery($query)
@@ -66,15 +64,12 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                         ->getResults();
                     $items = array_merge_recursive($items, $results);
                 }
-                $totalCount = sizeof($items);
             }
         }
 
-        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')
-            ->setTemplate('system/autocomplete.phtml')
-            ->assign('items', $items);
-
-        $this->getResponse()->setBody($block->toHtml());
+        $this->getResponse()->setBody(
+            $this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($items)
+        );
     }
 
     /**

@@ -136,6 +136,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForControlVisible('button', 'create_new_attribute');
         $attributeField->value($attributeName);
         $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_search');
+        $this->waitForAjax();
         $attributeData = '"label":"' . $attributeName . '"';
         $attributeData .= ($attributeCode) ? '"code":"' . $attributeCode . '"' : '';
         $this->addParameter('attributeData', $attributeData);
@@ -147,7 +148,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function selectAttribute()
     {
         if (!$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_no_records')
-            || $this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute')
+            && $this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute')
         ) {
             $attribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'attribute');
             $this->moveto($attribute);

@@ -19,8 +19,10 @@
          * @protected
          */
         _create: function() {
-            this.options.target = this.options.target || this.element;
-            this._bind();
+            if (this.options.event) {
+                this.options.target = this.options.target || this.element;
+                this._bind();
+            }
             this._super();
         },
 

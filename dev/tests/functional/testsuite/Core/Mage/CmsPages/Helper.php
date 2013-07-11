@@ -184,7 +184,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     {
         if ($this->controlIsEditable('button', $buttonName)) {
             $this->clickButton($buttonName, false);
-        } else {
+        } elseif ($this->waitForControlVisible('link', 'wysiwyg_' . $buttonName, 10)) {
             $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
         $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));

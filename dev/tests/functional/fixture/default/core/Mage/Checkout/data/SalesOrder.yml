@@ -430,7 +430,7 @@ configurable_product_for_order:
             option_1:
                 associated_attribute_value: %var1_attr_value1%
                 variation_attribute_price: 1.99
-                variation_attribute_price_type: USD
+                variation_attribute_price_type: $
                 include_variation_attribute: Yes
             option_2:
                 associated_attribute_value: %var1_attr_value2%

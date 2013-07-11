@@ -26,12 +26,17 @@ admin_header:
                 -
                     global_header:
                         xpath: //header
+                        buttons:
+                            global_search: //*[@id='form-search']//button[@type='submit']
                         pageelements:
                             admin_logo: //a[@class='logo']
+                            search_global_list: //div[@class='autocomplete-results']
+                            global_record_no_records: //div[@class='autocomplete-results']//*[@class='mage-suggest-no-records']
                         fields:
-                            global_record_search: //*[@id='search-global']
+                            global_record_search: //*[@id='search-global' and not(contains(@class, 'mage-suggest-state-loading'))]
                         links:
                             customer_view: //a[text()='Customer View']
+                            record_item: //div[@class='autocomplete-results']//a[@class='title' and text()='%recordName%']
                 -
                     user_account:
                         xpath: //div[contains(@class, 'account')]
