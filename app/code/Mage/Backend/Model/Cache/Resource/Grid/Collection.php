@@ -28,7 +28,8 @@ class Mage_Backend_Model_Cache_Resource_Grid_Collection extends Varien_Data_Coll
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Mage_Backend_Model_Resource_Grid_Collection
+     * @return Mage_Backend_Model_Cache_Resource_Grid_Collection
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

@@ -50,6 +50,7 @@ class Mage_Backend_Block_Cache_Grid_Column_Statuses extends Mage_Backend_Block_W
      * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function decorateStatus($value, $row, $column, $isExport)
     {
