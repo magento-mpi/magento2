@@ -134,6 +134,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
+        $this->fillField('general_name', $this->generate('string', 5));
+        $this->fillField('general_price', $this->generate('string', 2, ':digit:'));
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
         $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'));
         $this->productHelper()->selectConfigurableAttribute(
@@ -444,8 +446,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             : $this->generate('string', 255, ':alnum:');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->productHelper()->openProductTab('general');
         $this->addParameter('attributeName', $absentAttribute);
-        $element = $this->waitForControlEditable('field', 'general_configurable_attribute_title', 10);
+        $element = $this->getControlElement('field', 'general_configurable_attribute_title');
         $this->focusOnElement($element);
         $element->value($absentAttribute);
         //Verifying
@@ -689,7 +692,11 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->addParameter('attributeTitle', $attributeTitle);
         $this->addParameter('attributeOption', $option);
         $this->fillField('variation_attribute_price', $price);
-        $this->fillDropdown('variation_attribute_price_type', $ruleType);
+        if ($this->getControlAttribute('button', 'variation_attribute_price_type', 'text') != $ruleType) {
+            $this->clickButton('variation_attribute_price_type', false);
+            $this->addParameter('priceType', $ruleType);
+            $this->clickButton('variation_attribute_price_type_value', false);
+        }
     }
 
     /**

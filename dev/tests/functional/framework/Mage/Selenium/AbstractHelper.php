@@ -190,6 +190,7 @@
  * @method Core_Mage_CustomerGroups_Helper                                                             customerGroupsHelper()
  * @method Core_Mage_Customer_Helper|Enterprise_Mage_Customer_Helper                                   customerHelper()
  * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
+ * @method Core_Mage_AdminGlobalSearch_Helper                                                          adminGlobalSearchHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Mage_ImportExport_Helper|Enterprise_Mage_ImportExport_Helper                           importExportHelper()
  * @method Core_Mage_Installation_Helper                                                               installationHelper()

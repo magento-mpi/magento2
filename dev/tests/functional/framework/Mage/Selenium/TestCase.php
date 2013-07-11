@@ -32,6 +32,7 @@
  * @method Core_Mage_CustomerGroups_Helper                                                             customerGroupsHelper()
  * @method Core_Mage_Customer_Helper|Enterprise_Mage_Customer_Helper                                   customerHelper()
  * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
+ * @method Core_Mage_AdminGlobalSearch_Helper                                                          adminGlobalSearchHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Mage_ImportExport_Helper|Enterprise_Mage_ImportExport_Helper                           importExportHelper()
  * @method Core_Mage_Installation_Helper                                                               installationHelper()
@@ -4555,6 +4556,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function verifyBlocksOrder(array $blockOrder, $fieldType, $fieldName)
     {
+        if (count($blockOrder) < 2) {
+            return;
+        }
         $actualOrder = array_keys($this->getActualItemOrder($fieldType, $fieldName));
         //Reorder item order considering duplication and empty position values
         $expectedOrder = array_keys($blockOrder);

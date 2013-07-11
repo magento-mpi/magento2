@@ -24,6 +24,6 @@ class Mage_Adminhtml_IndexControllerTest extends Mage_Backend_Utility_Controller
         $this->dispatch('backend/admin/index/globalSearch');
 
         $actual = $this->getResponse()->getBody();
-        $this->assertStringEndsWith('</ul>', trim($actual));
+        $this->assertEquals(array(), json_decode($actual));
     }
 }

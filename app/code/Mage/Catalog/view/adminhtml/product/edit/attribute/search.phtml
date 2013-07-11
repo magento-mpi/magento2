@@ -17,7 +17,8 @@
         </button>
         <div class="dropdown-menu">
             <input data-role="product-attribute-search"
-                   data-group="<?php echo $this->escapeHtml($this->getGroupId()); ?>" class="search" type="text"
+                   data-group="<?php echo $this->escapeHtml($this->getGroupCode()); ?>"
+                   class="search" type="text"
                    placeholder="start typing to search attribute"/>
         </div>
     </div>
@@ -35,12 +36,17 @@
 
 <script>
     jQuery(function($) {
-        var $suggest = $('[data-role="product-attribute-search"][data-group="<?php echo $this->escapeHtml($this->getGroupId()); ?>"]');
-        $suggest.closest('.dropdown-menu').siblings('[data-toggle=dropdown]').on('click.toggleDropdown', function() {
+        var $suggest = $('[data-role="product-attribute-search"][data-group="<?php echo $this->escapeHtml($this->getGroupCode()); ?>"]');
+
+        $suggest.on('suggestclose', function(e) {
+            $suggest.closest('.dropdown-menu').siblings('[data-toggle=dropdown]').trigger('close.dropdown');
+        })
+        $suggest.closest('.dropdown-menu').siblings('[data-toggle=dropdown]').on('click.toggleDropdown', function () {
             if ($(this).hasClass('active')) {
                 $suggest.click();
             }
         });
+
         $('[data-form=edit-product]').on('changeAttributeSet', function(event, data) {
             $suggest.mage('suggest', 'option', 'ajaxOptions', {
                 data: {'template_id': data.id}
@@ -55,7 +61,7 @@
                         url: '<?php echo $this->getAddAttributeUrl()?>',
                         type: 'POST',
                         dataType: 'json',
-                        data: {attribute_id: ui.item.id, template_id: templateId, group_id: $(this).data('group')},
+                        data: {attribute_id: ui.item.id, template_id: templateId, group: $(this).data('group')},
                         showLoader: true,
                         context: 'body'
                     }).done(function() {
