@@ -13,6 +13,13 @@ class Magento_ObjectManager_Relations_Runtime implements Magento_ObjectManager_R
     protected $_classReader;
 
     /**
+     * Default behavior
+     *
+     * @var array
+     */
+    protected $_default = array();
+
+    /**
      * @param Magento_Code_Reader_ClassReader $classReader
      */
     public function __construct(Magento_Code_Reader_ClassReader $classReader = null)
@@ -28,6 +35,9 @@ class Magento_ObjectManager_Relations_Runtime implements Magento_ObjectManager_R
      */
     public function getParents($type)
     {
-        return $this->_classReader->getParents($type) ?: array();
+        if (!class_exists($type)) {
+            return $this->_default;
+        }
+        return $this->_classReader->getParents($type) ?: $this->_default;
     }
 }

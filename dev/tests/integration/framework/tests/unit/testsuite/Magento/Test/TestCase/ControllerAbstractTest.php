@@ -20,15 +20,13 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
     {
         if (!Mage::getObjectManager()) {
             $instanceConfig = new Magento_Test_ObjectManager_Config();
-            $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-                new Magento_ObjectManager_Factory_Factory($instanceConfig),
-                $instanceConfig
-            );
+            $primaryConfig = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
+            $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+            $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
 
             Mage::setObjectManager(
-
                 new Magento_Test_ObjectManager(
-                    $factory,
+                    $primaryConfig,
                     $instanceConfig
                 )
             );

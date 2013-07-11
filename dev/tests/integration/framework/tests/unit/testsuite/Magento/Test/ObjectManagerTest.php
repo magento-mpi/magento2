@@ -28,8 +28,10 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
     {
         $resource = new stdClass;
         $instanceConfig = new Magento_Test_ObjectManager_Config();
-        $factory = new Magento_ObjectManager_Factory_Factory($instanceConfig);
-        $model = new Magento_Test_ObjectManager($factory, $instanceConfig);
+        $primaryConfig = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+        $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
+        $model = new Magento_Test_ObjectManager($primaryConfig, $instanceConfig);
         $model->addSharedInstance($resource, 'Mage_Core_Model_Resource');
         $instance1 = $model->get('Magento_Test_Request');
 
