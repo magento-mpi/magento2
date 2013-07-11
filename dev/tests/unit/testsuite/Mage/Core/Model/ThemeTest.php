@@ -56,7 +56,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             )
         );
         /** @var $themeMock Mage_Core_Model_Theme */
-        $reflection = new \ReflectionClass('Mage_Core_Model_Theme');
+        $reflection = new ReflectionClass('Mage_Core_Model_Theme');
         $themeMock = $reflection->newInstanceArgs($arguments);
 
         $objectManager->expects($this->any())

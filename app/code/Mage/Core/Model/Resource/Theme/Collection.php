@@ -133,7 +133,7 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
      * Set page size
      *
      * @param int $size
-     * @return Mage_Core_Model_Resource_Theme_Collection
+     * @return $this
      */
     public function setPageSize($size = self::DEFAULT_PAGE_SIZE)
     {
@@ -144,7 +144,7 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
      * Update all child themes relations
      *
      * @param Mage_Core_Model_Theme $themeModel
-     * @return Mage_Core_Model_Resource_Theme_Collection
+     * @return $this
      */
     public function updateChildRelations(Mage_Core_Model_Theme $themeModel)
     {
@@ -164,7 +164,7 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
      *
      * @param int $page
      * @param int $pageSize
-     * @return Mage_Core_Model_Resource_Theme_Collection
+     * @return $this
      */
     public function filterPhysicalThemes(
         $page = null,
@@ -176,6 +176,21 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
         if ($page) {
             $this->setPageSize($pageSize)->setCurPage($page);
         }
-        return $this->load();
+        return $this;
+    }
+
+    /**
+     * Filter theme customization
+     *
+     * @param string $area
+     * @param int $type
+     * @return $this
+     */
+    public function filterThemeCustomizations(
+        $area = Mage_Core_Model_App_Area::AREA_FRONTEND,
+        $type = Mage_Core_Model_Theme::TYPE_VIRTUAL
+    ) {
+        $this->addAreaFilter($area)->addTypeFilter($type);
+        return $this;
     }
 }

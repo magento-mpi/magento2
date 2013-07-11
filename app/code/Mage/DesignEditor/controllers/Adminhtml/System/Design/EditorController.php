@@ -16,6 +16,34 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * @var Mage_Theme_Model_Config
+     */
+    protected $_themeConfig;
+
+    /**
+     * @var Mage_Theme_Model_Config_Customizations
+     */
+    protected $_customizationConfig;
+
+    /**
+     * @param Mage_Backend_Controller_Context $context
+     * @param Mage_Theme_Model_Config $themeConfig
+     * @param Mage_Theme_Model_Config_Customizations $customizationConfig
+     * @param null $areaCode
+     */
+    public function __construct(
+        Mage_Backend_Controller_Context $context,
+        Mage_Theme_Model_Config $themeConfig,
+        Mage_Theme_Model_Config_Customizations $customizationConfig,
+        $areaCode = null
+    ) {
+        $this->_themeConfig         = $themeConfig;
+        $this->_customizationConfig = $customizationConfig;
+
+        parent::__construct($context, $areaCode);
+    }
+
+    /**
      * Display the design editor launcher page
      */
     public function indexAction()
@@ -47,7 +75,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $availableThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
             $availableThemeBlock->setCollection($collection)->setNextPage(++$page);
             $availableThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
-            $availableThemeBlock->setHasThemeAssigned($this->_hasThemeAssigned());
+            $availableThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
 
             $response = array('content' => $this->getLayout()->getOutput());
         } catch (Exception $e) {
@@ -113,35 +141,22 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function assignThemeToStoreAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        $stores = $this->getRequest()->getParam('stores');
         $reportToSession = (bool)$this->getRequest()->getParam('reportToSession');
 
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
 
-        $hadThemeAssigned = $this->_hasThemeAssigned();
+        $hadThemeAssigned = $this->_customizationConfig->hasThemeAssigned();
 
         try {
             $theme = $this->_loadThemeById($themeId);
 
-            //TODO used until we find a way to convert array to JSON on JS side
-            $defaultStore = -1;
-            $emptyStores = -2;
-            if ($stores == $defaultStore) {
-                $ids = array_keys(Mage::app()->getStores());
-                $stores = array(array_shift($ids));
-            } elseif ($stores == $emptyStores) {
-                $stores = array();
-            }
+            $themeCustomization = $theme->isVirtual()
+                ? $theme
+                : $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
 
-            if (!is_array($stores)) {
-                throw new InvalidArgumentException('Param "stores" is not valid');
-            }
-
-            /** @var $themeConfig Mage_Theme_Model_Config */
-            $themeConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
             /** @var $themeCustomization Mage_Core_Model_Theme */
-            $themeCustomization = $themeConfig->assignToStore($theme->getId(), $stores);
+            $this->_themeConfig->assignToStore($themeCustomization, $this->_getStores());
 
             $successMessage = $hadThemeAssigned
                 ? $this->__('You assigned a new theme to your store view.')
@@ -212,15 +227,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
 
-        /** @var $themeConfig Mage_Theme_Model_Config */
-        $themeConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
-
         /** @var Mage_DesignEditor_Model_Theme_Context $themeContext */
         $themeContext = $this->_objectManager->get('Mage_DesignEditor_Model_Theme_Context');
         $themeContext->setEditableThemeById($themeId);
         try {
             $themeContext->copyChanges();
-            if ($themeConfig->isThemeAssignedToStore($themeContext->getEditableTheme())) {
+            if ($this->_customizationConfig->isThemeAssignedToStore($themeContext->getEditableTheme())) {
                 $message = $this->__('You updated your live store.');
             } else {
                 $message = $this->__('You saved updates to this theme.');
@@ -357,19 +369,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Get theme customization
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getThemeCustomization($theme)
-    {
-        /** @var $themeFactory Mage_Core_Model_Theme_Factory */
-        $themeFactory = $this->_objectManager->get('Mage_Core_Model_Theme_Factory');
-        return $themeFactory->createThemeCustomization($theme);
-    }
-
-    /**
      * Pass data to the Tools panel blocks that is needed it for rendering
      *
      * @param Mage_Core_Model_Theme $theme
@@ -455,7 +454,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */
         $saveButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_save');
         if ($saveButtonBlock) {
-            $saveButtonBlock->setTheme($theme)->setMode($mode)->setHasThemeAssigned($this->_hasThemeAssigned());
+            $saveButtonBlock->setTheme($theme)->setMode($mode)->setHasThemeAssigned(
+                $this->_customizationConfig->hasThemeAssigned()
+            );
         }
         /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit */
         $editButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_edit');
@@ -494,21 +495,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $themeFactory Mage_Core_Model_Theme_Factory */
         $themeFactory = $this->_objectManager->get('Mage_Core_Model_Theme_Factory');
         $isCustomized = (bool)$themeFactory->create()->getCollection()
-                ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
-                ->getSize();
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ->getSize();
         return !$isCustomized;
-    }
-
-    /**
-     * Check if there are any themes assigned
-     *
-     * @return bool
-     */
-    protected function _hasThemeAssigned()
-    {
-        /** @var $themeConfig Mage_Theme_Model_Config */
-        $themeConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
-        return count($themeConfig->getAssignedThemeCustomizations()) > 0;
     }
 
     /**
@@ -521,17 +510,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->loadLayout();
             $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
-                /** @var $themeConfig Mage_Theme_Model_Config */
-                $themeConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
-
                 /** @var $assignedThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned */
                 $assignedThemeBlock = $this->getLayout()->getBlock('assigned.theme.list');
-                $assignedThemeBlock->setCollection($themeConfig->getAssignedThemeCustomizations());
+                $assignedThemeBlock->setCollection($this->_customizationConfig->getAssignedThemeCustomizations());
 
                 /** @var $unassignedThemeBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned */
                 $unassignedThemeBlock = $this->getLayout()->getBlock('unassigned.theme.list');
-                $unassignedThemeBlock->setCollection($themeConfig->getUnassignedThemeCustomizations());
-                $unassignedThemeBlock->setHasThemeAssigned($this->_hasThemeAssigned());
+                $unassignedThemeBlock->setCollection($this->_customizationConfig->getUnassignedThemeCustomizations());
+                $unassignedThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
             }
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
@@ -578,5 +564,33 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $url = '';
         }
         return $vdeUrlModel->getUrl(ltrim($url, '/'));
+    }
+
+    /**
+     * Get stores
+     *
+     * @todo temporary method. used until we find a way to convert array to JSON on JS side
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    protected function _getStores()
+    {
+        $stores = $this->getRequest()->getParam('stores');
+
+        $defaultStore = -1;
+        $emptyStores = -2;
+        if ($stores == $defaultStore) {
+            $ids = array_keys(Mage::app()->getStores());
+            $stores = array(array_shift($ids));
+        } elseif ($stores == $emptyStores) {
+            $stores = array();
+        }
+
+        if (!is_array($stores)) {
+            throw new InvalidArgumentException('Param "stores" is not valid');
+        }
+
+        return $stores;
     }
 }

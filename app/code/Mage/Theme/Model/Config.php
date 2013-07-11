@@ -24,11 +24,6 @@ class Mage_Theme_Model_Config
     protected $_configData;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
-     */
-    protected $_themeFactory;
-
-    /**
      * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
@@ -51,83 +46,49 @@ class Mage_Theme_Model_Config
     protected $_layoutCache;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    protected $_design;
-
-    /**
-     * Theme customizations which are assigned to store views or as default
-     *
-     * @see self::_prepareThemeCustomizations()
-     * @var array
-     */
-    protected $_assignedTheme;
-
-    /**
-     * Theme customizations which are not assigned to store views or as default
-     *
-     * @see self::_prepareThemeCustomizations()
-     * @var array
-     */
-    protected $_unassignedTheme;
-
-    /**
      * @param Mage_Core_Model_Config_Data $configData
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager,
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Magento_Cache_FrontendInterface $configCache
      * @param Magento_Cache_FrontendInterface $layoutCache
-     * @param Mage_Core_Model_Design_PackageInterface $design
      */
     public function __construct(
         Mage_Core_Model_Config_Data $configData,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Event_Manager $eventManager,
         Magento_Cache_FrontendInterface $configCache,
-        Magento_Cache_FrontendInterface $layoutCache,
-        Mage_Core_Model_Design_PackageInterface $design
+        Magento_Cache_FrontendInterface $layoutCache
     ) {
         $this->_configData   = $configData;
         $this->_configWriter = $configWriter;
-        $this->_themeFactory = $themeFactory;
         $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
         $this->_configCache  = $configCache;
         $this->_layoutCache  = $layoutCache;
-        $this->_design       = $design;
     }
 
     /**
      * Assign theme to the stores
      *
-     * @param int $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @param array $stores
      * @param string $scope
-     * @return Mage_Core_Model_Theme
-     * @throws UnexpectedValueException
+     * @return $this
      */
-    public function assignToStore(
-        $themeId,
-        array $stores = array(),
-        $scope = Mage_Core_Model_Config::SCOPE_STORES
-    ) {
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->_themeFactory->create()->load($themeId);
-        if (!$theme->getId()) {
-            throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
-        }
-        $themeCustomization = $this->_getThemeCustomization($theme);
-
+    public function assignToStore($theme, array $stores = array(), $scope = Mage_Core_Model_Config::SCOPE_STORES)
+    {
         $isReassigned = false;
-        $this->_unassignThemeFromStores($themeId, $stores, $scope, $isReassigned);
+
+        $this->_unassignThemeFromStores(
+            $theme->getId(), $stores, $scope, $isReassigned
+        );
+
         if ($this->_storeManager->isSingleStoreMode()) {
-            $this->_assignThemeToDefaultScope($themeCustomization->getId(), $isReassigned);
+            $this->_assignThemeToDefaultScope($theme->getId(), $isReassigned);
         } else {
-            $this->_assignThemeToStores($themeCustomization->getId(), $stores, $scope, $isReassigned);
+            $this->_assignThemeToStores($theme->getId(), $stores, $scope, $isReassigned);
         }
 
         if ($isReassigned) {
@@ -137,28 +98,27 @@ class Mage_Theme_Model_Config
 
         $this->_eventManager->dispatch('assign_theme_to_stores_after',
             array(
-                'themeService'       => $this,
-                'themeId'            => $themeId,
-                'stores'             => $stores,
-                'scope'              => $scope,
-                'theme'              => $theme,
-                'themeCustomization' => $themeCustomization,
+                'stores' => $stores,
+                'scope'  => $scope,
+                'theme'  => $theme,
             )
         );
 
-        return $themeCustomization;
+        return $this;
     }
 
     /**
-     * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme
+     * Get assigned scopes collection of a theme
+     *
+     * @param string $scope
+     * @param string $configPath
+     * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
-    protected function _getThemeCustomization($theme)
+    protected function _getAssignedScopesCollection($scope, $configPath)
     {
-        $themeCustomization = $theme->isVirtual()
-            ? $theme
-            : $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
-        return $themeCustomization;
+        return $this->_configData->getCollection()
+            ->addFieldToFilter('scope', $scope)
+            ->addFieldToFilter('path', $configPath);
     }
 
     /**
@@ -184,20 +144,6 @@ class Mage_Theme_Model_Config
     }
 
     /**
-     * Get assigned scopes collection of a theme
-     *
-     * @param string $scope
-     * @param string $configPath
-     * @return Mage_Core_Model_Resource_Config_Data_Collection
-     */
-    protected function _getAssignedScopesCollection($scope, $configPath)
-    {
-        return $this->_configData->getCollection()
-            ->addFieldToFilter('scope', $scope)
-            ->addFieldToFilter('path', $configPath);
-    }
-
-    /**
      * Assign given theme to stores
      *
      * @param int $themeId
@@ -219,6 +165,8 @@ class Mage_Theme_Model_Config
     }
 
     /**
+     * Assign theme to default scope
+     *
      * @param int $themeId
      * @param bool $isReassigned
      * @return $this
@@ -229,130 +177,5 @@ class Mage_Theme_Model_Config
         $this->_configWriter->save($configPath, $themeId, Mage_Core_Model_Config::SCOPE_DEFAULT);
         $isReassigned = true;
         return $this;
-    }
-
-
-    /**
-     * Check if current theme has assigned to any store
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @return bool
-     */
-    public function isThemeAssignedToStore(Mage_Core_Model_Theme $theme)
-    {
-        $assignedThemes = $this->getAssignedThemeCustomizations();
-        return isset($assignedThemes[$theme->getId()]);
-    }
-
-    /**
-     * Return theme customizations which are assigned to store views
-     *
-     * @see self::_prepareThemeCustomizations()
-     * @return array
-     */
-    public function getAssignedThemeCustomizations()
-    {
-        if (is_null($this->_assignedTheme)) {
-            $this->_prepareThemeCustomizations();
-        }
-        return $this->_assignedTheme;
-    }
-
-    /**
-     * Return theme customizations which are not assigned to store views.
-     *
-     * @see self::_prepareThemeCustomizations()
-     * @return array
-     */
-    public function getUnassignedThemeCustomizations()
-    {
-        if (is_null($this->_unassignedTheme)) {
-            $this->_prepareThemeCustomizations();
-        }
-        return $this->_unassignedTheme;
-    }
-
-    /**
-     * Fetch theme customization and sort them out to arrays:
-     * self::_assignedThemeCustomizations and self::_unassignedThemeCustomizations.
-     *
-     * NOTE: To get into "assigned" list theme customization not necessary should be assigned to store-view directly.
-     * It can be set to website or as default theme and be used by store-view via config fallback mechanism.
-     *
-     * @return $this
-     */
-    protected function _prepareThemeCustomizations()
-    {
-        /** @var $themeCustomizations Mage_Core_Model_Resource_Theme_Collection */
-        $themeCustomizations = $this->_getThemeCustomizations();
-        $assignedThemes = $this->getStoresByThemes();
-
-        $this->_assignedTheme = array();
-        $this->_unassignedTheme = array();
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($themeCustomizations as $theme) {
-            if (isset($assignedThemes[$theme->getId()])) {
-                $theme->setAssignedStores($assignedThemes[$theme->getId()]);
-                $this->_assignedTheme[$theme->getId()] = $theme;
-            } else {
-                $this->_unassignedTheme[$theme->getId()] = $theme;
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Return theme customizations collection
-     *
-     * @return Mage_Core_Model_Resource_Theme_Collection
-     */
-    protected function _getThemeCustomizations()
-    {
-        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_themeFactory->create()->getCollection();
-        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL);
-        return $collection;
-    }
-
-    /**
-     * Return stores grouped by assigned themes
-     *
-     * @return array
-     */
-    public function getStoresByThemes()
-    {
-        $storesByThemes = array();
-        $stores = $this->_storeManager->getStores();
-        /** @var $store Mage_Core_Model_Store */
-        foreach ($stores as $store) {
-            $themeId = $this->_design->getConfigurationDesignTheme(
-                Mage_Core_Model_App_Area::AREA_FRONTEND,
-                array('store' => $store)
-            );
-            if (!isset($storesByThemes[$themeId])) {
-                $storesByThemes[$themeId] = array();
-            }
-            $storesByThemes[$themeId][] = $store;
-        }
-
-        return $storesByThemes;
-    }
-
-    /**
-     * Is theme assigned to specific store
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Store $store
-     * @return bool
-     */
-    public function isThemeAssignedToSpecificStore($theme, $store)
-    {
-        $themeId = $this->_design->getConfigurationDesignTheme(
-            Mage_Core_Model_App_Area::AREA_FRONTEND,
-            array('store' => $store)
-        );
-
-        return $theme->getId() == $themeId;
     }
 }

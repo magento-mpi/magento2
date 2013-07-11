@@ -72,23 +72,24 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
                     array(), array(), '', false)
             )
         );
-
         /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollectionMock */
         $themeCollectionMock = $this->getMock(
-            'Mage_Core_Model_Resource_Theme_Collection', array('getPhysicalThemes'), array(), '', false
+            'Mage_Core_Model_Resource_Theme_Collection', array('filterPhysicalThemes'), array(), '', false
         );
         $themeCollectionMock->expects($this->any())
-            ->method('getPhysicalThemes')
-            ->will($this->returnValue( $this->_getThemes()));
+            ->method('filterPhysicalThemes')
+            ->will($this->returnValue($this->_getThemes()));
 
-
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection'), array(), '', false);
-        $themeMock->expects($this->any())
-            ->method('getCollection')
+        $collectionFactory = $this->getMock(
+            'Mage_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+        );
+        $collectionFactory->expects($this->any())
+            ->method('create')
             ->will($this->returnValue($themeCollectionMock));
 
-        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
 
+        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
         $themeFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($themeMock));
@@ -126,6 +127,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             'storeConfig' => $config,
             'helperFactory' => $helperFactoryMock,
             'themeFactory' => $themeFactory,
+            'collectionFactory' => $collectionFactory,
             'objectManager' => $this->_objectManagerMock
         );
 

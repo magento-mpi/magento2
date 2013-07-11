@@ -46,11 +46,15 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
      */
     protected $_modelLogo;
 
-
     /**
      * @var Mage_Theme_Model_Config
      */
     protected $_themeConfig;
+
+    /**
+     * @var Mage_Core_Model_Theme_Factory
+     */
+    protected $_themeFactory;
 
     /**
      * @param Mage_Core_Model_Config $config
@@ -60,6 +64,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
      * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
      * @param Saas_Launcher_Helper_Data $helperLauncher
      * @param Mage_Theme_Model_Config $themeConfig
+     * @param Mage_Core_Model_Theme_Factory $themeFactory
      */
     public function __construct(
         Mage_Core_Model_Config $config,
@@ -68,7 +73,8 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
         Mage_Backend_Model_Config_Loader $configLoader,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo,
-        Mage_Theme_Model_Config $themeConfig
+        Mage_Theme_Model_Config $themeConfig,
+        Mage_Core_Model_Theme_Factory $themeFactory
     ) {
         parent::__construct($config, $backendConfigModel);
         $this->_configLoader = $configLoader;
@@ -76,6 +82,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
         $this->_modelLogo = $modelLogo;
         $this->_helperLauncher = $helperLauncher;
         $this->_themeConfig = $themeConfig;
+        $this->_themeFactory = $themeFactory;
     }
 
 
@@ -104,11 +111,17 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
             throw new Saas_Launcher_Exception('Theme is required.');
         }
         $store = $this->_helperLauncher->getCurrentStoreView();
-        $theme = $this->_themeConfig->assignToStore(
-            $data['groups']['design']['theme']['fields']['theme_id']['value'],
+
+        $themeCustomization = $this->_getThemeCustomization(
+            $data['groups']['design']['theme']['fields']['theme_id']['value']
+        );
+
+        $this->_themeConfig->assignToStore(
+            $themeCustomization,
             array($this->_helperLauncher->getCurrentStoreView()->getId())
         );
-        $data['groups']['design']['theme']['fields']['theme_id']['value'] = $theme->getId();
+
+        $data['groups']['design']['theme']['fields']['theme_id']['value'] = $themeCustomization->getId();
 
         if (!empty($data['logo_src'])) {
             $file = $data['logo_src'];
@@ -139,5 +152,25 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
         }
 
         return $data['groups'];
+    }
+
+    /**
+     * Get theme customization
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     * @throws UnexpectedValueException
+     */
+    protected function _getThemeCustomization($themeId)
+    {
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $this->_themeFactory->create()->load($themeId);
+        if (!$theme->getId()) {
+            throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
+        }
+
+        return $theme->isVirtual()
+            ? $theme
+            : $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
     }
 }

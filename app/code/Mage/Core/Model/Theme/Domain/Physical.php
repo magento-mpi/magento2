@@ -61,7 +61,6 @@ class Mage_Core_Model_Theme_Domain_Physical
         $this->_themeCollection = $themeCollection;
     }
 
-
     /**
      * Create theme customization
      *

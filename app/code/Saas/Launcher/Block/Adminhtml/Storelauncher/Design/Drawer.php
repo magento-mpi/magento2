@@ -25,6 +25,11 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
     protected $_themeFactory;
 
     /**
+     * @var Mage_Core_Model_Resource_Theme_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -34,6 +39,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
@@ -41,11 +47,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Core_Model_Theme_Factory $themeFactory,
         Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);
         $this->_themeFactory = $themeFactory;
         $this->_objectManager = $objectManager;
+        $this->_collectionFactory = $collectionFactory;
     }
 
     /**
@@ -65,7 +73,9 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
      */
     public function getThemes()
     {
-        return $this->_themeFactory->create()->getCollection()->getPhysicalThemes();
+        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollection */
+        $themeCollection = $this->_collectionFactory->create();
+        return $themeCollection->filterPhysicalThemes();
     }
 
     /**

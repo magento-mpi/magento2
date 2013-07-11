@@ -112,9 +112,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_themeFiles;
 
     /**
-     * @var Mage_Theme_Model_Config
+     * @var Mage_Theme_Model_Config_Customizations
      */
-    protected $_themeConfig;
+    protected $_customizationConfig;
 
     /**
      * All possible types of a theme
@@ -137,7 +137,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
-     * @param Mage_Theme_Model_Config $themeConfig
+     * @param Mage_Theme_Model_Config_Customizations $customizationConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -151,8 +151,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Theme_Domain_Factory $domainFactory,
         Mage_Core_Model_Dir $dirs,
+        Mage_Theme_Model_Config_Customizations $customizationConfig,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
-        Mage_Theme_Model_Config $themeConfig,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -162,7 +162,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->_domainFactory = $domainFactory;
         $this->_dirs = $dirs;
         $this->_themeImage = $themeImage->setTheme($this);
-        $this->_themeConfig = $themeConfig;
+        $this->_customizationConfig = $customizationConfig;
     }
 
     /**
@@ -442,7 +442,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeDelete()
     {
-        if (!$this->isDeletable() || $this->_themeConfig->isThemeAssignedToStore($this)) {
+        if (!$this->isDeletable() || $this->_customizationConfig->isThemeAssignedToStore($this)) {
             throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->getThemeImage()->removePreviewImage();
@@ -461,7 +461,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _checkAssignedThemeChanged()
     {
-        if ($this->_themeConfig->isThemeAssignedToStore($this)) {
+        if ($this->_customizationConfig->isThemeAssignedToStore($this)) {
             $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
         }
         return $this;

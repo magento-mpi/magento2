@@ -348,12 +348,12 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @covers Mage_Core_Model_Resource_Theme_Collection::getPhysicalThemes
+     * @covers Mage_Core_Model_Resource_Theme_Collection::filterPhysicalThemes
      */
-    public function testGetPhysicalThemesPerPage()
+    public function testFilterPhysicalThemesPerPage()
     {
-        $collection = $this->_getThemesCollection()
-            ->getPhysicalThemes(1, Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
+        $collection = $this->_getThemesCollection();
+        $collection->filterPhysicalThemes(1, Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
 
         $this->assertLessThanOrEqual(
             Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE, $collection->count()
@@ -367,11 +367,11 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @covers Mage_Core_Model_Resource_Theme_Collection::getPhysicalThemes
+     * @covers Mage_Core_Model_Resource_Theme_Collection::filterPhysicalThemes
      */
-    public function testGetPhysicalThemes()
+    public function testFilterPhysicalThemes()
     {
-        $collection = $this->_getThemesCollection()->getPhysicalThemes();
+        $collection = $this->_getThemesCollection()->filterPhysicalThemes();
 
         $this->assertGreaterThan(0, $collection->count());
 
