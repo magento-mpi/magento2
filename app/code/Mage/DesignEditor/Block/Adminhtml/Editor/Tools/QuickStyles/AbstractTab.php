@@ -86,7 +86,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
             'action'        => '#',
             'method'        => 'post',
             'tab'           => $this->_tab,
-            'theme'         => $this->getTheme(),
+            'theme'         => $this->_themeContext->getStagingTheme(),
             'parent_theme'  => $this->_themeContext->getEditableTheme()->getParentTheme(),
         ));
         $form->setUseContainer(true);

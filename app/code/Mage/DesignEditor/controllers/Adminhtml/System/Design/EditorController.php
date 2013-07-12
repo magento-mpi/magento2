@@ -401,25 +401,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $cssTabBlock->setCssFiles($cssFiles)
                 ->setThemeId($theme->getId());
         }
-
-        $blocks = array(
-            'design_editor_tools_code_custom',
-            'design_editor_tools_code_js',
-            'design_editor_tools_code_image_sizing',
-            'design_editor_tools_quick-styles_header',
-            'design_editor_tools_quick-styles_backgrounds',
-            'design_editor_tools_quick-styles_buttons',
-            'design_editor_tools_quick-styles_tips',
-            'design_editor_tools_quick-styles_fonts',
-        );
-        foreach ($blocks as $blockName) {
-            /** @var $block Mage_Core_Block_Abstract */
-            $block = $this->getLayout()->getBlock($blockName);
-            if ($block) {
-                $block->setTheme($theme);
-            }
-        }
-
         return $this;
     }
 

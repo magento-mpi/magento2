@@ -10,9 +10,6 @@
 
 /**
  * Block that renders Custom tab
- *
- * @method Mage_Core_Model_Theme getTheme()
- * @method setTheme($theme)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Backend_Block_Widget_Form
 {
@@ -20,6 +17,26 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      * Upload file element html id
      */
     const FILE_ELEMENT_NAME = 'css_file_uploader';
+
+    /**
+     * @var Mage_DesignEditor_Model_Theme_Context
+     */
+    protected $_themeContext;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_DesignEditor_Model_Theme_Context $themeContext,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_themeContext = $themeContext;
+    }
+
 
     /**
      * Create a form element with necessary controls
@@ -50,38 +67,48 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
     /**
      * Get url to download custom CSS file
      *
-     * @param Mage_Core_Model_Theme $theme
      * @return string
      */
-    public function getDownloadCustomCssUrl($theme)
+    public function getDownloadCustomCssUrl()
     {
-        return $this->getUrl('*/system_design_theme/downloadCustomCss', array('theme_id' => $theme->getThemeId()));
+        return $this->getUrl('*/system_design_theme/downloadCustomCss',
+            array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
+    }
+
+    /**
+     * Get url to upload custom CSS file
+     *
+     * @return string
+     */
+    public function getUploadUrl()
+    {
+        return $this->getUrl('*/system_design_editor_tools/upload',
+            array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
     }
 
     /**
      * Get url to save custom CSS file
      *
-     * @param Mage_Core_Model_Theme $theme
      * @return string
      */
-    public function getSaveCustomCssUrl($theme)
+    public function getSaveCustomCssUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/saveCssContent', array('theme_id' => $theme->getThemeId()));
+        return $this->getUrl('*/system_design_editor_tools/saveCssContent',
+            array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
     }
 
     /**
      * Get theme custom css content
      *
      * @param string $targetElementId
-     * @param Mage_Core_Model_Theme $theme
      * @param string $contentType
      * @return string
      */
-    public function getMediaBrowserUrl($targetElementId, $theme, $contentType)
+    public function getMediaBrowserUrl($targetElementId, $contentType)
     {
         return $this->getUrl('*/system_design_editor_files/index', array(
             'target_element_id'                           => $targetElementId,
-            Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $theme->getThemeId(),
+            Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_themeContext->getEditableTheme()->getId(),
             Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
         ));
     }
@@ -107,7 +134,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     public function getCustomCssContent()
     {
-        $customCss = $this->_getCustomCss($this->getTheme());
+        $customCss = $this->_getCustomCss($this->_themeContext->getStagingTheme());
         return $customCss ? $customCss->getContent() : null;
     }
 
@@ -118,7 +145,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     public function getCustomFileName()
     {
-        $customCss = $this->_getCustomCss($this->getTheme());
+        $customCss = $this->_getCustomCss($this->_themeContext->getStagingTheme());
         return $customCss ? $customCss->getFileName() : null;
     }
 

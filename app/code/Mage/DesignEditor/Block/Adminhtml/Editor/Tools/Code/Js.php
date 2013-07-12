@@ -10,11 +10,6 @@
 
 /**
  * Block that renders JS tab
- *
- * @method Mage_Core_Model_Theme getTheme()
- * @method setTheme($theme)
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backend_Block_Widget_Form
 {
@@ -24,17 +19,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     protected $_service;
 
     /**
+     * @var Mage_DesignEditor_Model_Theme_Context
+     */
+    protected $_themeContext;
+
+    /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_Theme_Service $service
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Theme_Service $service,
+        Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_service = $service;
+        $this->_themeContext = $themeContext;
     }
 
     /**
@@ -59,7 +62,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
             'accept'   => 'application/x-javascript',
             'multiple' => '1',
         );
-        if ($this->_service->isThemeAssignedToStore($this->getTheme())) {
+        if ($this->_service->isThemeAssignedToStore($this->_themeContext->getEditableTheme())) {
             $confirmMessage = $this->__('These JavaScript files may change the appearance of your live store(s).'
                 . ' Are you sure you want to do this?');
             $jsConfig['onclick'] = "return confirm('{$confirmMessage}');";
@@ -88,7 +91,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getJsUploadUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/uploadjs', array('theme_id' => $this->getTheme()->getId()));
+        return $this->getUrl('*/system_design_editor_tools/uploadjs',
+            array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
     }
 
     /**
@@ -98,7 +102,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getJsReorderUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/reorderjs', array('theme_id' => $this->getTheme()->getId()));
+        return $this->getUrl('*/system_design_editor_tools/reorderjs',
+            array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
     }
 
     /**
@@ -109,7 +114,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     public function getJsDeleteUrl()
     {
         return $this->getUrl('*/system_design_editor_tools/deleteCustomFiles', array(
-            'theme_id' => $this->getTheme()->getId()
+            'theme_id' => $this->_themeContext->getEditableTheme()->getId()
         ));
     }
 
@@ -120,7 +125,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getFiles()
     {
-        $customization = $this->getTheme()->getCustomization();
+        $customization = $this->_themeContext->getStagingTheme()->getCustomization();
         $jsFiles = $customization->getFilesByType(Mage_Core_Model_Theme_Customization_File_Js::TYPE);
         return $this->helper('Mage_Core_Helper_Data')->jsonEncode($customization->generateFileInfo($jsFiles));
     }
