@@ -29,11 +29,22 @@ class Xml_Formatter
      */
     public function format($xmlString)
     {
-        // render formatted XML
         $xmlDom = new DOMDocument('1.0');
         $xmlDom->formatOutput = true;
         $xmlDom->preserveWhiteSpace = false;
         $xmlDom->loadXML($xmlString);
+
+        // replace text in the document with unique placeholders
+        $placeholders = array();
+        $xmlXpath = new DOMXPath($xmlDom);
+        /** @var DOMNode $textNode */
+        foreach ($xmlXpath->query('//text() | //comment() | //@*') as $textNode) {
+            $placeholder = spl_object_hash($textNode);
+            $placeholders[$placeholder] = $textNode->textContent;
+            $textNode->nodeValue = $placeholder;
+        }
+
+        // render formatted XML structure
         $result = $xmlDom->saveXML();
 
         // replace the default 2-space indents
@@ -42,6 +53,9 @@ class Xml_Formatter
             $indentCount = strlen($matches[0]) >> 1;
             return str_repeat($indent, $indentCount);
         }, $result);
+
+        // replace placeholders with values
+        $result = str_replace(array_keys($placeholders), array_values($placeholders), $result);
 
         return $result;
     }
