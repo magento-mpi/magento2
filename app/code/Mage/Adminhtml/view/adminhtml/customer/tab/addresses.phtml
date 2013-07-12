@@ -15,7 +15,7 @@
     </legend>
     <br />
 
-    <div id="address-tabs" data-mage-init="{addressTabs: {itemCount: <?php echo count($addressCollection) ?>}}">
+    <div id="address-tabs" data-mage-init="{addressTabs:{'itemContentTemplate': '<?php echo $this->helper('Mage_Customer_Helper_Address')->getFormat('js_template')?>', itemCount: <?php echo count($addressCollection) ?>}}">
         <ul class="address-list" id="address_list">
             <?php $_iterator = 0; ?>
             <?php if(count($addressCollection)): ?>

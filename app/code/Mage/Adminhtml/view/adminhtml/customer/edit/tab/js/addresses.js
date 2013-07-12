@@ -14,7 +14,8 @@
             itemCount: 0,
             baseItemId: 'new_item',
             // @TODO obtain default countries
-            defaultCountries: null
+            defaultCountries: null,
+            itemContentTemplate: ''
         },
 
         _addNewAddress: function(){
@@ -24,19 +25,23 @@
             while (this.element.find("div[data-tab-index=" + this.options.itemCount + "]").length) {
                 this.options.itemCount++;
             }
-
+            
+            var formName = this.options.baseItemId + this.options.itemCount;
+            
             // add the new address form
-            this.element.find('.address-item-edit').append('<div id="' + 'form_' + this.options.baseItemId
-                + this.options.itemCount + '" data-tab-index="' + this.options.itemCount
-                + '" class="address-item-edit-content">'
-                + this._prepareTemplate(this.element.find('div[data-template="address_form"]').html())
-                + '</div>');
+            this.element.find('.address-item-edit').append('<div id="' + 'form_' + formName +
+                '" data-tab-index="' + this.options.itemCount +
+                '" class="address-item-edit-content data-mage-init="{observableInputs:{\'name\': \'' + formName +
+                '\'}}">' + this._prepareTemplate(this.element.find('div[data-template="address_form"]').html()) +
+                '</div>');
 
             // pre-fill form with account firstname and lastname
             this.element.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]')
                 .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
             this.element.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]')
                 .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]').val());
+
+            var newForm = $('#form_' + formName);
 
             // @TODO something different?
             var template = this._prepareTemplate(this.element.find('div[data-template="address_item"]').html())
@@ -54,11 +59,12 @@
             this.select(this.options.itemCount - 1);
 
             // @TODO Used in deleteAddress and cancelAdd?
-/*          var newForm = $('#form_' + this.options.baseItemId + this.options.itemCount);
-            var newItem = $(this.options.baseItemId + this.options.itemCount);
+            var newItem = $(formName);
             newItem.isNewAddress = true;
-            newItem.formBlock = newForm; */
+            newItem.formBlock = newForm;
 
+            this.element.trigger('contentUpdated', newItem);
+            
             // @TODO this function
 //            this.setActiveItem(newItem);
             // @TODO country/region relationship
@@ -104,6 +110,7 @@
         _bind: function() {
             this._on(this.element.find(':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'),
                 {'click': '_addNewAddress'});
+            this._on({'formchange': '_updateAddress'});
         },
 
         _create: function() {
@@ -133,13 +140,85 @@
             return template
                 .replace(/_template_/g, '_item' + this.options.itemCount)
                 .replace(/_counted="undefined"/g, '')
-                .replace(/"select_button_"/g, 'select_button_' + this.options.itemCount)
-                ;
+                .replace(/"select_button_"/g, 'select_button_' + this.options.itemCount);
+        },
+
+        /**
+         * This method is used to grab the data from the form and display it nicely.
+         */
+        _syncFormData: function (container) {
+            if (container) {
+                var data = {};
+
+                $(container).find(':input').each(function(index, inputField) {
+                    var id = inputField.id;
+                    if (id) {
+                        id = id.replace(/^(_item)?[0-9]+/, '');
+                        id = id.replace(/^(id)?[0-9]+/, '');
+                        var value = inputField.getValue();
+                        var tagName = inputField.tagName.toLowerCase();
+                        if (tagName == 'select') {
+                            if (inputField.multiple) {
+                                var values = $([]);
+                                var l = inputField.options.length;
+                                for (j = 0; j < l; j++) {
+                                    var o = inputField.options[j];
+                                    if (o.selected === true) {
+                                        values[values.length] = o.text.escapeHTML();
+                                    }
+                                }
+                                data[id] = values.join(', ');
+                            } else {
+                                var option = inputField.options[inputField.selectedIndex],
+                                    text = option.value == '0' || option.value == '' ? '' : option.text;
+                                data[id] = text.escapeHTML();
+                            }
+                        } else if (value !== null) {
+                            data[id] = value.escapeHTML();
+                        }
+                    }
+                });
+
+                // Set name of state to 'region' if list of states are in 'region_id' selectbox
+                if (!data['region'] && data['region_id']) {
+                    data['region'] = data['region_id'];
+                    delete data['region_id'];
+                }
+
+                // Set data to html
+                var itemContainer = this.element.find("[aria-selected='true'] address");
+                if (itemContainer.length && itemContainer[0]) {
+                    // @HACK - address template has #{prefix} where tmpl needs ${prefix}
+                    var html = this.options.itemContentTemplate.replace(new RegExp('#\{', 'g'), '${');
+                    // @HACK - to get html as string for replacement below
+                    html = $("<div/>").append($.tmpl(html, data)).html();
+                    html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}', 'img'), '<br/>');
+                    html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}\\s*<br\\s*/?>', 'ig'), '<br/>');
+                    html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}(.*)<br\\s*/?>', 'ig'), '<br/>$2<br/>');
+                    html = html.replace(new RegExp('<br\\s*/?>(.*?)(,\\s*){1,}<br\\s*/?>', 'ig'), '<br/>$1<br/>');
+                    html = html.replace(new RegExp('<br\\s*/?>(.*?)(,\\s*){2,}(.*?)<br\\s*/?>', 'ig'), '<br/>$1, $3<br/>');
+                    html = html.replace(new RegExp('t:\\s*<br\\s*/?>', 'ig'), '');
+                    html = html.replace(new RegExp('f:\\s*<br\\s*/?>', 'ig'), '');
+                    html = html.replace(new RegExp('vat:\\s*$', 'ig'), '');
+                    itemContainer[0].innerHTML = html;
+                }
+            }
+        },
+
+        /**
+         * This method processes the event associated with a form field changing.
+         * @param event Event occurring.
+         * @param element Target of the change.
+         * @private
+         */
+        _updateAddress: function(event, element) {
+            this._syncFormData(event.target);
         }
     });
 
-    $.widget('mage.addressInputs', {
+    $.widget('mage.observableInputs', {
         options: {
+            name: ''
         },
 
         /**
@@ -151,14 +230,15 @@
 
         _create: function() {
             this._super();
-            this.bind();
+            this._bind();
         },
 
         /**
          * This method is used to trigger a change element for a given entity.
          */
-        _triggerChange: function() {
-            alert('Something changed...');
+        _triggerChange: function(element) {
+            // send the name of the captor and the field that changed
+            this.element.trigger('formchange', {'name': this.options.name,  'element': element.currentTarget});
         }
     });
 })(jQuery);
