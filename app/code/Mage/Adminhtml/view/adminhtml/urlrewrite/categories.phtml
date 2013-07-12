@@ -2,24 +2,26 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Categories tree for urlrewrites
- *
- * @see Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree
- */
+/** @var $this Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree */
 ?>
 <fieldset class="fieldset">
-    <legend class="legend"><span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Select Category') ?></span></legend>
-    <br />
-    <br>
+    <legend class="legend"><span><?php echo $this->__('Select Category') ?></span></legend>
+    <br/>
+    <br/>
     <input type="hidden" name="categories" id="product_categories" value="" />
     <div id="tree-div" class="tree" style="width:auto;"></div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    <div data-container-for="tree" style="width:auto">
+
+    </div>
 </fieldset>
 
 <?php if ($this->getRoot()): ?>
@@ -129,6 +131,54 @@ Ext.onReady(function()
     tree.loader.buildCategoryTree(root, config.children);
     tree.el.dom.innerHTML = '';
     tree.render();
+
+jQuery(function($){
+    function adaptStructure(node) {
+        var result = {
+            data: {
+                title: node.name + ' (' + node.product_count + ')'
+            },
+            metadata: {
+                id: node.id
+            }
+        };
+        if (node.children_count) {
+            result.state = 'closed';
+        }
+        if (!node.disabled) {
+            result.data.attr = {href: window.location + '/' + node.id};
+        }
+        if (node.children) {
+            result.children = [];
+            $.each(node.children, function () {
+                result.children.push(adaptStructure(this));
+            });
+        }
+        return result;
+    }
+
+    $('[data-container-for=tree]')
+        .jstree({
+            json_data: {
+                ajax: {
+                    url: '<?php echo $this->getLoadTreeUrl() ?>',
+                    type: 'POST',
+                    success: function (node) {
+                        return adaptStructure(node[0]);
+                    },
+                    data: function (node) {
+                        return {
+                            id : $(node).data('id'),
+                            form_key: FORM_KEY
+                        };
+                    }
+                },
+                data: adaptStructure(config).children,
+                progressive_render: true
+            },
+            plugins: ['themes', 'json_data']
+    });
+});
 });
 //]]>
 </script>
