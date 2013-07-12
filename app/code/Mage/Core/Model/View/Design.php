@@ -71,34 +71,6 @@ class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterfac
     protected $_storeManager;
 
     /**
-     * View file system model
-     *
-     * @var Mage_Core_Model_View_FileSystem
-     */
-    protected $_viewFileSystem;
-
-    /**
-     * View file URL model
-     *
-     * @var Mage_Core_Model_View_Url
-     */
-    protected $_viewUrl;
-
-    /**
-     * View config model
-     *
-     * @var Mage_Core_Model_View_Config
-     */
-    protected $_viewConfig;
-
-    /**
-     * View service model
-     *
-     * @var Mage_Core_Model_View_Service
-     */
-    protected $_viewService;
-
-    /**
      * Design
      *
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
