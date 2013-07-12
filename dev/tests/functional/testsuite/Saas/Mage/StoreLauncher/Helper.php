@@ -34,23 +34,18 @@ class Saas_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openDrawer($tile)
     {
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $tileButton
-         */
-        $tileButton = null;
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tileButton */
         $tileButtons = array('open_drawer', 'edit_drawer');
-        foreach($tileButtons as $key => $btnName) {
+        foreach ($tileButtons as $btnName) {
             if ($this->controlIsPresent('button', $btnName)) {
                 $tileElement = $this->mouseOverDrawer($tile);
-                $tileButton =
-                    $this->getChildElements($tileElement, $this->_getControlXpath('button', $btnName), false);
-                $tileButton = array_shift($tileButton);
+                $tileButton = $this->getChildElement($tileElement, $this->_getControlXpath('button', $btnName));
                 if ($tileButton->displayed()) {
                     $tileButton->click();
                     $this->waitForAjax();
                     $this->pleaseWait();
-                    return (bool)$this->waitForElement(
-                        $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'drawer_footer'));
+                    $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'drawer_footer');
+                    return true;
                 }
             }
         }
@@ -131,7 +126,7 @@ class Saas_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
         if (file_exists($localXml)) {
             $config = simplexml_load_file($localXml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $connection = $config->xpath('//connection');
-            foreach($keys as $k => $v) {
+            foreach ($keys as $v) {
                 $data[$v] = (string)$connection[0]->$v;
             }
         }

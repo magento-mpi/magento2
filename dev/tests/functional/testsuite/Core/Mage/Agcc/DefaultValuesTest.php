@@ -41,13 +41,13 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
-        $this->addParameter('defaultValue', $defaultValue);
         //Verification
-        if (!$this->controlIsPresent('pageelement', 'default_code_length')) {
-            $this->fail('Wrong specified default value in Code Length field');
-        }
+        $this->addParameter('defaultValue', $defaultValue);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'default_code_length'),
+            'Wrong specified default value in Code Length field');
     }
 
     /**
@@ -65,13 +65,13 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
-        if (!$this->controlIsPresent('pageelement', 'default_code_format')) {
-            $this->fail('Wrong specified default value in Code Format dropdown');
-        }
+        $this->assertTrue($this->controlIsPresent('pageelement', 'default_code_format'),
+            'Wrong specified default value in Code Format dropdown');
     }
 
     /**
@@ -90,13 +90,13 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
-        if (!$this->controlIsPresent('pageelement', 'default_code_prefix')) {
-            $this->fail('Wrong specified default value in Code Prefix field');
-        }
+        $this->assertTrue($this->controlIsPresent('pageelement', 'default_code_prefix'),
+            'Wrong specified default value in Code Prefix field');
     }
 
     /**
@@ -115,13 +115,13 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
-        if (!$this->controlIsPresent('pageelement', 'default_code_suffix')) {
-            $this->fail('Wrong specified default value in Code Suffix field');
-        }
+        $this->assertTrue($this->controlIsPresent('pageelement', 'default_code_suffix'),
+            'Wrong specified default value in Code Suffix field');
     }
 
     public function codeSuffixDefaultValueDataProvider()
@@ -151,12 +151,12 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
-        $this->agccHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->assertMessagePresent('success', 'success_saved_rule');
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
         //Verification
-        if (!$this->controlIsPresent('pageelement', 'default_dash_every_x_characters')) {
-            $this->fail('Wrong specified default value in Dash Every X Characters field');
-        }
+        $this->assertTrue($this->controlIsPresent('pageelement', 'default_dash_every_x_characters'),
+            'Wrong specified default value in Dash Every X Characters field');
     }
 }

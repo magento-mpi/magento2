@@ -120,9 +120,9 @@ class Mage_Core_Model_Translate
     protected $_localeHierarchy = array();
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
-    protected $_designPackage;
+    protected $_viewDesign;
 
     /**
      * @var Mage_Core_Model_Translate_Factory
@@ -135,23 +135,31 @@ class Mage_Core_Model_Translate
     private $_cache;
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * Initialize translate model
      *
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_DesignInterface $viewDesign
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
      * @param Mage_core_Model_Translate_Factory $translateFactory
      * @param Magento_Cache_FrontendInterface $cache
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_DesignInterface $viewDesign,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
         Mage_Core_Model_Translate_Factory $translateFactory,
-        Magento_Cache_FrontendInterface $cache
+        Magento_Cache_FrontendInterface $cache,
+        Mage_Core_Model_View_FileSystem $viewFileSystem
     ) {
-        $this->_designPackage = $designPackage;
+        $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $loader->load();
         $this->_translateFactory = $translateFactory;
         $this->_cache = $cache;
+        $this->_viewFileSystem = $viewFileSystem;
     }
 
     /**
@@ -228,7 +236,7 @@ class Mage_Core_Model_Translate
             $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
-            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $this->_designPackage->getDesignTheme()->getId();
+            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $this->_viewDesign->getDesignTheme()->getId();
         }
         return $this;
     }
@@ -383,7 +391,7 @@ class Mage_Core_Model_Translate
 
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = $this->_designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
+            $file = $this->_viewFileSystem->getLocaleFileName('translate.csv', array('locale' => $locale));
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
@@ -461,7 +469,7 @@ class Mage_Core_Model_Translate
      */
     public function getLocale()
     {
-        if (is_null($this->_locale)) {
+        if (null === $this->_locale) {
             $this->_locale = Mage::app()->getLocale()->getLocaleCode();
         }
         return $this->_locale;
@@ -496,7 +504,7 @@ class Mage_Core_Model_Translate
      */
     public function getTranslate()
     {
-        if (is_null($this->_translate)) {
+        if (null === $this->_translate) {
             $this->_translate = new Zend_Translate('array', $this->getData(), $this->getLocale());
         }
         return $this->_translate;

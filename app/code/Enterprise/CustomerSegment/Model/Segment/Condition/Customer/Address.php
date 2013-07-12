@@ -15,16 +15,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
-     * class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct();
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address');
     }
 
     /**
-     * Get list of available subconditions
+     * Get list of available sub-conditions
      *
      * @return array
      */

@@ -16,16 +16,19 @@ category_page_before_reindex:
         form: &categoryPage
             fieldsets:
                 -
+                    product_prices:
+                        xpath: //li[h2/a='%productName%']//div[@class='price-box']
+                -
                     category_view:
                         xpath: //div[@class='category-products']
                         dropdowns:
                             show_per_page: //div[@class='toolbar']//div[@class='limiter']/select
                             sort_by: //div[@class='toolbar']//div[@class='sorter']//select
                         links:
-                            list: //a[@class='list']
-                            grid: //a[@class='grid']
+                            list: //a[text()='List']
+                            grid: //a[text()='Grid']
                             next_page: //a[@title='Next']
-                            learn_more: //li[h2/a='%productName%']//a[@class='link-learn']
+                            learn_more: //*[h2/a='%productName%']//a[@class='link-learn']
                             add_to_wishlist: //li[h2/a='%productName%']//a[@class='link-wishlist']
                             add_to_compare: //li[h2/a='%productName%']//a[@class='link-compare']
                             reviews: //a[contains(text(),'Review(s)')]
@@ -33,24 +36,25 @@ category_page_before_reindex:
                         buttons:
                             add_to_cart: //li[h2/a='%productName%']//button[span='Add to Cart']
                         pageelements:
-                            product_name_header: //div[@class='category-products']//a[text()='%productName%']
-                            price_regular: //li[h2/a='%productName%']//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
-                            price_excluding_tax: //li[h2/a='%productName%']//span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
-                            price_including_tax: //li[h2/a='%productName%']//span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
-                            price_old: //li[h2/a='%productName%']//p[@class='old-price' and //span[normalize-space(text())='%price%']]
-                            price_special: //li[h2/a='%productName%']//p[@class='special-price' and //span[normalize-space(text())='%price%']]
-                            price_special_excluding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-excluding-tax' and normalize-space(text())='%price%']
-                            price_special_inlcuding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-including-tax' and normalize-space(text())='%price%']
-                            as_low_as: //li[h2/a='%productName%']//a[@class='minimal-price-link']/span[@class='price' and normalize-space(text())='%price%']
+                            product_name: //a[text()='%productName%']
+#                            price_regular: //li[h2/a='%productName%']//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
+#                            price_excluding_tax: //li[h2/a='%productName%']//span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
+#                            price_including_tax: //li[h2/a='%productName%']//span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
+#                            price_old: //li[h2/a='%productName%']//p[@class='old-price' and //span[normalize-space(text())='%price%']]
+#                            price_special: //li[h2/a='%productName%']//p[@class='special-price' and //span[normalize-space(text())='%price%']]
+#                            price_special_excluding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-excluding-tax' and normalize-space(text())='%price%']
+#                            price_special_inlcuding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-including-tax' and normalize-space(text())='%price%']
+#                            as_low_as: //li[h2/a='%productName%']//a[@class='minimal-price-link']/span[@class='price' and normalize-space(text())='%price%']
                             description: //li[h2/a='%productName%']//div[@class='desc std']
-                            ex_price_regular: //li[h2/a='%productName%']//span[@class='regular-price']
-                            ex_price_excluding_tax: //li[h2/a='%productName%']//span[@class='price-excluding-tax']/span[@class='price']
-                            ex_price_including_tax: //li[h2/a='%productName%']//span[@class='price-including-tax']/span[@class='price']
-                            ex_price_old: //li[h2/a='%productName%']//p[@class='old-price']
-                            ex_price_special: //li[h2/a='%productName%']//p[@class='special-price']
-                            ex_price_special_excluding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-excluding-tax']
-                            ex_price_special_inlcuding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-including-tax']
-                            ex_as_low_as: //li[h2/a='%productName%']//a[@class='minimal-price-link']/span[@class='price']
+                            price_regular: //li[h2/a='%productName%']//span[@class='regular-price']
+                            price_excluding_tax: //li[h2/a='%productName%']//span[@class='price-excluding-tax']/span[@class='price']
+                            price_including_tax: //li[h2/a='%productName%']//span[@class='price-including-tax']/span[@class='price']
+                            price_old: //li[h2/a='%productName%']//p[@class='old-price']
+                            price_special: //li[h2/a='%productName%']//p[@class='special-price']
+                            price_special_excluding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-excluding-tax']
+                            price_special_inlcuding_tax: //li[h2/a='%productName%']//p[@class='special-price']/span[@class='price-including-tax']
+                            as_low_as: //li[h2/a='%productName%']//a[@class='minimal-price-link']/span[@class='price']
+                            price_special_with_value: //li[h2/a='%productName%']//p[@class='special-price']/span[normalize-space(text())='%price%']
                 -
                     category_title:
                         xpath: //div[@class='page-title']
@@ -98,22 +102,21 @@ category_page_before_reindex:
                             view_all_tags: //a[text()='View All Tags']
                 -
                     layered_navigation_anchor:
-                        xpath: //div[@class='block block-layered-nav']
+                        xpath: //div[div/strong/span='Shop By']
                         pageelements:
-                            currently_shopping_by: //div[@class='currently']
+                            currently_shopping_by: "//div[p='Currently Shopping by:']"
                         links:
                             category_name: //*[@id='narrow-by-list']//a[text()='%categoryName%']
                             attribute_name: //*[@id='narrow-by-list']//a[text()='%attributeName%']
                             price_attribute: //*[@id='narrow-by-list']//a[contains(@href,'%priceAttributeCode%')]
-                            clear_all: //div[@class='actions']/a
+                            clear_all: //a[text()='Clear All']
                         buttons:
-                            remove_this_item: //*[@class='btn-remove']
+                            remove_this_item: //a[@title='Remove This Item']
                 -
                     layered_navigation:
                         xpath: //*[@id='narrow-by-list2']
         messages: &categoryPageMessages
-            newsletter_invalid_email: "//li[@class='error-msg' and contains(.,'There was a problem with the subscription: Please enter a valid email address.')]"
-            newsletter_required_field: //*[@class='mage-error' and @for='newsletter' and contains(.,'Please enter a valid email address (for example, johndoe@domain.com.).')]
+            newsletter_required_field: //*[@class='mage-error' and @for='newsletter' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
             newsletter_success_subscription: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for your subscription.')]
             newsletter_email_used: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: This email address is already assigned to another user.')]"
             newsletter_long_email: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: Please enter a valid email address.')]"

@@ -17,14 +17,14 @@ class Mage_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_View_Url|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designPackage;
+    protected $_viewUrl;
 
     protected function setUp()
     {
-        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
-        $this->_object = new Mage_Core_Model_Page_Asset_ViewFile($this->_designPackage, 'test/script.js', 'js');
+        $this->_viewUrl = $this->getMock('Mage_Core_Model_View_Url', array(), array(), '', false);
+        $this->_object = new Mage_Core_Model_Page_Asset_ViewFile($this->_viewUrl, 'test/script.js', 'js');
     }
 
     /**
@@ -33,13 +33,13 @@ class Mage_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Mage_Core_Model_Page_Asset_ViewFile($this->_designPackage, '', 'unknown');
+        new Mage_Core_Model_Page_Asset_ViewFile($this->_viewUrl, '', 'unknown');
     }
 
     public function testGetUrl()
     {
         $url = 'http://127.0.0.1/magento/test/script.js';
-        $this->_designPackage
+        $this->_viewUrl
             ->expects($this->once())
             ->method('getViewFileUrl')
             ->with('test/script.js')
@@ -56,7 +56,7 @@ class Mage_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
     public function testGetSourceFile()
     {
         $sourcePath = '/source_dir/test/script.js';
-        $this->_designPackage
+        $this->_viewUrl
             ->expects($this->once())
             ->method('getViewFilePublicPath')
             ->with('test/script.js')

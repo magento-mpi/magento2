@@ -10,6 +10,11 @@
 class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterface
 {
     /**
+     * Task name prefix parameter name
+     */
+    const PARAM_TASK_NAME_PREFIX = 'task_name_prefix';
+
+    /**
      * @var Enterprise_Queue_Model_TaskRepository
      */
     protected $_taskRepository;

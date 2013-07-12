@@ -173,7 +173,7 @@ class Saas_Saas_Model_Tenant_Config
             Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
             'status' => $this->_status,
             'maintenance_mode' => $this->_maintenanceMode,
-            Enterprise_Queue_Model_ParamMapper::PARAM_TASK_NAME_PREFIX => $this->_taskNamePrefix,
+            Enterprise_Queue_Model_Queue::PARAM_TASK_NAME_PREFIX => $this->_taskNamePrefix,
             Mage::PARAM_MODE => Mage_Core_Model_App_State::MODE_PRODUCTION,
         );
     }

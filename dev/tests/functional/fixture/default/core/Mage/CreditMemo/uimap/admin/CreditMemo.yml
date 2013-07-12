@@ -83,7 +83,7 @@ create_credit_memo:
                             qty_to_refund: "//tbody[@class='even'][//*[contains(.,'%sku%')]]//input[contains(@name,'[qty]')]"
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
-                            product_line:  //table[@class='data order-tables']/tbody
+                            product_line: //table[@class='data order-tables']/tbody
                 -
                     product_line_to_refund:
                         xpath: //div[@class='grid']//tbody[@class]
@@ -175,3 +175,7 @@ view_credit_memo:
             send_email: //div[@class='page-actions']//button[span='Send Email']
             print: //div[@class='page-actions']//button[span='Print']
         messages: *creditMemoMessages
+
+create_credit_memo_denied:
+    mca: sales_order_creditmemo/start/order_id/%id%/
+    title: Magento Admin

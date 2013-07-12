@@ -42,13 +42,13 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Mag
         //Data
         $attrData = $this->loadDataSet('CustomerAddressAttribute', $dataName);
         $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
-            array('attribute_code' => $attrData['properties']['attribute_code']));
+            array('attribute_code' => $attrData['attribute_properties']['attribute_code']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
+        $this->addParameter('elementTitle', $attrData['attribute_properties']['attribute_label']);
         $this->attributesHelper()->openAttribute($searchData);
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying

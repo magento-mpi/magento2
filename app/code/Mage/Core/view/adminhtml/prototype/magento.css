@@ -414,10 +414,10 @@
 .ui-dialog .ui-dialog-titlebar-close {
     background: none;
     cursor: pointer;
-    margin: 0px;
+    margin: 0;
     padding: 0;
     position: absolute;
-    top: 18px;
+    top: 22px;
     right: 16px;
     height: 16px;
     width: 16px;

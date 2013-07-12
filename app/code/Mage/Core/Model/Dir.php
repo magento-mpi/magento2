@@ -104,6 +104,11 @@ class Mage_Core_Model_Dir
     const DI = 'di';
 
     /**
+     * Relative directory key for generated code
+     */
+    const GENERATION = 'generation';
+
+    /**
      * Temporary directory for uploading files by end-user
      */
     const UPLOAD = 'upload';
@@ -129,6 +134,7 @@ class Mage_Core_Model_Dir
         self::LOG           => 'var/log',
         self::SESSION       => 'var/session',
         self::DI            => 'var/di',
+        self::GENERATION    => 'var/generation',
         self::PUB           => 'pub',
         self::PUB_LIB       => 'pub/lib',
         self::MEDIA         => 'pub/media',

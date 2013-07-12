@@ -38,14 +38,16 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user');
-        $search = $this->loadDataSet('AdminUsers', 'search_admin_user', array('email'     => $userData['email'],
-                                                                              'user_name' => $userData['user_name']));
+        $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user', array(
+            'email' => $userData['email'],
+            'user_name' => $userData['user_name']
+        ));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($search, 'permissionsUserGrid');
+        $this->adminUserHelper()->openAdminUser($searchData);
         //Steps
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
@@ -65,15 +67,12 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
         $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user');
         $searchCurrentUser = array();
         //Steps
-        $this->navigate('my_account');
-        $this->assertTrue($this->checkCurrentPage('my_account'), $this->getParsedMessages());
+        $this->adminUserHelper()->goToMyAccount();
         foreach ($searchData as $key => $value) {
             $searchCurrentUser[$key] = $this->getControlAttribute('field', $key, 'value');
         }
         $this->navigate('manage_admin_users');
-        $this->addParameter('elementTitle',
-            $searchCurrentUser['first_name'] . ' ' . $searchCurrentUser['last_name']);
-        $this->searchAndOpen($searchCurrentUser, 'permissionsUserGrid');
+        $this->adminUserHelper()->openAdminUser($searchCurrentUser);
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying

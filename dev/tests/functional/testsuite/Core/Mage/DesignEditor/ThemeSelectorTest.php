@@ -133,7 +133,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
     {
         //Data
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->clickButton('reset_filter');
         $dataStoreView = $this->loadDataSet('StoreView', 'generic_store_view');
         $this->storeHelper()->createStore($dataStoreView, 'store_view');
@@ -188,7 +188,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         //Data
         $this->navigate('manage_stores');
         $this->clickButton('reset_filter');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $dataStoreView = $this->loadDataSet('StoreView', 'generic_store_view');
         $this->storeHelper()->createStore($dataStoreView, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
@@ -211,7 +211,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         //Clean after test
         $this->navigate('manage_stores');
         $this->clickButton('reset_filter');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
     }
 
     /**

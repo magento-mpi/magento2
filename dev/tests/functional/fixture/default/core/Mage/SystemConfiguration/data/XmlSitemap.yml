@@ -18,7 +18,7 @@ admin_xml_sitemap:
         tab_name: general_design
         configuration:
             search_engine_robots:
-                edit_custom_instruction: test
+                edit_custom_instruction: %randomize%_test_edit_custom_instruction
 
 admin_enable_push_to_robots:
     configuration_scope: Default Config
@@ -35,8 +35,3 @@ admin_disable_push_to_robots:
         configuration:
             search_engine_submission_settings:
                 enable_submission_to_robots: No
-
-#Test data for Admin User and Admin Role
-new_xml_sitemap:
-    xml_sitemap_create_filename: sitemap.xml
-    xml_sitemap_create_path: /

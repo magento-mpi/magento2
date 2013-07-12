@@ -9,12 +9,6 @@
 # @license     {license_link}
 #
 ---
-# 'Create an Account' page
-register_account:
-    uimap:
-        messages: &customerMessages
-            empty_captcha: //input[@id='captcha_user_create']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]
-
 #'Login or Create an Account' page
 customer_login:
     uimap:
@@ -28,7 +22,6 @@ customer_login:
             close: //div[@class='popup-block block popup-remember-tip active']//button[span='Close']
         pageelements:
             checking: //div[@class='popup-block block popup-remember-tip active']
-        messages: *customerMessages
 
 #'Success LogOut page
 customer_logout:

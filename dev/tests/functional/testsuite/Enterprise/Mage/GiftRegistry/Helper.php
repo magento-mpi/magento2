@@ -64,17 +64,23 @@ class Enterprise_Mage_GiftRegistry_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Opens Gift Registry
      *
-     * @param array $searchGiftRegistry
+     * @param array $searchData
      */
-    public function openGiftRegistry(array $searchGiftRegistry)
+    public function openGiftRegistry(array $searchData)
     {
-        $xpathGR = $this->search($searchGiftRegistry, 'giftRegistryGrid');
-        $this->assertNotEquals(null, $xpathGR, 'Gift Registry is not found');
-        $columnId = $this->getColumnIdByName('Label');
-        $this->addParameter('elementLabel', $this->getElement($xpathGR . '//td[' . $columnId . ']')->text());
-        $this->addParameter('id', $this->defineIdFromTitle($xpathGR));
-        $this->getElement($xpathGR)->click();
-        $this->waitForPageToLoad();
+        //Search Gift Registry
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $registryLocator = $this->search($searchData, 'giftRegistryGrid');
+        $this->assertNotNull($registryLocator, 'Gift Registry is not found with data: ' . print_r($searchData, true));
+        $registryRowElement = $this->getElement($registryLocator);
+        $registryUrl = $registryRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Label');
+        $cellElement = $this->getChildElement($registryRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($registryUrl));
+        //Open Gift Registry
+        $this->url($registryUrl);
         $this->validatePage();
     }
 

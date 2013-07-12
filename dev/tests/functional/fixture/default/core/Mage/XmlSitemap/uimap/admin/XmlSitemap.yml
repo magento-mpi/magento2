@@ -43,18 +43,17 @@ xml_sitemap:
             success_deleted_xml_sitemap: //li[normalize-space(@class)='success-msg' and contains(.,'The sitemap has been deleted.')]
             success_sitemap_generate: //li[normalize-space(@class)='success-msg' and contains(.,'The sitemap "%fileName%" has been generated.')]
             success_sitemap_save_and_generate: //li[normalize-space(@class)='success-msg']/ul/li[contains(.,'The sitemap "%fileName%" has been generated.')]
-            xml_sitemap_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            filename_exist_: //li[normalize-space(@class)='error-msg' and contains(.,'Path "%fileName%" is not available and cannot be used.')]
+            filename_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Path "%fileName%" is not available and cannot be used.')]
 
 add_new_xml_sitemap:
     mca: sitemap/new/
     title: New Site Map / Site Map / SEO & Search / Marketing / Magento Admin
-    uimap: &sitemap
+    uimap: &new_xml_sitemap
         form:
             fieldsets:
                 -
                     xml_sitemap_create:
-                        xpath: //fieldset[@id='add_sitemap_form']
+                        xpath: //*[@id='add_sitemap_form']
                         dropdowns:
                             xml_sitemap_create_store_view: //select[@name='store_id']
                         fields:
@@ -68,6 +67,6 @@ add_new_xml_sitemap:
         messages: *pageMessages
 
 edit_xml_sitemap:
-    mca: sitemap/edit
+    mca: sitemap/edit/
     title: Edit Sitemap / Site Map / SEO & Search / Marketing / Magento Admin
-    uimap: *sitemap
+    uimap: *new_xml_sitemap

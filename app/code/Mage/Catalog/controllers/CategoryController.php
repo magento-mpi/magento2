@@ -22,7 +22,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      *
      * @return Mage_Catalog_Model_Category
      */
-    protected function _initCatagory()
+    protected function _initCategory()
     {
         $this->_eventManager->dispatch('catalog_controller_category_init_before', array('controller_action' => $this));
         $categoryId = (int) $this->getRequest()->getParam('id', false);
@@ -60,7 +60,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      */
     public function viewAction()
     {
-        if ($category = $this->_initCatagory()) {
+        $category = $this->_initCategory();
+        if ($category) {
             $design = Mage::getSingleton('Mage_Catalog_Model_Design');
             $settings = $design->getDesignSettings($category);
 
@@ -77,17 +78,14 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             } else {
                 $type = $category->hasChildren() ? 'default' : 'default_without_children';
             }
-            $this->addPageLayoutHandles(
-                array('type' => $type, 'id' => $category->getId())
-            );
+            $this->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
             $this->loadLayoutUpdates();
 
             // apply custom layout update once layout is loaded
-            if ($layoutUpdates = $settings->getLayoutUpdates()) {
-                if (is_array($layoutUpdates)) {
-                    foreach($layoutUpdates as $layoutUpdate) {
-                        $update->addUpdate($layoutUpdate);
-                    }
+            $layoutUpdates = $settings->getLayoutUpdates();
+            if ($layoutUpdates && is_array($layoutUpdates)) {
+                foreach ($layoutUpdates as $layoutUpdate) {
+                    $update->addUpdate($layoutUpdate);
                 }
             }
 
@@ -97,7 +95,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
                 $this->getLayout()->helper('Mage_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
             }
 
-            if ($root = $this->getLayout()->getBlock('root')) {
+            $root = $this->getLayout()->getBlock('root');
+            if ($root) {
                 $root->addBodyClass('categorypath-' . $category->getUrlPath())
                     ->addBodyClass('category-' . $category->getUrlKey());
             }
@@ -105,8 +104,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             $this->_initLayoutMessages('Mage_Catalog_Model_Session');
             $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $this->renderLayout();
-        }
-        elseif (!$this->getResponse()->isRedirect()) {
+        } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noRoute');
         }
     }

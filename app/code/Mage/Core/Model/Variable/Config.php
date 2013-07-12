@@ -18,6 +18,19 @@
 class Mage_Core_Model_Variable_Config
 {
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
+     * @param Mage_Core_Model_View_Url $viewUrl
+     */
+    public function __construct(Mage_Core_Model_View_Url $viewUrl)
+    {
+        $this->_viewUrl = $viewUrl;
+    }
+
+    /**
      * Prepare variable wysiwyg config
      *
      * @param Varien_Object $config
@@ -28,9 +41,10 @@ class Mage_Core_Model_Variable_Config
         $variableConfig = array();
         $onclickParts = array(
             'search' => array('html_id'),
-            'subject' => 'MagentovariablePlugin.loadChooser(\''.$this->getVariablesWysiwygActionUrl().'\', \'{{html_id}}\');'
+            'subject' => 'MagentovariablePlugin.loadChooser(\'' . $this->getVariablesWysiwygActionUrl()
+                . '\', \'{{html_id}}\');'
         );
-        $variableWysiwygPlugin = array(array('name' => 'magentovariable',
+        $variableWysiwyg = array(array('name' => 'magentovariable',
             'src' => $this->getWysiwygJsPluginSrc(),
             'options' => array(
                 'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Insert Variable...'),
@@ -39,7 +53,7 @@ class Mage_Core_Model_Variable_Config
                 'class'   => 'add-variable plugin'
         )));
         $configPlugins = $config->getData('plugins');
-        $variableConfig['plugins'] = array_merge($configPlugins, $variableWysiwygPlugin);
+        $variableConfig['plugins'] = array_merge($configPlugins, $variableWysiwyg);
         return $variableConfig;
     }
 
@@ -51,7 +65,7 @@ class Mage_Core_Model_Variable_Config
     public function getWysiwygJsPluginSrc()
     {
         $editorPluginJs = 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
-        return Mage::getDesign()->getViewFileUrl($editorPluginJs);
+        return $this->_viewUrl->getViewFileUrl($editorPluginJs);
     }
 
     /**

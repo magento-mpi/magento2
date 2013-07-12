@@ -18,23 +18,23 @@
  */
 class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->admin('log_in_to_admin', false);
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-    }
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
+        $this->logoutAdminUser();
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->admin('log_in_to_admin');
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $this->logoutAdminUser();
     }
 
     /**
@@ -48,7 +48,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'cms_block'));
+            array('resource_acl' => 'content-elements-blocks'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -72,14 +72,14 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function verifyScopeCmsStaticBlockOneRoleResource($loginData)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_cms_static_blocks');
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'),
+            $this->getParsedMessages());
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 2, should be equal');
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsStaticBlockPageElements', 'manage_cms_static_blocks_page_elements');
         $resultElementsArray = array();
@@ -88,8 +88,8 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         }
         foreach ($resultElementsArray as $elementName => $elementType) {
             if (!$this->controlIsVisible($elementType, $elementName)) {
-                $this->addVerificationMessage("Element type= '$elementType'
-                                                       name= '$elementName' is not present on the page");
+                $this->addVerificationMessage("Element type= '$elementType' name= '$elementName'"
+                    . " is not present on the page");
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -108,15 +108,17 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function createCmsStaticBlockOneRoleResource($loginData)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_cms_static_blocks');
-        $setData = $this->loadDataSet('CmsStaticBlock', 'static_block_with_all_widgets');
-        unset($setData['content']['variables']);
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'),
+            $this->getParsedMessages());
+        $setData = $this->loadDataSet('CmsStaticBlock', 'static_block_with_all_widgets',
+            array('variables' => '%noValue%', 'widget_product_link' => '%noValue%'));
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         $this->assertMessagePresent('success', 'success_saved_block');
-        return array('filter_block_title'      => $setData['block_title'],
-                     'filter_block_identifier' => $setData['block_identifier']);
+        return array(
+            'filter_block_title' => $setData['block_title'],
+            'filter_block_identifier' => $setData['block_identifier']
+        );
     }
 
     /**
@@ -134,20 +136,27 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function editCmsStaticBlockOneRoleResource($loginData, $searchPageData)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_cms_static_blocks');
-        $randomTitleAndId = array('block_title' => $this->generate('string', 15),
-                                  'block_identifier' => $this->generate('string', 15));
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'),
+            $this->getParsedMessages());
+        $randomTitleAndId = array(
+            'block_title' => $this->generate('string', 15),
+            'block_identifier' => $this->generate('string', 15, ':lower:')
+        );
         $this->cmsStaticBlocksHelper()->openStaticBlock($searchPageData);
         $this->fillFieldset($randomTitleAndId, 'general_information');
         $this->addParameter('elementTitle', $randomTitleAndId['block_title']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        $this->validatePage('edit_cms_static_block');
         $this->assertMessagePresent('success', 'success_saved_block');
+        $this->assertTrue($this->checkCurrentPage('edit_cms_static_block'),
+            $this->getParsedMessages());
+        $this->verifyForm($randomTitleAndId);
+        $this->assertEmptyVerificationErrors();
 
-        return array('filter_block_title'      => $randomTitleAndId['block_title'],
-                     'filter_block_identifier' => $randomTitleAndId['block_identifier']);
+        return array(
+            'filter_block_title' => $randomTitleAndId['block_title'],
+            'filter_block_identifier' => $randomTitleAndId['block_identifier']
+        );
     }
 
     /**
@@ -164,9 +173,9 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function deleteCmsStaticBlockOneRoleResource($loginData, $searchPageData)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_cms_static_blocks');
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'),
+            $this->getParsedMessages());
         $this->cmsStaticBlocksHelper()->deleteStaticBlock($searchPageData);
         $this->assertMessagePresent('success', 'success_deleted_block');
     }

@@ -17,6 +17,14 @@ disable_http_only:
             session_cookie_management:
                 use_http_only: No
 
+enable_http_only:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_web
+        configuration:
+            session_cookie_management:
+                use_http_only: Yes
+
 general_default_emails:
     configuration_scope: Default Config
     tab_1:

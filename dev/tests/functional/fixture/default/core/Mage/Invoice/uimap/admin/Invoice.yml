@@ -52,7 +52,7 @@ manage_sales_invoices:
 create_invoice:
     mca: sales_order_invoice/new/order_id/%id%/
     title: New Invoice / Invoices / Operations / Sales / Magento Admin
-    uimap:
+    uimap: &create_invoice-uimap
         form: &orderInvoice
             fieldsets:
                 -
@@ -165,3 +165,7 @@ view_invoice:
             credit_memo: //div[@class='page-actions']//button[span='Credit Memo']
             print: //div[@class='page-actions']//button[span='Print']
         messages: *invoiceMessage
+
+create_invoice_denied:
+    mca: sales_order_invoice/start/order_id/%id%/
+    title: Magento Admin

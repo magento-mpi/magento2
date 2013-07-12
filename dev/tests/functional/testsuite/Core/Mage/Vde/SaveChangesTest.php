@@ -27,7 +27,6 @@ class Core_Mage_Vde_SaveChangesTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->admin('design_editor_selector');
         $this->vdeHelper()->openThemeDemo();

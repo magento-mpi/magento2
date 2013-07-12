@@ -212,6 +212,7 @@
             "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
             function() {
                 $('#billing\\:country_id').regionUpdater({
+                    optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
                     regionListId: '#billing\\:region_id',
                     regionInputId: '#billing\\:region',
                     postcodeId: '#billing\\:postcode',

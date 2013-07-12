@@ -9,8 +9,6 @@ class Core_Mage_GoogleOptimizer_DisablingDependenciesTest extends Mage_Selenium_
 {
     public function assertPreConditions()
     {
-        parent::assertPreConditions();
-
         $this->loginAdminUser();
     }
 

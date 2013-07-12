@@ -36,7 +36,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_attributes');
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $attrCode = $attrData['attribute_code'];
+        $attrCode = $attrData['advanced_attribute_properties']['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('Product Details' => $attrCode));
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -95,8 +95,10 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     {
         //Data
         $override = ($type === 'configurable')
-            ? array('var1_attr_value1' => $attrData['option_1']['admin_option_name'],
-                'general_attribute_1' => $attrData['admin_title'])
+            ? array(
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'general_attribute_1' => $attrData['attribute_properties']['attribute_label']
+            )
             : null;
         $productWithOptions = $this->loadDataSet('Product', $type . '_product_required',
             array('custom_options_data' => $this->loadDataSet('Product', 'custom_options_data')), $override);

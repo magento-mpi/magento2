@@ -72,11 +72,11 @@ class Enterprise_Mage_ImportExport_Customer_Address_AttributeTest extends Mage_S
         //Step 2
         $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         //Step 3
-        $report = $this->ImportExportHelper()->export();
+        $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($report, "Export csv file is empty");
         // search for new custom customer address attribute
-        $this->assertArrayHasKey($attrData['properties']['attribute_code'], $report[0],
+        $this->assertArrayHasKey($attrData['attribute_properties']['attribute_code'], $report[0],
             'New custom customer address attribute is not present in export file'
         );
 
@@ -98,9 +98,10 @@ class Enterprise_Mage_ImportExport_Customer_Address_AttributeTest extends Mage_S
         $this->navigate('manage_customer_address_attributes');
         $this->attributesHelper()->openAttribute(
             array(
-                'attribute_code'=> $attrData['properties']['attribute_code'],
-                'attribute_label'=> $attrData['manage_labels_options']['admin_title']
-            ));
+                'attribute_code' => $attrData['attribute_properties']['attribute_code'],
+                'attribute_label' => $attrData['attribute_properties']['attribute_label']
+            )
+        );
         //Delete attribute
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
@@ -111,11 +112,11 @@ class Enterprise_Mage_ImportExport_Customer_Address_AttributeTest extends Mage_S
         //Step 2
         $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         //Step 3
-        $report = $this->ImportExportHelper()->export();
+        $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($report, "Export csv file is empty");
         // search for new custom customer address attribute
-        $this->assertArrayNotHasKey($attrData['properties']['attribute_code'], $report[0],
+        $this->assertArrayNotHasKey($attrData['attribute_properties']['attribute_code'], $report[0],
             'Deleted custom customer address attribute is present in export file'
         );
     }

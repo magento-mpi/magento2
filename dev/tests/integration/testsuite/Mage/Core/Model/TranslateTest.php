@@ -20,35 +20,61 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_designModel;
+
+    /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
 
     public function setUp()
     {
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test', 'default', 'locale', 'en_US',
             'translate.csv');
 
-        $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
-            array('getLocaleFileName'),
-            array(
-                Mage::getSingleton('Mage_Core_Model_Dir'),
-                Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
-                Mage::getSingleton('Magento_Filesystem'),
-                Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
-                new Mage_Core_Model_App_State(),
-                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
-                Mage::getSingleton('Mage_Core_Helper_Css'),
-            )
-        );
-        $this->_designModel->expects($this->any())
+        $this->_viewFileSystem = $this->getMock('Mage_Core_Model_View_FileSystem',
+            array('getLocaleFileName', 'getDesignTheme'), array(), '', false);
+
+
+        $this->_viewFileSystem->expects($this->any())
             ->method('getLocaleFileName')
             ->will($this->returnValue(implode(DIRECTORY_SEPARATOR, $pathChunks)));
+
+        $theme = $this->getMock('Mage_Core_Model_Theme', array('getId', 'getCollection'), array(), '', false);
+        $theme->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(10));
+
+        $collection = $this->getMock('Mage_Core_Model_Theme', array('getThemeByFullPath'), array(), '', false);
+        $collection->expects($this->any())
+            ->method('getThemeByFullPath')
+            ->will($this->returnValue($theme));
+
+        $theme->expects($this->any())
+            ->method('getCollection')
+            ->will($this->returnValue($collection));
+
+        $this->_viewFileSystem->expects($this->any())
+            ->method('getDesignTheme')
+            ->will($this->returnValue($theme));
+
+        Mage::getObjectManager()->addSharedInstance($this->_viewFileSystem, 'Mage_Core_Model_View_FileSystem');
 
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
 
-        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
+        $this->_designModel = $this->getMock('Mage_Core_Model_View_Design',
+            array('getDesignTheme'),
+            array(Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'))
+        );
+
+        $this->_designModel->expects($this->any())
+            ->method('getDesignTheme')
+            ->will($this->returnValue($theme));
+
+        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_View_Design');
 
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
         $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
@@ -146,43 +172,6 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslate($inputText, $expectedTranslation)
     {
-        $theme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
-        $theme->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(10));
-
-        $this->_designModel->expects($this->any())
-            ->method('getDesignTheme')
-            ->will($this->returnValue($theme));
-
-        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test', 'default', 'locale', 'en_US',
-            'translate.csv');
-
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
-            array('getLocaleFileName', 'getDesignTheme'),
-            array(
-                Mage::getSingleton('Mage_Core_Model_Dir'),
-                Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
-                $filesystem,
-                Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
-                new Mage_Core_Model_App_State(),
-                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
-                Mage::getSingleton('Mage_Core_Helper_Css'),
-            )
-        );
-        $this->_designModel->expects($this->any())
-            ->method('getLocaleFileName')
-            ->will($this->returnValue(implode(DIRECTORY_SEPARATOR, $pathChunks)));
-
-        $this->_designModel->expects($this->any())
-            ->method('getDesignTheme')
-            ->will($this->returnValue($theme));
-
-        Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
-        Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
-
-        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
         $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
 
@@ -234,11 +223,9 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     public function testTranslateWithLocaleInheritance($inputText, $expectedTranslation)
     {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
-        /** @var Mage_Core_Model_Translate $model */
-        $model = Mage::getModel('Mage_Core_Model_Translate');
-        $model->setLocale('en_AU');
-        $model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
-        $this->assertEquals($expectedTranslation, $model->translate(array($inputText)));
+        $this->_model->setLocale('en_AU');
+        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
+        $this->assertEquals($expectedTranslation, $this->_model->translate(array($inputText)));
     }
 
     /**

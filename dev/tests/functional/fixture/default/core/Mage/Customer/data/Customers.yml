@@ -37,8 +37,6 @@ generic_customer_account:
     gender: %noValue%
     send_welcome_email: %noValue%
     send_from: %noValue%
-    password: 123123q
-    auto_generated_password: %noValue%
 
 all_fields_customer_account:
     associate_to_website: Main Website
@@ -54,8 +52,6 @@ all_fields_customer_account:
     gender: Male
     send_welcome_email: Yes
     send_from: Default Store View
-    password: 123123q
-    auto_generated_password: No
 
 #Test data for Customer Addresses
 generic_address:
@@ -74,7 +70,7 @@ generic_address:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: %noValue%
+    vat_number: %noValue%
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
 
@@ -157,7 +153,7 @@ generic_address_vat_valid_domestic:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: 111607872
+    vat_number: 111607872
     default_billing_address: Yes
     default_shipping_address: %noValue%
 
@@ -177,7 +173,7 @@ generic_address_vat_invalid:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: 111111111
+    vat_number: 111111111
     default_billing_address: Yes
     default_shipping_address: %noValue%
 
@@ -197,6 +193,6 @@ generic_address_vat_valid_intraunion:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
-    billing_vat_number: 584451913
+    vat_number: 584451913
     default_billing_address: Yes
     default_shipping_address: %noValue%
