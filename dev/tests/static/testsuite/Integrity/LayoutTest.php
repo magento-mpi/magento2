@@ -239,6 +239,27 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $file
+     * @dataProvider layoutFilesDataProvider
+     */
+    public function testHandlesConvention($file)
+    {
+        if (basename($file) == 'local.xml') {
+            return;
+        }
+
+        $xml = simplexml_load_file($file);
+        $handles = $xml->children();
+        $this->assertLessThanOrEqual(1, count($handles),
+            'There should be no more than 1 handle declared per layout file');
+
+        if (count($handles)) {
+            $handle = $handles[0];
+            $this->assertEquals($handle->getName() . ".xml", basename($file));
+        }
+    }
+
+    /**
      * @return array
      */
     public function layoutFilesDataProvider()
