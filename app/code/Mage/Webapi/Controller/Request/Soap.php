@@ -46,13 +46,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         }
 
         $param = $this->getParam($resourcesParam);
-        $requestedResources = $this->convertReqParamToServiceArray($param);
-
-        if (empty($requestedResources) || !is_array($requestedResources)) {
-            $message = $this->_helper->__('Requested resources are missing.');
-            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-        }
-        return $requestedResources;
+        return $this->convertReqParamToServiceArray($param);
     }
 
     /**
@@ -63,12 +57,12 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
      *      'testModule1AllSoapAndRest' => 'V1',
      *       'testModule2AllSoapNoRest' => 'V1',
      *      )
+     *
      * @param $param
      * @return array
-     * @throws LogicException
      * @throws Mage_Webapi_Exception
      */
-    private function convertReqParamToServiceArray($param)
+    protected function convertReqParamToServiceArray($param)
     {
         $serviceSeparator = ",";
         $serviceVerSeparator = ":";
@@ -76,15 +70,16 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         $serviceVerPattern = "[a-zA-Z\d]*[$serviceVerSeparator][V][\d]+";
         $regexp = "/^($serviceVerPattern)([$serviceSeparator]$serviceVerPattern)*$/";
         if (empty($param) || !preg_match($regexp, $param)) {
-            throw new Mage_Webapi_Exception("Incorrect format of WSDL request URI.",
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            $message = $this->_helper->__('Incorrect format of WSDL request URI or Requested resources are missing');
+            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         $serviceVerArr = explode($serviceSeparator, $param);
         $serviceArr = array();
         foreach ($serviceVerArr as $service) {
             $arr = explode($serviceVerSeparator, $service);
             if (array_key_exists($arr[0], $serviceArr)) {
-                throw new LogicException("Resource '$arr[0]' cannot be requested more than once");
+                $message = $this->_helper->__("Resource '$arr[0]' cannot be requested more than once");
+                throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             } else {
                 $serviceArr[$arr[0]] = $arr[1];
             }
