@@ -63,9 +63,9 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
      *      'testModule1AllSoapAndRest' => 'V1',
      *       'testModule2AllSoapNoRest' => 'V1',
      *      )
-     *
      * @param $param
      * @return array
+     * @throws LogicException
      * @throws Mage_Webapi_Exception
      */
     private function convertReqParamToServiceArray($param)
@@ -83,7 +83,11 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         $serviceArr = array();
         foreach ($serviceVerArr as $service) {
             $arr = explode($serviceVerSeparator, $service);
-            $serviceArr[$arr[0]] = $arr[1];
+            if (array_key_exists($arr[0], $serviceArr)) {
+                throw new LogicException("Resource '$arr[0]' cannot be requested more than once");
+            } else {
+                $serviceArr[$arr[0]] = $arr[1];
+            }
         }
         return $serviceArr;
     }
