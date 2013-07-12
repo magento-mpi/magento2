@@ -79,7 +79,8 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
             '"Delete New Option" button is not visible for new option on the page');
         $this->clickControl('button', 'delete_new_option', false);
         $this->clickButton('generate_product_variations', false);
-        $this->assertFalse($this->controlIsVisible('button', 'delete_new_option'),
+        $this->pleaseWait();
+        $this->assertFalse($this->controlIsPresent('button', 'delete_new_option'),
             '"Delete New Option" button is visible for new option on the page');
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->openAttribute($searchData);

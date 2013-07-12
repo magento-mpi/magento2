@@ -597,7 +597,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->addParameter('attributeSearch', "contains(.,'$ruleOptionFixed')");
         $this->assertSame('$20.94', $this->getControlAttribute('pageelement', 'variation_price', 'text'));
         $this->addParameter('attributeSearch', "contains(.,'$ruleOptionPercentage')");
-        $this->assertSame('$21.7925', $this->getControlAttribute('pageelement', 'variation_price', 'text'));
+        $this->assertSame('$21.79', $this->getControlAttribute('pageelement', 'variation_price', 'text'));
     }
 
     /**
@@ -635,7 +635,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
         //Verification. Backend
         $this->addParameter('attributeSearch', "contains(.,'$ruleOption')");
-        $this->assertEquals($endPrice, $this->getControlAttribute('pageelement', 'variation_price', 'text'));
+        $this->assertEquals('$' . $endPrice, $this->getControlAttribute('pageelement', 'variation_price', 'text'));
     }
 
     /**
@@ -648,7 +648,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         return array(
             array('$', '68.95'),
-            array('%', '28.425'),
+            array('%', '28.43'),
         );
     }
 
@@ -688,14 +688,14 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         //Data
         $verifyData = array(
-            $attributeData['attribute2']['attribute_properties']['attribute_label'],
-            $attributeData['attribute1']['attribute_properties']['attribute_label']
+            $attributeData['attribute2']['store_view_titles']['Default Store View'],
+            $attributeData['attribute1']['store_view_titles']['Default Store View']
         );
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', array('attribute_position' => 2),
             array(
-                'general_attribute_1' => $verifyData[1],
+                'general_attribute_1' => $attributeData['attribute1']['attribute_properties']['attribute_label'],
                 'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                'general_attribute_2' => $verifyData[0],
+                'general_attribute_2' => $attributeData['attribute2']['attribute_properties']['attribute_label'],
                 'var2_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name']
             )
         );
@@ -703,7 +703,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $this->loadDataSet('Product', 'general_configurable_attribute_without_price',
                 array('attribute_position' => 1),
                 array(
-                    'general_attribute_1' => $verifyData[0],
+                    'general_attribute_1' => $attributeData['attribute2']['attribute_properties']['attribute_label'],
                     'var1_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name']
                 )
             );
@@ -816,6 +816,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['attribute_properties']['attribute_label']);
+        if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed_variation_attribute', false);
+        }
         $this->fillField('frontend_label', '');
         $this->productHelper()->saveProduct('continueEdit');
         $this->addFieldIdToMessage('field', 'frontend_label');

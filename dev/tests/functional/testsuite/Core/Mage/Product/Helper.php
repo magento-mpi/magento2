@@ -2511,7 +2511,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'option_front' => $storeViewOptionsNames[2]
             ),
             'configurableOption' => array(
-                'title' => $attrData['attribute_properties']['attribute_label'],
+                //'title' => $attrData['attribute_properties']['attribute_label'],
+                'title' =>  $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $storeViewOptionsNames[0]
             ),
             'attribute' => array(

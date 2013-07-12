@@ -314,6 +314,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->flushCache();
 
         //Verifying
         $this->frontend();
@@ -339,6 +340,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->flushCache();
         //Verifying
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($subCategoryData['name']);

@@ -81,12 +81,12 @@ jQuery(function($) {
                 .removeClass('disabled')
                 .removeProp('disabled');
 
+            stockAvailabilityField
+                .prop('disabled', true);
+
             qtyField
                 .removeProp('disabled')
                 .trigger('change');
-
-            stockAvailabilityField
-                .prop('disabled', true);
         })
         .collapse(hasVariations ? 'show' : 'hide');
 
