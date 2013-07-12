@@ -142,7 +142,6 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createCategory($categoryData)
     {
-        $this->pleaseWait();
         $categoryData = $this->fixtureDataToArray($categoryData);
         if (array_key_exists('parent_category', $categoryData)) {
             $this->selectCategory($categoryData['parent_category']);
