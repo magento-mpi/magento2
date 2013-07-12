@@ -1,0 +1,188 @@
+<?php
+/**
+ * Test NoWebApiXmlTestTest TestModule2
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase_WebapiAbstract
+{
+    private $_version;
+    private $_restResourcePath;
+    private $_soapService;
+
+    protected function setUp()
+    {
+        $this->_version = 'V1';
+        $this->_restResourcePath = "/$this->_version/testModule2NoWebApiXml/";
+        $this->_soapService = 'testModule2NoWebApiXml';
+    }
+
+
+    /**
+     *  Test get item
+     */
+    public function testItem()
+    {
+        $itemId = 1;
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . $itemId,
+                'httpMethod' => 'GET'
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Item'
+            )
+        );
+        $requestData = array('id' => $itemId);
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->assertSoapException($serviceInfo, $requestData);
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertRestException($serviceInfo, $requestData);
+        }
+
+    }
+
+    /**
+     * Test fetching all items
+     */
+    public function testItems()
+    {
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath,
+                'httpMethod' => 'GET'
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Items'
+            )
+        );
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->assertSoapException($serviceInfo);
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertRestException($serviceInfo);
+        }
+
+    }
+
+    /**
+     *  Test create item
+     */
+    public function testCreate()
+    {
+        $createdItemName = 'createdItemName';
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath,
+                'httpMethod' => 'POST'
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Create'
+            )
+        );
+        $requestData = array('name' => $createdItemName);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->assertSoapException($serviceInfo, $requestData);
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertRestException($serviceInfo, $requestData);
+        }
+    }
+
+    /**
+     *  Test update item
+     */
+    public function testUpdate()
+    {
+        $itemId = 1;
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . $itemId,
+                'httpMethod' => 'PUT'
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Update'
+            )
+        );
+        $requestData = array('id' => $itemId);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->assertSoapException($serviceInfo, $requestData);
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertRestException($serviceInfo, $requestData);
+        }
+    }
+
+    /**
+     *  Test remove item
+     */
+    public function testRemove()
+    {
+        $itemId = 1;
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . $itemId,
+                'httpMethod' => 'DELETE'
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Remove'
+            )
+        );
+        $requestData = array('id' => $itemId);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->assertSoapException($serviceInfo, $requestData);
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertRestException($serviceInfo, $requestData);
+        }
+    }
+
+    /**
+     * This is a helper function to invoke the REST api and assert for the AllSoapNoRestV1Test
+     * test cases that no such REST route exist
+     *
+     * @param $serviceInfo
+     * @param $requestData
+     */
+    protected function assertRestException($serviceInfo, $requestData = null)
+    {
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch (Exception $e) {
+            $this->assertEquals(
+                $e->getMessage(),
+                '{"errors":[{"code":404,"message":"Request does not match any route."}]}'
+            );
+        }
+    }
+
+    /**
+     * TODO: Temporary Exception assertion. Need to refine
+     * This is a helper function to invoke the SOAP api and assert for the NoWebApiXmlTestTest
+     * test cases that no such SOAP route exists
+     *
+     * @param $serviceInfo
+     * @param $requestData
+     */
+    protected function assertSoapException($serviceInfo, $requestData = null)
+    {
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch (Exception $e) {
+            $this->assertEquals(
+                get_class($e),
+                'SoapFault'
+            );
+        }
+    }
+}

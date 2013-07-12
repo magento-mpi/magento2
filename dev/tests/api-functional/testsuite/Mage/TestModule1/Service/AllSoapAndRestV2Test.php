@@ -7,126 +7,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Magento_Test_TestCase_WebapiAbstract
+class Mage_TestModule1_Service_AllSoapAndRestV2Test extends Mage_TestModule1_Service_AllSoapAndRestV1Test
 {
 
     /**
-     *  Test get item
+     * @override
      */
-    public function testItem()
+    protected function setUp()
     {
-        $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V2/testmodule1/' . $itemId,
-                'httpMethod' => 'GET'
-            ),
-            'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V2',
-                'operation' => 'testModule1AllSoapAndRestItem'
-            )
-        );
-        $requestData = array('id' => $itemId);
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], "Item was retrieved unsuccessfully");
+        $this->_version = 'V2';
+        $this->_restResourcePath = "/$this->_version/testmodule1/";
+        $this->_soapService = 'testModule1AllSoapAndRest';
     }
 
     /**
-     * Test fetching all items
-     */
-    public function testItems()
-    {
-        //TODO: Fix SOAP testModule1AllSoapAndRestItems operation
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-
-        $itemArr = array(
-            array(
-                'id' => 1,
-                'name' => 'testProduct1'
-            ),
-            array(
-                'id' => 2,
-                'name' => 'testProduct2'
-            )
-        );
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V2/testmodule1/',
-                'httpMethod' => 'GET'
-            ),
-            'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V2',
-                'operation' => 'testModule1AllSoapAndRestItems'
-            )
-        );
-        $item = $this->_webApiCall($serviceInfo, null);
-        $this->assertEquals($itemArr, $item, "Items were not retrieved ");
-    }
-
-    /**
-     *  Test create item
-     */
-    public function testCreate()
-    {
-        $createdItemName = 'createdItemName';
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V2/testmodule1',
-                'httpMethod' => 'POST'
-            ),
-            'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V2',
-                'operation' => 'testModule1AllSoapAndRestCreate'
-            )
-        );
-        $requestData = array('name' => $createdItemName);
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($createdItemName, $item['name'], "Item creation failed");
-    }
-
-
-    /**
-     *  Test update item
-     */
-    public function testUpdate()
-    {
-        $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V2/testmodule1/' . $itemId,
-                'httpMethod' => 'PUT'
-            ),
-            'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V2',
-                'operation' => 'testModule1AllSoapAndRestUpdate'
-            )
-        );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
-    }
-
-    /**
-     *  Test update item
+     *  Test delete item
      */
     public function testDelete()
     {
         $itemId = 1;
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V2/testmodule1/' . $itemId,
+                'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => 'DELETE'
             ),
             'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V2',
-                'operation' => 'testModule1AllSoapAndRestDelete'
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Delete'
             )
         );
         $requestData = array('id' => $itemId, 'name' => 'testName');
