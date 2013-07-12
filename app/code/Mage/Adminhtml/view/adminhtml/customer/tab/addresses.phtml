@@ -15,7 +15,7 @@
     </legend>
     <br />
 
-    <div id="address-tabs" data-mage-init="{addressTabs:[]}">
+    <div id="address-tabs" data-mage-init="{addressTabs: {itemCount: <?php echo count($addressCollection) ?>}}">
         <ul class="address-list" id="address_list">
             <?php $_iterator = 0; ?>
             <?php if(count($addressCollection)): ?>
@@ -60,7 +60,7 @@
 
         <!-- Template for adding address item to list -->
         <?php $_templatePrefix = $this->getTemplatePrefix() ?>
-        <div id="address_item_template" class="hidden template">
+        <div id="address_item_template" class="hidden template" data-template="address_item">
             <li class="address-list-item" id="address_item_">
                 <a href="#form_new_item">
                 <?php if (!$this->isReadonly()): ?>
@@ -95,7 +95,7 @@
         </div>
 
         <!-- Address form template -->
-        <div id="address_form_template" class="no-display template"><!-- Don`t delete class no-display, save customer stops work  -->
+        <div id="address_form_template" class="no-display template" data-template="address_form"><!-- Don`t delete class no-display, save customer stops work  -->
             <?php
                 // Set form template elements prefix
                 $this->getForm()->setHtmlIdPrefix($_templatePrefix)
@@ -110,7 +110,7 @@
         <div class="address-item-edit" id="address_form_container">
             <?php if(count($addressCollection)): ?>
                 <?php foreach ($addressCollection as $_address): ?>
-                <div class="address-item-edit-content" id="form_address_item_<?php echo $_address->getId() ?>" style="display:none">
+                <div class="address-item-edit-content" id="form_address_item_<?php echo $_address->getId() ?>" data-tab-index="<?php echo $_address->getId() ?>" style="display:none">
                 <?php
                         $this->getForm()->addValues($_address->getData())
                                 ->setHtmlIdPrefix("_item{$_address->getId()}")

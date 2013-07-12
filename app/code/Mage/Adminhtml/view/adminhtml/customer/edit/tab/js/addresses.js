@@ -20,37 +20,45 @@
         _addNewAddress: function(){
             this.options.itemCount++;
 
-            // preventing duplication of ids
-            while ($("form_address_item_" + this.options.itemCount).length) {
+            // prevent duplication of ids
+            while (this.element.find("div[data-tab-index=" + this.options.itemCount + "]").length) {
                 this.options.itemCount++;
             }
 
-            $('.address-item-edit').append('<div id="' + 'form_' + this.options.baseItemId + this.options.itemCount + '" class="address-item-edit-content">'
-                + this._prepareTemplate($('#address_form_template').html())
+            // add the new address form
+            this.element.find('.address-item-edit').append('<div id="' + 'form_' + this.options.baseItemId
+                + this.options.itemCount + '" data-tab-index="' + this.options.itemCount
+                + '" class="address-item-edit-content">'
+                + this._prepareTemplate(this.element.find('div[data-template="address_form"]').html())
                 + '</div>');
 
-            var newForm = $('#form_' + this.options.baseItemId + this.options.itemCount);
-
-            $('#_item' + this.options.itemCount + 'firstname').val($('#_accountfirstname').val());
-            $('#_item' + this.options.itemCount + 'lastname').val($('#_accountlastname').val());
+            // pre-fill form with account firstname and lastname
+            this.element.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]')
+                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
+            this.element.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]')
+                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]').val());
 
             // @TODO something different?
-            var template = this._prepareTemplate($('#address_item_template').html())
+            var template = this._prepareTemplate(this.element.find('div[data-template="address_item"]').html())
                 .replace('delete_button', 'delete_button' + this.options.itemCount)
                 .replace('form_new_item', 'form_new_item' + this.options.itemCount)
                 .replace('address_item_', 'address_item_' + this.options.itemCount);
 
-            $('.address-list-actions').before(template);
+            // add the new address to the tabs list before the add new action list
+            this.element.find('.address-list-actions').before(template);
+
+            // refresh the widget to pick up the newly added tab.
             this.refresh();
+
+            // activate the newly added tab
             this.select(this.options.itemCount - 1);
 
             // @TODO Used in deleteAddress and cancelAdd?
+/*          var newForm = $('#form_' + this.options.baseItemId + this.options.itemCount);
             var newItem = $(this.options.baseItemId + this.options.itemCount);
             newItem.isNewAddress = true;
-            newItem.formBlock = newForm;
+            newItem.formBlock = newForm; */
 
-            // @TODO need to bind events?
-//            this.addItemObservers(newItem);
             // @TODO this function
 //            this.setActiveItem(newItem);
             // @TODO country/region relationship
