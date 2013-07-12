@@ -1,12 +1,12 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Mage
-     * @package     Mage_Tax
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * Tax Rule collection
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 class Mage_Tax_Model_Resource_Rule_Grid_Collection extends Mage_Tax_Model_Resource_Calculation_Rule_Collection
 {
     /**

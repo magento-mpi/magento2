@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Tax
+ * Customer Tax Class option array
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */

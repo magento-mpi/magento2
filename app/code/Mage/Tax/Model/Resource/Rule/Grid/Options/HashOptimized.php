@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Tax
+ * Hash Optimized option array
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
