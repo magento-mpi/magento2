@@ -593,7 +593,8 @@ class Mage_Core_Model_Layout_Merge
     protected function _loadFileLayoutUpdatesXml()
     {
         $layoutStr = '';
-        $updateFiles = $this->_fileSource->getFiles($this->_design->getDesignTheme());
+        $theme = $this->_getPhysicalTheme($this->_design->getDesignTheme());
+        $updateFiles = $this->_fileSource->getFiles($theme);
         foreach ($updateFiles as $file) {
             $fileStr = file_get_contents($file->getFilename());
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
@@ -604,6 +605,24 @@ class Mage_Core_Model_Layout_Merge
         $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
         $layoutXml = simplexml_load_string($layoutStr, $this->_elementClass);
         return $layoutXml;
+    }
+
+    /**
+     * Find the closest physical theme among ancestors and a theme itself
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Theme
+     * @throws Magento_Exception
+     */
+    protected function _getPhysicalTheme(Mage_Core_Model_Theme $theme)
+    {
+        while ($theme && !$theme->isPhysical()) {
+            $theme = $theme->getParentTheme();
+        }
+        if (!$theme) {
+            throw new Magento_Exception('Unable to find a physical ancestor for a theme.');
+        }
+        return $theme;
     }
 
     /**
