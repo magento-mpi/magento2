@@ -73,12 +73,14 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
         ));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
+        $this->productHelper()->openProductTab('general');
         $this->productHelper()->fillConfigurableSettings($attribute, false);
         $this->assertTrue($this->controlIsVisible('button', 'delete_new_option'),
             '"Delete New Option" button is not visible for new option on the page');
         $this->clickControl('button', 'delete_new_option', false);
         $this->clickButton('generate_product_variations', false);
-        $this->assertFalse($this->controlIsVisible('button', 'delete_new_option'),
+        $this->pleaseWait();
+        $this->assertFalse($this->controlIsPresent('button', 'delete_new_option'),
             '"Delete New Option" button is visible for new option on the page');
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->openAttribute($searchData);
@@ -105,12 +107,10 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
             array('option_1' => $newOption),
             array('general_attribute_1' => $attributeData['attribute_properties']['attribute_label'])
         );
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-            array(
-                'general_configurable_attributes' => '%noValue%',
-                'general_configurable_variations' => '%noValue%'
-            )
-        );
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'general_configurable_attributes' => '%noValue%',
+            'general_configurable_variations' => '%noValue%'
+        ));
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data', array(
             'attribute_code' => $attributeData['advanced_attribute_properties']['attribute_code']
         ));
@@ -119,6 +119,7 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
         );
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
+        $this->productHelper()->openProductTab('general');
         $this->productHelper()->fillConfigurableSettings($attribute, false);
         $this->clickButton('generate_product_variations', false);
         $this->addFieldIdToMessage(self::FIELD_TYPE_INPUT, 'associated_attribute_value');

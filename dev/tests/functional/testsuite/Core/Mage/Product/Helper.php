@@ -1560,6 +1560,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->addParameter('attributeTitle', $attributeTitle);
         $this->addParameter('attributeOption', $optionName);
+        if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed_variation_attribute', false);
+        }
         $this->fillCheckbox('include_variation_attribute', ($select ? 'Yes' : 'No'));
     }
 
@@ -2508,7 +2511,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'option_front' => $storeViewOptionsNames[2]
             ),
             'configurableOption' => array(
-                'title' => $attrData['attribute_properties']['attribute_label'],
+                //'title' => $attrData['attribute_properties']['attribute_label'],
+                'title' =>  $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $storeViewOptionsNames[0]
             ),
             'attribute' => array(
