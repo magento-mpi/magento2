@@ -12,6 +12,9 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
+    /** @var Mage_Core_Model_Config */
+    protected $_configMock;
+
     /** @var Mage_Webapi_Controller_Request_Soap */
     protected $_soapRequest;
 
@@ -22,14 +25,26 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->setMethods(array('getNode'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_configMock->expects($this->once())
+            ->method('getNode')
+            ->with($this->anything())
+            ->will($this->returnValue('testNode'));
+
         /** Initialize SUT. */
-        $this->_soapRequest = new Mage_Webapi_Controller_Request_Soap($this->_helperMock);
+        $this->_soapRequest = new Mage_Webapi_Controller_Request_Soap($this->_configMock, $this->_helperMock);
         parent::setUp();
     }
 
     protected function tearDown()
     {
         unset($this->_helperMock);
+        unset($this->_configMock);
         unset($this->_soapRequest);
         parent::tearDown();
     }
@@ -59,7 +74,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Not allowed parameters: param_1, param_2. Please use only "'
-                . $wsdlParam . '" and "' . $resourcesParam . '".',
+            . $wsdlParam . '" and "' . $resourcesParam . '".',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         /** Execute SUT. */
@@ -71,33 +86,56 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         /** Prepare mocks for SUT constructor. */
         $requestParams = array(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => null);
         $this->_soapRequest->setParams($requestParams);
-        $this->_helperMock->expects($this->once())
+        $this->_helperMock->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            'Requested resources are missing.',
+            'Incorrect format of WSDL request URI or Requested resources are missing',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         /** Execute SUT. */
         $this->_soapRequest->getRequestedResources();
     }
 
-    public function testGetRequestedResources()
+    public function testGetRequestedResourcesSameRequestedResourcesException()
     {
-        /** Prepare mocks for SUT constructor. */
-        $resources = array('resourceName_1' => 'version', 'resourceName_2' => 'version');
+        $resource = "testModule1AllSoapAndRest";
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => $resources,
-            Mage_Webapi_Controller_Request::PARAM_API_TYPE => 'soap'
+            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => "$resource:V1,$resource:V2"
         );
         $this->_soapRequest->setParams($requestParams);
-        /** Execute SUT. */
+
+        $this->_helperMock->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            "Resource '$resource' cannot be requested more than once",
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
+        );
+
+        $this->_soapRequest->getRequestedResources();
+    }
+
+    public function testGetRequestedResourcesSuccess()
+    {
+        $resourceA = "testModule1AllSoapAndRest";
+        $resourceB = "testModule2AllSoapNoRest";
+        $requestParams = array(
+            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
+            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => "$resourceA:V1,$resourceB:V2"
+        );
+        $this->_soapRequest->setParams($requestParams);
+
+        $expected = array(
+            $resourceA => 'V1',
+            $resourceB => 'V2',
+        );
         $this->assertEquals(
-            $resources,
-            $this->_soapRequest->getRequestedResources(),
-            'Requested resources were retrieved incorrectly. '
+            $expected,
+            $this->_soapRequest->getRequestedResources()
         );
     }
 }
