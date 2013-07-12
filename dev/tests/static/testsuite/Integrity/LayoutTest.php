@@ -248,12 +248,16 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             return;
         }
 
+        // One handle per file
         $xml = simplexml_load_file($file);
         $handles = $xml->children();
         $this->assertLessThanOrEqual(1, count($handles),
             'There should be no more than 1 handle declared per layout file');
 
-        if (count($handles)) {
+        // Name of file is same as handle name
+        $skippedPrefix = 'install_wizard_config_'; // Several files, that do not follow the convention
+        $basename = basename($file);
+        if (count($handles) && (substr($basename, 0, strlen($skippedPrefix)) != $skippedPrefix)) {
             $handle = $handles[0];
             $this->assertEquals($handle->getName() . ".xml", basename($file));
         }
