@@ -310,10 +310,8 @@ class Mage_Webapi_Config
     public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
     {
         $baseUrlRegExp = '#^/\w+/\w+#';
-        preg_match($baseUrlRegExp, $request->getPathInfo(), $matches);
-        $serviceBaseUrl = isset($matches[0]) ? $matches[0] : null;
+        $serviceBaseUrl = preg_match($baseUrlRegExp, $request->getPathInfo(), $matches) ? $matches[0] : null;
         $httpMethod = $request->getHttpMethod();
-
         $routes = array();
         foreach ($this->getRestServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
@@ -327,7 +325,7 @@ class Mage_Webapi_Config
                     $secure = isset($operationData['secure']) ? $operationData['secure'] : false;
                     $routes[] = $this->_createRoute(
                         array(
-                            'routePath' => $serviceData['baseUrl'] . $operationData['route'],
+                            'routePath' => $serviceData['baseUrl'] . '/' . $operationName . $operationData['route'],
                             'version' => $request->getResourceVersion(), // TODO: Take version from config
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
@@ -359,7 +357,10 @@ class Mage_Webapi_Config
     protected function _createRoute($routeData)
     {
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
-        $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $routeData['routePath']);
+        $route = $this->_routeFactory->createRoute(
+            'Mage_Webapi_Controller_Router_Route_Rest', strtolower($routeData['routePath'])
+        );
+
         $route->setServiceId($routeData['serviceId'])
             ->setHttpMethod($routeData['httpMethod'])
             ->setServiceMethod($routeData['serviceMethod'])
