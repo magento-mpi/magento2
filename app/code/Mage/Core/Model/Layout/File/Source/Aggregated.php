@@ -14,7 +14,14 @@ class Mage_Core_Model_Layout_File_Source_Aggregated implements Mage_Core_Model_L
     /**
      * @var Mage_Core_Model_Layout_File_List
      */
-    private $_files;
+    private $_fileList;
+
+    /**
+     * Whether files have been aggregated or not
+     *
+     * @var bool
+     */
+    private $_isAggregated = false;
 
     /**
      * @var Mage_Core_Model_Layout_File_SourceInterface
@@ -50,7 +57,7 @@ class Mage_Core_Model_Layout_File_Source_Aggregated implements Mage_Core_Model_L
         Mage_Core_Model_Layout_File_SourceInterface $overridingBaseFiles,
         Mage_Core_Model_Layout_File_SourceInterface $overridingThemeFiles
     ) {
-        $this->_files = $fileList;
+        $this->_fileList = $fileList;
         $this->_baseFiles = $baseFiles;
         $this->_themeFiles = $themeFiles;
         $this->_overridingBaseFiles = $overridingBaseFiles;
@@ -62,13 +69,27 @@ class Mage_Core_Model_Layout_File_Source_Aggregated implements Mage_Core_Model_L
      */
     public function getFiles(Mage_Core_Model_ThemeInterface $theme)
     {
-        $this->_files->add($this->_baseFiles->getFiles($theme));
-        foreach ($this->_getInheritedThemes($theme) as $theme) {
-            $this->_files->add($this->_themeFiles->getFiles($theme));
-            $this->_files->replace($this->_overridingBaseFiles->getFiles($theme));
-            $this->_files->replace($this->_overridingThemeFiles->getFiles($theme));
+        if (!$this->_isAggregated) {
+            $this->_aggregateFiles($this->_fileList, $theme);
+            $this->_isAggregated = true;
         }
-        return $this->_files->getAll();
+        return $this->_fileList->getAll();
+    }
+
+    /**
+     * Aggregate layout files from modules and a theme and its ancestors, placing results into the list
+     *
+     * @param Mage_Core_Model_Layout_File_List $list
+     * @param Mage_Core_Model_ThemeInterface $theme
+     */
+    protected function _aggregateFiles(Mage_Core_Model_Layout_File_List $list, Mage_Core_Model_ThemeInterface $theme)
+    {
+        $list->add($this->_baseFiles->getFiles($theme));
+        foreach ($this->_getInheritedThemes($theme) as $theme) {
+            $list->add($this->_themeFiles->getFiles($theme));
+            $list->replace($this->_overridingBaseFiles->getFiles($theme));
+            $list->replace($this->_overridingThemeFiles->getFiles($theme));
+        }
     }
 
     /**
