@@ -8,8 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <enterprise_cms_hierarchy_menu_left_column translate="label" type="page" parent="cms_page_view">
-        <label>CMS Hierarchy Left Column</label>
+    <enterprise_cms_hierarchy_menu_left_column>
         <reference name="left">
             <block type="Enterprise_Cms_Block_Hierarchy_Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
         </reference>

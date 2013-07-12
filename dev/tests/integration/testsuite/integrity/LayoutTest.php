@@ -148,4 +148,48 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             $this->fail("The following handles must have label, but they don't have it:\n" . var_export($errors, 1));
         }
     }
+
+    /**
+     * Check whether page types are declared only in layout update files allowed for it - base ones
+     *
+     * @dataProvider pageTypesDeclarationDataProvider
+     */
+    public function testPageTypesDeclaration(Mage_Core_Model_Layout_File $layout)
+    {
+        $content = simplexml_load_file($layout->getFilename());
+        $this->assertEmpty(
+            $content->xpath('/layout/*[@* or label]'),
+            "Theme layout update '" . $layout->getFilename() . "' contains page type declaration(s)"
+        );
+    }
+
+    /**
+     * Get theme layout updates
+     *
+     * @return Mage_Core_Model_Layout_File[]
+     */
+    public function pageTypesDeclarationDataProvider()
+    {
+        /** @var $themeUpdates Mage_Core_Model_Layout_File_Source_Theme */
+        $themeUpdates = Mage::getModel('Mage_Core_Model_Layout_File_Source_Theme');
+        /** @var $themeUpdatesOverride Mage_Core_Model_Layout_File_Source_Override_Theme */
+        $themeUpdatesOverride = Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme');
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeCollection->addDefaultPattern('*');
+        /** @var $themeLayouts Mage_Core_Model_Layout_File[] */
+        $themeLayouts = array();
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            $themeLayouts = array_merge($themeLayouts, $themeUpdates->getFiles($theme));
+            $themeLayouts = array_merge($themeLayouts, $themeUpdatesOverride->getFiles($theme));
+        }
+        $result = array();
+        foreach ($themeLayouts as $layout) {
+            if (!$layout->isBase()) {
+                $result[] = array($layout);
+            }
+        }
+        return $result;
+    }
 }

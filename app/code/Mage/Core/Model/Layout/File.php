@@ -77,4 +77,14 @@ class Mage_Core_Model_Layout_File
     {
         return $this->_theme;
     }
+
+    /**
+     * Whether file is a base one
+     *
+     * @return bool
+     */
+    public function isBase()
+    {
+        return is_null($this->_theme);
+    }
 }
