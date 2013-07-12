@@ -1,25 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Api
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Api User Resource Options Statuses
  *
- * @category    Mage
- * @package     Mage_Api
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Api_Model_Resource_User_Options_Statuses extends Mage_Backend_Model_Config_Source_Activity_Options
 {
 
     /**
-     * @var Mage_Backend_Helper_Data
      */
     protected $_helper;
 
