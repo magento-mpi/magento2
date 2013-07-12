@@ -1,18 +1,11 @@
 <?php
 /**
+ * SKU failed grid collection
+ *
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Sku errors grid collection resource
- *
- * @category   Enterprise
- * @package    Enterprise_Checkout
  */
 class Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection extends Varien_Data_Collection
 {

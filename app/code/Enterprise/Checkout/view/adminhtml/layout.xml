@@ -177,7 +177,7 @@
                     <dataSource type="object">Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection</dataSource>
                     <pager_visibility>0</pager_visibility>
                 </arguments>
-                <block type='Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_Additional' name='sku_error_grid.columnSet' as='grid.columnSet'>
+                <block type='Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors' name='sku_error_grid.columnSet' as='grid.columnSet'>
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                     </arguments>
@@ -187,7 +187,7 @@
                             <index>description</index>
                             <class>no-link</class>
                             <sortable>0</sortable>
-                            <renderer>Enterprise_Checkout_Block_Sku_Column_Description</renderer>
+                            <renderer>Enterprise_Checkout_Block_Sku_Column_Renderer_Description</renderer>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='price'>
@@ -219,7 +219,7 @@
                             <sortable>0</sortable>
                             <type>text</type>
                             <width>80</width>
-                            <renderer>Enterprise_Checkout_Block_Sku_Column_Remove</renderer>
+                            <renderer>Enterprise_Checkout_Block_Sku_Column_Renderer_Remove</renderer>
                         </arguments>
                     </block>
                 </block>
