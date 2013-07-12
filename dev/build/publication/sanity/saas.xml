@@ -123,7 +123,7 @@
         <item>
             <!-- Must be removed, when Oauth is removed as well -->
             <word>CatalogEvent</word>
-            <path>app/design/frontend/enterprise/fixed/Mage_Oauth/layout.xml</path>
+            <path>app/design/frontend/enterprise/fixed/Mage_Oauth/layout/override/oauth_root_handle.xml</path>
         </item>
         <item>
             <!-- Must be refactored to be modular -->
