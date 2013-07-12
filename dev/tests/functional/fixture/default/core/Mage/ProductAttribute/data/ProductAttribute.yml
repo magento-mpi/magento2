@@ -263,7 +263,7 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
         use_to_create_configurable_product: Yes
 # Manage Label
     store_view_titles:
-        Default Store View: Dropdown_StoreView
+        Default Store View: Dropdown_StoreView_%randomize%
 # Frontend Properties:
     frontend_properties:
         use_in_quick_search: %noValue%

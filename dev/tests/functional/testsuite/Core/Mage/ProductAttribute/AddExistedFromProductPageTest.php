@@ -12,7 +12,7 @@
 /**
  * Add existed attribute on product page
  */
-class Core_Mage_ProductAttribute_Create_AddExistedFromProductPageTest extends Mage_Selenium_TestCase
+class Core_Mage_ProductAttribute_AddExistedFromProductPageTest extends Mage_Selenium_TestCase
 {
     /**
      * Preconditions:
