@@ -10,13 +10,20 @@
 
 require __DIR__ . '/../../../app/bootstrap.php';
 
+// default generation dir
+$generationDir = BP . DS . Magento_Code_Generator_Io::DEFAULT_DIRECTORY;
+$argv = $_SERVER['argv'];
+
+//temporary value, would be reinited later
 $generator = new Magento_Code_Generator();
 $generatedEntities = $generator->getGeneratedEntities();
 if (!isset($argv[1]) || in_array($argv[1], array('-?', '/?', '-help', '--help'))) {
-    $message = " * Usage: php entity_generator.php [" . implode('|', $generatedEntities)
-        . "] <required_entity_class_name>\n"
+    $message = " * Usage: php entity_generator.php {" . implode('|', $generatedEntities)
+        . "} <required_entity_class_name> [--generation=<generation_dir>]\n"
         . " * Example: php entity_generator.php factory Mage_Tag_Model_Tag"
-        . " - will generate file var/generation/Mage/Tag/Model/TagFactory.php\n";
+        . " - will generate file <generation_dir>/Mage/Tag/Model/TagFactory.php\n"
+        . " <generation_dir> should be and absolute path\n"
+        . ' default generation dir is ' . $generationDir . "\n";
     print($message);
     exit();
 }
@@ -31,6 +38,18 @@ if (!isset($argv[2])) {
     print "Error! Please, specify class name.\n";
     exit();
 }
+
+$generationMarker = '--generation=';
+if (isset($argv[3]) && 0 === strpos($argv[3], $generationMarker)) {
+    $generationDir = substr($argv[3], strlen($generationMarker));
+    $generationDir = trim(rtrim($generationDir, '"\''), '"\'');
+}
+Magento_Autoload_IncludePath::addIncludePath($generationDir);
+
+//reinit generator with correct generation path
+$io = new Magento_Code_Generator_Io(null, null, $generationDir);
+$generator = new Magento_Code_Generator(null, null, $io);
+
 $className = $argv[2];
 switch ($entityType) {
     case 'proxy':
