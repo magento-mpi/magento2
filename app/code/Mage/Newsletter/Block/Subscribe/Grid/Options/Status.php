@@ -1,21 +1,12 @@
 <?php
 /**
+ * Newsletter status options
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Newsletter options type
- *
- * @category   Mage
- * @package    Mage_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 class Mage_Newsletter_Block_Subscribe_Grid_Options_Status implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
