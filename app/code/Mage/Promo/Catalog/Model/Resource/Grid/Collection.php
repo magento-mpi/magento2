@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Promo
+ * Promo Catalog collection resource model
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */

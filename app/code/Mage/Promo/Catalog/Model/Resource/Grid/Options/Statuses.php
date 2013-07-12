@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Promo
  * @copyright   {copyright}
  * @license     {license_link}
  */
