@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <config>
     <service class="Mage_TestModule3_Service_ErrorInterfaceV1" baseUrl="/V1/errortest">
         <rest-route httpMethod="GET" method="success">/success</rest-route>
