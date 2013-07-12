@@ -15,11 +15,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
-     * Class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct();
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes');
         $this->setValue(null);
     }
@@ -181,7 +182,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
-                    $element->setImage(Mage::getDesign()->getViewFileUrl('images/grid-cal.gif'));
+                    $element->setImage($this->_viewUrl->getViewFileUrl('images/grid-cal.gif'));
                     break;
             }
         }

@@ -82,7 +82,7 @@ frontend_gift_card_validation:
             custom_options_price: 18
             custom_options_price_type: Fixed
             custom_options_sku: sku_area
-            custom_options_max_characters: 80
+            custom_options_max_characters: '80'
         option_3: &file
             custom_options_general_title: Custom Option File
             custom_options_general_input_type: File
@@ -92,8 +92,8 @@ frontend_gift_card_validation:
             custom_options_price_type: Fixed
             custom_options_sku: sku_file
             custom_options_allowed_file_extension: gif,bmp
-            custom_options_image_size_x: 320
-            custom_options_image_size_y: 240
+            custom_options_image_size_x: '320'
+            custom_options_image_size_y: '240'
         option_4: &date
             custom_options_general_title: Custom Option Date
             custom_options_general_input_type: Date

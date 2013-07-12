@@ -34,7 +34,9 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 'module'   => $module
             );
             try {
-                $templateFilename = Mage::getDesign()->getFilename($file, $params);
+                $templateFilename = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename(
+                    $file, $params
+                );
                 $this->assertFileExists($templateFilename);
             } catch (PHPUnit_Framework_ExpectationFailedException $e) {
                 $invalidTemplates[] = "File \"$templateFilename\" does not exist." . PHP_EOL

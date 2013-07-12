@@ -32,11 +32,11 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        $designPackage = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
+        $design = Mage::getModel('Mage_Core_Model_View_DesignInterface');
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
-        $design = Mage::getModel('Mage_Core_Model_Design');
-        $design->loadChange($storeId)->changeDesign($designPackage);
-        $this->assertEquals('default/modern', $designPackage->getDesignTheme()->getThemePath());
+        $designChange = Mage::getModel('Mage_Core_Model_Design');
+        $designChange->loadChange($storeId)->changeDesign($design);
+        $this->assertEquals('default/modern', $design->getDesignTheme()->getThemePath());
     }
 
     public function testCRUD()

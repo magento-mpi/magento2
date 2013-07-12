@@ -64,14 +64,7 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
         //Data
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
         //Steps
-        $waitCondition = array(
-            $this->_getMessageXpath('general_error'),
-            $this->_getMessageXpath('general_validation'),
-            $this->_getControlXpath('pageelement', 'admin_logo')
-        );
-        $this->fillFieldset($loginData, 'log_in');
-        $this->clickButton('login', false);
-        $this->waitForElement($waitCondition);
+        $this->adminUserHelper()->loginAdmin($loginData);
         $this->pleaseWait();
         $this->categoryHelper()->checkCategoriesPage();
         //Verifying that button "Add Root Category" doesn't present on page

@@ -55,12 +55,12 @@
             </Enterprise_PageCache_Model_Processor>
             <Enterprise_PageCache_Model_DesignPackage_Rules>
                 <parameters>
-                    <design>
+                    <designChange>
                         <instance>Mage_Core_Model_Design_Proxy</instance>
+                    </designChange>
+                    <design>
+                        <instance>Mage_Core_Model_View_Design_Proxy</instance>
                     </design>
-                    <designPackage>
-                        <instance>Mage_Core_Model_Design_Package_Proxy</instance>
-                    </designPackage>
                 </parameters>
             </Enterprise_PageCache_Model_DesignPackage_Rules>
             <Magento_Http_Handler_Composite>

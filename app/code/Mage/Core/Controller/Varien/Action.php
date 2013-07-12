@@ -340,7 +340,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         Magento_Profiler::start('LAYOUT');
 
         // dispatch event for adding xml layout elements
-        if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
+        if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_before',
                 array('action' => $this, 'layout' => $this->getLayout())

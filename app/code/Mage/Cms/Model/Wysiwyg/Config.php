@@ -29,14 +29,24 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      * @var Magento_AuthorizationInterface
      */
     protected $_authorization;
+    
+    /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
 
     /**
      * @param Magento_AuthorizationInterface $authorization
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param array $data
      */
-    public function __construct(Magento_AuthorizationInterface $authorization, array $data = array())
-    {
+    public function __construct(
+        Magento_AuthorizationInterface $authorization,
+        Mage_Core_Model_View_Url $viewUrl,
+        array $data = array()
+    ) {
         $this->_authorization = $authorization;
+        $this->_viewUrl = $viewUrl;
         parent::__construct($data);
     }
 
@@ -53,13 +63,13 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      * files_browser_*:         Files Browser (media, images) settings
      * encode_directives:       Encode template directives with JS or not
      *
-     * @param $data Varien_Object constructor params to override default config values
+     * @param array|Varien_Object $data Varien_Object constructor params to override default config values
      * @return Varien_Object
      */
     public function getConfig($data = array())
     {
         $config = new Varien_Object();
-        $design = Mage::getDesign();
+        $viewUrl = $this->_viewUrl;
 
         $config->setData(array(
             'enabled'                       => $this->isEnabled(),
@@ -70,11 +80,12 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'no_display'                    => false,
             'translator'                    => Mage::helper('Mage_Cms_Helper_Data'),
             'encode_directives'             => true,
-            'directives_url'                => Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
+            'directives_url'                =>
+                Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
-                $design->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
+                $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
-                $design->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
+                $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
             'width'                         => '100%',
             'plugins'                       => array()
         ));
@@ -83,8 +94,9 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
 
         if ($this->_authorization->isAllowed('Mage_Cms::media_gallery')) {
             $config->addData(array(
-                'add_images'               => true,
-                'files_browser_window_url' => Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg_images/index'),
+                'add_images' => true,
+                'files_browser_window_url' => Mage::getSingleton('Mage_Backend_Model_Url')
+                    ->getUrl('*/cms_wysiwyg_images/index'),
                 'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
                 'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
             ));
@@ -106,7 +118,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      */
     public function getSkinImagePlaceholderUrl()
     {
-        return Mage::getDesign()->getViewFileUrl('Mage_Cms::images/wysiwyg_skin_image.png');
+        return $this->_viewUrl->getViewFileUrl('Mage_Cms::images/wysiwyg_skin_image.png');
     }
 
     /**

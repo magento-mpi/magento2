@@ -14,9 +14,9 @@
 class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asset_LocalInterface
 {
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_Url
      */
-    private $_designPackage;
+    protected $_viewUrl;
 
     /**
      * @var string
@@ -29,13 +29,13 @@ class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asse
     private $_contentType;
 
     /**
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param string $file
      * @param string $contentType
      */
-    public function __construct(Mage_Core_Model_Design_PackageInterface $designPackage, $file, $contentType)
+    public function __construct(Mage_Core_Model_View_Url $viewUrl, $file, $contentType)
     {
-        $this->_designPackage = $designPackage;
+        $this->_viewUrl = $viewUrl;
         $this->_file = $file;
         $this->_contentType = $contentType;
     }
@@ -45,7 +45,7 @@ class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asse
      */
     public function getUrl()
     {
-        return $this->_designPackage->getPublicFileUrl($this->_file);
+        return $this->_viewUrl->getPublicFileUrl($this->_file);
     }
 
     /**

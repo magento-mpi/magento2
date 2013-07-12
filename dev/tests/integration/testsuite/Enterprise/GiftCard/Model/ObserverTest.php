@@ -18,7 +18,9 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_blockInjections = array(
         'Mage_Core_Model_Context',
-        'Magento_Filesystem'
+        'Magento_Filesystem',
+        'Mage_Core_Model_View_Url',
+        'Mage_Core_Model_View_FileSystem'
     );
 
     /**
@@ -41,7 +43,8 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $emailTemplateMock = $this->getMock('Mage_Core_Model_Email_Template', array('_getMail'),
-            $this->_prepareConstructorArguments());
+            $this->_prepareConstructorArguments()
+        );
         $emailTemplateMock->expects($this->once())
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
