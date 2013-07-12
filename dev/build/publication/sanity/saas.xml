@@ -142,6 +142,7 @@
             <word>Mage_Ogone</word>
             <word>Enterprise_Checkout</word>
             <word>CustomerSegment</word>
+            <word>Enterprise_ImportExport</word>
             <path>dev/tests/static/testsuite/Legacy/_files/</path>
         </item>
         <item>
