@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorId
-    implements  Mage_Backend_Model_Widget_Grid_Row_Interface
+    implements Mage_Backend_Model_Widget_Grid_Row_GeneratorInterface
 {
     /**
      * Create url for passed item using passed url model

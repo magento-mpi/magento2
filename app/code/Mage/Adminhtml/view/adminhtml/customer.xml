@@ -150,7 +150,13 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.customer.online.grid.columnSet">
                         <arguments>
-                            <generatorClass>Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorCustomerOnline</generatorClass>
+                            <rowUrl>
+                                <generatorClass>Mage_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator</generatorClass>
+                                <path>*/customer/edit</path>
+                                <extraParamsTemplate>
+                                    <id>getCustomerId</id>
+                                </extraParamsTemplate>
+                            </rowUrl>
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="customer_id">
                             <arguments>

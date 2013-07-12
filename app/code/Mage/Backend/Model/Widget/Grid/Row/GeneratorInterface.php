@@ -16,7 +16,7 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Backend_Model_Widget_Grid_Row_Interface
+interface Mage_Backend_Model_Widget_Grid_Row_GeneratorInterface
 {
     public function getUrl($item);
 
