@@ -30,11 +30,7 @@ class Mage_Core_Model_View_DeployedFilesManager implements Mage_Core_Model_View_
     }
 
     /**
-     * Get public file path
-     *
-     * @param $filePath
-     * @param array $params
-     * @return string
+     * {@inheritdoc}
      */
     public function getPublicFilePath($filePath, $params)
     {

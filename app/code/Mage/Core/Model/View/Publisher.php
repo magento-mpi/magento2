@@ -84,11 +84,7 @@ class Mage_Core_Model_View_Publisher implements Mage_Core_Model_View_PublicFiles
     }
 
     /**
-     * Get public file path
-     *
-     * @param $filePath
-     * @param array $params
-     * @return string
+     * {@inheritdoc}
      */
     public function getPublicFilePath($filePath, $params)
     {

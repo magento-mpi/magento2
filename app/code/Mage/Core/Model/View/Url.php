@@ -95,7 +95,7 @@ class Mage_Core_Model_View_Url
     }
 
     /**
-     * Publish file (if needed) and return its public path
+     * Get public file path
      *
      * @param string $fileId
      * @param array $params
@@ -106,12 +106,7 @@ class Mage_Core_Model_View_Url
         $this->_viewService->updateDesignParams($params);
         $filePath = $this->_viewService->extractScope($fileId, $params);
 
-        if ($this->_viewService->isViewFileOperationAllowed()) {
-            $filesManager = $this->_publisher;
-        } else {
-            $filesManager = $this->_deployedFileManager;
-        }
-        $publicFilePath = $filesManager->getPublicFilePath($filePath, $params);
+        $publicFilePath = $this->_getFilesManager()->getPublicFilePath($filePath, $params);
 
         return $publicFilePath;
     }
@@ -159,5 +154,21 @@ class Mage_Core_Model_View_Url
     protected function _isStaticFilesSigned()
     {
         return (bool)$this->_storeManager->getStore()->getConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
+    }
+
+    /**
+     * Get files manager that is able to return file public path
+     *
+     * @return Mage_Core_Model_View_PublicFilesManagerInterface
+     */
+    protected function _getFilesManager()
+    {
+        if ($this->_viewService->isViewFileOperationAllowed()) {
+            $filesManager = $this->_publisher;
+        } else {
+            $filesManager = $this->_deployedFileManager;
+        }
+
+        return $filesManager;
     }
 }

@@ -16,9 +16,8 @@ interface Mage_Core_Model_View_PublicFilesManagerInterface
     /**
      * Get public file path
      *
-     * @param $filePath
+     * @param string $filePath
      * @param array $params
-     * @internal param string $file
      * @return string
      */
     public function getPublicFilePath($filePath, $params);
