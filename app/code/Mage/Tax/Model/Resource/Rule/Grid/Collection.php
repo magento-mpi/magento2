@@ -1,8 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * Tax Rule collection
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}

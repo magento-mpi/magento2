@@ -1,8 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * Product Tax Class option array
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}

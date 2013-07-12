@@ -1,8 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * Customer Tax Class option array
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}

@@ -1,8 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * Hash Optimized option array
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
