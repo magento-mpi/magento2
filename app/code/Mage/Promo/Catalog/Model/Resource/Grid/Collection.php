@@ -1,8 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * Promo Catalog collection resource model
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
