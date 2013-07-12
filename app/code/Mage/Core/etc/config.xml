@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.12</version>
+            <version>1.6.0.13</version>
             <active>true</active>
             <system_requirements>
                 <php>

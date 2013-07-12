@@ -38,6 +38,7 @@
  * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
  * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
  * @method Mage_Core_Model_Theme setType(string $type)
+ * @method Mage_Core_Model_Theme setCode(string $code)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -566,6 +567,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getFullPath()
     {
         return $this->getArea() . self::PATH_SEPARATOR . $this->getThemePath();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode()
+    {
+        return $this->getData('code');
     }
 
     /**
