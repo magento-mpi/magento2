@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-(function($) {
+(function ($) {
     $.widget('mage.addressTabs', $.mage.tabs, {
         options: {
             tabLabel: 'tabs-',
@@ -18,20 +18,20 @@
             itemContentTemplate: ''
         },
 
-        _addNewAddress: function(){
+        _addNewAddress: function () {
             this.options.itemCount++;
 
             // prevent duplication of ids
             while (this.element.find("div[data-tab-index=" + this.options.itemCount + "]").length) {
                 this.options.itemCount++;
             }
-            
+
             var formName = this.options.baseItemId + this.options.itemCount;
-            
+
             // add the new address form
             this.element.find('.address-item-edit').append('<div id="' + 'form_' + formName +
                 '" data-tab-index="' + this.options.itemCount +
-                '" class="address-item-edit-content data-mage-init="{observableInputs:{\'name\': \'' + formName +
+                '" class="address-item-edit-content" data-mage-init="{observableInputs:{\'name\': \'' + formName +
                 '\'}}">' + this._prepareTemplate(this.element.find('div[data-template="address_form"]').html()) +
                 '</div>');
 
@@ -64,7 +64,7 @@
             newItem.formBlock = newForm;
 
             this.element.trigger('contentUpdated', newItem);
-            
+
             // @TODO this function
 //            this.setActiveItem(newItem);
             // @TODO country/region relationship
@@ -87,7 +87,7 @@
         /**
          * This method is used to add new address elements to the form.
          */
-        _addNewAddressTemp: function() {
+        _addNewAddressTemp: function () {
             var index = this._getMaxIndex() + 1;
             var newTabId = this.options.tabLabel + index;
 
@@ -107,13 +107,13 @@
         /**
          * This method is used to bind events associated with this widget.
          */
-        _bind: function() {
+        _bind: function () {
             this._on(this.element.find(':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'),
                 {'click': '_addNewAddress'});
             this._on({'formchange': '_updateAddress'});
         },
 
-        _create: function() {
+        _create: function () {
             this._super();
             this._bind();
         },
@@ -121,10 +121,10 @@
         /**
          * This method returns the maximum data index currently on the page.
          */
-        _getMaxIndex: function() {
+        _getMaxIndex: function () {
             var index = 0;
 
-            this.element.find('div[data-tab-index]').each(function() {
+            this.element.find('div[data-tab-index]').each(function () {
                 // convert the index found in the attribute to a numerical value -- ? error on non-number?
                 var currentIndex = Number($(this).attr('data-tab-index'));
                 if (currentIndex > index) {
@@ -135,7 +135,7 @@
             return index;
         },
 
-        _prepareTemplate : function(template){
+        _prepareTemplate: function (template) {
             // @TODO Replace '_template_' with data-mage-init option <?php echo $_templatePrefix ?>
             return template
                 .replace(/_template_/g, '_item' + this.options.itemCount)
@@ -150,7 +150,7 @@
             if (container) {
                 var data = {};
 
-                $(container).find(':input').each(function(index, inputField) {
+                $(container).find(':input').each(function (index, inputField) {
                     var id = inputField.id;
                     if (id) {
                         id = id.replace(/^(_item)?[0-9]+/, '');
@@ -170,7 +170,7 @@
                                 data[id] = values.join(', ');
                             } else {
                                 var option = inputField.options[inputField.selectedIndex],
-                                    text = option.value == '0' || option.value == '' ? '' : option.text;
+                                    text = option.value == '0' || option.value === '' ? '' : option.text;
                                 data[id] = text.escapeHTML();
                             }
                         } else if (value !== null) {
@@ -180,16 +180,16 @@
                 });
 
                 // Set name of state to 'region' if list of states are in 'region_id' selectbox
-                if (!data['region'] && data['region_id']) {
-                    data['region'] = data['region_id'];
-                    delete data['region_id'];
+                if (!data.region && data.region_id) {
+                    data.region = data.region_id;
+                    delete data.region_id;
                 }
 
                 // Set data to html
                 var itemContainer = this.element.find("[aria-selected='true'] address");
                 if (itemContainer.length && itemContainer[0]) {
                     // @HACK - address template has #{prefix} where tmpl needs ${prefix}
-                    var html = this.options.itemContentTemplate.replace(new RegExp('#\{', 'g'), '${');
+                    var html = this.options.itemContentTemplate.replace(new RegExp('#\\{', 'g'), '${');
                     // @HACK - to get html as string for replacement below
                     html = $("<div/>").append($.tmpl(html, data)).html();
                     html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}', 'img'), '<br/>');
@@ -208,10 +208,9 @@
         /**
          * This method processes the event associated with a form field changing.
          * @param event Event occurring.
-         * @param element Target of the change.
          * @private
          */
-        _updateAddress: function(event, element) {
+        _updateAddress: function (event) {
             this._syncFormData(event.target);
         }
     });
@@ -224,11 +223,11 @@
         /**
          * This method is used to bind events associated with this widget.
          */
-        _bind: function() {
+        _bind: function () {
             this._on(this.element.find(':input'), {'change': '_triggerChange'});
         },
 
-        _create: function() {
+        _create: function () {
             this._super();
             this._bind();
         },
@@ -236,9 +235,9 @@
         /**
          * This method is used to trigger a change element for a given entity.
          */
-        _triggerChange: function(element) {
+        _triggerChange: function (element) {
             // send the name of the captor and the field that changed
-            this.element.trigger('formchange', {'name': this.options.name,  'element': element.currentTarget});
+            this.element.trigger('formchange', {'name': this.options.name, 'element': element.currentTarget});
         }
     });
 })(jQuery);
