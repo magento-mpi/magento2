@@ -148,6 +148,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
             'parent_theme_path'    => null,
             'area'                 => 'frontend',
+            'code'                 => 'default/iphone',
         );
     }
 
