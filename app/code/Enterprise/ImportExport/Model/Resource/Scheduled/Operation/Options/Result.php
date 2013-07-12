@@ -1,8 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * Import/Export Schedule result option array
+ *
+ * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
