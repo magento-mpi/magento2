@@ -38,9 +38,9 @@ LoaderTest.prototype.testLoaderOnBody = function() {
     loader.loader('destroy');
 };
 LoaderTest.prototype.testLoaderOnDOMElement = function() {
-    var loader = jQuery('#loader').loader();
+    var loader = jQuery('#loader').loader(),
+        loaderInstance = this.getInstance();
     loader.loader('show');
-    loaderInstance = this.getInstance();
     assertEquals(true, loader.find(':first-child').is(loaderInstance.loader));
 };
 LoaderTest.prototype.testLoaderOptions = function() {
@@ -51,9 +51,9 @@ LoaderTest.prototype.testLoaderOptions = function() {
                 loaderText: 'Loader Text',
                 imgAlt: 'Image Alt Text'
             }
-        });
+        }),
+        loaderInstance = this.getInstance();
     loader.loader('show');
-    loaderInstance = this.getInstance();
     assertEquals('icon.gif', loaderInstance.loader.find('img').attr('src'));
     assertEquals('Image Alt Text', loaderInstance.loader.find('img').attr('alt'));
     assertEquals('Loader Text', loaderInstance.loader.find('p').text());
@@ -90,9 +90,8 @@ LoaderTest.prototype.testShowHide = function() {
 };
 LoaderTest.prototype.testDestroy = function() {
     /*:DOC += <div id="loader"></div> */
-    var loader = jQuery('#loader').loader();
-    loader.loader('show');
-    loaderExist = loader.is(':mage-loader');
+    var loader = jQuery('#loader').loader(),
+        loaderExist = loader.is(':mage-loader');
     loader.loader('destroy');
     assertEquals(false, loader.is(':mage-loader') === loaderExist);
 };
