@@ -11,6 +11,7 @@ class Mage_Api_Model_Resource_User_Options_Statuses extends Mage_Backend_Model_C
 {
 
     /**
+     * @var Mage_Backend_Helper_Data
      */
     protected $_helper;
 
