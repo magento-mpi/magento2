@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_ImportExport
+ * Import/Export Schedule result option array
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
