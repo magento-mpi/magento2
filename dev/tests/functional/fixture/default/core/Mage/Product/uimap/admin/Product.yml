@@ -241,15 +241,15 @@ new_product:
                                     xpath: //div[*/*/span='%attributeTitle%']
                                     buttons:
                                         add_option_value: //*[@data-action='add-option']
-                                    checkboxes:
-                                        use_default_label: //label[span='Use Default']
                                     fields:
                                         frontend_label: //input[contains(@name,'[label]')][@data-store-label]
                                     links:
+                                        use_default_label: //label[span='Use Default']
                                         delete_product_variation_attribute: //button[@title='Delete Variations Group']
                                         move_product_variation_attribute: //div[@title='Sort Variations']
                                         expand_product_variation_attribute: //strong[@data-toggle]
                                     pageelements:
+                                        is_collapsed_variation_attribute: /div/strong
                                         option_line: //tbody/tr
                             -
                                 product_variation_attribute_option:
@@ -257,7 +257,7 @@ new_product:
                                     buttons:
                                         variation_attribute_price_type: //button[@data-toggle='dropdown']
                                         variation_attribute_price_type_value: //div[button[@data-toggle='dropdown']]//a[text()='%priceType%']
-                                        delete_new_option: //button[@data-action='delete']
+                                        delete_new_option: //button[@data-action='delete'][not(@disabled)]
                                         locked_option: //button[@disabled and @title='Delete']
                                     checkboxes:
                                         include_variation_attribute: //td[@data-column='include']//input[@type='checkbox']

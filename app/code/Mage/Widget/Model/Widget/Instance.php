@@ -58,6 +58,29 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'widget_widget_instance';
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_viewFileSystem = $viewFileSystem;
+    }
+
+    /**
      * Internal Constructor
      */
     protected function _construct()
@@ -75,7 +98,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
+        foreach (array_keys(Mage_Catalog_Model_Product_Type::getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
@@ -199,7 +222,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA;
+            return Mage_Core_Model_View_DesignInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }
@@ -263,7 +286,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             $this->_widgetConfigXml = Mage::getSingleton('Mage_Widget_Model_Widget')
                 ->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
-                $configFile = Mage::getDesign()->getFilename('widget.xml', array(
+                $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
                     'theme'  => $this->getThemeId(),
                     'module' => Mage::getConfig()->determineOmittedNamespace(
@@ -274,9 +297,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
                 if (is_readable($configFile)) {
                     $themeWidgetsConfig = new Varien_Simplexml_Config();
                     $themeWidgetsConfig->loadFile($configFile);
-                    $themeWidgetTypeConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
-                    if ($themeWidgetTypeConfig) {
-                        $this->_widgetConfigXml->extend($themeWidgetTypeConfig);
+                    $themeWidgetConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
+                    if ($themeWidgetConfig) {
+                        $this->_widgetConfigXml->extend($themeWidgetConfig);
                     }
                 }
             }
@@ -285,7 +308,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve widget availabel templates
+     * Retrieve widget available templates
      *
      * @return array
      */
@@ -371,7 +394,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function generateLayoutUpdateXml($container, $templatePath = '')
     {
-        $templateFilename = Mage::getSingleton('Mage_Core_Model_Design_PackageInterface')
+        $templateFilename = Mage::getSingleton('Mage_Core_Model_View_FileSystem')
             ->getFilename($templatePath, array(
                 'area'    => $this->getArea(),
                 'themeId' => $this->getThemeId(),

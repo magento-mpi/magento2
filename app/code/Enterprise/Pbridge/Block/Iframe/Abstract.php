@@ -202,7 +202,6 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
      */
     protected function _prepareCssElements(array $staticItems, array $skinItems, $mergeCallback = null)
     {
-        $designPackage = Mage::getDesign();
         $baseJsUrl = Mage::getBaseUrl('js');
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
@@ -219,8 +218,8 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         // lookup each file basing on current theme configuration
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $designPackage->getFilename($name)
-                    : $designPackage->getViewFileUrl($name);
+                $items[$params][] = $mergeCallback ? $this->_viewFileSystem->getFilename($name)
+                    : $this->_viewUrl->getViewFileUrl($name);
             }
         }
 

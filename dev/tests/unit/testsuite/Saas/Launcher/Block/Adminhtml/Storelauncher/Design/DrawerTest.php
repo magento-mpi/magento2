@@ -179,8 +179,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     protected function _getConfigSource()
     {
         return array(
-            1 => array(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID => '118'),
-            null => array(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID => '272'),
+            1 => array(Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '118'),
+            null => array(Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '272'),
         );
     }
 

@@ -81,12 +81,12 @@ jQuery(function($) {
                 .removeClass('disabled')
                 .removeProp('disabled');
 
+            stockAvailabilityField
+                .prop('disabled', true);
+
             qtyField
                 .removeProp('disabled')
                 .trigger('change');
-
-            stockAvailabilityField
-                .prop('disabled', true);
         })
         .collapse(hasVariations ? 'show' : 'hide');
 
@@ -177,6 +177,8 @@ jQuery(function($) {
                     $matrixRow.find(columnSelectorTemplate.replace('%s', 'entity_id'))
                         .prop({checked: true, disabled: false});
 
+                    $matrixRow.find('[data-action=no-image]').trigger('click');
+
                     var parentElement = $matrixRow.find('[data-column=image]'),
                         uploaderControl = parentElement.find('[data-action=upload-image]', parentElement),
                         imageElement = $matrixRow.find('[data-role=image]');
@@ -194,6 +196,8 @@ jQuery(function($) {
                         .attr('src', $gridRow.find('[data-role=image-url]').val())
                         .trigger('click')
                         .prop({disabled: true});
+
+                    $matrixRow.find('[name$="[image]"]').remove();
                 }
                 $gridDialog.dialog('close');
             };

@@ -17,7 +17,7 @@ class Saas_Saas_Model_Maintenance_Config
     /**
      * @param array|null $config
      */
-    public function __construct($config)
+    public function __construct($config = array())
     {
         $this->_config = is_array($config) ? $config : array();
     }

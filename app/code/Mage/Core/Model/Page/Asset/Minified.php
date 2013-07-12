@@ -33,9 +33,9 @@ class Mage_Core_Model_Page_Asset_Minified implements Mage_Core_Model_Page_Asset_
     protected $_url;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_Url
      */
-    protected $_designPackage;
+    protected $_viewUrl;
 
     /**
      * @var Mage_Core_Model_Logger
@@ -45,18 +45,18 @@ class Mage_Core_Model_Page_Asset_Minified implements Mage_Core_Model_Page_Asset_
     /**
      * @param Mage_Core_Model_Page_Asset_LocalInterface $asset
      * @param Magento_Code_Minifier $minifier
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Model_Logger $logger
      */
     public function __construct(
         Mage_Core_Model_Page_Asset_LocalInterface $asset,
         Magento_Code_Minifier $minifier,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_Url $viewUrl,
         Mage_Core_Model_Logger $logger
     ) {
         $this->_originalAsset = $asset;
         $this->_minifier = $minifier;
-        $this->_designPackage = $designPackage;
+        $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
     }
 
@@ -106,7 +106,7 @@ class Mage_Core_Model_Page_Asset_Minified implements Mage_Core_Model_Page_Asset_
         if ($this->_file == $originalFile) {
             $this->_url = $this->_originalAsset->getUrl();
         } else {
-            $this->_url = $this->_designPackage->getPublicFileUrl($this->_file);
+            $this->_url = $this->_viewUrl->getPublicFileUrl($this->_file);
         }
     }
 }

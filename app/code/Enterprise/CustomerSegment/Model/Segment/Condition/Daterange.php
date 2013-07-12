@@ -10,6 +10,9 @@
 
 /**
  * Date range combo
+ *
+ * @method Enterprise_CustomerSegment_Model_Segment_Condition_Daterange setType(string $type)
+ * @method Enterprise_CustomerSegment_Model_Segment_Condition_Daterange setValue(string $value)
  */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
@@ -29,13 +32,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     private $_valueElement = null;
 
     /**
-     * Intialize model
+     * Initialize model
      *
-     * @return void
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct();
+        parent::__construct($context, $data);
+
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Daterange');
         $this->setValue(null);
     }
@@ -91,7 +96,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     public function getValueAfterElementHtml()
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . Mage::getDesign()->getViewFileUrl('images/rule_chooser_trigger.gif')
+            . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger"'
             . 'title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
     }

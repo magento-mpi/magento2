@@ -20,11 +20,16 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     protected $_dateModel;
 
     /**
-     * class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Mage_Core_Model_Date $dateModel
+     * @param array $data
      */
-    public function __construct(Mage_Core_Model_Date $dateModel)
-    {
-        parent::__construct();
+    public function __construct(
+        Mage_Rule_Model_Condition_Context $context,
+        Mage_Core_Model_Date $dateModel,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
         $this->_dateModel = $dateModel;
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart');
         $this->setValue(null);
@@ -158,7 +163,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer, $website)) {
+            $sql = $condition->getConditionsSql($customer, $website);
+            if ($sql) {
                 $conditions[] = "(" . $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
             }
         }

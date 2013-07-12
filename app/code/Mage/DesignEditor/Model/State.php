@@ -68,11 +68,6 @@ class Mage_DesignEditor_Model_State
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    protected $_design;
-
-    /**
      * @var Mage_Core_Model_App
      */
     protected $_application;
@@ -175,15 +170,17 @@ class Mage_DesignEditor_Model_State
      */
     protected function _setTheme()
     {
-        $themeId = $this->_themeContext->getVisibleTheme()->getId();
-        $this->_application->getStore()->setConfig(
-            Mage_Core_Model_Design_Package::XML_PATH_THEME_ID,
-            $themeId
-        );
-        $this->_application->getConfig()->setNode(
-            'default/' . Mage_Core_Model_Design_Package::XML_PATH_THEME_ID,
-            $themeId
-        );
+        if ($this->_themeContext->getEditableTheme()) {
+            $themeId = $this->_themeContext->getVisibleTheme()->getId();
+            $this->_application->getStore()->setConfig(
+                Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
+                $themeId
+            );
+            $this->_application->getConfig()->setNode(
+                'default/' . Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
+                $themeId
+            );
+        }
     }
 
     /**

@@ -27,7 +27,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designPackageMock;
+    protected $_designMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -57,8 +57,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_themeFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_themeMock));
-        $this->_designPackageMock = $this->getMockForAbstractClass(
-            'Mage_Core_Model_Design_PackageInterface', array(), '', true, true, true,
+        $this->_designMock = $this->getMockForAbstractClass(
+            'Mage_Core_Model_View_DesignInterface', array(), '', true, true, true,
             array('getConfigurationDesignTheme')
         );
         $this->_storeManagerMock = $this->getMockForAbstractClass(
@@ -69,7 +69,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Theme_Service(
             $this->_themeFactoryMock,
             $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false),
-            $this->_designPackageMock,
+            $this->_designMock,
             $this->_storeManagerMock,
             $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
@@ -184,7 +184,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             $themesMock[] = $theme;
         }
 
-        $designMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
+        $designMock = $this->getMock('Mage_Core_Model_View_DesignInterface');
         $designMock->expects($this->any())
             ->method('getConfigurationDesignTheme')
             ->with($this->anything(), $this->arrayHasKey('store'))
@@ -271,7 +271,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('getStores')
             ->will($this->returnValue(array($storeOne, $storeTwo, $storeThree)))
         ;
-        $this->_designPackageMock
+        $this->_designMock
             ->expects($this->exactly(3))
             ->method('getConfigurationDesignTheme')
             ->will($this->returnValueMap(array(
