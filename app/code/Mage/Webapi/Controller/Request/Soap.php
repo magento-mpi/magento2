@@ -27,6 +27,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
 
     /**
      * Identify versions of resources that should be used for API configuration generation.
+     * FIXME : This is getting called twice within a single request. Need to cache.
      *
      * @return array
      * @throws Mage_Webapi_Exception When GET parameters are invalid
@@ -44,11 +45,46 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
-        $requestedResources = $this->getParam($resourcesParam);
+        $param = $this->getParam($resourcesParam);
+        $requestedResources = $this->convertReqParamToServiceArray($param);
+
         if (empty($requestedResources) || !is_array($requestedResources)) {
             $message = $this->_helper->__('Requested resources are missing.');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $requestedResources;
+    }
+
+    /**
+     * Function to extract the resources query param value and return associative array of 'resource' => 'version'
+     * eg Given testModule1AllSoapAndRest:V1,testModule2AllSoapNoRest:V1
+     * validate, process and return below :
+     * array (
+     *      'testModule1AllSoapAndRest' => 'V1',
+     *       'testModule2AllSoapNoRest' => 'V1',
+     *      )
+     *
+     * @param $param
+     * @return array
+     * @throws Mage_Webapi_Exception
+     */
+    private function convertReqParamToServiceArray($param)
+    {
+        $serviceSeparator = ",";
+        $serviceVerSeparator = ":";
+        //TODO: This should be a globally used pattern in Webapi module
+        $serviceVerPattern = "[a-zA-Z\d]*[$serviceVerSeparator][V][\d]+";
+        $regexp = "/^($serviceVerPattern)([$serviceSeparator]$serviceVerPattern)*$/";
+        if (empty($param) || !preg_match($regexp, $param)) {
+            throw new Mage_Webapi_Exception("Incorrect format of WSDL request URI.",
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+        }
+        $serviceVerArr = explode($serviceSeparator, $param);
+        $serviceArr = array();
+        foreach ($serviceVerArr as $service) {
+            $arr = explode($serviceVerSeparator, $service);
+            $serviceArr[$arr[0]] = $arr[1];
+        }
+        return $serviceArr;
     }
 }
