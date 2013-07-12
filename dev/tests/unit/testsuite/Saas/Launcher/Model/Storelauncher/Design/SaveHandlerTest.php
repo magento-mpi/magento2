@@ -47,6 +47,13 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
      */
     protected $_themeConfig;
 
+    /**
+     * Theme factory
+     *
+     * @var Mage_Core_Model_Theme_Factory
+     */
+    protected $_themeFactory;
+
     protected function setUp()
     {
         $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
@@ -115,16 +122,29 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
 
         $themeMock = $this->getMockBuilder('Mage_Core_Model_Theme')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(array('getId', 'isVirtual'))
             ->getMock();
         $themeMock->expects($this->any())->method('getId')->will($this->returnValue(20));
+        $themeMock->expects($this->any())->method('isVirtual')->will($this->returnValue(true));
 
         $this->_themeConfig = $this->getMockBuilder('Mage_Theme_Model_Config')
             ->disableOriginalConstructor()
             ->setMethods(array('assignToStore'))
             ->getMock();
         $this->_themeConfig->expects($this->any())->method('assignToStore')
-            ->with($this->equalTo(1), $this->equalTo(array(1)))
+            ->with($themeMock, $this->equalTo(array(1)))
+            ->will($this->returnValue($this->_themeConfig));
+
+        $this->_themeFactory = $this->getMock(
+            'Mage_Core_Model_Theme_Factory', array('create', 'load'), array(), '', false
+        );
+
+        $this->_themeFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_themeFactory));
+
+        $this->_themeFactory->expects($this->any())
+            ->method('load')
             ->will($this->returnValue($themeMock));
 
         parent::setUp();
@@ -146,7 +166,8 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             $this->_configLoader,
             $this->_configWriter,
             $this->_modelLogo,
-            $this->_themeConfig
+            $this->_themeConfig,
+            $this->_themeFactory
         );
     }
 
