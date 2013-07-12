@@ -1,13 +1,12 @@
 <?php
 /**
+ * Sku Errors Column Set
+ *
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors
     extends Mage_Backend_Block_Widget_Grid_ColumnSet
 {
