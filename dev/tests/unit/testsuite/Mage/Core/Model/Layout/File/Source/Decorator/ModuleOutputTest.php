@@ -21,22 +21,22 @@ class Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutputTest extends PHPU
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $_coreHelper;
+    private $_moduleManager;
 
     protected function setUp()
     {
         $this->_fileSource = $this->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface');
-        $this->_coreHelper = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
-        $this->_coreHelper
+        $this->_moduleManager = $this->getMock('Mage_Core_Model_ModuleManager', array(), array(), '', false);
+        $this->_moduleManager
             ->expects($this->any())
-            ->method('isModuleOutputEnabled')
+            ->method('isOutputEnabled')
             ->will($this->returnValueMap(array(
                 array('Module_OutputEnabled', true),
                 array('Module_OutputDisabled', false),
             )))
         ;
         $this->_model = new Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput(
-            $this->_fileSource, $this->_coreHelper
+            $this->_fileSource, $this->_moduleManager
         );
     }
 

@@ -17,20 +17,20 @@ class Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput implements Mage_
     private $_subject;
 
     /**
-     * @var Mage_Core_Helper_Abstract
+     * @var Mage_Core_Model_ModuleManager
      */
-    private $_coreHelper;
+    private $_moduleManager;
 
     /**
      * @param Mage_Core_Model_Layout_File_SourceInterface $subject
-     * @param Mage_Core_Helper_Data $coreHelper
+     * @param Mage_Core_Model_ModuleManager $moduleManager
      */
     public function __construct(
         Mage_Core_Model_Layout_File_SourceInterface $subject,
-        Mage_Core_Helper_Data $coreHelper
+        Mage_Core_Model_ModuleManager $moduleManager
     ) {
         $this->_subject = $subject;
-        $this->_coreHelper = $coreHelper;
+        $this->_moduleManager = $moduleManager;
     }
 
     /**
@@ -42,7 +42,7 @@ class Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput implements Mage_
     {
         $result = array();
         foreach ($this->_subject->getFiles($theme) as $file) {
-            if ($this->_coreHelper->isModuleOutputEnabled($file->getModule())) {
+            if ($this->_moduleManager->isOutputEnabled($file->getModule())) {
                 $result[] = $file;
             }
         }
