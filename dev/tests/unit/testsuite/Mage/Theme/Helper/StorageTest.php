@@ -24,7 +24,7 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
     protected $_session;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Theme_FlyweightFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeFactory;
 
@@ -135,8 +135,10 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
 
         $themeModel = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
         $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($themeModel));
-        $themeModel->expects($this->atLeastOnce())->method('getId')->will($this->returnValue($themeId));
-        $themeModel->expects($this->atLeastOnce())
+        $themeModel->expects($this->any())->method('getId')->will($this->returnValue($themeId));
+        $customization = $this->getMock('Mage_Core_Model_Theme_Customization', array(), array(), '', false);
+        $themeModel->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
+        $customization->expects($this->any())
             ->method('getCustomizationPath')
             ->will($this->returnValue($this->_customizationPath));
 

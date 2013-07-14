@@ -62,6 +62,11 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
     protected $_updateFactory;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_customizationPath;
+
+    /**
      * @var PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $_targetFiles = array();
@@ -96,10 +101,11 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Theme_File', array('delete'), array(), '', false),
             $this->getMock('Mage_Core_Model_Theme_File', array('delete'), array(), '', false),
         );
-        $this->_targetTheme = $this->getMock(
-            'Mage_Core_Model_Theme', array('getFiles', 'getCustomizationPath'), array(), '', false
-        );
+        $this->_targetTheme = $this->getMock('Mage_Core_Model_Theme', array('getFiles'), array(), '', false);
         $this->_targetTheme->setId(123);
+
+        $this->_customizationPath = $this->getMock('Mage_Core_Model_Theme_Customization_Path',
+            array(), array(), '', false);
 
         $this->_fileFactory = $this->getMock('Mage_Core_Model_Theme_FileFactory', array('create'), array(), '', false);
         $this->_filesystem = $this->getMock(
@@ -126,7 +132,12 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
 
         $this->_object = new Mage_Core_Model_Theme_CopyService(
-            $this->_filesystem, $this->_fileFactory, $this->_link, $this->_updateFactory, $eventManager
+            $this->_filesystem,
+            $this->_fileFactory,
+            $this->_link,
+            $this->_updateFactory,
+            $eventManager,
+            $this->_customizationPath
         );
     }
 

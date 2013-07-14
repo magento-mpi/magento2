@@ -82,28 +82,10 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
             ->will($this->returnValue($jsOrder));
         $this->_request->expects($this->once(6))->method('getPost')->will($this->returnValue(true));
 
-        $filesCssMock = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_File_Css', array('setDataForSave'), array(), '', false
-        );
-        $filesCssMock->expects($this->at(0))->method('setDataForSave')->with(
-            array(Mage_Core_Model_Theme_Customization_File_Css::CUSTOM_CSS => $customCssContent)
-        );
-
-        $filesJsMock = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_File_Js',
-            array('setDataForSave', 'setDataForDelete', 'setJsOrderData'),
-            array(),
-            '',
-            false
-        );
-        $filesJsMock->expects($this->at(0))->method('setDataForSave')->with($jsUploadedFiles);
-        $filesJsMock->expects($this->at(1))->method('setDataForDelete')->with($jsRemovedFiles);
-        $filesJsMock->expects($this->at(2))->method('setJsOrderData')->with(array_keys($jsOrder));
 
         $themeMock = $this->getMock('Mage_Core_Model_Theme',
             array('save', 'load', 'setCustomization', 'getThemeImage'), array(), '', false);
-        $themeMock->expects($this->at(0))->method('setCustomization')->with($filesCssMock);
-        $themeMock->expects($this->at(1))->method('setCustomization')->with($filesJsMock);
+
         $themeImage = $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false);
         $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
@@ -117,13 +99,13 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
             ->expects($this->at(1))
             ->method('create')
             ->with('Mage_Core_Model_Theme_Customization_File_Css')
-            ->will($this->returnValue($filesCssMock));
+            ->will($this->returnValue(null));
 
         $this->_objectManagerMock
             ->expects($this->at(2))
             ->method('create')
             ->with('Mage_Core_Model_Theme_Customization_File_Js')
-            ->will($this->returnValue($filesJsMock));
+            ->will($this->returnValue(null));
 
         $this->_model->saveAction();
     }
