@@ -70,16 +70,22 @@
                 var selected = this.options.treeInitSelectedData;
                 this.element.jstree('check_node', '[data-id="' + selected.join('"],[data-id="') + '"]');
             },
+            _getChecked: function() {
+                return this.element.jstree('get_container').find(".jstree-checked, .jstree-undetermined");
+            },
             _serializeData: function() {
-                var checked = this.element.jstree('get_checked', false, true),
+                var checked = this._getChecked.call(this),
                     r = [];
                 $.each(checked.map(function(){return $(this).data('id')}), function(k, v) {
                     r.push(v);
                 });
                 this.options.selectors.saveInput.val(r.join(','));
+            },
+            _destroy: function() {
+                this.options.selectors.roleForm.off('save.mage');
+                this.element.html('');
             }
         });
-
         $.mage.component({
             rolesTree: ['<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js')?>']
         });
