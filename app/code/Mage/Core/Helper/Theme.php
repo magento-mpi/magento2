@@ -63,7 +63,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Layout_MergeFactory $layoutMergeFactory,
         Mage_Core_Model_Resource_Theme_Collection $themeCollection,
-        Mage_Core_Model_View_FileSystem $viewFileSystem
+        Mage_Core_Model_Theme_Factory $viewFileSystem
     ) {
         $this->_dirs = $dirs;
         $this->_layoutMergeFactory = $layoutMergeFactory;
