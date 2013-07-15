@@ -388,25 +388,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Check if specified module is enabled
-     *
-     * @param string $moduleName
-     * @return bool
-     */
-    public function isModuleEnabled($moduleName)
-    {
-        if (!$this->getNode('modules/' . $moduleName)) {
-            return false;
-        }
-
-        $isActive = $this->getNode('modules/' . $moduleName . '/active');
-        if (!$isActive || !in_array((string)$isActive, array('true', '1'))) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Get module directory by directory type
      *
      * @param   string $type

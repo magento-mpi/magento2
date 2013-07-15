@@ -73,7 +73,7 @@ class Mage_Core_Model_Layout_File_List
      */
     protected function _getFileIdentifier(Mage_Core_Model_Layout_File $file)
     {
-        $theme = ($file->getTheme() ? $file->getTheme()->getFullPath() : '');
-        return $theme . '|' . $file->getModule() . '|' . $file->getName();
+        $theme = ($file->getTheme() ? 'theme:' . $file->getTheme()->getFullPath() : 'base');
+        return $theme . '|module:' . $file->getModule() . '|file:' . $file->getName();
     }
 }

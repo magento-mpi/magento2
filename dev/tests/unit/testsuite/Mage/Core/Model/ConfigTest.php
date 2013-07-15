@@ -157,10 +157,4 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $this->_model->getModuleConfig('Module'));
     }
-
-    public function testIsModuleEnabled()
-    {
-        $this->_model->setNode('modules/Module/active', 'true');
-        $this->assertEquals(true, $this->_model->isModuleEnabled('Module'));
-    }
 }

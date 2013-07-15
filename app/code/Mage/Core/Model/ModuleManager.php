@@ -11,6 +11,13 @@
  */
 class Mage_Core_Model_ModuleManager
 {
+    /**#@+
+     * XPath in the configuration where module statuses are stored
+     */
+    const XML_PATH_MODULE_STATUS        = 'modules/%s/active';
+    const XML_PATH_MODULE_OUTPUT_STATUS = 'advanced/modules_disable_output/%s';
+    /**#@-*/
+
     /**
      * @var Mage_Core_Model_ConfigInterface
      */
@@ -49,14 +56,8 @@ class Mage_Core_Model_ModuleManager
      */
     public function isEnabled($moduleName)
     {
-        if (!$this->_config->getNode("modules/$moduleName")) {
-            return false;
-        }
-        $moduleStatus = $this->_config->getNode("modules/$moduleName/active");
-        if (!$moduleStatus || !in_array((string)$moduleStatus, array('true', '1'))) {
-            return false;
-        }
-        return true;
+        $moduleStatus = $this->_config->getNode(sprintf(self::XML_PATH_MODULE_STATUS, $moduleName));
+        return ($moduleStatus && in_array((string)$moduleStatus, array('true', '1')));
     }
 
     /**
@@ -73,7 +74,7 @@ class Mage_Core_Model_ModuleManager
         if (!$this->_isCustomOutputConfigEnabled($moduleName)) {
             return false;
         }
-        if ($this->_storeConfig->getConfigFlag("advanced/modules_disable_output/$moduleName")) {
+        if ($this->_storeConfig->getConfigFlag(sprintf(self::XML_PATH_MODULE_OUTPUT_STATUS, $moduleName))) {
             return false;
         }
         return true;

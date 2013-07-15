@@ -36,13 +36,13 @@ class Mage_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
      *
      * @param string $filename
      * @param string $module
-     * @param string $themeFullPath
+     * @param string|null $themeFullPath
      * @return PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_ThemeInterface
      */
-    protected function _createLayoutFile($filename, $module, $themeFullPath = '')
+    protected function _createLayoutFile($filename, $module, $themeFullPath = null)
     {
         $theme = null;
-        if ($themeFullPath) {
+        if ($themeFullPath !== null) {
             $theme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
@@ -109,6 +109,16 @@ class Mage_Core_Model_Layout_File_ListTest extends PHPUnit_Framework_TestCase
     public function testReplaceBaseFileException()
     {
         $file = $this->_createLayoutFile('new.xml', 'Fixture_TestModule');
+        $this->_model->replace(array($file));
+    }
+
+    /**
+     * @expectedException LogicException
+     * @expectedExceptionMessage Overriding layout file 'test/fixture.xml' does not match to any of the files
+     */
+    public function testReplaceBaseFileEmptyThemePathException()
+    {
+        $file = $this->_createLayoutFile('test/fixture.xml', 'Fixture_TestModule', '');
         $this->_model->replace(array($file));
     }
 

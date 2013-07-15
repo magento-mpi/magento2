@@ -467,6 +467,7 @@ return array(
     array('isInstalled', 'Mage_Core_Model_App'),
     array('isLeyeredNavigationAllowed'),
     array('isLocalConfigLoaded', 'Mage_Core_Model_Config'),
+    array('isModuleEnabled', 'Mage_Core_Model_Config', 'Mage_Core_Model_ModuleManager::isEnabled'),
     array('isReadablePopupObject'),
     array('isStaticFilesSigned', 'Mage_Core_Helper_Data'),
     array('isTemplateAllowedForApplication'),
