@@ -79,7 +79,7 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         ));
         $themeStaging->expects($this->at(1))->method('save');
 
-        $themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array(), array(), '', false);
+        $themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($themeStaging));
 
         $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
