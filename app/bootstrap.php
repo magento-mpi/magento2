@@ -31,7 +31,6 @@ require_once __DIR__ . '/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(array(
     BP . DS . 'app' . DS . 'code',
     BP . DS . 'lib',
-    BP . DS . 'var' . DS . 'generation',
 ));
 $classMapPath = BP . DS . 'var/classmap.ser';
 if (file_exists($classMapPath)) {

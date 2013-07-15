@@ -11,10 +11,6 @@
 
 /**
  * Core Observer model
- *
- * @category   Mage
- * @package    Mage_Core
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Observer
 {
@@ -42,18 +38,18 @@ class Mage_Core_Model_Observer
 
     /**
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Page $page
      * @param Mage_Core_Model_ConfigInterface $config
      */
     public function __construct(
         Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Page $page,
         Mage_Core_Model_ConfigInterface $config
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
-        $this->_currentTheme = $designPackage->getDesignTheme();
+        $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $page->getAssets();
         $this->_config = $config;
     }
@@ -62,6 +58,7 @@ class Mage_Core_Model_Observer
      * Cron job method to clean old cache resources
      *
      * @param Mage_Cron_Model_Schedule $schedule
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function cleanCache(Mage_Cron_Model_Schedule $schedule)
     {
@@ -112,6 +109,7 @@ class Mage_Core_Model_Observer
      *
      * @param  Varien_Event_Observer $observer
      * @return Mage_Core_Model_Observer
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processReinitConfig(Varien_Event_Observer $observer)
     {

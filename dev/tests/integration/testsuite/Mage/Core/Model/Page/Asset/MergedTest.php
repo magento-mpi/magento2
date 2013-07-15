@@ -27,7 +27,9 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_themePublicDir = Mage::getDesign()->getPublicDir();
+        /** @var $service Mage_Core_Model_View_Service */
+        $service = Mage::getObjectManager()->get('Mage_Core_Model_View_Service');
+        self::$_themePublicDir = $service->getPublicDir();
 
         /** @var Mage_Core_Model_Dir $dirs */
         $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
@@ -136,7 +138,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
+                Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS,
                 array(
                     'mage/calendar.css',
                     'css/file.css',
@@ -157,7 +159,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
                 ),
             ),
             array(
-                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
+                Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS,
                 array(
                     'mage/calendar.js',
                     'scripts.js',

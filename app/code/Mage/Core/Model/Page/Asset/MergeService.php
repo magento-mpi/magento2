@@ -74,8 +74,8 @@ class Mage_Core_Model_Page_Asset_MergeService
      */
     public function getMergedAssets(array $assets, $contentType)
     {
-        $isCss = $contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS;
-        $isJs = $contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS;
+        $isCss = $contentType == Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
+        $isJs = $contentType == Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS;
         if (!$isCss && !$isJs) {
             throw new InvalidArgumentException("Merge for content type '$contentType' is not supported.");
         }

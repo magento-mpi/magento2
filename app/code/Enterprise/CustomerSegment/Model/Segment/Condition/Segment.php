@@ -42,7 +42,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     public function getValueAfterElementHtml()
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . Mage::getDesign()->getViewFileUrl('images/rule_chooser_trigger.gif')
+            . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger" title="'
             . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
     }
@@ -119,7 +119,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     public function getValueParsed()
     {
         $value = $this->getData('value');
-        $value = array_map('trim', explode(',',$value));
+        $value = array_map('trim', explode(',', $value));
         return $value;
     }
 
@@ -151,10 +151,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
                 $segments = array();
             }
         } else {
-            $segments = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')->getCustomerSegmentIdsForWebsite(
-                $customer->getId(),
-                $quoteWebsiteId
-            );
+            $segments = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')
+                ->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);
         }
         return $this->validateAttribute($segments);
     }

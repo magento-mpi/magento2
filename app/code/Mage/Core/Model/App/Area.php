@@ -76,14 +76,14 @@ class Mage_Core_Model_App_Area
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Config $config
-     * @param Magento_ObjectManager $objectManager
-     * @param string $areaCode
+     * @param Mage_Core_Model_ObjectManager $objectManager
+     * @param $areaCode
      */
     public function __construct(
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_Config $config,
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_ObjectManager $objectManager,
         $areaCode
     ) {
         $this->_code = $areaCode;
@@ -120,8 +120,8 @@ class Mage_Core_Model_App_Area
     public function detectDesign($request = null)
     {
         if ($this->_code == self::AREA_FRONTEND) {
-            $designExceptionApplied = ($request && $this->_applyUserAgentDesignException($request));
-            if (!$designExceptionApplied) {
+            $isDesignException = ($request && $this->_applyUserAgentDesignException($request));
+            if (!$isDesignException) {
                 $this->_getDesignChange()
                     ->loadChange(Mage::app()->getStore()->getId())
                     ->changeDesign($this->_getDesign());
@@ -160,7 +160,7 @@ class Mage_Core_Model_App_Area
     }
 
     /**
-     * @return Mage_Core_Model_Design_PackageInterface
+     * @return Mage_Core_Model_View_DesignInterface
      */
     protected function _getDesign()
     {
@@ -212,12 +212,7 @@ class Mage_Core_Model_App_Area
      */
     protected function _initConfig()
     {
-        $configurationNode = $this->_config->getNode($this->_code . '/di');
-        if ($configurationNode) {
-            $configuration = $configurationNode->asArray();
-            $this->_objectManager->configure($configuration);
-        }
-
+        $this->_objectManager->loadArea($this->_code, $this->_config);
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * {license_notice}
  *
@@ -28,27 +28,39 @@ class Mage_Catalog_Helper_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $testString
      * @param string $result
-     *
-     * @dataProvider validetStringFormat
+     * @param string $resultIconv
+     * @param bool $isIconv
+     * @dataProvider validateStringFormat
      */
-    public function testFormat($testString, $result)
+    public function testFormat($testString, $result, $resultIconv, $isIconv)
     {
-        $this->assertEquals($result, $this->_urlHelper->format($testString));
+        if ($isIconv) {
+            $this->assertEquals($resultIconv, $this->_urlHelper->format($testString));
+        } else {
+            $this->assertEquals($result, $this->_urlHelper->format($testString));
+        }
     }
 
-
-    public static function validetStringFormat()
+    /**
+     * @return array
+     */
+    public static function validateStringFormat()
     {
+        $isIconv = '"libiconv"' == ICONV_IMPL;
         return array(
-            array('test', 'test'),
-            array('привет мир', 'privet mir'),
+            array('test', 'test', 'test', $isIconv),
+            array('привет мир', 'privet mir', 'privet mir', $isIconv),
             array(
                 'Weiß, Goldmann, Göbel, Weiss, Göthe, Goethe und Götz',
-                'Weiss, Goldmann, Gobel, Weiss, Gothe, Goethe und Gotz'
+                'Weiss, Goldmann, Gobel, Weiss, Gothe, Goethe und Gotz',
+                'Weiss, Goldmann, Gobel, Weiss, Gothe, Goethe und Gotz',
+                $isIconv
             ),
             array(
                 '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮',
-                '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮'
+                '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮',
+                '         EUR ->         ',
+                $isIconv
             ),
         );
     }
