@@ -75,6 +75,7 @@
             this._render();
             this.loaderStarted++;
             this.loader.show();
+            return false;
         },
 
         /**
@@ -89,6 +90,7 @@
                     }
                 }
             }
+            return false;
         },
 
         /**
