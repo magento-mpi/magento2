@@ -90,8 +90,6 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
         /** @var $themeFactory Mage_Core_Model_Theme_FlyweightFactory */
         $themeFactory = $this->_objectManager->get('Mage_Core_Model_Theme_FlyweightFactory');
-        /** @var $jsService Mage_Core_Model_Theme_Customization_File_Js */
-        $jsService = $this->_objectManager->get('Mage_Core_Model_Theme_Customization_File_Js');
         /** @var $cssService Mage_Theme_Model_Theme_Customization_File_CustomCss */
         $cssService = $this->_objectManager->get('Mage_Theme_Model_Theme_Customization_File_CustomCss');
         /** @var $singleFile Mage_Theme_Model_Theme_SingleFile */

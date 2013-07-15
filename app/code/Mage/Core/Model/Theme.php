@@ -118,7 +118,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
      * @param Mage_Core_Model_Theme_Validator $validator
      * @param Mage_Core_Model_Theme_CustomizationFactory $customizationFactory
      * @param Mage_Core_Model_Resource_Theme $resource
-     * @param Mage_Core_Model_Resource_Theme_CollectionProxy $resourceCollection
+     * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -130,8 +130,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
         Mage_Core_Model_Theme_ImageFactory $imageFactory,
         Mage_Core_Model_Theme_Validator $validator,
         Mage_Core_Model_Theme_CustomizationFactory $customizationFactory,
-        Mage_Core_Model_Resource_Theme $resource,
-        Mage_Core_Model_Resource_Theme_CollectionProxy $resourceCollection,
+        Mage_Core_Model_Resource_Theme $resource = null,
+        Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -147,6 +147,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
             'type' => self::TYPE_VIRTUAL,
             'area' => Mage_Core_Model_App_Area::AREA_FRONTEND
         ));
+    }
+
+    /**
+     * Init resource model
+     */
+    protected function _construct()
+    {
+        $this->_init('Mage_Core_Model_Resource_Theme');
     }
 
     /**
