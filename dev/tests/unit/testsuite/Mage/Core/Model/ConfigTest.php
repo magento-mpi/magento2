@@ -54,12 +54,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 </config>';
 
         $configBase = new Mage_Core_Model_Config_Base($xml);
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $objectManagerMock->expects($this->once())->method('configure')->with(array(
-            'Mage_Core_Model_Cache' => array(
-                'parameters' => array('one' => 'two')
-            )
-        ));
+        $objectManagerMock = $this->getMock('Mage_Core_Model_ObjectManager', array(), array(), '', false);
+        $objectManagerMock->expects($this->once())->method('loadArea')->with('global');
         $appMock = $this->getMock('Mage_Core_Model_AppInterface');
         $configStorageMock = $this->getMock('Mage_Core_Model_Config_StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));

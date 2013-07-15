@@ -4,7 +4,7 @@
 #
 dev/build/saas_qa
 dev/tests/functional/testsuite/Enterprise/Mage/Acl/CatalogManageCategoryTest.php
-dev/tests/functional/testsuite/Enterprise/Mage/Acl/CmsPollTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Acl/CmsPoll.php
 dev/tests/functional/testsuite/Enterprise/Mage/Acl/SystemPermissionTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/BackendAddBySkuTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/BackendOrderTest.php
@@ -15,6 +15,6 @@ dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/Helper.php
 dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/ProductTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Attributes/CustomerAddressAttribute/Create/AttachmentFileTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableSingleStoreModeTest.php
-dev/tests/functional/testsuite/Enterprise/Mage/Tags/RewardPointsTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Tags/RewardPoints.php
 dev/tests/functional/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontendTest.php
 dev/tests/functional/testsuite/Core/Mage/Product/Create/ChangeAttributeSetTest.php

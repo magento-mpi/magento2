@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase_ControllerAbstract
 {
     protected $_bootstrap;
@@ -16,10 +19,15 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
     protected function setUp()
     {
         if (!Mage::getObjectManager()) {
+            $instanceConfig = new Magento_Test_ObjectManager_Config();
+            $primaryConfig = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
+            $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+            $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
+
             Mage::setObjectManager(
                 new Magento_Test_ObjectManager(
-                    new Magento_ObjectManager_Definition_Runtime(),
-                    $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false)
+                    $primaryConfig,
+                    $instanceConfig
                 )
             );
         }

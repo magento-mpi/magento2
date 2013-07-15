@@ -7,24 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Search_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectManager_ConfigAbstract
+class Saas_Search_Model_ObjectManager_Configurator implements Mage_Core_Model_ObjectManager_DynamicConfigInterface
 {
     /**
-     * Configure di instance
+     * Retrieve runtime environment specific di configuration
      *
-     * @param Magento_ObjectManager $objectManager
+     * @return array
      */
-    public function configure(Magento_ObjectManager $objectManager)
+    public function getConfiguration()
     {
         if (extension_loaded('solr')) {
             $clientFactory = 'Saas_Search_Model_Client_Balancer_PhpExtension_Factory';
         } else {
             $clientFactory = 'Saas_Search_Model_Client_Balancer_HttpStream_Factory';
         }
-        $objectManager->configure(array(
+        return array(
             'preferences' => array(
                 'Enterprise_Search_Model_Client_FactoryInterface' => $clientFactory
             )
-        ));
+        );
     }
 }
