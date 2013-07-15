@@ -26,13 +26,13 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         $theme = $this->getMock('Mage_Core_Model_Theme', array('getStagingVersion'), array(), '', false, false);
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue($themeStaging));
 
-        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
         $themeFactory->expects($this->never())->method('create');
 
         $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->never())->method('copy');
 
-        $customizationConfig = $this->getMock('Mage_Theme_Model_Config_Customizations', array(), array(), '', false);
+        $customizationConfig = $this->getMock('Mage_Theme_Model_Config_Customization', array(), array(), '', false);
 
         $object = new Mage_Core_Model_Theme_Domain_Virtual(
             $theme, $themeFactory, $themeCopyService, $customizationConfig
@@ -79,13 +79,13 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         ));
         $themeStaging->expects($this->at(1))->method('save');
 
-        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false);
+        $themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array(), array(), '', false);
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($themeStaging));
 
         $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->once())->method('copy')->with($theme, $themeStaging);
 
-        $customizationConfig = $this->getMock('Mage_Theme_Model_Config_Customizations', array(), array(), '', false);
+        $customizationConfig = $this->getMock('Mage_Theme_Model_Config_Customization', array(), array(), '', false);
 
         $object = new Mage_Core_Model_Theme_Domain_Virtual(
             $theme, $themeFactory, $themeCopyService, $customizationConfig
@@ -103,7 +103,7 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
     public function testIsAssigned()
     {
         $customizationConfig = $this->getMock(
-            'Mage_Theme_Model_Config_Customizations', array('isThemeAssignedToStore'), array(), '', false
+            'Mage_Theme_Model_Config_Customization', array('isThemeAssignedToStore'), array(), '', false
         );
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false,
             false);

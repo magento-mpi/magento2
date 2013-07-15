@@ -25,7 +25,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     protected $_websiteCollection;
 
     /**
-     * @var Mage_Theme_Model_Config_Customizations
+     * @var Mage_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
@@ -38,7 +38,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_Resource_Website_Collection $websiteCollection,
-        Mage_Theme_Model_Config_Customizations $customizationConfig,
+        Mage_Theme_Model_Config_Customization $customizationConfig,
         array $data = array()
     ) {
         $this->_websiteCollection = $websiteCollection;

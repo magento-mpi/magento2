@@ -25,20 +25,20 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launc
     protected  $_launcherHelper;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Helper_Data $launcherHelper
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_ThemeFactory $themeFactory
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Helper_Data $launcherHelper,
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_ThemeFactory $themeFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);

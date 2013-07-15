@@ -50,7 +50,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     /**
      * Theme factory
      *
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
@@ -136,7 +136,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->will($this->returnValue($this->_themeConfig));
 
         $this->_themeFactory = $this->getMock(
-            'Mage_Core_Model_Theme_Factory', array('create', 'load'), array(), '', false
+            'Mage_Core_Model_ThemeFactory', array('create', 'load'), array(), '', false
         );
 
         $this->_themeFactory->expects($this->any())

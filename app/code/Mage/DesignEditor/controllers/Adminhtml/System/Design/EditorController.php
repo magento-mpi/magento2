@@ -21,32 +21,24 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     protected $_themeConfig;
 
     /**
-     * @var Mage_Theme_Model_Config_Customizations
+     * @var Mage_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
     /**
-     * @var Mage_Core_Model_Resource_Theme_CollectionFactory
-     */
-    protected $_collectionFactory;
-
-    /**
      * @param Mage_Backend_Controller_Context $context
      * @param Mage_Theme_Model_Config $themeConfig
-     * @param Mage_Theme_Model_Config_Customizations $customizationConfig
-     * @param Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
+     * @param Mage_Theme_Model_Config_Customization $customizationConfig
      * @param null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Mage_Theme_Model_Config $themeConfig,
-        Mage_Theme_Model_Config_Customizations $customizationConfig,
-        Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory,
+        Mage_Theme_Model_Config_Customization $customizationConfig,
         $areaCode = null
     ) {
         $this->_themeConfig         = $themeConfig;
         $this->_customizationConfig = $customizationConfig;
-        $this->_collectionFactory   = $collectionFactory;
 
         parent::__construct($context, $areaCode);
     }
@@ -500,7 +492,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _isFirstEntrance()
     {
-        $isCustomized = (bool)$this->_collectionFactory->create()
+        $isCustomized = (bool)$this->_objectManager->get('Mage_Core_Model_Resource_Theme_CollectionFactory')->create()
             ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
             ->getSize();
         return !$isCustomized;

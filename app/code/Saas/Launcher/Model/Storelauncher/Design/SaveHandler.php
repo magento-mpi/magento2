@@ -52,7 +52,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
     protected $_themeConfig;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
@@ -64,7 +64,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
      * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
      * @param Saas_Launcher_Helper_Data $helperLauncher
      * @param Mage_Theme_Model_Config $themeConfig
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_ThemeFactory $themeFactory
      */
     public function __construct(
         Mage_Core_Model_Config $config,
@@ -74,7 +74,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo,
         Mage_Theme_Model_Config $themeConfig,
-        Mage_Core_Model_Theme_Factory $themeFactory
+        Mage_Core_Model_ThemeFactory $themeFactory
     ) {
         parent::__construct($config, $backendConfigModel);
         $this->_configLoader = $configLoader;

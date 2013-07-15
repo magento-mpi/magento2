@@ -20,7 +20,7 @@
 class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
@@ -37,7 +37,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_ThemeFactory $themeFactory
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
      * @param array $data
@@ -45,7 +45,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_ThemeFactory $themeFactory,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory,
         array $data = array()

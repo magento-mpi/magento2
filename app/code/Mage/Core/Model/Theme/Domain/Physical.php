@@ -21,7 +21,7 @@ class Mage_Core_Model_Theme_Domain_Physical
     protected $_theme;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
@@ -42,14 +42,14 @@ class Mage_Core_Model_Theme_Domain_Physical
 
     /**
      * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_ThemeFactory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_CopyService $themeCopyService
      * @param Mage_Core_Model_Resource_Theme_Collection $themeCollection
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_ThemeFactory $themeFactory,
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_CopyService $themeCopyService,
         Mage_Core_Model_Resource_Theme_Collection $themeCollection

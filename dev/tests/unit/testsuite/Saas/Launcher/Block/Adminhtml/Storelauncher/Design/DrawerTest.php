@@ -89,7 +89,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
 
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
 
-        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
         $themeFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($themeMock));

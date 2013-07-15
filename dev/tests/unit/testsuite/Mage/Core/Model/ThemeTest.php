@@ -45,7 +45,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme',
             array(
                 'objectManager' => $this->getMock('Magento_ObjectManager', array(), array(), '', false),
-                'themeFactory' => $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
+                'themeFactory' => $this->getMock('Mage_Core_Model_ThemeFactory', array(), array(), '', false),
                 'helper' => $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
                 'themeImage' => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
                 //domain factory

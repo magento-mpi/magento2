@@ -19,18 +19,18 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * @var Mage_Theme_Model_Config_Customizations
+     * @var Mage_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Theme_Model_Config_Customizations $customizationConfig
+     * @param Mage_Theme_Model_Config_Customization $customizationConfig
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Theme_Model_Config_Customizations $customizationConfig,
+        Mage_Theme_Model_Config_Customization $customizationConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);

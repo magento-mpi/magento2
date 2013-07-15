@@ -42,7 +42,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $context Mage_Core_Helper_Context */
         $context = $this->getMock('Mage_Core_Helper_Context', null, array(), '', false);
 
-        $themeFactory = $this->getMockBuilder('Mage_Core_Model_Theme_Factory')->disableOriginalConstructor()->getMock();
+        $themeFactory = $this->getMockBuilder('Mage_Core_Model_ThemeFactory')->disableOriginalConstructor()->getMock();
 
         $helper = new Mage_Core_Helper_Theme(
             $context,
@@ -113,7 +113,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $context Mage_Core_Helper_Context */
         $context = $this->getMock('Mage_Core_Helper_Context', null, array(), '', false);
 
-        $themeFactory = $this->getMockBuilder('Mage_Core_Model_Theme_Factory')->disableOriginalConstructor()->getMock();
+        $themeFactory = $this->getMockBuilder('Mage_Core_Model_ThemeFactory')->disableOriginalConstructor()->getMock();
 
         // 6. Run tested method
         $helper = new Mage_Core_Helper_Theme(
@@ -609,7 +609,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $context Mage_Core_Helper_Context */
         $context = $this->getMock('Mage_Core_Helper_Context', null, array(), '', false);
 
-        $themeFactory = $this->getMockBuilder('Mage_Core_Model_Theme_Factory')->disableOriginalConstructor()->getMock();
+        $themeFactory = $this->getMockBuilder('Mage_Core_Model_ThemeFactory')->disableOriginalConstructor()->getMock();
 
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->getMock('Mage_Core_Helper_Theme', array('getCssFiles', '__'), array(

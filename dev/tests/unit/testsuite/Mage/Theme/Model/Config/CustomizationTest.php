@@ -12,7 +12,7 @@
 /**
  * Test theme customization config model
  */
-class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestCase
+class Mage_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_StoreManagerInterface
@@ -30,7 +30,7 @@ class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestC
     protected $_themeCollection;
 
     /**
-     * @var Mage_Theme_Model_Config_Customizations
+     * @var Mage_Theme_Model_Config_Customization
      */
     protected $_model;
 
@@ -65,7 +65,7 @@ class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestC
             ->method('getConfigurationDesignTheme')
             ->will($this->returnValue($this->_getAssignedTheme()->getId()));
 
-        $this->_model = new Mage_Theme_Model_Config_Customizations(
+        $this->_model = new Mage_Theme_Model_Config_Customization(
             $this->_storeManager,
             $this->_designPackage,
             $collectionFactory
@@ -81,7 +81,7 @@ class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Mage_Theme_Model_Config_Customizations::getAssignedThemeCustomizations
+     * @covers Mage_Theme_Model_Config_Customization::getAssignedThemeCustomizations
      */
     public function testGetAssignedThemeCustomizations()
     {
@@ -98,7 +98,7 @@ class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Mage_Theme_Model_Config_Customizations::getUnassignedThemeCustomizations
+     * @covers Mage_Theme_Model_Config_Customization::getUnassignedThemeCustomizations
      */
     public function testGetUnassignedThemeCustomizations()
     {
@@ -115,7 +115,7 @@ class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Mage_Theme_Model_Config_Customizations::getStoresByThemes
+     * @covers Mage_Theme_Model_Config_Customization::getStoresByThemes
      */
     public function testGetStoresByThemes()
     {
@@ -128,7 +128,7 @@ class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Mage_Theme_Model_Config_Customizations::isThemeAssignedToStore
+     * @covers Mage_Theme_Model_Config_Customization::isThemeAssignedToStore
      */
     public function testIsThemeAssignedToDefaultStore()
     {
@@ -145,7 +145,7 @@ class Mage_Theme_Model_Config_CustomizationsTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Mage_Theme_Model_Config_Customizations::isThemeAssignedToStore
+     * @covers Mage_Theme_Model_Config_Customization::isThemeAssignedToStore
      */
     public function testIsThemeAssignedToConcreteStore()
     {

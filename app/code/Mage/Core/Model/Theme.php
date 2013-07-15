@@ -80,7 +80,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
@@ -112,7 +112,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_themeFiles;
 
     /**
-     * @var Mage_Theme_Model_Config_Customizations
+     * @var Mage_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
@@ -130,14 +130,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * @param Mage_Core_Model_Context $context
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_ThemeFactory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_Image $themeImage
      * @param Mage_Core_Model_Resource_Theme $resource
      * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
-     * @param Mage_Theme_Model_Config_Customizations $customizationConfig
+     * @param Mage_Theme_Model_Config_Customization $customizationConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -145,13 +145,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function __construct(
         Mage_Core_Model_Context $context,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_ThemeFactory $themeFactory,
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_Image $themeImage,
         Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Theme_Domain_Factory $domainFactory,
         Mage_Core_Model_Dir $dirs,
-        Mage_Theme_Model_Config_Customizations $customizationConfig,
+        Mage_Theme_Model_Config_Customization $customizationConfig,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {

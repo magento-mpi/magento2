@@ -304,8 +304,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 );
             }
 
-            /** @var $customizationConfig Mage_Theme_Model_Config_Customizations */
-            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
+            /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
+            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
@@ -348,8 +348,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 );
             }
 
-            /** @var $customizationConfig Mage_Theme_Model_Config_Customizations */
-            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config');
+            /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
+            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {

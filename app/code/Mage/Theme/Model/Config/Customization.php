@@ -9,9 +9,9 @@
  */
 
 /**
- * Theme customizations config model
+ * Theme customization config model
  */
-class Mage_Theme_Model_Config_Customizations
+class Mage_Theme_Model_Config_Customization
 {
     /**
      * @var Mage_Core_Model_StoreManagerInterface

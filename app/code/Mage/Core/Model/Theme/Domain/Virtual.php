@@ -21,7 +21,7 @@ class Mage_Core_Model_Theme_Domain_Virtual
     protected $_theme;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory $themeFactory
+     * @var Mage_Core_Model_ThemeFactory $themeFactory
      */
     protected $_themeFactory;
 
@@ -38,23 +38,23 @@ class Mage_Core_Model_Theme_Domain_Virtual
     protected $_themeCopyService;
 
     /**
-     * Theme customizations config
+     * Theme customization config
      *
-     * @var Mage_Theme_Model_Config_Customizations
+     * @var Mage_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
     /**
      * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_ThemeFactory $themeFactory
      * @param Mage_Core_Model_Theme_CopyService $themeCopyService
-     * @param Mage_Theme_Model_Config_Customizations $customizationConfig
+     * @param Mage_Theme_Model_Config_Customization $customizationConfig
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_ThemeFactory $themeFactory,
         Mage_Core_Model_Theme_CopyService $themeCopyService,
-        Mage_Theme_Model_Config_Customizations $customizationConfig
+        Mage_Theme_Model_Config_Customization $customizationConfig
     ) {
         $this->_theme = $theme;
         $this->_themeFactory = $themeFactory;

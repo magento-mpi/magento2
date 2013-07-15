@@ -84,12 +84,12 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
     }
 
     /**
-     * Return mocked theme factory model
+     * Return mocked theme collection factory model
      *
      * @param int $countCustomization
-     * @return Mage_Core_Model_Theme_Factory
+     * @return Mage_Core_Model_Resource_Theme_CollectionFactory
      */
-    protected function _getThemeFactory($countCustomization)
+    protected function _getThemeCollectionFactory($countCustomization)
     {
         $themeCollectionMock = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Collection')
             ->disableOriginalConstructor()
@@ -105,18 +105,15 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
             ->method('getSize')
             ->will($this->returnValue($countCustomization));
 
-        /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
-        $themeMock->expects($this->once())
-            ->method('getCollection')
+        /** @var Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory */
+        $collectionFactory = $this->getMock(
+            'Mage_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+        );
+        $collectionFactory->expects($this->once())
+            ->method('create')
             ->will($this->returnValue($themeCollectionMock));
 
-        $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
-        $themeFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($themeMock));
-
-        return $themeFactory;
+        return $collectionFactory;
     }
 
     /**
@@ -192,7 +189,10 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         $aclFilterMock = $this->getMock('Mage_Core_Model_Layout_Filter_Acl', array(), array(), '', false);
 
         return array(
-            array('Mage_Core_Model_Theme_Factory', $this->_getThemeFactory($countCustomization)),
+            array(
+                'Mage_Core_Model_Resource_Theme_CollectionFactory',
+                $this->_getThemeCollectionFactory($countCustomization)
+            ),
             array('Mage_Core_Model_Translate', $translate),
             array('Mage_Core_Model_Config', $configMock),
             array('Mage_Core_Model_Event_Manager', $eventManager),

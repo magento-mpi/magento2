@@ -24,7 +24,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     /**
      * Theme Service mock
      *
-     * @var Mage_Core_Model_Theme_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_ThemeFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeFactoryMock;
 
@@ -58,7 +58,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
 
-        $this->_themeFactoryMock = $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false);
+        $this->_themeFactoryMock = $this->getMock('Mage_Core_Model_ThemeFactory', array(), array(), '', false);
 
         $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
 
