@@ -75,10 +75,10 @@
                 // Check to make sure the loader is there on the page if not report it on the console.
                 // NOTE that this check should be removed before going live. It is just an aid to help
                 // in finding the uses of the loader that maybe broken.
-                if (console && !$(e.target).parents('[data-role="loader"]').length) {
+                if (console && !$(e.currentTarget).element.parents('[data-role="loader"]').length) {
                     console.warn('Expected to start loader but did not find one in the dom');
                 }
-                $(e.target).trigger('processStart');
+                $(e.currentTarget).trigger('processStart');
             }
         });
 
@@ -87,7 +87,7 @@
          */
         $('body').on('ajaxComplete ajaxError', function(e, jqxhr, settings) {
             if (settings && settings.showLoader) {
-                $(e.target).trigger('processStop');
+                $(e.currentTarget).trigger('processStop');
             }
         });
 
