@@ -64,7 +64,7 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
         //Data
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
         //Steps
-        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->adminUserHelper()->loginAdmin($loginData, false);
         $this->pleaseWait();
         $this->categoryHelper()->checkCategoriesPage();
         //Verifying that button "Add Root Category" doesn't present on page

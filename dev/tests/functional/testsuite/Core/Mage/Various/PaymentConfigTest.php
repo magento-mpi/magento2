@@ -19,10 +19,7 @@
 
 class Core_Mage_Various_PaymentConfigTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
+    public function assertPreConditions()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
@@ -37,11 +34,12 @@ class Core_Mage_Various_PaymentConfigTest extends Mage_Selenium_TestCase
     public function paymentConfigVerification()
     {
         //Data
-        $paymentMethod = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure', array('scc_sort_order' => ''));
+        $paymentMethod = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure',
+            array('scc_sort_order' => ''));
         //Steps
         $this->systemConfigurationHelper()->configure($paymentMethod);
-        $paymentMethod =
-            $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure', array('scc_sort_order' => rand(1, 10)));
+        $paymentMethod = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure',
+            array('scc_sort_order' => rand(1, 10)));
         $this->systemConfigurationHelper()->configure($paymentMethod);
     }
 }

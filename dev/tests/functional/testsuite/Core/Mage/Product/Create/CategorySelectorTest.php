@@ -39,7 +39,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
                  'name' => $default['name']
             ));
         //Create root category
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($newRoot);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Create new categories in 'Default Category'
@@ -74,7 +75,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $product = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $category['parent_category'] . '/' . $afterSave));
         //Preconditions
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Steps
@@ -101,7 +103,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $categories['newRoot']));
         //Preconditions
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Steps
@@ -350,7 +353,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->openProduct(array('product_sku' => $product['general_sku']));
         $product['general_categories'] = $path . '/' . $expectedNameAfterSave;
         $this->productHelper()->verifyProductInfo($product);
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->selectCategory($product['general_categories']);
         $this->openTab('general_information');
         $this->assertEquals($expectedNameAfterSave,

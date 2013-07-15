@@ -147,8 +147,10 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
     public function putNewsToQueueOneRole($loginData, $newNewsletterData)
     {
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->navigate('newsletter_templates');
         $newData = $this->loadDataSet('Newsletter', 'edit_newsletter_before_queue',
             array('newsletter_queue_data' => '12.12.12'));
+
         $this->newsletterHelper()->putNewsToQueue($newNewsletterData, $newData);
         $this->assertTrue($this->checkCurrentPage('newsletter_queue'), $this->getParsedMessages());
         $this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
@@ -177,9 +179,10 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
     public function deleteNewsletterOneRole($loginData, $newNewsletter)
     {
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->navigate('newsletter_templates');
         $this->newsletterHelper()->deleteNewsletter($newNewsletter);
         $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
-        $this->assertMessagePresent('success', 'success_delete_newsletter');
+        $this->assertMessagePresent('success', 'success_deleted_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletter);
         $this->assertNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template(Name:' . $newNewsletter['newsletter_template_subject']

@@ -52,7 +52,7 @@ configuration_menu_default:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~
-        google_website_optimizer: ~
+        #google_website_optimizer: ~
         google_checkout_shipping_merchant_calculated: ~
         google_checkout_shipping_carrier_calculated: ~
         google_checkout_shipping_flat_rate: ~
@@ -277,7 +277,7 @@ configuration_menu_website:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~
-        google_website_optimizer: ~
+        #google_website_optimizer: ~
         google_checkout_shipping_merchant_calculated: ~
         google_checkout_shipping_carrier_calculated: ~
         google_checkout_shipping_flat_rate: ~

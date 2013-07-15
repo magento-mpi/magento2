@@ -61,8 +61,9 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      * Login Admin User
      *
      * @param array $loginData
+     * @param bool $validate
      */
-    public function loginAdmin($loginData)
+    public function loginAdmin($loginData, $validate = true)
     {
         $waitCondition = array(
             $this->_getMessageXpath('general_error'),
@@ -72,7 +73,9 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $this->fillFieldset($loginData, 'log_in');
         $this->clickButton('login', false);
         $this->waitForElement($waitCondition);
-        $this->validatePage();
+        if ($validate) {
+            $this->validatePage();
+        }
         if ($this->controlIsVisible('button', 'close_notification')) {
             $this->clickControl('button', 'close_notification', false);
         }

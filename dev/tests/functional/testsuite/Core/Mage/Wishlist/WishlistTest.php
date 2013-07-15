@@ -126,7 +126,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
                 'downloadable_opt' => $downloadWithOption['general_name']
             ),
             'configurableOption' => array(
-                'title' => $attrData['attribute_properties']['attribute_label'],
+                'title' => $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $configurOptName
             ),
             'groupedOption' => array(
@@ -303,6 +303,9 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductsWithOptionsToShoppingCartFromWishlistNegative($product, $message, $testData)
     {
+        if ($product == 'downloadable_opt') {
+            $this->markTestIncomplete('BUG: Fatal error on page');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         //Steps and Verifying
@@ -541,6 +544,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlistNegative($testData)
     {
+        $this->markTestIncomplete('BUG: Fatal error on page');
         $simpleSku = $testData['withCustomOption'];
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleSku);

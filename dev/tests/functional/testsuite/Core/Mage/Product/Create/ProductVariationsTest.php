@@ -718,7 +718,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $this->addParameter('rowNumber', ++$index);
             $this->addParameter('title', $value);
             $this->assertTrue($this->controlIsVisible('pageelement', 'product_custom_option_head_order'),
-                '"' . $value . '" custom option has wrong position(not ' . $index . ')');
+                '"' . $value . '" attribute has wrong position(not ' . $index . ')');
         }
     }
 

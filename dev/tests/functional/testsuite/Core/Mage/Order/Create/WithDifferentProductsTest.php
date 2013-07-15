@@ -114,7 +114,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
             'configurable_sku' => $configurable['general_sku'],
             'grouped_name' => $grouped['general_name'],
             'grouped_sku' => $grouped['general_sku'],
-            'title' => $attrData['attribute_properties']['attribute_label']
+            'title' => $attrData['store_view_titles']['Default Store View']
         );
     }
 

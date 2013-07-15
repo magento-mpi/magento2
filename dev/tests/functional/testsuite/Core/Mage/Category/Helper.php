@@ -170,6 +170,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function checkCategoriesPage()
     {
+        $this->waitForAjax();
         if (!$this->isCategoriesPage()) {
             $this->fail("Opened page is not 'manage_categories' page");
         }

@@ -2102,15 +2102,15 @@ system_configuration:
                                         google_product_search_use_default: //input[@id="google_googleshopping_product_search_inherit"]
                                         product_ads_use_default: //input[@id="google_googleshopping_product_ads_inherit"]
                                         commerce_search_use_default: //input[@id="google_googleshopping_commerce_search_inherit"]
-                            -
-                                google_website_optimizer:
-                                    xpath: //fieldset[@id='google_optimizer']
-                                    links:
-                                        google_website_optimizer_link: //parent::div//a[@id='google_optimizer-head']
-                                    dropdowns:
-                                        enable: //select[@name='groups[optimizer][fields][active][value]']
-                                    checkboxes:
-                                        enable_use_default: //input[@name='groups[optimizer][fields][active][inherit]']
+#                            -
+#                                google_website_optimizer:
+#                                    xpath: //fieldset[@id='google_optimizer']
+#                                    links:
+#                                        google_website_optimizer_link: //parent::div//a[@id='google_optimizer-head']
+#                                    dropdowns:
+#                                        enable: //select[@name='groups[optimizer][fields][active][value]']
+#                                    checkboxes:
+#                                        enable_use_default: //input[@name='groups[optimizer][fields][active][inherit]']
                             -
                                 google_checkout:
                                     xpath: //fieldset[@id='google_checkout']

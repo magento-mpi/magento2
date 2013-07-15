@@ -309,7 +309,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         ));
         $productData['prices_special_price'] = '3.99';
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($subCategoryData);
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);

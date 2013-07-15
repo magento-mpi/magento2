@@ -80,7 +80,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');

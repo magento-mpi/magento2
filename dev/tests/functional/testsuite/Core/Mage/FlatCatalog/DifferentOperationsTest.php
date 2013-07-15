@@ -150,7 +150,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'grouped' => $grouped['general_name']
             ),
             'configurableOption' => array(
-                'title'                  => $attrData['attribute_properties']['attribute_label'],
+                'title'                  => $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $configurableOptionName
             ),
             'groupedOption' => array(

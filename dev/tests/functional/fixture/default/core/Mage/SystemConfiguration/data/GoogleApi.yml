@@ -58,5 +58,4 @@ google_adwords_enable:
                 conversion_label: Some Label
                 conversion_format: 2
                 conversion_color: FFFFFF
-                conversion_language: English / English (en)
                 conversion_value_type: Constant
