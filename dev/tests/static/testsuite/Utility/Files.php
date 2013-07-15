@@ -225,10 +225,6 @@ class Utility_Files
                     self::_getFiles(
                         $dirPatterns,
                         '*.xml'
-                    ),
-                    glob(
-                        "{$this->_path}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}/local.xml",
-                        GLOB_NOSORT
                     )
                 );
             }
