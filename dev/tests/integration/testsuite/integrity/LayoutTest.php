@@ -186,9 +186,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         }
         $result = array();
         foreach ($themeLayouts as $layout) {
-            if (!$layout->isBase()) {
-                $result[] = array($layout);
-            }
+            $result[] = array($layout);
         }
         return $result;
     }
