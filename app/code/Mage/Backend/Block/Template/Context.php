@@ -23,16 +23,19 @@ class Mage_Backend_Block_Template_Context extends Mage_Core_Block_Template_Conte
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Session $session
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Mage_Core_Model_View_Config $viewConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
-     * @param Magento_AuthorizationInterface $authorization
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Mage_Core_Model_TemplateEngine_Factory $engineFactory
+     * @param Magento_AuthorizationInterface $authorization
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -43,20 +46,24 @@ class Mage_Backend_Block_Template_Context extends Mage_Core_Block_Template_Conte
         Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Session $session,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_Config $viewConfig,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
-        Magento_AuthorizationInterface $authorization,
-        Mage_Core_Model_TemplateEngine_Factory $engineFactory
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Mage_Core_Model_TemplateEngine_Factory $engineFactory,
+        Magento_AuthorizationInterface $authorization
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $engineFactory
+            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
+            $frontController, $helperFactory, $viewUrl, $viewConfig, $dirs, $logger, $filesystem, $viewFileSystem,
+            $engineFactory
         );
         $this->_authorization = $authorization;
     }

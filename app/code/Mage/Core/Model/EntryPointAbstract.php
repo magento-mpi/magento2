@@ -57,9 +57,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
     protected function _initObjectManager()
     {
         if (!$this->_objectManager) {
-            $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory();
-            $definitions =  $definitionFactory->create($this->_config);
-            $this->_objectManager = new Mage_Core_Model_ObjectManager($definitions, $this->_config);
+            $this->_objectManager = new Mage_Core_Model_ObjectManager($this->_config);
         }
 
         $this->_setGlobalObjectManager();

@@ -19,7 +19,7 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
     public function testViewFilesFromModulesView($application, $file)
     {
         Mage::getDesign()->setArea($application)->setDefaultDesignTheme();
-        $result = Mage::getDesign()->getViewFile($file);
+        $result = Mage::getObjectManager()->get('Mage_Core_Model_View_FileSystem')->getViewFile($file);
         $this->assertFileExists($result);
     }
 

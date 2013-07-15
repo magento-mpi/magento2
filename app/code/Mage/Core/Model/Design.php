@@ -29,7 +29,10 @@
  */
 class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
 {
-    const CACHE_TAG              = 'CORE_DESIGN';
+    /**
+     * Cache tag
+     */
+    const CACHE_TAG = 'CORE_DESIGN';
 
     /**
      * Prefix of model events names
@@ -43,9 +46,9 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
      *
      * When you use true - all cache will be clean
      *
-     * @var string || true
+     * @var string|bool
      */
-    protected $_cacheTag         = self::CACHE_TAG;
+    protected $_cacheTag = self::CACHE_TAG;
 
     /**
      * @var Mage_Core_Model_LocaleInterface
@@ -113,10 +116,10 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     /**
      * Apply design change from self data into specified design package instance
      *
-     * @param Mage_Core_Model_Design_PackageInterface $packageInto
+     * @param Mage_Core_Model_View_DesignInterface $packageInto
      * @return Mage_Core_Model_Design
      */
-    public function changeDesign(Mage_Core_Model_Design_PackageInterface $packageInto)
+    public function changeDesign(Mage_Core_Model_View_DesignInterface $packageInto)
     {
         $design = $this->getDesign();
         if ($design) {

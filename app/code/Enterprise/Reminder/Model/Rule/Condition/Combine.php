@@ -15,13 +15,14 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * Intialize model
+     * Initialize model
      *
-     * @return void
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct();
+        parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Combine');
     }
 
@@ -30,7 +31,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine
      *
      * @return array
      */
-        public function getNewChildSelectOptions()
+    public function getNewChildSelectOptions()
     {
         $conditions = array(
             array( // customer wishlist combo

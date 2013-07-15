@@ -30,7 +30,9 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
                 Mage::getSingleton('Mage_Core_Model_Context'),
-                Mage::getObjectManager()->create('Magento_Filesystem')
+                Mage::getObjectManager()->create('Magento_Filesystem'),
+                Mage::getObjectManager()->create('Mage_Core_Model_View_Url'),
+                Mage::getObjectManager()->create('Mage_Core_Model_View_FileSystem')
             ))
             ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
@@ -106,7 +108,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $theme = Mage::getModel('Mage_Core_Model_Theme');
         $theme->load('default/demo_blue', 'theme_path');
         Mage::app()->getStore('fixturestore')
-            ->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $theme->getId());
+            ->setConfig(Mage_Core_Model_View_Design::XML_PATH_THEME_ID, $theme->getId());
     }
 
     /**

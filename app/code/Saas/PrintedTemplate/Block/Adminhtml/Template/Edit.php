@@ -36,7 +36,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
      */
     public function getModuleViewFileUrl($path)
     {
-        return Mage::getDesign()->getViewFileUrl(
+        return $this->getViewFileUrl(
             sprintf('%s::%s', self::MODULE_NAME, $path)
         );
     }

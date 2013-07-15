@@ -15,11 +15,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
-     * Class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct();
+        parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales');
         $this->setValue(null);
     }

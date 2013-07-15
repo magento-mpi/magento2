@@ -24,28 +24,31 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $definitions = new Magento_ObjectManager_Definition_Runtime();
-        $this->_object = new Magento_ObjectManager_ObjectManager(
-            $definitions
+        $config = new Magento_ObjectManager_Config_Config(new Magento_ObjectManager_Relations_Runtime());
+        $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
+            new Magento_ObjectManager_Factory_Factory(
+                $config, null, null, array('one' => 'first_val', 'two' => 'second_val')
+            ), $config
         );
+        $this->_object = new Magento_ObjectManager_ObjectManager($factory, $config);
     }
 
     public function testCreateCreatesNewInstanceEveryTime()
     {
-        $object1 = $this->_object->create('Magento_Test_Di_Child');
-        $this->assertInstanceOf('Magento_Test_Di_Child', $object1);
-        $object2 = $this->_object->create('Magento_Test_Di_Child');
-        $this->assertInstanceOf('Magento_Test_Di_Child', $object2);
-        $this->assertNotSame($object1, $object2);
+        $objectA = $this->_object->create('Magento_Test_Di_Child');
+        $this->assertInstanceOf('Magento_Test_Di_Child', $objectA);
+        $objectB = $this->_object->create('Magento_Test_Di_Child');
+        $this->assertInstanceOf('Magento_Test_Di_Child', $objectB);
+        $this->assertNotSame($objectA, $objectB);
     }
 
     public function testGetCreatesNewInstanceOnlyOnce()
     {
-        $object1 = $this->_object->get('Magento_Test_Di_Child');
-        $this->assertInstanceOf('Magento_Test_Di_Child', $object1);
-        $object2 = $this->_object->get('Magento_Test_Di_Child');
-        $this->assertInstanceOf('Magento_Test_Di_Child', $object2);
-        $this->assertSame($object1, $object2);
+        $objectA = $this->_object->get('Magento_Test_Di_Child');
+        $this->assertInstanceOf('Magento_Test_Di_Child', $objectA);
+        $objectB = $this->_object->get('Magento_Test_Di_Child');
+        $this->assertInstanceOf('Magento_Test_Di_Child', $objectB);
+        $this->assertSame($objectA, $objectB);
     }
 
     public function testCreateCreatesPreferredImplementation()
@@ -247,10 +250,10 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $child1 = $this->_object->create('customChildType');
-        $child2 = $this->_object->create('customChildType');
-        $this->assertNotSame($child1, $child2);
-        $this->assertSame($child1->interface, $child2->interface);
+        $childA = $this->_object->create('customChildType');
+        $childB = $this->_object->create('customChildType');
+        $this->assertNotSame($childA, $childB);
+        $this->assertSame($childA->interface, $childB->interface);
 
         $this->_object->configure(array(
             'customChildType' => array(
@@ -259,10 +262,10 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $child1 = $this->_object->create('customChildType');
-        $child2 = $this->_object->create('customChildType');
-        $this->assertNotSame($child1, $child2);
-        $this->assertNotSame($child1->interface, $child2->interface);
+        $childA = $this->_object->create('customChildType');
+        $childB = $this->_object->create('customChildType');
+        $this->assertNotSame($childA, $childB);
+        $this->assertNotSame($childA->interface, $childB->interface);
     }
 
     public function testTypeShareabilityConfigurationIsApplied()
@@ -277,20 +280,20 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $child1 = $this->_object->create('customChildType');
-        $child2 = $this->_object->create('customChildType');
-        $this->assertNotSame($child1, $child2);
-        $this->assertSame($child1->interface, $child2->interface);
+        $childA = $this->_object->create('customChildType');
+        $childB = $this->_object->create('customChildType');
+        $this->assertNotSame($childA, $childB);
+        $this->assertSame($childA->interface, $childB->interface);
 
         $this->_object->configure(array(
             'Magento_Test_Di_Parent' => array(
                 'shared' => 'false'
             )
         ));
-        $child1 = $this->_object->create('customChildType');
-        $child2 = $this->_object->create('customChildType');
-        $this->assertNotSame($child1, $child2);
-        $this->assertNotSame($child1->interface, $child2->interface);
+        $childA = $this->_object->create('customChildType');
+        $childB = $this->_object->create('customChildType');
+        $this->assertNotSame($childA, $childB);
+        $this->assertNotSame($childA->interface, $childB->interface);
     }
 
     public function testParameterShareabilityConfigurationOverridesTypeShareability()
@@ -308,10 +311,10 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $child1 = $this->_object->create('customChildType');
-        $child2 = $this->_object->create('customChildType');
-        $this->assertNotSame($child1, $child2);
-        $this->assertNotSame($child1->interface, $child2->interface);
+        $childA = $this->_object->create('customChildType');
+        $childB = $this->_object->create('customChildType');
+        $this->assertNotSame($childA, $childB);
+        $this->assertNotSame($childA->interface, $childB->interface);
 
         $this->_object->configure(array(
             'customChildType' => array(
@@ -320,9 +323,28 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $child1 = $this->_object->create('customChildType');
-        $child2 = $this->_object->create('customChildType');
-        $this->assertNotSame($child1, $child2);
-        $this->assertSame($child1->interface, $child2->interface);
+        $childA = $this->_object->create('customChildType');
+        $childB = $this->_object->create('customChildType');
+        $this->assertNotSame($childA, $childB);
+        $this->assertSame($childA->interface, $childB->interface);
+    }
+
+    public function testGlobalArgumentsCanBeConfigured()
+    {
+        $this->_object->configure(array(
+            'preferences' => array(
+                'Magento_Test_Di_Interface' => 'Magento_Test_Di_Parent',
+            ),
+            'Magento_Test_Di_Aggregate_Parent' => array(
+                'parameters' => array(
+                    'scalar' => array('argument' => 'Magento_Test_Di_Aggregate_Interface::PARAM_ONE'),
+                    'optionalScalar' => array('argument' => 'Magento_Test_Di_Aggregate_Interface::PARAM_TWO')
+                )
+            )
+        ));
+        /** @var $result Magento_Test_Di_Aggregate_Parent */
+        $result = $this->_object->create('Magento_Test_Di_Aggregate_Parent');
+        $this->assertEquals('first_val', $result->scalar);
+        $this->assertEquals('second_val', $result->optionalScalar);
     }
 }

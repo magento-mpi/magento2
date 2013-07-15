@@ -13,19 +13,20 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 {
     public function testGetTemplateFile()
     {
-        $design = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $template = 'fixture';
         $area = 'areaFixture';
+        $params = array('module' => 'Mage_Core', 'area' => $area);
+
+        $fileSystem = $this->getMock('Mage_Core_Model_View_FileSystem', array(), array(), '', false);
+        $fileSystem->expects($this->once())->method('getFilename')->with($template, $params);
         $arguments = array(
-            'designPackage' => $design,
-            'data' => array('template' => $template, 'area' => $area),
+            'viewFileSystem' => $fileSystem,
+            'data'           => array('template' => $template, 'area' => $area),
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
 
         $block = $helper->getObject('Mage_Core_Block_Template', $arguments);
 
-        $params = array('module' => 'Mage_Core', 'area' => $area);
-        $design->expects($this->once())->method('getFilename')->with($template, $params);
         $block->getTemplateFile();
     }
 
@@ -44,7 +45,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
         $layout = $this->getMock('Mage_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $design = $this->getMock('Mage_Core_Model_Design_PackageInterface', array(), array(), '', false);
+        $design = $this->getMock('Mage_Core_Model_View_DesignInterface', array(), array(), '', false);
         $translator = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
 
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array('get', 'create', 'configure'));
@@ -55,7 +56,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $engineFactory = new Mage_Core_Model_TemplateEngine_Factory($objectManagerMock);
 
         $arguments = array(
-            'designPackage' => $design,
+            'design'        => $design,
             'layout'        => $layout,
             'dirs'          => $dirMock,
             'filesystem'    => $filesystem,

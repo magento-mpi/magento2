@@ -21,7 +21,7 @@ product_page:
                         pageelements:
                             price_regular: //span[@class='regular-price']
                             price_old: //p[@class='old-price']/span[@class='price']
-                            #price_special: //p[@class='special-price']/span[@class='price']
+                            price_special: //p[@class='special-price']/span[@class='price']
                             #price_special_excluding_tax: //p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
                             #price_special_inlcuding_tax: //p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
                             #price_excluding_tax: //span[@class='price-excluding-tax']/span[@class='price']
@@ -110,9 +110,9 @@ product_page:
                             custom_option_multiselect: //select[@multiple='multiple']
                         radiobuttons:
                             custom_option_radiobutton: //*[contains(*/*,'%optionTitle%')]//input[@type='radio']
-                        #pageelements:
+                        pageelements:
                             #custom_option_price: //span[@class='price' and normalize-space(text())='%price%']
-                            #custom_option_select: //option[contains(text(),'%optionTitle% +%optionPrice%')]
+                            custom_option_select: //option[contains(text(),'%optionTitle%')]
                             #custom_option_check: //span[contains(text(),'+')]/span[@class='price' and contains(text(),'%optionPrice%')]
                             #Elements relative to the control title
                             #custom_option_max_chars: //p[strong='%maxChars%']

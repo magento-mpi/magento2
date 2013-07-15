@@ -64,7 +64,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_Direct implements Mage_Core_Model
     protected function _composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
         $result = array();
-        $isCss = $contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS;
+        $isCss = $contentType == Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
 
         foreach ($publicFiles as $file) {
             if (!$this->_filesystem->has($file)) {

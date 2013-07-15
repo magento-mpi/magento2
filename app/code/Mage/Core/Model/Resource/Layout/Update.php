@@ -19,9 +19,9 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
     private $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
-    private $_designPackage;
+    private $_design;
 
     /**
      * @var Magento_Cache_FrontendInterface
@@ -31,18 +31,18 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
     /**
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_StoreManager $storeManager
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Magento_Cache_FrontendInterface $cache
      */
     public function __construct(
         Mage_Core_Model_Resource $resource,
         Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_DesignInterface $design,
         Magento_Cache_FrontendInterface $cache
     ) {
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
-        $this->_designPackage = $designPackage;
+        $this->_design = $design;
         $this->_cache = $cache;
     }
 
@@ -65,7 +65,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
     {
         $bind = array(
             'store_id' => $this->_storeManager->getStore()->getId(),
-            'theme_id' => $this->_designPackage->getDesignTheme()->getThemeId(),
+            'theme_id' => $this->_design->getDesignTheme()->getThemeId(),
         );
 
         foreach ($params as $key => $value) {

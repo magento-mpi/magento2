@@ -13,18 +13,18 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
     const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
 
     /**
-     * Design model
+     * Design change model
      *
      * @var Mage_Core_Model_Design
      */
-    protected $_design;
+    protected $_designChange;
 
     /**
-     * Design package model
+     * Design model
      *
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
-    protected $_designPackage;
+    protected $_design;
 
     /**
      * FPC cache model
@@ -34,19 +34,20 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
     protected $_fpcCache;
 
     /**
-     * @param Mage_Core_Model_Design $design
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_Design $designChange
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      */
     public function __construct(
-        Mage_Core_Model_Design $design,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_Design $designChange,
+        Mage_Core_Model_View_DesignInterface $design,
         Enterprise_PageCache_Model_Cache $fpcCache
     ) {
+        $this->_designChange = $designChange;
         $this->_design = $design;
-        $this->_designPackage = $designPackage;
         $this->_fpcCache = $fpcCache;
     }
+
     /**
      * Get package name based on design exception rules
      *
@@ -58,7 +59,7 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
         $output = '';
         $rules = $exceptions ? @unserialize($exceptions) : array();
         if (false === empty($rules)) {
-            $output = Mage_Core_Model_Design_Package::getPackageByUserAgent($rules);
+            $output = Mage_Core_Model_View_Design::getPackageByUserAgent($rules);
         }
         return $output;
     }
@@ -79,7 +80,7 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
         $changeCacheId =  $this->getCacheId($storeId, $date);
         $result = $this->_fpcCache->load($changeCacheId);
         if ($result === false) {
-            $result = $this->_design->getResource()->loadChange($storeId, $date);
+            $result = $this->_designChange->getResource()->loadChange($storeId, $date);
             $result = $result ?: array();
             $this->_fpcCache->save(
                 serialize($result),

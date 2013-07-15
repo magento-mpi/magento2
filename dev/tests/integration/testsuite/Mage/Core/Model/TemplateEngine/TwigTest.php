@@ -66,6 +66,7 @@ class Mage_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
      */
     public function testSimpleRender()
     {
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_FRONTEND, Mage_Core_Model_App_Area::PART_DESIGN);
         $simpleTitle = 'This is the Title';
         $renderedOutput = '<html><head><title>' . $simpleTitle . '</title></head><body></body></html>';
         $path = __DIR__ . '/_files';

@@ -26,10 +26,12 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
 
     /**
      * Initializes config model
+     *
+     * @param Mage_Core_Model_View_Url $viewUrl
      */
-    public function __construct()
+    public function __construct(Mage_Core_Model_View_Url $viewUrl)
     {
-        parent::__construct(array(
+        parent::__construct($viewUrl, array(
             'buttons_to_remove' => 'media',
             'footer_separator' => '<!-- FOOTER SEPARATOR -->',
             'header_separator' => '<!-- HEADER SEPARATOR -->',
@@ -106,22 +108,23 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
      */
     protected function getHeaderFooterPlugin()
     {
-        $designPackage = Mage::getDesign();
-        $designPackage->getViewFileUrl(
+        $viewUrl = $this->_viewUrl;
+
+        $viewUrl->getViewFileUrl(
             'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/css/content.css'
         );
-        $designPackage->getViewFileUrl(
+        $viewUrl->getViewFileUrl(
             'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/img/footer-icon.gif'
         );
-        $designPackage->getViewFileUrl(
+        $viewUrl->getViewFileUrl(
             'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/img/header-icon.gif'
         );
-        $designPackage->getViewFileUrl(
+        $viewUrl->getViewFileUrl(
             'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/img/trans.gif'
         );
         return array(
             array('name' => 'magentofooter',
-                'src' => $designPackage->getViewFileUrl(
+                'src' => $viewUrl->getViewFileUrl(
                     'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
                 ),
                 'options' => array(
@@ -134,7 +137,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                 ),
             ),
             array('name' => 'magentoheader',
-                'src' => $designPackage->getViewFileUrl(
+                'src' => $viewUrl->getViewFileUrl(
                     'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
                 ),
                 'options' => array(
@@ -167,7 +170,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
     protected function getWysiwygJsPluginSrc()
     {
         $editorPluginJs = 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
-        return Mage::getDesign()->getViewFileUrl($editorPluginJs);
+        return $this->_viewUrl->getViewFileUrl($editorPluginJs);
     }
 
     /**

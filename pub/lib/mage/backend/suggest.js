@@ -47,9 +47,11 @@
                 }
             },
             termAjaxArgument: 'label_part',
+            filterProperty: 'label',
             className: null,
             inputWrapper:'<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
             dropdownWrapper: '<div class="mage-suggest-dropdown"></div>',
+            preventClickPropagation: true,
             currentlySelected: null
         },
 
@@ -270,15 +272,18 @@
                 }, this));
             }, this));
 
+            if (this.options.preventClickPropagation) {
+                this._on(this.dropdown, events);
+            }
             // Fix for IE 8
-            this._on(this.dropdown, $.extend(events, {
+            this._on(this.dropdown, {
                 mousedown: function() {
                     this.preventBlur = true;
                 },
                 mouseup: function() {
                     this.preventBlur = false;
                 }
-            }));
+            });
         },
 
         /**
@@ -577,10 +582,11 @@
             var itemsArray = $.isArray(items) ? items : $.map(items, function(element) {
                 return element;
             });
+            var property = this.options.filterProperty;
             return $.grep(
                 itemsArray,
                 function(value) {
-                    return matcher.test(value.label || value.id || value);
+                    return matcher.test(value[property] || value.id || value);
                 }
             );
         }
