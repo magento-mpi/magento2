@@ -385,4 +385,28 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    /**
+     * @param mixed $originalCode
+     * @param string $expectedCode
+     * @dataProvider getCodeDataProvider
+     */
+    public function testGetCode($originalCode, $expectedCode)
+    {
+        $model = $this->_getThemeModel();
+        $model->setCode($originalCode);
+        $this->assertSame($expectedCode, $model->getCode());
+    }
+
+    /**
+     * @return array
+     */
+    public function getCodeDataProvider()
+    {
+        return array(
+            'string code' => array('theme/code', 'theme/code'),
+            'null code'   => array(null, ''),
+            'number code' => array(10, '10'),
+        );
+    }
 }

@@ -49,8 +49,7 @@ class Mage_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_Fram
         $parentTheme->expects($this->once())->method('getParentTheme')->will($this->returnValue($grandparentTheme));
 
         $theme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
-        $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
-        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('theme/path'));
+        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
         $filePathOne = 'design/area/theme/path/Module_One/layout/override/parent/theme/1.xml';
@@ -86,8 +85,7 @@ class Mage_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_Fram
         );
 
         $theme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
-        $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
-        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('theme/path'));
+        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue(null));
         $theme->expects($this->once())->method('getCode')->will($this->returnValue('theme/path'));
 

@@ -50,6 +50,6 @@ class Generator_ThemeLight extends Varien_Object implements Mage_Core_Model_Them
      */
     public function getCode()
     {
-        return $this->getData('code');
+        return (string)$this->getData('code');
     }
 }

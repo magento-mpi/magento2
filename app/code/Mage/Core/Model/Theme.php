@@ -64,6 +64,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
+     * Separator between parts of full theme code (package and theme code)
+     */
+    const CODE_SEPARATOR = '/';
+
+    /**
      * Filename of view configuration
      */
     const FILENAME_VIEW_CONFIG = 'view.xml';
@@ -559,7 +564,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Retrieve theme full path which is used to distinguish themes if they are not in DB yet
      *
-     * Alternative id looks like "<area>/<package_code>/<theme_code>".
+     * Alternative id looks like "<area>/<theme_path>".
      * Used as id in file-system theme collection
      *
      * @return string
@@ -574,7 +579,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCode()
     {
-        return $this->getData('code');
+        return (string)$this->getData('code');
     }
 
     /**

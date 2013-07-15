@@ -192,4 +192,53 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         }
         return $result;
     }
+
+    /**
+     * @param Mage_Core_Model_Layout_File $file
+     * @param Mage_Core_Model_Theme $theme
+     * @dataProvider overrideThemeFilesDataProvider
+     */
+    public function testOverrideThemeFiles(Mage_Core_Model_Layout_File $file, Mage_Core_Model_Theme $theme)
+    {
+        $foundFile = false;
+        /** @var $themeUpdates Mage_Core_Model_Layout_File_Source_Theme */
+        $themeUpdates = Mage::getModel('Mage_Core_Model_Layout_File_Source_Theme');
+        while ($theme = $theme->getParentTheme()) {
+            if ($theme != $file->getTheme()) {
+                continue;
+            }
+            $themeFiles = $themeUpdates->getFiles($theme);
+            /** @var $themeFile Mage_Core_Model_Layout_File */
+            foreach ($themeFiles as $themeFile) {
+                if ($themeFile->getName() == $file->getName() && $themeFile->getModule() == $file->getModule()) {
+                    $foundFile = true;
+                    break 2;
+                }
+            }
+        }
+        $this->assertTrue($foundFile, sprintf("Could not find original file for '%s' in '%s' theme.",
+            $file->getFilename(), $file->getTheme()->getCode()
+        ));
+    }
+
+    /**
+     * @return array
+     */
+    public function overrideThemeFilesDataProvider()
+    {
+        $result = array();
+        /** @var $themeUpdates Mage_Core_Model_Layout_File_Source_Override_Theme */
+        $themeUpdates = Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme');
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeCollection->addDefaultPattern('*');
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            foreach ($themeUpdates->getFiles($theme) as $file) {
+                $result[] = array($file, $theme);
+            }
+        }
+
+        return $result;
+    }
 }
