@@ -21,6 +21,11 @@ class Mage_Core_Model_Layout_Merge
     /**#@-*/
 
     /**
+     * XPath of handles originally declared in layout updates
+     */
+    const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
+
+    /**
      * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_design;
@@ -600,7 +605,7 @@ class Mage_Core_Model_Layout_Merge
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
             /** @var $fileXml Mage_Core_Model_Layout_Element */
             $fileXml = simplexml_load_string($fileStr, $this->_elementClass);
-            if (!$file->isBase() && $fileXml->xpath('/layout/*[@* or label]')) {
+            if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
                 throw new Magento_Exception(sprintf(
                     "Theme layout update file '%s' must not declare page types.",
                     $file->getFileName()

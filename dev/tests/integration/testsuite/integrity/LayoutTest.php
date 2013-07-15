@@ -158,7 +158,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $content = simplexml_load_file($layout->getFilename());
         $this->assertEmpty(
-            $content->xpath('/layout/*[@* or label]'),
+            $content->xpath(Mage_Core_Model_Layout_Merge::XPATH_HANDLE_DECLARATION),
             "Theme layout update '" . $layout->getFilename() . "' contains page type declaration(s)"
         );
     }
