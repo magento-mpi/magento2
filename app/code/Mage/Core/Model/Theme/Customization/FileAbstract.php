@@ -60,7 +60,7 @@ abstract class Mage_Core_Model_Theme_Customization_FileAbstract
     public function getFullPath(Mage_Core_Model_Theme_FileInterface $file)
     {
         $customizationPath = $this->_customizationPath->getCustomizationPath($file->getTheme());
-        return Magento_Filesystem::fixSeparator($customizationPath . DIRECTORY_SEPARATOR . $file->getData('file_path'));
+        return $customizationPath . DIRECTORY_SEPARATOR . $file->getData('file_path');
     }
 
     /**

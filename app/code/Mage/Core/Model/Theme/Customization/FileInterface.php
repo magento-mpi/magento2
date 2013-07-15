@@ -44,6 +44,7 @@ interface Mage_Core_Model_Theme_Customization_FileInterface
 
     /**
      * Saves related data to custom file
+     *
      * @param Mage_Core_Model_Theme_FileInterface $file
      * @return $this
      */

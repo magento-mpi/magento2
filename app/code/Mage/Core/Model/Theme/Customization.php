@@ -117,7 +117,9 @@ class Mage_Core_Model_Theme_Customization implements Mage_Core_Model_Theme_Custo
      */
     public function getThemeFilesPath()
     {
-        return $this->_customizationPath->getThemeFilesPath($this->_theme);
+        return $this->_theme->isPhysical()
+            ? $this->_customizationPath->getThemeFilesPath($this->_theme)
+            : $this->_customizationPath->getCustomizationPath($this->_theme);
     }
 
     /**

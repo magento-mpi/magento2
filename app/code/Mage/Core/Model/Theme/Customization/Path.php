@@ -37,36 +37,48 @@ class Mage_Core_Model_Theme_Customization_Path
      * Returns customization absolute path
      *
      * @param Mage_Core_Model_Theme $theme
-     * @return string
+     * @return string|null
      */
     public function getCustomizationPath(Mage_Core_Model_Theme $theme)
     {
-        return $this->_dir->getDir(Mage_Core_Model_Dir::MEDIA)
-            . Magento_Filesystem::DIRECTORY_SEPARATOR . self::DIR_NAME
-            . Magento_Filesystem::DIRECTORY_SEPARATOR . $theme->getId();
+        $path = null;
+        if ($theme->getId()) {
+            $path = $this->_dir->getDir(Mage_Core_Model_Dir::MEDIA)
+                . DIRECTORY_SEPARATOR . self::DIR_NAME
+                . DIRECTORY_SEPARATOR . $theme->getId();
+        }
+        return $path;
     }
 
     /**
      * Get directory where themes files are stored
      *
      * @param Mage_Core_Model_Theme $theme
-     * @return string
+     * @return string|null
      */
     public function getThemeFilesPath(Mage_Core_Model_Theme $theme)
     {
-        $physicalThemesDir = $this->_dir->getDir(Mage_Core_Model_Dir::THEMES);
-        $dir = sprintf('%s/%s', $physicalThemesDir, $theme->getFullPath());
-        return $dir;
+        $path = null;
+        if ($theme->getFullPath()) {
+            $physicalThemesDir = $this->_dir->getDir(Mage_Core_Model_Dir::THEMES);
+            $path = Magento_Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
+        }
+        return $path;
     }
 
     /**
      * Get path to custom view configuration file
      *
      * @param Mage_Core_Model_Theme $theme
-     * @return string
+     * @return string|null
      */
     public function getCustomViewConfigPath(Mage_Core_Model_Theme $theme)
     {
-        return $this->getCustomizationPath($theme) . DIRECTORY_SEPARATOR . Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG;
+        $path = null;
+        if ($theme->getId()) {
+            $path = $this->getCustomizationPath($theme) . DIRECTORY_SEPARATOR
+                . Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG;
+        }
+        return $path;
     }
 }

@@ -48,18 +48,15 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
      *
      * @param Mage_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Theme_Customization $customization
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_File_UploaderFactory $uploaderFactory,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Theme_Customization $customization,
         array $data = array()
     ) {
         $this->_uploaderFactory = $uploaderFactory;
         $this->_filesystem = $filesystem;
-        $this->_customization = $customization;
         parent::__construct($data);
     }
 
@@ -72,7 +69,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
     {
         if (null === $this->_storagePath) {
             $this->_storagePath = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
-                Magento_Filesystem::fixSeparator($this->_customization->getCustomizationPath($this->_getTheme())),
+                Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
                 self::PATH_PREFIX_QUICK_STYLE,
             ));
         }
