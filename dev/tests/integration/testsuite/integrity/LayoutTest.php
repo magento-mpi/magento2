@@ -192,6 +192,8 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check whether original files exist for corresponding overriding theme files
+     *
      * @param Mage_Core_Model_Layout_File $file
      * @param Mage_Core_Model_Theme $theme
      * @dataProvider overrideThemeFilesDataProvider
@@ -214,8 +216,8 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 }
             }
         }
-        $this->assertTrue($foundFile, sprintf("Could not find original file for '%s' in '%s' theme.",
-            $file->getFilename(), $file->getTheme()->getCode()
+        $this->assertTrue($foundFile, sprintf("Could not find original file in '%s' theme overridden by file '%s'.",
+            $file->getTheme()->getCode(), $file->getFilename()
         ));
     }
 
@@ -225,14 +227,14 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function overrideThemeFilesDataProvider()
     {
         $result = array();
-        /** @var $themeUpdates Mage_Core_Model_Layout_File_Source_Override_Theme */
-        $themeUpdates = Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme');
+        /** @var $themeOverrides Mage_Core_Model_Layout_File_Source_Override_Theme */
+        $themeOverrides = Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme');
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
-            foreach ($themeUpdates->getFiles($theme) as $file) {
+            foreach ($themeOverrides->getFiles($theme) as $file) {
                 $result[] = array($file, $theme);
             }
         }
