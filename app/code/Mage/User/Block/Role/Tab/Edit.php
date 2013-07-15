@@ -131,12 +131,10 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
         $helper = Mage::helper('Mage_Core_Helper_Data');
         /** @var $translator Mage_User_Helper_Data */
         $translator = $this->helper('Mage_User_Helper_Data');
-        $selectedResource = $this->getSelectedResources();
         $resources = $reader->getAclResources();
         $rootArray = $this->_mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array(),
-            $translator,
-            $selectedResource
+            $translator
         );
         $json = $helper->jsonEncode($rootArray);
         return $json;
@@ -147,25 +145,28 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
      *
      * @param array $resources
      * @param Mage_User_Helper_Data $translator
-     * @param array $selectedResource
      * @return array
      */
-    protected function _mapResources(array $resources, Mage_User_Helper_Data $translator, array $selectedResource)
+    protected function _mapResources(array $resources, Mage_User_Helper_Data $translator)
     {
         $output = array();
         foreach ($resources as $resource) {
             $item = array();
-            $item['id'] = $resource['id'];
-            $item['text'] = $translator->__($resource['title']);
-            if (in_array($item['id'], $selectedResource)) {
-                $item['checked'] = true;
-            }
+            $item['attr']['data-ui-id'] = $resource['id'];
+            $item['attr']['data-id'] = $resource['id'];
+            $item['data'] = $translator->__($resource['title']);
             $item['children'] = array();
             if (isset($resource['children'])) {
-                $item['children'] = $this->_mapResources($resource['children'], $translator, $selectedResource);
+                $item['state'] = 'open';
+                $item['children'] = $this->_mapResources($resource['children'], $translator);
             }
             $output[] = $item;
         }
         return $output;
+    }
+
+    public function getSelectedResourcesJson()
+    {
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectedResources());
     }
 }
