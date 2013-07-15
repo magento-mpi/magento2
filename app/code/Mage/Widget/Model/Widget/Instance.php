@@ -394,12 +394,11 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function generateLayoutUpdateXml($container, $templatePath = '')
     {
-        $templateFilename = Mage::getSingleton('Mage_Core_Model_View_FileSystem')
-            ->getFilename($templatePath, array(
-                'area'    => $this->getArea(),
-                'themeId' => $this->getThemeId(),
-                'module'  => Mage_Core_Block_Abstract::extractModuleName($this->getType()),
-            ));
+        $templateFilename = $this->_viewFileSystem->getFilename($templatePath, array(
+            'area'    => $this->getArea(),
+            'themeId' => $this->getThemeId(),
+            'module'  => Mage_Core_Block_Abstract::extractModuleName($this->getType()),
+        ));
         if (!$this->getId() && !$this->isCompleteToCreate() || ($templatePath && !is_readable($templateFilename))) {
             return '';
         }
