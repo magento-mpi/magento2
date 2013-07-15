@@ -27,67 +27,67 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Bug Cover<p/>
-     * <p>Verification of MAGETWO-4638:</p>
      *
      * @test
      */
-    public function openGridPage()
+    public function navigation()
     {
         $this->navigate('theme_list');
         $this->validatePage('theme_list');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'), 'Theme grid table is not present');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'theme_grid'), 'Theme grid table is not present');
+        $this->assertTrue($this->controlIsVisible('button', 'add_new_theme'),
+            'There is no "Add New Theme" button on the page');
+        $this->assertTrue($this->controlIsVisible('button', 'reset_filter'),
+            'There is no "Reset Filter" button on the page');
+        $this->assertTrue($this->controlIsVisible('button', 'search'), 'There is no "Search" button on the page');
     }
 
     /**
-     * <p>Bug Cover<p/>
-     * <p>Verification of MAGETWO-4638:</p>
+     * Empty required fields.
+     *
+     * @param $emptyField
+     * @param $fieldType
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      *
      * @test
      */
-    public function openNewThemePage()
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
-        $this->navigate('theme_list');
-        $this->clickButton('add_new_theme');
-        $this->validatePage('new_theme');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'theme'), 'Theme form fieldset is not present');
+        //Data:
+        $themeData = $this->loadDataSet('Theme', 'new_theme', array($emptyField => ''));
+        //Steps:
+        $this->themeHelper()->createTheme($themeData);
+        //Verify:
+        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    /**
-     * Retest Back button functionality
-     * @test
-     */
-    public function backToGrid()
+    public function withRequiredFieldsEmptyDataProvider()
     {
-        //Steps
-        $this->navigate('theme_list');
-        $this->clickButton('add_new_theme');
-        $this->clickButton('back');
-        //Verify
-        $this->validatePage('theme_list');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'), 'Theme grid table is not present');
+        return array(
+            array('theme_parent', 'dropdown'),
+            array('theme_version', 'field'),
+            array('theme_title', 'field'),
+            array('magento_version_from', 'field'),
+            array('magento_version_to', 'field'),
+        );
     }
 
     /**
      * Create Theme with required field only
      *
-     * @return array
      * @test
      * @TestlinkId TL-MAGE-6663
      */
-    public function createOnlyRequiredFilledFields()
+    public function createOnlyRequiredField()
     {
-        //Data:
-        $themeData = $this->loadDataSet('Theme', 'default_new_theme');
-        //Steps:
+        //Data
+        $themeData = $this->loadDataSet('Theme', 'new_theme', array('theme_parent' => 'Recon'));
+        //Steps
         $this->themeHelper()->createTheme($themeData);
-        //Verify:
+        //Verify
         $this->assertMessagePresent('success', 'success_saved_theme');
-        $searchData = $this->_prepareDataForSearch($themeData['theme']);
-        $themeLocator = $this->search($searchData, 'theme_list_grid');
-        $this->assertNotNull($themeLocator, 'Theme is not found');
-
-        return $themeData;
     }
 
     /**
@@ -98,23 +98,93 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     public function createWithAllFields()
     {
         //Data:
-        $themeData = $this->loadDataSet('Theme', 'all_fields');
+        $themeData = $this->loadDataSet('Theme', 'new_theme',
+            array('theme_parent' => 'Umecha',
+                 'theme_version' => $this->generate('string', 1, ':digit:') . '.'
+                                    . $this->generate('string', 1, ':digit:') . '.'
+                                    . $this->generate('string', 1, ':digit:') . '.'
+                                    . $this->generate('string', 1, ':digit:'),
+                 'theme_title' => $this->generate('string', 65, ':alnum:'),
+                 'magento_version_from' => $this->generate('string', 1, ':digit:') . '.'
+                                           . $this->generate('string', 1, ':digit:') . '.'
+                                           . $this->generate('string', 1, ':digit:') . '.'
+                                           . $this->generate('string', 1, ':digit:'),
+                 'magento_version_to' => $this->generate('string', 1, ':digit:') . '.'
+                                         . $this->generate('string', 1, ':digit:') . '.'
+                                         . $this->generate('string', 1, ':digit:') . '.'
+                                         . $this->generate('string', 1, ':digit:'),
+            )
+        );
+        $searchData = $this->loadDataSet('Theme', 'theme_search_data',
+            array('theme_title' => $themeData['theme_settings']['theme_title']));
         //Steps:
         $this->themeHelper()->createTheme($themeData);
         //Verify:
         $this->assertMessagePresent('success', 'success_saved_theme');
-        $searchData = $this->_prepareDataForSearch($themeData['theme']);
-        $themeLocator = $this->search($searchData, 'theme_list_grid');
-        $this->assertNotNull($themeLocator, 'Theme is not found');
+        $this->themeHelper()->openTheme($searchData);
+        $this->themeHelper()->verifyTheme($themeData);
 
         return $themeData;
+    }
+
+    /**
+     * Delete virtual theme
+     *
+     * @depends createWithAllFields
+     * @params $themeData
+     * @test
+     */
+    public function deleteTheme($themeData)
+    {
+        $searchData = $this->loadDataSet('Theme', 'theme_search_data',
+            array('theme_title' => $themeData['theme_settings']['theme_title']));
+        $this->navigate('theme_list');
+        $this->themeHelper()->openTheme($searchData);
+        $this->clickButtonAndConfirm('delete_theme', 'confirmation_for_delete');
+        $this->assertMessagePresent('success', 'success_deleted_theme');
+        $theme = $this->themeHelper()->searchTheme($searchData);
+        $this->assertNull($theme, 'Theme is present in grid after deleting');
+    }
+
+    /**
+     * Impossibility to delete physical theme
+     * @test
+     */
+    public function deletePhysicalTheme()
+    {
+        $searchData = $this->loadDataSet('Theme', 'theme_search_data',
+            array('theme_title' => 'Piece of Cake'));
+        $this->navigate('theme_list');
+        $this->themeHelper()->openTheme($searchData);
+        $this->assertFalse($this->controlIsVisible('button', 'delete_theme'));
+    }
+
+    /**
+     * Delete all virtual themes
+     * @test
+     */
+    public function deleteAllVirtualThemes()
+    {
+        $this->navigate('theme_list');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'));
+
+        $xpath = $this->_getControlXpath('pageelement', 'theme_grid_theme_path_empty_column');
+        while ($this->elementIsPresent($xpath)) {
+            $this->clickControl('pageelement', 'theme_grid_theme_path_empty_column');
+            $this->clickButton('delete_theme', false);
+            $this->assertTrue($this->alertIsPresent());
+            $this->assertEquals('Are you sure you want to do this?', $this->alertText());
+            $this->acceptAlert();
+            $this->waitForPageToLoad();
+            $this->assertMessagePresent('success', 'success_deleted_theme');
+        }
     }
 
     /**
      * Edit Theme
      * @param $themeData
      * @depends createWithAllFields
-     * @test
+     * @ test
      */
     public function editTheme($themeData)
     {
@@ -141,7 +211,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * Reset button functionality
      * @param $themeData
      * @depends createOnlyRequiredFilledFields
-     * @test
+     * @ test
      */
     public function resetThemeForm($themeData)
     {
@@ -161,36 +231,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->assertNotNull($themeLocator, 'Theme is not found');
     }
 
-    /**
-     * Empty required fields.
-     *
-     * @param $emptyField
-     * @param $fieldType
-     * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @test
-     */
-    public function withRequiredFieldsEmpty($emptyField, $fieldType)
-    {
-        //Data:
-        $themeData = $this->loadDataSet('Theme', 'default_new_theme', array($emptyField => ''));
-        //Steps:
-        $this->themeHelper()->createTheme($themeData);
-        //Verify:
-        $this->addFieldIdToMessage($fieldType, $emptyField);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
-
-    public function withRequiredFieldsEmptyDataProvider()
-    {
-        return array(
-            array('theme_parent_id', 'dropdown'),
-            array('theme_version', 'field'),
-            array('theme_title', 'field'),
-            array('magento_version_from', 'field'),
-            array('magento_version_to', 'field'),
-        );
-    }
 
     /**
      * <p>Notice: setup *.css in mimeType</p>
@@ -203,7 +243,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * @param $linkName
      * @param $fileName
      * @dataProvider allThemeCss
-     * @test
+     * @ test
      */
     public function downloadThemeCss($fileName, $linkName, $themeData)
     {
@@ -240,16 +280,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             );
     }
 
-    /**
-     * clear test
-     * @depends createOnlyRequiredFilledFields
-     * @params $themeData
-     * @test
-     */
-    public function deleteTheme($themeData)
-    {
-        $this->themeHelper()->deleteTheme($themeData);
-    }
 
     /**
      * TBD. Should be resolved problem with file upload
@@ -257,7 +287,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * Upload custom.css
      * @depends createOnlyRequiredFilledFields
      * @param array $themeData
-     * @test
+     * @ test
      */
     public function uploadThemeCss($themeData)
     {
@@ -287,7 +317,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * Upload JS files
      * @depends createOnlyRequiredFilledFields
      * @param array $themeData
-     * @test
+     * @ test
      */
     public function uploadThemeJs($themeData)
     {

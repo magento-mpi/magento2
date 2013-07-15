@@ -13,35 +13,19 @@
 #*********************************************
 #*         Backend                           *
 #*********************************************
+theme_search_data:
+    theme_title: %noValue%
+    parent_theme: %noValue%
+    theme_path: %noValue%
+    theme_version: %noValue%
+    magento_version_from: %noValue%
+    magento_version_to: %noValue%
 
-default_new_theme:
-    theme:
-        theme_parent_id: Magento Fixed Design
-        theme_version: 0.0.0.1
-        theme_title: virtual_%randomize%
+new_theme:
+    theme_settings:
+        theme_parent: Upstream
+        theme_version: %noValue%
+        theme_title: %noValue%
     requirements:
-        magento_version_from: 1.0.0.0
-        magento_version_to: 2.0.0.0
-
-required__that_not_filled:
-    theme:
-        theme_parent_id: Magento Demo
-        theme_title: virtual_%randomize%
-
-all_fields:
-    theme:
-        theme_parent_id: Magento Fixed Design
-        theme_version: 0.0.1.0
-        theme_title: virtual_%randomize%
-    requirements:
-        magento_version_from: 2.0.0.0-dev41
-        magento_version_to: 2.0.0.1
-
-edit_theme:
-    theme:
-        theme_parent_id: %noValue%
-        theme_version: 0.0.1.1-edit
-        theme_title: virtual_edited_%randomize%
-    requirements:
-        magento_version_from: 2.0.0.0-edit
-        magento_version_to: 2.1.1.1-edit
+        magento_version_from: %noValue%
+        magento_version_to: %noValue%
