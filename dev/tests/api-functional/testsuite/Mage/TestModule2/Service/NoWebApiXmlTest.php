@@ -9,8 +9,17 @@
  */
 class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase_WebapiAbstract
 {
+    /**
+     * @var string
+     */
     private $_version;
+    /**
+     * @var string
+     */
     private $_restResourcePath;
+    /**
+     * @var string
+     */
     private $_soapService;
 
     protected function setUp()

@@ -10,8 +10,17 @@
 class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCase_WebapiAbstract
 {
 
+    /**
+     * @var string
+     */
     protected $_version;
+    /**
+     * @var string
+     */
     protected $_restResourcePath;
+    /**
+     * @var string
+     */
     protected $_soapService;
 
     protected function setUp()
