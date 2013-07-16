@@ -57,7 +57,7 @@
             },
             _create: function() {
                 this.element.jstree({
-                    'plugins': ["themes", "json_data", "ui", "crrm", "types", "checkbox"],
+                    'plugins': ["themes", "json_data", "ui", "crrm", "types", "checkbox", "hotkeys"],
                     'json_data': {'data': this.options.treeInitData}
                 });
                 this._bind();
@@ -87,7 +87,8 @@
             }
         });
         $.mage.component({
-            rolesTree: ['<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js')?>']
+            rolesTree: ['<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js')?>',
+                '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js')?>']
         });
 
         $('[data-role=resource-tree]').mage('rolesTree', {
