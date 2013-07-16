@@ -42,8 +42,7 @@ class Mage_Core_Model_Layout_File_Source_Override_BaseTest extends PHPUnit_Frame
     public function testGetFiles()
     {
         $theme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
-        $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
-        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('theme/path'));
+        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
 
         $this->_filesystem
             ->expects($this->once())

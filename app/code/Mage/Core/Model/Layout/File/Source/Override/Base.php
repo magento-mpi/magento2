@@ -47,11 +47,10 @@ class Mage_Core_Model_Layout_File_Source_Override_Base implements Mage_Core_Mode
     public function getFiles(Mage_Core_Model_ThemeInterface $theme)
     {
         $namespace = $module = '*';
-        $area = $theme->getArea();
-        $themePath = $theme->getThemePath();
+        $themePath = $theme->getFullPath();
         $files = $this->_filesystem->searchKeys(
             $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES),
-            "{$area}/{$themePath}/{$namespace}_{$module}/layout/override/*.xml"
+            "{$themePath}/{$namespace}_{$module}/layout/override/*.xml"
         );
         $result = array();
         foreach ($files as $filename) {
