@@ -92,7 +92,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             $parentTheme->load($formData['parent_id']);
         }
 
-        if ($this->_isThemeEditable) {
+        if ($this->_getCurrentTheme()->isObjectNew()) {
             $themeFieldset->addField('parent_id', 'select', array(
                 'label'    => $this->__('Parent Theme'),
                 'title'    => $this->__('Parent Theme'),
