@@ -1,19 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_SalesRule
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * User statuses option array
  *
- * @category   Mage
- * @package    Mage_SalesRule
- * @author     Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_SalesRule_Model_Resource_Rule_Quote_StatusesArray implements Mage_Core_Model_Option_ArrayInterface
 {
