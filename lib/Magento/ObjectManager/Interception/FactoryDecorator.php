@@ -8,20 +8,6 @@
 class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_ObjectManager_Factory
 {
     /**
-     * List of virtual types
-     *
-     * @var array
-     */
-    protected $_virtualTypes = array();
-
-    /**
-     * List of configured interceptors
-     *
-     * @var array
-     */
-    protected $_plugins = array();
-
-    /**
      * Configurable factory
      *
      * @var Magento_ObjectManager_Factory
@@ -114,7 +100,7 @@ class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_Obj
                 ->composeInterceptorClassName($this->_config->getInstanceType($type));
             $config = array();
             foreach ($this->_config->getPlugins($type) as $plugin) {
-                if (isset($plugin['disabled']) && (!$plugin['disabled'] || $plugin['disabled'] === 'false')) {
+                if (isset($plugin['disabled']) && $plugin['disabled']) {
                     continue;
                 }
                 $pluginMethods = $this->_definitions->getMethodList(

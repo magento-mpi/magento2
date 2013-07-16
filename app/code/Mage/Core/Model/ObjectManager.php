@@ -18,10 +18,12 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
     /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Magento_ObjectManager_Config $config
+     * @param array $sharedInstances
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $primaryConfig,
-        Magento_ObjectManager_Config $config = null
+        Magento_ObjectManager_Config $config = null,
+        $sharedInstances = array()
     ) {
         $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
         $definitions = $definitionFactory->createClassDefinition($primaryConfig);
@@ -39,21 +41,34 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             $definitionFactory->createPluginDefinition($primaryConfig),
             $classBuilder
         );
-        parent::__construct($factory, $config, array(
-            'Mage_Core_Model_Config_Primary' => $primaryConfig,
-            'Mage_Core_Model_Dir' => $primaryConfig->getDirectories(),
-            'Mage_Core_Model_ObjectManager' => $this
-        ));
+        $sharedInstances['Mage_Core_Model_Config_Primary'] = $primaryConfig;
+        $sharedInstances['Mage_Core_Model_Dir'] = $primaryConfig->getDirectories();
+        $sharedInstances['Mage_Core_Model_ObjectManager'] = $this;
+
+        parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
+
+        Mage::setObjectManager($this);
+
+        Magento_Profiler::start('global_primary');
+        $primaryLoader = new Mage_Core_Model_ObjectManager_ConfigLoader_Primary($primaryConfig->getDirectories());
+        $configData = $primaryLoader->load();
+        if ($configData) {
+            $this->configure($configData);
+        }
+
+        Magento_Profiler::stop('global_primary');
+        $verification = $this->get('Mage_Core_Model_Dir_Verification');
+        $verification->createAndVerifyDirectories();
+        $this->loadArea('global');
     }
 
     /**
      * Load di area
      *
      * @param string $areaCode
-     * @param Mage_Core_Model_Config $config
      */
-    public function loadArea($areaCode, Mage_Core_Model_Config $config)
+    public function loadArea($areaCode)
     {
         $key = $areaCode . 'DiConfig';
         /** @var Mage_Core_Model_CacheInterface $cache */
@@ -63,9 +78,9 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             $this->_config = unserialize($data);
             $this->_factory->setConfig($this->_config);
         } else {
-            $diNode = $config->getNode($areaCode . '/di');
-            if ($diNode) {
-                $this->_config->extend($diNode->asArray());
+            $configData = $this->get('Mage_Core_Model_ObjectManager_ConfigLoader')->load($areaCode);
+            if (count($configData)) {
+                $this->_config->extend($configData);
             }
             if ($this->_factory->getDefinitions() instanceof Magento_ObjectManager_Definition_Compiled) {
                 if (!$this->_compiledRelations) {

@@ -17,5 +17,6 @@ class Magento_Test_ObjectManager_Config extends Magento_ObjectManager_Config_Con
         $this->_arguments = array();
         $this->_nonShared = array();
         $this->_plugins = array();
+        $this->_pluginConfig = array();
     }
 }

@@ -251,7 +251,7 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
                         }
                     }
                     if (isset($curConfig['shared'])) {
-                        if (!$curConfig['shared'] || $curConfig['shared'] == 'false') {
+                        if (!$curConfig['shared']) {
                             $this->_nonShared[$key] = 1;
                         } else {
                             unset($this->_nonShared[$key]);

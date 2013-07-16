@@ -28,15 +28,6 @@
                 </setup>
             </enterprise_wishlist_setup>
         </resources>
-        <di>
-            <Enterprise_Wishlist_Model_Item_Collection>
-                <parameters>
-                    <resource>
-                        <instance>Enterprise_Wishlist_Model_Resource_Item</instance>
-                    </resource>
-                </parameters>
-            </Enterprise_Wishlist_Model_Item_Collection>
-        </di>
     </global>
     <admin>
         <routers>
@@ -116,4 +107,4 @@
             </general>
         </wishlist>
     </default>
-</config>
+</config>

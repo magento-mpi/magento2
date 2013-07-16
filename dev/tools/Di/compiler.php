@@ -18,8 +18,9 @@ use Magento\Tools\Di\Compiler\Log\Log,
 
 $filePatterns = array(
     'php' => '/.*\.php$/',
-    'etc' => '/\/app\/etc\/.*\.xml$/',
+    'etc' => '/\/app\/etc\/[a-z0-9\.]*\.xml$/',
     'config' => '/\/etc\/(config([a-z0-9\.]*)?|adminhtml\/system)\.xml$/',
+    'di' => '/\/etc\/(di\/.*|adminhtml\/di|frontend\/di|di)\.xml$/',
     'view' => '/\/view\/[a-z0-9A-Z\/\.]*\.xml$/',
     'design' => '/\/app\/design\/[a-z0-9A-Z\/\.]*\.xml$/',
 );
@@ -64,13 +65,14 @@ try {
     $scanner->addChild(new Scanner\PhpScanner(), 'php');
     $scanner->addChild(new Scanner\XmlScanner(), 'etc');
     $scanner->addChild(new Scanner\XmlScanner(), 'config');
+    $scanner->addChild(new Scanner\XmlScanner(), 'di');
     $scanner->addChild(new Scanner\XmlScanner(), 'view');
     $scanner->addChild(new Scanner\XmlScanner(), 'design');
     $scanner->addChild(new Scanner\ArrayScanner(), 'additional');
     $entities = $scanner->collectEntities($files);
 
     $interceptorScanner = new Scanner\XmlInterceptorScanner();
-    $entities = array_merge($entities, $interceptorScanner->collectEntities($files['config']));
+    $entities = array_merge($entities, $interceptorScanner->collectEntities($files['di']));
 
     // 1.2 Generation
     $generatorIo = new Magento_Code_Generator_Io(null, null, $generationDir);
@@ -116,8 +118,7 @@ try {
 
     // 3. Plugin Definition Compilation
     $pluginScanner = new Scanner\CompositeScanner();
-    $pluginScanner->addChild(new Scanner\PluginScanner(), 'etc');
-    $pluginScanner->addChild(new Scanner\PluginScanner(), 'config');
+    $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
     $pluginDefinitions = array();
     foreach ($pluginScanner->collectEntities($files) as $entity) {
         $pluginDefinitions[$entity] = get_class_methods($entity);

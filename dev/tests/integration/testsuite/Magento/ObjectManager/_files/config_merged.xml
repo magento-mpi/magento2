@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Mage_Core_Model_Db_UpdaterInterface" type="Mage_Core_Model_Db_UpdaterOne" />
+    <preference for="Mage_Core_Model_Db_UpdaterInterfaceTwo" type="Mage_Core_Model_Db_UpdaterTwo"/>
+    <type name="Mage_Core_Model_Config_Loader_Local" shared="false">
+        <param name="customFile">
+            <argument name="Mage::PARAM_CUSTOM_LOCAL_FILE_CUSTOM" />
+        </param>
+        <param name="customConfig">
+            <instance shared="false" type="Mage_Core_Model_Config_Storage_Modules" />
+        </param>
+        <param name="customValue">
+            <value>someCustomValue</value>
+        </param>
+        <param name="customComplexValue">
+            <value transalte="three" module="Some_Module">
+                <one>one</one>
+                <two>two</two>
+                <three>three</three>
+            </value>
+        </param>
+        <plugin name="one" type="somePluginOne" sortOrder="800"/>
+        <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
+        <param name="newParam">
+            <value>paramValue</value>
+        </param>
+        <plugin name="three" type="somePluginThree"/>
+    </type>
+    <virtualType name="Mage_Core_Model_Config_Loader_LocalVirtual" type="Mage_Core_Model_Config_Loader_Local" shared="true">
+        <param name="customFile">
+            <argument name="Mage::PARAM_CUSTOM_LOCAL_FILE" />
+        </param>
+        <param name="customConfig">
+            <instance type="Mage_Core_Model_Config_Storage_Modules" />
+        </param>
+        <param name="customValue">
+            <value>someValue</value>
+        </param>
+        <param name="customComplexValue">
+            <value transalte="one,two" module="Some_Module">
+                <one>one</one>
+                <two>one</two>
+            </value>
+        </param>
+        <plugin name="one" type="somePluginOne" sortOrder="800" />
+        <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
+        <plugin name="three" type="somePluginThree"/>
+    </virtualType>
+</config>

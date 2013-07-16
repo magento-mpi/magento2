@@ -22,11 +22,6 @@
                 </observers>
             </core_app_init_current_store_after>
         </events>
-        <di>
-            <preferences>
-                <Mage_Core_Model_Cookie>Magento_Test_Cookie</Mage_Core_Model_Cookie>
-            </preferences>
-        </di>
         <dev>
             <design_fallback>
                 <allow_map_update>0</allow_map_update>
@@ -52,6 +47,9 @@
                 </servers>
             </solr>
         </search>
+        <configurators>
+            <integration_tests>Magento_Test_ObjectManager_Configurator</integration_tests>
+        </configurators>
     </global>
     <frontend>
         <translate>

@@ -287,7 +287,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
 
         $this->_object->configure(array(
             'Magento_Test_Di_Parent' => array(
-                'shared' => 'false'
+                'shared' => false
             )
         ));
         $childA = $this->_object->create('customChildType');
@@ -300,7 +300,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'Magento_Test_Di_Parent' => array(
-                'shared' => 'false'
+                'shared' => false
             ),
             'customChildType' => array(
                 'type' => 'Magento_Test_Di_Aggregate_Child',
@@ -319,7 +319,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'customChildType' => array(
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento_Test_Di_Parent', 'shared' => 'true'),
+                    'interface' => array('instance' => 'Magento_Test_Di_Parent', 'shared' => true),
                 )
             )
         ));

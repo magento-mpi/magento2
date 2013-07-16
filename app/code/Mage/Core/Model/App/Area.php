@@ -212,7 +212,7 @@ class Mage_Core_Model_App_Area
      */
     protected function _initConfig()
     {
-        $this->_objectManager->loadArea($this->_code, $this->_config);
+        $this->_objectManager->loadArea($this->_code);
     }
 
     /**

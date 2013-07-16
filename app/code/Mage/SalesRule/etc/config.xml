@@ -15,9 +15,9 @@
             <version>1.6.0.4</version>
             <active>true</active>
             <depends>
-                <Mage_Rule/>
-                <Mage_Catalog/>
-                <Mage_Sales/>
+                <Mage_Rule />
+                <Mage_Catalog />
+                <Mage_Sales />
             </depends>
         </Mage_SalesRule>
     </modules>
@@ -88,11 +88,6 @@
                 </charset>
             </coupon>
         </salesrule>
-        <di>
-            <Mage_SalesRule_Model_Resource_Rule_Collection>
-                <shared>0</shared>
-            </Mage_SalesRule_Model_Resource_Rule_Collection>
-        </di>
     </global>
     <adminhtml>
         <translate>

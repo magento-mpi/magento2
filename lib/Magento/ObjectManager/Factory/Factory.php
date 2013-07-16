@@ -25,27 +25,6 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
     protected $_definitions;
 
     /**
-     * List of configured arguments
-     *
-     * @var array
-     */
-    protected $_arguments = array();
-
-    /**
-     * List of non-shared types
-     *
-     * @var array
-     */
-    protected $_nonShared = array();
-
-    /**
-     * List of virtual types
-     *
-     * @var array
-     */
-    protected $_virtualTypes = array();
-
-    /**
      * List of classes being created
      *
      * @var array
@@ -146,7 +125,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                 $this->_creationStack[$requestedType] = 1;
 
                 $isShared = (!isset($argument['shared']) && $this->_config->isShared($argumentType))
-                    || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
+                    || (isset($argument['shared']) && $argument['shared']);
                 $argument = $isShared
                     ? $this->_objectManager->get($argumentType)
                     : $this->_objectManager->create($argumentType);
