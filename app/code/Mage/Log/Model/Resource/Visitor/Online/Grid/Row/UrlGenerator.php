@@ -3,6 +3,7 @@
  * URL Generator for Customer Online Grid
  *
  * {license_notice}
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
