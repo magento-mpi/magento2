@@ -21,7 +21,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
@@ -42,7 +42,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
-        $this->_themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $this->_themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
 
         $this->_theme = $this->getMock('Mage_Core_Model_Theme',
             array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual'), array(), '', false);

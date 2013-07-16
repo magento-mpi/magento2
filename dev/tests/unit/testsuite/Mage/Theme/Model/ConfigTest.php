@@ -53,10 +53,6 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         /** @var $this->_themeMock Mage_Core_Model_Theme */
         $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
-        $this->_designPackageMock = $this->getMockForAbstractClass(
-            'Mage_Core_Model_Design_PackageInterface', array(), '', true, true, true,
-            array('getConfigurationDesignTheme')
-        );
         $this->_storeManagerMock = $this->getMockForAbstractClass(
             'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true,
             array('getStores', 'isSingleStoreMode')
@@ -114,7 +110,7 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', Mage_Core_Model_Design_Package::XML_PATH_THEME_ID)
+            ->with('path', Mage_Core_Model_View_Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())
@@ -153,7 +149,7 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', Mage_Core_Model_Design_Package::XML_PATH_THEME_ID)
+            ->with('path', Mage_Core_Model_View_Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())

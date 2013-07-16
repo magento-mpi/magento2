@@ -19,7 +19,7 @@ class Mage_Theme_Model_Config_Customization
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -46,12 +46,12 @@ class Mage_Theme_Model_Config_Customization
 
     /**
      * @param Mage_Core_Model_StoreManagerInterface $storeManager,
-     * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
      */
     public function __construct(
         Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
     ) {
         $this->_storeManager    = $storeManager;

@@ -20,7 +20,7 @@ class Mage_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCa
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_designPackage;
 
@@ -40,7 +40,7 @@ class Mage_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCa
             'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStores')
         );
         $this->_designPackage = $this->getMockForAbstractClass(
-            'Mage_Core_Model_Design_PackageInterface', array(), '', true, true, true,
+            'Mage_Core_Model_View_DesignInterface', array(), '', true, true, true,
             array('getConfigurationDesignTheme')
         );
         $this->_themeCollection = $this->getMock(
