@@ -155,7 +155,6 @@
         <remove name="footer" />
         <remove name="head" />
         <reference name="left">
-            <block name="wysiwyg_files.js" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content" template="Mage_Adminhtml::cms/browser/js.phtml" />
             <block name="wysiwyg_files.tree" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" template="Mage_Adminhtml::cms/browser/tree.phtml" />
         </reference>
         <reference name="content">

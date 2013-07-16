@@ -67,7 +67,6 @@
                 $(progressSelector).css('width','100%');
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-                    MediabrowserInstance.handleUploadComplete();
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }
