@@ -188,10 +188,7 @@
                 // Set data to html
                 var itemContainer = this.element.find("[aria-selected='true'] address");
                 if (itemContainer.length && itemContainer[0]) {
-                    // @HACK - address template has #{prefix} where tmpl needs ${prefix}
-                    var html = this.options.itemContentTemplate.replace(new RegExp('#\\{', 'g'), '${');
-                    // @HACK - to get html as string for replacement below
-                    html = $("<div/>").append($.tmpl(html, data)).html();
+                    html = $("<div/>").append($('[data-template="item-content-tmpl"]').tmpl(data)).html();
                     html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}', 'img'), '<br/>');
                     html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}\\s*<br\\s*/?>', 'ig'), '<br/>');
                     html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}(.*)<br\\s*/?>', 'ig'), '<br/>$2<br/>');
