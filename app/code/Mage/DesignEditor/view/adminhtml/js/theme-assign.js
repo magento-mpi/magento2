@@ -264,7 +264,7 @@
          */
         _create: function() {
 
-            if (false && this.options.hasMultipleStores) {
+            if (this.options.hasMultipleStores) {
                 this._dialog = $(this.options.dialogSelectorMS).multipleStoresDialog().data('multipleStoresDialog');
             } else {
                 this._dialog = $(this.options.dialogSelector).singleStoreDialog().data('singleStoreDialog');
