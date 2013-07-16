@@ -105,12 +105,12 @@ class UriResolver
         $basePathSegments = self::getPathSegments($basePath);
 
         preg_match('|^/?(\.\./(?:\./)*)*|', $relativePath, $match);
-        $numLevelUp = floor(strlen($match[0]) / 3 + 1);
-        if ($numLevelUp > count($basePathSegments)) {
+        $numLevelUp = strlen($match[0]) ? strlen($match[0]) /3 + 1 : 0;
+        if ($numLevelUp >= count($basePathSegments)) {
             throw new UriResolverException(
                 sprintf("Unable to resolve URI '%s' from base '%s'", $relativePath, $basePath));
         }
-        $basePathSegments = array_slice($basePathSegments, 0, -$numLevelUp);
+        $basePathSegments = array_slice($basePathSegments, 0, count($basePathSegments) - $numLevelUp);
         $path = preg_replace('|^/?(\.\./(\./)*)*|', '', $relativePath);
         
         return implode(DIRECTORY_SEPARATOR, $basePathSegments) . DIRECTORY_SEPARATOR . $path;
