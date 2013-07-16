@@ -12,12 +12,12 @@
 <?php echo $this->getCaptchaHtml() ?>
 
 <?php echo $this->getStoreSwitcherHtml() ?>
-<div class="grid-title">
+<div class="grid-title" data-mage-init="{loader: {}}">
     <span class="title"><?php echo $this->__('Google Content Items') ?></span>
 </div>
 <?php echo $this->getChildHtml('item') ?>
 
-<div class="grid-title">
+<div class="grid-title" data-mage-init="{loader: {}}">
     <div class="page-actions"><?php echo $this->getAddButtonHtml() ?></div>
     <span class="title"><?php echo $this->__('Available Products') ?></span>
 </div>

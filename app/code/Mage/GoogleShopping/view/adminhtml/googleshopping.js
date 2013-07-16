@@ -27,7 +27,6 @@ if (typeof Mage.GoogleShopping == 'undefined') {
             },
 
             request: function(url) {
-                Ajax.Responders.unregister(varienLoaderHandler.handler);
                 new Ajax.Request(url, {
                     method: 'get',
                     onComplete: (function (response) {
@@ -42,13 +41,13 @@ if (typeof Mage.GoogleShopping == 'undefined') {
         },
 
         startAction: function (form) {
-            Ajax.Responders.unregister(varienLoaderHandler.handler);
             this.lock();
-            new Ajax.Request(form.action, {
-                'method': 'post',
-                'parameters': form.serialize(true),
-                'onSuccess': Mage.GoogleShopping.onSuccess.bind(Mage.GoogleShopping, this),
-                'onFailure': Mage.GoogleShopping.onFailure.bind(Mage.GoogleShopping, this)
+            jQuery.ajax({
+                'type': 'post',
+                'data': form.serialize(true),
+                'success': Mage.GoogleShopping.onSuccess.bind(Mage.GoogleShopping, this),
+                'error': Mage.GoogleShopping.onFailure.bind(Mage.GoogleShopping, this),
+                'showLoader': true
             });
         },
 
@@ -66,10 +65,10 @@ if (typeof Mage.GoogleShopping == 'undefined') {
 
         lock: function() {
             if (this.itemForm) {
-                this.lockButton($(this.itemForm).down('button'));
+                this._lockButton($(this.itemForm).down('button'));
             }
             if (this.productForm) {
-                this.lockButton($(this.productForm).down('button'));
+                this._lockButton($(this.productForm).down('button'));
             }
             this.addMessage();
         },
@@ -85,8 +84,8 @@ if (typeof Mage.GoogleShopping == 'undefined') {
             messageList.update(message);
         },
 
-        lockButton: function (button) {
-            $(button).addClassName('disabled loading');
+        _lockButton: function (button) {
+            $(button).addClassName('disabled');
             $(button).disabled = true;
         }
     }
