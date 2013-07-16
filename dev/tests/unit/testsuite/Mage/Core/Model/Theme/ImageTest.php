@@ -43,7 +43,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     {
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false, false);
         $imageFactory = $this->getMock('Mage_Core_Model_Image_Factory', array(), array(), '', false, false);
-        $this->_imageMock = $this->getMock('Varien_Image',  array(), array(), '', false, false);
+        $this->_imageMock = $this->getMock('Varien_Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
         $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false, false);

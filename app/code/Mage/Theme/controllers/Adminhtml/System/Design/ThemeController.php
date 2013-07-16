@@ -199,13 +199,15 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 Mage::throwException($this->__('We cannot find a theme with id "%d".', $themeId));
             }
             $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
-            $customization = $theme->getCustomization();
             $jsFile = $jsService->create();
             $jsFile->setTheme($theme);
             $jsFile->setFileName($jsFileData['filename']);
             $jsFile->setData('content', $jsFileData['content']);
             $jsFile->save();
 
+            /** @var $customization Mage_Core_Model_Theme_Customization */
+            $customization = $this->_objectManager->create('Mage_Core_Model_Theme_Customization',
+                array('theme' => $theme));
             $customJsFiles = $customization->getFilesByType(Mage_Core_Model_Theme_Customization_File_Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
         } catch (Mage_Core_Exception $e) {
