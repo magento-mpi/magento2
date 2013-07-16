@@ -1,133 +1,18 @@
 <?php
 /**
- * Test constructions of layout files
+ * Test declarations of handles in layouts
  *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Integrity
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
+class Integrity_Layout_HandleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Pattern for attribute elements, compatible with HTML ID
      */
     const HTML_ID_PATTERN = '/^[a-z][a-z\ \-\_\d]*$/';
-
-    /**
-     * @var array
-     */
-    protected static $_containerAliases = array();
-
-    /**
-     * @var array|bool
-     */
-    protected $_codeFrontendHandles = false;
-
-    /**
-     * @var array|bool
-     */
-    protected $_pageHandles = false;
-
-    /**
-     * Collect declarations of containers per layout file that have aliases
-     */
-    public static function setUpBeforeClass()
-    {
-        foreach (Utility_Files::init()->getLayoutFiles(array(), false) as $file) {
-            if (strpos($file, 'frontend/magento2/reference') !== false) {
-                /** MAGETWO-9603, theme is broken **/
-                continue;
-            }
-            $xml = simplexml_load_file($file);
-            $containers = $xml->xpath('/layout//container[@as]') ?: array();
-            foreach ($containers as $node) {
-                $alias = (string)$node['as'];
-                self::$_containerAliases[$file][(string)$node['name']] = $alias;
-            }
-        }
-    }
-
-    /**
-     * Check that all handles declared in a theme layout are declared in code
-     *
-     * @param string $handleName
-     * @dataProvider designHandlesDataProvider
-     */
-
-    public function testIsDesignHandleDeclaredInCode($handleName)
-    {
-        $this->assertArrayHasKey(
-            $handleName,
-            $this->_getCodeFrontendHandles(),
-            "Handle '{$handleName}' is not declared in any module.'"
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function designHandlesDataProvider()
-    {
-        $files = Utility_Files::init()->getLayoutFiles(array(
-            'include_code' => false,
-            'area' => 'frontend'
-        ));
-
-        $handles = array();
-        foreach (array_keys($files) as $path) {
-            if (strpos($path, 'frontend/magento2/reference') !== false) {
-                /** MAGETWO-9603, theme is broken **/
-                continue;
-            }
-            $xml = simplexml_load_file($path);
-            $handleNodes = $xml->xpath('/layout/*') ?: array();
-            foreach ($handleNodes as $handleNode) {
-                $handles[] = $handleNode->getName();
-            }
-        }
-
-        $result = array();
-        foreach (array_unique($handles) as $handleName) {
-            $result[] = array($handleName);
-        }
-        return $result;
-    }
-
-    /**
-     * Returns information about handles that are declared in code for frontend
-     *
-     * @return array
-     */
-    protected function _getCodeFrontendHandles()
-    {
-        if ($this->_codeFrontendHandles) {
-            return $this->_codeFrontendHandles;
-        }
-
-        $files = Utility_Files::init()->getLayoutFiles(array(
-            'include_design' => false,
-            'area' => 'frontend'
-        ));
-        foreach (array_keys($files) as $path) {
-            $xml = simplexml_load_file($path);
-            $handleNodes = $xml->xpath('/layout/*') ?: array();
-            foreach ($handleNodes as $handleNode) {
-                $isLabel = $handleNode->xpath('label');
-                if (isset($handles[$handleNode->getName()]['label_count'])) {
-                    $handles[$handleNode->getName()]['label_count'] += (int)$isLabel;
-                } else {
-                    $handles[$handleNode->getName()]['label_count'] = (int)$isLabel;
-                }
-            }
-        }
-
-        $this->_codeFrontendHandles = $handles;
-        return $this->_codeFrontendHandles;
-    }
 
     /**
      * Suppressing PHPMD because of complex logic of validation. The problem is architectural, rather than in the test
@@ -269,41 +154,5 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function layoutFilesDataProvider()
     {
         return Utility_Files::init()->getLayoutFiles();
-    }
-
-    /**
-     * @param string $alias
-     * @dataProvider getChildBlockDataProvider
-     */
-    public function testBlocksNotContainers($alias)
-    {
-        foreach (self::$_containerAliases as $layoutFile => $containers) {
-            try {
-                $this->assertNotContains($alias, $containers,
-                    "The getChildBlock('{$alias}') is used, but this alias is declared for container in {$layoutFile}"
-                );
-            } catch (PHPUnit_Framework_ExpectationFailedException $e) {
-                $xml = simplexml_load_file($layoutFile);
-                // if there is a block with this alias, then most likely it will be used and container is ok
-                if (!$xml->xpath('/layout//block[@as="' . $alias . '"]')) {
-                    throw $e;
-                }
-            }
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function getChildBlockDataProvider()
-    {
-        $result = array();
-        foreach (Utility_Files::init()->getPhpFiles(true, false, true, false) as $file) {
-            $aliases = Utility_Classes::getAllMatches(file_get_contents($file), '/\->getChildBlock\(\'([^\']+)\'\)/x');
-            foreach ($aliases as $alias) {
-                $result[$file] = array($alias);
-            }
-        }
-        return $result;
     }
 }

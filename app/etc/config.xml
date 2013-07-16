@@ -73,6 +73,7 @@
                 <Mage_Core_Model_AppInterface>Mage_Core_Model_App_Proxy</Mage_Core_Model_AppInterface>
                 <Mage_Core_Model_Config_InvalidatorInterface>Mage_Core_Model_Config_Invalidator_Proxy</Mage_Core_Model_Config_InvalidatorInterface>
                 <Mage_Core_Model_CacheInterface>Mage_Core_Model_Cache_Proxy</Mage_Core_Model_CacheInterface>
+                <Mage_Core_Model_Store_ConfigInterface>Mage_Core_Model_Store_Config</Mage_Core_Model_Store_ConfigInterface>
                 <Mage_Core_Model_StoreManagerInterface>Mage_Core_Model_StoreManager</Mage_Core_Model_StoreManagerInterface>
                 <Mage_Core_Model_Design_PackageInterface>Mage_Core_Model_Design_Package</Mage_Core_Model_Design_PackageInterface>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
@@ -248,6 +249,13 @@
                     </eventDispatcher>
                 </parameters>
             </Mage_Core_Model_Context>
+            <Mage_Core_Model_ModuleManager>
+                <parameters>
+                    <config>
+                        <instance>Mage_Core_Model_Config_Proxy</instance>
+                    </config>
+                </parameters>
+            </Mage_Core_Model_ModuleManager>
         </di>
     </global>
     <default>

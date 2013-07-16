@@ -130,14 +130,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </checkout_multishipping_refund_all>
-            <core_layout_update_updates_get_after>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>disableLayout</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </core_layout_update_updates_get_after>
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_customerbalance>
