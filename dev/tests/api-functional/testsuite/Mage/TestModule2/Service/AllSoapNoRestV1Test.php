@@ -185,7 +185,12 @@ class Mage_TestModule2_Service_AllSoapNoRestV1Test extends Magento_Test_TestCase
         } catch (Exception $e) {
             $this->assertEquals(
                 $e->getMessage(),
-                '{"errors":[{"code":404,"message":"Request does not match any route."}]}'
+                '{"errors":[{"code":404,"message":"Request does not match any route."}]}',
+                sprintf(
+                    'REST routing did not fail as expected for Resource "%s" and method "%s"',
+                    $serviceInfo['rest']['resourcePath'],
+                    $serviceInfo['rest']['httpMethod']
+                )
             );
         }
     }

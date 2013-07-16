@@ -162,7 +162,12 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase
         } catch (Exception $e) {
             $this->assertEquals(
                 $e->getMessage(),
-                '{"errors":[{"code":404,"message":"Request does not match any route."}]}'
+                '{"errors":[{"code":404,"message":"Request does not match any route."}]}',
+                sprintf(
+                    'REST routing did not fail as expected for Resource "%s" and method "%s"',
+                    $serviceInfo['rest']['resourcePath'],
+                    $serviceInfo['rest']['httpMethod']
+                )
             );
         }
     }
@@ -182,7 +187,14 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase
         } catch (Exception $e) {
             $this->assertEquals(
                 get_class($e),
-                'SoapFault'
+                'SoapFault',
+                sprintf(
+                    'Expected SoapFault exception not generated for
+                    Service - "%s" and serviceVersion - "%s" and Operation - "%s"',
+                    $serviceInfo['soap']['service'],
+                    $serviceInfo['soap']['serviceVersion'],
+                    $serviceInfo['soap']['operation']
+                )
             );
         }
     }
