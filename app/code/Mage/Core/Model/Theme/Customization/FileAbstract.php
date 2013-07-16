@@ -12,7 +12,7 @@
  * Theme file service abstract class
  */
 abstract class Mage_Core_Model_Theme_Customization_FileAbstract
-    implements Mage_Core_Model_Theme_Customization_FileInterface
+    implements Mage_Core_Model_Theme_Customization_FileInterface, Mage_Core_Model_Theme_Customization_FileAssetInterface
 {
     /**
      * @var Mage_Core_Model_Theme_Customization_Path
@@ -83,6 +83,7 @@ abstract class Mage_Core_Model_Theme_Customization_FileAbstract
     public function save(Mage_Core_Model_Theme_FileInterface $file)
     {
         $this->_saveFileContent($this->getFullPath($file), $file->getContent());
+        return $this;
     }
 
     /**
@@ -91,6 +92,7 @@ abstract class Mage_Core_Model_Theme_Customization_FileAbstract
     public function delete(Mage_Core_Model_Theme_FileInterface $file)
     {
         $this->_deleteFileContent($this->getFullPath($file));
+        return $this;
     }
 
     /**

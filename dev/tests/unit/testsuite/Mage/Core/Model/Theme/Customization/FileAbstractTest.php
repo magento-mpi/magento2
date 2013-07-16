@@ -55,6 +55,7 @@ class Mage_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Frame
     }
 
     /**
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::__construct
      * @covers Mage_Core_Model_Theme_Customization_FileAbstract::create
      */
     public function testCreate()
@@ -63,11 +64,35 @@ class Mage_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Frame
         $file = $this->getMock('Mage_Core_Model_Theme_File', array(), array(), '', false);
         $file->expects($this->once())->method('setCustomizationService')->with($model);
         $this->_fileFactory->expects($this->once())->method('create')->will($this->returnValue($file));
+        /** @var $model Mage_Core_Model_Theme_Customization_FileAbstract */
         $this->assertEquals($file, $model->create());
     }
 
     /**
-     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::create
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::getFullPath
+     */
+    public function testGetFullPath()
+    {
+        $model = $this->_modelBuilder->getMock();
+        $theme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $file = $this->getMock('Mage_Core_Model_Theme_File', array(), array(), '', false);
+
+        $file->expects($this->any())->method('getTheme')->will($this->returnValue($theme));
+        $file->expects($this->once())->method('getData')->with('file_path')->will($this->returnValue('file.path'));
+
+        $this->_customizationPath->expects($this->once())->method('getCustomizationPath')
+            ->will($this->returnValue('/path'));
+
+        /** @var $model Mage_Core_Model_Theme_Customization_FileAbstract */
+        /** @var $file Mage_Core_Model_Theme_File */
+        $this->assertEquals('/path' . DIRECTORY_SEPARATOR . 'file.path', $model->getFullPath($file));
+    }
+
+    /**
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::prepareFile
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::_prepareFileName
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::_prepareFilePath
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::_prepareSortOrder
      * @dataProvider getTestContent
      */
     public function testPrepareFile($type, $fileContent, $expectedContent, $existedFiles)
@@ -93,6 +118,8 @@ class Mage_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Frame
         $file->expects($this->any())->method('getTheme')->will($this->returnValue($theme));
         $file->setData($fileContent);
 
+        /** @var $model Mage_Core_Model_Theme_Customization_FileAbstract */
+        /** @var $file Mage_Core_Model_Theme_File */
         $model->prepareFile($file);
         $this->assertEquals($expectedContent, $file->getData());
     }
@@ -179,6 +206,7 @@ class Mage_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Frame
 
     /**
      * @covers Mage_Core_Model_Theme_Customization_FileAbstract::save
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::_saveFileContent
      */
     public function testSave()
     {
@@ -197,11 +225,14 @@ class Mage_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Frame
         $this->_filesystem->expects($this->once())->method('setIsAllowCreateDirectories')->with(true)
             ->will($this->returnSelf());
         $this->_filesystem->expects($this->once())->method('write')->with('test_path', 'test content');
+        /** @var $model Mage_Core_Model_Theme_Customization_FileAbstract */
+        /** @var $file Mage_Core_Model_Theme_File */
         $model->save($file);
     }
 
     /**
      * @covers Mage_Core_Model_Theme_Customization_FileAbstract::delete
+     * @covers Mage_Core_Model_Theme_Customization_FileAbstract::_deleteFileContent
      */
     public function testDelete()
     {
@@ -217,6 +248,8 @@ class Mage_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Frame
         $this->_filesystem->expects($this->once())->method('has')->with('test_path')->will($this->returnValue(true));
         $this->_filesystem->expects($this->once())->method('delete')->with('test_path');
         $model->expects($this->once())->method('getFullPath')->with($file)->will($this->returnValue('test_path'));
+        /** @var $model Mage_Core_Model_Theme_Customization_FileAbstract */
+        /** @var $file Mage_Core_Model_Theme_File */
         $model->delete($file);
     }
 }

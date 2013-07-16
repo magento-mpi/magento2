@@ -60,6 +60,7 @@ class Mage_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Core_Model_Theme_Customization::getFiles
+     * @covers Mage_Core_Model_Theme_Customization::__construct
      */
     public function testGetFiles()
     {

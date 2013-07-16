@@ -21,13 +21,6 @@ interface Mage_Core_Model_Theme_Customization_FileInterface
     public function getType();
 
     /**
-     * Get content type of file
-     *
-     * @return string
-     */
-    public function getContentType();
-
-    /**
      * Gets absolute path to a custom file
      *
      * @param Mage_Core_Model_Theme_FileInterface $file

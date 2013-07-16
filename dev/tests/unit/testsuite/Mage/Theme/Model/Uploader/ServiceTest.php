@@ -9,7 +9,7 @@
  */
 
 /**
- * Storage model test
+ * Test for uploader service
  */
 class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
 {

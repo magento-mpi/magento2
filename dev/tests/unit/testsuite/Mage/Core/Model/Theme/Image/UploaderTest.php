@@ -10,7 +10,7 @@
  */
 
 /**
- * Test theme model
+ * Test for theme image uploader
  */
 class Mage_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCase
 {

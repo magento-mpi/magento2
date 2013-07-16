@@ -10,7 +10,7 @@
  */
 
 /**
- * Test of theme customization model
+ * Test of customization path model
  */
 class Mage_Core_Model_Theme_Customization_PathTest extends PHPUnit_Framework_TestCase
 {
@@ -44,6 +44,7 @@ class Mage_Core_Model_Theme_Customization_PathTest extends PHPUnit_Framework_Tes
     }
 
     /**
+     * @covers Mage_Core_Model_Theme_Customization_Path::__construct
      * @covers Mage_Core_Model_Theme_Customization_Path::getCustomizationPath
      */
     public function testGetCustomizationPath()

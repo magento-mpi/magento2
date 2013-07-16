@@ -10,7 +10,7 @@
  */
 
 /**
- * Test theme model
+ * Test of image path model
  */
 class Mage_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
 {

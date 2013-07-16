@@ -229,7 +229,6 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ztest
      * @magentoConfigFixture global/locale/inheritance/en_AU en_UK
      * @magentoConfigFixture global/locale/inheritance/en_UK en_US
      * @dataProvider translateWithLocaleInheritanceDataProvider

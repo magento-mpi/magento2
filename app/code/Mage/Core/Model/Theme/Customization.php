@@ -9,7 +9,7 @@
  */
 
 /**
- * Theme_Label class used for system configuration
+ * Theme customizations manager
  */
 class Mage_Core_Model_Theme_Customization implements Mage_Core_Model_Theme_CustomizationInterface
 {
