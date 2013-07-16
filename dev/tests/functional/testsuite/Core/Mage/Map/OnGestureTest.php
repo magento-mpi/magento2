@@ -62,7 +62,7 @@ class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
      */
     public function enableMinimumAdvertisedPriceOnGesture($category)
     {
-        $this->markTestIncomplete('Bug: Notice if developer mode enabled');
+        $this->markTestIncomplete('MAGETWO-11469');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');

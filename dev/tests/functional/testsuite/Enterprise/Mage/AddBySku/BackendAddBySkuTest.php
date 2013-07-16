@@ -11,6 +11,11 @@
 
 class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11472');
+    }
+
     private static $_customer = array();
 
     protected function assertPreConditions()

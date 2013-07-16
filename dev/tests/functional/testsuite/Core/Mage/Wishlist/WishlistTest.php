@@ -304,7 +304,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
     public function addProductsWithOptionsToShoppingCartFromWishlistNegative($product, $message, $testData)
     {
         if ($product == 'downloadable_opt') {
-            $this->markTestIncomplete('BUG: Fatal error on page');
+            $this->markTestIncomplete('MAGETWO-11470');
         }
         //Data
         $productName = $testData['productNames'][$product];
