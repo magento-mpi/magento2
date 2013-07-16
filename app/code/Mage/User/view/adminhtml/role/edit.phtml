@@ -69,7 +69,16 @@
             },
             _bind: function() {
                 this.element.on('loaded.jstree', $.proxy(this._checkNodes, this));
+                this.element.delegate("li", "click.jstree", $.proxy(this._checkNode, this));
                 this.options.selectors.roleForm.on('save.mage', $.proxy(this._serializeData, this));
+            },
+            _destroy: function() {
+                this.options.selectors.roleForm.off('save.mage');
+                this.element.html('');
+            },
+            _checkNode: function(e) {
+                e.stopPropagation();
+                this.element.jstree('change_state', e.currentTarget, this.element.jstree('is_checked', e.currentTarget));
             },
             _checkNodes: function() {
                 var selected = this.options.treeInitSelectedData;
@@ -85,10 +94,6 @@
                     r.push(v);
                 });
                 this.options.selectors.saveInput.val(r.join(','));
-            },
-            _destroy: function() {
-                this.options.selectors.roleForm.off('save.mage');
-                this.element.html('');
             },
             _changeState: function() {
                 if (this.data.ui.hovered) {
