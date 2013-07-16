@@ -39,13 +39,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase
             )
         );
         $requestData = array('id' => $itemId);
-
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->assertSoapException($serviceInfo, $requestData);
-        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo, $requestData);
-        }
-
+        $this->assertAdapterException($serviceInfo, $requestData);
     }
 
     /**
@@ -64,12 +58,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase
                 'operation' => $this->_soapService . 'Items'
             )
         );
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->assertSoapException($serviceInfo);
-        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo);
-        }
-
+        $this->assertAdapterException($serviceInfo);
     }
 
     /**
@@ -90,11 +79,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase
             )
         );
         $requestData = array('name' => $createdItemName);
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->assertSoapException($serviceInfo, $requestData);
-        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo, $requestData);
-        }
+        $this->assertAdapterException($serviceInfo, $requestData);
     }
 
     /**
@@ -115,11 +100,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase
             )
         );
         $requestData = array('id' => $itemId);
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->assertSoapException($serviceInfo, $requestData);
-        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo, $requestData);
-        }
+        $this->assertAdapterException($serviceInfo, $requestData);
     }
 
     /**
@@ -140,6 +121,17 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase
             )
         );
         $requestData = array('id' => $itemId);
+        $this->assertAdapterException($serviceInfo, $requestData);
+    }
+
+    /**
+     * Utility to check a particular adapter and assert the exception
+     *
+     * @param $serviceInfo
+     * @param $requestData
+     */
+    protected function assertAdapterException($serviceInfo, $requestData = null)
+    {
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->assertSoapException($serviceInfo, $requestData);
         } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
