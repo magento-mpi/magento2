@@ -191,7 +191,7 @@
                     filename: fileRow.attr('id'),
                     node: this.activeNode.id,
                     store: this.options.storeId,
-                    as_is: targetEl.is('textarea'),
+                    as_is: targetEl.is('textarea') ? 1 : 0,
                     form_key: FORM_KEY
                 },
                 context: this.element,
