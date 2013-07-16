@@ -12,16 +12,9 @@
 class Mage_Core_Model_Layout_File_Source_Aggregated implements Mage_Core_Model_Layout_File_SourceInterface
 {
     /**
-     * @var Mage_Core_Model_Layout_File_List
+     * @var Mage_Core_Model_Layout_File_List_Factory
      */
-    private $_fileList;
-
-    /**
-     * Whether files have been aggregated or not
-     *
-     * @var bool
-     */
-    private $_isAggregated = false;
+    private $_fileListFactory;
 
     /**
      * @var Mage_Core_Model_Layout_File_SourceInterface
@@ -44,20 +37,20 @@ class Mage_Core_Model_Layout_File_Source_Aggregated implements Mage_Core_Model_L
     private $_overridingThemeFiles;
 
     /**
-     * @param Mage_Core_Model_Layout_File_List $fileList
+     * @param Mage_Core_Model_Layout_File_List_Factory $fileListFactory
      * @param Mage_Core_Model_Layout_File_SourceInterface $baseFiles
      * @param Mage_Core_Model_Layout_File_SourceInterface $themeFiles
      * @param Mage_Core_Model_Layout_File_SourceInterface $overridingBaseFiles
      * @param Mage_Core_Model_Layout_File_SourceInterface $overridingThemeFiles
      */
     public function __construct(
-        Mage_Core_Model_Layout_File_List $fileList,
+        Mage_Core_Model_Layout_File_List_Factory $fileListFactory,
         Mage_Core_Model_Layout_File_SourceInterface $baseFiles,
         Mage_Core_Model_Layout_File_SourceInterface $themeFiles,
         Mage_Core_Model_Layout_File_SourceInterface $overridingBaseFiles,
         Mage_Core_Model_Layout_File_SourceInterface $overridingThemeFiles
     ) {
-        $this->_fileList = $fileList;
+        $this->_fileListFactory = $fileListFactory;
         $this->_baseFiles = $baseFiles;
         $this->_themeFiles = $themeFiles;
         $this->_overridingBaseFiles = $overridingBaseFiles;
@@ -65,31 +58,20 @@ class Mage_Core_Model_Layout_File_Source_Aggregated implements Mage_Core_Model_L
     }
 
     /**
+     * Aggregate layout files from modules and a theme and its ancestors
+     *
      * {@inheritdoc}
      */
     public function getFiles(Mage_Core_Model_ThemeInterface $theme)
     {
-        if (!$this->_isAggregated) {
-            $this->_aggregateFiles($this->_fileList, $theme);
-            $this->_isAggregated = true;
-        }
-        return $this->_fileList->getAll();
-    }
-
-    /**
-     * Aggregate layout files from modules and a theme and its ancestors, placing results into the list
-     *
-     * @param Mage_Core_Model_Layout_File_List $list
-     * @param Mage_Core_Model_ThemeInterface $theme
-     */
-    protected function _aggregateFiles(Mage_Core_Model_Layout_File_List $list, Mage_Core_Model_ThemeInterface $theme)
-    {
+        $list = $this->_fileListFactory->create();
         $list->add($this->_baseFiles->getFiles($theme));
-        foreach ($this->_getInheritedThemes($theme) as $theme) {
-            $list->add($this->_themeFiles->getFiles($theme));
-            $list->replace($this->_overridingBaseFiles->getFiles($theme));
-            $list->replace($this->_overridingThemeFiles->getFiles($theme));
+        foreach ($this->_getInheritedThemes($theme) as $currentTheme) {
+            $list->add($this->_themeFiles->getFiles($currentTheme));
+            $list->replace($this->_overridingBaseFiles->getFiles($currentTheme));
+            $list->replace($this->_overridingThemeFiles->getFiles($currentTheme));
         }
+        return $list->getAll();
     }
 
     /**

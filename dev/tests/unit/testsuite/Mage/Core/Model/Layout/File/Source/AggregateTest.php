@@ -45,8 +45,10 @@ class Mage_Core_Model_Layout_File_Source_AggregatedTest extends PHPUnit_Framewor
         $this->_themeFiles = $this->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface');
         $this->_overridingBaseFiles = $this->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface');
         $this->_overridingThemeFiles = $this->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface');
+        $fileListFactory = $this->getMock('Mage_Core_Model_Layout_File_List_Factory', array(), array(), '', false);
+        $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
         $this->_model = new Mage_Core_Model_Layout_File_Source_Aggregated(
-            $this->_fileList, $this->_baseFiles, $this->_themeFiles,
+            $fileListFactory, $this->_baseFiles, $this->_themeFiles,
             $this->_overridingBaseFiles, $this->_overridingThemeFiles
         );
     }
@@ -95,6 +97,5 @@ class Mage_Core_Model_Layout_File_Source_AggregatedTest extends PHPUnit_Framewor
         $this->_fileList->expects($this->atLeastOnce())->method('getAll')->will($this->returnValue($files));
 
         $this->assertSame($files, $this->_model->getFiles($theme));
-        $this->assertSame($files, $this->_model->getFiles($theme), 'Layout file aggregation should occur only once');
     }
 }
