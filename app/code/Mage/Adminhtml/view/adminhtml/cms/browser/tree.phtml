@@ -7,60 +7,70 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+ /** @var Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Tree $this */
 ?>
-<?php
-/**
- * Directories tree template
- *
- * @see Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Tree
- */
-?>
-<div class="categories-side-col">
-    <div class="tree-actions">
-        <a href="#" id="tree_action_collapse"><?php echo $this->helper('Mage_Cms_Helper_Data')->__('Collapse All'); ?></a>
-        <span class="separator">|</span>
-        <a href="#" id="tree_action_expand"><?php echo $this->helper('Mage_Cms_Helper_Data')->__('Expand All'); ?></a>
+<div class="tree-panel" >
+    <div class="categories-side-col">
+        <div class="tree-actions">
+            <a onclick="jQuery('[data-role=tree]').jstree('close_all');"><?php echo $this->helper('Mage_Cms_Helper_Data')->__('Collapse All'); ?></a>
+            <span class="separator">|</span>
+            <a onclick="jQuery('[data-role=tree]').jstree('open_all');"><?php echo $this->helper('Mage_Cms_Helper_Data')->__('Expand All'); ?></a>
+        </div>
     </div>
+    <div data-role="tree" style="width:100%; overflow:auto;"></div>
+    <script type="text/javascript">
+    (function($) {
+        $('[data-role=tree]').jstree({
+            "plugins": ["themes", "json_data", "ui", "hotkeys"],
+            "themes": {
+                "theme": "default",
+                "dots": true,
+                "icons": true
+            },
+            "json_data": {
+                data: {
+                    data:  '<?php echo $this->getRootNodeName() ?>',
+                    state: "closed",
+                    metadata: {node: {id: 'root', text: "root"}},
+                    attr: { "data-id": 'root', id: 'root'}
+                },
+                "ajax": {
+                    "url": "<?php echo $this->getTreeLoaderUrl() ?>",
+                    data: function(node) {
+                        return {
+                            node: node.data('id'),
+                            form_key: FORM_KEY
+                        };
+                    },
+                    success: function(data) {
+                        return  $.map(data, function(node) {
+                            var codeCopy = $.extend({}, node);
+                            return {
+                                data: node.text,
+                                attr: {"data-id": node.id, id: node.id},
+                                metadata: {node: codeCopy},
+                                state: "closed"
+                            };
+                        });
+                    }
+                }
+            }
+        }).on('loaded.jstree', function(event){
+            var path = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode(array_reverse($this->getTreeCurrentPath())); ?>;
+            var tree = $(event.target);
+            var recursiveOpen = function() {
+                if (path.length > 1) {
+                    var el = $("[data-id=\"" + path.pop() + "\"]");
+                    tree.jstree('open_node', el, recursiveOpen);
+                } else {
+                    var el = $("[data-id=\"" + path.pop() + "\"]");
+                    tree.jstree('open_node', el, function() {
+                        tree.jstree('select_node', el)
+                    });
+                }
+            };
+            recursiveOpen();
+        });
+    })(jQuery);
+    </script>
 </div>
-
-<div id="tree" style="width:100%; overflow:auto;"></div>
-
-<script type="text/javascript">
-Ext.onReady(function(){
-    var Tree = Ext.tree;
-    var tree = new Tree.TreePanel('tree', {
-        animate:true,
-        loader: new Tree.TreeLoader({
-            dataUrl:'<?php echo $this->getTreeLoaderUrl() ?>'
-        }),
-        enableDD:false,
-        containerScroll: true
-    });
-
-    // set the root node
-    var root = new Tree.AsyncTreeNode({
-        text: '<?php echo $this->getRootNodeName() ?>',
-        draggable:false,
-        id:'root'
-    });
-    tree.setRootNode(root);
-
-    // render the tree
-    tree.render();
-    root.expand();
-
-    Event.observe($('tree_action_collapse'), 'click', function(){
-        tree.collapseAll();
-    });
-
-    Event.observe($('tree_action_expand'), 'click', function(){
-        tree.expandAll();
-    });
-
-    MediabrowserInstance.setTree(tree);
-    tree.addListener('click', MediabrowserInstance.selectFolder.bind(MediabrowserInstance));
-    tree.expandPath('<?php echo $this->getTreeCurrentPath() ?>','', function(success, node) {
-        MediabrowserInstance.selectFolder(node);
-    });
-});
-</script>
