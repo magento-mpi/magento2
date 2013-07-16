@@ -4,13 +4,15 @@ class Layout_Handle_Separator
     protected $_layoutGroupIterator;
     protected $_layoutAnalyzer;
     protected $_layoutInheritance;
+    protected $_emptyHandleTemplate;
 
     public function __construct(Traversable $layoutGroupIterator, Layout_Analyzer $layoutAnalyzer,
-        Layout_Inheritance $layoutInheritance)
+        Layout_Inheritance $layoutInheritance, $emptyHandleTemplate)
     {
         $this->_layoutGroupIterator = $layoutGroupIterator;
         $this->_layoutAnalyzer = $layoutAnalyzer;
         $this->_layoutInheritance = $layoutInheritance;
+        $this->_emptyHandleTemplate = $emptyHandleTemplate;
     }
 
     /**
@@ -18,8 +20,6 @@ class Layout_Handle_Separator
      */
     public function performTheJob()
     {
-        $emptyFileContents = sprintf($this->_layoutAnalyzer->getTemplate(), '');
-
         foreach ($this->_layoutGroupIterator as $moduleDir => $layoutFilesGroup) {
             $handleContents = $this->_layoutAnalyzer->aggregateHandles($layoutFilesGroup);
             $overriddenHandles = array_keys($handleContents);
@@ -39,6 +39,7 @@ class Layout_Handle_Separator
                 $inheritedHandles = $this->_layoutInheritance->getInheritedHandles($moduleDir);
                 $emptiedHandles = array_diff($inheritedHandles, $overriddenHandles);
                 foreach ($emptiedHandles as $handle) {
+                    $emptyFileContents = sprintf($this->_emptyHandleTemplate, $handle);
                     $this->_overrideHandle($handle, $emptyFileContents, $moduleDir);
                 }
             }

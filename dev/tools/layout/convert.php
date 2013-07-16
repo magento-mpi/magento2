@@ -25,6 +25,8 @@ $template = <<<XML
 <layout version="0.1.0">%s</layout>
 XML;
 
+$emptyHandleTemplate = sprintf($template, "\n    <%s/>\n");
+
 try {
     /* ---Boilerplating---- */
     // List of layout files patterns, relative to layout directories
@@ -66,7 +68,8 @@ try {
 
     // Configure final object, which separates handles into files
     $layoutAnalyzer = new Layout_Analyzer(new Layout_Merger(), new Xml_Formatter('    '), $template);
-    $handleSeparator = new Layout_Handle_Separator($layoutGroupIterator, $layoutAnalyzer, $layoutInheritance);
+    $handleSeparator = new Layout_Handle_Separator($layoutGroupIterator, $layoutAnalyzer, $layoutInheritance,
+        $emptyHandleTemplate);
 
     // Configure the object to delete all the old layout files
     $oldLayoutFilesIterator = new AppendIterator();
