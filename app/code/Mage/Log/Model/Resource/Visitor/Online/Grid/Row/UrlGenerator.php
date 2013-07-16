@@ -1,9 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * URL Generator for Customer Online Grid
  *
- * @category    Mage
- * @package     Mage_Log
+ * {license_notice}
  * @copyright   {copyright}
  * @license     {license_link}
  */
