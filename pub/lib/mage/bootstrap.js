@@ -26,16 +26,26 @@ jQuery(function ($, console) {
                 if (console && !$(e.target).parents('[data-role="loader"]').length) {
                     console.warn('Expected to start loader but did not find one in the dom');
                 }
-                $(e.target).trigger('processStart');
+                if (settings.context) {
+                    $(settings.context).trigger('processStart');
+                }
+                else {
+                    $('body').trigger('processStart');
+                }
             }
         });
 
         /*
          * Hide loader on ajax complete
          */
-        $('body').on('ajaxComplete ajaxError', function(e, jqxhr, settings) {
+        $('body').on('ajaxComplete', function(e, jqxhr, settings) {
             if (settings && settings.showLoader) {
-                $(e.target).trigger('processStop');
+                if (settings.context) {
+                    $(settings.context).trigger('processStop');
+                }
+                else {
+                    $('body').trigger('processStop');
+                }
             }
         });
 

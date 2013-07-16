@@ -62,8 +62,7 @@
                         type: 'POST',
                         dataType: 'json',
                         data: {attribute_id: ui.item.id, template_id: templateId, group: $(this).data('group')},
-                        showLoader: true,
-                        context: 'body'
+                        showLoader: true
                     }).done(function() {
                         setTimeout(function() { //do defered
                             $('[data-form=edit-product]').trigger('changeAttributeSet', {id: templateId});
