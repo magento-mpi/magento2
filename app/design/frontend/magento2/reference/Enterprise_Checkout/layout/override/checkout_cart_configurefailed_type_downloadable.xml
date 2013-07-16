@@ -7,4 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0"></layout>
+<layout version="0.1.0">
+    <checkout_cart_configurefailed_type_downloadable/>
+</layout>

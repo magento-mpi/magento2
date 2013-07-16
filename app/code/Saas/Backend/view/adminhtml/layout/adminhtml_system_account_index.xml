@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<layout version="0.1.0">
     <adminhtml_system_account_index>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_System_Account_Edit" name="adminhtml.system.account.edit"/>
+            <block type="Saas_Backend_Block_System_Account_Edit" name="adminhtml.system.account.edit"/>
         </reference>
     </adminhtml_system_account_index>
 </layout>
