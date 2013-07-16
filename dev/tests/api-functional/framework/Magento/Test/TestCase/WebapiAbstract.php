@@ -173,6 +173,16 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     }
 
     /**
+     * Mark test to be executed for REST adapter only.
+     */
+    protected function _markTestAsRestOnly($message = null)
+    {
+        if (TESTS_WEB_API_ADAPTER != self::ADAPTER_REST) {
+            $this->markTestSkipped($message ? $message : "The test is intended to be executed for REST adapter only.");
+        }
+    }
+
+    /**
      * Set fixture to registry
      *
      * @param string $key
