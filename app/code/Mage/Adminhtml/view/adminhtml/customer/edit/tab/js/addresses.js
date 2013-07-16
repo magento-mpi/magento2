@@ -35,12 +35,6 @@
                 '\'}}">' + this._prepareTemplate(this.element.find('div[data-template="address_form"]').html()) +
                 '</div>');
 
-            // pre-fill form with account firstname and lastname
-            this.element.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]')
-                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
-            this.element.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]')
-                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]').val());
-
             var newForm = $('#form_' + formName);
 
             // @TODO something different?
@@ -64,6 +58,15 @@
             newItem.formBlock = newForm;
 
             this.element.trigger('contentUpdated', newItem);
+
+            // pre-fill form with account firstname and lastname
+            newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]')
+                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
+            newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]')
+                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]').val());
+
+            // .val does not trigger change event, so manually trigger.
+            newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]').trigger("change");
 
             // @TODO this function
 //            this.setActiveItem(newItem);
