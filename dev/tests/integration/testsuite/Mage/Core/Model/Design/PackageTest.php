@@ -15,9 +15,24 @@
 class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     protected $_model;
+
+    /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
+     * @var Mage_Core_Model_View_Config
+     */
+    protected $_viewConfig;
+
+    /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
 
     public static function setUpBeforeClass()
     {
@@ -41,7 +56,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
+        $this->_model = Mage::getModel('Mage_Core_Model_View_DesignInterface');
+        $this->_viewFileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
+        $this->_viewConfig = Mage::getModel('Mage_Core_Model_View_Config');
+        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
     }
 
     /**
@@ -56,13 +74,16 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 Mage_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
-        $this->_model->setDesignTheme($themePath);
+        Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->setDesignTheme($themePath);
+
+        $this->_viewFileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
+        $this->_viewConfig = Mage::getModel('Mage_Core_Model_View_Config');
+        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
     }
 
     public function testSetGetArea()
     {
-        $this->assertEquals(Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA, $this->_model->getArea());
+        $this->assertEquals(Mage_Core_Model_View_DesignInterface::DEFAULT_AREA, $this->_model->getArea());
         $this->_model->setArea('test');
         $this->assertEquals('test', $this->_model->getArea());
     }
@@ -122,7 +143,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetFilename($file, $params)
     {
         $this->_emulateFixtureTheme();
-        $this->assertFileExists($this->_model->getFilename($file, $params));
+        $this->assertFileExists($this->_viewFileSystem->getFilename($file, $params));
     }
 
     /**
@@ -145,7 +166,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractScopeException($file)
     {
-        $this->_model->getFilename($file, array());
+        $this->_viewFileSystem->getFilename($file, array());
     }
 
     public function extractScopeExceptionDataProvider()
@@ -166,7 +187,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetViewConfig()
     {
         $this->_emulateFixtureTheme();
-        $config = $this->_model->getViewConfig();
+        $config = $this->_viewConfig->getViewConfig();
         $this->assertInstanceOf('Magento_Config_View', $config);
         $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
@@ -177,7 +198,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetConfigCustomized()
     {
         $this->_emulateFixtureTheme();
-        $theme = $this->_model->getDesignTheme();
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem Magento_Filesystem */
         $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
@@ -186,7 +208,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             $filesystem->write($customConfigFile, '<?xml version="1.0" encoding="UTF-8"?>
                 <view><vars  module="Namespace_Module"><var name="customVar">custom value</var></vars></view>');
 
-            $config = $this->_model->getViewConfig();
+            $config = $this->_viewConfig->getViewConfig();
             $this->assertInstanceOf('Magento_Config_View', $config);
             $this->assertEquals(array('customVar' => 'custom value'), $config->getVars('Namespace_Module'));
         } catch (Exception $e) {
@@ -213,7 +235,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
         $this->_emulateFixtureTheme();
-        $this->assertEquals($result, $this->_model->getViewFileUrl($file));
+        $this->assertEquals($result, $this->_viewUrl->getViewFileUrl($file));
     }
 
     /**
@@ -232,7 +254,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
-        $url = $this->_model->getViewFileUrl($file);
+        $url = $this->_viewUrl->getViewFileUrl($file);
         $this->assertEquals(strpos($url, $result), 0);
         $lastModified = array();
         preg_match('/.*\?(.*)$/i', $url, $lastModified);
@@ -284,7 +306,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetPublicFileUrl()
     {
         $pubLibFile = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB) . '/jquery/jquery.js';
-        $actualResult = $this->_model->getPublicFileUrl($pubLibFile);
+        $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
     }
 
@@ -294,7 +316,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetPublicFileUrlSigned()
     {
         $pubLibFile = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB) . '/jquery/jquery.js';
-        $actualResult = $this->_model->getPublicFileUrl($pubLibFile);
+        $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
     }
 }

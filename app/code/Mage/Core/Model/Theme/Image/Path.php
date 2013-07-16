@@ -29,9 +29,9 @@ class Mage_Core_Model_Theme_Image_Path
     protected $_dir;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_Url
      */
-    protected $_designPackage;
+    protected $_viewUrl;
 
     /**
      * @var Mage_Core_Model_StoreManager
@@ -42,16 +42,16 @@ class Mage_Core_Model_Theme_Image_Path
      * Initialize dependencies
      *
      * @param Mage_Core_Model_Dir $dir
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Model_StoreManager $storeManager
      */
     public function __construct(
         Mage_Core_Model_Dir $dir,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_Url $viewUrl,
         Mage_Core_Model_StoreManager $storeManager
     ) {
         $this->_dir = $dir;
-        $this->_designPackage = $designPackage;
+        $this->_viewUrl = $viewUrl;
         $this->_storeManager = $storeManager;
     }
 
@@ -73,7 +73,7 @@ class Mage_Core_Model_Theme_Image_Path
      */
     public function getPreviewImageDefaultUrl()
     {
-        return $this->_designPackage->getViewFileUrl(self::DEFAULT_PREVIEW_IMAGE);
+        return $this->_viewUrl->getViewFileUrl(self::DEFAULT_PREVIEW_IMAGE);
     }
 
     /**

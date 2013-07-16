@@ -19,14 +19,21 @@
 class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * @param $content
+     * Create a new static block.
+     * Uses a simple editor only.
+     *
+     * @param array|string $blockData
      */
-    protected function _content($content)
+    public function createStaticBlock($blockData)
     {
-        if ($content) {
-            $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
-            $variableData = (isset($content['variables'])) ? $content['variables'] : array();
-
+        $blockData = $this->fixtureDataToArray($blockData);
+        $this->clickButton('add_new_block');
+        if (array_key_exists('store_view', $blockData) && !$this->controlIsVisible('multiselect', 'store_view')) {
+            unset($blockData['store_view']);
+        }
+        if (isset($blockData['content'])) {
+            $widgetsData = (isset($blockData['content']['widgets'])) ? $blockData['content']['widgets'] : array();
+            $variableData = (isset($blockData['content']['variables'])) ? $blockData['content']['variables'] : array();
             foreach ($widgetsData as $widget) {
                 if (!$this->cmsPagesHelper()->insertWidget($widget)) {
                     //skip next steps, because widget insertion pop-up is opened
@@ -36,26 +43,9 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
             foreach ($variableData as $variable) {
                 $this->cmsPagesHelper()->insertVariable($variable);
             }
+            unset($blockData['content']);
         }
-    }
-
-    /**
-     * Create a new static block.
-     * Uses a simple editor only.
-     *
-     * @param array|string $blockData
-     */
-    public function createStaticBlock(array $blockData)
-    {
-        $blockData = $this->fixtureDataToArray($blockData);
-        $content = (isset($blockData['content'])) ? $blockData['content'] : array();
-        $this->clickButton('add_new_block');
-        if (array_key_exists('store_view', $blockData) && !$this->controlIsPresent('multiselect', 'store_view')) {
-            unset($blockData['store_view']);
-        }
-        $this->fillForm($blockData);
-        $this->_content($content);
-        $this->pleaseWait();
+        $this->fillFieldset($blockData, 'general_information');
         $this->saveForm('save_block');
     }
 

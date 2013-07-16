@@ -27,7 +27,7 @@ class Mage_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designMock;
+    protected $_viewUrlMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -37,7 +37,7 @@ class Mage_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
-        $this->_designMock = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
+        $this->_viewUrlMock = $this->getMock('Mage_Core_Model_View_Url', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
 
         $this->_dirMock->expects($this->any())->method('getDir')->with(Mage_Core_Model_Dir::MEDIA)
@@ -45,7 +45,7 @@ class Mage_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Mage_Core_Model_Theme_Image_Path(
             $this->_dirMock,
-            $this->_designMock,
+            $this->_viewUrlMock,
             $this->_storeManagerMock
         );
     }
@@ -54,23 +54,12 @@ class Mage_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
     {
         $this->_model = null;
         $this->_dirMock = null;
-        $this->_designMock = null;
+        $this->_viewUrlMock = null;
         $this->_storeManagerMock = null;
     }
 
     /**
      * @covers Mage_Core_Model_Theme_Image_Path::__construct
-     */
-    public function testConstruct()
-    {
-        $this->assertNotEmpty(new Mage_Core_Model_Theme_Image_Path(
-            $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false)
-        ));
-    }
-
-    /**
      * @covers Mage_Core_Model_Theme_Image_Path::getPreviewImageDirectoryUrl
      */
     public function testPreviewImageDirectoryUrlGetter()
@@ -86,7 +75,7 @@ class Mage_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultPreviewImageUrlGetter()
     {
-        $this->_designMock->expects($this->once())->method('getViewFileUrl')
+        $this->_viewUrlMock->expects($this->once())->method('getViewFileUrl')
             ->with(Mage_Core_Model_Theme_Image_Path::DEFAULT_PREVIEW_IMAGE);
         $this->_model->getPreviewImageDefaultUrl();
     }

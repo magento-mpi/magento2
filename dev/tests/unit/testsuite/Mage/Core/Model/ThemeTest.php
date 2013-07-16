@@ -26,18 +26,19 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $dirs Mage_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject */
-        $dirs = $this->getMock('Mage_Core_Model_Dir', array('getDir'), array(), '', false);
-        $dirs->expects($this->any())->method('getDir')->will($this->returnArgument(0));
-
+        $serviceProxy = $this->getMock('Mage_Core_Model_Theme_ServiceProxy', array(), array(), '', false);
+        $customizationFactory = $this->getMock('Mage_Core_Model_Theme_CustomizationFactory',
+            array('create'), array(), '', false);
         $resourceCollection = $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false);
-        $this->_imageFactory = $this->getMock('Mage_Core_Model_Theme_ImageFactory', array(), array(), '', false);
+        $this->_imageFactory = $this->getMock('Mage_Core_Model_Theme_ImageFactory',
+            array('create'), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme',array(
-            'dirs'               => $dirs,
-            'imageFactory'       => $this->_imageFactory,
-            'resourceCollection' => $resourceCollection
+        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme', array(
+            'customizationFactory' => $customizationFactory,
+            'themeService'         => $serviceProxy,
+            'imageFactory'         => $this->_imageFactory,
+            'resourceCollection'   => $resourceCollection
         ));
 
         $this->_model = $objectManagerHelper->getObject('Mage_Core_Model_Theme', $arguments);

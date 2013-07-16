@@ -10,7 +10,7 @@
  */
 
 /**
- * Test of theme customization model
+ * Test of file abstract service
  */
 class Mage_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Framework_TestCase
 {

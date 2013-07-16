@@ -48,8 +48,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
-        }
-        else {
+        } else {
             $collection = new Varien_Data_Collection();
         }
 
@@ -60,6 +59,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return Mage_Backend_Block_Widget_Grid_Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
@@ -130,18 +132,25 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
      *
      * @return Mage_Customer_Model_Customer
      */
-    public function getCustomer() {
+    public function getCustomer()
+    {
         return Mage::registry('current_customer');
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/cart', array('_current'=>true, 'website_id' => $this->getWebsiteId()));
     }
 
+    /**
+     * @return string
+     */
     public function getGridParentHtml()
     {
-        $templateName = Mage::getDesign()->getFilename($this->_parentTemplate, array('_relative' => true));
+        $templateName = $this->_viewFileSystem->getFilename($this->_parentTemplate, array('_relative' => true));
         return $this->fetchView($templateName);
     }
 

@@ -103,11 +103,11 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     {
         return array(
             1 => array(
-                Mage_Core_Model_Design_Package::XML_PATH_THEME_ID => '118',
+                Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '118',
                 Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'stores/1/dragons.png'
             ),
             null => array(
-                Mage_Core_Model_Design_Package::XML_PATH_THEME_ID => '272',
+                Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '272',
                 Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'default/magento.png'
             ),
         );

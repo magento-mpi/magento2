@@ -28,7 +28,7 @@ class Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
             'area'    => $area,
             'module'  => $module,
         );
-        $layoutFilename = Mage::getDesign()->getFilename($file, $params);
+        $layoutFilename = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename($file, $params);
 
         $this->assertStringStartsWith($moduleLayoutDir, $layoutFilename);
         $this->assertFileExists($layoutFilename, 'Expected existence of the layout file.');

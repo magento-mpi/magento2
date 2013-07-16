@@ -46,7 +46,7 @@ class Mage_Core_Model_Theme_FlyweightFactory
      * @return Mage_Core_Model_Theme|null
      * @throws InvalidArgumentException
      */
-    public function create($themeKey, $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA)
+    public function create($themeKey, $area = Mage_Core_Model_View_DesignInterface::DEFAULT_AREA)
     {
         if (is_numeric($themeKey)) {
             $themeModel = $this->_loadById($themeKey);

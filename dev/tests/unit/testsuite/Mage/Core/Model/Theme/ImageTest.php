@@ -30,7 +30,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     protected $_imageMock;
 
     /**
-     * @var Mage_Core_Model_Theme_Image_UploaderProxy|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Theme_Image_Uploader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_uploaderMock;
 
@@ -47,8 +47,8 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
         $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false, false);
-        $this->_uploaderMock = $this->getMock('Mage_Core_Model_Theme_Image_UploaderProxy', array(), array(), '',
-            false, false);
+        $this->_uploaderMock = $this->getMock('Mage_Core_Model_Theme_Image_Uploader',
+            array(), array(), 'Mage_Core_Model_Theme_Image_UploaderProxy', false, false);
         $logger = $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false, false);
 
         $this->_model = new Mage_Core_Model_Theme_Image(

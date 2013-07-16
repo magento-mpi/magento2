@@ -9,10 +9,7 @@
  */
 
 /**
- * Block that renders Quick Styles tabes
- *
- * @method Mage_Core_Model_Theme getTheme()
- * @method setTheme($theme)
+ * Block that renders Quick Styles tabs
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -28,9 +25,6 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
 
     /**
      * Theme context
-     *
-     * @todo Should be refactored. setTheme() should be removed.
-     * After refactoring blocks should use theme context.
      *
      * @var Mage_DesignEditor_Model_Theme_Context
      */

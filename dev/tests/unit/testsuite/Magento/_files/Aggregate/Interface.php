@@ -7,4 +7,6 @@
  */
 interface Magento_Test_Di_Aggregate_Interface
 {
+    const PARAM_ONE = 'one';
+    const PARAM_TWO = 'two';
 }

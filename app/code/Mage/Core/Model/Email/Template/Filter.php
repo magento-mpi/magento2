@@ -44,11 +44,18 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     protected $_plainTemplateMode = false;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * Setup callbacks for filters
      *
+     * @param Mage_Core_Model_View_Url $viewUrl
      */
-    public function __construct()
+    public function __construct(Mage_Core_Model_View_Url $viewUrl)
     {
+        $this->_viewUrl = $viewUrl;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
 
@@ -242,7 +249,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     public function viewDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        $url = Mage::getDesign()->getViewFileUrl($params['url'], $params);
+        $url = $this->_viewUrl->getViewFileUrl($params['url'], $params);
         return $url;
     }
 
@@ -287,8 +294,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $path = '';
             $params['_direct'] = $params['direct_url'];
             unset($params['direct_url']);
-        }
-        else {
+        } else {
             $path = isset($params['url']) ? $params['url'] : '';
             unset($params['url']);
         }
@@ -414,8 +420,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         $protocol = $isSecure ? 'https' : 'http';
         if (isset($params['url'])) {
             return $protocol . '://' . $params['url'];
-        }
-        elseif (isset($params['http']) && isset($params['https'])) {
+        } elseif (isset($params['http']) && isset($params['https'])) {
             if ($isSecure) {
                 return $params['https'];
             }
@@ -459,7 +464,8 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $mode = $this->getPlainTemplateMode()
                 ? Mage_Core_Model_Variable::TYPE_TEXT
                 : Mage_Core_Model_Variable::TYPE_HTML;
-            if ($value = $variable->getValue($mode)) {
+            $value = $variable->getValue($mode);
+            if ($value) {
                 $customVarValue = $value;
             }
         }

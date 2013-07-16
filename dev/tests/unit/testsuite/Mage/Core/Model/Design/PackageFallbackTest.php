@@ -15,7 +15,7 @@
 class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_PackageInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -24,24 +24,31 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
      */
     protected $_strategyPool;
 
+    /**
+     * @var Mage_Core_Model_View_Service|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_viewService;
+
+
     protected function setUp()
     {
         $this->_strategyPool = $this->getMock('Mage_Core_Model_Design_FileResolution_StrategyPool', array(),
-            array(), '', false);
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Design_Package',
-            array('resolutionPool' => $this->_strategyPool, 'appState' => new Mage_Core_Model_App_State())
+            array(), '', false
         );
-        $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
-            $arguments
+        $this->_viewService = $this->getMock('Mage_Core_Model_View_Service',
+            array('extractScope', 'updateDesignParams'), array(), '', false
         );
+
+        $this->_model = new Mage_Core_Model_View_FileSystem($this->_strategyPool, $this->_viewService);
     }
 
     public function testGetFilename()
     {
         $params = array(
-            'area' => 'some_area',
+            'area'       => 'some_area',
             'themeModel' => $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false),
+            'module'     => 'Some_Module'   //It should be set in Mage_Core_Model_View_Service::extractScope
+                                            // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
@@ -56,6 +63,11 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             ->method('getFileStrategy')
             ->with(false)
             ->will($this->returnValue($strategyMock));
+
+        $this->_viewService->expects($this->any())
+            ->method('extractScope')
+            ->with($file, $params)
+            ->will($this->returnValue('some_file.ext'));
 
         $actual = $this->_model->getFilename($file, $params);
         $this->assertEquals($expected, $actual);
@@ -89,9 +101,11 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
     public function testGetViewFile()
     {
         $params = array(
-            'area' => 'some_area',
+            'area'       => 'some_area',
             'themeModel' => $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false),
-            'locale' => 'some_locale'
+            'locale'     => 'some_locale',
+            'module'     => 'Some_Module'   //It should be set in Mage_Core_Model_View_Service::extractScope
+                                            // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
@@ -106,6 +120,11 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             ->method('getViewStrategy')
             ->with(false)
             ->will($this->returnValue($strategyMock));
+
+        $this->_viewService->expects($this->any())
+            ->method('extractScope')
+            ->with($file, $params)
+            ->will($this->returnValue('some_file.ext'));
 
         $actual = $this->_model->getViewFile($file, $params);
         $this->assertEquals($expected, $actual);

@@ -63,8 +63,8 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $themeMock->expects($this->any())->method('getCustomization')
             ->will($this->returnValue($this->_themeCustomization));
 
-        $designPackageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
-        $designPackageMock
+        $designMock = $this->getMock('Mage_Core_Model_View_DesignInterface');
+        $designMock
             ->expects($this->any())
             ->method('getDesignTheme')
             ->will($this->returnValue($themeMock))
@@ -75,14 +75,14 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
 
         $this->_assetFactory = $this->getMock('Mage_Core_Model_Page_Asset_PublicFileFactory',
-            array(), array(), '', false);
+            array('create'), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
             'Mage_Core_Model_Observer',
             array(
                 'cacheFrontendPool' => $this->_frontendPoolMock,
-                'designPackage'     => $designPackageMock,
+                'design'            => $designMock,
                 'page'              => new Mage_Core_Model_Page($this->_assetsMock),
                 'config'            => $this->_configMock,
                 'assetFileFactory'  => $this->_assetFactory
@@ -126,7 +126,6 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $fileService->expects($this->atLeastOnce())->method('getContentType')->will($this->returnValue('css'));
 
         $file->expects($this->any())->method('getCustomizationService')->will($this->returnValue($fileService));
-        $file->expects($this->atLeastOnce())->method('getContent')->will($this->returnValue('test content'));
         $file->expects($this->atLeastOnce())->method('getFullPath')->will($this->returnValue('test.css'));
 
         $this->_assetFactory->expects($this->any())
