@@ -47,7 +47,7 @@ configuration_menu_default:
     general_contacts:
         contact_us: ~
         email_options: ~
-    sales_google_api:
+    general_google_api:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~
@@ -229,7 +229,7 @@ configuration_menu_website:
     general_contacts:
         contact_us: ~
         email_options: ~
-    sales_google_api:
+    general_google_api:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~

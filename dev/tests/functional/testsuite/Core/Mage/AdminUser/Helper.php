@@ -140,9 +140,13 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillRolesResources(array $roleResources)
     {
-        $roleWebsites = (isset($roleResources['role_scopes'])) ? $roleResources['role_scopes'] : array();
-        $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
         $this->openTab('role_resources');
+        if (isset($roleResources['role_scopes']) && $this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'role_scopes')) {
+            $roleWebsites = $roleResources['role_scopes'];
+        } else {
+            $roleWebsites = array();
+        }
+        $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
         $this->fillRoleScopes($roleWebsites);
         $this->fillRoleAccess($roleAccess);
     }

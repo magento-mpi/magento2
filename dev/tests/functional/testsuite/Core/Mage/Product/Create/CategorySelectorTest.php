@@ -261,6 +261,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      */
     public function createNewCategoryValidationFailed()
     {
+        $this->markTestIncomplete('MAGETWO-11396');
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
 

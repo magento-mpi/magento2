@@ -686,6 +686,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function moveAttributeBlock($attributeData)
     {
+        $this->markTestIncomplete('MAGETWO-11411');
         //Data
         $verifyData = array(
             $attributeData['attribute2']['store_view_titles']['Default Store View'],

@@ -504,6 +504,197 @@ system_configuration:
                                         email_sender_use_default: //input[@name='groups[email][fields][sender_email_identity][inherit]']
                                         email_template_use_default: //input[@name='groups[email][fields][email_template][inherit]']
                 -
+                    general_google_api:
+                        xpath: //a[contains(@href, 'edit/section/google/')]
+                        fieldsets:
+                            -
+                                google_analytics:
+                                    xpath: //fieldset[@id='google_analytics']
+                                    links:
+                                        google_analytics_link: //parent::div//a[@id='google_analytics-head']
+                                    fields:
+                                        account_number: //input[@name='groups[analytics][fields][account][value]']
+                                    dropdowns:
+                                        enable_google_analytics: //select[@name='groups[analytics][fields][active][value]']
+                                        enable_content_experiments: //select[@name='groups[analytics][fields][experiments][value]']
+                                    checkboxes:
+                                        account_number_use_default: //input[@name='groups[analytics][fields][account][inherit]']
+                                        enable_use_default: //input[@name='groups[analytics][fields][active][inherit]']
+                            -
+                                google_adwords:
+                                    xpath: //fieldset[@id='google_adwords']
+                                    links:
+                                        google_adwords_link: //parent::div//a[@id='google_adwords-head']
+                                    fields:
+                                        conversion_id: //input[@name='groups[adwords][fields][conversion_id][value]']
+                                        conversion_format: //input[@name='groups[adwords][fields][conversion_format][value]']
+                                        conversion_color: //input[@name='groups[adwords][fields][conversion_color][value]']
+                                        conversion_label: //input[@name='groups[adwords][fields][conversion_label][value]']
+                                        conversion_value: //input[@name='groups[adwords][fields][conversion_value][value]']
+                                    dropdowns:
+                                        enable_google_adwords: //select[@name='groups[adwords][fields][active][value]']
+                                        conversion_value_type: //select[@name='groups[adwords][fields][conversion_value_type][value]']
+                                        conversion_language: //select[@name='groups[adwords][fields][conversion_language][value]']
+                            -
+                                google_shopping:
+                                    xpath: //fieldset[@id='google_googleshopping']
+                                    links:
+                                        google_shopping_link: //parent::div//a[@id='google_googleshopping-head']
+                                    fields:
+                                        account_id: //input[@id="google_googleshopping_account_id"]
+                                        acoount_login: //input[@id="google_googleshopping_login"]
+                                        account_password: //input[@id="google_googleshopping_password"]
+                                    dropdowns:
+                                        account_type: //select[@id="google_googleshopping_account_type"]
+                                        target_country: //select[@id="google_googleshopping_target_country"]
+                                        update_google_shopping_item: //select[@id="google_googleshopping_observed"]
+                                        debug: //select[@id="google_googleshopping_debug"]
+                                        google_product_search: //select[@id="google_googleshopping_product_search"]
+                                        product_ads: //select[@id="google_googleshopping_product_ads"]
+                                        commerce_search: //select[@id="google_googleshopping_commerce_search"]
+                                    checkboxes:
+                                        account_id_use_default: //input[@id="google_googleshopping_account_id_inherit"]
+                                        acoount_login_use_default: //input[@id="google_googleshopping_login_inherit"]
+                                        account_password_use_default: //input[@id="google_googleshopping_password_inherit"]
+                                        account_type_use_default: //input[@id="google_googleshopping_account_type_inherit"]
+                                        target_country_use_default: //input[@id="google_googleshopping_target_country_inherit"]
+                                        update_google_shopping_item_use_default: //input[@id="google_googleshopping_observed_inherit"]
+                                        debug_use_default: //input[@id="google_googleshopping_debug_inherit"]
+                                        google_product_search_use_default: //input[@id="google_googleshopping_product_search_inherit"]
+                                        product_ads_use_default: //input[@id="google_googleshopping_product_ads_inherit"]
+                                        commerce_search_use_default: //input[@id="google_googleshopping_commerce_search_inherit"]
+#                            -
+#                                google_website_optimizer:
+#                                    xpath: //fieldset[@id='google_optimizer']
+#                                    links:
+#                                        google_website_optimizer_link: //parent::div//a[@id='google_optimizer-head']
+#                                    dropdowns:
+#                                        enable: //select[@name='groups[optimizer][fields][active][value]']
+#                                    checkboxes:
+#                                        enable_use_default: //input[@name='groups[optimizer][fields][active][inherit]']
+                            -
+                                google_checkout:
+                                    xpath: //fieldset[@id='google_checkout']
+                                    links:
+                                        google_checkout_link: //parent::div//a[@id='google_checkout-head']
+                                        signup_for_google_checkout: //a[text()='Signup for Google Checkout']
+                                    fields:
+                                        title: //input[@name='groups[checkout][fields][title][value]']
+                                        merchant_id: //input[@name='groups[checkout][fields][merchant_id][value]']
+                                        merchant_key: //input[@name='groups[checkout][fields][merchant_key][value]']
+                                        continue_shopping_url: //input[@name='groups[checkout][fields][continue_shopping_url][value]']
+                                    dropdowns:
+                                        enable: //select[@name='groups[checkout][fields][active][value]']
+                                        sandbox: //select[@name='groups[checkout][fields][sandbox][value]']
+                                        secure_callback_url: //select[@name='groups[checkout][fields][use_secure_callback_url][value]']
+                                        debug: //select[@name='groups[checkout][fields][debug][value]']
+                                        checkout_image_style: //select[@name='groups[checkout][fields][checkout_image][value]']
+                                        location: //select[@name='groups[checkout][fields][locale][value]']
+                                        new_order_status: //select[@name='groups[checkout][fields][order_status][value]']
+                                        hide_cart_contents: //select[@name='groups[checkout][fields][hide_cart_contents][value]']
+                                        disable_default_tax_tables: //select[@name='groups[checkout][fields][disable_default_tax_tables][value]']
+                                    checkboxes:
+                                        title_use_default: //input[@name='groups[checkout][fields][title][inherit]']
+                                        merchant_id_use_default: //input[@name='groups[checkout][fields][merchant_id][inherit]']
+                                        merchant_key_use_default: //input[@name='groups[checkout][fields][merchant_key][inherit]']
+                                        continue_shopping_url_use_default: //input[@name='groups[checkout][fields][continue_shopping_url][inherit]']
+                                        enable_use_default: //input[@name='groups[checkout][fields][active][inherit]']
+                                        sandbox_use_default: //input[@name='groups[checkout][fields][sandbox][inherit]']
+                                        secure_callback_url_use_default: //input[@name='groups[checkout][fields][use_secure_callback_url][inherit]']
+                                        debug_use_default: //input[@name='groups[checkout][fields][debug][inherit]']
+                                        checkout_image_style_use_default: //input[@name='groups[checkout][fields][checkout_image][inherit]']
+                                        location_use_default: //input[@name='groups[checkout][fields][locale][inherit]']
+                                        new_order_status_use_default: //input[@name='groups[checkout][fields][order_status][inherit]']
+                                        hide_cart_contents_use_default: //input[@name='groups[checkout][fields][hide_cart_contents][inherit]']
+                                        disable_default_tax_tables_use_default: //input[@name='groups[checkout][fields][disable_default_tax_tables][inherit]']
+                            -
+                                google_checkout_shipping_merchant_calculated:
+                                    xpath: //fieldset[@id='google_checkout_shipping_merchant']
+                                    links:
+                                        google_checkout_shipping_merchant_calculated_link: //parent::div//a[@id='google_checkout_shipping_merchant-head']
+                                    fields:
+                                        default_price: //ul[@id='merchant_allowed_methods_container']/li[%id%]/div/input[@name='groups[checkout_shipping_merchant][fields][allowed_methods][value][price][]']
+                                    dropdowns:
+                                        enable_merchant_calculated: //select[@name='groups[checkout_shipping_merchant][fields][active][value]']
+                                        allowed_methods: //ul[@id='merchant_allowed_methods_container']/li[%id%]/select[@name='groups[checkout_shipping_merchant][fields][allowed_methods][value][method][]']
+                                    buttons:
+                                        add_shipping_method: //button[span='Add Shipping Method']
+                                        remove: //ul[@id='merchant_allowed_methods_container']/li[%id%]/div/button[span='Remove']
+                                    checkboxes:
+                                        enable_merchant_calculated_use_default: //input[@name='groups[checkout_shipping_merchant][fields][active][inherit]']
+                                        add_shipping_method_use_default: //input[@name='groups[checkout_shipping_merchant][fields][allowed_methods][inherit]']
+                            -
+                                google_checkout_shipping_carrier_calculated:
+                                    xpath: //fieldset[@id='google_checkout_shipping_carrier']
+                                    links:
+                                        google_checkout_shipping_carrier_calculated_link: //parent::div//a[@id='google_checkout_shipping_carrier-head']
+                                    fields:
+                                        default_price_for_methods: //input[@name='groups[checkout_shipping_carrier][fields][default_price][value]']
+                                        default_package_width: //input[@name='groups[checkout_shipping_carrier][fields][default_width][value]']
+                                        default_package_height: //input[@name='groups[checkout_shipping_carrier][fields][default_height][value]']
+                                        default_package_length: //input[@name='groups[checkout_shipping_carrier][fields][default_length][value]']
+                                    dropdowns:
+                                        enable_carrier_calculated: //select[@name='groups[checkout_shipping_carrier][fields][active][value]']
+                                        delivery_address_category: //select[@name='groups[checkout_shipping_carrier][fields][address_category][value]']
+                                    multiselects:
+                                        carrier_calculated_methods: //select[@name='groups[checkout_shipping_carrier][fields][methods][value][]']
+                                    checkboxes:
+                                        default_price_for_methods_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_price][inherit]']
+                                        default_package_width_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_width][inherit]']
+                                        default_package_height_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_height][inherit]']
+                                        default_package_length_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_length][inherit]']
+                                        enable_carrier_calculated_use_default: //input[@name='groups[checkout_shipping_carrier][fields][active][inherit]']
+                                        delivery_address_category_use_default: //input[@name='groups[checkout_shipping_carrier][fields][address_category][inherit]']
+                                        carrier_calculated_methods_use_default: //input[@name='groups[checkout_shipping_carrier][fields][methods][inherit]']
+                            -
+                                google_checkout_shipping_flat_rate:
+                                    xpath: //fieldset[@id='google_checkout_shipping_flatrate']
+                                    links:
+                                        google_checkout_shipping_flat_rate_link: //parent::div//a[@id='google_checkout_shipping_flatrate-head']
+                                    fields:
+                                        rate_1_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_1][value]']
+                                        rate_1_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_1][value]']
+                                        rate_2_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_2][value]']
+                                        rate_2_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_2][value]']
+                                        rate_3_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_3][value]']
+                                        rate_3_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_3][value]']
+                                    dropdowns:
+                                        enable_flat_rate: //select[@name='groups[checkout_shipping_flatrate][fields][active][value]']
+                                        rate_1_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_1][value]']
+                                        rate_2_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_2][value]']
+                                        rate_3_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_3][value]']
+                                    multiselects:
+                                        rate_1_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_1][value][]']
+                                        rate_2_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_2][value][]']
+                                        rate_3_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_3][value][]']
+                                    checkboxes:
+                                        rate_1_title_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][title_1][inherit]']
+                                        rate_1_amount_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][price_1][inherit]']
+                                        rate_2_title_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][title_2][inherit]']
+                                        rate_2_amount_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][price_2][inherit]']
+                                        rate_3_title_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][title_3][inherit]']
+                                        rate_3_amount_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][price_3][inherit]']
+                                        enable_flat_rate_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][active][inherit]']
+                                        rate_1_ship_to_applicable_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_1][inherit]']
+                                        rate_2_ship_to_applicable_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_2][inherit]']
+                                        rate_3_ship_to_applicable_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_3][inherit]']
+                                        rate_1_ship_to_specific_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][specificcountry_1][inherit]']
+                                        rate_2_ship_to_specific_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][specificcountry_2][inherit]']
+                                        rate_3_ship_to_specific_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][specificcountry_3][inherit]']
+                            -
+                                google_checkout_shipping_digital_delivery:
+                                    xpath: //fieldset[@id='google_checkout_shipping_virtual']
+                                    links:
+                                        google_checkout_shipping_digital_delivery_link: //parent::div//a[@id='google_checkout_shipping_virtual-head']
+                                    dropdowns:
+                                        enable_digital_delivery: //select[@name='groups[checkout_shipping_virtual][fields][active][value]']
+                                        delivery_schedule: //select[@name='groups[checkout_shipping_virtual][fields][schedule][value]']
+                                        method: //select[@name='groups[checkout_shipping_virtual][fields][method][value]']
+                                    checkboxes:
+                                        enable_digital_delivery_use_default: //input[@name='groups[checkout_shipping_virtual][fields][active][inherit]']
+                                        delivery_schedule_use_default: //input[@name='groups[checkout_shipping_virtual][fields][schedule][inherit]']
+                                        method_use_default: //input[@name='groups[checkout_shipping_virtual][fields][method][inherit]']
+                -
                     general_reports:
                         xpath: //a[contains(@href, 'edit/section/reports/')]
                         fieldsets:
@@ -2042,197 +2233,6 @@ system_configuration:
                                         dhl_allowed_methods_doc: //select[@id='carriers_dhlint_doc_methods']
                                         dhl_allowed_methods_nondoc: //select[@id='carriers_dhlint_nondoc_methods']
                                         dhl_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
-                -
-                    sales_google_api:
-                        xpath: //a[contains(@href, 'edit/section/google/')]
-                        fieldsets:
-                            -
-                                google_analytics:
-                                    xpath: //fieldset[@id='google_analytics']
-                                    links:
-                                        google_analytics_link: //parent::div//a[@id='google_analytics-head']
-                                    fields:
-                                        account_number: //input[@name='groups[analytics][fields][account][value]']
-                                    dropdowns:
-                                        enable_google_analytics: //select[@name='groups[analytics][fields][active][value]']
-                                        enable_content_experiments: //select[@name='groups[analytics][fields][experiments][value]']
-                                    checkboxes:
-                                        account_number_use_default: //input[@name='groups[analytics][fields][account][inherit]']
-                                        enable_use_default: //input[@name='groups[analytics][fields][active][inherit]']
-                            -
-                                google_adwords:
-                                    xpath: //fieldset[@id='google_adwords']
-                                    links:
-                                        google_adwords_link: //parent::div//a[@id='google_adwords-head']
-                                    fields:
-                                        conversion_id: //input[@name='groups[adwords][fields][conversion_id][value]']
-                                        conversion_format: //input[@name='groups[adwords][fields][conversion_format][value]']
-                                        conversion_color: //input[@name='groups[adwords][fields][conversion_color][value]']
-                                        conversion_label: //input[@name='groups[adwords][fields][conversion_label][value]']
-                                        conversion_value: //input[@name='groups[adwords][fields][conversion_value][value]']
-                                    dropdowns:
-                                        enable_google_adwords: //select[@name='groups[adwords][fields][active][value]']
-                                        conversion_value_type: //select[@name='groups[adwords][fields][conversion_value_type][value]']
-                                        conversion_language: //select[@name='groups[adwords][fields][conversion_language][value]']
-                            -
-                                google_shopping:
-                                    xpath: //fieldset[@id='google_googleshopping']
-                                    links:
-                                        google_shopping_link: //parent::div//a[@id='google_googleshopping-head']
-                                    fields:
-                                        account_id: //input[@id="google_googleshopping_account_id"]
-                                        acoount_login: //input[@id="google_googleshopping_login"]
-                                        account_password: //input[@id="google_googleshopping_password"]
-                                    dropdowns:
-                                        account_type: //select[@id="google_googleshopping_account_type"]
-                                        target_country: //select[@id="google_googleshopping_target_country"]
-                                        update_google_shopping_item: //select[@id="google_googleshopping_observed"]
-                                        debug: //select[@id="google_googleshopping_debug"]
-                                        google_product_search: //select[@id="google_googleshopping_product_search"]
-                                        product_ads: //select[@id="google_googleshopping_product_ads"]
-                                        commerce_search: //select[@id="google_googleshopping_commerce_search"]
-                                    checkboxes:
-                                        account_id_use_default: //input[@id="google_googleshopping_account_id_inherit"]
-                                        acoount_login_use_default: //input[@id="google_googleshopping_login_inherit"]
-                                        account_password_use_default: //input[@id="google_googleshopping_password_inherit"]
-                                        account_type_use_default: //input[@id="google_googleshopping_account_type_inherit"]
-                                        target_country_use_default: //input[@id="google_googleshopping_target_country_inherit"]
-                                        update_google_shopping_item_use_default: //input[@id="google_googleshopping_observed_inherit"]
-                                        debug_use_default: //input[@id="google_googleshopping_debug_inherit"]
-                                        google_product_search_use_default: //input[@id="google_googleshopping_product_search_inherit"]
-                                        product_ads_use_default: //input[@id="google_googleshopping_product_ads_inherit"]
-                                        commerce_search_use_default: //input[@id="google_googleshopping_commerce_search_inherit"]
-#                            -
-#                                google_website_optimizer:
-#                                    xpath: //fieldset[@id='google_optimizer']
-#                                    links:
-#                                        google_website_optimizer_link: //parent::div//a[@id='google_optimizer-head']
-#                                    dropdowns:
-#                                        enable: //select[@name='groups[optimizer][fields][active][value]']
-#                                    checkboxes:
-#                                        enable_use_default: //input[@name='groups[optimizer][fields][active][inherit]']
-                            -
-                                google_checkout:
-                                    xpath: //fieldset[@id='google_checkout']
-                                    links:
-                                        google_checkout_link: //parent::div//a[@id='google_checkout-head']
-                                        signup_for_google_checkout: //a[text()='Signup for Google Checkout']
-                                    fields:
-                                        title: //input[@name='groups[checkout][fields][title][value]']
-                                        merchant_id: //input[@name='groups[checkout][fields][merchant_id][value]']
-                                        merchant_key: //input[@name='groups[checkout][fields][merchant_key][value]']
-                                        continue_shopping_url: //input[@name='groups[checkout][fields][continue_shopping_url][value]']
-                                    dropdowns:
-                                        enable: //select[@name='groups[checkout][fields][active][value]']
-                                        sandbox: //select[@name='groups[checkout][fields][sandbox][value]']
-                                        secure_callback_url: //select[@name='groups[checkout][fields][use_secure_callback_url][value]']
-                                        debug: //select[@name='groups[checkout][fields][debug][value]']
-                                        checkout_image_style: //select[@name='groups[checkout][fields][checkout_image][value]']
-                                        location: //select[@name='groups[checkout][fields][locale][value]']
-                                        new_order_status: //select[@name='groups[checkout][fields][order_status][value]']
-                                        hide_cart_contents: //select[@name='groups[checkout][fields][hide_cart_contents][value]']
-                                        disable_default_tax_tables: //select[@name='groups[checkout][fields][disable_default_tax_tables][value]']
-                                    checkboxes:
-                                        title_use_default: //input[@name='groups[checkout][fields][title][inherit]']
-                                        merchant_id_use_default: //input[@name='groups[checkout][fields][merchant_id][inherit]']
-                                        merchant_key_use_default: //input[@name='groups[checkout][fields][merchant_key][inherit]']
-                                        continue_shopping_url_use_default: //input[@name='groups[checkout][fields][continue_shopping_url][inherit]']
-                                        enable_use_default: //input[@name='groups[checkout][fields][active][inherit]']
-                                        sandbox_use_default: //input[@name='groups[checkout][fields][sandbox][inherit]']
-                                        secure_callback_url_use_default: //input[@name='groups[checkout][fields][use_secure_callback_url][inherit]']
-                                        debug_use_default: //input[@name='groups[checkout][fields][debug][inherit]']
-                                        checkout_image_style_use_default: //input[@name='groups[checkout][fields][checkout_image][inherit]']
-                                        location_use_default: //input[@name='groups[checkout][fields][locale][inherit]']
-                                        new_order_status_use_default: //input[@name='groups[checkout][fields][order_status][inherit]']
-                                        hide_cart_contents_use_default: //input[@name='groups[checkout][fields][hide_cart_contents][inherit]']
-                                        disable_default_tax_tables_use_default: //input[@name='groups[checkout][fields][disable_default_tax_tables][inherit]']
-                            -
-                                google_checkout_shipping_merchant_calculated:
-                                    xpath: //fieldset[@id='google_checkout_shipping_merchant']
-                                    links:
-                                        google_checkout_shipping_merchant_calculated_link: //parent::div//a[@id='google_checkout_shipping_merchant-head']
-                                    fields:
-                                        default_price: //ul[@id='merchant_allowed_methods_container']/li[%id%]/div/input[@name='groups[checkout_shipping_merchant][fields][allowed_methods][value][price][]']
-                                    dropdowns:
-                                        enable_merchant_calculated: //select[@name='groups[checkout_shipping_merchant][fields][active][value]']
-                                        allowed_methods: //ul[@id='merchant_allowed_methods_container']/li[%id%]/select[@name='groups[checkout_shipping_merchant][fields][allowed_methods][value][method][]']
-                                    buttons:
-                                        add_shipping_method: //button[span='Add Shipping Method']
-                                        remove: //ul[@id='merchant_allowed_methods_container']/li[%id%]/div/button[span='Remove']
-                                    checkboxes:
-                                        enable_merchant_calculated_use_default: //input[@name='groups[checkout_shipping_merchant][fields][active][inherit]']
-                                        add_shipping_method_use_default: //input[@name='groups[checkout_shipping_merchant][fields][allowed_methods][inherit]']
-                            -
-                                google_checkout_shipping_carrier_calculated:
-                                    xpath: //fieldset[@id='google_checkout_shipping_carrier']
-                                    links:
-                                        google_checkout_shipping_carrier_calculated_link: //parent::div//a[@id='google_checkout_shipping_carrier-head']
-                                    fields:
-                                        default_price_for_methods: //input[@name='groups[checkout_shipping_carrier][fields][default_price][value]']
-                                        default_package_width: //input[@name='groups[checkout_shipping_carrier][fields][default_width][value]']
-                                        default_package_height: //input[@name='groups[checkout_shipping_carrier][fields][default_height][value]']
-                                        default_package_length: //input[@name='groups[checkout_shipping_carrier][fields][default_length][value]']
-                                    dropdowns:
-                                        enable_carrier_calculated: //select[@name='groups[checkout_shipping_carrier][fields][active][value]']
-                                        delivery_address_category: //select[@name='groups[checkout_shipping_carrier][fields][address_category][value]']
-                                    multiselects:
-                                        carrier_calculated_methods: //select[@name='groups[checkout_shipping_carrier][fields][methods][value][]']
-                                    checkboxes:
-                                        default_price_for_methods_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_price][inherit]']
-                                        default_package_width_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_width][inherit]']
-                                        default_package_height_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_height][inherit]']
-                                        default_package_length_use_default: //input[@name='groups[checkout_shipping_carrier][fields][default_length][inherit]']
-                                        enable_carrier_calculated_use_default: //input[@name='groups[checkout_shipping_carrier][fields][active][inherit]']
-                                        delivery_address_category_use_default: //input[@name='groups[checkout_shipping_carrier][fields][address_category][inherit]']
-                                        carrier_calculated_methods_use_default: //input[@name='groups[checkout_shipping_carrier][fields][methods][inherit]']
-                            -
-                                google_checkout_shipping_flat_rate:
-                                    xpath: //fieldset[@id='google_checkout_shipping_flatrate']
-                                    links:
-                                        google_checkout_shipping_flat_rate_link: //parent::div//a[@id='google_checkout_shipping_flatrate-head']
-                                    fields:
-                                        rate_1_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_1][value]']
-                                        rate_1_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_1][value]']
-                                        rate_2_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_2][value]']
-                                        rate_2_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_2][value]']
-                                        rate_3_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_3][value]']
-                                        rate_3_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_3][value]']
-                                    dropdowns:
-                                        enable_flat_rate: //select[@name='groups[checkout_shipping_flatrate][fields][active][value]']
-                                        rate_1_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_1][value]']
-                                        rate_2_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_2][value]']
-                                        rate_3_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_3][value]']
-                                    multiselects:
-                                        rate_1_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_1][value][]']
-                                        rate_2_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_2][value][]']
-                                        rate_3_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_3][value][]']
-                                    checkboxes:
-                                        rate_1_title_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][title_1][inherit]']
-                                        rate_1_amount_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][price_1][inherit]']
-                                        rate_2_title_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][title_2][inherit]']
-                                        rate_2_amount_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][price_2][inherit]']
-                                        rate_3_title_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][title_3][inherit]']
-                                        rate_3_amount_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][price_3][inherit]']
-                                        enable_flat_rate_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][active][inherit]']
-                                        rate_1_ship_to_applicable_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_1][inherit]']
-                                        rate_2_ship_to_applicable_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_2][inherit]']
-                                        rate_3_ship_to_applicable_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_3][inherit]']
-                                        rate_1_ship_to_specific_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][specificcountry_1][inherit]']
-                                        rate_2_ship_to_specific_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][specificcountry_2][inherit]']
-                                        rate_3_ship_to_specific_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][specificcountry_3][inherit]']
-                            -
-                                google_checkout_shipping_digital_delivery:
-                                    xpath: //fieldset[@id='google_checkout_shipping_virtual']
-                                    links:
-                                        google_checkout_shipping_digital_delivery_link: //parent::div//a[@id='google_checkout_shipping_virtual-head']
-                                    dropdowns:
-                                        enable_digital_delivery: //select[@name='groups[checkout_shipping_virtual][fields][active][value]']
-                                        delivery_schedule: //select[@name='groups[checkout_shipping_virtual][fields][schedule][value]']
-                                        method: //select[@name='groups[checkout_shipping_virtual][fields][method][value]']
-                                    checkboxes:
-                                        enable_digital_delivery_use_default: //input[@name='groups[checkout_shipping_virtual][fields][active][inherit]']
-                                        delivery_schedule_use_default: //input[@name='groups[checkout_shipping_virtual][fields][schedule][inherit]']
-                                        method_use_default: //input[@name='groups[checkout_shipping_virtual][fields][method][inherit]']
                 -
                     sales_payment_methods:
                         xpath: //a[contains(@href, 'edit/section/payment/')]

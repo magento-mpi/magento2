@@ -258,7 +258,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Steps
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage('newsletter_subscribers'), $this->getParsedMessages());
         //Verify that subscriber is present in grid and has status 'subscribed'(For Full newsletter ACL resources admin)
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $subscriberEmail),
             'Incorrect status for ' . $subscriberEmail['filter_email'] . ' email or subscriber is not presented');

@@ -34,7 +34,7 @@ class Core_Mage_GoogleAdwords_SystemConfigurationTest extends Mage_Selenium_Test
     public function checkConfigSaveColorFail()
     {
         $invalidColor = 'not-valid';
-        $this->openTab('sales_google_api');
+        $this->openTab('general_google_api');
 
         $data = $this->loadDataSet('GoogleApi', 'google_adwords_enable/tab_1/configuration/google_adwords');
         $data['conversion_color'] = $invalidColor;
@@ -51,7 +51,7 @@ class Core_Mage_GoogleAdwords_SystemConfigurationTest extends Mage_Selenium_Test
     public function checkConfigSaveConversionIdFail()
     {
         $conversionId = 'some-string';
-        $this->openTab('sales_google_api');
+        $this->openTab('general_google_api');
 
         $data = $this->loadDataSet('GoogleApi', 'google_adwords_enable/tab_1/configuration/google_adwords');
         $data['conversion_id'] = $conversionId;

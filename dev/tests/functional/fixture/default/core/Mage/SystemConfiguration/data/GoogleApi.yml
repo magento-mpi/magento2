@@ -8,7 +8,7 @@
 google_analytics_enable:
     configuration_scope: Default Config
     tab_1:
-        tab_name: sales_google_api
+        tab_name: general_google_api
         configuration:
             google_analytics:
                 enable_google_analytics: Yes
@@ -16,7 +16,7 @@ google_analytics_enable:
 google_analytics_disable:
     configuration_scope: Default Config
     tab_1:
-        tab_name: sales_google_api
+        tab_name: general_google_api
         configuration:
             google_analytics:
                 enable_google_analytics: No
@@ -24,7 +24,7 @@ google_analytics_disable:
 content_experiments_enable:
     configuration_scope: Default Config
     tab_1:
-        tab_name: sales_google_api
+        tab_name: general_google_api
         configuration:
             google_analytics:
                 enable_google_analytics: Yes
@@ -34,7 +34,7 @@ content_experiments_enable:
 content_experiments_disable:
     configuration_scope: Default Config
     tab_1:
-        tab_name: sales_google_api
+        tab_name: general_google_api
         configuration:
             google_analytics:
                 enable_content_experiments: No
@@ -42,7 +42,7 @@ content_experiments_disable:
 account_number_delete:
     configuration_scope: Default Config
     tab_1:
-        tab_name: sales_google_api
+        tab_name: general_google_api
         configuration:
             google_analytics:
                 account_number: ''
@@ -50,7 +50,7 @@ account_number_delete:
 google_adwords_enable:
     configuration_scope: Default Config
     tab_1:
-        tab_name: sales_google_api
+        tab_name: general_google_api
         configuration:
             google_adwords:
                 enable_google_adwords: Yes
