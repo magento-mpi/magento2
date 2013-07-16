@@ -207,6 +207,9 @@
             </Mage_Core_Model_Observer>
             <Mage_Core_Model_Layout_Merge>
                 <parameters>
+                    <fileSource>
+                        <instance>Mage_Core_Model_Layout_File_Source_Aggregated</instance>
+                    </fileSource>
                     <cache>
                         <instance>Mage_Core_Model_Cache_Type_Layout</instance>
                     </cache>
@@ -298,9 +301,6 @@
                     </subject>
                 </parameters>
             </layoutFileSourceOverrideThemeSorted>
-            <Mage_Core_Model_Layout_File_List>
-                <shared>0</shared>
-            </Mage_Core_Model_Layout_File_List>
             <Mage_Core_Model_Layout_File_Source_Aggregated>
                 <parameters>
                     <baseFiles>
@@ -317,13 +317,6 @@
                     </overridingThemeFiles>
                 </parameters>
             </Mage_Core_Model_Layout_File_Source_Aggregated>
-            <Mage_Core_Model_Layout_Merge>
-                <parameters>
-                    <fileSource>
-                        <instance>Mage_Core_Model_Layout_File_Source_Aggregated</instance>
-                    </fileSource>
-                </parameters>
-            </Mage_Core_Model_Layout_Merge>
         </di>
     </global>
     <frontend>
