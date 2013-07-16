@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_cms_wysiwyg_images_index>
+        <remove name="footer"/>
+        <remove name="head"/>
+        <reference name="left">
+            <block name="wysiwyg_images.js" type="Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content" template="cms/browser/js.phtml"/>
+            <block name="wysiwyg_images.tree" type="Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Tree" template="cms/browser/tree.phtml"/>
+        </reference>
+        <reference name="content">
+            <block name="wysiwyg_images.content" type="Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content" template="cms/browser/content.phtml">
+                <block name="wysiwyg_images.uploader" type="Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader" template="cms/browser/content/uploader.phtml"/>
+                <block name="wysiwyg_images.newfolder" type="Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Newfolder" template="cms/browser/content/newfolder.phtml"/>
+            </block>
+        </reference>
+    </adminhtml_cms_wysiwyg_images_index>
+</layout>
