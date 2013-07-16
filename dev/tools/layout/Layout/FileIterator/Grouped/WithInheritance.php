@@ -1,15 +1,17 @@
 <?php
 class Layout_FileIterator_Grouped_WithInheritance implements IteratorAggregate
 {
-    protected $_layoutInheritance;
     protected $_innerIterator;
+    protected $_layoutInheritance;
+    protected $_layoutHelper;
     protected $_outerIterator = null;
 
-    public function __construct(Layout_FileIterator_Grouped_ByDirectory $filesIterator,
-        Layout_Inheritance $layoutInheritance)
+    public function __construct(Layout_FileIterator_Grouped_ByModuleDirectory $filesIterator,
+        Layout_Inheritance $layoutInheritance, Layout_Helper $layoutHelper)
     {
         $this->_innerIterator = $filesIterator;
         $this->_layoutInheritance = $layoutInheritance;
+        $this->_layoutHelper = $layoutHelper;
     }
 
     public function getIterator()
@@ -23,11 +25,11 @@ class Layout_FileIterator_Grouped_WithInheritance implements IteratorAggregate
     protected function _createIteratorWithInheritedFiles()
     {
         $groups = array();
-        foreach ($this->_innerIterator as $dir => $files) {
-            if ($this->_layoutInheritance->isThemePath($dir)) {
-                $files = $this->_addOldInheritedLayoutFiles($dir, $files);
+        foreach ($this->_innerIterator as $moduleDir => $files) {
+            if ($this->_layoutInheritance->isThemePath($moduleDir)) {
+                $files = $this->_addOldInheritedLayoutFiles($moduleDir, $files);
             }
-            $groups[$dir] = $files;
+            $groups[$moduleDir] = $files;
         }
         $this->_outerIterator = new ArrayIterator($groups);
     }
@@ -38,9 +40,9 @@ class Layout_FileIterator_Grouped_WithInheritance implements IteratorAggregate
         $inheritedFiles = $this->_layoutInheritance->getOldInheritedLayouts($themeModuleDir);
         foreach ($inheritedFiles as $inheritedFile) {
             $overridden = false;
-            $inheritedBasename = basename($inheritedFile);
+            $inheritedRelName = $this->_layoutHelper->getRelName($inheritedFile);
             foreach ($themeFiles as $themeFile) {
-                if (basename($themeFile) == $inheritedBasename) {
+                if ($this->_layoutHelper->getRelName($themeFile) == $inheritedRelName) {
                     $overridden = true;
                     break;
                 }

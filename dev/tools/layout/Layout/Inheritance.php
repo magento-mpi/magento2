@@ -7,10 +7,12 @@ class Layout_Inheritance
 
     protected $_themeReader;
     protected $_rootDir;
+    protected $_relativePatterns;
 
-    public function __construct($rootDir, Theme_Reader $themeReader)
+    public function __construct($rootDir, array $_relativePatterns, Theme_Reader $themeReader)
     {
         $this->_rootDir = $rootDir;
+        $this->_relativePatterns = $_relativePatterns;
         $this->_themeReader = $themeReader;
     }
 
@@ -153,17 +155,19 @@ class Layout_Inheritance
         $result = array();
         $fallback = $this->_getThemeFallback($themeModuleDir);
         foreach (array_keys($fallback) as $newLayoutPath) {
-            $oldLayoutPath = dirname($newLayoutPath);
-            foreach (glob($oldLayoutPath . '/*.xml') as $file) {
-                if (!$this->_isLayoutFile($file)) {
-                    continue;
-                }
+            $ancestorModuleDir = dirname($newLayoutPath);
+            foreach ($this->_relativePatterns as $relPattern) {
+                foreach (glob($ancestorModuleDir . '/' . $relPattern) as $file) {
+                    if (!$this->_isLayoutFile($file)) {
+                        continue;
+                    }
 
-                $basename = basename($file);
-                if (isset($result[$basename])) {
-                    continue;
+                    $relPath = substr($file, strlen($ancestorModuleDir) + 1);
+                    if (isset($result[$relPath])) {
+                        continue;
+                    }
+                    $result[$relPath] = $file;
                 }
-                $result[$basename] = $file;
             }
         }
         return array_values($result);

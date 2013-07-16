@@ -7,7 +7,7 @@
  */
 
 error_reporting(E_ALL);
-$rootDir = realpath(__DIR__ . '/../../..');
+$rootDir = str_replace('\\', '/', realpath(__DIR__ . '/../../..'));
 
 require $rootDir . '/app/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(__DIR__);
@@ -27,22 +27,37 @@ XML;
 
 try {
     /* ---Boilerplating---- */
+    // List of layout files patterns, relative to layout directories
+    $relativePatterns = array(
+        '*.xml',
+        /* And here is the hardcoded list of files, that are not located right in the layout directory */
+        // Adminhtml
+        'system/design/design.xml',
+        'system/store/store.xml',
+        'system/email/template.xml',
+        'system/account.xml', // Same file in Saas_Backend
+    );
+
+    // General helper
+    $layoutHelper = new Layout_Helper;
+
     // Module layout files
     $moduleFilesIterator = new Layout_FileIterator_Verified(
-        new IteratorIterator(new Layout_FileIterator_Module($rootDir))
+        new IteratorIterator(new Layout_FileIterator_Source($rootDir . '/app/code/*/*/view/*', $relativePatterns))
     );
-    $moduleGroupedIterator = new Layout_FileIterator_Grouped_ByDirectory($moduleFilesIterator);
+    $moduleGroupedIterator = new Layout_FileIterator_Grouped_ByModuleDirectory($moduleFilesIterator, $layoutHelper);
 
     // Theme layout files, ordered for parent theme files to come before child theme files
     $themesFilesIterator = new Layout_FileIterator_Verified(
-        new IteratorIterator(new Layout_FileIterator_Theme($rootDir))
+        new IteratorIterator(new Layout_FileIterator_Source($rootDir . '/app/design/*/*/*/*', $relativePatterns))
     );
     $themeReader = new Theme_Reader($rootDir);
-    $layoutInheritance = new Layout_Inheritance($rootDir, $themeReader);
+    $layoutInheritance = new Layout_Inheritance($rootDir, $relativePatterns, $themeReader);
     $themesFilesOrderedIterator = new Layout_FileIterator_ByThemeInheritance($themesFilesIterator, $themeReader);
-    $themeGroupedIterator = new Layout_FileIterator_Grouped_ByDirectory($themesFilesOrderedIterator);
+    $themeGroupedIterator = new Layout_FileIterator_Grouped_ByModuleDirectory($themesFilesOrderedIterator,
+        $layoutHelper);
     $themeWithInheritanceIterator = new Layout_FileIterator_Grouped_WithInheritance($themeGroupedIterator,
-        $layoutInheritance);
+        $layoutInheritance, $layoutHelper);
 
     // Aggregated iterator to iterate over layout files
     $layoutGroupIterator = new AppendIterator();

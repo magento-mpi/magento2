@@ -20,26 +20,26 @@ class Layout_Handle_Separator
     {
         $emptyFileContents = sprintf($this->_layoutAnalyzer->getTemplate(), '');
 
-        foreach ($this->_layoutGroupIterator as $dir => $layoutFilesGroup) {
+        foreach ($this->_layoutGroupIterator as $moduleDir => $layoutFilesGroup) {
             $handleContents = $this->_layoutAnalyzer->aggregateHandles($layoutFilesGroup);
             $overriddenHandles = array_keys($handleContents);
-            $fullyInheritedHandles = $this->_getFullyInheritedHandles($dir, $layoutFilesGroup);
+            $fullyInheritedHandles = $this->_getFullyInheritedHandles($moduleDir, $layoutFilesGroup);
 
             /// Put overriding handles to the appropriate locations
             foreach ($handleContents as $handle => $fileContents) {
                 if (in_array($handle, $fullyInheritedHandles)) {
                     continue; // No need to duplicate the handle, which can be inherited from parents
                 }
-                $this->_overrideHandle($handle, $fileContents, $dir);
+                $this->_overrideHandle($handle, $fileContents, $moduleDir);
             }
 
             // Wipe the handles that did not exist in the processed files, but were present in inherited themes/bases
             // I.e. previously, theme just removed them
-            if ($this->_layoutInheritance->isThemePath($dir)) {
-                $inheritedHandles = $this->_layoutInheritance->getInheritedHandles($dir);
+            if ($this->_layoutInheritance->isThemePath($moduleDir)) {
+                $inheritedHandles = $this->_layoutInheritance->getInheritedHandles($moduleDir);
                 $emptiedHandles = array_diff($inheritedHandles, $overriddenHandles);
                 foreach ($emptiedHandles as $handle) {
-                    $this->_overrideHandle($handle, $emptyFileContents, $dir);
+                    $this->_overrideHandle($handle, $emptyFileContents, $moduleDir);
                 }
             }
         }
