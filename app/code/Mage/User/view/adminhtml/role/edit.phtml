@@ -57,8 +57,13 @@
             },
             _create: function() {
                 this.element.jstree({
-                    'plugins': ["themes", "json_data", "ui", "crrm", "types", "checkbox", "hotkeys"],
-                    'json_data': {'data': this.options.treeInitData}
+                    plugins: ["themes", "json_data", "ui", "crrm", "types", "checkbox", "hotkeys"],
+                    json_data: {data: this.options.treeInitData},
+                    ui: {select_limit: 0},
+                    hotkeys: {
+                        space: this._changeState,
+                        'return': this._changeState
+                    }
                 });
                 this._bind();
             },
@@ -84,6 +89,13 @@
             _destroy: function() {
                 this.options.selectors.roleForm.off('save.mage');
                 this.element.html('');
+            },
+            _changeState: function() {
+                if (this.data.ui.hovered) {
+                    var element = this.data.ui.hovered;
+                    this.change_state(element, this.is_checked(element));
+                }
+                return false;
             }
         });
         $.mage.component({
