@@ -28,8 +28,12 @@
         <di>
             <Mage_Theme_Model_Config>
                 <parameters>
-                    <configCache>Mage_Core_Model_Cache_Type_Config</configCache>
-                    <layoutCache>Mage_Core_Model_Cache_Type_Layout</layoutCache>
+                    <configCache>
+                        <instance>Mage_Core_Model_Cache_Type_Config</instance>
+                    </configCache>
+                    <layoutCache>
+                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
+                    </layoutCache>
                 </parameters>
             </Mage_Theme_Model_Config>
         </di>
