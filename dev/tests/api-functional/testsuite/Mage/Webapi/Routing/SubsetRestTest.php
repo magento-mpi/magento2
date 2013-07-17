@@ -1,33 +1,32 @@
 <?php
 /**
- * Test AllSoapAndRestV1Test TestModule1
+ * Test SubsetRestV1Test TestModule2
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCase_WebapiAbstract
+class Mage_Webapi_Routing_SubsetRestTest extends Magento_Test_TestCase_WebapiAbstract
 {
-
     /**
      * @var string
      */
-    protected $_version;
+    private $_version;
     /**
      * @var string
      */
-    protected $_restResourcePath;
+    private $_restResourcePath;
     /**
      * @var string
      */
-    protected $_soapService;
+    private $_soapService;
 
     protected function setUp()
     {
         $this->_version = 'V1';
-        $this->_restResourcePath = "/$this->_version/testmodule1/";
-        $this->_soapService = 'testModule1AllSoapAndRest';
+        $this->_restResourcePath = "/$this->_version/testModule2SubsetRest/";
+        $this->_soapService = 'testModule2SubsetRest';
     }
 
 
@@ -51,6 +50,8 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
+
+
     }
 
     /**
@@ -61,11 +62,11 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         $itemArr = array(
             array(
                 'id' => 1,
-                'name' => 'testProduct1'
+                'name' => 'testItem1'
             ),
             array(
                 'id' => 2,
-                'name' => 'testProduct2'
+                'name' => 'testItem2'
             )
         );
         $serviceInfo = array(
@@ -79,8 +80,10 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
                 'operation' => $this->_soapService . 'Items'
             )
         );
+
         $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
+
     }
 
     /**
@@ -101,8 +104,12 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
             )
         );
         $requestData = array('name' => $createdItemName);
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($createdItemName, $item['name'], 'Item creation failed');
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $item = $this->_webApiCall($serviceInfo, $requestData);
+            $this->assertEquals($createdItemName, $item['name'], 'Item creation failed');
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertNoRestRouteException($serviceInfo, $requestData);
+        }
     }
 
     /**
@@ -122,8 +129,38 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
                 'operation' => $this->_soapService . 'Update'
             )
         );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
+        $requestData = array('id' => $itemId);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $item = $this->_webApiCall($serviceInfo, $requestData);
+            $this->assertEquals($itemId, $item['id'], 'Item update failed');
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertNoRestRouteException($serviceInfo, $requestData);
+        }
+    }
+
+    /**
+     *  Test remove item
+     */
+    public function testRemove()
+    {
+        $itemId = 1;
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . $itemId,
+                'httpMethod' => 'DELETE'
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Remove'
+            )
+        );
+        $requestData = array('id' => $itemId);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $item = $this->_webApiCall($serviceInfo, $requestData);
+            $this->assertEquals($itemId, $item['id'], 'Item remove failed');
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->assertNoRestRouteException($serviceInfo, $requestData);
+        }
     }
 }

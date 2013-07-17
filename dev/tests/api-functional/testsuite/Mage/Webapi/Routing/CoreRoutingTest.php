@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_RoutingTest extends Magento_Test_TestCase_WebapiAbstract
+class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAbstract
 {
     public function testBasicRoutingPathAutoDetection()
     {

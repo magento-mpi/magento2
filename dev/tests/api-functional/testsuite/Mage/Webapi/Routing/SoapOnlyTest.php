@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule2_Service_AllSoapNoRestV1Test extends Magento_Test_TestCase_WebapiAbstract
+class Mage_Webapi_Routing_SoapOnlyTest extends Magento_Test_TestCase_WebapiAbstract
 {
     /**
      * @var string
@@ -53,7 +53,7 @@ class Mage_TestModule2_Service_AllSoapNoRestV1Test extends Magento_Test_TestCase
             $item = $this->_webApiCall($serviceInfo, $requestData);
             $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
         } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo, $requestData);
+            $this->assertNoRestRouteException($serviceInfo, $requestData);
         }
 
     }
@@ -88,7 +88,7 @@ class Mage_TestModule2_Service_AllSoapNoRestV1Test extends Magento_Test_TestCase
             $item = $this->_webApiCall($serviceInfo);
             $this->assertEquals($itemArr, $item, 'Items were not retrieved');
         } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo);
+            $this->assertNoRestRouteException($serviceInfo);
         }
 
     }
@@ -115,7 +115,7 @@ class Mage_TestModule2_Service_AllSoapNoRestV1Test extends Magento_Test_TestCase
             $item = $this->_webApiCall($serviceInfo, $requestData);
             $this->assertEquals($createdItemName, $item['name'], 'Item creation failed');
         } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo, $requestData);
+            $this->assertNoRestRouteException($serviceInfo, $requestData);
         }
     }
 
@@ -141,7 +141,7 @@ class Mage_TestModule2_Service_AllSoapNoRestV1Test extends Magento_Test_TestCase
             $item = $this->_webApiCall($serviceInfo, $requestData);
             $this->assertEquals($itemId, $item['id'], 'Item update failed');
         } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo, $requestData);
+            $this->assertNoRestRouteException($serviceInfo, $requestData);
         }
     }
 
@@ -167,31 +167,8 @@ class Mage_TestModule2_Service_AllSoapNoRestV1Test extends Magento_Test_TestCase
             $item = $this->_webApiCall($serviceInfo, $requestData);
             $this->assertEquals($itemId, $item['id'], 'Item remove failed');
         } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertRestException($serviceInfo, $requestData);
+            $this->assertNoRestRouteException($serviceInfo, $requestData);
         }
     }
 
-    /**
-     * This is a helper function to invoke the REST api and assert for the AllSoapNoRestV1Test
-     * test cases that no such REST route exist
-     *
-     * @param $serviceInfo
-     * @param $requestData
-     */
-    protected function assertRestException($serviceInfo, $requestData = null)
-    {
-        try {
-            $this->_webApiCall($serviceInfo, $requestData);
-        } catch (Exception $e) {
-            $this->assertEquals(
-                $e->getMessage(),
-                '{"errors":[{"code":404,"message":"Request does not match any route."}]}',
-                sprintf(
-                    'REST routing did not fail as expected for Resource "%s" and method "%s"',
-                    $serviceInfo['rest']['resourcePath'],
-                    $serviceInfo['rest']['httpMethod']
-                )
-            );
-        }
-    }
 }

@@ -12,6 +12,28 @@ class Mage_TestModule1_Service_AllSoapAndRestV2 extends Mage_TestModule1_Service
 
     const ERROR_INTERNAL_DELETE = '03';
 
+
+    /**
+     * @param $request
+     * @return array
+     * @throws Mage_TestModule1_Exception
+     */
+    public function item($request)
+    {
+        if ($request['id'] == null) {
+            //TODO: Change to Mage_Service_Exception
+            throw new Mage_TestModule1_Exception("Invalid Id",
+                Mage_TestModule1_Service_AllSoapAndRestV1::ERROR_INTERNAL_LOAD);
+        }
+        $result = array(
+            'id' => $request['id'],
+            'name' => 'testProduct1',
+            'price' => '1'
+        );
+        return $result;
+    }
+
+
     /**
      * @param $request
      * @return array
