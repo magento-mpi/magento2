@@ -37,12 +37,9 @@ class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetResTreeJson()
+    public function testGetResTree()
     {
-        $encodedTree = $this->_block->getResTreeJson();
+        $encodedTree = $this->_block->getResTree();
         $this->assertNotEmpty($encodedTree);
-
-        $decodedTree = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($encodedTree);
-        $this->assertNotEmpty($decodedTree);
     }
 }
