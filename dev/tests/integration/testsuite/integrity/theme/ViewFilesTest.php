@@ -156,9 +156,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
 
         // Collect "addCss" and "addJs" from theme layout
         /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
-        $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge',
-            array('arguments' => array('area' => $theme->getArea(), 'theme' => $theme))
-        );
+        $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
         $elements = $fileLayoutUpdates->xpath('//action[@method="addCss" or @method="addJs"]/*[1]');
         if ($elements) {

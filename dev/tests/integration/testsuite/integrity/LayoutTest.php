@@ -57,10 +57,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     protected function _composeXml(Mage_Core_Model_Theme $theme)
     {
         /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
-        $layoutUpdate = Mage::getModel(
-            'Mage_Core_Model_Layout_Merge',
-            array('arguments' => array('area' => $theme->getArea(), 'theme' => $theme))
-        );
+        $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 

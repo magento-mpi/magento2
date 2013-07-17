@@ -38,11 +38,10 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container extends
     {
         if (!$this->getOptions()) {
             $layoutMergeParams = array(
-                'area'    => $this->getArea(),
-                'theme'   => $this->_getThemeInstance($this->getTheme()),
+                'theme' => $this->_getThemeInstance($this->getTheme()),
             );
             /** @var $layoutMerge Mage_Core_Model_Layout_Merge */
-            $layoutMerge = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => $layoutMergeParams));
+            $layoutMerge = Mage::getModel('Mage_Core_Model_Layout_Merge', $layoutMergeParams);
             $layoutMerge->addPageHandles(array($this->getLayoutHandle()));
             $layoutMerge->load();
 

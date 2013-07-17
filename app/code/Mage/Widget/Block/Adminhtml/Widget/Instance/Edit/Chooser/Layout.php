@@ -26,8 +26,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
         if (!$this->getOptions()) {
             $this->addOption('', Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --'));
             $layoutMergeParams = array(
-                'area'    => $this->getArea(),
-                'theme'   => $this->_getThemeInstance($this->getTheme()),
+                'theme' => $this->_getThemeInstance($this->getTheme()),
             );
             $pageTypes = array();
             $pageTypesAll = $this->_getLayoutMerge($layoutMergeParams)->getPageHandlesHierarchy();
@@ -66,7 +65,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
      */
     protected function _getLayoutMerge(array $arguments)
     {
-        return Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => $arguments));
+        return Mage::getModel('Mage_Core_Model_Layout_Merge', $arguments);
     }
 
     /**

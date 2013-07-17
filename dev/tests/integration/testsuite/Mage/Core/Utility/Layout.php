@@ -36,7 +36,8 @@ class Mage_Core_Utility_Layout
             'Mage_Core_Model_Layout_Merge',
             array('getFileLayoutUpdatesXml'),
             array(
-                Mage::getObjectManager()->get('Mage_Core_Model_Design_Package'),
+                Mage::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface'),
+                Mage::getObjectManager()->get('Mage_Core_Model_StoreManagerInterface'),
                 $this->_testCase->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface'),
                 $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface'),
             )
@@ -77,18 +78,17 @@ class Mage_Core_Utility_Layout
     public function getLayoutDependencies()
     {
         return array(
+            'design'             => Mage::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface'),
             'blockFactory'       => Mage::getObjectManager()->create('Mage_Core_Model_BlockFactory', array()),
             'structure'          => Mage::getObjectManager()->create('Magento_Data_Structure', array()),
             'argumentProcessor'  => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Argument_Processor',
                 array()
             ),
-            'translator' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Translator', array()),
+            'translator'         => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Translator', array()),
             'scheduledStructure' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_ScheduledStructure',
                 array()
             ),
-            'dataServiceGraph' => Mage::getObjectManager()->create('Mage_Core_Model_DataService_Graph',
-                array(), false
-            )
+            'dataServiceGraph'   => Mage::getObjectManager()->create('Mage_Core_Model_DataService_Graph', array()),
         );
     }
 }

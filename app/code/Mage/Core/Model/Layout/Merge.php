@@ -26,11 +26,6 @@ class Mage_Core_Model_Layout_Merge
     const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
 
     /**
-     * @var string
-     */
-    private $_area;
-
-    /**
      * @var Mage_Core_Model_Theme
      */
     private $_theme;
@@ -96,29 +91,22 @@ class Mage_Core_Model_Layout_Merge
      * Init merge model
      *
      * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Layout_File_SourceInterface $fileSource,
      * @param Magento_Cache_FrontendInterface $cache
-     * @param array $arguments
+     * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Store $store
      */
     public function __construct(
         Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Layout_File_SourceInterface $fileSource,
         Magento_Cache_FrontendInterface $cache,
-        array $arguments = array()
+        Mage_Core_Model_Theme $theme = null,
+        Mage_Core_Model_Store $store = null
     ) {
-        /* Default values */
-        if (isset($arguments['area']) && isset($arguments['theme'])) {
-            $this->_area = $arguments['area'];
-            $this->_theme = $arguments['theme'];
-        } elseif (isset($arguments['area'])) {
-            $this->_area = $arguments['area'];
-            $this->_theme = $design->getArea() === $arguments['area'] ? $design->getDesignTheme() : null;
-        } else {
-            $this->_area = $design->getArea();
-            $this->_theme = $design->getDesignTheme();
-        }
-
-        $this->_storeId = Mage::app()->getStore(empty($arguments['store']) ? null : $arguments['store'])->getId();
+        $this->_theme = $theme ?: $design->getDesignTheme();
+        $this->_storeId = $storeManager->getStore($store)->getId();
         $this->_elementClass = 'Mage_Core_Model_Layout_Element';
 
         foreach (Mage::getConfig()->getPathVars() as $key => $value) {
@@ -506,7 +494,10 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getUpdateString($handle)
     {
-        return Mage::getResourceModel('Mage_Core_Model_Resource_Layout_Update')->fetchUpdatesByHandle($handle);
+        /** @var Mage_Core_Model_Resource_Layout_Update $resource */
+        $resource = Mage::getResourceModel('Mage_Core_Model_Resource_Layout_Update');
+        $params = array('store_id' => $this->_storeId, 'theme_id' => $this->_theme->getId());
+        return $resource->fetchUpdatesByHandle($handle, $params);
     }
 
     /**
@@ -557,7 +548,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getCacheId($suffix = '')
     {
-        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_theme->getId()}{$suffix}";
+        return "LAYOUT_{$this->_theme->getArea()}_STORE{$this->_storeId}_{$this->_theme->getId()}{$suffix}";
     }
 
     /**
@@ -621,13 +612,14 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getPhysicalTheme(Mage_Core_Model_Theme $theme)
     {
-        while ($theme && !$theme->isPhysical()) {
-            $theme = $theme->getParentTheme();
+        $result = $theme;
+        while ($result && !$result->isPhysical()) {
+            $result = $result->getParentTheme();
         }
-        if (!$theme) {
+        if (!$result) {
             throw new Magento_Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
         }
-        return $theme;
+        return $result;
     }
 
     /**

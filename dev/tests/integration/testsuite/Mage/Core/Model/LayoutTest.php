@@ -79,16 +79,9 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateXml()
     {
-        $structure = new Magento_Data_Structure;
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = $this->getMock('Mage_Core_Model_Layout', array('getUpdate'), array(
-            $this->getMock('Mage_Core_Model_BlockFactory', array(), array(), '', false),
-            $structure,
-            $this->getMock('Mage_Core_Model_Layout_Argument_Processor', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Layout_Translator', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Layout_ScheduledStructure', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_DataService_Graph', array(), array(), '', false),
-        ));
+        $layout = $this->getMock('Mage_Core_Model_Layout', array('getUpdate'), $layoutUtility->getLayoutDependencies());
         $merge = $this->getMock('StdClass', array('asSimplexml'));
         $merge->expects($this->once())->method('asSimplexml')->will($this->returnValue(simplexml_load_string(
             '<layout><container name="container1"></container></layout>',
