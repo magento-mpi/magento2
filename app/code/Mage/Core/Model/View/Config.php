@@ -81,7 +81,7 @@ class Mage_Core_Model_View_Config
         }
 
         $configFiles = $this->_moduleReader->getModuleConfigurationFiles(Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG);
-        $themeConfigFile = $currentTheme->getCustomViewConfigPath();
+        $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
             $themeConfigFile = $this->_viewFileSystem->getFilename(
                 Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG, $params

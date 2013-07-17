@@ -62,6 +62,11 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
     protected $_updateFactory;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_customizationPath;
+
+    /**
      * @var PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $_targetFiles = array();
@@ -88,18 +93,17 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
             'sort_order'    => 20,
         ));
         $this->_sourceFiles = array($sourceFileOne, $sourceFileTwo);
-        $this->_sourceTheme = $this->getMock(
-            'Mage_Core_Model_Theme', array('getFiles', 'getCustomizationPath'), array(), '', false
-        );
+        $this->_sourceTheme = $this->getMock('Mage_Core_Model_Theme', array('getCustomization'), array(), '', false);
 
         $this->_targetFiles = array(
             $this->getMock('Mage_Core_Model_Theme_File', array('delete'), array(), '', false),
             $this->getMock('Mage_Core_Model_Theme_File', array('delete'), array(), '', false),
         );
-        $this->_targetTheme = $this->getMock(
-            'Mage_Core_Model_Theme', array('getFiles', 'getCustomizationPath'), array(), '', false
-        );
+        $this->_targetTheme = $this->getMock('Mage_Core_Model_Theme', array('getCustomization'), array(), '', false);
         $this->_targetTheme->setId(123);
+
+        $this->_customizationPath = $this->getMock('Mage_Core_Model_Theme_Customization_Path',
+            array(), array(), '', false);
 
         $this->_fileFactory = $this->getMock('Mage_Core_Model_Theme_FileFactory', array('create'), array(), '', false);
         $this->_filesystem = $this->getMock(
@@ -126,7 +130,12 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
 
         $this->_object = new Mage_Core_Model_Theme_CopyService(
-            $this->_filesystem, $this->_fileFactory, $this->_link, $this->_updateFactory, $eventManager
+            $this->_filesystem,
+            $this->_fileFactory,
+            $this->_link,
+            $this->_updateFactory,
+            $eventManager,
+            $this->_customizationPath
         );
     }
 
@@ -150,8 +159,12 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testCopyLayoutUpdates()
     {
-        $this->_sourceTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
-        $this->_targetTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
+        $customization = $this->getMock('Mage_Core_Model_Theme_Customization', array('getFiles'), array(), '', false);
+        $customization->expects($this->atLeastOnce())->method('getFiles')->will($this->returnValue(array()));
+        $this->_sourceTheme->expects($this->once())->method('getCustomization')
+            ->will($this->returnValue($customization));
+        $this->_targetTheme->expects($this->once())->method('getCustomization')
+            ->will($this->returnValue($customization));
 
         $this->_updateCollection->expects($this->once())->method('delete');
         $this->_linkCollection->expects($this->once())->method('addThemeFilter');
@@ -193,8 +206,14 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testCopyDatabaseCustomization()
     {
-        $this->_sourceTheme->expects($this->once())->method('getFiles')->will($this->returnValue($this->_sourceFiles));
-        $this->_targetTheme->expects($this->once())->method('getFiles')->will($this->returnValue($this->_targetFiles));
+        $sourceCustom = $this->getMock('Mage_Core_Model_Theme_Customization', array('getFiles'), array(), '', false);
+        $sourceCustom->expects($this->atLeastOnce())->method('getFiles')->will($this->returnValue($this->_sourceFiles));
+        $this->_sourceTheme->expects($this->once())->method('getCustomization')
+            ->will($this->returnValue($sourceCustom));
+        $targetCustom = $this->getMock('Mage_Core_Model_Theme_Customization', array('getFiles'), array(), '', false);
+        $targetCustom->expects($this->atLeastOnce())->method('getFiles')->will($this->returnValue($this->_targetFiles));
+        $this->_targetTheme->expects($this->once())->method('getCustomization')
+            ->will($this->returnValue($targetCustom));
 
         $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
             ->will($this->returnValue($this->_linkCollection));
@@ -238,19 +257,25 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testCopyFilesystemCustomization()
     {
-        $this->_sourceTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
-        $this->_targetTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
+        $customization = $this->getMock('Mage_Core_Model_Theme_Customization', array('getFiles'), array(), '', false);
+        $customization->expects($this->atLeastOnce())->method('getFiles')->will($this->returnValue(array()));
+        $this->_sourceTheme->expects($this->once())->method('getCustomization')
+            ->will($this->returnValue($customization));
+        $this->_targetTheme->expects($this->once())->method('getCustomization')
+            ->will($this->returnValue($customization));
 
         $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
             ->will($this->returnValue($this->_linkCollection));
         $this->_linkCollection->expects($this->any())->method('getIterator')
             ->will($this->returnValue(new ArrayIterator(array())));
 
-        $this->_sourceTheme
-            ->expects($this->once())->method('getCustomizationPath')->will($this->returnValue('source/path'));
+        $this->_customizationPath->expects($this->at(0))
+            ->method('getCustomizationPath')
+            ->will($this->returnValue('source/path'));
 
-        $this->_targetTheme
-            ->expects($this->once())->method('getCustomizationPath')->will($this->returnValue('target/path'));
+        $this->_customizationPath->expects($this->at(1))
+            ->method('getCustomizationPath')
+            ->will($this->returnValue('target/path'));
 
         $this->_filesystem->expects($this->any())
             ->method('isDirectory')->will($this->returnValueMap(array(

@@ -29,18 +29,26 @@ class Mage_Core_Model_View_Service
     private $_design;
 
     /**
+     * @var Mage_Core_Model_Theme_FlyweightFactory
+     */
+    protected $_themeFactory;
+
+    /**
      * View files system model
      *
      *
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_View_Design_Proxy $design
+     * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
      */
     public function __construct(
         Mage_Core_Model_App_State $appState,
-        Mage_Core_Model_View_Design_Proxy $design
+        Mage_Core_Model_View_Design_Proxy $design,
+        Mage_Core_Model_Theme_FlyweightFactory $themeFactory
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
+        $this->_themeFactory = $themeFactory;
     }
 
     /**
@@ -130,7 +138,7 @@ class Mage_Core_Model_View_Service
         }
 
         if ($theme) {
-            $params['themeModel'] = $this->_design->loadDesignTheme($theme, $area);
+            $params['themeModel'] = $this->_themeFactory->create($theme, $area);
         } elseif (empty($params['themeModel'])) {
             $params['themeModel'] = $defaults['themeModel'];
         }
