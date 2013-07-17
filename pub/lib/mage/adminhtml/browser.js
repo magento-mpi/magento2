@@ -244,12 +244,13 @@
         },
 
         newFolder: function() {
-            var folderName = prompt(this.options.newFolderPrompt);
+            var folderName = prompt(this.options.newFolderPrompt, '');
             if (!folderName) {
                 return false;
             }
             $.ajax({
                 url: this.options.newFolderUrl,
+                dataType: 'json',
                 data: {
                     name: folderName,
                     node: this.activeNode.id,
@@ -259,7 +260,11 @@
                 context: this.element,
                 showLoader: true
             }).done($.proxy(function(data) {
-                this.tree.jstree('refresh',  this.element.find('[data-id="' + this.activeNode.id + '"]'));
+                if (data.error) {
+                    window.alert(data.message);
+                } else {
+                    this.tree.jstree('refresh',  this.element.find('[data-id="' + this.activeNode.id + '"]'));
+                }
             }, this));
         },
 
@@ -270,6 +275,7 @@
 
             $.ajax({
                 url: this.options.deleteFolderUrl,
+                dataType: 'json',
                 data: {
                     node: this.activeNode.id,
                     store: this.options.storeId,
