@@ -10,9 +10,7 @@
 
 <layout version="0.1.0">
     <default>
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/link.phtml">
-        </block>
-
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/link.phtml" />
         <remove name="catalog.compare.sidebar"/>
     </default>
 </layout>

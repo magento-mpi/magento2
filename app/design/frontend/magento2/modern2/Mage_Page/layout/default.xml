@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 -->
-
 <layout version="0.1.0">
     <default>
         <!-- Setting theme name to display near the logo -->
@@ -19,10 +18,8 @@
         <!--to revert parent settings-->
         <remove name="header.links" />
         <reference name="header.panel">
-            <block type="Mage_Page_Block_Template_Links" name="panel.menu" before="-">
-            </block>
-            <block type="Mage_Page_Block_Template_Links" name="navigation.links" after="panel.menu">
-            </block>
+            <block type="Mage_Page_Block_Template_Links" name="panel.menu" before="-" />
+            <block type="Mage_Page_Block_Template_Links" name="navigation.links" after="panel.menu" />
         </reference>
         <move element="logo" destination="header" after="top.search" />
         <move element="catalog.topnav" destination="header-container" />

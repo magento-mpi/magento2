@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 -->
-
 <layout version="0.1.0">
     <default>
         <!-- Setting theme name to display near the logo -->
@@ -32,11 +31,9 @@
 
         <reference name="header.panel">
             <container name="header.login" label="Header Login" htmlTag="div" htmlClass="header login" before="-" >
-                <block type="Mage_Page_Block_Template_Links" name="account.links">
-                </block>
+                <block type="Mage_Page_Block_Template_Links" name="account.links" />
             </container>
-            <block type="Mage_Page_Block_Template_Links" name="panel.menu" after="-">
-            </block>
+            <block type="Mage_Page_Block_Template_Links" name="panel.menu" after="-" />
         </reference>
 
         <move element="header.panel" destination="header" before="-" />

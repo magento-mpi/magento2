@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 -->
-
 <layout version="0.1.0">
     <default>
         <!-- Setting theme name to display near the logo -->
@@ -21,8 +20,7 @@
         </reference>
 
         <reference name="header-container">
-            <container name="header.panel.wrapper" label="invisible" htmlTag="div" htmlClass="header panel wrapper" before="-">
-            </container>
+            <container name="header.panel.wrapper" label="invisible" htmlTag="div" htmlClass="header panel wrapper" before="-" />
         </reference>
 
         <!--this element is being moved in parent theme, this instruction should move it further-->

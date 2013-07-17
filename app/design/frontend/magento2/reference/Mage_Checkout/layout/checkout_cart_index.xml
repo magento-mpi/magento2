@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 -->
-
 <layout version="0.1.0">
     <checkout_cart_index>
         <remove name="checkout.cart.methods.top" />

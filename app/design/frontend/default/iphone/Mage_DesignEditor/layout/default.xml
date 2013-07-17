@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <action method="addCss"><file>css/iphone.css</file></action>
+            <action method="addCss"><file>Mage_DesignEditor::css/iphone_styles.css</file><params/><if/><condition>design_editor_active</condition></action>
         </reference>
     </default>
 </layout>
