@@ -307,11 +307,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 );
             }
 
-            /** @var $themeService Mage_Core_Model_Theme_Service */
-            $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+            /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
+            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
-            if (!$themeService->isThemeAssignedToSpecificStore($theme, $store)) {
+            if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
                 throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
                     $theme->getId()));
             }
@@ -352,11 +352,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 );
             }
 
-            /** @var $themeService Mage_Core_Model_Theme_Service */
-            $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+            /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
+            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
-            if (!$themeService->isThemeAssignedToSpecificStore($theme, $store)) {
+            if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
                 throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
                     $theme->getId()));
             }

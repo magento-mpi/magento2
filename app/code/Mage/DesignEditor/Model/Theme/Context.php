@@ -14,7 +14,7 @@
 class Mage_DesignEditor_Model_Theme_Context
 {
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
@@ -41,12 +41,12 @@ class Mage_DesignEditor_Model_Theme_Context
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_ThemeFactory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_CopyService $copyService
      */
     public function __construct(
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_ThemeFactory $themeFactory,
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_CopyService $copyService
     ) {

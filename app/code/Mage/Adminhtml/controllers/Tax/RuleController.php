@@ -21,9 +21,9 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     {
         $this->_title($this->__('Tax Rules'));
 
-        $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rule'))
-            ->renderLayout();
+        $this->_initAction();
+        $this->renderLayout();
+
         return $this;
     }
 
