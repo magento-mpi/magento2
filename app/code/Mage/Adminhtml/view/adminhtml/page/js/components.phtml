@@ -61,7 +61,6 @@
             '<?php echo $this->getViewFileUrl('mage/backend/suggest.js') ?>'
         ],
         mediabrowser: [
-            '<?php echo $this->getViewFileUrl('Mage_Cms::js/folder-tree.js') ?>',
             '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js') ?>',
             '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>'
         ],
@@ -69,6 +68,16 @@
             '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js')?>',
             '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js')?>',
             '<?php echo $this->getViewFileUrl('Mage_User::js/roles_tree.js')?>'
+        ],
+	folderTree: [
+            '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js')?>',
+	    '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>',
+            '<?php echo $this->getViewFileUrl('Mage_Cms::js/folder-tree.js') ?>'
+        ],
+        categoryTree: [
+            '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js') ?>',
+            '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>',
+            '<?php echo $this->getViewFileUrl('Mage_Catalog::js/category-tree.js') ?>'
         ]
     })
     /**
