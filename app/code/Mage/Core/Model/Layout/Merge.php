@@ -625,7 +625,7 @@ class Mage_Core_Model_Layout_Merge
             $theme = $theme->getParentTheme();
         }
         if (!$theme) {
-            throw new Magento_Exception('Unable to find a physical ancestor for a theme.');
+            throw new Magento_Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
         }
         return $theme;
     }
