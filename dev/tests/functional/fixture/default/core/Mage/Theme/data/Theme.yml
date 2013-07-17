@@ -15,7 +15,7 @@
 #*********************************************
 theme_search_data:
     theme_title: %noValue%
-    parent_theme: %noValue%
+    theme_parent: %noValue%
     theme_path: %noValue%
     theme_version: %noValue%
     magento_version_from: %noValue%

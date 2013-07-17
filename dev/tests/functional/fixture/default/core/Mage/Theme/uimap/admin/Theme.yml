@@ -62,6 +62,8 @@ new_theme:
                                     fields:
                                         theme_version: //input[@id='theme_version']
                                         theme_title: //input[@id='theme_title']
+                                    pageelements:
+                                        page_title: "/../../../../../../..//*[@class='page-title']"
                             -
                                 requirements:
                                     xpath: //form[@id='edit_form']//fieldset[@id='requirements']
@@ -75,8 +77,8 @@ new_theme:
             delete_theme: //button[@id='delete']
             save_and_continue_edit: //button[@id='save_and_continue']
         messages:
-            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been saved.')]
-            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
+            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the theme.')]
+            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the theme.')]
 
 # Edit Theme Page
 edit_theme:
@@ -135,6 +137,6 @@ edit_theme:
             delete_theme: //button[@id='delete']
             save_and_continue_edit: //button[@id='save_and_continue']
         messages:
-            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been saved.')]
-            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
+            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the theme.')]
+            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the theme.')]
             confirmation_for_delete: Are you sure you want to do this?

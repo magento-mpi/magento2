@@ -123,4 +123,16 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
             unset($themeData['requirements']);
         }
     }
+
+    /**
+     * Generate version according to format
+     * @return string
+     */
+    public function generateVersion()
+    {
+        $version = $this->generate('string', 1, ':digit:') . '.' . $this->generate('string', 1, ':digit:') . '.'
+        . $this->generate('string', 1, ':digit:') . '.' . $this->generate('string', 1, ':digit:');
+
+        return $version;
+    }
 }
