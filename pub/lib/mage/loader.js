@@ -132,3 +132,53 @@
         }
     });
 })(jQuery);
+
+/**
+ * This widget takes care of registering the needed loader listeners on the body
+ */
+(function($){
+    $.widget("mage.loaderAjax", {
+        _create: function() {
+            this._bind();
+        },
+        _bind: function() {
+            this._on('body',{
+                'ajaxSend': 'onAjaxSend',
+                'ajaxComplete': 'onAjaxComplete'
+            });
+        },
+        _getJqueryObj: function(loaderContext) {
+            var ctx = undefined;
+            // Check to see if context is jQuery object or not.
+            if (loaderContext) {
+                if (loaderContext.jquery) {
+                    ctx = loaderContext;
+                } else {
+                    ctx = $(loaderContext);
+                }
+            } else {
+                ctx = $('[data-container="body"]');
+            }
+            return ctx;
+        },
+        onAjaxSend: function(e, jqxhr, settings) {
+            if (settings && settings.showLoader) {
+                var ctx = this._getJqueryObj(settings.loaderContext);
+                ctx.trigger('processStart');
+
+                // Check to make sure the loader is there on the page if not report it on the console.
+                // NOTE that this check should be removed before going live. It is just an aid to help
+                // in finding the uses of the loader that maybe broken.
+                if (console && !ctx.parents('[data-role="loader"]').length) {
+                    console.warn('Expected to start loader but did not find one in the dom');
+                }
+            }
+        },
+        onAjaxComplete: function(e, jqxhr, settings) {
+            if (settings && settings.showLoader) {
+                this._getJqueryObj(settings.loaderContext).trigger('processStop');
+            }
+        }
+
+    });
+})(jQuery);
