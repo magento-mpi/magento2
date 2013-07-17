@@ -148,7 +148,7 @@
             });
         },
         _getJqueryObj: function(loaderContext) {
-            var ctx = undefined;
+            var ctx;
             // Check to see if context is jQuery object or not.
             if (loaderContext) {
                 if (loaderContext.jquery) {
