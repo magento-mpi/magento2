@@ -35,89 +35,22 @@
         </div>
     </div>
 
-    <div class="field" data-role="tree_resources_container">
+    <div class="field<?php if($this->isEverythingAllowed()):?> no-display<?php endif?>" data-role="tree_resources_container">
         <label class="label"><span><?php echo $this->__('Resources') ?></span></label>
 
         <div class="control">
-            <div class="tree x-tree" data-role="resource-tree"></div>
+            <div class="tree x-tree" data-role="resource-tree" data-mage-init="<?php
+            echo $this->escapeHtml($this->helper('Mage_Core')->jsonEncode(array(
+                "rolesTree" => array(
+                    "selectors" => array(
+                        "saveInput" => "[data-role=role_resources]",
+                        "roleForm" => "#role-edit-form"
+                    ),
+                    "treeInitData" => $this->getResTree(),
+                    "treeInitSelectedData" => $this->getSelectedResources(),
+                )
+            )));
+            ?>"></div>
         </div>
     </div>
 </fieldset>
-<script type="text/javascript">
-    (function($) {
-        'use strict';
-        $.widget('mage.rolesTree', {
-            options: {
-                selectors: {
-                    saveInput: null,
-                    roleForm: null
-                },
-                treeInitData: {},
-                treeInitSelectedData: {}
-            },
-            _create: function() {
-                this.element.jstree({
-                    plugins: ["themes", "json_data", "ui", "crrm", "types", "checkbox", "hotkeys"],
-                    json_data: {data: this.options.treeInitData},
-                    ui: {select_limit: 0},
-                    hotkeys: {
-                        space: this._changeState,
-                        'return': this._changeState
-                    }
-                });
-                this._bind();
-            },
-            _bind: function() {
-                this.element.on('loaded.jstree', $.proxy(this._checkNodes, this));
-                this.element.delegate("li", "click.jstree", $.proxy(this._checkNode, this));
-                this.options.selectors.roleForm.on('save.mage', $.proxy(this._serializeData, this));
-            },
-            _destroy: function() {
-                this.options.selectors.roleForm.off('save.mage');
-                this.element.html('');
-            },
-            _checkNode: function(e) {
-                e.stopPropagation();
-                this.element.jstree('change_state', e.currentTarget, this.element.jstree('is_checked', e.currentTarget));
-            },
-            _checkNodes: function() {
-                var selected = this.options.treeInitSelectedData;
-                this.element.jstree('check_node', '[data-id="' + selected.join('"],[data-id="') + '"]');
-            },
-            _getChecked: function() {
-                return this.element.jstree('get_container').find(".jstree-checked, .jstree-undetermined");
-            },
-            _serializeData: function() {
-                var checked = this._getChecked.call(this),
-                    r = [];
-                $.each(checked.map(function(){return $(this).data('id')}), function(k, v) {
-                    r.push(v);
-                });
-                this.options.selectors.saveInput.val(r.join(','));
-            },
-            _changeState: function() {
-                if (this.data.ui.hovered) {
-                    var element = this.data.ui.hovered;
-                    this.change_state(element, this.is_checked(element));
-                }
-                return false;
-            }
-        });
-        $.mage.component({
-            rolesTree: ['<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js')?>',
-                '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js')?>']
-        });
-
-        $('[data-role=resource-tree]').mage('rolesTree', {
-            selectors: {
-                saveInput: $('[data-role=role_resources]'),
-                roleForm: $('#role-edit-form')
-            },
-            treeInitData: <?php echo $this->getResTreeJson()?>,
-            treeInitSelectedData: <?php echo $this->getSelectedResourcesJson()?>
-        });
-    } (jQuery));
-<?php if($this->isEverythingAllowed()): ?>
-    jQuery('[data-role=tree_resources_container]').hide();
-<?php endif; ?>
-</script>

@@ -123,7 +123,7 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
      *
      * @return string
      */
-    public function getResTreeJson()
+    public function getResTree()
     {
         /** @var $reader Magento_Acl_Loader_Resource_ConfigReaderInterface */
         $reader = Mage::getSingleton('Magento_Acl_Loader_Resource_ConfigReaderInterface');
@@ -136,8 +136,7 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
             isset($resources[1]['children']) ? $resources[1]['children'] : array(),
             $translator
         );
-        $json = $helper->jsonEncode($rootArray);
-        return $json;
+        return $rootArray;
     }
 
     /**
@@ -163,10 +162,5 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
             $output[] = $item;
         }
         return $output;
-    }
-
-    public function getSelectedResourcesJson()
-    {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectedResources());
     }
 }
