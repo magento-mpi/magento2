@@ -47,7 +47,8 @@ if (typeof Mage.GoogleShopping == 'undefined') {
                 'data': form.serialize(true),
                 'success': Mage.GoogleShopping.onSuccess.bind(Mage.GoogleShopping, this),
                 'error': Mage.GoogleShopping.onFailure.bind(Mage.GoogleShopping, this),
-                'showLoader': true
+                'showLoader': true,
+                'loaderContext': form
             });
         },
 
