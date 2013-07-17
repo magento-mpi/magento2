@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-(function ($) {
+(function ($, window) {
     $.widget('mage.addressTabs', $.mage.tabs, {
         options: {
             tabLabel: 'tabs-',
@@ -15,14 +15,15 @@
             baseItemId: 'new_item',
             // @TODO obtain default countries
             defaultCountries: null,
-            itemContentTemplate: ''
+            itemContentTemplate: '',
+            deleteConfirmPrompt: ''
         },
 
         _addNewAddress: function () {
             this.options.itemCount++;
 
             // prevent duplication of ids
-            while (this.element.find("div[data-tab-index=" + this.options.itemCount + "]").length) {
+            while (this.element.find("div[data-item=" + this.options.itemCount + "]").length) {
                 this.options.itemCount++;
             }
 
@@ -30,7 +31,7 @@
 
             // add the new address form
             this.element.find('.address-item-edit').append('<div id="' + 'form_' + formName +
-                '" data-tab-index="' + this.options.itemCount +
+                '" data-item="' + this.options.itemCount +
                 '" class="address-item-edit-content" data-mage-init="{observableInputs:{\'name\': \'' + formName +
                 '\'}}">' + this._prepareTemplate(this.element.find('div[data-template="address_form"]').html()) +
                 '</div>');
@@ -39,6 +40,7 @@
 
             // @TODO something different?
             var template = this._prepareTemplate(this.element.find('div[data-template="address_item"]').html())
+                .replace('data_item_value_', '' + this.options.itemCount)
                 .replace('delete_button', 'delete_button' + this.options.itemCount)
                 .replace('form_new_item', 'form_new_item' + this.options.itemCount)
                 .replace('address_item_', 'address_item_' + this.options.itemCount);
@@ -50,7 +52,7 @@
             this.refresh();
 
             // activate the newly added tab
-            this.select(this.options.itemCount - 1);
+            this.option('active', -1);
 
             // @TODO Used in deleteAddress and cancelAdd?
             var newItem = $(formName);
@@ -88,32 +90,13 @@
         },
 
         /**
-         * This method is used to add new address elements to the form.
-         */
-        _addNewAddressTemp: function () {
-            var index = this._getMaxIndex() + 1;
-            var newTabId = this.options.tabLabel + index;
-
-            // add the new address to the tabs list before the add new action list
-            this.element.find('.address-list-actions').before('<li class="address-list-item" data-tab-index="' + index + '"><a href="#' + newTabId + '">Address ' + index + '</a></li>');
-
-            // add the new address to the content list
-            this.element.find('#address_form_container').append('<div id="' + newTabId + '" class="address-item-edit-content" data-tab-index="' + index + '">Address ' + index + '<p>Name: <input type="text" name="name.' + index + '"/></p></div>');
-
-            // refresh the widget to pick up the newly added tab.
-            this.refresh();
-
-            // active the newly added tab
-            this.option('active', index - 1);
-        },
-
-        /**
          * This method is used to bind events associated with this widget.
          */
         _bind: function () {
             this._on(this.element.find(':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'),
                 {'click': '_addNewAddress'});
             this._on({'formchange': '_updateAddress'});
+            this._on({'dataItemDelete': '_deleteItemPrompt'});
         },
 
         _create: function () {
@@ -122,20 +105,25 @@
         },
 
         /**
-         * This method returns the maximum data index currently on the page.
+         * This method deletes the item in the list.
+         * @private
          */
-        _getMaxIndex: function () {
-            var index = 0;
+        _deleteItem: function(dataItem) {
+            // remove the elements from the page
+            this.element.find('[data-item="' + dataItem + '"]').remove();
 
-            this.element.find('div[data-tab-index]').each(function () {
-                // convert the index found in the attribute to a numerical value -- ? error on non-number?
-                var currentIndex = Number($(this).attr('data-tab-index'));
-                if (currentIndex > index) {
-                    index = currentIndex;
-                }
-            });
+            // refresh the widget to pick up the removed tab
+            this.refresh();
+        },
 
-            return index;
+        /**
+         * This method prompts the user to confirm the deletion of the item in the list.
+         * @private
+         */
+        _deleteItemPrompt: function(event, data) {
+            if(window.confirm(this.options.deleteConfirmPrompt)){
+                this._deleteItem(data.item);
+            }
         },
 
         _prepareTemplate: function (template) {
@@ -237,7 +225,47 @@
          */
         _triggerChange: function (element) {
             // send the name of the captor and the field that changed
-            this.element.trigger('formchange', {'name': this.options.name, 'element': element.currentTarget});
+            this.element.trigger('formchange', {'name': this.options.name, 'element': element.target});
         }
     });
-})(jQuery);
+
+    /**
+     * This widget is used to trigger a message to delete a data item (i.e. D of CRUD).
+     */
+    $.widget('mage.dataItemDeleteButton', {
+        options: {
+            item: ''
+        },
+
+        /**
+         * This method is used to bind events associated with this widget.
+         */
+        _bind: function () {
+            this._on(this.element.find('[data-role="delete"]'), {'click': '_triggerDelete'});
+        },
+
+        _create: function () {
+            this._super();
+            this._bind();
+
+            // if the item was not specified, find the data-item element wrapper
+            if (this.options.item.length === 0) {
+                var dataItemContainer = this.element.parents('[data-item]');
+                if (dataItemContainer.length === 1) {
+                    this.options.item = dataItemContainer.attr("data-item");
+                }
+            }
+        },
+
+        /**
+         * This method is used to trigger a delete message for this item.
+         */
+        _triggerDelete: function () {
+            // send the name of the captor and the field that changed
+            this.element.trigger('dataItemDelete', {'item': this.options.item});
+
+            // we are handling the click, so stop processing
+            return false;
+        }
+    });
+})(jQuery, window);
