@@ -18,8 +18,6 @@
 <?php echo $this->getChildHtml(); ?>
 
 <fieldset class="fieldset form-inline entry-edit">
-    <input type="hidden" name="resource" data-role="role_resources" value="" />
-
     <legend class="legend">
         <span><?php echo $this->__('Roles Resources') ?></span>
     </legend><br />
@@ -42,10 +40,6 @@
             <div class="tree x-tree" data-role="resource-tree" data-mage-init="<?php
             echo $this->escapeHtml($this->helper('Mage_Core')->jsonEncode(array(
                 "rolesTree" => array(
-                    "selectors" => array(
-                        "saveInput" => "[data-role=role_resources]",
-                        "roleForm" => "#role-edit-form"
-                    ),
                     "treeInitData" => $this->getResTree(),
                     "treeInitSelectedData" => $this->getSelectedResources(),
                 )

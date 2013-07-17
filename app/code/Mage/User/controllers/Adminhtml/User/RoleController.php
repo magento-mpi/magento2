@@ -146,7 +146,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     public function saveRoleAction()
     {
         $rid        = $this->getRequest()->getParam('role_id', false);
-        $resource   = explode(',', $this->getRequest()->getParam('resource', false));
+        $resource   = $this->getRequest()->getParam('resource', false);
         $roleUsers  = $this->getRequest()->getParam('in_role_user', null);
         parse_str($roleUsers, $roleUsers);
         $roleUsers = array_keys($roleUsers);
