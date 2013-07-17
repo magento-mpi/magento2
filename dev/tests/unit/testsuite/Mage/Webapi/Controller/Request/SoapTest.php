@@ -22,8 +22,9 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();
+        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */
-        $this->_soapRequest = new Mage_Webapi_Controller_Request_Soap($this->_helperMock);
+        $this->_soapRequest = new Mage_Webapi_Controller_Request_Soap($configMock, $this->_helperMock);
         parent::setUp();
     }
 

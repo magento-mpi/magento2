@@ -20,7 +20,8 @@ class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_request = new Mage_Webapi_Controller_RequestStub(Mage_Webapi_Controller_Front::API_TYPE_REST);
+        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $this->_request = new Mage_Webapi_Controller_RequestStub($configMock, Mage_Webapi_Controller_Front::API_TYPE_REST);
     }
 
     /**
