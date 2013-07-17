@@ -131,7 +131,7 @@ class Mage_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCas
      * @dataProvider uploadDataProvider
      * @covers Mage_Core_Model_Theme_Image_Uploader::uploadPreviewImage
      */
-    public function testUploadPreviewImage($isUploaded, $isValid, $allowedExtension, $save, $result, $exception)
+    public function testUploadPreviewImage($isUploaded, $isValid, $checkExtension, $save, $result, $exception)
     {
         if ($exception) {
             $this->setExpectedException($exception);
@@ -142,7 +142,7 @@ class Mage_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCas
         $this->_transferAdapterMock->expects($this->any())->method('isValid')->with($testScope)
             ->will($this->returnValue($isValid));
         $this->_fileUploader->expects($this->any())->method('checkAllowedExtension')
-            ->will($this->returnValue($allowedExtension));
+            ->will($this->returnValue($checkExtension));
         $this->_fileUploader->expects($this->any())->method('save')
             ->will($this->returnValue($save));
         $this->_fileUploader->expects($this->any())->method('getUploadedFileName')

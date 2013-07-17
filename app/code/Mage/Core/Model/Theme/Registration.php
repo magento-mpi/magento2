@@ -23,7 +23,7 @@ class Mage_Core_Model_Theme_Registration
      *
      * @var Mage_Core_Model_Theme_Collection
      */
-    protected $_physicalsCollection;
+    protected $_themeCollection;
 
     /**
      * Allowed sequence relation by type, array(parent theme, child theme)
@@ -56,7 +56,7 @@ class Mage_Core_Model_Theme_Registration
         Mage_Core_Model_Theme_Collection $filesystemCollection
     ) {
         $this->_collectionFactory = $collectionFactory;
-        $this->_physicalsCollection = $filesystemCollection;
+        $this->_themeCollection = $filesystemCollection;
     }
 
     /**
@@ -69,16 +69,16 @@ class Mage_Core_Model_Theme_Registration
     public function register($baseDir = '', $pathPattern = '')
     {
         if (!empty($baseDir)) {
-            $this->_physicalsCollection->setBaseDir($baseDir);
+            $this->_themeCollection->setBaseDir($baseDir);
         }
 
         if (empty($pathPattern)) {
-            $this->_physicalsCollection->addDefaultPattern('*');
+            $this->_themeCollection->addDefaultPattern('*');
         } else {
-            $this->_physicalsCollection->addTargetPattern($pathPattern);
+            $this->_themeCollection->addTargetPattern($pathPattern);
         }
 
-        foreach ($this->_physicalsCollection as $theme) {
+        foreach ($this->_themeCollection as $theme) {
             $this->_registerThemeRecursively($theme);
         }
 
@@ -169,7 +169,7 @@ class Mage_Core_Model_Theme_Registration
         $themes = $this->_collectionFactory->create()->addTypeFilter(Mage_Core_Model_Theme::TYPE_PHYSICAL);
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themes as $theme) {
-            if (!$this->_physicalsCollection->hasTheme($theme)) {
+            if (!$this->_themeCollection->hasTheme($theme)) {
                 $theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL)->save();
             }
         }

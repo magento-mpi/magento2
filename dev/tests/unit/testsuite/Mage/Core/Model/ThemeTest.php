@@ -200,41 +200,4 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*');
         $this->assertTrue($themeModel->isThemeCompatible());
     }
-
-    /**
-     * @dataProvider checkThemeCompatibleDataProvider
-     * @covers Mage_Core_Model_Theme::checkThemeCompatible
-     */
-    public function testCheckThemeCompatible($versionFrom, $versionTo, $title, $resultTitle)
-    {
-        $helper = $this->getMockBuilder('Mage_Core_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnValue(sprintf('%s (incompatible version)', $title)));
-
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme', array(
-            'helper' => $helper
-        ));
-
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $objectManagerHelper->getObject('Mage_Core_Model_Theme', $arguments);
-        $themeModel->setMagentoVersionFrom($versionFrom)->setMagentoVersionTo($versionTo)->setThemeTitle($title);
-        $themeModel->checkThemeCompatible();
-        $this->assertEquals($resultTitle, $themeModel->getThemeTitle());
-    }
-
-    /**
-     * @return array
-     */
-    public function checkThemeCompatibleDataProvider()
-    {
-        return array(
-            array('2.0.0.0', '*', 'Title', 'Title (incompatible version)'),
-            array('1.0.0.0', '*', 'Title', 'Title')
-        );
-    }
 }

@@ -108,6 +108,14 @@
                     </clean_core_related_content>
                 </observers>
             </theme_delete_before>
+            <theme_save_after>
+                <observers>
+                    <clean_core_related_content>
+                        <class>Mage_Core_Model_Theme_Observer</class>
+                        <method>checkThemeIsAssigned</method>
+                    </clean_core_related_content>
+                </observers>
+            </theme_save_after>
             <theme_registration_from_filesystem>
                 <observers>
                     <theme_registration_observer>
