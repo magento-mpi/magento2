@@ -124,7 +124,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                             'theme_id' => $themeId,
                             'confirm'  => array(
                                 'message' =>  $message,
-                                'title'   =>  $this->__('Assign to a Store View')
+                                'title'   =>  $this->__('Assign New Theme')
                             )
                         )
                     ),
