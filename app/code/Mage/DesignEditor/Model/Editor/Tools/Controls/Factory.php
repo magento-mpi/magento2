@@ -78,8 +78,8 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Theme $parentTheme
      * @param array $files
-     * @throws Magento_Exception
      * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @throws Magento_Exception
      */
     public function create(
         $type,

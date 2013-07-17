@@ -10,9 +10,6 @@
 
 /**
  * Block that renders Custom tab
- *
- * @method Mage_Core_Model_Theme getTheme()
- * @method setTheme($theme)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Mage_Backend_Block_Widget_Form
 {
@@ -27,20 +24,39 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     protected $_controlFactory;
 
     /**
+     * @var Mage_DesignEditor_Model_Theme_Context
+     */
+    protected $_themeContext;
+
+    /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Eav_Model_Config $eavConfig
      * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_Eav_Model_Config $eavConfig,
         Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
+        Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
+        parent::__construct($context, $data);
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
-        parent::__construct($context, $data);
+        $this->_themeContext = $themeContext;
+    }
+
+    /**
+     * Returns url to save action of image sizing
+     *
+     * @return string
+     */
+    public function getImageSizingUrl()
+    {
+        return $this->getUrl('*/system_design_editor_tools/saveImageSizing',
+            array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
     }
 
     /**
@@ -65,7 +81,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             /** @var $controlsConfig Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
             $controlsConfig = $this->_controlFactory->create(
                 Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
-                $this->getTheme()
+                $this->_themeContext->getStagingTheme()
             );
         } catch (Magento_Exception $e) {
             $isFilePresent = false;

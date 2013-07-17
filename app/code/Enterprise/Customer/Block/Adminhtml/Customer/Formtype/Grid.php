@@ -66,7 +66,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
             'type'      => 'store'
         ));
 
-        $design = Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection();
+        /** @var $label Mage_Core_Model_Theme_Label */
+        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        $design = $label->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')
