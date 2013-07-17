@@ -26,17 +26,12 @@ class Mage_Core_Model_Layout_Merge
     const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    protected $_design;
-
-    /**
      * @var string
      */
     private $_area;
 
     /**
-     * @var int
+     * @var Mage_Core_Model_Theme
      */
     private $_theme;
 
@@ -117,10 +112,10 @@ class Mage_Core_Model_Layout_Merge
             $this->_theme = $arguments['theme'];
         } elseif (isset($arguments['area'])) {
             $this->_area = $arguments['area'];
-            $this->_theme = $design->getArea() === $arguments['area'] ? $design->getDesignTheme()->getId() : null;
+            $this->_theme = $design->getArea() === $arguments['area'] ? $design->getDesignTheme() : null;
         } else {
             $this->_area = $design->getArea();
-            $this->_theme = $design->getDesignTheme()->getId();
+            $this->_theme = $design->getDesignTheme();
         }
 
         $this->_storeId = Mage::app()->getStore(empty($arguments['store']) ? null : $arguments['store'])->getId();
@@ -130,7 +125,6 @@ class Mage_Core_Model_Layout_Merge
             $this->_subst['from'][] = '{{' . $key . '}}';
             $this->_subst['to'][] = $value;
         }
-        $this->_design = $design;
         $this->_fileSource = $fileSource;
         $this->_cache = $cache;
     }
@@ -563,7 +557,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getCacheId($suffix = '')
     {
-        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_theme}{$suffix}";
+        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_theme->getId()}{$suffix}";
     }
 
     /**
@@ -598,7 +592,7 @@ class Mage_Core_Model_Layout_Merge
     protected function _loadFileLayoutUpdatesXml()
     {
         $layoutStr = '';
-        $theme = $this->_getPhysicalTheme($this->_design->getDesignTheme());
+        $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme);
         foreach ($updateFiles as $file) {
             $fileStr = file_get_contents($file->getFilename());

@@ -97,7 +97,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     {
         $arguments = array(
             'area'  => $theme->getArea(),
-            'theme' => $theme->getThemeId()
+            'theme' => $theme
         );
         /** @var $layoutMerge Mage_Core_Model_Layout_Merge */
         $layoutMerge = $this->_layoutMergeFactory->create(array('arguments' => $arguments));

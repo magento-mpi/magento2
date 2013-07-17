@@ -14,13 +14,12 @@
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $area
-     * @param int $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @dataProvider areasAndThemesDataProvider
      */
-    public function testHandlesHierarchy($area, $themeId)
+    public function testHandlesHierarchy(Mage_Core_Model_Theme $theme)
     {
-        $xml = $this->_composeXml($area, $themeId);
+        $xml = $this->_composeXml($theme);
 
         /**
          * There could be used an xpath "/layouts/*[@type or @owner or @parent]", but it randomly produced bugs, by
@@ -52,15 +51,15 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * Composes full layout xml for designated parameters
      *
-     * @param string $area
-     * @param int $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Layout_Element
      */
-    protected function _composeXml($area, $themeId)
+    protected function _composeXml(Mage_Core_Model_Theme $theme)
     {
+        /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
         $layoutUpdate = Mage::getModel(
             'Mage_Core_Model_Layout_Merge',
-            array('arguments' => array('area' => $area, 'theme' => $themeId))
+            array('arguments' => array('area' => $theme->getArea(), 'theme' => $theme))
         );
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
@@ -93,8 +92,6 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * List all themes available in the system
      *
-     * The "no theme" (false) is prepended to the result -- it means layout updates must be loaded from modules
-     *
      * A test that uses such data provider is supposed to gather view resources in provided scope
      * and analyze their integrity. For example, merge and verify all layouts in this scope.
      *
@@ -111,25 +108,24 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme')->getCollection();
-        /** @var $themeCollection Mage_Core_Model_Theme */
+        /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
             if ($theme->getFullPath() == 'frontend/magento2/reference') {
                 /** Skip the theme because of MAGETWO-9063 */
                 continue;
             }
-            $result[] = array($theme->getArea(), $theme->getId());
+            $result[] = array($theme);
         }
         return $result;
     }
 
     /**
-     * @param string $area
-     * @param int $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @dataProvider areasAndThemesDataProvider
      */
-    public function testHandleLabels($area, $themeId)
+    public function testHandleLabels(Mage_Core_Model_Theme $theme)
     {
-        $xml = $this->_composeXml($area, $themeId);
+        $xml = $this->_composeXml($theme);
 
         $xpath = '/layouts/*['
             . '@type="' . Mage_Core_Model_Layout_Merge::TYPE_PAGE . '"'

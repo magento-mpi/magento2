@@ -27,7 +27,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
             $this->addOption('', Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --'));
             $layoutMergeParams = array(
                 'area'    => $this->getArea(),
-                'theme'   => $this->getTheme(),
+                'theme'   => $this->_getThemeInstance($this->getTheme()),
             );
             $pageTypes = array();
             $pageTypesAll = $this->_getLayoutMerge($layoutMergeParams)->getPageHandlesHierarchy();
@@ -43,6 +43,19 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
             $this->_addPageTypeOptions($pageTypes);
         }
         return parent::_beforeToHtml();
+    }
+
+    /**
+     * Retrieve theme instance by its identifier
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme|null
+     */
+    protected function _getThemeInstance($themeId)
+    {
+        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollection */
+        $themeCollection = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
+        return $themeCollection->getItemById($themeId);
     }
 
     /**
