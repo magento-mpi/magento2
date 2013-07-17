@@ -220,16 +220,6 @@
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Layout_Update>
-            <Mage_Core_Model_Theme_Service>
-                <parameters>
-                    <configCache>
-                        <instance>Mage_Core_Model_Cache_Type_Config</instance>
-                    </configCache>
-                    <layoutCache>
-                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
-                    </layoutCache>
-                </parameters>
-            </Mage_Core_Model_Theme_Service>
         </di>
     </global>
     <frontend>

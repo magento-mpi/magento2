@@ -24,7 +24,7 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
     protected $_session;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_ThemeFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeFactory;
 
@@ -51,7 +51,7 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
         $this->_request = $this->getMock('Zend_Controller_Request_Http', array('getParam'), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_session = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
-        $this->_themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $this->_themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
 
         $this->_storageHelper = $this->getMock('Mage_Theme_Helper_Storage',
             array('_getRequest', 'urlDecode'), array(), '', false
