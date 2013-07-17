@@ -1719,5 +1719,8 @@ th.required:after {
 }
 
 
-
+/* jstree */
+.jstree-default .disabled > a {
+    color: #a29c94;
+}
 /*  File brouser */
