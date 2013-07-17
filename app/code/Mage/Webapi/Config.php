@@ -325,7 +325,7 @@ class Mage_Webapi_Config
                     $secure = isset($operationData['secure']) ? $operationData['secure'] : false;
                     $routes[] = $this->_createRoute(
                         array(
-                            'routePath' => $serviceData['baseUrl'] . '/' . $operationName . $operationData['route'],
+                            'routePath' => $serviceData['baseUrl'] . $operationData['route'],
                             'version' => $request->getResourceVersion(), // TODO: Take version from config
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
