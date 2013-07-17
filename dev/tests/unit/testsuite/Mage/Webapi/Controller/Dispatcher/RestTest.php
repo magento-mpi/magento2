@@ -33,8 +33,6 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         /** Init dependencies for SUT. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Rest')->disableOriginalConstructor()
-            ->getMock();
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')->disableOriginalConstructor()
             ->getMock();
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest')
@@ -127,20 +125,30 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
      */
     public function testSecureOperation()
     {
+        $serviceId = 'SomeService';
+        $serviceMethodName = 'someMethod';
         //$this->_authenticationMock->expects($this->once())->method('authenticate');
         /** Init route mock. */
         $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')->disableOriginalConstructor()
             ->getMock();
-        $routeMock->expects($this->any())->method('getServiceId');
-        $routeMock->expects($this->any())->method('getServiceMethod');
+
+        $serviceMock = $this->getMock('StdClass', array($serviceMethodName));
+
+        $routeMock->expects($this->any())->method('getServiceId')->will($this->returnValue($serviceId));
+        $routeMock->expects($this->any())->method('getServiceMethod')->will($this->returnValue($serviceMethodName));
         $routeMock->expects($this->any())->method('getServiceVersion');
         $routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
+
+        $this->_objectManagerMock
+            ->expects($this->any())
+            ->method('get')
+            ->will($this->returnValueMap(array(array($serviceId, $serviceMock))));
+
         $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
-        $this->_serviceManagerMock->expects($this->once())->method('call')->will($this->returnValue(array()));
         $this->_restPresentation->expects($this->once())->method('prepareResponse')->will(
             $this->returnValue(array())
         );
-        $this->_requestMock->expects($this->any())->method("isSecure")->will($this->returnValue(true));
+        $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
         /** Assert that response sendResponse method will be executed once. */
         $this->_responseMock->expects($this->once())->method('sendResponse');
 

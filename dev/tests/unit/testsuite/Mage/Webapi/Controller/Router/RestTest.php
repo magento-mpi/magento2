@@ -44,7 +44,8 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('match'))
             ->getMock();
-        $this->_request = new Mage_Webapi_Controller_Request_Rest($interpreterFactory, $this->_helperMock);
+        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $this->_request = new Mage_Webapi_Controller_Request_Rest($configMock, $interpreterFactory, $this->_helperMock);
         /** Initialize SUT. */
         $this->_router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
     }
