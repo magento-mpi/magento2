@@ -41,7 +41,7 @@
                             <header translate='true' module='Mage_Tax'>Name</header>
                             <index>code</index>
                             <align>left</align>
-                            <type>text</type>
+                            <type>longtext</type>
                             <filter_index>code</filter_index>
                         </arguments>
                     </block>
