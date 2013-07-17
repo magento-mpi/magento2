@@ -137,7 +137,6 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      */
     public function requiredFieldsWithRating($data)
     {
-        $this->markTestIncomplete('BUG: Fatal error on page after save review');
         //Data
         $reviewData = $this->loadDataSet('ReviewAndRating', 'review_required_with_rating', $data['withRating']);
         //Steps

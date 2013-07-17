@@ -92,7 +92,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     public function insertWidget(array $widgetData, $buttonName = 'insert_widget')
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
-        if ($this->controlIsEditable('button', $buttonName)) {
+        if ($this->controlIsVisible('button', $buttonName)) {
             $this->clickButton($buttonName, false);
         } elseif ($this->waitForControlEditable('link', 'wysiwyg_' . $buttonName)) {
             $this->waitForControlStopsMoving('link', 'wysiwyg_' . $buttonName);

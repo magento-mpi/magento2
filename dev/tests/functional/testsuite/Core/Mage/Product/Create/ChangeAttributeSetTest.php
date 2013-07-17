@@ -261,37 +261,6 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     }
 
     /**
-     * Change attribute set with required field
-     *
-     * @param array $attributeSetData
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6900
-     */
-    public function withRequiredAttribute(array $attributeSetData)
-    {
-        //Data
-        $product = $this->loadDataSet('Product', 'simple_product_required',
-            array('product_attribute_set' => $attributeSetData['attributeSetName']));
-        $attribute = array('attribute_properties' => array('values_required' => 'Yes'));
-        //Preconditions
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->editAttribute($attributeSetData['assignedAttribute'], $attribute);
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($product, 'simple', false);
-        $this->productHelper()->openProductTab('general');
-        //Verifying
-        $this->addParameter('attributeCodeDropdown', $attributeSetData['assignedAttribute']);
-        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is absent');
-        $this->productHelper()->changeAttributeSet('Default');
-        $this->productHelper()->saveProduct();
-        $this->assertMessagePresent('success', 'success_saved_product');
-    }
-
-    /**
      * Change attribute set with product related attributes
      *
      * @param array $attributeSetData
@@ -353,5 +322,36 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $productInfo = $this->shoppingCartHelper()->getProductInfoInTable();
         $this->assertSame('$' . $productData['general_price'],
             $productInfo['product_1']['unit_price'], 'Special is applied');
+    }
+
+    /**
+     * Change attribute set with required field
+     *
+     * @param array $attributeSetData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-6900
+     */
+    public function withRequiredAttribute(array $attributeSetData)
+    {
+        //Data
+        $product = $this->loadDataSet('Product', 'simple_product_required',
+            array('product_attribute_set' => $attributeSetData['attributeSetName']));
+        $attribute = array('attribute_properties' => array('values_required' => 'Yes'));
+        //Preconditions
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->editAttribute($attributeSetData['assignedAttribute'], $attribute);
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($product, 'simple', false);
+        $this->productHelper()->openProductTab('general');
+        //Verifying
+        $this->addParameter('attributeCodeDropdown', $attributeSetData['assignedAttribute']);
+        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is absent');
+        $this->productHelper()->changeAttributeSet('Default');
+        $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
     }
 }

@@ -268,6 +268,9 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
     {
+        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11557');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -320,6 +323,9 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductWithOptionsToWishlistFromShoppingCart($product, $option, $testData)
     {
+        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11557');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
