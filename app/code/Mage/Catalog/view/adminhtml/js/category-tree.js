@@ -25,7 +25,6 @@
         },
         _create: function() {
             var options = this.options;
-            console.log(this.options.data);
             var treeOptions = $.extend(
                 true,
                 {},
@@ -41,7 +40,7 @@
                             data: function(node) {
                                 return {
                                     id: $(node).data('id'),
-                                    form_key: FORM_KEY
+                                    form_key: window.FORM_KEY
                                 };
                             }
                         },
@@ -65,7 +64,6 @@
             if (!node) {
                 return;
             }
-            console.log(node.name, node.disabled, !!node.disabled);
             var result = {
                 data: {
                     title: node.name + ' (' + node.product_count + ')'
