@@ -95,8 +95,7 @@
         _bind: function () {
             this._on(this.element.find(':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'),
                 {'click': '_addNewAddress'});
-            this._on({'formchange': '_updateAddress'});
-            this._on({'dataItemDelete': '_deleteItemPrompt'});
+            this._on({'formchange': '_updateAddress', 'dataItemDelete': '_deleteItemPrompt'});
         },
 
         _create: function () {
