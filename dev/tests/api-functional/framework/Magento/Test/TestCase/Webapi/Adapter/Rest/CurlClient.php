@@ -39,7 +39,9 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
             $url .= '?' . http_build_query($data);
         }
 
-        $resp = $this->_invokeApi($url, array(), $headers);
+        $curlOpts = array();
+        $curlOpts[CURLOPT_CUSTOMREQUEST] = 'GET';
+        $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
         return $respArray;
     }
@@ -155,7 +157,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
 
         $resp = array();
         $resp["body"] = curl_exec($curl);
-        if ($resp === false) {
+        if ($resp["body"] === false) {
             throw new Exception(curl_error($curl));
         }
 
@@ -196,7 +198,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         );
 
         // merge headers
-        $headers = array_merge($customCurlOpts[CURLOPT_HTTPHEADER], $headers);
+        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
 
         // merge custom Curl Options & return
