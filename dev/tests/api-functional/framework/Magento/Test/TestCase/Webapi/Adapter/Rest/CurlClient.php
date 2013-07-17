@@ -1,6 +1,6 @@
 <?php
 /**
- * Test client for REST API testing.
+ * Client for invoking REST API
  *
  * {license_notice}
  *
@@ -15,38 +15,14 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     const REST_BASE_PATH = '/webapi/rest/';
 
     /**
-     * @var array Default CURL options
-     */
-    protected $_curlOpts = array(
-        CURLOPT_RETURNTRANSFER => true, // return result instead of echoing
-        CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
-        CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
-        CURLOPT_MAXREDIRS => 10, // but don't redirect more than 10 times
-        CURLOPT_HTTPHEADER => array(
-            'Accept: application/json',
-            'Content-Type: application/json'
-        )
-    );
-
-    /**
      * @var array JSON Error code to error message mapping
      */
     protected $_jsonErrorMessages = array(
-        JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
-        JSON_ERROR_STATE_MISMATCH => 'Underflow or the modes mismatch',
+        JSON_ERROR_DEPTH => 'Maximum depth exceeded',
+        JSON_ERROR_STATE_MISMATCH => 'State mismatch',
         JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
-        JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON'
+        JSON_ERROR_SYNTAX => 'Syntax error, Invalid JSON'
     );
-
-    /**
-     * @var array Last response
-     */
-    protected $_lastResponse;
-
-    /**
-     * @var array Last response headers
-     */
-    protected $_lastResponseHeaders;
 
     /**
      * Perform HTTP GET request
@@ -63,16 +39,9 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
             $url .= '?' . http_build_query($data);
         }
 
-        $curlOpts = $this->_curlOpts;
-        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
-        $curlOpts[CURLOPT_HTTPHEADER] = $headers;
-
-
-        $curl = $this->_prepRequest($url, $curlOpts);
-        $body = $this->_invokeApi($curl);
-        $body = $this->_processBody($body);
-
-        return $body;
+        $resp = $this->_invokeApi($url, array(), $headers);
+        $respArray = $this->_jsonDecode($resp["body"]);
+        return $respArray;
     }
 
     /**
@@ -85,22 +54,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
      */
     public function post($resourcePath, $data, $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
-
-        // json encode data
-        $jsonData = $this->_jsonEncode($data);
-
-        $curlOpts = $this->_curlOpts;
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = 'POST';
-        $headers[] = 'Content-Length: ' . strlen($jsonData);
-        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
-        $curlOpts[CURLOPT_HTTPHEADER] = $headers;
-        $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
-
-        $curl = $this->_prepRequest($url, $curlOpts);
-        $body = $this->_invokeApi($curl);
-        $body = $this->_processBody($body);
-        return $body;
+        return $this->_postOrPut($resourcePath, $data, false, $headers);
     }
 
     /**
@@ -113,24 +67,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
      */
     public function put($resourcePath, $data, $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
-
-        // json encode data
-        $jsonData = $this->_jsonEncode($data);
-
-        $curlOpts = $this->_curlOpts;
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = 'PUT';
-        $headers[] = 'Content-Length: ' . strlen($jsonData);
-        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
-        $curlOpts[CURLOPT_HTTPHEADER] = $headers;
-        $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
-
-        $curl = $this->_prepRequest($url, $curlOpts);
-        $body = $this->_invokeApi($curl);
-
-        $body = $this->_processBody($body);
-
-        return $body;
+        return $this->_postOrPut($resourcePath, $data, true, $headers);
     }
 
     /**
@@ -143,51 +80,42 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     public function delete($resourcePath, $headers = array())
     {
         $url = $this->_constructResourceUrl($resourcePath);
-        $curlOpts = $this->_curlOpts;
+
+        $curlOpts = array();
         $curlOpts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-        $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
-        $curlOpts[CURLOPT_HTTPHEADER] = $headers;
 
-        $curl = $this->_prepRequest($url, $curlOpts);
-        $body = $this->_invokeApi($curl);
+        $resp = $this->_invokeApi($url, $curlOpts, $headers);
+        $respArray = $this->_jsonDecode($resp["body"]);
 
-        $body = $this->_processBody($body);
-
-        return $body;
+        return $respArray;
     }
 
     /**
-     * Get response body
+     * Perform HTTP POST or PUT request
      *
-     * @return string
+     * @param string $resourcePath Resource URL like /V1/Resource1/123
+     * @param array $data
+     * @param boolean $put Set true to post data as HTTP PUT operation (update). If this value is set to false,
+     *        HTTP POST (create) will be used
+     * @param array $headers
+     * @return mixed
      */
-    public function getResponseBody()
+    protected function _postOrPut($resourcePath, $data, $put = false, $headers = array())
     {
-        return $this->_lastResponse['body'];
-    }
+        $url = $this->_constructResourceUrl($resourcePath);
 
-    /**
-     * Get response status code
-     *
-     * @return int
-     */
-    public function getHttpStatusCode()
-    {
-        return $this->_lastResponse['meta']['http_code'];
-    }
+        // json encode data
+        $jsonData = $this->_jsonEncode($data);
 
-    /**
-     * Return response header (case insensitive) or NULL if not present.
-     *
-     * @param string $header
-     * @return string
-     */
-    public function getResponseHeader($header)
-    {
-        if (empty($this->_lastResponseHeaders[strtolower($header)])) {
-            return null;
-        }
-        return $this->_lastResponseHeaders[strtolower($header)];
+        $curlOpts = array();
+        $curlOpts[CURLOPT_CUSTOMREQUEST] = $put ? 'PUT' : 'POST';
+        $headers[] = 'Content-Length: ' . strlen($jsonData);
+        $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
+
+        $resp = $this->_invokeApi($url, $curlOpts);
+        $respArray = $this->_jsonDecode($resp["body"]);
+
+        return $respArray;
     }
 
     /**
@@ -201,80 +129,78 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     }
 
     /**
-     * Prepare request
+     * Makes the REST api call using passed $curl object
      *
      * @param string URL
-     * @param array $opts cURL Options
+     * @param array $additionalCurlOpts cURL Options
+     * @param array $headers
+     * @return array
      * @throws Exception
-     * @return resource
      */
-    protected function _prepRequest($url, $opts)
+    protected function _invokeApi($url, $additionalCurlOpts, $headers = array())
     {
+        // initialize cURL
         $curl = curl_init($url);
         if ($curl === false) {
             throw new Exception("Error Initializing cURL for baseUrl: " . $url);
         }
 
-        foreach ($opts as $opt => $val) {
+        // get cURL options
+        $curlOpts = $this->_getCurlOptions($additionalCurlOpts, $headers);
+
+        // add CURL opts
+        foreach ($curlOpts as $opt => $val) {
             curl_setopt($curl, $opt, $val);
         }
-        return $curl;
-    }
 
-    /**
-     * Invokes the REST api using passing $curl object
-     *
-     * @param resource $curl
-     * @return mixed
-     * @throws Exception
-     */
-    protected function _invokeApi($curl)
-    {
-        $this->_lastResponseHeaders = array();
-        $this->_lastResponse = array();
-
-        // curl_error() needs to be tested right after function failure
-        $this->_lastResponse["body"] = curl_exec($curl);
-        if ($this->_lastResponse["body"] === false) {
+        $resp = array();
+        $resp["body"] = curl_exec($curl);
+        if ($resp === false) {
             throw new Exception(curl_error($curl));
         }
 
-        $this->_lastResponse["meta"] = curl_getinfo($curl);
-        if ($this->_lastResponse["meta"] === false) {
+        $resp["meta"] = curl_getinfo($curl);
+        if ($resp["meta"] === false) {
             throw new Exception(curl_error($curl));
         }
 
         curl_close($curl);
 
-        $this->_checkResponseForError();
-
-        return $this->_lastResponse["body"];
-    }
-
-    /**
-     * Check last response for error & throw exception if a error response was received
-     *
-     * @throws Exception
-     */
-    protected function _checkResponseForError()
-    {
-        $meta = $this->_lastResponse['meta'];
-        $body = $this->_lastResponse['body'];
-
+        $meta = $resp["meta"];
         if ($meta && $meta['http_code'] >= 400) {
-            throw new Exception ($body, $meta['http_code']);
+            throw new Exception ($resp["body"], $meta['http_code']);
         }
+
+        return $resp;
     }
 
     /**
-     * Process body
+     * Constructs and returns a curl options array
      *
-     * @param string $body
-     * @return mixed
+     * @param array $customCurlOpts Additional / overridden cURL options
+     * @param array $headers
+     * @return array
      */
-    protected function _processBody($body)
+    protected function _getCurlOptions($customCurlOpts = array(), $headers = array())
     {
-        return $this->_jsonDecode($body);
+        // default curl options
+        $curlOpts = array(
+            CURLOPT_RETURNTRANSFER => true, // return result instead of echoing
+            CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
+            CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
+            CURLOPT_MAXREDIRS => 10, // but don't redirect more than 10 times
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Content-Type: application/json'
+            )
+        );
+
+        // merge headers
+        $headers = array_merge($customCurlOpts[CURLOPT_HTTPHEADER], $headers);
+        $curlOpts[CURLOPT_HTTPHEADER] = $headers;
+
+        // merge custom Curl Options & return
+        return array_merge($curlOpts, $customCurlOpts);
     }
 
     /**
@@ -287,14 +213,9 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     protected function _jsonEncode($data)
     {
         $ret = json_encode($data);
+        $this->_checkJsonError();
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception(
-                'Encoding error: ' . $this->_getLastJsonErrorMessage(),
-                $this->json_last_error()
-            );
-        }
-
+        // return the json String
         return $ret;
     }
 
@@ -309,32 +230,27 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     protected function _jsonDecode($data, $asArray = true)
     {
         $ret = json_decode($data, $asArray);
+        $this->_checkJsonError();
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception(
-                'Decoding error: ' . $this->_getLastJsonErrorMessage(),
-                $this->json_last_error()
-            );
-        }
-
+        // return the array
         return $ret;
     }
 
     /**
-     * Get last JSON error message
-     *
-     * @return string
+     * Checks for JSON error in the latest encoding / decoding and throws an exception in case of error
+     * @throws Exception
      */
-    protected function _getLastJsonErrorMessage()
+    protected function _checkJsonError()
     {
-        $lastError = json_last_error();
+        $jsonError = json_last_error();
+        if ($jsonError !== JSON_ERROR_NONE) {
+            // find appropriate error message
+            $message = 'Unknown';
+            if (isset($this->_jsonErrorMessages[$jsonError])) {
+                $message = $this->_jsonErrorMessages[$jsonError];
+            }
 
-        $message = 'Unknown';
-        if (isset($this->_jsonErrorMessages[$lastError])) {
-            $message = $this->_jsonErrorMessages[$lastError];
+            throw new Exception('Decoding error: ' . $message, $jsonError);
         }
-
-        return $message;
-
     }
 }
