@@ -24,9 +24,9 @@ class Mage_Core_Model_Theme_Observer
     protected $_updateCollection;
 
     /**
-     * @var Mage_Core_Model_Theme_Service
+     * @var Mage_Theme_Model_Config_Customization
      */
-    protected $_themeService;
+    protected $_themeConfig;
 
     /**
      * @var Mage_Core_Model_Event_Manager
@@ -41,20 +41,20 @@ class Mage_Core_Model_Theme_Observer
     /**
      * @param Mage_Core_Model_Theme_ImageFactory $themeImageFactory
      * @param Mage_Core_Model_Resource_Layout_Update_Collection $updateCollection
-     * @param Mage_Core_Model_Theme_Service $themeService
+     * @param Mage_Theme_Model_Config_Customization $themeConfig
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
         Mage_Core_Model_Theme_ImageFactory $themeImageFactory,
         Mage_Core_Model_Resource_Layout_Update_Collection $updateCollection,
-        Mage_Core_Model_Theme_Service $themeService,
+        Mage_Theme_Model_Config_Customization $themeConfig,
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Helper_Data $helper
     ) {
         $this->_themeImageFactory = $themeImageFactory;
         $this->_updateCollection = $updateCollection;
-        $this->_themeService = $themeService;
+        $this->_themeConfig = $themeConfig;
         $this->_eventDispatcher = $eventDispatcher;
         $this->_helper = $helper;
     }
@@ -72,7 +72,7 @@ class Mage_Core_Model_Theme_Observer
             return;
         }
         /** @var $theme Mage_Core_Model_Theme */
-        if ($this->_themeService->isThemeAssignedToStore($theme)) {
+        if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
             throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->_themeImageFactory->create(array('theme' => $theme))->removePreviewImage();
@@ -89,7 +89,7 @@ class Mage_Core_Model_Theme_Observer
         $theme = $observer->getEvent()->getData('theme');
         if ($theme instanceof Mage_Core_Model_Theme) {
             /** @var $theme Mage_Core_Model_Theme */
-            if ($this->_themeService->isThemeAssignedToStore($theme)) {
+            if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
                 $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
             }
         }

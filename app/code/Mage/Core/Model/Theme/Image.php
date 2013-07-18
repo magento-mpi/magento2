@@ -108,14 +108,16 @@ class Mage_Core_Model_Theme_Image
      */
     public function createPreviewImageCopy()
     {
+        $previewImage = $this->_theme->getPreviewImage();
+        if (!$previewImage) {
+            return true;
+        }
         $isCopied = false;
         $previewDir = $this->_themeImagePath->getImagePreviewDirectory();
-        $destinationFileName = Varien_File_Uploader::getNewFileName(
-            $previewDir . DIRECTORY_SEPARATOR . $this->_theme->getPreviewImage()
-        );
+        $destinationFileName = Varien_File_Uploader::getNewFileName($previewDir . DIRECTORY_SEPARATOR . $previewImage);
         try {
             $isCopied = $this->_filesystem->copy(
-                $previewDir . DIRECTORY_SEPARATOR . $this->_theme->getPreviewImage(),
+                $previewDir . DIRECTORY_SEPARATOR . $previewImage,
                 $previewDir . DIRECTORY_SEPARATOR . $destinationFileName
             );
         } catch (Exception $e) {
@@ -150,12 +152,12 @@ class Mage_Core_Model_Theme_Image
      */
     public function uploadPreviewImage($scope)
     {
-        if ($this->_theme->getPreviewImage()) {
-            $this->removePreviewImage();
-        }
         $tmpDirPath = $this->_themeImagePath->getTemporaryDirectory();
         $tmpFilePath = $this->_uploader->uploadPreviewImage($scope, $tmpDirPath);
         if ($tmpFilePath) {
+            if ($this->_theme->getPreviewImage()) {
+                $this->removePreviewImage();
+            }
             $this->createPreviewImage($tmpFilePath);
             $this->_filesystem->delete($tmpFilePath);
         }

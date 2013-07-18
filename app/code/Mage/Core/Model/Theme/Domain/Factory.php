@@ -22,6 +22,7 @@ class Mage_Core_Model_Theme_Domain_Factory
      * @var array
      */
     protected $_types = array(
+        Mage_Core_Model_Theme::TYPE_PHYSICAL => 'Mage_Core_Model_Theme_Domain_Physical',
         Mage_Core_Model_Theme::TYPE_VIRTUAL  => 'Mage_Core_Model_Theme_Domain_Virtual',
         Mage_Core_Model_Theme::TYPE_STAGING  => 'Mage_Core_Model_Theme_Domain_Staging',
     );

@@ -77,7 +77,7 @@ class Mage_Core_Model_Theme_Image_Uploader
         if (!$this->_transferAdapter->isValid($scope)) {
             throw new Mage_Core_Exception($this->_helper->__('Uploaded image is not valid'));
         }
-        $upload = $this->_uploaderFactory->create(array($scope));
+        $upload = $this->_uploaderFactory->create(array('fileId' => $scope));
         $upload->setAllowCreateFolders(true);
         $upload->setAllowedExtensions($this->_allowedExtensions);
         $upload->setAllowRenameFiles(true);

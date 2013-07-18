@@ -97,14 +97,16 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             array('fileService' => $cssService));
         try {
             if ($this->getRequest()->getPost()) {
-                $theme = $themeFactory->create($themeData['theme_id']);
+                if (!empty($themeData['theme_id'])) {
+                    $theme = $themeFactory->create($themeData['theme_id']);
+                } else {
+                    $parentTheme = $themeFactory->create($themeData['parent_id']);
+                    $theme = $parentTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_PHYSICAL)
+                        ->createVirtualTheme($parentTheme);
+                }
                 if ($theme && !$theme->isEditable()) {
                     throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t editable.'));
                 }
-                $customization = $theme->getCustomization();
-                $customization->reorder(Mage_Core_Model_Theme_Customization_File_Js::TYPE, $reorderJsFiles);
-                $customization->delete($removeJsFiles);
-                $singleFile->update($theme, $customCssData);
                 $theme->addData($themeData);
                 if (isset($themeData['preview']['delete'])) {
                     $theme->getThemeImage()->removePreviewImage();
@@ -112,6 +114,10 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 $theme->getThemeImage()->uploadPreviewImage('preview');
                 $theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL);
                 $theme->save();
+                $customization = $theme->getCustomization();
+                $customization->reorder(Mage_Core_Model_Theme_Customization_File_Js::TYPE, $reorderJsFiles);
+                $customization->delete($removeJsFiles);
+                $singleFile->update($theme, $customCssData);
                 $this->_getSession()->addSuccess($this->__('You saved the theme.'));
             }
         } catch (Mage_Core_Exception $e) {
