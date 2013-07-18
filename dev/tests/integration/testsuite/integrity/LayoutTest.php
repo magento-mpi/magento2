@@ -229,20 +229,20 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 break;
             }
         }
+        $this->assertNotNull(
+            $ancestorTheme,
+            sprintf("Could not find ancestor theme '%s', its layout file is supposed to be overridden by file '%s'.",
+                $themeFile->getTheme()->getCode(), $themeFile->getFilename())
+        );
 
         // Search for the overridden file in the ancestor theme
-        if ($ancestorTheme) {
-            $ancestorFiles = self::_getCachedFiles($ancestorTheme->getFullPath(),
-                'Mage_Core_Model_Layout_File_Source_Theme', $ancestorTheme);
-            $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
-            $foundFile = isset($ancestorFiles[$fileKey]);
-        } else {
-            $foundFile = false;
-        }
-
-        $this->assertTrue($foundFile, sprintf("Could not find original file in '%s' theme overridden by file '%s'.",
-            $themeFile->getTheme()->getCode(), $themeFile->getFilename()
-        ));
+        $ancestorFiles = self::_getCachedFiles($ancestorTheme->getFullPath(),
+            'Mage_Core_Model_Layout_File_Source_Theme', $ancestorTheme);
+        $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
+        $this->assertArrayHasKey($fileKey, $ancestorFiles,
+            sprintf("Could not find original file in '%s' theme, overridden by file '%s'.",
+                $themeFile->getTheme()->getCode(), $themeFile->getFilename())
+        );
     }
 
     /**
