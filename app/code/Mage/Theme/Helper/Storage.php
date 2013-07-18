@@ -75,26 +75,26 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     protected $_session;
 
     /**
-     * @var Mage_Core_Model_Theme_FlyweightFactory
+     * @var Mage_DesignEditor_Model_Theme_Context
      */
-    protected $_themeFactory;
+    protected $_themeContext;
 
     /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Model_Session $session
-     * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param Mage_Core_Helper_Context $context
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Backend_Model_Session $session,
-        Mage_Core_Model_Theme_FlyweightFactory $themeFactory,
+        Mage_DesignEditor_Model_Theme_Context $themeContext,
         Mage_Core_Helper_Context $context
     ) {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
         $this->_session = $session;
-        $this->_themeFactory = $themeFactory;
+        $this->_themeContext = $themeContext;
 
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->getStorageRoot());
@@ -148,7 +148,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     {
         if (null === $this->_storageRoot) {
             $this->_storageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
-                Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
+                Magento_Filesystem::fixSeparator($this->_getStagingTheme()->getCustomization()->getCustomizationPath()),
                 $this->getStorageType()
             ));
         }
@@ -156,19 +156,20 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get theme module for custom static files
+     * Get staging theme model for custom static files
      *
      * @return Mage_Core_Model_Theme
      * @throws InvalidArgumentException
      */
-    protected function _getTheme()
+    protected function _getStagingTheme()
     {
-        $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
-        $theme = $this->_themeFactory->create($themeId);
-        if (!$themeId || !$theme) {
+        $this->_themeContext->setEditableThemeById($this->_getRequest()->getParam(self::PARAM_THEME_ID));
+        $stagingTheme = $this->_themeContext->getStagingTheme();
+
+        if (!$stagingTheme->getId()) {
             throw new InvalidArgumentException('Theme was not found.');
         }
-        return $theme;
+        return $stagingTheme;
     }
 
     /**
