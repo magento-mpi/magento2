@@ -1,11 +1,13 @@
 <?php
 /**
- * Test AllSoapAndRestV2Test in TestModule1
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * Class to test routing based on Service Versioning(for a new version V2 of an existing V1 service)
  */
 class Mage_Webapi_Routing_ServiceVersionV2Test extends Mage_Webapi_Routing_ServiceVersionV1Test
 {

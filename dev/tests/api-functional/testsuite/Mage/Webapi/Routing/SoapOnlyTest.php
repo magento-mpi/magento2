@@ -1,26 +1,28 @@
 <?php
 /**
- * Test AllSoapNoRestV1Test TestModule2
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Routing_SoapOnlyTest extends Magento_Test_TestCase_WebapiAbstract
+
+/**
+ * Class to test routing based on a Service that exposes Soap Operations only
+ */
+class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
 {
     /**
      * @var string
      */
-    private $_version;
+    protected $_version;
     /**
      * @var string
      */
-    private $_restResourcePath;
+    protected $_restResourcePath;
     /**
      * @var string
      */
-    private $_soapService;
+    protected $_soapService;
 
     protected function setUp()
     {

@@ -1,13 +1,15 @@
 <?php
 /**
- * Test NoWebApiXmlTestTest TestModule2
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Magento_Test_TestCase_WebapiAbstract
+
+/**
+ * Class to test routing with a service that has no webapi.xml
+ */
+class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_BaseService
 {
     /**
      * @var string

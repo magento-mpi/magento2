@@ -1,11 +1,13 @@
 <?php
 /**
- * Test Web API routing.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * Class to test Core Web API routing
  */
 class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAbstract
 {
