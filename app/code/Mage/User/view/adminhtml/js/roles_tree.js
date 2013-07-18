@@ -1,3 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/*jshint browser:true jquery:true*/
 jQuery(function($) {
     'use strict';
     $.widget('mage.rolesTree', {
@@ -26,11 +35,15 @@ jQuery(function($) {
         },
         _bind: function() {
             this.element.on('loaded.jstree', $.proxy(this._checkNodes, this));
-            this.element.delegate("li", "click.jstree", $.proxy(this._checkNode, this));
+            this.element.on('click.jstree', 'li', $.proxy(this._checkNode, this));
         },
-        _checkNode: function(e) {
-            e.stopPropagation();
-            this.element.jstree('change_state', e.currentTarget, this.element.jstree('is_checked', e.currentTarget));
+        _checkNode: function(event) {
+            event.stopPropagation();
+            this.element.jstree(
+                'change_state',
+                event.currentTarget,
+                this.element.jstree('is_checked', event.currentTarget)
+            );
         },
         _checkNodes: function() {
             var selected = this.options.treeInitSelectedData;

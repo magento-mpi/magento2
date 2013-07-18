@@ -37,9 +37,9 @@ class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetResTree()
+    public function testGetTree()
     {
-        $encodedTree = $this->_block->getResTree();
+        $encodedTree = $this->_block->getTree();
         $this->assertNotEmpty($encodedTree);
     }
 }

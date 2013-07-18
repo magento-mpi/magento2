@@ -104,8 +104,6 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
         }
 
         $this->setSelectedResources($selectedResourceIds);
-
-
     }
 
     /**
@@ -121,9 +119,9 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
     /**
      * Get Json Representation of Resource Tree
      *
-     * @return string
+     * @return array
      */
-    public function getResTree()
+    public function getTree()
     {
         /** @var $reader Magento_Acl_Loader_Resource_ConfigReaderInterface */
         $reader = Mage::getSingleton('Magento_Acl_Loader_Resource_ConfigReaderInterface');

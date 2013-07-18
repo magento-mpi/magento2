@@ -10,9 +10,7 @@
 ?>
 
 <?php
-/**
- * @var $this Mage_User_Block_Role_Tab_Edit
- */
+/** @var $this Mage_User_Block_Role_Tab_Edit */
 ?>
 
 <?php echo $this->getChildHtml(); ?>
@@ -40,7 +38,7 @@
             <div class="tree x-tree" data-role="resource-tree" data-mage-init="<?php
             echo $this->escapeHtml($this->helper('Mage_Core')->jsonEncode(array(
                 "rolesTree" => array(
-                    "treeInitData" => $this->getResTree(),
+                    "treeInitData" => $this->getTree(),
                     "treeInitSelectedData" => $this->getSelectedResources(),
                 )
             )));
