@@ -4644,13 +4644,40 @@
                 state = (state === false || state === true) ? state : obj.hasClass("jstree-checked");
                 if(this._get_settings().vcheckbox.two_state) {
                     if(state) {
-                        obj.removeClass("jstree-checked").addClass("jstree-unchecked");
-                        if(rc) { obj.children(":checkbox").prop("checked", false); }
+                        coll = obj.find("li").andSelf();
+                        if(!coll.filter(".jstree-checked").length) { return false; }
+                        coll.removeClass("jstree-checked").addClass("jstree-unchecked");
+                        if(rc) { coll.children(":checkbox").prop("checked", false); }
                     }
                     else {
-                        obj.removeClass("jstree-unchecked").addClass("jstree-checked");
-                        if(rc) { obj.children(":checkbox").prop("checked", true); }
+                        coll = obj.find("li").andSelf();
+                        if(!coll.filter(".jstree-unchecked").length) { return false; }
+                        coll.removeClass("jstree-unchecked").addClass("jstree-checked");
+                        if(rc) { coll.children(":checkbox").prop("checked", true); }
+                        if(this.data.ui) { this.data.ui.last_selected = obj; }
+                        this.data.vcheckbox.last_selected = obj;
                     }
+                    obj.parentsUntil(".jstree", "li").each(function () {
+                        var $this = $(this);
+                        if(state) {
+                            if($this.children("ul").children("li.jstree-checked").length) {
+                                $this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-unchecked").addClass("jstree-checked");
+                                if(rc) { $this.parentsUntil(".jstree", "li").andSelf().children(":checkbox").prop("checked", true); }
+                                return false;
+                            }
+                        }
+                        else {
+                            if($this.children("ul").children("li.jstree-unchecked").length) {
+                                $this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-unchecked").addClass("jstree-checked");
+                                if(rc) { $this.parentsUntil(".jstree", "li").andSelf().children(":checkbox").prop("checked", true); }
+                                return false;
+                            }
+                            else {
+                                $this.removeClass("jstree-unchecked").addClass("jstree-checked");
+                                if(rc) { $this.children(":checkbox").prop("checked", true); }
+                            }
+                        }
+                    });
                 }
                 else {
                     if(state) {
@@ -4672,7 +4699,7 @@
                         if(state) {
                             if($this.children("ul").children("li.jstree-checked, li.jstree-undetermined").length) {
                                 $this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-checked jstree-unchecked").addClass("jstree-undetermined");
-                                if(rc) { $this.parentsUntil(".jstree", "li").andSelf().children(":checkbox").prop("checked", true); }
+                                if(rc) { $this.parentsUntil(".jstree", "li").andSelf().children(":checkbox").prop("checked", false); }
                                 return false;
                             }
                             else {
@@ -4683,7 +4710,7 @@
                         else {
                             if($this.children("ul").children("li.jstree-unchecked, li.jstree-undetermined").length) {
                                 $this.parentsUntil(".jstree", "li").andSelf().removeClass("jstree-checked jstree-unchecked").addClass("jstree-undetermined");
-                                if(rc) { $this.parentsUntil(".jstree", "li").andSelf().children(":checkbox").prop("checked", true); }
+                                if(rc) { $this.parentsUntil(".jstree", "li").andSelf().children(":checkbox").prop("checked", false); }
                                 return false;
                             }
                             else {

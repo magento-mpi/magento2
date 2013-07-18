@@ -18,6 +18,7 @@ jQuery(function($) {
             this.element.jstree({
                 plugins: ["themes", "json_data", "ui", "crrm", "types", "vcheckbox", "hotkeys"],
                 vcheckbox: {
+                    'two_state': true,
                     'real_checkboxes': true,
                     'real_checkboxes_names': function(n) {return ['resource[]', $(n).data('id')]}
                 },
