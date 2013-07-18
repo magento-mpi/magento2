@@ -26,7 +26,6 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
         $this->_title($this->__('Users'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_User'))
             ->renderLayout();
     }
 
@@ -155,11 +154,8 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
 
     public function roleGridAction()
     {
-        $this->getResponse()
-            ->setBody($this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Api_User_Grid')
-            ->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     protected function _isAllowed()

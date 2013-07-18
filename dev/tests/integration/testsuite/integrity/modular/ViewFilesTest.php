@@ -19,7 +19,7 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
     public function testViewFilesFromModulesView($application, $file)
     {
         Mage::getDesign()->setArea($application)->setDefaultDesignTheme();
-        $result = Mage::getObjectManager('Mage_Core_Model_View_FileSystem')->getViewFile($file);
+        $result = Mage::getObjectManager()->get('Mage_Core_Model_View_FileSystem')->getViewFile($file);
         $this->assertFileExists($result);
     }
 
@@ -110,7 +110,7 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
     public function testViewFilesFromModulesCode($application, $file)
     {
         Mage::getDesign()->setArea($application)->setDefaultDesignTheme();
-        $this->assertFileExists(Mage::getObjectManager('Mage_Core_Model_View_FileSystem')->getViewFile($file));
+        $this->assertFileExists(Mage::getObjectManager()->get('Mage_Core_Model_View_FileSystem')->getViewFile($file));
     }
 
     /**

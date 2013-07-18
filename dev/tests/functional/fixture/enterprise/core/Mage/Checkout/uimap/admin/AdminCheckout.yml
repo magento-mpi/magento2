@@ -96,6 +96,18 @@ create_order_for_product_added_by_sku:
                 -
                     gift_options: *gift_options-fieldset
                 -
+                    sku_error_table:
+                        xpath: //*[@id='order-errors']//*[@id='sku_errors']
+                        fields:
+                            qty: //tr[%rowIndex%]//*[@name='qty']
+                        buttons:
+                            configure_item: //*[@id='sku_%sku%']//*[@class='sku-configure-button']/button
+                            remove_item: //tr[%rowIndex%]//*[@class='action- scalable delete']
+                        pageelements:
+                            price_in_error_table: //tr[%rowIndex]//*[@class='price']
+                            error_table_grid: //table[@id='sku_errors_table']/tbody/tr
+                            error_table_head: //*[@id='sku_errors_table']/thead
+                            error_table_line: //*[@id='sku_errors_table']/tbody/tr
                     gift_options_for_order: *gift_options_for_order-fieldset
                 -
                     order_totals: *order_totals-fieldset

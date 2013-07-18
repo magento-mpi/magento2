@@ -135,6 +135,7 @@ create_order_for_new_customer:
                             search: //button[span='Search']
                         dropdowns:
                             country: //select[@name='billing_country_id']
+                            pager: //select[@data-ui-id ='adminhtml-customer-grid-container-per-page']
                         fields:
                             id: //input[@name='entity_id']
                             name: //input[@name='name']
@@ -148,6 +149,7 @@ create_order_for_new_customer:
                         xpath: //*[@id='order-store-selector']
                         radiobuttons:
                             choose_main_store: //*[label='%storeName%']/input
+                            choose_first_store: //input[@id='store_1']
                 -
                     select_products_to_add: &selectProductsToAdd
                         xpath: //div[@id='order-search']

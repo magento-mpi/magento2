@@ -102,6 +102,9 @@
                 <backup module="Mage_Adminhtml">
                     <file>backup.xml</file>
                 </backup>
+                <api module="Mage_Adminhtml">
+                    <file>api/layout.xml</file>
+                </api>
                 <catalog module="Mage_Adminhtml">
                     <file>catalog.xml</file>
                 </catalog>

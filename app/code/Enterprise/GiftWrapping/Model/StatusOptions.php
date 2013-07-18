@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Model_StatusOptions implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_GiftWrapping_Model_StatusOptions extends Mage_Backend_Model_Config_Source_Statuses_Options
 {
     /**
      * Backend Helper
@@ -32,13 +32,4 @@ class Enterprise_GiftWrapping_Model_StatusOptions implements Mage_Core_Model_Opt
         $this->_helper = $helper;
     }
 
-    /**
-     * Return statuses array
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return array('0' => $this->_helper->__('Disabled'),
-                     '1' => $this->_helper->__('Enabled'));
-    }
 }

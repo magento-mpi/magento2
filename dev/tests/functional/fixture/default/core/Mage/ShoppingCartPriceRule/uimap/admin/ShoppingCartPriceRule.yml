@@ -24,14 +24,14 @@ manage_shopping_cart_price_rules:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         fields:
-                            filter_id: //input[@id='rule_id']
-                            filter_rule_name: //input[@name='name']
-                            filter_coupon_code: //input[@name='coupon_code']
+                            filter_id: //input[@id='promo_quote_grid_filter_rule_id']
+                            filter_rule_name: //input[@id='promo_quote_grid_filter_name']
+                            filter_coupon_code: //input[@id='promo_quote_grid_filter_coupon_code']
                             filter_date_start_from: //input[@name='from_date[from]']
                             filter_date_start_to: //input[@name='from_date[to]']
                             filter_date_expire_from: //input[@name='to_date[from]']
                             filter_date_expire_to: //input[@name='to_date[to]']
-                            filter_priority: //input[@name='sort_order']
+                            filter_priority: //input[@id='promo_quote_grid_filter_sort_order']
                             page: //input[@name='page']
                         dropdowns:
                             filter_status: //select[@name='is_active']

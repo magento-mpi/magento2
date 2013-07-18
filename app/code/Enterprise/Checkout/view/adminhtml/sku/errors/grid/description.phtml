@@ -10,7 +10,7 @@
 ?>
 <?php /* @var $this Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description */ ?>
 <?php $_item = $this->getItem() ?>
-<?php $_product = $this->getProduct() ?>
+<?php $_product = $this->getItem()->getProduct() ?>
 <?php $_sku = $this->escapeHtml($_item->getSku()) ?>
 <div id="<?php echo 'sku_' . $_sku ?>" class="sku-failed-item">
     <div class="sku-configure-button"><?php echo $this->getConfigureButtonHtml() ?></div>
