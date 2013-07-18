@@ -32,7 +32,7 @@ class Mage_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helper = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false);
-        $this->_helper->expects($this->any())->method('__')->will($this->returnCallback(function() {
+        $this->_helper->expects($this->any())->method('__')->will($this->returnCallback(function () {
             $arguments = func_get_args();
             return call_user_func_array('sprintf', $arguments);
         }));
@@ -57,7 +57,7 @@ class Mage_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
         $collectionMock->expects($this->atLeastOnce())->method('filterVisibleThemes')->will($this->returnSelf());
         $collectionMock->expects($this->atLeastOnce())->method('addAreaFilter')->will($this->returnSelf());
         $collectionMock->expects($this->atLeastOnce())->method('toOptionArray')->will($this->returnCallback(
-            function() use ($collectionMock) {
+            function () use ($collectionMock) {
                 $result = array();
                 foreach ($collectionMock as $item) {
                     $result[] = array($item->getId() => $item->getThemeTitle());
