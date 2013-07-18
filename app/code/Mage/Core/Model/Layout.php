@@ -18,6 +18,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
