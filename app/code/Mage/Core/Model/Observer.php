@@ -10,6 +10,8 @@
 
 /**
  * Core Observer model
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Observer
 {

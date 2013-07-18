@@ -38,6 +38,8 @@
  * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
  * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
  * @method Mage_Core_Model_Theme setType(int $type)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Core_Model_ThemeInterface
 {
@@ -93,7 +95,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
     /**
      * @var Mage_Core_Model_Theme_CustomizationFactory
      */
-    protected $_customizationFactory;
+    protected $_customizeFactory;
 
     /**
      * All possible types of a theme
@@ -116,10 +118,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
      * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
      * @param Mage_Core_Model_Theme_ImageFactory $imageFactory
      * @param Mage_Core_Model_Theme_Validator $validator
-     * @param Mage_Core_Model_Theme_CustomizationFactory $customizationFactory
+     * @param Mage_Core_Model_Theme_CustomizationFactory $customizeFactory
      * @param Mage_Core_Model_Resource_Theme $resource
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Model_Context $context,
@@ -129,7 +133,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
         Mage_Core_Model_Theme_Domain_Factory $domainFactory,
         Mage_Core_Model_Theme_ImageFactory $imageFactory,
         Mage_Core_Model_Theme_Validator $validator,
-        Mage_Core_Model_Theme_CustomizationFactory $customizationFactory,
+        Mage_Core_Model_Theme_CustomizationFactory $customizeFactory,
         Mage_Core_Model_Resource_Theme $resource = null,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
@@ -141,7 +145,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
         $this->_domainFactory = $domainFactory;
         $this->_imageFactory = $imageFactory;
         $this->_validator = $validator;
-        $this->_customizationFactory = $customizationFactory;
+        $this->_customizeFactory = $customizeFactory;
 
         $this->addData(array(
             'type' => self::TYPE_VIRTUAL,
@@ -173,7 +177,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
     public function getCustomization()
     {
         if ($this->_customization === null) {
-            $this->_customization = $this->_customizationFactory->create(array('theme' => $this));
+            $this->_customization = $this->_customizeFactory->create(array('theme' => $this));
         }
         return $this->_customization;
     }

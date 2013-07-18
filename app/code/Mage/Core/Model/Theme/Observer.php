@@ -27,7 +27,7 @@ class Mage_Core_Model_Theme_Observer
      * @param Mage_Core_Model_Theme_ImageFactory $themeImageFactory
      * @param Mage_Core_Model_Resource_Layout_Update_Collection $updateCollection
      */
-    function __construct(
+    public function __construct(
         Mage_Core_Model_Theme_ImageFactory $themeImageFactory,
         Mage_Core_Model_Resource_Layout_Update_Collection $updateCollection
     ) {

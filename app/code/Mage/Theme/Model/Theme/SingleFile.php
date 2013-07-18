@@ -40,7 +40,7 @@ class Mage_Theme_Model_Theme_SingleFile
             $customCss->delete();
             return;
         }
-        if (!$customCss){
+        if (!$customCss) {
             $customCss = $this->_fileService->create();
         }
         $customCss->setData('content', $fileContent);
