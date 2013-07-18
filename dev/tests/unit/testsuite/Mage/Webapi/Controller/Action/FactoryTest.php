@@ -15,6 +15,9 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
     /** @var Magento_ObjectManager */
     protected $_objectManagerMock;
 
+    /** @var Mage_Core_Model_Config */
+    protected $_configMock;
+
     protected function setUp()
     {
         /** Init all dependencies for SUT. */
@@ -22,6 +25,7 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
             ->getMock();
         /** Init SUT. */
         $this->_factory = new Mage_Webapi_Controller_Action_Factory($this->_objectManagerMock);
+        $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
         parent::setUp();
     }
 
@@ -29,6 +33,7 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
     {
         unset($this->_factory);
         unset($this->_objectManagerMock);
+        unset($this->_configMock);
         parent::tearDown();
     }
 
@@ -42,7 +47,7 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
         $actionController = $this->getMockBuilder('Mage_Webapi_Controller_ActionAbstract')
             ->disableOriginalConstructor()->getMock();
         /** Create request object. */
-        $request = new Mage_Webapi_Controller_Request('SOAP');
+        $request = new Mage_Webapi_Controller_Request($this->_configMock, 'SOAP');
         $this->_objectManagerMock->expects($this->once())->method('create')->will(
             $this->returnValue($actionController)
         );
@@ -57,7 +62,7 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
         /** Create object of class which is not instance of Mage_Webapi_Controller_ActionAbstract. */
         $wrongController = new Varien_Object();
         /** Create request object. */
-        $request = new Mage_Webapi_Controller_Request('SOAP');
+        $request = new Mage_Webapi_Controller_Request($this->_configMock, 'SOAP');
         /** Mock object manager create method to return wrong controller */
         $this->_objectManagerMock->expects($this->any())->method('create')->will($this->returnValue($wrongController));
         $this->setExpectedException(

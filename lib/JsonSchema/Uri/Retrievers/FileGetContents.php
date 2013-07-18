@@ -32,7 +32,7 @@ class FileGetContents implements UriRetrieverInterface
         
         $response = file_get_contents($uri);
         if (false === $response) {
-            throw new ResourceNotFoundException('JSON schema not found');
+            throw new ResourceNotFoundException('JSON schema not found: ' . $uri);
         }
         
         $this->messageBody = $response;

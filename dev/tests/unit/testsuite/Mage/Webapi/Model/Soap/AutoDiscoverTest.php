@@ -100,7 +100,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         foreach ($nodesList as $node) {
             $actualTypes[] = $node->getAttribute('name');
         }
-        $expectedTypes = array('ItemsResponse', 'ItemsArray');
+        $expectedTypes = array('ItemsResponse', 'ArrayItem');
         $this->assertEquals(
             $expectedCount,
             count(array_intersect($expectedTypes, $actualTypes)),
@@ -129,10 +129,12 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
                 <xsd:complexType name="ItemsResponse">
                     <xsd:sequence>
-                        <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="ItemsArray" />
+                        <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="ArrayItem" />
+                        <!-- "item" is required to ensure that the same complex type is included into WSDL only once-->
+                        <xsd:element name="item" type="ArrayItem" />
                     </xsd:sequence>
                 </xsd:complexType>
-                <xsd:complexType name="ItemsArray">
+                <xsd:complexType name="ArrayItem">
                     <xsd:sequence>
                         <xsd:element name="id" type="xsd:int" />
                         <xsd:element name="name" type="xsd:string" />

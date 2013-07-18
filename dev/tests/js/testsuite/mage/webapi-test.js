@@ -10,28 +10,18 @@ WebapiTest = TestCase('WebapiTest');
 
 WebapiTest.prototype.testConstructorSuccess = function() {
     var successCallback = function(){};
-    new $.mage.webapi('baseUrl', {'timeout': 100, 'success': successCallback});
+    new $.mage.Webapi('baseUrl', {'timeout': 100, 'success': successCallback});
 }
 
 WebapiTest.prototype.testConstructorSuccessEmptyArgs = function() {
-    new $.mage.webapi('baseUrl');
-}
-
-WebapiTest.prototype.testConstructorInvalidOptions = function() {
-    expectAsserts(1);
-    try {
-        new $.mage.webapi('baseUrl', {'timeout': 100, 'invalid': 0});
-    } catch (e) {
-        var expectedException = "No such option: invalid";
-        assertEquals("Invalid exception was thrown.", expectedException, e);
-    }
+    new $.mage.Webapi('baseUrl');
 }
 
 WebapiTest.prototype.testConstructorInvalidBaseUrl = function() {
     expectAsserts(1);
     try {
         var invalidBaseUrl = 1;
-        new $.mage.webapi(invalidBaseUrl);
+        new $.mage.Webapi(invalidBaseUrl);
     } catch (e) {
         var expectedException = "String baseUrl parameter required";
         assertEquals("Invalid exception was thrown.", expectedException, e);
@@ -39,10 +29,10 @@ WebapiTest.prototype.testConstructorInvalidBaseUrl = function() {
 }
 
 WebapiTest.prototype.testCallInvalidMethod = function() {
-    var webapi = new $.mage.webapi('baseUrl');
+    var Webapi = new $.mage.Webapi('baseUrl');
     expectAsserts(1);
     try {
-        webapi.call('resourceUri', 'INVALID_HTTP_METHOD');
+        Webapi.call('resourceUri', 'INVALID_HTTP_METHOD');
     } catch (e) {
         var expectedException = "Method name is not valid: INVALID_HTTP_METHOD";
         assertEquals("Invalid exception was thrown.", expectedException, e);
@@ -55,11 +45,11 @@ WebapiTest.prototype.testCallSuccessCallback = function() {
     var successCallback = function(response) {
         assertObject("Response is expected to be an object", response);
     }
-    var webapi = new $.mage.webapi('baseUrl', {'success': successCallback});
+    var Webapi = new $.mage.Webapi('baseUrl', {'success': successCallback});
     $.ajax = function(settings) {
         settings.success({});
     };
-    webapi.call('products', 'GET');
+    Webapi.call('products', 'GET');
 }
 
 WebapiTest.prototype.testCallErrorCallback = function() {
@@ -68,38 +58,38 @@ WebapiTest.prototype.testCallErrorCallback = function() {
     var errorCallback = function(response) {
         assertObject("Response is expected to be an object", response);
     }
-    var webapi = new $.mage.webapi('baseUrl', {'error': errorCallback});
+    var Webapi = new $.mage.Webapi('baseUrl', {'error': errorCallback});
     $.ajax = function(settings) {
         settings.error({});
     };
-    webapi.call('products', 'GET');
+    Webapi.call('products', 'GET');
 }
 
 WebapiTest.prototype.testCallProductGet = function() {
     var baseUri = 'baseUrl';
-    var webapi = new $.mage.webapi(baseUri);
-    var httpMethod = webapi.method.get;
-    var productId = 1;
+    var Webapi = new $.mage.Webapi(baseUri);
+    var httpMethod = Webapi.method.get;
+    var idObj = {id: 1};
     var productResourceUri = '/products/';
     var resourceVersion = 'v1';
-    var expectedUri = baseUri + '/' + resourceVersion + productResourceUri + productId;
+    var expectedUri = baseUri + '/webapi/rest/' + resourceVersion + productResourceUri + '1';
     // ensure that $.ajax() was executed
     expectAsserts(3);
     $.ajax = function(settings) {
         assertEquals("URI for API call does not match with expected one.", expectedUri, settings.url);
         assertEquals("HTTP method for API call does not match with expected one.", httpMethod, settings.type);
-        assertEquals("Data for API call does not match with expected one.", productId, settings.data);
+        assertEquals("Data for API call does not match with expected one.", '1', settings.data);
     };
-    webapi.Product(resourceVersion).get(productId);
+    Webapi.Product(resourceVersion).get(idObj);
 };
 
 WebapiTest.prototype.testCallProductCreate = function() {
     var baseUri = 'baseUrl';
-    var webapi = new $.mage.webapi(baseUri);
-    var httpMethod = webapi.method.create;
+    var Webapi = new $.mage.Webapi(baseUri);
+    var httpMethod = Webapi.method.create;
     var productResourceUri = '/products/';
     var resourceVersion = 'v1';
-    var expectedUri = baseUri + '/' + resourceVersion + productResourceUri;
+    var expectedUri = baseUri + '/webapi/rest/' + resourceVersion + productResourceUri;
     productData = {
         "type_id": "simple",
         "attribute_set_id": 4,
@@ -119,15 +109,15 @@ WebapiTest.prototype.testCallProductCreate = function() {
         assertEquals("HTTP method for API call does not match with expected one.", httpMethod, settings.type);
         assertEquals("Data for API call does not match with expected one.", productData, settings.data);
     };
-    webapi.Product(resourceVersion).create(productData);
+    Webapi.Product(resourceVersion).create(productData);
 };
 
 WebapiTest.prototype.testCallProductCreateInvalidVersion = function() {
     expectAsserts(1);
     var invalidVersion = 'invalidVersion';
     try {
-        var webapi = new $.mage.webapi('BaseUrl');
-        webapi.Product(invalidVersion);
+        var Webapi = new $.mage.Webapi('BaseUrl');
+        Webapi.Product(invalidVersion);
     } catch (e) {
         var expectedException = "Incorrect version format: " + invalidVersion;
         assertEquals("Invalid exception was thrown.", expectedException, e);

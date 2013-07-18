@@ -19,6 +19,6 @@ class Mage_Webapi_Controller_Router_Route extends Zend_Controller_Router_Route
      */
     public function match($request, $partial = false)
     {
-        return parent::match(ltrim($request->getPathInfo(), $this->_urlDelimiter), $partial);
+        return parent::match(strtolower(ltrim($request->getPathInfo(), $this->_urlDelimiter)), $partial);
     }
 }

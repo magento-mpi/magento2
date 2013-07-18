@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:mage="http://www.magento.com">
 
