@@ -56,15 +56,15 @@ class Mage_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
         $collectionMock->expects($this->atLeastOnce())->method('setOrder')->with('theme_title', $this->anything());
         $collectionMock->expects($this->atLeastOnce())->method('filterVisibleThemes')->will($this->returnSelf());
         $collectionMock->expects($this->atLeastOnce())->method('addAreaFilter')->will($this->returnSelf());
-        $collectionMock->expects($this->atLeastOnce())->method('toOptionArray')->will($this->returnCallback(
-            function () use ($collectionMock) {
-                $result = array();
-                foreach ($collectionMock as $item) {
-                    $result[] = array($item->getId() => $item->getThemeTitle());
-                }
-                return $result;
+        $toOptionArray = function () use ($collectionMock) {
+            $result = array();
+            foreach ($collectionMock as $item) {
+                $result[] = array($item->getId() => $item->getThemeTitle());
             }
-        ));
+            return $result;
+        };
+        $collectionMock->expects($this->atLeastOnce())->method('toOptionArray')
+            ->will($this->returnCallback($toOptionArray));
 
         $themes = array();
         foreach ($themeData as $theme) {

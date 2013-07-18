@@ -147,7 +147,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
 
         $this->_filesystemMock->expects($this->any())->method('copy')
             ->with('/media_path/theme/preview', $this->anything());
-        $this->assertFalse($this->_model->createPreviewImageCopy());
+        $this->assertFalse($this->_model->createPreviewImageCopy($previewImage));
         $this->assertEquals($previewImage, $this->_themeMock->getData('preview_image'));
     }
 

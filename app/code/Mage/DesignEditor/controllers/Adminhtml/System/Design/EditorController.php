@@ -268,7 +268,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             }
             $themeCopy->setData($theme->getData());
             $themeCopy->setId(null)->setThemeTitle($coreHelper->__('Copy of [%s]', $theme->getThemeTitle()));
-            $themeCopy->getThemeImage()->createPreviewImageCopy();
+            $themeCopy->getThemeImage()->createPreviewImageCopy($theme->getPreviewImage());
             $themeCopy->save();
             $copyService->copy($theme, $themeCopy);
             $this->_getSession()->addSuccess(
