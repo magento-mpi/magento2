@@ -78,7 +78,7 @@ class Mage_Core_Utility_Layout
     public function getLayoutDependencies()
     {
         return array(
-            'design'             => Mage::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface'),
+            'design'             => Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface'),
             'blockFactory'       => Mage::getObjectManager()->create('Mage_Core_Model_BlockFactory', array()),
             'structure'          => Mage::getObjectManager()->create('Magento_Data_Structure', array()),
             'argumentProcessor'  => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Argument_Processor',

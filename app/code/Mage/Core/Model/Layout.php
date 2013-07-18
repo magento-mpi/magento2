@@ -74,7 +74,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Mage_Core_Model_View_DesignInterface
      */
     private $_design;
 
@@ -180,7 +180,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_renderers = array();
 
     /**
-     * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
      * @param Mage_Core_Model_Layout_Argument_Processor $argumentProcessor
@@ -190,7 +190,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $area
      */
     public function __construct(
-        Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_BlockFactory $blockFactory,
         Magento_Data_Structure $structure,
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
