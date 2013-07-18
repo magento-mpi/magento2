@@ -14,6 +14,18 @@
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Cached lists of files
+     *
+     * @var array
+     */
+    protected static $_cachedFiles = array();
+
+    public static function tearDownAfterClass()
+    {
+        self::$_cachedFiles = array(); // Free memory
+    }
+
+    /**
      * @param Mage_Core_Model_Theme $theme
      * @dataProvider areasAndThemesDataProvider
      */
@@ -185,33 +197,82 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check whether original files exist for corresponding overriding theme files
+     * Check, that for an overriding file ($themeFile) in a theme ($theme), there is a corresponding base file
      *
-     * @param Mage_Core_Model_Layout_File $file
+     * @param Mage_Core_Model_Layout_File $themeFile
+     * @param Mage_Core_Model_Theme $theme
+     * @dataProvider overrideBaseFilesDataProvider
+     */
+    public function testOverrideBaseFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
+    {
+        $baseFiles = $this->_getCachedFiles($theme->getArea(), 'Mage_Core_Model_Layout_File_Source_Base', $theme);
+        $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
+        $this->assertArrayHasKey($fileKey, $baseFiles,
+            sprintf("Could not find base file, overridden by theme file '%s'.", $themeFile->getFilename())
+        );
+    }
+
+    /**
+     * Check, that for an ancestor-overriding file ($themeFile) in a theme ($theme), there is a corresponding file
+     * in that ancestor theme
+     *
+     * @param Mage_Core_Model_Layout_File $themeFile
      * @param Mage_Core_Model_Theme $theme
      * @dataProvider overrideThemeFilesDataProvider
      */
-    public function testOverrideThemeFiles(Mage_Core_Model_Layout_File $file, Mage_Core_Model_Theme $theme)
+    public function testOverrideThemeFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
     {
-        $foundFile = false;
-        /** @var $themeUpdates Mage_Core_Model_Layout_File_Source_Theme */
-        $themeUpdates = Mage::getModel('Mage_Core_Model_Layout_File_Source_Theme');
-        while ($theme = $theme->getParentTheme()) {
-            if ($theme != $file->getTheme()) {
-                continue;
-            }
-            $themeFiles = $themeUpdates->getFiles($theme);
-            /** @var $themeFile Mage_Core_Model_Layout_File */
-            foreach ($themeFiles as $themeFile) {
-                if ($themeFile->getName() == $file->getName() && $themeFile->getModule() == $file->getModule()) {
-                    $foundFile = true;
-                    break 2;
-                }
+        // Find an ancestor theme, where a file is to be overridden
+        $ancestorTheme = $theme;
+        while ($ancestorTheme = $ancestorTheme->getParentTheme()) {
+            if ($ancestorTheme == $themeFile->getTheme()) {
+                break;
             }
         }
+
+        // Search for the overridden file in the ancestor theme
+        if ($ancestorTheme) {
+            $ancestorFiles = $this->_getCachedFiles($ancestorTheme->getFullPath(),
+                'Mage_Core_Model_Layout_File_Source_Theme', $ancestorTheme);
+            $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
+            $foundFile = isset($ancestorFiles[$fileKey]);
+        } else {
+            $foundFile = false;
+        }
+
         $this->assertTrue($foundFile, sprintf("Could not find original file in '%s' theme overridden by file '%s'.",
-            $file->getTheme()->getCode(), $file->getFilename()
+            $themeFile->getTheme()->getCode(), $themeFile->getFilename()
         ));
+    }
+
+    /**
+     * Retrieve list of cached source files
+     *
+     * @param string $cacheKey
+     * @param string $sourceClass
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Layout_File[]
+     */
+    protected static function _getCachedFiles($cacheKey, $sourceClass, Mage_Core_Model_Theme $theme)
+    {
+        if (!isset(self::$_cachedFiles[$cacheKey])) {
+            /* @var $fileList Mage_Core_Model_Layout_File[] */
+            $fileList = Mage::getModel($sourceClass)->getFiles($theme);
+            $files = array();
+            foreach ($fileList as $file) {
+                $files[$file->getModule() . '/' . $file->getName()] = true;
+            }
+            self::$_cachedFiles[$cacheKey] = $files;
+        }
+        return self::$_cachedFiles[$cacheKey];
+    }
+
+    /**
+     * @return array
+     */
+    public function overrideBaseFilesDataProvider()
+    {
+        return $this->_retrieveFilesForEveryTheme(Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Base'));
     }
 
     /**
@@ -219,15 +280,25 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function overrideThemeFilesDataProvider()
     {
+        return $this->_retrieveFilesForEveryTheme(Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme'));
+    }
+
+    /**
+     * Scan all the themes in the system, for each theme retrieve list of files via $filesRetriever,
+     * and return them as array of pairs [file, theme].
+     *
+     * @param Mage_Core_Model_Layout_File_SourceInterface $filesRetriever
+     * @return array
+     */
+    protected function _retrieveFilesForEveryTheme(Mage_Core_Model_Layout_File_SourceInterface $filesRetriever)
+    {
         $result = array();
-        /** @var $themeOverrides Mage_Core_Model_Layout_File_Source_Override_Theme */
-        $themeOverrides = Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme');
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
-            foreach ($themeOverrides->getFiles($theme) as $file) {
+            foreach ($filesRetriever->getFiles($theme) as $file) {
                 $result[] = array($file, $theme);
             }
         }
