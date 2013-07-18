@@ -230,6 +230,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
      */
     public function severalPermissions($testData)
     {
+        $this->markTestIncomplete('MAGETWO-11599');
         //Data
         $permission = $this->loadDataSet('Category', 'several_permissions');
         $this->addParameter('productName', $testData['product']['name']);

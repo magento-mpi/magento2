@@ -208,7 +208,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      */
     public function giftMessageForIndividualItemDisabledWrappingAllowed($testData)
     {
-        $this->markTestIncomplete('BUG: Button gift_options for product is not present');
+        $this->markTestIncomplete('MAGETWO-11598');
         //Data
         $wrapping = $this->loadDataSet('SalesOrder', 'gift_wrapping_for_item',
             array('sku_product' => $testData['simple'], 'item_gift_wrapping_design' => $testData['wrapping']));

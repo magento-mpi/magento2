@@ -20,6 +20,7 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGETWO-11604');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');

@@ -21,6 +21,7 @@ class Core_Mage_Various_PaymentConfigTest extends Mage_Selenium_TestCase
 {
     public function assertPreConditions()
     {
+        $this->markTestIncomplete('MAGETWO-11604');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
     }

@@ -191,7 +191,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
                 ? explode(',', $roleAccess['resource_acl_skip'])
                 : $roleAccess['resource_acl_skip'];
             foreach ($access as $path) {
-                $this->fillCheckbox(trim($path), 'No');
+                $this->clickControl(self::FIELD_TYPE_CHECKBOX, trim($path));
             }
         }
     }

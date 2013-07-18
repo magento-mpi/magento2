@@ -241,7 +241,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
             $this->skipTestWithScreenshot($shipMethod['shipping_service']
                 . ': This shipping method is currently not displayed');
         }
-        $this->frontAddGiftOptions($giftOptions);
+        if ($giftOptions) {
+            $this->frontAddGiftOptions($giftOptions);
+        }
         $this->goToNextOnePageCheckoutStep('shipping_method');
     }
 

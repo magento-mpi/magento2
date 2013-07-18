@@ -273,7 +273,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Data
         $newAttributeSet = $attributeSetData['attributeSetName'];
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
-        $productData = $this->loadDataSet('Product', 'simple_product_required', array(
+        $productData = $this->loadDataSet('Product', 'simple_product_visible', array(
             'general_categories' => $subCategoryData['parent_category'] . '/' . $subCategoryData['name']
         ));
         $productData['prices_special_price'] = '3.99';

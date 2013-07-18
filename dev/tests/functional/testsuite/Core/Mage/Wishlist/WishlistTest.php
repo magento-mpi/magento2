@@ -343,6 +343,9 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
     {
+        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11557');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -397,6 +400,9 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductWithOptionsToWishlistFromShoppingCart($product, $option, $testData)
     {
+        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11557');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -544,7 +550,6 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlistNegative($testData)
     {
-        $this->markTestIncomplete('BUG: Fatal error on page');
         $simpleSku = $testData['withCustomOption'];
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleSku);

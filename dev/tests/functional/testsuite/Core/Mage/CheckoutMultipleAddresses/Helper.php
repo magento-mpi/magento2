@@ -469,7 +469,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                     $this->assertTrue($this->checkCurrentPage('checkout_multishipping_create_billing_address'),
                         $this->getParsedMessages());
                 } catch (Exception $e) {
-                    $this->markTestIncomplete('BUG: Add Billing Address button is not work');
+                    $this->markTestIncomplete('MAGETWO-11592');
                 }
                 $this->fillFieldset($address, 'create_billing_address');
                 $this->saveForm('save_address');
