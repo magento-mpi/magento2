@@ -9,6 +9,7 @@
 -->
 <layout version="0.1.0">
     <adminhtml_sales_order_create_index>
+        <update handle="adminhtml_sales_order_create_customer_block"/>
         <reference name="page-title">
             <action method="setTitleId" translate="id">
                 <id>order-header</id>
@@ -49,9 +50,7 @@
             <block type="Mage_Adminhtml_Block_Sales_Order_Create" name="content">
                 <block type="Mage_Adminhtml_Block_Sales_Order_Create_Form" template="sales/order/create/form.phtml" name="order_create_form" as="form">
                     <block type="Mage_Adminhtml_Block_Sales_Order_Create_Messages" name="message"/>
-                    <block type="Mage_Adminhtml_Block_Sales_Order_Create_Customer" template="sales/order/create/abstract.phtml" name="customer">
-                        <block type="Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid" name="customer_grid" as="grid"/>
-                    </block>
+                    <block type="Mage_Adminhtml_Block_Sales_Order_Create_Customer" template="sales/order/create/abstract.phtml" name='customer.grid.container'/>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Create_Store" template="sales/order/create/abstract.phtml" name="store">
                         <block type="Mage_Adminhtml_Block_Sales_Order_Create_Store_Select" template="sales/order/create/store/select.phtml" name="select"/>
                     </block>

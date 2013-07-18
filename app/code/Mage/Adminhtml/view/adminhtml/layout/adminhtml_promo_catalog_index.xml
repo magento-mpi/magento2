@@ -9,6 +9,7 @@
 -->
 <layout version="0.1.0">
     <adminhtml_promo_catalog_index>
+        <update handle="adminhtml_promo_catalog_block"/>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Promo_Catalog" name="promo_catalog"/>
         </reference>

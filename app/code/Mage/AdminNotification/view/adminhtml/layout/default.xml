@@ -22,7 +22,7 @@
             </reference>
         </reference>
         <reference name="header">
-            <block type="Mage_AdminNotification_Block_ToolbarEntry" template="toolbar_entry.phtml"/>
+            <block type="Mage_AdminNotification_Block_ToolbarEntry" template="toolbar_entry.phtml" before="-" />
         </reference>
         <reference name="head">
             <action method="addCss">

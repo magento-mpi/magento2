@@ -164,7 +164,9 @@
                 <block type="Mage_Core_Block_Html_Calendar" name="head.calendar" as="calendar" template="Mage_Adminhtml::page/js/calendar.phtml"/>
             </block>
             <block type="Mage_Adminhtml_Block_Page_Notices" name="global_notices" as="global_notices" template="page/notices.phtml"/>
-            <block type="Mage_Adminhtml_Block_Page_Header" name="header" as="header"/>
+            <block type="Mage_Adminhtml_Block_Page_Header" name="header" as="header">
+                <block type="Mage_Backend_Block_GlobalSearch" as="search" acl="Mage_Adminhtml::global_search" />
+            </block>
             <block type="Mage_Adminhtml_Block_Widget_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
             <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in Mage_Core_Model_Layout::createBlock() -->
             <block type="Mage_Core_Block_Template" name="formkey" as="formkey" template="Mage_Adminhtml::admin/formkey.phtml"/>

@@ -21,14 +21,13 @@
             </action>
         </reference>
         <reference name="content">
+            <update handle="adminhtml_sku_errors_block"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
             <block type="Enterprise_Checkout_Block_Adminhtml_Manage" name="ID" template="manage.phtml">
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher" name="checkout.store.switcher"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Messages" name="checkout.message"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml"/>
-                <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors" name="errors">
-                    <block type="Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid" name="sku_error_grid"/>
-                </block>
+                <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors" name="errors"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion" name="checkout.accordion">
                     <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products" name="products"/>
                     <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku" name="sku.accordion"/>

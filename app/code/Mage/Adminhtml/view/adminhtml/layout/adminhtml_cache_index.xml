@@ -9,9 +9,11 @@
 -->
 <layout version="0.1.0">
     <adminhtml_cache_index>
+        <update handle="formkey"/>
+        <update handle="adminhtml_cache_block"/>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_Cache" name="cache"/>
-            <block type="Mage_Adminhtml_Block_Cache_Additional" name="cache.additional" template="system/cache/additional.phtml"/>
+            <block type="Mage_Adminhtml_Block_Cache" name="adminhtml.cache.container" />
+            <block type="Mage_Adminhtml_Block_Cache_Additional" name="cache.additional" template="system/cache/additional.phtml" />
         </reference>
     </adminhtml_cache_index>
 </layout>

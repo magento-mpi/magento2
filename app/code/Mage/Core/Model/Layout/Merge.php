@@ -21,11 +21,7 @@ class Mage_Core_Model_Layout_Merge
     /**#@-*/
 
     /**
-<<<<<<< HEAD
      * XPath of handles originally declared in layout updates
-=======
-     * @var Mage_Core_Model_View_DesignInterface
->>>>>>> origin/master
      */
     const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
 
@@ -92,34 +88,19 @@ class Mage_Core_Model_Layout_Merge
     protected $_cache;
 
     /**
-     * @var Mage_Core_Model_View_FileSystem
-     */
-    protected $_viewFileSystem;
-
-    /**
      * Init merge model
      *
-<<<<<<< HEAD
-     * @param Mage_Core_Model_Design_PackageInterface $design
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Layout_File_SourceInterface $fileSource,
-=======
-     * @param Mage_Core_Model_View_DesignInterface $design
-     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
->>>>>>> origin/master
      * @param Magento_Cache_FrontendInterface $cache
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Store $store
      */
     public function __construct(
-<<<<<<< HEAD
-        Mage_Core_Model_Design_PackageInterface $design,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Layout_File_SourceInterface $fileSource,
-=======
-        Mage_Core_Model_View_DesignInterface $design,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
->>>>>>> origin/master
         Magento_Cache_FrontendInterface $cache,
         Mage_Core_Model_Theme $theme = null,
         Mage_Core_Model_Store $store = null
@@ -132,12 +113,7 @@ class Mage_Core_Model_Layout_Merge
             $this->_subst['from'][] = '{{' . $key . '}}';
             $this->_subst['to'][] = $value;
         }
-<<<<<<< HEAD
         $this->_fileSource = $fileSource;
-=======
-        $this->_design = $design;
-        $this->_viewFileSystem = $viewFileSystem;
->>>>>>> origin/master
         $this->_cache = $cache;
     }
 
@@ -606,48 +582,6 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _loadFileLayoutUpdatesXml()
     {
-<<<<<<< HEAD
-=======
-        $layoutParams = array('area' => $this->_area, 'themeId' => $this->_theme);
-
-        /*
-         * Allow to modify declared layout updates.
-         * For example, the module can remove all its updates to not participate in rendering depending on settings.
-         */
-        $updatesRootPath = $this->_area . '/layout/updates';
-        $updatesRoot = Mage::app()->getConfig()->getNode($updatesRootPath);
-        /** dispatch event to remove some nodes */
-        Mage::dispatchEvent('core_layout_update_updates_get_after', array('updates' => $updatesRoot));
-
-        /* Layout update files declared in configuration */
-        $updateFiles = array();
-        foreach ($updatesRoot->children() as $updateNode) {
-            $module = $updateNode->getAttribute('module');
-            $file = (string)$updateNode->file;
-            if (!$module || !$file) {
-                $updateNodePath = $updatesRootPath . '/' . $updateNode->getName();
-                throw new Magento_Exception(
-                    "Layout update instruction '{$updateNodePath}' must specify module and file."
-                );
-            }
-            if (Mage::getStoreConfigFlag("advanced/modules_disable_output/{$module}", $this->_storeId)) {
-                continue;
-            }
-            /* Resolve layout update filename with fallback to the module */
-            $filename = $this->_viewFileSystem->getFilename($file, $layoutParams + array('module' => $module));
-            if (!is_readable($filename)) {
-                throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
-            }
-            $updateFiles[] = $filename;
-        }
-
-        /* Custom local layout updates file for the current theme */
-        $filename = $this->_viewFileSystem->getFilename('local.xml', $layoutParams);
-        if (is_readable($filename)) {
-            $updateFiles[] = $filename;
-        }
-
->>>>>>> origin/master
         $layoutStr = '';
         $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme);

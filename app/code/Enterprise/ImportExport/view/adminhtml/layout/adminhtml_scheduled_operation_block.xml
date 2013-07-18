@@ -3,33 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<layout>
-    <adminhtml_scheduled_operation_getfilter>
-        <container name="root" label="Root" output="1">
-            <block type="Enterprise_ImportExport_Block_Adminhtml_Export_Filter" name="export.filter"/>
-            <block type="Mage_Adminhtml_Block_Template"
-                   template="Mage_ImportExport::export/form/filter/after.phtml"
-                   name="export.form.after" alias="form_after"/>
-        </container>
-    </adminhtml_scheduled_operation_getfilter>
-    <adminhtml_scheduled_operation_index>
-        <update handle="formkey" />
-        <update handle="adminhtml_scheduled_operation_block" />
-        <reference name="content">
-            <block type="Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation" name="adminhtml.block.scheduled.operation.grid.container"/>
-        </reference>
-    </adminhtml_scheduled_operation_index>
-    <adminhtml_scheduled_operation_grid>
-        <update handle="formkey"/>
-        <update handle="adminhtml_scheduled_operation_block"/>
-        <container label="Scheduled Imports/Exports" name="adminhtml.block.scheduled.operation.grid.container" output="1"/>
-    </adminhtml_scheduled_operation_grid>
+<layout version="0.1.0">
     <adminhtml_scheduled_operation_block>
         <reference name="adminhtml.block.scheduled.operation.grid.container">
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
@@ -177,19 +155,4 @@
             </block>
         </reference>
     </adminhtml_scheduled_operation_block>
-    <adminhtml_scheduled_operation_new>
-        <update handle="adminhtml_scheduled_operation_edit" />
-    </adminhtml_scheduled_operation_new>
-    <adminhtml_scheduled_operation_edit>
-        <reference name="content">
-            <block type="Mage_ImportExport_Block_Adminhtml_Import_Edit_Before"
-                   template="Enterprise_ImportExport::scheduled/form/before.phtml"
-                   name="export.form.before" alias="form_before"/>
-            <block type="Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit" name="operation.edit" />
-            <block type="Mage_Adminhtml_Block_Template" template="Enterprise_ImportExport::scheduled/form/after.phtml"
-                   name="operation.form.after" />
-            <block type="Mage_Adminhtml_Block_Template" template="Mage_ImportExport::export/form/filter/after.phtml"
-                   name="export.form.after" alias="form_after"/>
-        </reference>
-    </adminhtml_scheduled_operation_edit>
 </layout>

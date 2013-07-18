@@ -36,14 +36,9 @@ class Mage_Core_Utility_Layout
             'Mage_Core_Model_Layout_Merge',
             array('getFileLayoutUpdatesXml'),
             array(
-<<<<<<< HEAD
-                Mage::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface'),
+                Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface'),
                 Mage::getObjectManager()->get('Mage_Core_Model_StoreManagerInterface'),
                 $this->_testCase->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface'),
-=======
-                Mage::getObjectManager()->get('Mage_Core_Model_View_Design'),
-                Mage::getObjectManager()->get('Mage_Core_Model_View_FileSystem'),
->>>>>>> origin/master
                 $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface'),
             )
         );

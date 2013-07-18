@@ -222,17 +222,6 @@
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Layout_Update>
-<<<<<<< HEAD
-            <Mage_Core_Model_Theme_Service>
-                <parameters>
-                    <configCache>
-                        <instance>Mage_Core_Model_Cache_Type_Config</instance>
-                    </configCache>
-                    <layoutCache>
-                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
-                    </layoutCache>
-                </parameters>
-            </Mage_Core_Model_Theme_Service>
             <!--
                 Decorate layout file sources:
                 - filter out files that belong to inactive modules
@@ -318,8 +307,6 @@
                     </overridingThemeFiles>
                 </parameters>
             </Mage_Core_Model_Layout_File_Source_Aggregated>
-=======
->>>>>>> origin/master
         </di>
     </global>
     <frontend>
