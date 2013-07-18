@@ -37,8 +37,6 @@ generic_customer_account:
     gender: %noValue%
     send_welcome_email: %noValue%
     send_from: %noValue%
-    password: 123123q
-    auto_generated_password: %noValue%
 
 all_fields_customer_account:
     associate_to_website: Main Website
@@ -54,8 +52,6 @@ all_fields_customer_account:
     gender: Male
     send_welcome_email: Yes
     send_from: Default Store View
-    password: 123123q
-    auto_generated_password: No
 
 #Test data for Customer Addresses
 generic_address:

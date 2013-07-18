@@ -79,6 +79,7 @@
                         <customer_account_confirm/>
                         <customer_account_confirmation/>
                         <customer_account_resetpassword/>
+                        <customer_account_createpassword/>
                         <customer_account_resetpasswordpost/>
                         <core_index_noCookies/>
                         <paypal_ipn_standard/>

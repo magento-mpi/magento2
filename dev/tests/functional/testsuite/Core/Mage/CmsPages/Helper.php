@@ -94,7 +94,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
         if ($this->controlIsEditable('button', $buttonName)) {
             $this->clickButton($buttonName, false);
-        } else {
+        } elseif ($this->waitForControlVisible('link', 'wysiwyg_' . $buttonName, 10)) {
             $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
         //@TODO remove when fixed bug for cms_static_block page
@@ -184,7 +184,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     {
         if ($this->controlIsEditable('button', $buttonName)) {
             $this->clickButton($buttonName, false);
-        } else {
+        } elseif ($this->waitForControlVisible('link', 'wysiwyg_' . $buttonName, 10)) {
             $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
         $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));

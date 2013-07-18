@@ -55,8 +55,8 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', array('getFiles'), array(), '', false);
 
-        $designPackageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
-        $designPackageMock
+        $designMock = $this->getMock('Mage_Core_Model_View_DesignInterface');
+        $designMock
             ->expects($this->any())
             ->method('getDesignTheme')
             ->will($this->returnValue($this->_themeMock))
@@ -68,7 +68,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
 
         $this->_model = new Mage_Core_Model_Observer(
-            $this->_frontendPoolMock, $designPackageMock,
+            $this->_frontendPoolMock, $designMock,
             new Mage_Core_Model_Page($this->_assetsMock), $this->_configMock
         );
     }

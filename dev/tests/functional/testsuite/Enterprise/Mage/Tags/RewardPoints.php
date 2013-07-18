@@ -49,13 +49,15 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($product);
         $this->assertMessagePresent('success', 'success_saved_product');
         //Create customer
-        $customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
+        $customerData = $this->loadDataSet('Customers', 'customer_account_register', array(
             'first_name' => $this->generate('string', 5, ':lower:'),
             'last_name' => $this->generate('string', 5, ':lower:'),
         ));
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($customerData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($customerData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
+        $this->loginAdminUser();
         //Enable reward points functionality for tags
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('General/enable_reward_points');
@@ -148,13 +150,15 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_product');
         }
         //Create customer
-        $customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
+        $customerData = $this->loadDataSet('Customers', 'customer_account_register', array(
             'first_name' => $this->generate('string', 5, ':lower:'),
             'last_name' => $this->generate('string', 5, ':lower:'),
         ));
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($customerData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($customerData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
+        $this->loginAdminUser();
 
         //Set “Rewarded Tag Submission Quantity Limit” to 3.
         $this->navigate('system_configuration');

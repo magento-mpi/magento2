@@ -31,6 +31,11 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_View_FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * @var Mage_Core_Model_TemplateEngine_Factory
      */
     protected $_engineFactory;
@@ -42,14 +47,17 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Session $session
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Mage_Core_Model_View_Config $viewConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Mage_Core_Model_TemplateEngine_Factory $engineFactory
      */
     public function __construct(
@@ -59,24 +67,28 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
         Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Session $session,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_View_Url $viewUrl,
+        Mage_Core_Model_View_Config $viewConfig,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
         Mage_Core_Model_TemplateEngine_Factory $engineFactory
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache,
-            $designPackage, $session, $storeConfig, $frontController, $helperFactory
+            $design, $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig
         );
 
         $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
+        $this->_viewFileSystem = $viewFileSystem;
         $this->_engineFactory = $engineFactory;
     }
 
@@ -107,6 +119,16 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     public function getLogger()
     {
         return $this->_logger;
+    }
+
+    /**
+     * Get view file system model
+     *
+     * @return Mage_Core_Model_View_FileSystem
+     */
+    public function getViewFileSystem()
+    {
+        return $this->_viewFileSystem;
     }
 
     /**

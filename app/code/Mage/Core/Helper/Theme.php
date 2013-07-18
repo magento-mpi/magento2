@@ -26,13 +26,6 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         '//reference[@name="head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
 
     /**
-     * Design model
-     *
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    protected $_design;
-
-    /**
      * Directories
      *
      * @var Mage_Core_Model_Dir
@@ -54,31 +47,28 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     protected $_themeCollection;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_View_FileSystem
      */
-    protected $_themeFactory;
+    protected $_viewFileSystem;
 
     /**
      * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Layout_MergeFactory $layoutMergeFactory
      * @param Mage_Core_Model_Resource_Theme_Collection $themeCollection
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Design_PackageInterface $design,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Layout_MergeFactory $layoutMergeFactory,
         Mage_Core_Model_Resource_Theme_Collection $themeCollection,
-        Mage_Core_Model_Theme_Factory $themeFactory
+        Mage_Core_Model_View_FileSystem $viewFileSystem
     ) {
-        $this->_design = $design;
         $this->_dirs = $dirs;
         $this->_layoutMergeFactory = $layoutMergeFactory;
         $this->_themeCollection = $themeCollection;
-        $this->_themeFactory = $themeFactory;
+        $this->_viewFileSystem = $viewFileSystem;
         parent::__construct($context);
     }
 
@@ -114,7 +104,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
-            $path = $this->_design->getViewFile($fileId, $params);
+            $path = $this->_viewFileSystem->getViewFile($fileId, $params);
             $file = array(
                 'id'       => $fileId,
                 'path'     => Magento_Filesystem::fixSeparator($path),

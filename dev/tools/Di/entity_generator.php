@@ -10,37 +10,55 @@
 
 require __DIR__ . '/../../../app/bootstrap.php';
 
-$generator = new Magento_Code_Generator();
-$generatedEntities = $generator->getGeneratedEntities();
-if (!isset($argv[1]) || in_array($argv[1], array('-?', '/?', '-help', '--help'))) {
-    $message = " * Usage: php entity_generator.php [" . implode('|', $generatedEntities)
-        . "] <required_entity_class_name>\n"
-        . " * Example: php entity_generator.php factory Mage_Tag_Model_Tag"
-        . " - will generate file var/generation/Mage/Tag/Model/TagFactory.php\n";
-    print($message);
-    exit();
+// default generation dir
+$generationDir = BP . DS . Magento_Code_Generator_Io::DEFAULT_DIRECTORY;
+
+try {
+    $opt = new Zend_Console_Getopt(array(
+        'type|t=w' => 'entity type(required)',
+        'class|c=w' => 'entity class name(required)',
+        'generation|g=s' => 'generation dir. Default value ' . $generationDir,
+    ));
+    $opt->parse();
+
+    $entityType = $opt->getOption('t');
+    if (empty($entityType)) {
+        throw new Zend_Console_Getopt_Exception('type is a required parameter');
+    }
+
+    $className = $opt->getOption('c');
+    if (empty($className)) {
+        throw new Zend_Console_Getopt_Exception('class is a required parameter');
+    }
+    $substitutions = array('proxy' => '_Proxy', 'factory' => 'Factory', 'interceptor' => '_Interceptor');
+    if (!in_array($entityType, array_keys($substitutions))) {
+        throw new Zend_Console_Getopt_Exception('unrecognized type: ' . $entityType);
+    }
+    $className .= $substitutions[$entityType];
+
+    if ($opt->getOption('g')) {
+        $generationDir = $opt->getOption('g');
+    }
+} catch (Zend_Console_Getopt_Exception $e) {
+    $generator = new Magento_Code_Generator();
+    $entities = $generator->getGeneratedEntities();
+
+    $allowedTypes = 'Allowed entity types are: ' . implode(', ', $entities) . '.';
+    $example = 'Example: php -f entity_generator.php -- -t factory -c Mage_Tag_Model_Tag -g /var/mage/m2ee/generation'
+        . ' - will generate file /var/mage/m2ee/generation/Mage/Tag/Model/TagFactory.php';
+
+    echo $e->getMessage() . "\n";
+    echo $e->getUsageMessage() . "\n";
+    echo $allowedTypes . "\n";
+    echo 'Default generation dir is ' . $generationDir . "\n";
+    die($example);
 }
 
-$entityType = $argv[1];
-if (!in_array($argv[1], $generatedEntities)) {
-    print "Error! Unknown entity type.\n";
-    exit();
-}
+Magento_Autoload_IncludePath::addIncludePath($generationDir);
 
-if (!isset($argv[2])) {
-    print "Error! Please, specify class name.\n";
-    exit();
-}
-$className = $argv[2];
-switch ($entityType) {
-    case 'proxy':
-        $className .= '_Proxy';
-        break;
-
-    case 'factory':
-        $className .= 'Factory';
-        break;
-}
+//reinit generator with correct generation path
+$io = new Magento_Code_Generator_Io(null, null, $generationDir);
+$generator = new Magento_Code_Generator(null, null, $io);
 
 try {
     if (Magento_Code_Generator::GENERATION_SUCCESS == $generator->generateClass($className)) {

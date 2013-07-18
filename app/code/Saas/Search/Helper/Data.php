@@ -25,6 +25,7 @@ class Saas_Search_Helper_Data extends Enterprise_Search_Helper_Data
         parent::__construct($context);
         $this->_config = $config;
     }
+
     /**
      * Retrieve Solr servers config
      *

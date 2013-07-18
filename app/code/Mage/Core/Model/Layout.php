@@ -197,7 +197,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Mage_Core_Model_DataService_Graph $dataServiceGraph,
-        $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
+        $area = Mage_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
@@ -448,6 +448,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 case self::TYPE_REMOVE:
                     $this->_scheduledStructure->setElementToRemoveList((string)$node->getAttribute('name'));
                     break;
+
+                default:
+                    break;
             }
         }
     }
@@ -538,6 +541,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $arguments;
     }
 
+    /**
+     * Fill arguments array
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @param array $argumentsArray
+     * @param string $moduleName
+     */
     protected function _fillArgumentsArray(Mage_Core_Model_Layout_Element $node, &$argumentsArray, $moduleName)
     {
         $moduleName = isset($node['module']) ? (string)$node['module'] : $moduleName;

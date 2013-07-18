@@ -12,7 +12,7 @@
 
 admin_action_log_report:
     mca: logging/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/index/')]
+    click_xpath: //li[@data-ui-id='menu-enterprise-logging-system-enterprise-logging-events']/a[contains(@href, 'logging/')]
     title: Report / Action Log / System / Magento Admin
     uimap:
         form:

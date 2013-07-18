@@ -92,14 +92,14 @@ create_customer:
                                         tax_vat_number: //input[@id='_accounttaxvat']
                                         custom_attribute: //input[@id='_account%attribute_name%']
                                     required: [associate_to_website, group, first_name, last_name, email]
-                            -
-                                password:
-                                    xpath: //fieldset[@id='_accountpassword_fieldset']
-                                    checkboxes:
-                                        auto_generated_password: //input[@id='account-send-pass']
-                                    fields:
-                                        password: //input[@id='_accountpassword' and not(@disabled)]
-                                    required: [password]
+#                            -
+#                                password:
+#                                    xpath: //fieldset[@id='_accountpassword_fieldset']
+#                                    checkboxes:
+#                                        auto_generated_password: //input[@id='account-send-pass']
+#                                    fields:
+#                                        password: //input[@id='_accountpassword' and not(@disabled)]
+#                                    required: [password]
                 -
                     addresses:
                         xpath: //a[@id='customer_info_tabs_addresses']
@@ -194,14 +194,14 @@ edit_customer:
                                         date_of_birth: //input[@id='_accountdob']
                                         tax_vat_number: //input[@id='_accounttaxvat']
                                     required: [group, first_name, last_name, email]
-                            -
-                                password:
-                                    xpath: //fieldset[@id='_accountpassword_fieldset']
-                                    checkboxes:
-                                        auto_generated_password: //input[@id='account-send-pass']
-                                    fields:
-                                        new_password: //input[@id='_accountnew_password']
-                                    required: [new_password]
+#                            -
+#                                password:
+#                                    xpath: //fieldset[@id='_accountpassword_fieldset']
+#                                    checkboxes:
+#                                        auto_generated_password: //input[@id='account-send-pass']
+#                                    fields:
+#                                        new_password: //input[@id='_accountnew_password']
+#                                    required: [new_password]
                 -
                     addresses:
                         xpath: //a[@id='customer_info_tabs_addresses']
@@ -366,15 +366,15 @@ online_customers:
                         dropdowns:
                             type: //select[@id='onlineGrid_filter_type']
                         fields:
-                            id_from: //input[@name='entity_id_from']
-                            id_to: //input[@name='entity_id_to']
+                            id_from: //input[@id='onlineGrid_filter_customer_id_from']
+                            id_to: //input[@id='onlineGrid_filter_customer_id_to']
                             firstname: //input[@name='firstname']
                             lastname: //input[@name='lastname']
                             email: //input[@name='email']
-                            session_start_time_from: //input[@name='session_start_time_from']
-                            session_start_time_to: //input[@name='session_start_time_to']
-                            last_activity_from: //input[@name='last_activity_from']
-                            last_activity_to: //input[@name='last_activity_to']
+                            session_start_time_from: //input[@name='session_start_time[from]']
+                            session_start_time_to: //input[@name='session_start_time[to]']
+                            last_activity_from: //input[@name='last_activity[from]']
+                            last_activity_to: //input[@name='last_activity[to]']
                             last_url: //input[@name='last_url']
                         pageelements:
                             online_grid_head: //table[@id='onlineGrid_table']/thead/tr[@class='headings']

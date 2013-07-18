@@ -222,6 +222,7 @@
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Layout_Update>
+<<<<<<< HEAD
             <Mage_Core_Model_Theme_Service>
                 <parameters>
                     <configCache>
@@ -317,6 +318,8 @@
                     </overridingThemeFiles>
                 </parameters>
             </Mage_Core_Model_Layout_File_Source_Aggregated>
+=======
+>>>>>>> origin/master
         </di>
     </global>
     <frontend>

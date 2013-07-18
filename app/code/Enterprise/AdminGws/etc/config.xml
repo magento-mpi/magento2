@@ -525,7 +525,7 @@
                     <enterprise_cms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms_block_adminhtml_cms_page_preview_buttons>
                     <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>
                     <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountControlButtons</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>
-                    <mage_adminhtml_block_system_currency>removeManageCurrencyRatesButtons</mage_adminhtml_block_system_currency>
+                    <mage_currencySymbol_block_adminhtml_system_currency>removeManageCurrencyRatesButtons</mage_currencySymbol_block_adminhtml_system_currency>
                     <mage_adminhtml_block_system_email_template>removeEmailTemplateGridButtons</mage_adminhtml_block_system_email_template>
                     <mage_adminhtml_block_system_email_template_edit>removeTransactionalEmailsEditButtons</mage_adminhtml_block_system_email_template_edit>
                     <enterprise_targetRule_block_adminhtml_product>readonlyTargetRuleProductAttribute</enterprise_targetRule_block_adminhtml_product>

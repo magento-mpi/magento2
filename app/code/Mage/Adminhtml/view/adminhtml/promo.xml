@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<layout>
+    <!-- Catalog Price Rule -->
+    <adminhtml_promo_catalog_index>
+        <update handle="adminhtml_promo_catalog_block"/>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Promo_Catalog" name="adminhtml.promo.catalog.grid.container"/>
+        </reference>
+    </adminhtml_promo_catalog_index>
+    <adminhtml_promo_catalog_block>
+        <reference name="adminhtml.promo.catalog.grid.container">
+            <block type="Mage_Backend_Block_Widget_Grid" name="promo.catalog.grid" as="grid">
+                <arguments>
+                    <id>promo_catalog_grid</id>
+                    <dataSource type="object">Mage_Promo_Catalog_Model_Resource_Grid_Collection</dataSource>
+                    <default_sort>name</default_sort>
+                    <default_dir>ASC</default_dir>
+                    <save_parameters_in_session>1</save_parameters_in_session>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="promo.catalog.grid.columnSet" as="grid.columnSet">
+                    <arguments>
+                        <rowUrl>
+                            <path>*/*/edit</path>
+                            <extraParamsTemplate>
+                                <id>getRuleId</id>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="rule_id">
+                        <arguments>
+                            <header translate="true" module="Mage_CatalogRule">ID</header>
+                            <index>rule_id</index>
+                            <align>right</align>
+                            <width>50</width>
+                            <type>text</type>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                        <arguments>
+                            <header translate="true" module="Mage_CatalogRule">Rule</header>
+                            <align>left</align>
+                            <index>name</index>
+                            <type>text</type>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="from_date">
+                        <arguments>
+                            <header translate="true" module="Mage_CatalogRule">Start on</header>
+                            <align>left</align>
+                            <width>120</width>
+                            <type>date</type>
+                            <index>from_date</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="to_date">
+                        <arguments>
+                            <header translate="true" module="Mage_CatalogRule">End on</header>
+                            <align>left</align>
+                            <width>120</width>
+                            <type>date</type>
+                            <default>--</default>
+                            <index>to_date</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
+                        <arguments>
+                            <header translate="true" module="Mage_CatalogRule">Status</header>
+                            <align>left</align>
+                            <width>80</width>
+                            <index>is_active</index>
+                            <type>options</type>
+                            <options type="options">Mage_Promo_Catalog_Model_Resource_Grid_Options_Statuses</options>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
+                        <arguments>
+                            <header translate="true" module="Mage_CatalogRule">Web Site</header>
+                            <align>left</align>
+                            <index>website_ids</index>
+                            <sortable>0</sortable>
+                            <type>options</type>
+                            <width>200</width>
+                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_promo_catalog_block>
+    <adminhtml_promo_catalog_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadRulesJs"><flag>1</flag></action>
+        </reference>
+        <reference name="left">
+            <block type="Mage_Adminhtml_Block_Promo_Catalog_Edit_Tabs" name="promo_catalog_edit_tabs">
+                <block type="Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main" name="promo_catalog_edit_tab_main"/>
+                <block type="Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions" name="promo_catalog_edit_tab_conditions"/>
+                <block type="Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions" name="promo_catalog_edit_tab_actions"/>
+                <action method="addTab"><name>main_section</name><block>promo_catalog_edit_tab_main</block></action>
+                <action method="addTab"><name>conditions_section</name><block>promo_catalog_edit_tab_conditions</block></action>
+                <action method="addTab"><name>actions_section</name><block>promo_catalog_edit_tab_actions</block></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Promo_Catalog_Edit" name="promo_catalog_edit"/>
+        </reference>
+        <reference name="js">
+            <block type="Mage_Adminhtml_Block_Promo_Catalog_Edit_Js" template="promo/js.phtml" />
+        </reference>
+    </adminhtml_promo_catalog_edit>
+
+    <!-- Shopping Cart Price Rule -->
+    <adminhtml_promo_quote_index>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Promo_Quote" name="adminhtml.block.promo.quote.grid.container">
+                <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.promo.quote.grid" as="grid">
+                    <arguments>
+                        <id>promo_quote_grid</id>
+                        <dataSource type="object">Mage_SalesRule_Model_Resource_Rule_Quote_Collection</dataSource>
+                        <default_sort>sort_order</default_sort>
+                        <default_dir>ASC</default_dir>
+                        <save_parameters_in_session>1</save_parameters_in_session>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.promo.quote.grid.columnSet">
+                        <arguments>
+                            <rowUrl>
+                                <path>*/*/edit</path>
+                                <extraParamsTemplate>
+                                    <id>getRuleId</id>
+                                </extraParamsTemplate>
+                            </rowUrl>
+                        </arguments>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="rule_id">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">ID</header>
+                                <width>50px</width>
+                                <align>right</align>
+                                <index>rule_id</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">Rule</header>
+                                <align>left</align>
+                                <index>name</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="coupon_code">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">Coupon Code</header>
+                                <width>150px</width>
+                                <align>left</align>
+                                <index>code</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="from_date">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">Start on</header>
+                                <width>120px</width>
+                                <align>left</align>
+                                <type>date</type>
+                                <index>from_date</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="to_date">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">End on</header>
+                                <width>120px</width>
+                                <align>left</align>
+                                <type>date</type>
+                                <default>--</default>
+                                <index>to_date</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">Status</header>
+                                <width>80px</width>
+                                <align>left</align>
+                                <index>is_active</index>
+                                <type>options</type>
+                                <options type="options">Mage_SalesRule_Model_Resource_Rule_Quote_StatusesArray</options>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">Web Site</header>
+                                <width>200</width>
+                                <align>left</align>
+                                <index>website_ids</index>
+                                <type>options</type>
+                                <sortable>0</sortable>
+                                <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="sort_order">
+                            <arguments>
+                                <header translate="true" module="Mage_SalesRule">Priority</header>
+                                <width>100</width>
+                                <align>right</align>
+                                <index>sort_order</index>
+                            </arguments>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_promo_quote_index>
+    <adminhtml_promo_quote_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadRulesJs"><flag>1</flag></action>
+        </reference>
+        <reference name="left">
+            <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs" name="promo_quote_edit_tabs">
+                <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main" name="promo_quote_edit_tab_main" />
+                <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions" name="promo_quote_edit_tab_conditions"/>
+                <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions" name="promo_quote_edit_tab_actions"/>
+                <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels" name="promo_quote_edit_tab_labels"/>
+                <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons" name="promo_quote_edit_tab_coupons">
+                    <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form" name="promo_quote_edit_tab_coupons_form"/>
+                    <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid"/>
+                </block>
+                <action method="addTab"><name>main_section</name><block>promo_quote_edit_tab_main</block></action>
+                <action method="addTab"><name>conditions_section</name><block>promo_quote_edit_tab_conditions</block></action>
+                <action method="addTab"><name>actions_section</name><block>promo_quote_edit_tab_actions</block></action>
+                <action method="addTab"><name>labels_section</name><block>promo_quote_edit_tab_labels</block></action>
+                <action method="addTab"><name>coupons_section</name><block>promo_quote_edit_tab_coupons</block></action>
+            </block>
+            <block type="Mage_Adminhtml_Block_Template" template="promo/salesrulejs.phtml" name="promo_quote_edit_jsinit"/>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Promo_Quote_Edit" name="promo_quote_edit"></block>
+        </reference>
+    </adminhtml_promo_quote_edit>
+    <adminhtml_promo_quote_couponsgrid>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid" />
+        </container>
+    </adminhtml_promo_quote_couponsgrid>
+</layout>

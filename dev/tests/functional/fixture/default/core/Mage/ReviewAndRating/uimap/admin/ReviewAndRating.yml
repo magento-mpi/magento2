@@ -11,7 +11,7 @@
 #Reviews and Ratings
 manage_ratings:
     mca: rating/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'rating/index/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'rating/')]
     title: Ratings / Attributes / Stores / Magento Admin
     uimap:
         form:

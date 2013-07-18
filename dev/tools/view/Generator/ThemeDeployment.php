@@ -115,7 +115,7 @@ class Generator_ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
+            $destDir = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -174,6 +174,7 @@ class Generator_ThemeDeployment
      * @param string $fileSource
      * @param string $fileDestination
      * @param array $context
+     * @throws Magento_Exception
      */
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
@@ -190,13 +191,13 @@ class Generator_ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(Mage_Core_Model_View_Service::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
                         throw new Magento_Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
+                    $relPath = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'], $destContext['themePath'], $destContext['locale'],
                         $file, $module
                     );

@@ -135,11 +135,15 @@
                     <label>Remind Email Template</label>
                     <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
-                <field id="forgot_email_identity" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Forgot and Remind Email Sender</label>
+                <field id="reset_password_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reset Password Template</label>
+                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                </field>
+                <field id="forgot_email_identity" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password Template Email Sender</label>
                     <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
-                <field id="reset_link_expiration_period" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="reset_link_expiration_period" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Recovery Link Expiration Period (days)</label>
                     <comment>Please enter a number 1 or greater in this field.</comment>
                     <validate>required-entry validate-digits validate-digits-range digits-range-1-</validate>

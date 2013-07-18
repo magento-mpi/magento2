@@ -46,23 +46,34 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     protected $_imageFactory;
 
     /**
+     * @var Mage_Core_Model_View_Url
+     */
+    protected $_viewUrl;
+
+    /**
      * Initialize dependencies
      *
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Image_Factory $imageFactory
+     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param array $data
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Helper_Data $helper,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Image_Factory $imageFactory
+        Mage_Core_Model_Image_Factory $imageFactory,
+        Mage_Core_Model_View_Url $viewUrl,
+        array $data = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;
         $this->_filesystem = $filesystem;
         $this->_imageFactory = $imageFactory;
+        $this->_viewUrl = $viewUrl;
+        parent::__construct($data);
     }
 
     /**
@@ -294,7 +305,6 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     protected function _getPreviewImageDefaultUrl()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Design_PackageInterface')
-            ->getViewFileUrl('Mage_Core::theme/default_preview.jpg');
+        return $this->_viewUrl->getViewFileUrl('Mage_Core::theme/default_preview.jpg');
     }
 }

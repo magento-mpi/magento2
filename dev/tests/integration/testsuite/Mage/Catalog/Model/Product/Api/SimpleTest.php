@@ -98,8 +98,8 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $specialCharsData = require __DIR__ . '/_files/_data/simple_product_special_chars_data.php';
 
         return array(
-            array($specialCharsData),
-            array($productData),
+            'data with special chars' => array($specialCharsData),
+            'simple data'             => array($productData),
         );
     }
 

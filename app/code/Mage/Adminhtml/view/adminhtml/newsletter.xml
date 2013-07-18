@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<layout>
+    <adminhtml_newsletter_template_edit>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+
+            <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
+
+            <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Newsletter_Template_Edit" name="template_edit" template="newsletter/template/edit.phtml" />
+        </reference>
+    </adminhtml_newsletter_template_edit>
+
+    <adminhtml_newsletter_queue_edit>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Newsletter_Queue_Edit" name="queue_edit" template="newsletter/queue/edit.phtml" />
+        </reference>
+    </adminhtml_newsletter_queue_edit>
+
+    <adminhtml_newsletter_queue_preview>
+        <reference name="root">
+            <action method="setTemplate"><template>newsletter/preview/iframeswitcher.phtml</template></action>
+            <block type="Mage_Adminhtml_Block_Newsletter_Queue_Preview_Form" name="preview_form" />
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" template="Mage_Adminhtml::newsletter/preview/store.phtml" />
+        </reference>
+    </adminhtml_newsletter_queue_preview>
+
+    <adminhtml_newsletter_template_preview>
+        <reference name="root">
+            <action method="setTemplate"><template>newsletter/preview/iframeswitcher.phtml</template></action>
+            <block type="Mage_Adminhtml_Block_Newsletter_Template_Preview_Form" name="preview_form" />
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" template="Mage_Adminhtml::newsletter/preview/store.phtml" />
+        </reference>
+    </adminhtml_newsletter_template_preview>
+
+    <newsletter_queue_preview>
+        <block type="Mage_Adminhtml_Block_Newsletter_Queue_Preview" name="preview_template" />
+    </newsletter_queue_preview>
+
+    <newsletter_template_preview>
+        <block type="Mage_Adminhtml_Block_Newsletter_Template_Preview" name="preview_template" />
+    </newsletter_template_preview>
+
+    <adminhtml_newsletter_problem_index>
+        <update handle="formkey"/>
+        <update handle="adminhtml_newsletter_problem_block"/>
+        <reference name='content'>
+            <block type="Mage_Adminhtml_Block_Newsletter_Problem" name="adminhtml.newsletter.problem.container"/>
+        </reference>
+    </adminhtml_newsletter_problem_index>
+
+    <adminhtml_newsletter_problem_grid>
+        <update handle="formkey"/>
+        <update handle="adminhtml_newsletter_problem_block"/>
+        <container label="Newsletter Problem Block" name="adminhtml.newsletter.problem.container" output="1"/>
+    </adminhtml_newsletter_problem_grid>
+
+    <adminhtml_newsletter_problem_block>
+        <reference name="adminhtml.newsletter.problem.container">
+            <block type="Mage_Backend_Block_Widget_Grid" name='adminhtml.newslettrer.problem.grid' as='grid'>
+                <arguments>
+                    <id>problemGrid</id>
+                    <dataSource type="object">Mage_Newsletter_Model_Resource_Grid_Collection</dataSource>
+                    <message_block_visibility>true</message_block_visibility>
+                    <use_ajax>true</use_ajax>
+                    <save_parameters_in_session>1</save_parameters_in_session>
+                </arguments>
+                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.newslettrer.problem.grid.columnSet' as='grid.columnSet'>
+                    <arguments>
+                        <id>problemGrid</id>
+                        <empty_text translate="true" module="Mage_Newsletter">We found no problems.</empty_text>
+                    </arguments>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='checkbox'>
+                        <arguments>
+                            <sortable>0</sortable>
+                            <filter>Mage_Adminhtml_Block_Newsletter_Problem_Grid_Filter_Checkbox</filter>
+                            <renderer>Mage_Adminhtml_Block_Newsletter_Problem_Grid_Renderer_Checkbox</renderer>
+                            <header_css_class>col-select</header_css_class>
+                            <column_css_class>col-select</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='problem_id'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>ID</header>
+                            <index>problem_id</index>
+                            <header_css_class>col-id</header_css_class>
+                            <column_css_class>col-id</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='subscriber'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Subscriber</header>
+                            <format>#$subscriber_id $customer_name ($subscriber_email)</format>
+                            <index>subscriber_id</index>
+                            <header_css_class>col-subscriber</header_css_class>
+                            <column_css_class>col-subscriber</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='queue_start'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Queue Start Date</header>
+                            <index>queue_start_at</index>
+                            <gmtoffset>true</gmtoffset>
+                            <type>datetime</type>
+                            <header_css_class>col-start</header_css_class>
+                            <column_css_class>col-start</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='queue'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Queue Subject</header>
+                            <index>template_subject</index>
+                            <header_css_class>col-subject</header_css_class>
+                            <column_css_class>col-subject</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='problem_code'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Error Code</header>
+                            <index>problem_error_code</index>
+                            <type>number</type>
+                            <header_css_class>col-error-code</header_css_class>
+                            <column_css_class>col-error-code</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='problem_text'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Error Text</header>
+                            <index>problem_error_text</index>
+                            <header_css_class>col-error</header_css_class>
+                            <column_css_class>col-error</column_css_class>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_newsletter_problem_block>
+
+    <adminhtml_newsletter_subscriber_index>
+        <update handle="formkey"/>
+        <update handle="adminhtml_newsletter_subscriber_block"/>
+        <reference name='content'>
+            <block type="Mage_Adminhtml_Block_Newsletter_Subscriber" name="adminhtml.newsletter.subscriber.container"/>
+        </reference>
+    </adminhtml_newsletter_subscriber_index>
+
+    <adminhtml_newsletter_subscriber_grid>
+        <update handle="formkey"/>
+        <update handle="adminhtml_newsletter_subscriber_block"/>
+        <container label="Newsletter Subscriber Block" name="adminhtml.newsletter.subscriber.container" output="1"/>
+    </adminhtml_newsletter_subscriber_grid>
+
+    <adminhtml_newsletter_subscriber_exportcsv>
+        <update handle="adminhtml_newsletter_subscriber_block"/>
+        <container name="adminhtml.newsletter.subscriber.container" label="Newsletter Subscriber Grid Container"/>
+    </adminhtml_newsletter_subscriber_exportcsv>
+
+    <adminhtml_newsletter_subscriber_exportxml>
+        <update handle="adminhtml_newsletter_subscriber_block"/>
+        <container name="adminhtml.newsletter.subscriber.container" label="Newsletter Subscriber Grid Container"/>
+    </adminhtml_newsletter_subscriber_exportxml>
+
+    <adminhtml_newsletter_subscriber_block>
+        <reference name="adminhtml.newsletter.subscriber.container">
+            <block type="Mage_Adminhtml_Block_Newsletter_Subscriber_Grid" name='adminhtml.newslettrer.subscriber.grid' as='grid'>
+                <arguments>
+                    <id>subscriberGrid</id>
+                    <dataSource type="object">Mage_Newsletter_Model_Resource_Subscriber_Grid_Collection</dataSource>
+                    <default_sort>subscriber_id</default_sort>
+                    <default_dir>desc</default_dir>
+                    <use_ajax>1</use_ajax>>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.newslettrer.subscriber.grid.massaction" as="grid.massaction">
+                    <arguments>
+                        <massaction_id_field>subscriber_id</massaction_id_field>
+                        <form_field_name>subscriber</form_field_name>
+                        <use_select_all>1</use_select_all>
+                        <options>
+                            <unsubscribe>
+                                <label translate="true" module="Mage_Newsletter">Unsubscribe</label>
+                                <url>*/*/massUnsubscribe</url>
+                            </unsubscribe>
+                            <delete>
+                                <label translate="true" module="Mage_Newsletter">Delete</label>
+                                <url>*/*/massDelete</url>
+                            </delete>
+                        </options>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="adminhtml.newslettrer.subscriber.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportCsv</urlPath>
+                                <label translate="true" module="Mage_Customer">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportXml</urlPath>
+                                <label translate="true" module="Mage_Customer">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.newslettrer.subscriber.grid.columnSet' as='grid.columnSet'>
+                    <arguments>
+                        <id>problemGrid</id>
+                    </arguments>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='subscriber_id'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>ID</header>
+                            <index>subscriber_id</index>
+                            <header_css_class>col-id</header_css_class>
+                            <column_css_class>col-id</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='email'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Email</header>
+                            <index>subscriber_email</index>
+                            <header_css_class>col-email</header_css_class>
+                            <column_css_class>ccol-email</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='type'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Type</header>
+                            <index>type</index>
+                            <type>options</type>
+                            <options type="options">Mage_Newsletter_Block_Subscribe_Grid_Options_Type</options>
+                            <header_css_class>col-type</header_css_class>
+                            <column_css_class>col-type</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='firstname'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Customer First Name</header>
+                            <index>customer_firstname</index>
+                            <default>----</default>
+                            <header_css_class>col-first-name</header_css_class>
+                            <column_css_class>col-first-name</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='lastname'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Customer Last Name</header>
+                            <index>customer_lastname</index>
+                            <default>----</default>
+                            <header_css_class>col-last-name</header_css_class>
+                            <column_css_class>col-last-name</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='status'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Status</header>
+                            <index>subscriber_status</index>
+                            <type>options</type>
+                            <options type="options">Mage_Newsletter_Block_Subscribe_Grid_Options_Status</options>
+                            <header_css_class>col-status</header_css_class>
+                            <column_css_class>col-status</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='website'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Web Site</header>
+                            <index>website_id</index>
+                            <type>options</type>
+                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                            <header_css_class>col-website</header_css_class>
+                            <column_css_class>col-website</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='group'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Store</header>
+                            <index>group_id</index>
+                            <type>options</type>
+                            <options type="options">Mage_Newsletter_Block_Subscribe_Grid_Options_GroupOptionHash</options>
+                            <header_css_class>col-store</header_css_class>
+                            <column_css_class>col-store</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='store'>
+                        <arguments>
+                            <header translate='true' module='Mage_Newsletter'>Store View</header>
+                            <index>store_id</index>
+                            <type>options</type>
+                            <options type="options">Mage_Newsletter_Block_Subscribe_Grid_Options_StoreOptionHash</options>
+                            <header_css_class>col-store-view</header_css_class>
+                            <column_css_class>col-store-view</column_css_class>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_newsletter_subscriber_block>
+
+</layout>

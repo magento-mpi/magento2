@@ -32,6 +32,7 @@
  * @method Core_Mage_CustomerGroups_Helper                                                             customerGroupsHelper()
  * @method Core_Mage_Customer_Helper|Enterprise_Mage_Customer_Helper                                   customerHelper()
  * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
+ * @method Core_Mage_AdminGlobalSearch_Helper                                                          adminGlobalSearchHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Mage_ImportExport_Helper|Enterprise_Mage_ImportExport_Helper                           importExportHelper()
  * @method Core_Mage_Installation_Helper                                                               installationHelper()
@@ -1649,7 +1650,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->fail('Page validation is not done, because there is  message "' . $message . '" on it');
             }
         }
-        $this->assertMessageNotPresent('error', 'general_js_error');
+        if ($this->controlIsVisible('message', 'general_js_error')) {
+            $this->fail($this->locationToString() . 'JS error on page.');
+        }
     }
 
     ################################################################################
@@ -2834,7 +2837,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function waitForAjax($timeout = null)
     {
-        $this->assertMessageNotPresent('error', 'general_js_error');
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
@@ -2929,7 +2931,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if (array_key_exists($message, $this->_messages)) {
                 $exclude = '';
                 foreach ($this->_messages[$message] as $messageText) {
-                    $exclude .= "[not(normalize-space(..//.)='$messageText')]";
+                    if (strpos($messageText, "'") !== false) {
+                        $messageText = "concat('" . str_replace('\'', "',\"'\",'", $messageText) . "')";
+                    } else {
+                        $messageText = "'" . $messageText . "'";
+                    }
+                    $exclude .= "[not(normalize-space(..//.)=$messageText)]";
                 }
                 ${$message} .= $exclude;
             }
@@ -3073,7 +3080,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
-                if (strpos($value, "'")) {
+                if (strpos($value, "'") !== false) {
                     $value = "concat('" . str_replace('\'', "',\"'\",'", $value) . "')";
                 } else {
                     $value = "'" . $value . "'";
@@ -3754,7 +3761,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function pleaseWait($waitDisappear = null)
     {
-        $this->assertMessageNotPresent('error', 'general_js_error');
+        if ($this->controlIsVisible('message', 'general_js_error')) {
+            $this->fail($this->locationToString() . 'JS error on page.');
+        }
         $this->waitUntil(
             function ($testCase) {
                 /** @var Mage_Selenium_TestCase $testCase */
@@ -4432,7 +4441,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param $controlType
      * @param $controlName
-     * @param $timeout
+     * @param int|null $timeout
      */
     public function waitForControlStopsMoving($controlType, $controlName, $timeout = null)
     {
@@ -4444,7 +4453,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Wait for Visual JS effects to be finished
      *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $element
-     * @param $timeout
+     * @param int|null $timeout
      */
     public function waitForElementStopsMoving(PHPUnit_Extensions_Selenium2TestCase_Element $element, $timeout = null)
     {
@@ -4547,6 +4556,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function verifyBlocksOrder(array $blockOrder, $fieldType, $fieldName)
     {
+        if (count($blockOrder) < 2) {
+            return;
+        }
         $actualOrder = array_keys($this->getActualItemOrder($fieldType, $fieldName));
         //Reorder item order considering duplication and empty position values
         $expectedOrder = array_keys($blockOrder);

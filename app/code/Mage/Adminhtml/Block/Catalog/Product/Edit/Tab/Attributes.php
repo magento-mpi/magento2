@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 $attributeSearch = $this->getLayout()
                     ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search')
                     ->setGroupId($group->getId())
-                    ->setGroupCode($group->getTabGroupCode());
+                    ->setGroupCode($group->getAttributeGroupCode());
 
                 $attributeSearch->setAttributeCreate($attributeCreate->toHtml());
 
