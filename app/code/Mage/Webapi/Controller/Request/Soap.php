@@ -27,7 +27,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
 
     /**
      * Identify versions of resources that should be used for API configuration generation.
-     * FIXME : This is getting called twice within a single request. Need to cache.
+     * TODO : This is getting called twice within a single request. Need to cache.
      *
      * @return array
      * @throws Mage_Webapi_Exception When GET parameters are invalid
@@ -46,44 +46,44 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         }
 
         $param = $this->getParam($resourcesParam);
-        return $this->convertReqParamToServiceArray($param);
+        return $this->_convertRequestParamToServiceArray($param);
     }
 
     /**
-     * Function to extract the resources query param value and return associative array of 'resource' => 'version'
-     * eg Given testModule1AllSoapAndRest:V1,testModule2AllSoapNoRest:V1
-     * validate, process and return below :
-     * array (
+     * Extract the resources query param value and return associative array of the form 'resource' => 'version'
+     *
+     * @param string $param eg <pre> testModule1AllSoapAndRest:V1,testModule2AllSoapNoRest:V1 </pre>
+     * @return array <pre> eg array (
      *      'testModule1AllSoapAndRest' => 'V1',
      *       'testModule2AllSoapNoRest' => 'V1',
-     *      )
-     *
-     * @param $param
-     * @return array
+     *      )</pre>
      * @throws Mage_Webapi_Exception
      */
-    protected function convertReqParamToServiceArray($param)
+    protected function _convertRequestParamToServiceArray($param)
     {
         $serviceSeparator = ",";
         $serviceVerSeparator = ":";
         //TODO: This should be a globally used pattern in Webapi module
-        $serviceVerPattern = "[a-zA-Z\d]*[$serviceVerSeparator][V][\d]+";
+        $serviceVerPattern = "[a-zA-Z\d]*[$serviceVerSeparator]V[\d]+";
         $regexp = "/^($serviceVerPattern)([$serviceSeparator]$serviceVerPattern)*$/";
+        //Check if the $param is of valid format
         if (empty($param) || !preg_match($regexp, $param)) {
             $message = $this->_helper->__('Incorrect format of WSDL request URI or Requested resources are missing');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
-        $serviceVerArr = explode($serviceSeparator, $param);
-        $serviceArr = array();
-        foreach ($serviceVerArr as $service) {
+        //Split the $param string to create an array of 'service' => 'version'
+        $serviceVersionArray = explode($serviceSeparator, $param);
+        $serviceArray = array();
+        foreach ($serviceVersionArray as $service) {
             $arr = explode($serviceVerSeparator, $service);
-            if (array_key_exists($arr[0], $serviceArr)) {
+            //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
+            if (array_key_exists($arr[0], $serviceArray)) {
                 $message = $this->_helper->__("Resource '$arr[0]' cannot be requested more than once");
                 throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             } else {
-                $serviceArr[$arr[0]] = $arr[1];
+                $serviceArray[$arr[0]] = $arr[1];
             }
         }
-        return $serviceArr;
+        return $serviceArray;
     }
 }
