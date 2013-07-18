@@ -11,6 +11,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
 {
     public function testSuccess()
     {
+        $this->_markTestAsRestOnly();
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/success',
@@ -27,6 +28,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
 
     public function testNotFound()
     {
+        $this->_markTestAsRestOnly();
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/notfound',
@@ -39,6 +41,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
 
     public function testUnauthorized()
     {
+        $this->_markTestAsRestOnly();
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/unauthorized',
@@ -51,6 +54,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
 
     public function testServiceException()
     {
+        $this->_markTestAsRestOnly();
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/serviceexception',
@@ -63,6 +67,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
 
     public function testOtherException()
     {
+        $this->_markTestAsRestOnly();
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/otherexception',
@@ -77,7 +82,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
     {
         // TODO: need to get header info instead of catching the exception
         try {
-            $item = $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo);
         } catch (Exception $e) {
             $this->assertEquals($httpStatus, $e->getCode(), 'Checking HTTP status code');
 

@@ -1,14 +1,36 @@
 <?php
 /**
- * Test AllSoapAndRestV1Test TestModule1
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCase_WebapiAbstract
+
+/**
+ * Class to test routing based on Service Versioning(for V1 version of a service)
+ */
+class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseService
 {
+
+    /**
+     * @var string
+     */
+    protected $_version;
+    /**
+     * @var string
+     */
+    protected $_restResourcePath;
+    /**
+     * @var string
+     */
+    protected $_soapService = 'testModule1AllSoapAndRest';
+
+    protected function setUp()
+    {
+        $this->_version = 'V1';
+        $this->_restResourcePath = "/$this->_version/testmodule1/";
+    }
+
 
     /**
      *  Test get item
@@ -18,13 +40,13 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         $itemId = 1;
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/testmodule1/' . $itemId,
+                'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => 'GET'
             ),
             'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule1AllSoapAndRestItem'
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Item'
             )
         );
         $requestData = array('id' => $itemId);
@@ -49,13 +71,13 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         );
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/testmodule1',
+                'resourcePath' => $this->_restResourcePath,
                 'httpMethod' => 'GET'
             ),
             'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule1AllSoapAndRestItems'
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Items'
             )
         );
         $item = $this->_webApiCall($serviceInfo);
@@ -70,20 +92,19 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         $createdItemName = 'createdItemName';
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/testmodule1',
+                'resourcePath' => $this->_restResourcePath,
                 'httpMethod' => 'POST'
             ),
             'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule1AllSoapAndRestCreate'
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Create'
             )
         );
         $requestData = array('name' => $createdItemName);
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($createdItemName, $item['name'], 'Item creation failed');
     }
-
 
     /**
      *  Test update item
@@ -93,17 +114,38 @@ class Mage_TestModule1_Service_AllSoapAndRestV1Test extends Magento_Test_TestCas
         $itemId = 1;
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/testmodule1/' . $itemId,
+                'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => 'PUT'
             ),
             'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule1AllSoapAndRestUpdate'
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Update'
             )
         );
         $requestData = array('id' => $itemId, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
+    }
+
+    /**
+     *  Negative Test: Invoking non-existent delete api which is only available in V2
+     */
+    public function testDelete()
+    {
+        $itemId = 1;
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . $itemId,
+                'httpMethod' => 'DELETE'
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'serviceVersion' => $this->_version,
+                'operation' => $this->_soapService . 'Delete'
+            )
+        );
+        $requestData = array('id' => $itemId, 'name' => 'testName');
+        $this->assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 }
