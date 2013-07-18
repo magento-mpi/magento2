@@ -484,21 +484,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Get standard path variables.
-     *
-     * To be used in blocks, templates, etc.
-     *
-     * @return array
-     */
-    public function getPathVars()
-    {
-        $path = array();
-        $path['baseUrl'] = Mage::getBaseUrl();
-        $path['baseSecureUrl'] = Mage::getBaseUrl('link', true);
-        return $path;
-    }
-
-    /**
      * Check whether given path should be secure according to configuration security requirements for URL
      * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
      *

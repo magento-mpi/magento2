@@ -28,28 +28,22 @@ class Mage_Core_Utility_Layout
      * Retrieve new layout update model instance with XML data from a fixture file
      *
      * @param string $layoutUpdatesFile
-     * @return Mage_Core_Model_Layout_Merge|PHPUnit_Framework_MockObject_MockObject
+     * @return Mage_Core_Model_Layout_Merge
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
-        $layoutUpdate = $this->_testCase->getMock(
-            'Mage_Core_Model_Layout_Merge',
-            array('getFileLayoutUpdatesXml'),
-            array(
-                Mage::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface'),
-                Mage::getObjectManager()->get('Mage_Core_Model_StoreManagerInterface'),
-                $this->_testCase->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface'),
-                $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface'),
-            )
+        $objectManager = Mage::getObjectManager();
+        /** @var Mage_Core_Model_Layout_File_Factory $fileFactory */
+        $fileFactory = $objectManager->get('Mage_Core_Model_Layout_File_Factory');
+        $file = $fileFactory->create($layoutUpdatesFile, 'Mage_Core');
+        $fileSource = $this->_testCase->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface');
+        $fileSource->expects(PHPUnit_Framework_TestCase::any())
+            ->method('getFiles')
+            ->will(PHPUnit_Framework_TestCase::returnValue(array($file)));
+        $cache = $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        return $objectManager->create(
+            'Mage_Core_Model_Layout_Merge', array('fileSource' => $fileSource, 'cache' => $cache)
         );
-
-        $reflector = new ReflectionProperty(get_class($layoutUpdate), '_elementClass');
-        $reflector->setAccessible(true);
-        $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $reflector->getValue($layoutUpdate));
-        $layoutUpdate->expects(PHPUnit_Framework_TestCase::any())
-            ->method('getFileLayoutUpdatesXml')
-            ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdatesXml));
-        return $layoutUpdate;
     }
 
     /**

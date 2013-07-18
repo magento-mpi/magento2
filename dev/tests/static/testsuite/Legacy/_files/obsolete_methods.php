@@ -352,6 +352,7 @@ return array(
     array('getPageHandleType', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     array('getPathAsArray', '', 'direct explode by /'),
     array('getPathFromArray', '', 'direct usage of /'),
+    array('getPathVars', 'Mage_Core_Model_Config'),
     array('getParentProductIds', 'Mage_Catalog_Model_Resource_Product'),
     array('getPostMaxSize', 'Mage_Adminhtml_Block_Media_Uploader', 'Magento_File_Size::getPostMaxSize()'),
     array('getPriceFormatted', 'Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales'),
