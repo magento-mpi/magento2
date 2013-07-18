@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 (function($) {
-    'strict';
+    'use strict';
 
     $.widget("mage.folderTree", {
         options: {
