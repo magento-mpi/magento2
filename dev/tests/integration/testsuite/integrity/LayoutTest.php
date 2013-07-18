@@ -205,7 +205,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testOverrideBaseFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
     {
-        $baseFiles = $this->_getCachedFiles($theme->getArea(), 'Mage_Core_Model_Layout_File_Source_Base', $theme);
+        $baseFiles = self::_getCachedFiles($theme->getArea(), 'Mage_Core_Model_Layout_File_Source_Base', $theme);
         $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
         $this->assertArrayHasKey($fileKey, $baseFiles,
             sprintf("Could not find base file, overridden by theme file '%s'.", $themeFile->getFilename())
@@ -232,7 +232,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 
         // Search for the overridden file in the ancestor theme
         if ($ancestorTheme) {
-            $ancestorFiles = $this->_getCachedFiles($ancestorTheme->getFullPath(),
+            $ancestorFiles = self::_getCachedFiles($ancestorTheme->getFullPath(),
                 'Mage_Core_Model_Layout_File_Source_Theme', $ancestorTheme);
             $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
             $foundFile = isset($ancestorFiles[$fileKey]);
