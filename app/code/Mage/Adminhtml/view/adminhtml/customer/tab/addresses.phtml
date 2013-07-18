@@ -43,21 +43,21 @@
 
                 <li class="address-list-item" id="address_item_<?php echo $_address->getId() ?>" data-item="<?php echo $_address->getId() ?>">
                     <a href="#form_address_item_<?php echo $_address->getId() ?>" data-mage-init="{dataItemDeleteButton: {}}">
-                    <?php if (!$this->isReadonly()): ?>
-                    <div class="address-list-item-actions">
-                        <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>" data-role="delete">
-                            <span>Remove address</span>
-                        </button>
-                        <button class="action-edit" type="button" title="Edit address" id="select_button_<?php echo $_address->getId() ?>">
-                            <span>Edit address</span>
-                        </button>
-                    </div>
-                    <?php endif;?>
+                        <?php if (!$this->isReadonly()): ?>
+                        <div class="address-list-item-actions">
+                            <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>" data-role="delete">
+                                <span>Remove address</span>
+                            </button>
+                            <button class="action-edit" type="button" title="Edit address" id="select_button_<?php echo $_address->getId() ?>">
+                                <span>Edit address</span>
+                            </button>
+                        </div>
+                        <?php endif;?>
 
-                    <address>
-                        <?php echo $_address->format('html') ?>
-                    </address>
-
+                        <address>
+                            <?php echo $_address->format('html') ?>
+                        </address>
+                    </a>
                     <div class="field field-address-item-billing choice">
                         <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_address->getId() ?>" id="address_item_billing<?php echo $_address->getId() ?>" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>"<?php if($_address->getId()==$customer->getDefaultBilling()): ?> checked="checked"<?php endif; ?> />
                         <label class="label" for="address_item_billing<?php echo $_address->getId() ?>">
@@ -70,8 +70,6 @@
                             <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Shipping Address') ?></span>
                         </label>
                     </div>
-
-                    </a>
                 </li>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -83,21 +81,21 @@
         <div id="address_item_template" class="hidden template" data-template="address_item">
             <li class="address-list-item" id="address_item_" data-item="data_item_value_">
                 <a href="#form_new_item" data-mage-init="{dataItemDeleteButton: {}}">
-                <?php if (!$this->isReadonly()): ?>
-                <div class="address-list-item-actions">
-                    <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>" data-role="delete">
-                        <span>Remove address</span>
-                    </button>
-                    <button class="action-edit" type="button" title="Edit address">
-                        <span>Edit address</span>
-                    </button>
-                </div>
-                <?php endif;?>
+                    <?php if (!$this->isReadonly()): ?>
+                    <div class="address-list-item-actions">
+                        <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>" data-role="delete">
+                            <span>Remove address</span>
+                        </button>
+                        <button class="action-edit" type="button" title="Edit address">
+                            <span>Edit address</span>
+                        </button>
+                    </div>
+                    <?php endif;?>
 
-                <address>
-                    <?php echo Mage::helper('Mage_Customer_Helper_Data')->__('New Customer Address') ?>
-                </address>
-
+                    <address>
+                        <?php echo Mage::helper('Mage_Customer_Helper_Data')->__('New Customer Address') ?>
+                    </address>
+                </a>
                 <div class="field choice field-address-item-billing">
                         <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_templatePrefix ?>" id="address_item_billing<?php echo $_templatePrefix ?>" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>" />
                     <label class="label" for="address_item_billing<?php echo $_templatePrefix ?>">
@@ -110,7 +108,6 @@
                         <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Shipping Address') ?></span>
                     </label>
                 </div>
-                </a>
             </li>
         </div>
 
