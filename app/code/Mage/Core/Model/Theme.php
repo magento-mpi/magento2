@@ -44,6 +44,19 @@
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Core_Model_ThemeInterface
 {
+    /**#@+
+     * Theme types group
+     */
+    const TYPE_PHYSICAL = 0;
+    const TYPE_VIRTUAL  = 1;
+    const TYPE_STAGING  = 2;
+    /**#@-*/
+
+    /**
+     * Filename of view configuration
+     */
+    const FILENAME_VIEW_CONFIG = 'view.xml';
+
     /**
      * {@inheritdoc}
      *
@@ -59,12 +72,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
     protected $_eventObject = 'theme';
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_Theme_FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
-     * @var Mage_Core_Model_Theme_FlyweightFactory
+     * @var Mage_Core_Model_Theme_Domain_Factory
      */
     protected $_domainFactory;
 
