@@ -42,7 +42,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
 
         $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
             ->disableOriginalConstructor()
-            ->setMethods(array('getAllResourcesVersions'))
+            ->setMethods(array('getAllServicesVersions'))
             ->getMock();
         $this->_soapServerMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Server')
             ->disableOriginalConstructor()
@@ -58,7 +58,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->setMethods(array('handle'))
             ->getMock();
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')
-            ->setMethods(array('getParam', 'getRequestedResources'))
+            ->setMethods(array('getParam', 'getRequestedServices'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Response')
@@ -122,7 +122,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
         $expectedResources = array('foo' => 'v1');
         $expectedUrl = 'http://magento.host/api/soap?resources[foo]=v1';
         $this->_requestMock->expects($this->once())
-            ->method('getRequestedResources')
+            ->method('getRequestedServices')
             ->will($this->returnValue($expectedResources));
         $this->_soapServerMock->expects($this->once())
             ->method('generateUri')
@@ -182,21 +182,21 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->method('setHttpResponseCode')
             ->with(400);
 
-        $expectedResources = array(
+        $expectedServices = array(
             'foo' => array('v1'),
             'bar' => array('v2'),
         );
         $expectedUrl = 'http://magento.host/api/soap/';
         $this->_apiConfigMock->expects($this->once())
-            ->method('getAllResourcesVersions')
-            ->will($this->returnValue($expectedResources));
+            ->method('getAllServicesVersions')
+            ->will($this->returnValue($expectedServices));
         $this->_soapServerMock->expects($this->any())
             ->method('getEndpointUri')
             ->will($this->returnValue($expectedUrl));
         $expectedDetails = array(
-            'availableResources' => array(
-                'foo' => array('v1' => $expectedUrl . '?wsdl&resources[foo]=v1'),
-                'bar' => array('v2' => $expectedUrl . '?wsdl&resources[bar]=v2'),
+            'availableServices' => array(
+                'foo' => array('v1' => $expectedUrl . '?wsdl&services[foo]=v1'),
+                'bar' => array('v2' => $expectedUrl . '?wsdl&services[bar]=v2'),
             )
         );
         $expectedFault = '<?xml version="1.0" encoding="utf8"?><root>SOAP_FAULT</root>';

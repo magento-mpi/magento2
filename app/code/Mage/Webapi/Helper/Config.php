@@ -168,7 +168,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Identify the list of resource name parts including subresources using class name.
+     * Identify the list of service name parts including subservices using class name.
      *
      * Examples of input/output pairs: <br/>
      * - 'Mage_Customer_Service_Customer_AddressInterfaceV1' => array('Customer', 'Address', 'V1') <br/>
@@ -176,28 +176,28 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * - 'Mage_Catalog_Service_ProductInterfaceV2' => array('CatalogProduct', 'V2')
      *
      * @param string $className
-     * @param bool $preserveVersion Should version be preserved during class name conversion into resource name
+     * @param bool $preserveVersion Should version be preserved during class name conversion into service name
      * @return array
-     * @throws InvalidArgumentException When class is not valid API resource.
+     * @throws InvalidArgumentException When class is not valid API service.
      */
     public function getServiceNameParts($className, $preserveVersion = false)
     {
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::SERVICE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
-            $resourceNameParts = explode('_', trim($matches[3], '_'));
-            if ($moduleName == $resourceNameParts[0]) {
-                /** Avoid duplication of words in resource name */
+            $serviceNameParts = explode('_', trim($matches[3], '_'));
+            if ($moduleName == $serviceNameParts[0]) {
+                /** Avoid duplication of words in service name */
                 $moduleName = '';
             }
-            $parentResourceName = $moduleNamespace . $moduleName . array_shift($resourceNameParts);
-            array_unshift($resourceNameParts, $parentResourceName);
+            $parentServiceName = $moduleNamespace . $moduleName . array_shift($serviceNameParts);
+            array_unshift($serviceNameParts, $parentServiceName);
             if ($preserveVersion) {
                 $serviceVersion = $matches[4];
-                $resourceNameParts[] = $serviceVersion;
+                $serviceNameParts[] = $serviceVersion;
             }
-            return $resourceNameParts;
+            return $serviceNameParts;
         }
         throw new InvalidArgumentException(sprintf('The service class name "%s" is invalid.', $className));
     }
@@ -207,7 +207,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      *
      * @param ReflectionMethod|string $method Method name or method reflection.
      * @return string Method name without version suffix on success.
-     * @throws InvalidArgumentException When method name is invalid API resource method.
+     * @throws InvalidArgumentException When method name is invalid API service method.
      */
     public function getMethodNameWithoutVersionSuffix($method)
     {
@@ -221,7 +221,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             $methodName = $methodMatches[1];
             return $methodName;
         }
-        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
+        throw new InvalidArgumentException(sprintf('"%s" is an invalid API service method.', $methodNameWithSuffix));
     }
 
     /**
@@ -245,7 +245,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     {
         $bodyParamName = false;
         /**#@+
-         * Body param position in case of top level resources.
+         * Body param position in case of top level services.
          */
         $bodyPosCreate = 1;
         $bodyPosMultiCreate = 1;
@@ -264,10 +264,10 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
         $isBodyExpected = isset($bodyParamPositions[$methodName]);
         if ($isBodyExpected) {
             $bodyParamPosition = $bodyParamPositions[$methodName];
-            if ($this->isSubresource($methodReflection)
+            if ($this->isSubservice($methodReflection)
                 && $methodName != Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE
             ) {
-                /** For subresources parent ID param must precede request body param. */
+                /** For subservices parent ID param must precede request body param. */
                 $bodyParamPosition++;
             }
             $methodInterfaces = $methodReflection->getPrototypes();
@@ -295,14 +295,14 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      *
      * @param ReflectionMethod $methodReflection
      * @return bool|string Return ID param name if it is expected; false otherwise.
-     * @throws LogicException If resource method interface does not contain required ID parameter.
+     * @throws LogicException If service method interface does not contain required ID parameter.
      */
     public function getOperationIdParamName(ReflectionMethod $methodReflection)
     {
         $idParamName = false;
         $isIdFieldExpected = false;
-        if (!$this->isSubresource($methodReflection)) {
-            /** Top level resource, not subresource */
+        if (!$this->isSubservice($methodReflection)) {
+            /** Top level service, not subservice */
             $methodsWithId = array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
@@ -314,21 +314,21 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             }
         } else {
             /**
-             * All subresources must have ID field:
-             * either subresource ID (for item operations) or parent resource ID (for collection operations)
+             * All subservices must have ID field:
+             * either subservice ID (for item operations) or parent service ID (for collection operations)
              */
             $isIdFieldExpected = true;
         }
 
         if ($isIdFieldExpected) {
-            /** ID field must always be the first parameter of resource method */
+            /** ID field must always be the first parameter of service method */
             $methodInterfaces = $methodReflection->getPrototypes();
             /** @var \Zend\Server\Reflection\Prototype $methodInterface */
             $methodInterface = reset($methodInterfaces);
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams)) {
                 throw new LogicException(sprintf(
-                    'The "%s" method must have at least one parameter: resource ID.',
+                    'The "%s" method must have at least one parameter: service ID.',
                     $methodReflection->getName()
                 ));
             }
@@ -340,19 +340,19 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Identify if API resource is top level resource or subresource.
+     * Identify if API service is top level service or subservice.
      *
      * @param ReflectionMethod $methodReflection
      * @return bool
-     * @throws InvalidArgumentException In case when class name is not valid API resource class.
+     * @throws InvalidArgumentException In case when class name is not valid API service class.
      */
-    public function isSubresource(ReflectionMethod $methodReflection)
+    public function isSubservice(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::SERVICE_CLASS_PATTERN, $className, $matches)) {
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
-        throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
+        throw new InvalidArgumentException(sprintf('"%s" is not a valid service class.', $className));
     }
 
     /**

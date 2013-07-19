@@ -56,7 +56,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected $_registeredTypes = array();
 
     /**
-     * Construct auto discover with resource config and list of requested resources.
+     * Construct auto discover with service config and list of requested services.
      *
      * @param Mage_Webapi_Config $newApiConfig
      * @param Mage_Webapi_Model_Config_Soap $apiConfig
@@ -83,34 +83,34 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Generate WSDL content and save it to cache.
      *
-     * @param array $requestedResources
+     * @param array $requestedServices
      * @param string $endpointUrl
      * @return string
      * @throws Mage_Webapi_Exception
      */
-    public function handle($requestedResources, $endpointUrl)
+    public function handle($requestedServices, $endpointUrl)
     {
         /** TODO: Remove Mage_Catalog_Service_Product after this method is finalized */
-        /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
-        ksort($requestedResources);
+        /** Sort requested services by names to prevent caching of the same wsdl file more than once. */
+        ksort($requestedServices);
         /** TODO: Uncomment caching */
-//        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
+//        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
 //        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
 //            $cachedWsdlContent = $this->_cache->load($cacheId);
 //            if ($cachedWsdlContent !== false) {
 //                return $cachedWsdlContent;
 //            }
 //        }
-        $resources = array();
+        $services = array();
         try {
-            foreach ($requestedResources as $resourceName => $resourceVersion) {
-                $resources[$resourceName] = $this->_prepareResourceData($resourceName, $resourceVersion);
+            foreach ($requestedServices as $serviceName => $serviceVersion) {
+                $services[$serviceName] = $this->_prepareServiceData($serviceName, $serviceVersion);
             }
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
-        $wsdlContent = $this->generate($resources, $endpointUrl);
+        $wsdlContent = $this->generate($services, $endpointUrl);
 
 //        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
 //            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
@@ -167,29 +167,29 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Generate WSDL file based on requested resources.
+     * Generate WSDL file based on requested services.
      *
-     * @param array $requestedResources
+     * @param array $requestedServices
      * @param string $endPointUrl
      * @return string
      */
-    public function generate($requestedResources, $endPointUrl)
+    public function generate($requestedServices, $endPointUrl)
     {
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
 
-        foreach ($requestedResources as $resourceName => $resourceData) {
-            $portTypeName = $this->getPortTypeName($resourceName);
-            $bindingName = $this->getBindingName($resourceName);
+        foreach ($requestedServices as $serviceId => $serviceData) {
+            $portTypeName = $this->getPortTypeName($serviceId);
+            $bindingName = $this->getBindingName($serviceId);
             $portType = $wsdl->addPortType($portTypeName);
             $binding = $wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
-            $portName = $this->getPortName($resourceName);
-            $serviceName = $this->getServiceName($resourceName);
+            $portName = $this->getPortName($serviceId);
+            $serviceName = $this->getServiceName($serviceId);
             $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
-            foreach ($resourceData['methods'] as $methodName => $methodData) {
-                $operationName = $this->getOperationName($resourceName, $methodName);
+            foreach ($serviceData['methods'] as $methodName => $methodData) {
+                $operationName = $this->getOperationName($serviceId, $methodName);
                 $inputBinding = array('use' => 'literal');
                 $inputMessageName = $this->_createOperationInput($wsdl, $operationName, $methodData);
 
@@ -304,59 +304,59 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Get name for resource portType node.
+     * Get name for service portType node.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return string
      */
-    public function getPortTypeName($resourceName)
+    public function getPortTypeName($serviceName)
     {
-        return $resourceName . 'PortType';
+        return $serviceName . 'PortType';
     }
 
     /**
-     * Get name for resource binding node.
+     * Get name for service binding node.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return string
      */
-    public function getBindingName($resourceName)
+    public function getBindingName($serviceName)
     {
-        return $resourceName . 'Binding';
+        return $serviceName . 'Binding';
     }
 
     /**
-     * Get name for resource port node.
+     * Get name for service port node.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return string
      */
-    public function getPortName($resourceName)
+    public function getPortName($serviceName)
     {
-        return $resourceName . 'Port';
+        return $serviceName . 'Port';
     }
 
     /**
-     * Get name for resource service.
+     * Get name for service service.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return string
      */
-    public function getServiceName($resourceName)
+    public function getServiceName($serviceName)
     {
-        return $resourceName . 'Service';
+        return $serviceName . 'Service';
     }
 
     /**
-     * Get name of operation based on resource and method names.
+     * Get name of operation based on service and method names.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @param string $methodName
      * @return string
      */
-    public function getOperationName($resourceName, $methodName)
+    public function getOperationName($serviceName, $methodName)
     {
-        return $resourceName . ucfirst($methodName);
+        return $serviceName . ucfirst($methodName);
     }
 
     /**
@@ -382,53 +382,53 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Prepare data about requested resource for WSDL generator.
+     * Prepare data about requested service for WSDL generator.
      *
-     * @param string $resourceName
-     * @param string $resourceVersion
+     * @param string $serviceName
+     * @param string $serviceVersion
      * @return array
      * @throws LogicException
      */
-    protected function _prepareResourceData($resourceName, $resourceVersion)
+    protected function _prepareServiceData($serviceName, $serviceVersion)
     {
-        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($resourceName => $resourceVersion));
+        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName => $serviceVersion));
         if (empty($requestedServices)) {
             // TODO: throw proper exception according to new error handling strategy
-            throw new LogicException("Version '$resourceVersion' of resource '$resourceName' is not available.");
+            throw new LogicException("Version '$serviceVersion' of service '$serviceName' is not available.");
         }
         /** $requestedServices is expected to contain exactly one item */
         $serviceData = reset($requestedServices);
-        $resourceData = array('methods' => array());
+        $serviceDataTypes = array('methods' => array());
         $serviceClass = $serviceData['class'];
         foreach ($serviceData['operations'] as $operationData) {
             $serviceMethod = $operationData['method'];
             /** @var $payloadSchemaDom DOMDocument */
             $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
-            $operationName = $this->getOperationName($resourceName, $serviceMethod);
+            $operationName = $this->getOperationName($serviceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
             $inputComplexTypes = $this->getComplexTypeNodes($inputParameterName, $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
                     // TODO: throw proper exception according to new error handling strategy
-                    throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
+                    throw new LogicException("The method '{$serviceMethod}' of service '{$serviceName}' "
                     . "must have '{$inputParameterName}' complex type defined in its schema.");
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
                     $inputComplexTypes[] = $this->_generateEmptyComplexType($inputParameterName);
                 }
             }
-            $resourceData['methods'][$serviceMethod]['interface']['inputComplexTypes'] = $inputComplexTypes;
+            $serviceDataTypes['methods'][$serviceMethod]['interface']['inputComplexTypes'] = $inputComplexTypes;
             $outputParameterName = $this->getOutputMessageName($operationName);
             $outputComplexTypes = $this->getComplexTypeNodes($outputParameterName, $payloadSchemaDom);
             if (!empty($outputComplexTypes)) {
-                $resourceData['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
+                $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
                 // TODO: throw proper exception according to new error handling strategy
-                throw new LogicException("The method '{$serviceMethod}' of resource '{$resourceName}' "
+                throw new LogicException("The method '{$serviceMethod}' of service '{$serviceName}' "
                 . "must have '{$outputParameterName}' complex type defined in its schema.");
             }
         }
-        return $resourceData;
+        return $serviceDataTypes;
     }
 
     /**

@@ -151,26 +151,26 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleSuccess()
     {
-        $resData = 'resourceData';
+        $resData = 'serviceData';
         $genWSDL = 'generatedWSDL';
-        $requestedResource = array(
+        $requestedService = array(
             'catalogProduct' => 'V1',
         );
 
         $partialMockedAutoDis = $this->getMockBuilder(
             'Mage_Webapi_Model_Soap_AutoDiscover'
         )
-            ->setMethods(array('_prepareResourceData', 'generate'))
+            ->setMethods(array('_prepareServiceData', 'generate'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $partialMockedAutoDis->expects($this->once())->method('_prepareResourceData')->will(
+        $partialMockedAutoDis->expects($this->once())->method('_prepareServiceData')->will(
             $this->returnValue($resData)
         );
         $partialMockedAutoDis->expects($this->once())->method('generate')->will(
             $this->returnValue($genWSDL)
         );
-        $this->assertEquals($genWSDL, $partialMockedAutoDis->handle($requestedResource, 'http://magento.host'));
+        $this->assertEquals($genWSDL, $partialMockedAutoDis->handle($requestedService, 'http://magento.host'));
     }
 
     /**
@@ -183,22 +183,22 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     {
         $genWSDL = 'generatedWSDL';
         $exceptionMsg = 'exception message';
-        $requestedResource = array(
+        $requestedService = array(
             'catalogProduct' => 'V1',
         );
 
         $partialMockedAutoDis = $this->getMockBuilder(
             'Mage_Webapi_Model_Soap_AutoDiscover'
         )
-            ->setMethods(array('_prepareResourceData', 'generate'))
+            ->setMethods(array('_prepareServiceData', 'generate'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $partialMockedAutoDis->expects($this->once())->method('_prepareResourceData')->will(
+        $partialMockedAutoDis->expects($this->once())->method('_prepareServiceData')->will(
             $this->throwException(new Exception($exceptionMsg))
         );
 
-        $this->assertEquals($genWSDL, $partialMockedAutoDis->handle($requestedResource, 'http://magento.host'));
+        $this->assertEquals($genWSDL, $partialMockedAutoDis->handle($requestedService, 'http://magento.host'));
     }
 
 

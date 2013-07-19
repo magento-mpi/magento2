@@ -23,16 +23,16 @@ class Mage_Webapi_Model_Acl_Role_InRoleUserUpdaterTest extends PHPUnit_Framework
             array('role_id', null, $roleId)
         )));
 
-        $userResource = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_User')
+        $userService = $this->getMockBuilder('Mage_Webapi_Model_Service_Acl_User')
             ->disableOriginalConstructor()
             ->getMock();
-        $userResource->expects($this->once())->method('getRoleUsers')
+        $userService->expects($this->once())->method('getRoleUsers')
             ->with($roleId)->will($this->returnValue($expectedValues));
 
         /** @var Mage_Webapi_Model_Acl_Role_InRoleUserUpdater $model */
         $model = $helper->getObject('Mage_Webapi_Model_Acl_Role_InRoleUserUpdater', array(
             'request' => $request,
-            'userResource' => $userResource
+            'userService' => $userService
         ));
 
         $this->assertEquals($expectedValues, $model->update(array()));

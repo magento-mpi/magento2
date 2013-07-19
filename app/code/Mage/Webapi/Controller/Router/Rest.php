@@ -72,7 +72,7 @@ class Mage_Webapi_Controller_Router_Rest
         preg_match($versionPattern, $request->getPathInfo(), $matches);
         if (isset($matches[1])) {
             $version = $matches[1];
-            $request->setResourceVersion($version);
+            $request->setServiceVersion($version);
         }
     }
 }

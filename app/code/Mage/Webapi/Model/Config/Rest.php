@@ -76,28 +76,28 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
     /**
      * Retrieve a list of all route objects associated with specified method.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @param string $methodName
      * @param string $version
      * @return Mage_Webapi_Controller_Router_Route_Rest[]
      * @throws InvalidArgumentException
      */
-    public function getMethodRestRoutes($resourceName, $methodName, $version)
+    public function getMethodRestRoutes($serviceName, $methodName, $version)
     {
-        $resourceData = $this->_getResourceData($resourceName, $version);
-        if (!isset($resourceData['methods'][$methodName]['rest_routes'])) {
+        $serviceData = $this->_getServiceData($serviceName, $version);
+        if (!isset($serviceData['methods'][$methodName]['rest_routes'])) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'The "%s" resource does not have any REST routes for "%s" method.',
-                    $resourceName,
+                    'The "%s" service does not have any REST routes for "%s" method.',
+                    $serviceName,
                     $methodName
                 ));
         }
         $routes = array();
-        foreach ($resourceData['methods'][$methodName]['rest_routes'] as $routePath) {
+        foreach ($serviceData['methods'][$methodName]['rest_routes'] as $routePath) {
             $routes[] = $this->_createRoute(
                 $routePath,
-                $resourceName,
+                $serviceName,
                 Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName)
             );
         }
@@ -105,25 +105,25 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
     }
 
     /**
-     * Identify the shortest available route to the item of specified resource.
+     * Identify the shortest available route to the item of specified service.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return string
      * @throws InvalidArgumentException
      */
-    public function getRestRouteToItem($resourceName)
+    public function getRestRouteToItem($serviceName)
     {
         $restRoutes = $this->_data['rest_routes'];
         /** The shortest routes must go first. */
         ksort($restRoutes);
         foreach ($restRoutes as $routePath => $routeMetadata) {
             if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
-                && $routeMetadata['resourceName'] == $resourceName
+                && $routeMetadata['serviceName'] == $serviceName
             ) {
                 return $routePath;
             }
         }
-        throw new InvalidArgumentException(sprintf('No route to the item of "%s" resource was found.', $resourceName));
+        throw new InvalidArgumentException(sprintf('No route to the item of "%s" service was found.', $serviceName));
     }
 
     /**

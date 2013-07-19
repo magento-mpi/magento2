@@ -1,6 +1,6 @@
 <?php
 /**
- * Generic action controller for all resources available via web API.
+ * Generic action controller for all services available via web API.
  *
  * {license_notice}
  *
@@ -17,7 +17,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /**#@-*/
 
     /**#@+
-     * Allowed API resource methods.
+     * Allowed API service methods.
      */
     const METHOD_CREATE = 'create';
     const METHOD_GET = 'get';

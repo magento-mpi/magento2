@@ -43,17 +43,17 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-    public function testCheckResourceAclMageWebapiException()
+    public function testCheckServiceAclMageWebapiException()
     {
         $this->_coreAuthorization->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(false));
         $this->_helperMock->expects($this->once())->method('__')->will($this->returnArgument(0));
-        $this->setExpectedException('Mage_Webapi_Exception', 'Access to resource is forbidden.');
-        $this->_webapiAuthorization->checkResourceAcl('invalidResource', 'invalidMethod');
+        $this->setExpectedException('Mage_Webapi_Exception', 'Access to service is forbidden.');
+        $this->_webapiAuthorization->checkServiceAcl('invalidService', 'invalidMethod');
     }
 
-    public function testCheckResourceAcl()
+    public function testCheckServiceAcl()
     {
         $this->_coreAuthorization->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $this->_webapiAuthorization->checkResourceAcl('validResource', 'validMethod');
+        $this->_webapiAuthorization->checkServiceAcl('validService', 'validMethod');
     }
 }

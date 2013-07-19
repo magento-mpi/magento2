@@ -38,7 +38,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     protected $_application;
 
     /**
-     * Resources configuration data.
+     * Services configuration data.
      *
      * @var array
      */
@@ -96,30 +96,30 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * Identify method name by operation name.
      *
      * @param string $operationName
-     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
+     * @param string $serviceVersion Two formats are acceptable: 'v1' and '1'
      * @return string|bool Method name on success; false on failure
      */
-    public function getMethodNameByOperation($operationName, $resourceVersion = null)
+    public function getMethodNameByOperation($operationName, $serviceVersion = null)
     {
-        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        $versionCheckRequired = is_string($resourceVersion);
+        list($serviceName, $methodName) = $this->_parseOperationName($operationName);
+        $versionCheckRequired = is_string($serviceVersion);
         if (!$versionCheckRequired) {
             return $methodName;
         }
-        /** Allow to take resource version in two formats: with prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion)
-            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
-            : ucfirst($resourceVersion);
-        return isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])
+        /** Allow to take service version in two formats: with prefix and without it */
+        $serviceVersion = is_numeric($serviceVersion)
+            ? self::VERSION_NUMBER_PREFIX . $serviceVersion
+            : ucfirst($serviceVersion);
+        return isset($this->_data['services'][$serviceName]['versions'][$serviceVersion]['methods'][$methodName])
             ? $methodName : false;
     }
 
     /**
-     * Parse operation name to separate resource name from method name.
+     * Parse operation name to separate service name from method name.
      *
      * <pre>Result format:
      * array(
-     *      0 => 'resourceName',
+     *      0 => 'serviceName',
      *      1 => 'methodName'
      * )</pre>
      *
@@ -132,13 +132,13 @@ abstract class Mage_Webapi_Model_ConfigAbstract
         /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
         $regEx = sprintf('/(.*?)(%s)$/i', implode('|', Mage_Webapi_Controller_ActionAbstract::getAllowedMethods()));
         if (preg_match($regEx, $operationName, $matches)) {
-            $resourceName = $matches[1];
+            $serviceName = $matches[1];
             $methodName = lcfirst($matches[2]);
-            $result = array($resourceName, $methodName);
+            $result = array($serviceName, $methodName);
             return $result;
         }
         throw new InvalidArgumentException(sprintf(
-            'The "%s" is not a valid API resource operation name.',
+            'The "%s" is not a valid API service operation name.',
             $operationName
         ));
     }
@@ -147,17 +147,17 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * Identify controller class by operation name.
      *
      * @param string $operationName
-     * @return string Resource name on success
+     * @return string Service name on success
      * @throws LogicException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getControllerClassByOperationName($operationName)
     {
-        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        if (isset($this->_data['resources'][$resourceName]['controller'])) {
-            return $this->_data['resources'][$resourceName]['controller'];
+        list($serviceName, $methodName) = $this->_parseOperationName($operationName);
+        if (isset($this->_data['services'][$serviceName]['controller'])) {
+            return $this->_data['services'][$serviceName]['controller'];
         }
-        throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
+        throw new LogicException(sprintf('Service "%s" must have associated controller class.', $serviceName));
     }
 
     /**
@@ -169,19 +169,19 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      */
     public function getMethodMetadata(ReflectionMethod $methodReflection)
     {
-        $resourceName = $this->_helper->getServiceName($methodReflection->getDeclaringClass()->getName());
-        $resourceVersion = $this->_getMethodVersion($methodReflection);
+        $serviceName = $this->_helper->getServiceName($methodReflection->getDeclaringClass()->getName());
+        $serviceVersion = $this->_getMethodVersion($methodReflection);
         $methodName = $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection);
 
-        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
+        if (!isset($this->_data['services'][$serviceName]['versions'][$serviceVersion]['methods'][$methodName])) {
             throw new InvalidArgumentException(sprintf(
-                'The "%s" method of "%s" resource in version "%s" is not registered.',
+                'The "%s" method of "%s" service in version "%s" is not registered.',
                 $methodName,
-                $resourceName,
-                $resourceVersion
+                $serviceName,
+                $serviceVersion
             ));
         }
-        return $this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
+        return $this->_data['services'][$serviceName]['versions'][$serviceVersion]['methods'][$methodName];
     }
 
     /**
@@ -201,31 +201,31 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * array(
      *     'removed'      => true,            // either 'deprecated' or 'removed' item must be specified
      *     'deprecated'   => true,
-     *     'use_resource' => 'operationName'  // resource to be used instead
+     *     'use_service' => 'operationName'  // service to be used instead
      *     'use_method'   => 'operationName'  // method to be used instead
      *     'use_version'  => N,               // version of method to be used instead
      * )
      * </pre>
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @param string $method
-     * @param string $resourceVersion
+     * @param string $serviceVersion
      * @return array|bool On success array with policy details; false otherwise.
      * @throws InvalidArgumentException
      */
-    public function getDeprecationPolicy($resourceName, $method, $resourceVersion)
+    public function getDeprecationPolicy($serviceName, $method, $serviceVersion)
     {
         $deprecationPolicy = false;
-        $resourceData = $this->_getResourceData($resourceName, $resourceVersion);
-        if (!isset($resourceData['methods'][$method])) {
+        $serviceData = $this->_getServiceData($serviceName, $serviceVersion);
+        if (!isset($serviceData['methods'][$method])) {
             throw new InvalidArgumentException(sprintf(
-                'Method "%s" does not exist in "%s" version of resource "%s".',
+                'Method "%s" does not exist in "%s" version of service "%s".',
                 $method,
-                $resourceVersion,
-                $resourceName
+                $serviceVersion,
+                $serviceName
             ));
         }
-        $methodData = $resourceData['methods'][$method];
+        $methodData = $serviceData['methods'][$method];
         if (isset($methodData['deprecation_policy']) && is_array($methodData['deprecation_policy'])) {
             $deprecationPolicy = $methodData['deprecation_policy'];
         }
@@ -239,25 +239,25 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * - method is removed<br/>
      * - method is deprecated and developer mode is enabled
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @param string $method
-     * @param string $resourceVersion
+     * @param string $serviceVersion
      * @throws Mage_Webapi_Exception
      * @throws LogicException
      */
-    public function checkDeprecationPolicy($resourceName, $method, $resourceVersion)
+    public function checkDeprecationPolicy($serviceName, $method, $serviceVersion)
     {
-        $deprecationPolicy = $this->getDeprecationPolicy($resourceName, $method, $resourceVersion);
+        $deprecationPolicy = $this->getDeprecationPolicy($serviceName, $method, $serviceVersion);
         if ($deprecationPolicy) {
             /** Initialize message with information about what method should be used instead of requested one. */
-            if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])
+            if (isset($deprecationPolicy['use_service']) && isset($deprecationPolicy['use_method'])
                 && isset($deprecationPolicy['use_version'])
             ) {
                 $messageUseMethod = $this->_helper
-                    ->__('Please use version "%s" of "%s" method in "%s" resource instead.',
+                    ->__('Please use version "%s" of "%s" method in "%s" service instead.',
                     $deprecationPolicy['use_version'],
                     $deprecationPolicy['use_method'],
-                    $deprecationPolicy['use_resource']
+                    $deprecationPolicy['use_service']
                 );
             } else {
                 $messageUseMethod = '';
@@ -266,18 +266,18 @@ abstract class Mage_Webapi_Model_ConfigAbstract
             $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
                 $removalMessage = $this->_helper
-                    ->__('Version "%s" of "%s" method in "%s" resource was removed.',
-                    $resourceVersion,
+                    ->__('Version "%s" of "%s" method in "%s" service was removed.',
+                    $serviceVersion,
                     $method,
-                    $resourceName
+                    $serviceName
                 );
                 throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
             } elseif (isset($deprecationPolicy['deprecated']) && $this->_application->isDeveloperMode()) {
                 $deprecationMessage = $this->_helper
-                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
-                    $resourceVersion,
+                    ->__('Version "%s" of "%s" method in "%s" service is deprecated.',
+                    $serviceVersion,
                     $method,
-                    $resourceName
+                    $serviceName
                 );
                 throw new Mage_Webapi_Exception($deprecationMessage . ' ' . $messageUseMethod, $badRequestCode);
             }
@@ -285,22 +285,22 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     }
 
     /**
-     * Identify the maximum version of the specified resource available.
+     * Identify the maximum version of the specified service available.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return int
-     * @throws InvalidArgumentException When resource with the specified name does not exist.
+     * @throws InvalidArgumentException When service with the specified name does not exist.
      */
-    public function getResourceMaxVersion($resourceName)
+    public function getServiceMaxVersion($serviceName)
     {
-        if (!isset($this->_data['resources'][$resourceName])) {
-            throw new InvalidArgumentException(sprintf('Resource "%s" does not exist.', $resourceName));
+        if (!isset($this->_data['services'][$serviceName])) {
+            throw new InvalidArgumentException(sprintf('Service "%s" does not exist.', $serviceName));
         }
-        $resourceVersions = array_keys($this->_data['resources'][$resourceName]['versions']);
-        foreach ($resourceVersions as &$version) {
+        $serviceVersions = array_keys($this->_data['services'][$serviceName]['versions']);
+        foreach ($serviceVersions as &$version) {
             $version = str_replace(self::VERSION_NUMBER_PREFIX, '', $version);
         }
-        $maxVersion = max($resourceVersions);
+        $maxVersion = max($serviceVersions);
         return (int)$maxVersion;
     }
 
@@ -337,38 +337,38 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * Check if version number is from valid range.
      *
      * @param int $version
-     * @param string $resourceName
+     * @param string $serviceName
      * @throws Mage_Webapi_Exception
      */
-    public function validateVersionNumber($version, $resourceName)
+    public function validateVersionNumber($version, $serviceName)
     {
-        $maxVersion = $this->getResourceMaxVersion($resourceName);
+        $maxVersion = $this->getServiceMaxVersion($serviceName);
         if ((int)$version > $maxVersion) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('The maximum version of the requested resource is "%s".', $maxVersion),
+                $this->_helper->__('The maximum version of the requested service is "%s".', $maxVersion),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } elseif ((int)$version < self::VERSION_MIN) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Resource version cannot be lower than "%s".', self::VERSION_MIN),
+                $this->_helper->__('Service version cannot be lower than "%s".', self::VERSION_MIN),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
     }
 
     /**
-     * Retrieve the list of all resources with their versions.
+     * Retrieve the list of all services with their versions.
      *
      * @return array
      */
-    public function getAllResourcesVersions()
+    public function getAllServicesVersions()
     {
-        $resources = array();
-        foreach ($this->_data['resources'] as $resourceName => $data) {
-            $resources[$resourceName] = array_keys($data['versions']);
+        $services = array();
+        foreach ($this->_data['services'] as $serviceName => $data) {
+            $services[$serviceName] = array_keys($data['versions']);
         }
 
-        return $resources;
+        return $services;
     }
 
     /**
@@ -384,51 +384,51 @@ abstract class Mage_Webapi_Model_ConfigAbstract
         $methodNameWithSuffix = $methodReflection->getName();
         $regularExpression = $this->_helper->getMethodNameRegularExpression();
         if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $resourceNamePosition = 2;
-            $methodVersion = ucfirst($methodMatches[$resourceNamePosition]);
+            $serviceNamePosition = 2;
+            $methodVersion = ucfirst($methodMatches[$serviceNamePosition]);
         }
         return $methodVersion;
     }
 
     /**
-     * Retrieve resource description for specified version.
+     * Retrieve service description for specified version.
      *
-     * @param string $resourceName
-     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
+     * @param string $serviceName
+     * @param string $serviceVersion Two formats are acceptable: 'v1' and '1'
      * @return array
-     * @throws InvalidArgumentException When the specified resource version does not exist.
+     * @throws InvalidArgumentException When the specified service version does not exist.
      */
-    protected function _getResourceData($resourceName, $resourceVersion)
+    protected function _getServiceData($serviceName, $serviceVersion)
     {
-        /** Allow to take resource version in two formats: with prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion)
-            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
-            : ucfirst($resourceVersion);
+        /** Allow to take service version in two formats: with prefix and without it */
+        $serviceVersion = is_numeric($serviceVersion)
+            ? self::VERSION_NUMBER_PREFIX . $serviceVersion
+            : ucfirst($serviceVersion);
         try {
-            $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
+            $this->_checkIfServiceVersionExists($serviceName, $serviceVersion);
         } catch (RuntimeException $e) {
             throw new InvalidArgumentException($e->getMessage());
         }
-        return $this->_data['resources'][$resourceName]['versions'][$resourceVersion];
+        return $this->_data['services'][$serviceName]['versions'][$serviceVersion];
     }
 
     /**
-     * Check if specified version of resource exists. If not - exception is thrown.
+     * Check if specified version of service exists. If not - exception is thrown.
      *
-     * @param string $resourceName
-     * @param string $resourceVersion
-     * @throws RuntimeException When resource does not exist.
+     * @param string $serviceName
+     * @param string $serviceVersion
+     * @throws RuntimeException When service does not exist.
      */
-    protected function _checkIfResourceVersionExists($resourceName, $resourceVersion)
+    protected function _checkIfServiceVersionExists($serviceName, $serviceVersion)
     {
-        if (!isset($this->_data['resources'][$resourceName])) {
-            throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
+        if (!isset($this->_data['services'][$serviceName])) {
+            throw new RuntimeException($this->_helper->__('Unknown service "%s".', $serviceName));
         }
-        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
+        if (!isset($this->_data['service'][$serviceName]['versions'][$serviceVersion])) {
             throw new RuntimeException($this->_helper->__(
-                'Unknown version "%s" for resource "%s".',
-                $resourceVersion,
-                $resourceName
+                'Unknown version "%s" for service "%s".',
+                $serviceVersion,
+                $serviceName
             ));
         }
     }

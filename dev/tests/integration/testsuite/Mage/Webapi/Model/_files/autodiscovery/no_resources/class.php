@@ -8,7 +8,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class Invalid_Resource_Name
+class Invalid_Service_Name
 {
     /**
      * @param int[] $data

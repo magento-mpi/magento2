@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     const CONFIG_PATH_SOAP_CHARSET = 'webapi/soap/charset';
     /**#@-*/
 
-    const REQUEST_PARAM_RESOURCES = 'resources';
+    const REQUEST_PARAM_SERVICES = 'services';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
     /** @var Mage_Core_Model_Store */
@@ -159,7 +159,9 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     public function generateUri($isWsdl = false)
     {
         $params = array(
-            self::REQUEST_PARAM_RESOURCES => $this->_request->getRequestedResources()
+            self::REQUEST_PARAM_SERVICES => $this->_request->getParam(
+                Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES
+            )
         );
         if ($isWsdl) {
             $params[self::REQUEST_PARAM_WSDL] = true;
@@ -177,7 +179,7 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     {
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
         return $this->_application->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)
-            . $this->_application->getConfig()->getAreaFrontName() . '/'
-            . Mage_Webapi_Controller_Front::API_TYPE_SOAP;
+        . $this->_application->getConfig()->getAreaFrontName() . '/'
+        . Mage_Webapi_Controller_Front::API_TYPE_SOAP;
     }
 }

@@ -147,15 +147,15 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getResourceType() method.
+     * Test for getServiceType() method.
      *
      */
-    public function testGetResourceType()
+    public function testGetServiceType()
     {
-        $this->assertNull($this->_request->getResourceType());
-        $resource = 'test_resource';
-        $this->_request->setResourceType($resource);
-        $this->assertEquals($resource, $this->_request->getResourceType());
+        $this->assertNull($this->_request->getServiceType());
+        $resource = 'test_service';
+        $this->_request->setServiceType($resource);
+        $this->assertEquals($resource, $this->_request->getServiceType());
     }
 
     /**
@@ -248,18 +248,18 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         $methodName = 'invalidMethodV1';
         $this->setExpectedException(
             'InvalidArgumentException',
-            sprintf('The "%s" method is not a valid resource method.', $methodName)
+            sprintf('The "%s" method is not a valid service method.', $methodName)
         );
         Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName);
     }
 
-    public function testGetResourceVersion()
+    public function testGetServiceVersion()
     {
-        $this->_request->setParam('resourceVersion', 'v1');
-        $this->assertEquals(1, $this->_request->getResourceVersion(), 'Version number was missed.');
+        $this->_request->setParam('serviceVersion', 'v1');
+        $this->assertEquals(1, $this->_request->getServiceVersion(), 'Version number was missed.');
     }
 
-    public function testGetResourceVersionVersionIsNotSpecifiedException()
+    public function testGetServiceVersionVersionIsNotSpecifiedException()
     {
         $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
         $this->setExpectedException(
@@ -267,14 +267,14 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
             'Resource version is not specified or invalid one is specified',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
-        $this->_request->getResourceVersion();
+        $this->_request->getServiceVersion();
     }
 
-    public function testGetResourceName()
+    public function testGetServiceName()
     {
-        $resourceName = 'resourceName';
-        $this->_request->setResourceName($resourceName);
-        $this->assertEquals($resourceName, $this->_request->getResourceName());
+        $serviceName = 'serviceName';
+        $this->_request->setServiceName($serviceName);
+        $this->assertEquals($serviceName, $this->_request->getServiceName());
     }
 
     public function testGetOperationNameMethodNotExistException()
@@ -287,7 +287,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         );
         $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
         $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
-        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
+        $this->_request->setServiceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
         /** Initialize SUT. */
         $this->_request->getOperationName();
     }
@@ -297,11 +297,11 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareSutForGetOperationNameWithCreateMethod()
     {
-        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
+        $this->_request->setServiceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
         $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
         $this->_request->expects($this->once())
             ->method('getMethod')
             ->will($this->returnValue('POST'));
-        $this->_request->setResourceName('resourceName');
+        $this->_request->setServiceName('serviceName');
     }
 }

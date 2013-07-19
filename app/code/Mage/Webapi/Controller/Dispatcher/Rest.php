@@ -74,7 +74,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
                 // TODO: Set the right error code and replace generic Exception with right exception instance
                 throw new Exception("Operation allowed only in HTTPS", 40001);
             }
-
+            /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation $inputData */
             $inputData = $this->_restPresentation->fetchRequestData();
             // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
             $serviceMethod = $route->getServiceMethod();

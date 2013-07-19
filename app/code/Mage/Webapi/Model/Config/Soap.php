@@ -25,61 +25,61 @@ class Mage_Webapi_Model_Config_Soap extends Mage_Webapi_Model_ConfigAbstract
     }
 
     /**
-     * Retrieve specific resource version interface data.
+     * Retrieve specific service version interface data.
      *
      * Perform metadata merge from previous method versions.
      *
-     * @param string $resourceName
-     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
+     * @param string $serviceName
+     * @param string $serviceVersion Two formats are acceptable: 'v1' and '1'
      * @return array
      * @throws RuntimeException
      */
-    public function getResourceDataMerged($resourceName, $resourceVersion)
+    public function getServiceDataMerged($serviceName, $serviceVersion)
     {
-        /** Allow to take resource version in two formats: with prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion)
-            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
-            : ucfirst($resourceVersion);
-        $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
-        $resourceData = array();
-        foreach ($this->_data['resources'][$resourceName]['versions'] as $version => $data) {
-            $resourceData = array_replace_recursive($resourceData, $data);
-            if ($version == $resourceVersion) {
+        /** Allow to take service version in two formats: with prefix and without it */
+        $serviceVersion = is_numeric($serviceVersion)
+            ? self::VERSION_NUMBER_PREFIX . $serviceVersion
+            : ucfirst($serviceVersion);
+        $this->_checkIfServiceVersionExists($serviceName, $serviceVersion);
+        $serviceData = array();
+        foreach ($this->_data['services'][$serviceName]['versions'] as $version => $data) {
+            $serviceData = array_replace_recursive($serviceData, $data);
+            if ($version == $serviceVersion) {
                 break;
             }
         }
-        return $resourceData;
+        return $serviceData;
     }
 
     /**
-     * Identify resource name by operation name.
+     * Identify service name by operation name.
      *
-     * If $resourceVersion is set, the check for operation validity in specified resource version will be performed.
-     * If $resourceVersion is not set, the only check will be: if resource exists.
+     * If $serviceVersion is set, the check for operation validity in specified service version will be performed.
+     * If $serviceVersion is not set, the only check will be: if service exists.
      *
      * @param string $operationName
-     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
-     * @return string|bool Resource name on success; false on failure
+     * @param string $serviceVersion Two formats are acceptable: 'v1' and '1'
+     * @return string|bool Service name on success; false on failure
      */
-    public function getResourceNameByOperation($operationName, $resourceVersion = null)
+    public function getServiceNameByOperation($operationName, $serviceVersion = null)
     {
-        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        $resourceExists = isset($this->_data['resources'][$resourceName]);
-        if (!$resourceExists) {
+        list($serviceName, $methodName) = $this->_parseOperationName($operationName);
+        $serviceExists = isset($this->_data['services'][$serviceName]);
+        if (!$serviceExists) {
             return false;
         }
-        $resourceData = $this->_data['resources'][$resourceName];
-        $versionCheckRequired = is_string($resourceVersion);
+        $serviceData = $this->_data['services'][$serviceName];
+        $versionCheckRequired = is_string($serviceVersion);
         if ($versionCheckRequired) {
-            /** Allow to take resource version in two formats: with prefix and without it */
-            $resourceVersion = is_numeric($resourceVersion)
-                ? self::VERSION_NUMBER_PREFIX . $resourceVersion
-                : ucfirst($resourceVersion);
-            $operationIsValid = isset($resourceData['versions'][$resourceVersion]['methods'][$methodName]);
+            /** Allow to take service version in two formats: with prefix and without it */
+            $serviceVersion = is_numeric($serviceVersion)
+                ? self::VERSION_NUMBER_PREFIX . $serviceVersion
+                : ucfirst($serviceVersion);
+            $operationIsValid = isset($serviceData['versions'][$serviceVersion]['methods'][$methodName]);
             if (!$operationIsValid) {
                 return false;
             }
         }
-        return $resourceName;
+        return $serviceName;
     }
 }

@@ -75,7 +75,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         try {
             if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
                 $responseBody = $this->_autoDiscover->handle(
-                    $this->_request->getRequestedResources(),
+                    $this->_request->getRequestedServices(),
                     $this->_soapServer->generateUri()
                 );
                 $this->_setResponseContentType('text/xml');
@@ -103,12 +103,12 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_setResponseContentType('text/xml');
         $this->_response->setHttpResponseCode(400);
         $details = array();
-        foreach ($this->_apiConfig->getAllResourcesVersions() as $resourceName => $versions) {
+        foreach ($this->_apiConfig->getAllServicesVersions() as $serviceName => $versions) {
             foreach ($versions as $version) {
-                $details['availableResources'][$resourceName][$version] = sprintf(
-                    '%s?wsdl&resources[%s]=%s',
+                $details['availableServices'][$serviceName][$version] = sprintf(
+                    '%s?wsdl&services[%s]=%s',
                     $this->_soapServer->getEndpointUri(),
-                    $resourceName,
+                    $serviceName,
                     $version
                 );
             }

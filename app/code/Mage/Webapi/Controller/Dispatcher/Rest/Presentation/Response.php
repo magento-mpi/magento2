@@ -92,27 +92,28 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     }
 
     /**
-     * Generate resource location.
+     * Generate service location.
      *
      * @param Mage_Core_Model_Abstract $createdItem
      * @return string URL
      */
     protected function _getCreatedItemLocation($createdItem)
     {
+        /** @var $apiTypeRoute Zend_Controller_Router_Route_Abstract */
         $apiTypeRoute = $this->_routeFactory->createRoute(
             'Mage_Webapi_Controller_Router_Route',
             $this->_applicationConfig->getAreaFrontName() . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE
         );
-        $resourceName = $this->_request->getResourceName();
+        $serviceName = $this->_request->getServiceName();
         $routeToItem = $this->_routeFactory->createRoute(
             'Zend_Controller_Router_Route',
-            $this->_apiConfig->getRestRouteToItem($resourceName)
+            $this->_apiConfig->getRestRouteToItem($serviceName)
         );
         $chain = $apiTypeRoute->chain($routeToItem);
         $params = array(
             Mage_Webapi_Controller_Request::PARAM_API_TYPE => $this->_request->getApiType(),
             Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID => $createdItem->getId(),
-            Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->_request->getResourceVersion()
+            Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->_request->getServiceVersion()
         );
         $uri = $chain->assemble($params);
 

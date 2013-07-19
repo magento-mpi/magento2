@@ -56,7 +56,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
             try {
                 $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
             } catch (InvalidArgumentException $e) {
-                /** Resources can contain methods that should not be exposed through API. */
+                /** Services can contain methods that should not be exposed through API. */
                 continue;
             }
             $version = $this->getMethodVersion($methodReflection);
@@ -68,7 +68,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
         ksort($data['versions']);
 
         return array(
-            'resources' => array(
+            'services' => array(
                 $this->_helper->getServiceName($className) => $data,
             ),
         );
@@ -79,7 +79,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
      *
      * @param ReflectionMethod|string $method Method name or method reflection.
      * @return string Method name without version suffix on success.
-     * @throws InvalidArgumentException When method name is invalid API resource method.
+     * @throws InvalidArgumentException When method name is invalid API service method.
      */
     public function getMethodNameWithoutVersionSuffix($method)
     {
@@ -93,7 +93,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
             $methodName = $methodMatches[1];
             return $methodName;
         }
-        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
+        throw new InvalidArgumentException(sprintf('"%s" is an invalid API service method.', $methodNameWithSuffix));
     }
 
     /**
@@ -109,8 +109,8 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
         $methodNameWithSuffix = $methodReflection->getName();
         $regularExpression = $this->_getMethodNameRegularExpression();
         if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $resourceNamePosition = 2;
-            $methodVersion = ucfirst($methodMatches[$resourceNamePosition]);
+            $serviceNamePosition = 2;
+            $methodVersion = ucfirst($methodMatches[$serviceNamePosition]);
         }
         return $methodVersion;
     }
@@ -173,7 +173,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
      * array(
      *     'removed'      => true,            // either 'deprecated' or 'removed' item must be specified
      *     'deprecated'   => true,
-     *     'use_resource' => 'operationName'  // resource to be used instead
+     *     'use_service' => 'operationName'  // service to be used instead
      *     'use_method'   => 'operationName'  // method to be used instead
      *     'use_version'  => N,               // version of method to be used instead
      * )
@@ -238,18 +238,18 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
             case 2:
                 try {
                     /** Support of: Mage_Catalog_Webapi_ProductController::createV1 */
-                    $resourceName = $this->_helper->getServiceName($useMethodParts[0]);
+                    $serviceName = $this->_helper->getServiceName($useMethodParts[0]);
                 } catch (InvalidArgumentException $e) {
                     /** Support of: catalogProduct::createV1 */
-                    $resourceName = $useMethodParts[0];
+                    $serviceName = $useMethodParts[0];
                 }
-                $deprecationPolicy['use_resource'] = $resourceName;
+                $deprecationPolicy['use_service'] = $serviceName;
                 $methodName = $useMethodParts[1];
                 break;
             case 1:
                 $methodName = $useMethodParts[0];
-                /** If resource was not specified, current one should be used. */
-                $deprecationPolicy['use_resource'] = $this->_helper->getServiceName(
+                /** If service was not specified, current one should be used. */
+                $deprecationPolicy['use_service'] = $this->_helper->getServiceName(
                     $methodReflection->getDeclaringClass()->getName()
                 );
                 break;

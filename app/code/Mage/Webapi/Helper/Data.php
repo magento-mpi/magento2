@@ -35,8 +35,8 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * - set default values for omitted arguments
      * - instantiate objects of necessary classes
      *
-     * @param string|object $classOrObject Resource class name
-     * @param string $methodName Resource method name
+     * @param string|object $classOrObject Service class name
+     * @param string $methodName Service method name
      * @param array $requestData Data to be passed to method
      * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return array Array of prepared method arguments

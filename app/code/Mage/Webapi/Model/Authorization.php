@@ -34,20 +34,20 @@ class Mage_Webapi_Model_Authorization
     }
 
     /**
-     * Check permissions on specific resource in ACL.
+     * Check permissions on specific service in ACL.
      *
-     * @param string $resource
+     * @param string $service
      * @param string $method
      * @throws Mage_Webapi_Exception
      */
-    public function checkResourceAcl($resource, $method)
+    public function checkServiceAcl($service, $method)
     {
         $coreAuthorization = $this->_authorization;
-        if (!$coreAuthorization->isAllowed($resource . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
+        if (!$coreAuthorization->isAllowed($service . Mage_Webapi_Model_Acl_Rule::SERVICE_SEPARATOR . $method)
             && !$coreAuthorization->isAllowed(null)
         ) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Access to resource is forbidden.'),
+                $this->_helper->__('Access to service is forbidden.'),
                 Mage_Webapi_Exception::HTTP_FORBIDDEN
             );
         }

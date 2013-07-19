@@ -2,7 +2,7 @@
 /**
  * Handler of requests to SOAP server.
  *
- * The main responsibility is to instantiate proper action controller (resource) and execute requested method on it.
+ * The main responsibility is to instantiate proper action controller (service) and execute requested method on it.
  *
  * {license_notice}
  *
@@ -119,14 +119,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 //                $this->_authentication->authenticate($this->_usernameToken);
 
                 // TODO: Enable authorization
-//                $this->_authorization->checkResourceAcl($resourceName, $method);
+//                $this->_authorization->checkServiceAcl($serviceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
 
-                $requestedResource = $this->_request->getRequestedResources();
-                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation, $requestedResource);
-                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation, $requestedResource);
+                $requestedService = $this->_request->getRequestedServices();
+                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation, $requestedService);
+                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation, $requestedService);
                 $service = $this->_objectManager->get($serviceId);
                    $outputData = $service->$serviceMethod($arguments);
                 if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
@@ -182,8 +182,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Identify version of requested operation.
      *
-     * This method is required when there are two or more resource versions specified in request:
-     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
+     * This method is required when there are two or more service versions specified in request:
+     * http://magento.host/api/soap?wsdl&services[service_a]=v1&services[service_b]=v2 <br/>
      * In this case it is not obvious what version of requested operation should be used.
      *
      * @param string $operationName
@@ -192,16 +192,16 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     protected function _getOperationVersion($operationName)
     {
-        $requestedResources = $this->_request->getRequestedResources();
-        $resourceName = $this->_apiConfig->getResourceNameByOperation($operationName);
-        if (!isset($requestedResources[$resourceName])) {
+        $requestedServices = $this->_request->getRequestedServices();
+        $serviceName = $this->_apiConfig->getServiceNameByOperation($operationName);
+        if (!isset($requestedServices[$serviceName])) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__('The version of "%s" operation cannot be identified.', $operationName),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
-        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
-        $this->_apiConfig->validateVersionNumber($version, $resourceName);
+        $version = (int)str_replace('V', '', ucfirst($requestedServices[$serviceName]));
+        $this->_apiConfig->validateVersionNumber($version, $serviceName);
         return $version;
     }
 }

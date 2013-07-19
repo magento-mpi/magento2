@@ -1,6 +1,6 @@
 <?php
 /**
- * Webapi module exception. Should be used in web API resources implementation.
+ * Webapi module exception. Should be used in web API services implementation.
  *
  * {license_notice}
  *

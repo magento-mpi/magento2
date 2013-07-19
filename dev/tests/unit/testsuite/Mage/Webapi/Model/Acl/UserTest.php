@@ -20,9 +20,9 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Mage_Webapi_Model_Resource_Acl_User|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Webapi_Model_Service_Acl_User|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_userResource;
+    protected $_userService;
 
     protected function setUp()
     {
@@ -33,17 +33,17 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_userResource = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_User')
+        $this->_userService = $this->getMockBuilder('Mage_Webapi_Model_Service_Acl_User')
             ->disableOriginalConstructor()
             ->setMethods(array('getIdFieldName', 'getRoleUsers', 'load', 'getReadConnection'))
             ->getMock();
 
-        $this->_userResource->expects($this->any())
+        $this->_userService->expects($this->any())
             ->method('getIdFieldName')
             ->withAnyParameters()
             ->will($this->returnValue('id'));
 
-        $this->_userResource->expects($this->any())
+        $this->_userService->expects($this->any())
             ->method('getReadConnection')
             ->withAnyParameters()
             ->will($this->returnValue($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)));
@@ -52,17 +52,17 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Create User model.
      *
-     * @param Mage_Webapi_Model_Resource_Acl_User $userResource
-     * @param Mage_Webapi_Model_Resource_Acl_User_Collection $resourceCollection
+     * @param Mage_Webapi_Model_Service_Acl_User $userService
+     * @param Mage_Webapi_Model_Service_Acl_User_Collection $serviceCollection
      * @return Mage_Webapi_Model_Acl_User
      */
-    protected function _createModel($userResource, $resourceCollection = null)
+    protected function _createModel($userService, $serviceCollection = null)
     {
         return $this->_helper->getObject('Mage_Webapi_Model_Acl_User', array(
             'eventDispatcher' => $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
             'cacheManager' => $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false),
-            'resource' => $userResource,
-            'resourceCollection' => $resourceCollection
+            'resource' => $userService,
+            'resourceCollection' => $serviceCollection
         ));
     }
 
@@ -71,9 +71,9 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
-        $this->assertAttributeEquals('Mage_Webapi_Model_Resource_Acl_User', '_resourceName', $model);
+        $this->assertAttributeEquals('Mage_Webapi_Model_Service_Acl_User', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -82,12 +82,12 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRoleUsers()
     {
-        $this->_userResource->expects($this->once())
+        $this->_userService->expects($this->once())
             ->method('getRoleUsers')
             ->with(1)
             ->will($this->returnValue(array(1)));
 
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
         $result = $model->getRoleUsers(1);
 
@@ -99,12 +99,12 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadByKey()
     {
-        $this->_userResource->expects($this->once())
+        $this->_userService->expects($this->once())
             ->method('load')
             ->with($this->anything(), 'key', 'api_key')
             ->will($this->returnSelf());
 
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
         $result = $model->loadByKey('key');
         $this->assertInstanceOf('Mage_Webapi_Model_Acl_User', $result);
@@ -115,7 +115,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testPublicGetters()
     {
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
         $model->setData('secret', 'secretKey');
 
@@ -132,16 +132,16 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            'Mage_Webapi_Model_Resource_Acl_User_Collection',
+            'Mage_Webapi_Model_Service_Acl_User_Collection',
             array('_initSelect', 'setModel'),
-            array($fetchStrategy, $this->_userResource)
+            array($fetchStrategy, $this->_userService)
         );
 
         $collection->expects($this->any())->method('setModel')->with('Mage_Webapi_Model_Acl_User');
 
-        $model = $this->_createModel($this->_userResource, $collection);
+        $model = $this->_createModel($this->_userService, $collection);
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('Mage_Webapi_Model_Resource_Acl_User', '_resourceModel', $result);
+        $this->assertAttributeEquals('Mage_Webapi_Model_Service_Acl_User', '_resourceModel', $result);
     }
 }

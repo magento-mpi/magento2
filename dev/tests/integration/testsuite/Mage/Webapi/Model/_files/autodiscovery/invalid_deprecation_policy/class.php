@@ -11,7 +11,7 @@
 class Invalid_Deprecation_Controller_Webapi_Policy
 {
     /**
-     * @apiDeprecated resource::get
+     * @apiDeprecated service::get
      */
     public function getV1()
     {

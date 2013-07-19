@@ -28,11 +28,11 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test identifying resource name parts including subresources using class name.
+     * Test identifying service name parts including subservices using class name.
      *
-     * @dataProvider resourceNamePartsDataProvider
+     * @dataProvider serviceNamePartsDataProvider
      */
-    public function testGetResourceNameParts($className, $preserveVersion, $expected)
+    public function testGetServiceNameParts($className, $preserveVersion, $expected)
     {
         $actual = $this->_helper->getServiceNameParts(
             $className,
@@ -42,11 +42,11 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Dataprovider for resourceNameParts
+     * Dataprovider for serviceNameParts
      *
      * @return array
      */
-    public function resourceNamePartsDataProvider()
+    public function serviceNamePartsDataProvider()
     {
         return array(
             array('Mage_Customer_Service_Customer_AddressInterfaceV1', false, array('Customer', 'Address')),

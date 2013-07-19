@@ -24,20 +24,20 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**#@-*/
 
     /**#@+
-     * Resource types.
+     * Service types.
      */
     const ACTION_TYPE_ITEM = 'item';
     const ACTION_TYPE_COLLECTION = 'collection';
     /**#@-*/
 
     /** @var string */
-    protected $_resourceName;
+    protected $_serviceName;
 
     /** @var string */
-    protected $_resourceType;
+    protected $_serviceType;
 
     /** @var string */
-    protected $_resourceVersion;
+    protected $_serviceVersion;
 
     /**
      * @var Mage_Webapi_Controller_Request_Rest_InterpreterInterface
@@ -178,23 +178,23 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Retrieve resource type.
+     * Retrieve service type.
      *
      * @return string
      */
-    public function getResourceName()
+    public function getServiceName()
     {
-        return $this->_resourceName;
+        return $this->_serviceName;
     }
 
     /**
-     * Set resource type.
+     * Set service type.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      */
-    public function setResourceName($resourceName)
+    public function setServiceName($serviceName)
     {
-        $this->_resourceName = $resourceName;
+        $this->_serviceName = $serviceName;
     }
 
     /**
@@ -202,55 +202,55 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      *
      * @return string|null
      */
-    public function getResourceType()
+    public function getServiceType()
     {
-        return $this->_resourceType;
+        return $this->_serviceType;
     }
 
     /**
-     * Set resource type.
+     * Set service type.
      *
-     * @param string $resourceType
+     * @param string $serviceType
      */
-    public function setResourceType($resourceType)
+    public function setServiceType($serviceType)
     {
-        $this->_resourceType = $resourceType;
+        $this->_serviceType = $serviceType;
     }
 
     /**
      * Retrieve action version.
      *
      * @return int
-     * @throws LogicException If resource version cannot be identified.
+     * @throws LogicException If service version cannot be identified.
      */
-    public function getResourceVersion()
+    public function getServiceVersion()
     {
-        if (!$this->_resourceVersion) {
+        if (!$this->_serviceVersion) {
             // TODO: Default version can be identified and returned here
             return 1;
         }
-        return $this->_resourceVersion;
+        return $this->_serviceVersion;
     }
 
     /**
-     * Set resource version.
+     * Set service version.
      *
-     * @param string|int $resourceVersion Version number either with prefix or without it
+     * @param string|int $serviceVersion Version number either with prefix or without it
      * @throws Mage_Webapi_Exception
      * @return Mage_Webapi_Controller_Request_Rest
      */
-    public function setResourceVersion($resourceVersion)
+    public function setServiceVersion($serviceVersion)
     {
         $versionPrefix = Mage_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX;
-        if (preg_match("/^{$versionPrefix}?(\d+)$/i", $resourceVersion, $matches)) {
+        if (preg_match("/^{$versionPrefix}?(\d+)$/i", $serviceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__("Resource version is not specified or invalid one is specified."),
+                $this->_helper->__("Service version is not specified or invalid one is specified."),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
-        $this->_resourceVersion = $versionNumber;
+        $this->_serviceVersion = $versionNumber;
         return $this;
     }
 
@@ -276,12 +276,12 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
             self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
         );
         $httpMethod = $this->getHttpMethod();
-        $resourceType = $this->getResourceType();
-        if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
+        $serviceType = $this->getServiceType();
+        if (!isset($restMethodsMap[$serviceType . $httpMethod])) {
             throw new Mage_Webapi_Exception($this->_helper->__('Requested method does not exist.'),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND);
         }
-        $methodName = $restMethodsMap[$resourceType . $httpMethod];
+        $methodName = $restMethodsMap[$serviceType . $httpMethod];
         if ($methodName == self::HTTP_METHOD_CREATE) {
             /** If request is numeric array, multi create operation must be used. */
             $params = $this->getBodyParams();
@@ -292,12 +292,12 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
                 }
             }
         }
-        $operationName = $this->getResourceName() . ucfirst($methodName);
+        $operationName = $this->getServiceName() . ucfirst($methodName);
         return $operationName;
     }
 
     /**
-     * Identify resource type by operation name.
+     * Identify service type by operation name.
      *
      * @param string $operation
      * @return string 'collection' or 'item'
@@ -316,7 +316,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => self::ACTION_TYPE_COLLECTION,
         );
         if (!isset($actionTypeMap[$operation])) {
-            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $operation));
+            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid service method.', $operation));
         }
         return $actionTypeMap[$operation];
     }

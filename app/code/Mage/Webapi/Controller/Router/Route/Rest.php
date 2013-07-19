@@ -1,6 +1,6 @@
 <?php
 /**
- * Route to resources available via REST API.
+ * Route to services available via REST API.
  *
  * {license_notice}
  *
@@ -12,7 +12,7 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     /**#@+
      * Names of special parameters in routes.
      */
-    const PARAM_VERSION = 'resourceVersion';
+    const PARAM_VERSION = 'serviceVersion';
     const PARAM_ID = 'id';
     const PARAM_PARENT_ID = 'parentId';
     /**#@-*/
@@ -111,7 +111,7 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     }
 
     /**
-     * Get route resource type.
+     * Get route service type.
      *
      * @return string
      */

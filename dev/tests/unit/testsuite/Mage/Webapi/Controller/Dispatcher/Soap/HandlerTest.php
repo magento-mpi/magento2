@@ -43,7 +43,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
         $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
             ->setMethods(
                 array(
-                    'getResourceNameByOperation',
+                    'getServiceNameByOperation',
                     'validateVersionNumber',
                     'getControllerClassByOperationName',
                     'getMethodNameByOperation',
@@ -65,11 +65,11 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
             ->disableOriginalConstructor()
             ->getMock();
         $this->_authorizationMock = $this->getMockBuilder('Mage_Webapi_Model_Authorization')
-            ->setMethods(array('checkResourceAcl'))
+            ->setMethods(array('checkServiceAcl'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')
-            ->setMethods(array('getRequestedResources'))
+            ->setMethods(array('getRequestedServices'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
@@ -146,19 +146,19 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
         $this->_authenticationMock->expects($this->once())->method('authenticate');
         /** Prepare mock for _getOperationVersion() method. */
         $this->_requestMock->expects($this->once())
-            ->method('getRequestedResources')
-            ->will($this->returnValue(array('resourceName' => 'v1')));
-        /** Create the arguments map of returned values for getResourceNameByOperation() method. */
-        $getResourceValueMap = array(
-            array('operation', null, 'resourceName'),
+            ->method('getRequestedServices')
+            ->will($this->returnValue(array('serviceName' => 'v1')));
+        /** Create the arguments map of returned values for getServiceNameByOperation() method. */
+        $getServiceValueMap = array(
+            array('operation', null, 'serviceName'),
             array('operation', 'v1', false)
         );
         $this->_apiConfigMock->expects($this->any())
-            ->method('getResourceNameByOperation')
-            ->will($this->returnValueMap($getResourceValueMap));
+            ->method('getServiceNameByOperation')
+            ->will($this->returnValueMap($getServiceValueMap));
         $this->_apiConfigMock->expects($this->once())
             ->method('validateVersionNumber')
-            ->with(1, 'resourceName');
+            ->with(1, 'serviceName');
         $this->_helperMock->expects($this->once())
             ->method('__')
             ->with('Method "%s" is not found.', 'operation')
@@ -177,10 +177,10 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
         $this->_authenticationMock->expects($this->once())->method('authenticate');
         /** Prepare mock for _getOperationVersion() method. */
         $this->_requestMock->expects($this->once())
-            ->method('getRequestedResources')
-            ->will($this->returnValue(array('resourceName' => 'v1')));
+            ->method('getRequestedServices')
+            ->will($this->returnValue(array('serviceName' => 'v1')));
         $this->_apiConfigMock->expects($this->once())
-            ->method('getResourceNameByOperation')
+            ->method('getServiceNameByOperation')
             ->will($this->returnValue(false));
         $this->_helperMock->expects($this->once())
             ->method('__')
@@ -200,18 +200,18 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
         /** Prepare mock for SUT. */
         $this->_prepareSoapRequest();
         $method = 'Get';
-        $resource = 'resourceName';
-        $operation = $resource . $method;
+        $service = 'serviceName';
+        $operation = $service . $method;
         $this->_authenticationMock->expects($this->once())->method('authenticate');
         $this->_requestMock->expects($this->once())
-            ->method('getRequestedResources')
-            ->will($this->returnValue(array($resource => 'v1')));
+            ->method('getRequestedServices')
+            ->will($this->returnValue(array($service => 'v1')));
         $this->_apiConfigMock->expects($this->any())
-            ->method('getResourceNameByOperation')
-            ->will($this->returnValue($resource));
+            ->method('getServiceNameByOperation')
+            ->will($this->returnValue($service));
         $this->_apiConfigMock->expects($this->once())
             ->method('validateVersionNumber')
-            ->with(1, $resource);
+            ->with(1, $service);
         $versionAfterFallback = 'V1';
         $action = $method . $versionAfterFallback;
         $this->_apiConfigMock->expects($this->once())
@@ -231,15 +231,15 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
             ->with($operation, '1')
             ->will($this->returnValue($method));
         $this->_authorizationMock->expects($this->once())
-            ->method('checkResourceAcl')
-            ->with($resource, $method);
+            ->method('checkServiceAcl')
+            ->with($service, $method);
         $this->_apiConfigMock->expects($this->once())
             ->method('identifyVersionSuffix')
             ->with($operation, '1', $controllerMock)
             ->will($this->returnValue($versionAfterFallback));
         $this->_apiConfigMock->expects($this->once())
             ->method('checkDeprecationPolicy')
-            ->with($resource, $method, $versionAfterFallback);
+            ->with($service, $method, $versionAfterFallback);
         $arguments = reset($this->_arguments);
         $arguments = get_object_vars($arguments);
         $this->_helperMock->expects($this->once())

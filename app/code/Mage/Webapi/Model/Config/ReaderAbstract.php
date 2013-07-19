@@ -10,14 +10,14 @@
 abstract class Mage_Webapi_Model_Config_ReaderAbstract
 {
     /**
-     * Cache ID for resource config.
+     * Cache ID for service config.
      */
-    const CONFIG_CACHE_ID = 'API-RESOURCE-CACHE';
+    const CONFIG_CACHE_ID = 'API-SERVICE-CACHE';
 
     /**
      * Pattern for API action controllers class name.
      */
-    const RESOURCE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+Interface(V\d+)$/';
+    const SERVICE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+Interface(V\d+)$/';
 
     /**
      * @var Zend\Code\Scanner\DirectoryScanner
@@ -126,7 +126,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
                 /** @var \Zend\Code\Scanner\ClassScanner $class */
                 $class = current($classes);
                 $className = $class->getName();
-                if (preg_match(self::RESOURCE_CLASS_PATTERN, $className)) {
+                if (preg_match(self::SERVICE_CLASS_PATTERN, $className)) {
                     $classData = $this->_classReflector->reflectClassMethods($className);
                     $this->_addData($classData);
                 }
@@ -134,7 +134,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
             $postReflectionData = $this->_classReflector->getPostReflectionData();
             $this->_addData($postReflectionData);
 
-            if (!isset($this->_data['resources'])) {
+            if (!isset($this->_data['services'])) {
                 throw new LogicException('Cannot populate config - no action controllers were found.');
             }
 

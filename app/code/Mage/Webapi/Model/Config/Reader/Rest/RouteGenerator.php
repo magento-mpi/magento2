@@ -93,7 +93,7 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
     protected function _isParentResourceIdExpected(ReflectionMethod $methodReflection)
     {
         $isIdFieldExpected = false;
-        if ($this->_helper->isSubresource($methodReflection)) {
+        if ($this->_helper->isSubservice($methodReflection)) {
             $methodsWithParentId = array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,

@@ -1,6 +1,6 @@
 <?php
 /**
- * Factory of web API action controllers (resources).
+ * Factory of web API action controllers (services).
  *
  * {license_notice}
  *

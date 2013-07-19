@@ -26,7 +26,7 @@ class Mage_Webapi_Controller_Router_Route_RestTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Test setResourceName and getResourceName methods.
+     * Test setServiceName and getServiceName methods.
      */
     public function testResourceName()
     {
@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Router_Route_RestTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Test setResourceType and getResourceType methods.
+     * Test setServiceType and getServiceType methods.
      */
     public function testResourceType()
     {
