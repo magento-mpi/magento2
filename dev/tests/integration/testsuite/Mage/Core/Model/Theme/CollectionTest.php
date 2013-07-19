@@ -74,7 +74,7 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                     'code'                 => 'default/default',
                     'preview_image'        => null,
                     'theme_directory'      => $designPath,
-                    'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
+                    'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
                 )
             )
         );
@@ -100,7 +100,7 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
             'magento_version_to'   => '*',
             'theme_path'           => 'default/space',
             'preview_image'        => 'images/preview.png',
-            'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
+            'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
         ));
 
         $this->_model->addDefaultPattern('*');
