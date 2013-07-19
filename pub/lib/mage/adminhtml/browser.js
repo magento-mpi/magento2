@@ -134,11 +134,13 @@
                 element.focus();
             }
         },
-  
+
         loadFileList: function(node) {
             var contentBlock = this.element.find('#contents');
             return $.ajax({
                 url: this.options.contentsUrl,
+                type: 'GET',
+                dataType: 'html',
                 data: {
                     form_key: FORM_KEY,
                     node: node.id
