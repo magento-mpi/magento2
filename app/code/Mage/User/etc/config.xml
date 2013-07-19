@@ -117,14 +117,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <layout>
-            <updates>
-                <user module="Mage_User">
-                    <file>layout.xml</file>
-                </user>
-            </updates>
-        </layout>
-    </adminhtml>
 </config>
-
