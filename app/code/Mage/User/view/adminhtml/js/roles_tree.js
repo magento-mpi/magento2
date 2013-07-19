@@ -47,11 +47,9 @@ jQuery(function($) {
             );
         },
         _checkNodes: function() {
-            var selected = this.options.treeInitSelectedData;
-            selected = selected.filter($.proxy(function(item) {
-                return this.element.jstree('is_leaf', '[data-id="' + item + '"]');
-            }, this));
-            this.element.jstree('check_node', '[data-id="' + selected.join('"],[data-id="') + '"]');
+            var $items = $('[data-id="' + this.options.treeInitSelectedData.join('"],[data-id="') + '"]');
+            $items.removeClass("jstree-unchecked").addClass("jstree-checked");
+            $items.children(":checkbox").prop("checked", true);
         },
         _changeState: function() {
             if (this.data.ui.hovered) {
