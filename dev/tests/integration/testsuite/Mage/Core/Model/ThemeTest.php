@@ -62,6 +62,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'magento_version_from' => '2.0.0.0-dev1',
             'magento_version_to'   => '*',
             'theme_path'           => 'default/default',
+            'code'                 => 'default/default',
             'preview_image'        => null,
             'theme_directory'      => implode(
                 DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default')

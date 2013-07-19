@@ -102,13 +102,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <index module="Mage_Index">
-                    <file>layout.xml</file>
-                </index>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Index>

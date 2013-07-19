@@ -82,13 +82,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <backend module="Mage_Backend">
-                    <file>layout.xml</file>
-                </backend>
-            </updates>
-        </layout>
         <events>
             <translate_initialization_before>
                 <observers>
@@ -187,4 +180,4 @@
             </Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
         </di>
     </adminhtml>
-</config>
+</config>

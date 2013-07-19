@@ -176,13 +176,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <saas_importexport module="Saas_ImportExport">
-                    <file>layout.xml</file>
-                </saas_importexport>
-            </updates>
-        </layout>
         <di>
             <Mage_AdminNotification_Model_System_MessageList>
                 <parameters>

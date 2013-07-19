@@ -131,20 +131,18 @@
             }
         }
     });
-})(jQuery);
 
 /**
  * This widget takes care of registering the needed loader listeners on the body
  */
-(function($){
     $.widget("mage.loaderAjax", {
         _create: function() {
             this._bind();
         },
         _bind: function() {
             this._on('body',{
-                'ajaxSend': 'onAjaxSend',
-                'ajaxComplete': 'onAjaxComplete'
+                'ajaxSend': '_onAjaxSend',
+                'ajaxComplete': '_onAjaxComplete'
             });
         },
         _getJqueryObj: function(loaderContext) {
@@ -161,7 +159,7 @@
             }
             return ctx;
         },
-        onAjaxSend: function(e, jqxhr, settings) {
+        _onAjaxSend: function(e, jqxhr, settings) {
             if (settings && settings.showLoader) {
                 var ctx = this._getJqueryObj(settings.loaderContext);
                 ctx.trigger('processStart');
@@ -174,7 +172,7 @@
                 }
             }
         },
-        onAjaxComplete: function(e, jqxhr, settings) {
+        _onAjaxComplete: function(e, jqxhr, settings) {
             if (settings && settings.showLoader) {
                 this._getJqueryObj(settings.loaderContext).trigger('processStop');
             }

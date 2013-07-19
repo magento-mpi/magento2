@@ -53,13 +53,6 @@
                 </observers>
             </bcp_update_defaults_on_configurable_product>
         </events>
-        <layout>
-            <updates>
-                <saas_unitprice module="Saas_UnitPrice">
-                    <file>layout.xml</file>
-                </saas_unitprice>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Saas_UnitPrice>
@@ -102,13 +95,6 @@
                 </Saas_UnitPrice>
             </modules>
         </translate>
-    <layout>
-      <updates>
-          <saas_unitprice module="Saas_UnitPrice">
-              <file>layout.xml</file>
-           </saas_unitprice>
-      </updates>
-   </layout>
 
     </adminhtml>
 

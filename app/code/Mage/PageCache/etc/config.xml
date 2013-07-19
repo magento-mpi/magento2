@@ -48,13 +48,6 @@
         </events>
     </global>
     <adminhtml>
-        <layout>
-            <updates>
-                <pagecache module="Mage_PageCache">
-                    <file>layout.xml</file>
-                </pagecache>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_PageCache>
@@ -66,13 +59,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <layout>
-            <updates>
-                <pagecache module="Mage_PageCache">
-                    <file>layout.xml</file>
-                </pagecache>
-            </updates>
-        </layout>
         <events>
             <controller_action_predispatch>
                 <observers>

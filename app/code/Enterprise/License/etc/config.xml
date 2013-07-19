@@ -29,13 +29,6 @@
                 </Enterprise_License>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <enterprise_license module="Enterprise_License">
-                    <file>layout.xml</file>
-                </enterprise_license>
-            </updates>
-        </layout>
         <events>
             <admin_user_authenticate_after>
                 <observers>

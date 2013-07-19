@@ -72,11 +72,6 @@
          */
         $('body').mage('notification');
 
-        /*
-         * Initialization of ajaxSend and ajaxComplete handlers for loader
-         */
-        $('body').mage('loaderAjax');
-
         $('.content-header:not(.skip-header)').mage('floatingHeader');
     };
 

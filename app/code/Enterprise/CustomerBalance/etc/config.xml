@@ -20,6 +20,15 @@
         </Enterprise_CustomerBalance>
     </modules>
     <global>
+        <di>
+            <Mage_Core_Model_ModuleManager>
+                <parameters>
+                    <outputConfigPaths>
+                        <Enterprise_CustomerBalance>Enterprise_CustomerBalance_Helper_Data::XML_PATH_ENABLED</Enterprise_CustomerBalance>
+                    </outputConfigPaths>
+                </parameters>
+            </Mage_Core_Model_ModuleManager>
+        </di>
         <resources>
             <enterprise_customerbalance_setup>
                 <setup>
@@ -121,14 +130,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </checkout_multishipping_refund_all>
-            <core_layout_update_updates_get_after>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>disableLayout</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </core_layout_update_updates_get_after>
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_customerbalance>
@@ -248,13 +249,6 @@
                 </Enterprise_CustomerBalance>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <enterprise_customerbalance module="Enterprise_CustomerBalance">
-                    <file>layout.xml</file>
-                </enterprise_customerbalance>
-            </updates>
-        </layout>
         <routers>
             <enterprise_customerbalance>
                 <use>standard</use>
@@ -280,13 +274,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_customerbalance module="Enterprise_CustomerBalance">
-                    <file>layout.xml</file>
-                </enterprise_customerbalance>
-            </updates>
-        </layout>
         <events>
             <adminhtml_customer_prepare_save>
                 <observers>

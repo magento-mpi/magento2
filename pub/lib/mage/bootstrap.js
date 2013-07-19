@@ -19,11 +19,6 @@ jQuery(function ($, console) {
          * and subscribe init action to contentUpdated event
          */
         $.mage.init();
-
-        /*
-         * Initialization of ajaxSend and ajaxComplete handlers for loader
-         */
-        $('body').mage('loaderAjax');
     };
 
     $(bootstrap);

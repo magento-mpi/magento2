@@ -107,13 +107,6 @@
         </events>
     </global>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_giftcard module="Enterprise_GiftCard">
-                    <file>layout.xml</file>
-                </enterprise_giftcard>
-            </updates>
-        </layout>
         <product>
             <collection>
                 <attributes>
@@ -153,13 +146,6 @@
         </events>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_giftcard module="Enterprise_GiftCard">
-                    <file>layout.xml</file>
-                </enterprise_giftcard>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_GiftCard>

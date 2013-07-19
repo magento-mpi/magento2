@@ -76,13 +76,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_search module="Enterprise_Search">
-                    <file>layout.xml</file>
-                </enterprise_search>
-            </updates>
-        </layout>
         <events>
             <adminhtml_catalog_product_attribute_edit_prepare_form>
                 <observers>
@@ -180,13 +173,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_search module="Enterprise_Search">
-                    <file>layout.xml</file>
-                </enterprise_search>
-            </updates>
-        </layout>
         <events>
             <controller_action_predispatch_catalog_category_view>
                 <observers>
