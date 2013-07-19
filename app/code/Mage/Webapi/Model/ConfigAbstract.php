@@ -191,7 +191,9 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      */
     public function getTypeToClassMap()
     {
-        return !is_null($this->_data['type_to_class_map']) ? $this->_data['type_to_class_map'] : array();
+        return isset($this->_data['type_to_class_map']) && !is_null($this->_data['type_to_class_map'])
+            ? $this->_data['type_to_class_map']
+            : array();
     }
 
     /**
@@ -364,8 +366,10 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     public function getAllResourcesVersions()
     {
         $resources = array();
-        foreach ($this->_data['resources'] as $resourceName => $data) {
-            $resources[$resourceName] = array_keys($data['versions']);
+        if (isset($this->_data['resources'])) {
+            foreach ($this->_data['resources'] as $resourceName => $data) {
+                $resources[$resourceName] = array_keys($data['versions']);
+            }
         }
 
         return $resources;
