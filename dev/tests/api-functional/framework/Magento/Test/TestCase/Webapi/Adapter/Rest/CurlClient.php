@@ -21,7 +21,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         JSON_ERROR_DEPTH => 'Maximum depth exceeded',
         JSON_ERROR_STATE_MISMATCH => 'State mismatch',
         JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
-        JSON_ERROR_SYNTAX => 'Syntax error, Invalid JSON'
+        JSON_ERROR_SYNTAX => 'Syntax error, invalid JSON'
     );
 
     /**
@@ -202,7 +202,11 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
 
         // merge custom Curl Options & return
-        return array_merge($curlOpts, $customCurlOpts);
+        foreach ($customCurlOpts as $opt => $val) {
+            $curlOpts[$opt] = $val;
+        }
+
+        return $curlOpts;
     }
 
     /**
@@ -247,12 +251,12 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
         $jsonError = json_last_error();
         if ($jsonError !== JSON_ERROR_NONE) {
             // find appropriate error message
-            $message = 'Unknown';
+            $message = 'Unknown JSON Error';
             if (isset($this->_jsonErrorMessages[$jsonError])) {
                 $message = $this->_jsonErrorMessages[$jsonError];
             }
 
-            throw new Exception('Decoding error: ' . $message, $jsonError);
+            throw new Exception('JSON Encoding / Decoding error: ' . $message, $jsonError);
         }
     }
 }
