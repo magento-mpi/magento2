@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Mage_Webapi_Model_Service_Acl_User|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Webapi_Model_Resource_Acl_User|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_userService;
 
@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_userService = $this->getMockBuilder('Mage_Webapi_Model_Service_Acl_User')
+        $this->_userService = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_User')
             ->disableOriginalConstructor()
             ->setMethods(array('getIdFieldName', 'getRoleUsers', 'load', 'getReadConnection'))
             ->getMock();
@@ -52,8 +52,8 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Create User model.
      *
-     * @param Mage_Webapi_Model_Service_Acl_User $userService
-     * @param Mage_Webapi_Model_Service_Acl_User_Collection $serviceCollection
+     * @param Mage_Webapi_Model_Resource_Acl_User $userService
+     * @param Mage_Webapi_Model_Resource_Acl_User_Collection $serviceCollection
      * @return Mage_Webapi_Model_Acl_User
      */
     protected function _createModel($userService, $serviceCollection = null)
@@ -73,7 +73,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel($this->_userService);
 
-        $this->assertAttributeEquals('Mage_Webapi_Model_Service_Acl_User', '_resourceName', $model);
+        $this->assertAttributeEquals('Mage_Webapi_Model_Resource_Acl_User', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -132,7 +132,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            'Mage_Webapi_Model_Service_Acl_User_Collection',
+            'Mage_Webapi_Model_Resource_Acl_User_Collection',
             array('_initSelect', 'setModel'),
             array($fetchStrategy, $this->_userService)
         );
@@ -142,6 +142,6 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
         $model = $this->_createModel($this->_userService, $collection);
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('Mage_Webapi_Model_Service_Acl_User', '_resourceModel', $result);
+        $this->assertAttributeEquals('Mage_Webapi_Model_Resource_Acl_User', '_resourceModel', $result);
     }
 }

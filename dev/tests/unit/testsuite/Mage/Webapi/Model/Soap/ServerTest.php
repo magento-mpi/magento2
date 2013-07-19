@@ -51,7 +51,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $reqRes = array(
             'catalogProduct' => 'V1'
         );
-        $this->_requestMock->expects($this->any())->method('getRequestedServices')
+        $this->_requestMock->expects($this->any())->method('getParam')
             ->will($this->returnValue($reqRes));
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();
@@ -142,7 +142,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateUriWithWsdlParam()
     {
-        $expectedResult = 'http://magento.com/webapi/soap?resources[catalogProduct]=V1&wsdl=1';
+        $expectedResult = 'http://magento.com/webapi/soap?services[catalogProduct]=V1&wsdl=1';
         $actualResult = $this->_soapServer->generateUri(true);
         $this->assertEquals($expectedResult, urldecode($actualResult), 'URI (with WSDL param) generated is invalid.');
     }
@@ -152,7 +152,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateUriWithNoWsdlParam()
     {
-        $expectedResult = 'http://magento.com/webapi/soap?resources[catalogProduct]=V1';
+        $expectedResult = 'http://magento.com/webapi/soap?services[catalogProduct]=V1';
         $actualResult = $this->_soapServer->generateUri(false);
         $this->assertEquals(
             $expectedResult,

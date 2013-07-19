@@ -43,7 +43,7 @@ class Mage_Webapi_Model_Authorization
     public function checkServiceAcl($service, $method)
     {
         $coreAuthorization = $this->_authorization;
-        if (!$coreAuthorization->isAllowed($service . Mage_Webapi_Model_Acl_Rule::SERVICE_SEPARATOR . $method)
+        if (!$coreAuthorization->isAllowed($service . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
             && !$coreAuthorization->isAllowed(null)
         ) {
             throw new Mage_Webapi_Exception(

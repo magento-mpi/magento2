@@ -10,7 +10,7 @@
 class Mage_Webapi_Model_Acl_Loader_Service_ConfigReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Webapi_Model_Acl_Loader_Service_ConfigReader
+     * @var Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader
      */
     protected $_reader;
 
@@ -40,7 +40,7 @@ class Mage_Webapi_Model_Acl_Loader_Service_ConfigReaderTest extends PHPUnit_Fram
             ->with('etc', 'Mage_Webapi')
             ->will($this->returnValue($dirPath));
 
-        $this->_reader = new Mage_Webapi_Model_Acl_Loader_Service_ConfigReader(
+        $this->_reader = new Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader(
             $this->_fileListMock,
             $this->_mapperMock,
             $this->_converterMock,
@@ -55,9 +55,9 @@ class Mage_Webapi_Model_Acl_Loader_Service_ConfigReaderTest extends PHPUnit_Fram
         $this->assertFileExists($actualXsdPath);
     }
 
-    public function testGetVirtualServices()
+    public function testGetVirtualResources()
     {
-        $services = $this->_reader->getAclVirtualServices();
+        $services = $this->_reader->getAclVirtualResources();
         $this->assertEquals(1, $services->length, 'More than one virtual service.');
         $this->assertEquals('customer/list', $services->item(0)->getAttribute('id'), 'Wrong id of virtual service');
         $this->assertEquals('customer/get', $services->item(0)->getAttribute('parent'),

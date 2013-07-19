@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Mage_Webapi_Model_Service_Acl_Role|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Webapi_Model_Resource_Acl_Role|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleService;
 
@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_roleService = $this->getMockBuilder('Mage_Webapi_Model_Service_Acl_Role')
+        $this->_roleService = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_Role')
             ->disableOriginalConstructor()
             ->setMethods(array('getIdFieldName', 'getReadConnection'))
             ->getMock();
@@ -52,8 +52,8 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     /**
      * Create Role model.
      *
-     * @param Mage_Webapi_Model_Service_Acl_Role $roleService
-     * @param Mage_Webapi_Model_Service_Acl_Role_Collection $serviceCollection
+     * @param Mage_Webapi_Model_Resource_Acl_Role $roleService
+     * @param Mage_Webapi_Model_Resource_Acl_Role_Collection $serviceCollection
      * @return Mage_Webapi_Model_Acl_Role
      */
     protected function _createModel($roleService, $serviceCollection = null)
@@ -73,7 +73,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel($this->_roleService);
 
-        $this->assertAttributeEquals('Mage_Webapi_Model_Service_Acl_Role', '_resourceName', $model);
+        $this->assertAttributeEquals('Mage_Webapi_Model_Resource_Acl_Role', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -86,16 +86,16 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            'Mage_Webapi_Model_Service_Acl_Role_Collection',
+            'Mage_Webapi_Model_Resource_Acl_Role_Collection',
             array('_initSelect', 'setModel'),
             array($fetchStrategy, $this->_roleService)
         );
 
-        $collection->expects($this->any())->method('setModel')->with('Mage_Webapi_Model_Service_Acl_Role');
+        $collection->expects($this->any())->method('setModel')->with('Mage_Webapi_Model_Resource_Acl_Role');
 
         $model = $this->_createModel($this->_roleService, $collection);
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('Mage_Webapi_Model_Service_Acl_Role', '_resourceModel', $result);
+        $this->assertAttributeEquals('Mage_Webapi_Model_Resource_Acl_Role', '_resourceModel', $result);
     }
 }

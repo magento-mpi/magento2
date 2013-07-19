@@ -10,7 +10,7 @@
 class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Webapi_Model_Authorization_Loader_Service
+     * @var Mage_Webapi_Model_Authorization_Loader_Resource
      */
     protected $_model;
 
@@ -47,7 +47,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
             ->will($this->returnValue($resource));
 
         $this->_config = $this->getMock('Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader',
-            array('getAclResources', 'getAclVirtualServices'), array(), '', false);
+            array('getAclResources', 'getAclVirtualResources'), array(), '', false);
         $this->_config->expects($this->once())
             ->method('getAclResources')
             ->will($this->returnValue(include $fixturePath . 'acl.php'));
@@ -68,7 +68,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     public function testPopulateAcl()
     {
         $this->_config->expects($this->once())
-            ->method('getAclVirtualServices')
+            ->method('getAclVirtualResources')
             ->will($this->returnValue($this->getResourceXPath()->query('/config/mapping/*')));
 
         $this->_acl->expects($this->once())
@@ -96,7 +96,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     public function testPopulateAclWithInvalidDOM()
     {
         $this->_config->expects($this->once())
-            ->method('getAclVirtualServices')
+            ->method('getAclVirtualResources')
             ->will($this->returnValue(array(3)));
 
         $this->_acl->expects($this->once())
