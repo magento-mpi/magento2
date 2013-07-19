@@ -69,6 +69,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
             'parent_theme_path'    => null,
             'area'                 => 'frontend',
+            'code'                 => 'default/iphone',
         );
     }
 
@@ -199,5 +200,28 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
         $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*');
         $this->assertTrue($themeModel->isThemeCompatible());
+    }
+
+    /**
+     * @param mixed $originalCode
+     * @param string $expectedCode
+     * @dataProvider getCodeDataProvider
+     */
+    public function testGetCode($originalCode, $expectedCode)
+    {
+        $this->_model->setCode($originalCode);
+        $this->assertSame($expectedCode, $this->_model->getCode());
+    }
+
+    /**
+     * @return array
+     */
+    public function getCodeDataProvider()
+    {
+        return array(
+            'string code' => array('theme/code', 'theme/code'),
+            'null code'   => array(null, ''),
+            'number code' => array(10, '10'),
+        );
     }
 }

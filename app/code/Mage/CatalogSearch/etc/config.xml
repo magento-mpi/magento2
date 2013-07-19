@@ -54,13 +54,6 @@
                 </Mage_CatalogSearch>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <catalogsearch module="Mage_CatalogSearch">
-                    <file>layout.xml</file>
-                </catalogsearch>
-            </updates>
-        </layout>
         <di>
             <Mage_CatalogSearch_Model_Session>
                 <parameters>
@@ -70,13 +63,6 @@
         </di>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <catalogsearch module="Mage_CatalogSearch">
-                    <file>layout.xml</file>
-                </catalogsearch>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_CatalogSearch>

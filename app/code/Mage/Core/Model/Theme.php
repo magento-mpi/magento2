@@ -38,6 +38,7 @@
  * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
  * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
  * @method Mage_Core_Model_Theme setType(int $type)
+ * @method Mage_Core_Model_Theme setCode(string $code)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -282,7 +283,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
     /**
      * Retrieve theme full path which is used to distinguish themes if they are not in DB yet
      *
-     * Alternative id looks like "<area>/<package_code>/<theme_code>".
+     * Alternative id looks like "<area>/<theme_path>".
      * Used as id in file-system theme collection
      *
      * @return string|null
@@ -290,6 +291,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
     public function getFullPath()
     {
         return $this->getThemePath() ? $this->getArea() . self::PATH_SEPARATOR . $this->getThemePath() : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode()
+    {
+        return (string)$this->getData('code');
     }
 
     /**

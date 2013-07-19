@@ -289,13 +289,6 @@
                 </args>
             </enterprise_giftcardaccount>
         </routers>
-        <layout>
-            <updates>
-                <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
-                    <file>layout.xml</file>
-                </enterprise_giftcardaccount>
-            </updates>
-        </layout>
         <events>
             <google_checkout_discount_item_price>
                 <observers>
@@ -319,13 +312,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
-                    <file>layout.xml</file>
-                </enterprise_giftcardaccount>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_GiftCardAccount>
@@ -394,4 +380,4 @@
             </enterprise_giftcardaccount_generage_codes_pool>
         </jobs>
     </crontab>
-</config>
+</config>

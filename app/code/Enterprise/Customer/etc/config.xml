@@ -217,22 +217,8 @@
         </events>
     </global>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_customer module="Enterprise_Customer">
-                    <file>layout.xml</file>
-                </enterprise_customer>
-            </updates>
-        </layout>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_customer module="Enterprise_Customer">
-                    <file>layout.xml</file>
-                </enterprise_customer>
-            </updates>
-        </layout>
         <events>
         </events>
         <translate>

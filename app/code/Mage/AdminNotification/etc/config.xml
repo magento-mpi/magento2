@@ -49,13 +49,6 @@
                 </observers>
             </controller_action_predispatch>
         </events>
-        <layout>
-            <updates>
-                <adminnotification module="Mage_AdminNotification">
-                    <file>layout.xml</file>
-                </adminnotification>
-            </updates>
-        </layout>
         <di>
             <Mage_AdminNotification_Model_System_MessageList>
                 <parameters>

@@ -99,12 +99,19 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('newsletter_queue'),
             array('theme_list'),
             array('google_content_manage_attributes'),
-            //array('report_tag_product'),
-            //array('report_tag_customer'),
             array('report_search'),
             array('manage_ratings'),
             array('manage_cms_widgets'),
             array('paypal_reports'),
+            array('api_soap_users'),
+            array('manage_customer_groups'),
+            array('cache_storage_management'),
+            array('manage_shopping_cart_price_rules'),
+            array('order_statuses'),
+            array('manage_catalog_price_rules'),
+            array('manage_tax_rule'),
+            array('online_customers'),
+            array('newsletter_subscribers'),
         );
     }
 

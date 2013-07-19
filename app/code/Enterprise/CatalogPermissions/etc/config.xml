@@ -149,13 +149,6 @@
                 </Enterprise_CatalogPermissions>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <enterprise_catalogpermissions module="Enterprise_CatalogPermissions">
-                    <file>layout.xml</file>
-                </enterprise_catalogpermissions>
-            </updates>
-        </layout>
     </adminhtml>
     <frontend>
         <events>
@@ -304,13 +297,6 @@
                 </observers>
             </rss_catalog_category_xml_callback>
         </events>
-        <layout>
-            <updates>
-                <enterprise_catalogpermissions module="Enterprise_CatalogPermissions">
-                    <file>layout.xml</file>
-                </enterprise_catalogpermissions>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_CatalogPermissions>

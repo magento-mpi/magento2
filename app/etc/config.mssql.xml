@@ -37,13 +37,5 @@
                 </extensions>
             </mssql>
         </databases>
-
-        <layout>
-            <updates>
-                <install_mssql module="Mage_Install">
-                    <file>layout_mssql.xml</file>
-                </install_mssql>
-            </updates>
-        </layout>
     </install>
 </config>

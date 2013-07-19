@@ -9,7 +9,7 @@ app/code/Social
 app/code/Mage/Install/Block/Db/Type/{Oracle,Mssql}.php
 app/code/Mage/Install/Model/Installer/Db/{Mssql,Oracle}.php
 app/code/Mage/Install/view/install/db/{mssql,oracle}.phtml
-app/code/Mage/Install/view/install/layout_{oracle,mssql}.xml
+app/code/Mage/Install/view/install/layout/install_wizard_config_{oracle,mssql}.xml
 app/design/adminhtml/default/pro
 app/design/frontend/pro
 app/design/install/default/pro

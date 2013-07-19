@@ -366,15 +366,15 @@ online_customers:
                         dropdowns:
                             type: //select[@id='onlineGrid_filter_type']
                         fields:
-                            id_from: //input[@name='entity_id_from']
-                            id_to: //input[@name='entity_id_to']
+                            id_from: //input[@id='onlineGrid_filter_customer_id_from']
+                            id_to: //input[@id='onlineGrid_filter_customer_id_to']
                             firstname: //input[@name='firstname']
                             lastname: //input[@name='lastname']
                             email: //input[@name='email']
-                            session_start_time_from: //input[@name='session_start_time_from']
-                            session_start_time_to: //input[@name='session_start_time_to']
-                            last_activity_from: //input[@name='last_activity_from']
-                            last_activity_to: //input[@name='last_activity_to']
+                            session_start_time_from: //input[@name='session_start_time[from]']
+                            session_start_time_to: //input[@name='session_start_time[to]']
+                            last_activity_from: //input[@name='last_activity[from]']
+                            last_activity_to: //input[@name='last_activity[to]']
                             last_url: //input[@name='last_url']
                         pageelements:
                             online_grid_head: //table[@id='onlineGrid_table']/thead/tr[@class='headings']

@@ -36,12 +36,5 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <apps module="Saas_Apps">
-                    <file>layout.xml</file>
-                </apps>
-            </updates>
-        </layout>
     </adminhtml>
 </config>

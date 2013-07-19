@@ -21,13 +21,6 @@
         </Saas_Launcher>
     </modules>
     <adminhtml>
-        <layout>
-            <updates>
-                <launcher module="Saas_Launcher">
-                    <file>layout.xml</file>
-                </launcher>
-            </updates>
-        </layout>
     </adminhtml>
     <admin>
         <routers>

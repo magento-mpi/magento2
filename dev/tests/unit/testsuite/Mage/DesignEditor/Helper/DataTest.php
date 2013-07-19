@@ -44,7 +44,9 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_translatorMock = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
-        $this->_context = new Mage_Core_Helper_Context($this->_translatorMock);
+        $this->_context = $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false);
+        $this->_context
+            ->expects($this->any())->method('getTranslator')->will($this->returnValue($this->_translatorMock));
     }
 
     protected function tearDown()

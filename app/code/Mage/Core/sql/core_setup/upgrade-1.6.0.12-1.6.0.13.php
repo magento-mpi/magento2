@@ -8,6 +8,17 @@
  * @license    {license_link}
  */
 
-/* @var $this Mage_Core_Model_Resource_Setup */
-$connection = $this->getConnection();
-$connection->dropTable('core_theme_file_update');
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
+$installer->startSetup();
+
+$installer->getConnection()->addColumn(
+    $installer->getTable('core_theme'),
+    'code',
+    array(
+        'type'    => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'comment' => 'Full theme code, including package'
+    )
+);
+
+$installer->endSetup();

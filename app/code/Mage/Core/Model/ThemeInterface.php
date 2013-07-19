@@ -58,4 +58,11 @@ interface Mage_Core_Model_ThemeInterface
      * @return Mage_Core_Model_ThemeInterface|null
      */
     public function getParentTheme();
+
+    /**
+     * Get code of the theme
+     *
+     * @return string
+     */
+    public function getCode();
 }
