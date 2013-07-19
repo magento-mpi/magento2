@@ -239,6 +239,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         return array(
             'code'                 => $packageCode . Mage_Core_Model_Theme::CODE_SEPARATOR . $themeCode,
             'parent_id'            => null,
+            'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL,
             'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
             'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
             'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
