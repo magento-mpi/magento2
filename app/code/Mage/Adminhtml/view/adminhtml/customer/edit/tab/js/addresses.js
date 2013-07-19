@@ -10,12 +10,16 @@
 (function ($, window) {
     $.widget('mage.addressTabs', $.mage.tabs, {
         options: {
-            tabLabel: 'tabs-',
             itemCount: 0,
             baseItemId: 'new_item',
-            // @TODO obtain default countries
-            defaultCountries: null,
-            itemContentTemplate: '',
+            loader: null,
+            regionsUrl: null,
+            defaultCountries: [],
+            optionalZipCountries: [],
+            requiredStateForCountries: [],
+            countryElement: null,
+            regionIdElement: null,
+            regionElement: null,
             deleteConfirmPrompt: ''
         },
 
@@ -61,32 +65,24 @@
 
             this.element.trigger('contentUpdated', newItem);
 
-            // pre-fill form with account firstname and lastname
+            // pre-fill form with account firstname, lastname, and country
             newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]')
                 .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
             newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]')
                 .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]').val());
 
-            // .val does not trigger change event, so manually trigger.
+            var accountWebsiteId = $(':input[data-ui-id="store-switcher-form-renderer-fieldset-element-select-account-website-id"]').val();
+            if (accountWebsiteId !== '' && undefined !== this.options.defaultCountries[accountWebsiteId]) {
+                newForm.find('customer-edit-tab-addresses-fieldset-element-form-field-country-id').val(this.options.defaultCountries[accountWebsiteId]);
+            }
+
+            // .val does not trigger change event, so manually trigger. (Triggering change of any field will handle update of all fields.)
             newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]').trigger("change");
 
             // @TODO this function
 //            this.setActiveItem(newItem);
-            // @TODO country/region relationship
-//          this.bindCountryRegionRelation(newForm.id);
 
-            // @TODO all this
-            /*            if ($('#_accountwebsite_id').val !== ''
-             && undefined !== this.options.defaultCountries[$('#_accountwebsite_id').val]
-             ) {
-             $('#_item' + this.options.itemCount + 'country_id').val = this.options.defaultCountries[$('#_accountwebsite_id').val];
-             $('#_item' + this.options.itemCount + 'country_id').trigger('change');
-             }
-
-             if( $('#_item'+this.options.itemCount+'firstname').val )
-             this.syncFormData($('#_item'+this.options.itemCount+'firstname'));
-             if( $('#_item'+this.options.itemCount+'lastname').val )
-             this.syncFormData($('#_item'+this.options.itemCount+'lastname')); */
+            this._bindCountryRegionRelation(newForm);
         },
 
         /**
@@ -96,11 +92,13 @@
             this._on(this.element.find(':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'),
                 {'click': '_addNewAddress'});
             this._on({'formchange': '_updateAddress', 'dataItemDelete': '_deleteItemPrompt'});
+            this._on(this.element.find('.countries'), {'change': '_onAddressCountryChanged'});
         },
 
         _create: function () {
             this._super();
             this._bind();
+            this.options.loader = new varienLoader(true);
         },
 
         /**
@@ -178,7 +176,7 @@
                 // Set data to html
                 var itemContainer = this.element.find("[aria-selected='true'] address");
                 if (itemContainer.length && itemContainer[0]) {
-                    html = $("<div/>").append($('[data-template="item-content-tmpl"]').tmpl(data)).html();
+                    var html = $("<div/>").append($('[data-template="item-content-tmpl"]').tmpl(data)).html();
                     html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}', 'img'), '<br/>');
                     html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}\\s*<br\\s*/?>', 'ig'), '<br/>');
                     html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}(.*)<br\\s*/?>', 'ig'), '<br/>$2<br/>');
@@ -198,7 +196,198 @@
          * @private
          */
         _updateAddress: function (event) {
-            this._syncFormData(event.target);
+            this._syncFormData(this._getFormContainer(event.target));
+        },
+
+        /**
+         * This method returns the form containing this element.
+         * @param element jQuery or DOM element.
+         * @private
+         */
+        _getFormContainer: function(element) {
+            if (!(element instanceof jQuery)) {
+                element = $(element);
+            }
+            return element.closest(".address-item-edit-content");
+        },
+
+        /**
+         * This method binds a country change event to _onAddressCountryChanged method.
+         * @param formElement the form containing the country that changed.
+         * @private
+         */
+        _bindCountryRegionRelation : function(formElement){
+            this._on(formElement.find('.countries'), {'change': '_onAddressCountryChanged'});
+        },
+
+        /**
+         * This method updates region input; and region and zipCode optional/required indicator based on the country.
+         * @param event Change event occurring
+         * @private
+         */
+        _onAddressCountryChanged : function(event){
+            var countryElement = event.target;
+            this.options.countryElement = countryElement;
+
+            var formElement = $(countryElement).closest('.address-item-edit-content');
+            var fieldElement = $(formElement).find('.field-region');
+            var regionIdElement =  $(fieldElement).find('.input-text');
+            this.options.regionIdElement = regionIdElement;
+            this.options.regionElement = regionIdElement.next();
+
+            if (countryElement.value) {
+                // obtain regions for the country
+                var url = this.options.regionsUrl + 'parent/' + countryElement.value;
+                console.log(url);
+                this.options.loader.load(url, {}, jQuery.proxy(this._refreshRegionField, this));
+            } else {
+                // Set empty text field in region
+                this._refreshRegionField('[]');
+            }
+            // set Zip optional/required
+            this._setPostcodeOptional(countryElement);
+        },
+
+        /**
+         * This method updates the region input from the server response.
+         * @param serverResponse Array of regions/state/provinces or empty if regions n/a for country
+         * @private
+         */
+        _refreshRegionField : function(serverResponse){
+            if (!serverResponse)
+                return;
+            var data = eval('(' + serverResponse + ')');
+
+            var regionField = $(this.options.regionElement).closest('div.field');
+            var newInput = null; // id of input that was added to a page - filled below
+            var regionControl = regionField.find('.control');
+            var regionInput = null;
+            var regionIdInput = null;
+
+            // clear current region input/select
+            regionControl.empty();
+
+            if (data.length) {
+                // Create visible selectbox 'region_id' and hidden 'region'
+                regionIdInput = $('<select>').attr({
+                    name: this.options.regionIdElement.attr("name"),
+                    id: this.options.regionIdElement.attr("id"),
+                    class: "required-entry input-text select",
+                    title: this.options.regionIdElement.attr("title")
+                }).appendTo(regionControl);
+
+                data.each(function(item) {
+                    regionIdInput.append($("<option />").val(item.value).text(item.label));
+                });
+
+                // @TODO Set selected value
+                regionIdInput.val(this.options.regionElement.val());
+
+                regionInput = $('<input>').attr({
+                    name: this.options.regionElement.attr("name"),
+                    id: this.options.regionElement.attr("id"),
+                    type: "hidden"
+                }).appendTo(regionControl);
+
+                regionField.addClass("required");
+
+                newInput = regionIdInput;
+            }
+            else {
+                // Create visible text input 'region' and hidden 'region_id'
+                regionInput = $('<input>').attr({
+                    type: "text",
+                    name: this.options.regionElement.attr("name"),
+                    id: this.options.regionElement.attr("id"),
+                    class: "input-text",
+                    title: this.options.regionElement.attr("title")
+                }).appendTo(regionControl);
+
+                regionIdInput = $('<input>').attr({
+                    type: "hidden",
+                    name: this.options.regionIdElement.attr("name"),
+                    id: this.options.regionIdElement.attr("id")
+                }).appendTo(regionControl);
+
+                regionField.removeClass("required");
+
+                newInput = regionInput;
+            }
+
+            this.options.regionElement = regionInput;
+            this.options.regionIdElement = regionIdInput;
+
+            // Updating in address info
+            this._syncFormData(this._getFormContainer(newInput)); // Update address info now
+            var activeElement = regionInput;
+            if (('select' == $(regionIdInput).prop("tagName").toLowerCase()) && regionIdInput) {
+                activeElement = regionIdInput;
+            }
+
+            activeElement.on('change', $.proxy(this._syncFormData, this, this._getFormContainer(activeElement)));
+            this._checkRegionRequired([regionInput, regionIdInput], activeElement);
+        },
+
+        /**
+         * This method updates the region input required/optional and validation classes.
+         * @param elements Region elements
+         * @param activeElementId Active Region element
+         * @private
+         */
+        _checkRegionRequired: function(elements, activeElementId)
+        {
+            var label, wildCard;
+            var that = this;
+            var regionRequired = this.options.requiredStateForCountries.indexOf(this.options.countryElement.value) >= 0;
+
+            elements.each(function(currentElement) {
+                var form = $(currentElement).closest("form");
+                var validationInstance = form ? jQuery(form).data('validation') : null;
+
+                if (validationInstance) {
+                    validationInstance.clearError(currentElement);
+                }
+
+                if (!regionRequired) {
+                    if (currentElement.hasClass('required-entry')) {
+                        currentElement.removeClass('required-entry');
+                    }
+                    if ('select' == currentElement.prop("tagName").toLowerCase() &&
+                            currentElement.hasClass('validate-select')) {
+                        currentElement.removeClass('validate-select');
+                    }
+                } else if (activeElement == currentElement) {
+                    if (!currentElement.hasClass('required-entry')) {
+                        currentElement.addClass('required-entry');
+                    }
+                    if ('select' == currentElement.prop("tagName").toLowerCase() &&
+                            !currentElement.hasClass('validate-select')) {
+                        currentElement.addClass('validate-select');
+                    }
+                }
+            });
+        },
+
+        /**
+         * This method updates the zip/postal code required/optional indicator.
+         * @param countryElement
+         * @private
+         */
+        _setPostcodeOptional: function(countryElement) {
+            var formElement = $(countryElement).closest('.address-item-edit-content');
+            var fieldElement = $(formElement).find('.field-postcode');
+            var zipElement = $(fieldElement).find('.input-text');
+
+            var zipField = $(zipElement).closest('.field-postcode');
+            if (this.options.optionalZipCountries.indexOf(countryElement.value) != -1) {
+                if ($(zipElement).hasClass('required-entry')) {
+                    $(zipElement).removeClass('required-entry');
+                }
+                $(zipField).removeClass('required');
+            } else {
+                $(zipElement).addClass('required-entry');
+                $(zipField).addClass('required');
+            }
         }
     });
 
