@@ -125,14 +125,9 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
     {
         /** @var $reader Magento_Acl_Loader_Resource_ConfigReaderInterface */
         $reader = Mage::getSingleton('Magento_Acl_Loader_Resource_ConfigReaderInterface');
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
-        /** @var $translator Mage_User_Helper_Data */
-        $translator = $this->helper('Mage_User_Helper_Data');
         $resources = $reader->getAclResources();
         $rootArray = $this->_mapResources(
-            isset($resources[1]['children']) ? $resources[1]['children'] : array(),
-            $translator
+            isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );
         return $rootArray;
     }
@@ -141,21 +136,20 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
      * Map resources
      *
      * @param array $resources
-     * @param Mage_User_Helper_Data $translator
      * @return array
      */
-    protected function _mapResources(array $resources, Mage_User_Helper_Data $translator)
+    protected function _mapResources(array $resources)
     {
         $output = array();
         foreach ($resources as $resource) {
             $item = array();
             $item['attr']['data-ui-id'] = $resource['id'];
             $item['attr']['data-id'] = $resource['id'];
-            $item['data'] = $translator->__($resource['title']);
+            $item['data'] = $this->__($resource['title']);
             $item['children'] = array();
             if (isset($resource['children'])) {
                 $item['state'] = 'open';
-                $item['children'] = $this->_mapResources($resource['children'], $translator);
+                $item['children'] = $this->_mapResources($resource['children']);
             }
             $output[] = $item;
         }
