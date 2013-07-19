@@ -58,6 +58,18 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="price"  type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>Default label</xsd:documentation>
+                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                        <inf:maxLength/>
+                        <inf:callInfo>
+                            <inf:callName>testModule1AllSoapAndRestItem</inf:callName>
+                            <inf:returned>Always</inf:returned>
+                        </inf:callInfo>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
 
