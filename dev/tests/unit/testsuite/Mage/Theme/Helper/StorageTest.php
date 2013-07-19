@@ -24,9 +24,9 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
     protected $_session;
 
     /**
-     * @var Mage_DesignEditor_Model_Theme_Context|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Theme_FlyweightFactory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_themeContext;
+    protected $_themeFactory;
 
     /**
      * @var Zend_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
@@ -51,10 +51,8 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
         $this->_request = $this->getMock('Zend_Controller_Request_Http', array('getParam'), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_session = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
-        $this->_themeContext = $this->getMock(
-            'Mage_DesignEditor_Model_Theme_Context', array('setEditableThemeById', 'getStagingTheme'),
-            array(), '', false
-        );
+        $this->_themeFactory = $this->getMock('Mage_Core_Model_Theme_FlyweightFactory', array('create'), array(),
+            '', false);
 
         $this->_storageHelper = $this->getMock('Mage_Theme_Helper_Storage',
             array('_getRequest', 'urlDecode'), array(), '', false
@@ -74,16 +72,16 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
         $sessionProperty->setAccessible(true);
         $sessionProperty->setValue($this->_storageHelper, $this->_session);
 
-        $themeFactoryProperty = new ReflectionProperty($this->_storageHelper, '_themeContext');
+        $themeFactoryProperty = new ReflectionProperty($this->_storageHelper, '_themeFactory');
         $themeFactoryProperty->setAccessible(true);
-        $themeFactoryProperty->setValue($this->_storageHelper, $this->_themeContext);
+        $themeFactoryProperty->setValue($this->_storageHelper, $this->_themeFactory);
     }
 
     public function tearDown()
     {
         $this->_filesystem = null;
         $this->_session = null;
-        $this->_themeContext = null;
+        $this->_themeFactory = null;
         $this->_request = null;
         $this->_storageHelper = null;
         $this->_customizationPath = null;
@@ -121,7 +119,7 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Theme_Helper_Storage::getStorageRoot
-     * @covers Mage_Theme_Helper_Storage::_getStagingTheme
+     * @covers Mage_Theme_Helper_Storage::_getTheme
      * @covers Mage_Theme_Helper_Storage::getStorageType
      */
     public function testGetStorageRoot()
@@ -136,15 +134,7 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($requestMap));
 
         $themeModel = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
-
-        $this->_themeContext->expects($this->once())
-            ->method('setEditableThemeById')
-            ->will($this->returnValue($this->_themeContext));
-
-        $this->_themeContext->expects($this->once())
-            ->method('getStagingTheme')
-            ->will($this->returnValue($themeModel));
-
+        $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($themeModel));
         $themeModel->expects($this->any())->method('getId')->will($this->returnValue($themeId));
         $customization = $this->getMock('Mage_Core_Model_Theme_Customization', array(), array(), '', false);
         $themeModel->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
