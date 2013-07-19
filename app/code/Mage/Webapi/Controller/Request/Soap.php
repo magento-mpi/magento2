@@ -68,7 +68,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         $regexp = "/^($serviceVerPattern)([$serviceSeparator]$serviceVerPattern)*$/";
         //Check if the $param is of valid format
         if (empty($param) || !preg_match($regexp, $param)) {
-            $message = $this->_helper->__('Incorrect format of WSDL request URI or Requested resources are missing');
+            $message = $this->_helper->__('Incorrect format of WSDL request URI or Requested resources are missing.');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         //Split the $param string to create an array of 'service' => 'version'
@@ -78,7 +78,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
             $arr = explode($serviceVerSeparator, $service);
             //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
             if (array_key_exists($arr[0], $serviceArray)) {
-                $message = $this->_helper->__("Resource '$arr[0]' cannot be requested more than once");
+                $message = $this->_helper->__('Resource "%s" cannot be requested more than once', $arr[0]);
                 throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             } else {
                 $serviceArray[$arr[0]] = $arr[1];

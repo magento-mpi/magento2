@@ -101,18 +101,21 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
     public function testGetRequestedResourcesSameRequestedResourcesException()
     {
         $resource = "testModule1AllSoapAndRest";
+        $expectedMsg = 'Resource"' . $resource . '" cannot be requested more than once';
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => "$resource:V1,$resource:V2"
         );
         $this->_soapRequest->setParams($requestParams);
 
-        $this->_helperMock->expects($this->any())
+        $this->_helperMock->expects($this->at(0))
             ->method('__')
-            ->will($this->returnArgument(0));
+            ->with('Resource "%s" cannot be requested more than once', "testModule1AllSoapAndRest")
+            ->will($this->returnValue($expectedMsg));
+
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            "Resource '$resource' cannot be requested more than once",
+            $expectedMsg,
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
 
