@@ -82,12 +82,5 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <jobnotification module="Saas_JobNotification">
-                    <file>layout.xml</file>
-                </jobnotification>
-            </updates>
-        </layout>
     </adminhtml>
-</config>
+</config>

@@ -74,13 +74,6 @@
                 </Enterprise_TargetRule>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <enterprise_targetrule module="Enterprise_TargetRule">
-                    <file>layout.xml</file>
-                </enterprise_targetrule>
-            </updates>
-        </layout>
     </adminhtml>
     <admin>
         <routers>
@@ -94,13 +87,6 @@
         </routers>
     </admin>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_targetrule module="Enterprise_TargetRule">
-                    <file>layout.xml</file>
-                </enterprise_targetrule>
-            </updates>
-        </layout>
     </frontend>
     <default>
         <catalog>

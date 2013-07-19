@@ -208,21 +208,23 @@ class Utility_Files
             if ($params['include_code']) {
                 $files = self::_getFiles(
                     array("{$this->_path}/app/code/{$params['namespace']}/{$params['module']}"
-                        . "/view/{$params['area']}"),
+                        . "/view/{$params['area']}/layout"),
                     '*.xml'
                 );
             }
             if ($params['include_design']) {
+                $themeLayoutDir = "{$this->_path}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}"
+                    . "/{$params['namespace']}_{$params['module']}/layout";
+                $dirPatterns = array(
+                    $themeLayoutDir,
+                    $themeLayoutDir . '/override',
+                    $themeLayoutDir . '/override/*/*',
+                );
                 $files = array_merge(
                     $files,
                     self::_getFiles(
-                        array("{$this->_path}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}"
-                            . "/{$params['namespace']}_{$params['module']}"),
+                        $dirPatterns,
                         '*.xml'
-                    ),
-                    glob(
-                        "{$this->_path}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}/local.xml",
-                        GLOB_NOSORT
                     )
                 );
             }

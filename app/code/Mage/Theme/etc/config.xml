@@ -51,12 +51,5 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <theme module="Mage_Theme">
-                    <file>layout.xml</file>
-                </theme>
-            </updates>
-        </layout>
     </adminhtml>
 </config>

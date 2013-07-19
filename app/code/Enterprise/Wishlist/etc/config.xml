@@ -50,13 +50,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_wishlist module="Enterprise_Wishlist">
-                    <file>layout.xml</file>
-                </enterprise_wishlist>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Wishlist>
@@ -84,13 +77,6 @@
                 </args>
             </enterprise_wishlist>
         </routers>
-        <layout>
-            <updates>
-                <enterprise_wishlist module="Enterprise_Wishlist">
-                    <file>layout.xml</file>
-                </enterprise_wishlist>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Wishlist>
@@ -130,4 +116,4 @@
             </general>
         </wishlist>
     </default>
-</config>
+</config>

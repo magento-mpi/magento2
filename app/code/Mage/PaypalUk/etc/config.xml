@@ -53,13 +53,6 @@
                 </Mage_PaypalUk>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <paypaluk module="Mage_PaypalUk">
-                    <file>layout.xml</file>
-                </paypaluk>
-            </updates>
-        </layout>
         <di>
             <Mage_PaypalUk_Model_Session>
                 <parameters>

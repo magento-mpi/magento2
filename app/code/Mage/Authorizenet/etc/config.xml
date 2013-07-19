@@ -31,13 +31,6 @@
                 </Mage_Authorizenet>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <authorizenet module="Mage_Authorizenet">
-                    <file>layout.xml</file>
-                </authorizenet>
-            </updates>
-        </layout>
         <events>
             <checkout_submit_all_after>
                 <observers>
@@ -75,13 +68,6 @@
                 </args>
             </authorizenet>
         </routers>
-        <layout>
-            <updates>
-                <authorizenet module="Mage_Authorizenet">
-                    <file>layout.xml</file>
-                </authorizenet>
-            </updates>
-        </layout>
         <events>
             <checkout_submit_all_after>
                 <observers>

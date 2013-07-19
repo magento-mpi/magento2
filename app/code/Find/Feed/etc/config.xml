@@ -37,13 +37,6 @@
                 </observers>
             </admin_system_config_changed_section_feed>
         </events>
-        <layout>
-            <updates>
-                <find_feed module="Find_Feed">
-                    <file>layout.xml</file>
-                </find_feed>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Find_Feed>

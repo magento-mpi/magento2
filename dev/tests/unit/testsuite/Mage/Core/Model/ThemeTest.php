@@ -148,6 +148,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
             'parent_theme_path'    => null,
             'area'                 => 'frontend',
+            'code'                 => 'default/iphone',
         );
     }
 
@@ -382,6 +383,30 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'with custom path, theme is loaded' => array(
                 'custom/path', 'theme_id', $this->equalTo('custom/path/view.xml')
             ),
+        );
+    }
+
+    /**
+     * @param mixed $originalCode
+     * @param string $expectedCode
+     * @dataProvider getCodeDataProvider
+     */
+    public function testGetCode($originalCode, $expectedCode)
+    {
+        $model = $this->_getThemeModel();
+        $model->setCode($originalCode);
+        $this->assertSame($expectedCode, $model->getCode());
+    }
+
+    /**
+     * @return array
+     */
+    public function getCodeDataProvider()
+    {
+        return array(
+            'string code' => array('theme/code', 'theme/code'),
+            'null code'   => array(null, ''),
+            'number code' => array(10, '10'),
         );
     }
 }

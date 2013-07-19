@@ -90,13 +90,6 @@
                 </observers>
             </backend_auth_user_login_failed>
         </events>
-        <layout>
-            <updates>
-                <enterprise_logging module="Enterprise_Logging">
-                    <file>layout.xml</file>
-                </enterprise_logging>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Logging>

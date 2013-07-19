@@ -93,13 +93,6 @@
         </routers>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <designeditor module="Mage_DesignEditor">
-                    <file>layout.xml</file>
-                </designeditor>
-            </updates>
-        </layout>
     </adminhtml>
     <vde>
         <design_editor>

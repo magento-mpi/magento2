@@ -42,13 +42,6 @@
         </events>
     </global>
     <adminhtml>
-        <layout>
-            <updates>
-                <reports module="Mage_Reports">
-                    <file>layout.xml</file>
-                </reports>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Reports>
@@ -76,13 +69,6 @@
                 </Mage_Reports>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <reports module="Mage_Reports">
-                    <file>layout.xml</file>
-                </reports>
-            </updates>
-        </layout>
         <events>
             <catalog_product_compare_remove_product>
                 <observers>
