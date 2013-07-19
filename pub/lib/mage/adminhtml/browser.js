@@ -28,7 +28,7 @@
         openDialog: function(url, width, height, title, options) {
             var windowId = this.windowId,
                 content = '<div class="popup-window magento_message" id="' + windowId + '"></div>';
-            jQuery(content).dialog(jQuery.extend({
+            $(content).dialog($.extend({
                 autoOpen: true,
                 title: title || 'Insert File...',
                 modal: true,
@@ -53,7 +53,7 @@
             }, options));
         },
         closeDialog: function(win) {
-            var win = win || window;
+            win = win || window;
             win.jQuery('#' + this.windowId).dialog('close');
         }
     };
@@ -81,7 +81,7 @@
         _create: function() {
             this._on({
                 'click [data-row=file]': 'selectFile',
-                'dblclick  [data-row=file]': 'insert',
+                'dblclick [data-row=file]': 'insert',
                 'click #new_folder': 'newFolder',
                 'click #delete_folder': 'deleteFolder',
                 'click #delete_files': 'deleteFiles',
@@ -250,7 +250,7 @@
             if (!folderName) {
                 return false;
             }
-            $.ajax({
+            return $.ajax({
                 url: this.options.newFolderUrl,
                 dataType: 'json',
                 data: {
@@ -317,7 +317,7 @@
             if (this.element.find('#breadcrumbs').length) {
                 this.element.find('#breadcrumbs').remove();
             }
-            var node = data.rslt.obj.data('node')
+            var node = data.rslt.obj.data('node');
             if (node.id == 'root') {
                 return;
             }
