@@ -117,9 +117,11 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Data
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         //Steps
-        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->priceRulesHelper()->createRule($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
+        $this->addParameter('elementTitle', $ruleData['info']['rule_name']);
+        $this->searchAndOpen(array('filter_rule_name' => $ruleData['info']['rule_name']), 'rule_search_grid');
         $this->priceRulesHelper()->verifyRuleData($ruleData);
         //Steps
         $this->openTab('manage_coupon_codes');

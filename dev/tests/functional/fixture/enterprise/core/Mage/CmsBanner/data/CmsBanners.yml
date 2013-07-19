@@ -77,7 +77,7 @@ new_cms_banner_all_fields:
                 template: Viewed Products Grid Template
             widget_11:
                 widget_type: Wishlist Search
-                template: Wishlist Search Template
+                template: Wish List Search Template
                 quick_search_form: All Forms
 
 #<-----------------------------Banner with Required Fields--------------------------------->

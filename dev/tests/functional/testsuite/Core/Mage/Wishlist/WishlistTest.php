@@ -550,6 +550,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlistNegative($testData)
     {
+        $this->markTestIncomplete('MAGETWO-11621');
         $simpleSku = $testData['withCustomOption'];
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleSku);
