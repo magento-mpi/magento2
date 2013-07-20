@@ -74,7 +74,7 @@
         show: function() {
             this._render();
             this.loaderStarted++;
-            this.loader.show();
+            this._findLoader().show();
             return false;
         },
 
@@ -85,12 +85,14 @@
             if (this.loaderStarted > 0) {
                 this.loaderStarted--;
                 if (this.loaderStarted === 0) {
-                    if (this.loader) {
-                        this.loader.hide();
-                    }
+                    this._findLoader().hide();
                 }
             }
             return false;
+        },
+
+        _findLoader: function() {
+            return this.element.find('[data-role="loader"]');
         },
 
         /**
@@ -98,7 +100,7 @@
          * @protected
          */
         _render: function() {
-            if (!this.loader) {
+            if (this._findLoader().length === 0) {
                 this.loader = $.tmpl(this.options.template, this.options)
                     .css(this._getCssObj());
                 this.element.prepend(this.loader);
@@ -126,9 +128,7 @@
          * Destroy loader
          */
         _destroy: function() {
-            if (this.loader) {
-                this.loader.remove();
-            }
+            this._findLoader().remove();
         }
     });
 
