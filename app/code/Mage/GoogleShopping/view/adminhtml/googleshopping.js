@@ -41,7 +41,6 @@ if (typeof Mage.GoogleShopping == 'undefined') {
         },
 
         startAction: function (form) {
-            this.lock();
             jQuery.ajax({
                 'type': 'post',
                 'data': form.serialize(true),
@@ -66,10 +65,10 @@ if (typeof Mage.GoogleShopping == 'undefined') {
 
         lock: function() {
             if (this.itemForm) {
-                this._lockButton($(this.itemForm).down('button'));
+                this.lockButton($(this.itemForm).down('button'));
             }
             if (this.productForm) {
-                this._lockButton($(this.productForm).down('button'));
+                this.lockButton($(this.productForm).down('button'));
             }
             this.addMessage();
         },
@@ -85,7 +84,7 @@ if (typeof Mage.GoogleShopping == 'undefined') {
             messageList.update(message);
         },
 
-        _lockButton: function (button) {
+        lockButton: function (button) {
             $(button).addClassName('disabled');
             $(button).disabled = true;
         }
