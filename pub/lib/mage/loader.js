@@ -135,15 +135,21 @@
 /**
  * This widget takes care of registering the needed loader listeners on the body
  */
+    var loaderAjaxCreated = false;
+
     $.widget("mage.loaderAjax", {
         _create: function() {
             this._bind();
+            loaderAjaxCreated = true;
         },
         _bind: function() {
-            this._on('body',{
-                'ajaxSend': '_onAjaxSend',
-                'ajaxComplete': '_onAjaxComplete'
-            });
+            // Don't add listeners if there is already a widget created
+            if (!loaderAjaxCreated) {
+                this._on('body',{
+                    'ajaxSend': '_onAjaxSend',
+                    'ajaxComplete': '_onAjaxComplete'
+                });
+            }
         },
         _getJqueryObj: function(loaderContext) {
             var ctx;
