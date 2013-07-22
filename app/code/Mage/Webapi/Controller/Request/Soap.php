@@ -64,11 +64,11 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         $serviceSeparator = ',';
         $serviceVerSeparator = ':';
         //TODO: This should be a globally used pattern in Webapi module
-        $serviceVerPattern = '[a-zA-Z\d]+' . $serviceVerSeparator . 'V\d+';
-        $regexp = '/^' . $serviceVerPattern . '(?:' . $serviceSeparator . $serviceVerPattern . ')*$/';
+        $serviceVerPattern = "[a-zA-Z\d]*[$serviceVerSeparator]V[\d]+";
+        $regexp = "/^($serviceVerPattern)([$serviceSeparator]$serviceVerPattern)*$/";
         //Check if the $param is of valid format
         if (empty($param) || !preg_match($regexp, $param)) {
-            $message = $this->_helper->__('Incorrect format of WSDL request URI or Requested services are missing');
+            $message = $this->_helper->__('Incorrect format of WSDL request URI or Requested services are missing.');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         //Split the $param string to create an array of 'service' => 'version'

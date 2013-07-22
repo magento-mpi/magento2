@@ -95,7 +95,7 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
     {
         $responseContent = $this->_getWsdlContent($this->_getBaseWsdlUrl());
         /** TODO: Change current assert and add new ones when behavior is changed */
-        $this->assertContains("Requested resources are missing.", $responseContent);
+        $this->assertContains("Requested services are missing.", $responseContent);
     }
 
     public function testInvalidWsdlUrlInvalidParameter()
