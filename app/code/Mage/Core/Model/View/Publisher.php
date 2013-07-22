@@ -105,7 +105,7 @@ class Mage_Core_Model_View_Publisher implements Mage_Core_Model_View_PublicFiles
      * @param array $params theme/module parameters array
      * @return string
      */
-    protected function _publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
+    public function publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
     {
         $relativeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
         return $this->_getPublishedFilePath($relativeFilePath, $params);
@@ -311,7 +311,7 @@ class Mage_Core_Model_View_Publisher implements Mage_Core_Model_View_PublicFiles
 
         $publisher = $this;
         $callback = function ($fileId, $originalPath) use ($publisher, $fileName, $params) {
-            $relatedPathPublic = $publisher->_publishRelatedViewFile(
+            $relatedPathPublic = $publisher->publishRelatedViewFile(
                 $fileId, $originalPath, $fileName, $params
             );
             return $relatedPathPublic;
