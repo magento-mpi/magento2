@@ -12,7 +12,7 @@
 /**
  * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
  */
-class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_View_DesignInterface
