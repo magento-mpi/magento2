@@ -41,12 +41,13 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             ));
         }
 
+        /** @var $label Mage_Core_Model_Theme_Label */
+        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        $options = $label->getLabelsCollection(Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --'));
         $fieldset->addField('design', 'select', array(
             'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
             'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
-            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection(
-                Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --')
-            ),
+            'values'   => $options,
             'name'     => 'design',
             'required' => true,
         ));
