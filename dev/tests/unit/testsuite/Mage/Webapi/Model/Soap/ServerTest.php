@@ -48,11 +48,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
 
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')->disableOriginalConstructor()
             ->getMock();
-        $reqRes = array(
-            'catalogProduct' => 'V1'
-        );
-        $this->_requestMock->expects($this->any())->method('getParam')
-            ->will($this->returnValue($reqRes));
+
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();
 
@@ -143,10 +139,10 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     public function testGenerateUriWithWsdlParam()
     {
         $param = "testModule1AllSoapAndRest:V1,testModule2AllSoapNoRest:V1";
-        $serviceKey = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES;
+        $resourceKey = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES;
         $this->_requestMock->expects($this->any())->method('getParam')
             ->will($this->returnValue($param));
-        $expectedResult = "http://magento.com/webapi/soap?{$serviceKey}={$param}&wsdl=1";
+        $expectedResult = "http://magento.com/webapi/soap?$resourceKey=$param&wsdl=1";
         $actualResult = $this->_soapServer->generateUri(true);
         $this->assertEquals($expectedResult, urldecode($actualResult), 'URI (with WSDL param) generated is invalid.');
     }
@@ -157,10 +153,10 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     public function testGenerateUriWithNoWsdlParam()
     {
         $param = "testModule1AllSoapAndRest:V1,testModule2AllSoapNoRest:V1";
-        $serviceKey = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES;
+        $resourceKey = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES;
         $this->_requestMock->expects($this->any())->method('getParam')
             ->will($this->returnValue($param));
-        $expectedResult = "http://magento.com/webapi/soap?{$serviceKey}={$param}";
+        $expectedResult = "http://magento.com/webapi/soap?$resourceKey=$param";
         $actualResult = $this->_soapServer->generateUri(false);
         $this->assertEquals(
             $expectedResult,
@@ -168,4 +164,5 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
             'URI (without WSDL param) generated is invalid.'
         );
     }
+
 }
