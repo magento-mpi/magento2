@@ -191,7 +191,9 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      */
     public function getTypeToClassMap()
     {
-        return !is_null($this->_data['type_to_class_map']) ? $this->_data['type_to_class_map'] : array();
+        return isset($this->_data['type_to_class_map']) && !is_null($this->_data['type_to_class_map'])
+            ? $this->_data['type_to_class_map']
+            : array();
     }
 
     /**
@@ -364,8 +366,10 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     public function getAllServicesVersions()
     {
         $services = array();
-        foreach ($this->_data['services'] as $serviceName => $data) {
-            $services[$serviceName] = array_keys($data['versions']);
+        if (isset($this->_data['services'])) {
+            foreach ($this->_data['services'] as $serviceName => $data) {
+                $services[$serviceName] = array_keys($data['versions']);
+            }
         }
 
         return $services;

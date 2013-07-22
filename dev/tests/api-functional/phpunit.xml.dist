@@ -46,22 +46,15 @@
 
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <!-- Local XML configuration file ('.dist' extension will be added, if the specified file doesn't exist) -->
-        <!--<const name="TESTS_LOCAL_CONFIG_FILE" value="etc/local-mysql.xml"/>-->
         <const name="TESTS_LOCAL_CONFIG_FILE" value="etc/local-mysql.xml"/>
         <!-- Semicolon-separated 'glob' patterns, that match global XML configuration files -->
         <const name="TESTS_GLOBAL_CONFIG_FILES" value="../../../app/etc/*.xml"/>
         <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/modules/*.xml;etc/modules/*.xml"/>
         <!-- Whether to cleanup the application before running tests or not -->
-        <!--<const name="TESTS_CLEANUP" value="enabled"/>-->
-        <!-- CSV Profiler Output file -->
-        <!--<const name="TESTS_PROFILER_FILE" value="profiler.csv"/>-->
-        <!-- Bamboo compatible CSV Profiler Output file name -->
-        <!--<const name="TESTS_BAMBOO_PROFILER_FILE" value="profiler.csv"/>-->
-        <!-- Metrics for Bamboo Profiler Output in PHP file that returns array -->
-        <!--<const name="TESTS_BAMBOO_PROFILER_METRICS_FILE" value="../../build/profiler_metrics.php"/>-->
-        <!-- Magento Developer Mode status during tests execution. Disabled by default, possible value is "enabled", and anything else will disable this mode.-->
-        <!--<const name="TESTS_MAGENTO_DEVELOPER_MODE" value="enabled"/>-->
+        <const name="TESTS_CLEANUP" value="disabled"/>
+        <!--Defines if Magento should be installed before tests execution-->
+        <const name="TESTS_MAGENTO_INSTALLATION" value="disabled"/>
     </php>
 
     <!-- Test listeners -->

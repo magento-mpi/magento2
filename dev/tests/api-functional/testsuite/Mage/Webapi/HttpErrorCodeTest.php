@@ -9,6 +9,14 @@
  */
 class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
 {
+    public function setUp()
+    {
+        if (self::ADAPTER_REST != TESTS_WEB_API_ADAPTER) {
+            $this->markTestSkipped("This test is intended to be run with REST adapter only");
+        }
+        parent::setUp();
+    }
+
     public function testSuccess()
     {
         $this->_markTestAsRestOnly();
