@@ -67,7 +67,7 @@
                   value="${product_root_dir}/dev/tests/api-functional/etc/local-${db_vendor_name}.xml"/>
         <antcall target="_database_credential_substitution"/>
 
-        <replace file="${product_root_dir}/dev/tests/api-functional/etc/local-${db_vendor_name}.xml">
+        <replace file="${db_config_file}">
             <replacefilter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
         </replace>
 
