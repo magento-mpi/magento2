@@ -6,8 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint browser:true jquery:true*/
-(function($){
+/*jshint browser:true jquery:true */
+(function($, console) {
     $.widget("mage.loader", {
         loaderStarted: 0,
         options: {
@@ -17,11 +17,11 @@
                 imgAlt: $.mage.__('Loading...')
             },
             template: '<div class="loading-mask" data-role="loader">' +
-                         '<div class="loader">'+
-                            '<img {{if texts.imgAlt}}alt="${texts.imgAlt}"{{/if}} src="${icon}">'+
-                            '<p>{{if texts.loaderText}}${texts.loaderText}{{/if}}</p>' +
-                         '</div>' +
-                      '</div>'
+                '<div class="loader">' +
+                '<img {{if texts.imgAlt}}alt="${texts.imgAlt}"{{/if}} src="${icon}">' +
+                '<p>{{if texts.loaderText}}${texts.loaderText}{{/if}}</p>' +
+                '</div>' +
+                '</div>'
         },
 
         /**
@@ -132,24 +132,23 @@
         }
     });
 
-/**
- * This widget takes care of registering the needed loader listeners on the body
- */
-    var loaderAjaxCreated = false;
-
+    /**
+     * This widget takes care of registering the needed loader listeners on the body
+     */
     $.widget("mage.loaderAjax", {
         _create: function() {
             this._bind();
-            loaderAjaxCreated = true;
+            // There should only be one instance of this widget, and it should be attached
+            // to the body only. Having it on the page twice will trigger multiple processStarts.
+            if (!this.element.is('body') && $.mage.isDevMode(undefined)) {
+                console.warn("This widget is intended to be attached to the body, not below.");
+            }
         },
         _bind: function() {
-            // Don't add listeners if there is already a widget created
-            if (!loaderAjaxCreated) {
-                this._on('body',{
-                    'ajaxSend': '_onAjaxSend',
-                    'ajaxComplete': '_onAjaxComplete'
-                });
-            }
+            this._on('body', {
+                'ajaxSend': '_onAjaxSend',
+                'ajaxComplete': '_onAjaxComplete'
+            });
         },
         _getJqueryObj: function(loaderContext) {
             var ctx;
@@ -185,4 +184,4 @@
         }
 
     });
-})(jQuery);
+})(jQuery, console);
