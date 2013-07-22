@@ -65,6 +65,7 @@
                         message: response.message
                     });
                     this.element.trigger('refreshIframe');
+                    $('#custom-file-name').html(response.filename);
                     this._prepareUpdateButton();
                 }, this),
                 error: function() {
