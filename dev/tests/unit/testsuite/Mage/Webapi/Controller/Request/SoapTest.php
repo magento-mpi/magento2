@@ -98,19 +98,19 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         $this->_soapRequest->getRequestedServices();
     }
 
-    public function testGetRequestedServicesSameRequestedResourcesException()
+    public function testGetRequestedServicesSameRequestedServicesException()
     {
-        $resource = "testModule1AllSoapAndRest";
-        $expectedMsg = 'Resource"' . $resource . '" cannot be requested more than once';
+        $service = "testModule1AllSoapAndRest";
+        $expectedMsg = 'Service"' . $service . '" cannot be requested more than once';
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => "$resource:V1,$resource:V2"
+            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => "$service:V1,$service:V2"
         );
         $this->_soapRequest->setParams($requestParams);
 
         $this->_helperMock->expects($this->at(0))
             ->method('__')
-            ->with('Resource "%s" cannot be requested more than once', "testModule1AllSoapAndRest")
+            ->with('Service "%s" cannot be requested more than once', "testModule1AllSoapAndRest")
             ->will($this->returnValue($expectedMsg));
 
         $this->setExpectedException(
@@ -119,26 +119,26 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
 
-        $this->_soapRequest->getRequestedResources();
+        $this->_soapRequest->getRequestedServices();
     }
 
     public function testGetRequestedResourcesSuccess()
     {
-        $resourceA = "testModule1AllSoapAndRest";
-        $resourceB = "testModule2AllSoapNoRest";
+        $serviceA = "testModule1AllSoapAndRest";
+        $serviceB = "testModule2AllSoapNoRest";
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => "$resourceA:V1,$resourceB:V2"
+            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => "$serviceA:V1,$serviceB:V2"
         );
         $this->_soapRequest->setParams($requestParams);
 
         $expected = array(
-            $resourceA => 'V1',
-            $resourceB => 'V2',
+            $serviceA => 'V1',
+            $serviceB => 'V2',
         );
         $this->assertEquals(
             $expected,
-            $this->_soapRequest->getRequestedResources()
+            $this->_soapRequest->getRequestedServices()
         );
     }
 }

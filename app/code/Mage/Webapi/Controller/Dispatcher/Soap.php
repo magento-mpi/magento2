@@ -106,7 +106,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         foreach ($this->_apiConfig->getAllServicesVersions() as $serviceName => $versions) {
             foreach ($versions as $version) {
                 $details['availableServices'][$serviceName][$version] = sprintf(
-                    '%s?wsdl&services[%s]=%s',
+                    '%s?wsdl&services=%s:%s',
                     $this->_soapServer->getEndpointUri(),
                     $serviceName,
                     $version

@@ -93,7 +93,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
         ksort($services);
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
-        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . '&resources=';
+        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . '&services=';
         $wsdlResourceArray = array();
         foreach ($services as $serviceName => $version) {
             $wsdlResourceArray[] = "{$serviceName}:{$version}";

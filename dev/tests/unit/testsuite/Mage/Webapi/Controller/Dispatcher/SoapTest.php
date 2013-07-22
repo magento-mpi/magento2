@@ -195,8 +195,8 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($expectedUrl));
         $expectedDetails = array(
             'availableServices' => array(
-                'foo' => array('v1' => $expectedUrl . '?wsdl&services[foo]=v1'),
-                'bar' => array('v2' => $expectedUrl . '?wsdl&services[bar]=v2'),
+                'foo' => array('v1' => $expectedUrl . '?wsdl&services=foo:v1'),
+                'bar' => array('v2' => $expectedUrl . '?wsdl&services=bar:v2'),
             )
         );
         $expectedFault = '<?xml version="1.0" encoding="utf8"?><root>SOAP_FAULT</root>';

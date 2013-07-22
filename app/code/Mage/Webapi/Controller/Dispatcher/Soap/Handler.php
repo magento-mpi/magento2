@@ -183,7 +183,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * Identify version of requested operation.
      *
      * This method is required when there are two or more service versions specified in request:
-     * http://magento.host/api/soap?wsdl&services[service_a]=v1&services[service_b]=v2 <br/>
+     * http://magento.host/api/soap?wsdl&services=service_a:v1,service_b:v2 <br/>
      * In this case it is not obvious what version of requested operation should be used.
      *
      * @param string $operationName
