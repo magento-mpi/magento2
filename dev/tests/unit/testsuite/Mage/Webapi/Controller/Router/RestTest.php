@@ -104,13 +104,13 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getServiceName'))
             ->getMock();
-        $resourceName = 'Resource Name';
+        $serviceName = 'Service Name';
         $request->expects($this->once())
             ->method('getServiceName')
-            ->will($this->returnValue($resourceName));
+            ->will($this->returnValue($serviceName));
         $this->_apiConfigMock->expects($this->once())
             ->method('getMethodRestRoutes')
-            ->with($resourceName, $methodName, $version)
+            ->with($serviceName, $methodName, $version)
             ->will($this->returnValue(array($this->_routeMock)));
         return array('request' => $request, 'methodName' => $methodName, 'version' => $version);
     }
