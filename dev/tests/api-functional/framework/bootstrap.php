@@ -36,10 +36,37 @@ $bootstrap = new Magento_Test_Bootstrap(
     $testsTmpDir
 );
 $bootstrap->runBootstrap();
-
 Magento_Test_Helper_Bootstrap::setInstance(new Magento_Test_Helper_Bootstrap($bootstrap));
-
 Utility_Files::init(new Utility_Files($magentoBaseDir));
 
-/* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
-unset($bootstrap);
+/** Magento installation */
+if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
+    $installCmd = sprintf(
+        'php -f %s --',
+        escapeshellarg(realpath($testsBaseDir . '/../../shell/install.php'))
+    );
+    if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
+        passthru("$installCmd --uninstall", $exitCode);
+        if ($exitCode) {
+            exit($exitCode);
+        }
+    }
+    $installConfigFile = $testsBaseDir . '/config/install.php';
+    $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
+    $installConfig = require($installConfigFile);
+    $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
+
+    /* Install application */
+    if ($installOptions) {
+        foreach ($installOptions as $optionName => $optionValue) {
+            $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
+        }
+        passthru($installCmd, $exitCode);
+        if ($exitCode) {
+            exit($exitCode);
+        }
+    }
+}
+
+/* Unset declared global variables to release PHPUnit from maintaining their values between tests */
+unset($bootstrap, $installCmd, $installConfigFile, $installConfig, $installExitCode);

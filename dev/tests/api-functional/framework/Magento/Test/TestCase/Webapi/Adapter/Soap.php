@@ -90,13 +90,15 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     public function generateWsdlUrl($services)
     {
         /** Sort list of services to avoid having different WSDL URLs for the identical lists of services. */
+        //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
         ksort($services);
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
-        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH;
+        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . '&resources=';
+        $wsdlResourceArray = array();
         foreach ($services as $serviceName => $version) {
-            $wsdlUrl .= "&resources[{$serviceName}]={$version}";
+            $wsdlResourceArray[] = "{$serviceName}:{$version}";
         }
-        return $wsdlUrl;
+        return $wsdlUrl . implode(",", $wsdlResourceArray);
     }
 
     /**

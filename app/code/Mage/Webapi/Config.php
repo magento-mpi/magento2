@@ -198,7 +198,7 @@ class Mage_Webapi_Config
 
             for ($i = 0; $i < $children->length; $i++) {
                 $child = $children->item($i);
-                $_children = & $this->_toArray($child);
+                $_children = $this->_toArray($child);
 
                 $nodeId = isset($_children['class'])
                     ? $_children['class']
@@ -219,8 +219,11 @@ class Mage_Webapi_Config
                         );
                     }
 
-                    $result[self::KEY_OPERATIONS][$nodeId]['route'] = $result[self::KEY_OPERATIONS][$nodeId]['value'];
-                    unset($result[self::KEY_OPERATIONS][$nodeId]['value']);
+                    if (isset($result[self::KEY_OPERATIONS][$nodeId]['value'])) {
+                        $result[self::KEY_OPERATIONS][$nodeId]['route']
+                            = $result[self::KEY_OPERATIONS][$nodeId]['value'];
+                        unset($result[self::KEY_OPERATIONS][$nodeId]['value']);
+                    }
                 } else {
                     if (!isset($result[$nodeId])) {
                         $result[$nodeId] = $_children;
@@ -315,7 +318,9 @@ class Mage_Webapi_Config
         $routes = array();
         foreach ($this->getRestServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
-            if ($serviceBaseUrl != null && strtolower($serviceBaseUrl) != strtolower($serviceData['baseUrl'])) {
+            if (!isset($serviceData['baseUrl'])
+                || (isset($serviceBaseUrl) && (strtolower($serviceBaseUrl) != strtolower($serviceData['baseUrl'])))
+            ) {
                 // baseurl does not match, just skip this service
                 continue;
             }
