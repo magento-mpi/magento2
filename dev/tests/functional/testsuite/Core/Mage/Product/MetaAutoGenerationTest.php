@@ -72,17 +72,26 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->editAttribute(
             'meta_title',
-            array('default_text_field_value' => '', array('attribute_properties' => array('values_required' => 'No')))
+            array(
+                 'advanced_attribute_properties' => array('default_text_field_value' => ''),
+                 'attribute_properties' => array('values_required' => 'No')
+            )
         );
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->productAttributeHelper()->editAttribute(
             'meta_description',
-            array('default_text_area_value' => '', array('attribute_properties' => array('values_required' => 'No')))
+            array(
+                 'advanced_attribute_properties' => array('default_text_area_value' => ''),
+                 'attribute_properties' => array('values_required' => 'No')
+            )
         );
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->productAttributeHelper()->editAttribute(
             'meta_keyword',
-            array('default_text_area_value' => '', array('attribute_properties' => array('values_required' => 'No')))
+            array(
+                 'advanced_attribute_properties' => array('default_text_area_value' => ''),
+                 'attribute_properties' => array('values_required' => 'No')
+            )
         );
         $this->assertMessagePresent('success', 'success_saved_attribute');
     }

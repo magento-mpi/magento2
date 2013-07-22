@@ -183,7 +183,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      */
     public function insertVariable($variable, $buttonName = 'insert_variable')
     {
-        if ($this->controlIsEditable('button', $buttonName)) {
+        if ($this->controlIsVisible('button', $buttonName)) {
             $this->clickButton($buttonName, false);
         } elseif ($this->waitForControlEditable('link', 'wysiwyg_' . $buttonName)) {
             $this->waitForControlStopsMoving('link', 'wysiwyg_' . $buttonName);

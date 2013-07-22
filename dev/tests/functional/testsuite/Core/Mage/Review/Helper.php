@@ -75,10 +75,8 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
             if ($this->controlIsVisible('multiselect', 'visible_in')) {
                 $this->clickControl(self::FIELD_TYPE_MULTISELECT, 'visible_in');
                 $this->pleaseWait();
-                $this->waitForAjax();
                 $this->fillMultiselect('visible_in', $reviewData['visible_in']);
                 $this->pleaseWait();
-                $this->waitForAjax();
             }
             unset($reviewData['visible_in']);
         }
