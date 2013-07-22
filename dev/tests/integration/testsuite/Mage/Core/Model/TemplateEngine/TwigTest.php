@@ -13,7 +13,7 @@ class Mage_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
     protected $_twigEngine;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
-    protected $_designPackageMock;
+    protected $_designMock;
 
     /**
      * @var Magento_Test_ObjectManager
@@ -27,7 +27,7 @@ class Mage_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager = Mage::getObjectManager();
         Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_CONFIG);
-        $this->_createSharedInstances();
+        //$this->_createSharedInstances();
         $this->_twigEngine = $this->_objectManager->create('Mage_Core_Model_TemplateEngine_Twig');
     }
 
@@ -40,10 +40,10 @@ class Mage_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
      */
     protected function _createSharedInstances()
     {
-        $this->_designPackageMock = $this->getMockBuilder('Mage_Core_Model_Design_Package')
+        $this->_designMock = $this->getMockBuilder('Mage_Core_Model_View_Design')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_objectManager->addSharedInstance($this->_designPackageMock, 'Mage_Core_Model_Design_Package');
+        $this->_objectManager->addSharedInstance($this->_designMock, 'Mage_Core_Model_View_Design');
     }
 
     /**

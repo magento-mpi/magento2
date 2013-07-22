@@ -11,7 +11,7 @@
 /**
  * Model that finds file paths by their fileId
  */
-class Mage_Core_Model_View_FileSystem implements Mage_Core_Model_View_FileSystemInterface
+class Mage_Core_Model_View_FileSystem
 {
     /**
      * Model, used to resolve the file paths
