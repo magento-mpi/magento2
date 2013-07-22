@@ -130,7 +130,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
      */
     public function generateVersion()
     {
-        $version = $this->generate('string', 1, ':digit:') . '.' . $this->generate('string', 1, ':digit:') . '.'
+        $version = '1' . '.' . $this->generate('string', 1, ':digit:') . '.'
         . $this->generate('string', 1, ':digit:') . '.' . $this->generate('string', 1, ':digit:');
 
         return $version;

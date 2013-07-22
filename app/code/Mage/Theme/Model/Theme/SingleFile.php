@@ -31,6 +31,7 @@ class Mage_Theme_Model_Theme_SingleFile
      *
      * @param Mage_Core_Model_Theme $themeModel
      * @param string $fileContent
+     * @return Mage_Core_Model_Theme_FileInterface
      */
     public function update(Mage_Core_Model_Theme $themeModel, $fileContent)
     {
@@ -38,7 +39,7 @@ class Mage_Theme_Model_Theme_SingleFile
         $customCss = reset($customFiles);
         if (empty($fileContent) && $customCss) {
             $customCss->delete();
-            return;
+            return $customCss;
         }
         if (!$customCss) {
             $customCss = $this->_fileService->create();
@@ -46,5 +47,6 @@ class Mage_Theme_Model_Theme_SingleFile
         $customCss->setData('content', $fileContent);
         $customCss->setTheme($themeModel);
         $customCss->save();
+        return $customCss;
     }
 }

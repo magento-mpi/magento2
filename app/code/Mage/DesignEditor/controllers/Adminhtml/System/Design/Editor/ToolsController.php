@@ -76,10 +76,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
-            $singleFile->update($editableTheme, $customCssContent);
+            $customCss = $singleFile->update($editableTheme, $customCssContent);
             $response = array(
-                'success' => true,
-                'message' => $this->__('You updated the custom.css file.')
+                'success'  => true,
+                'filename' => $customCss->getFileName(),
+                'message'  => $this->__('You updated the %s file.', $customCss->getFileName())
             );
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());

@@ -51,7 +51,7 @@ new_theme:
         form:
             tabs:
                 -
-                    general: &generalTab
+                    general:
                         xpath: //a[@id='theme_tabs_general_section']
                         fieldsets: &newThemeFieldset
                             -
@@ -88,7 +88,24 @@ edit_theme:
         form:
             tabs:
                 -
-                    general: *generalTab
+                    general:
+                        xpath: //a[@id='theme_tabs_general_section']
+                        fieldsets:
+                            -
+                                theme_settings:
+                                    xpath: //form[@id='edit_form']//fieldset[@id='theme']
+                                    fields:
+                                        theme_version: //input[@id='theme_version']
+                                        theme_title: //input[@id='theme_title']
+                                    pageelements:
+                                        page_title: "/../../../../../../..//*[@class='page-title']"
+                                        theme_parent: //*[@id='parent_title']
+                            -
+                                requirements:
+                                    xpath: //form[@id='edit_form']//fieldset[@id='requirements']
+                                    fields:
+                                        magento_version_from: //input[@id='magento_version_from']
+                                        magento_version_to: //input[@id='magento_version_to']
                 -
                     css_editor:
                         xpath: //a[@id='theme_tabs_css_tab']
