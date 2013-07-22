@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_View_DesignInterface

@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-//@TODO Mov test suite according to the tests it contains - to Mage_Core_Model_View_FileSystemTest
 /**
  * Tests for the view layer fallback mechanism
  * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
  */
-class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_View_FileSystem
