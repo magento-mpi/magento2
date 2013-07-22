@@ -48,11 +48,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
 
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')->disableOriginalConstructor()
             ->getMock();
-        $reqRes = array(
-            'catalogProduct' => 'V1'
-        );
-        $this->_requestMock->expects($this->any())->method('getRequestedResources')
-            ->will($this->returnValue($reqRes));
+
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();
 
