@@ -26,14 +26,14 @@ class Enterprise_Logging_Model_Processor
     /**
      * Instance of controller handler
      *
-     * @var oblect
+     * @var Enterprise_Logging_Model_Handler_Controllers
      */
     protected $_controllerActionsHandler;
 
     /**
      * Instance of model controller
      *
-     * @var unknown_type
+     * @var Enterprise_Logging_Model_Handler_Models
      */
     protected $_modelsHandler;
 
@@ -125,7 +125,8 @@ class Enterprise_Logging_Model_Processor
          * like customer balance, when customer balance ajax tab loaded after
          * customer page.
          */
-        if ($doNotLog = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getSkipLoggingAction()) {
+        $doNotLog = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getSkipLoggingAction();
+        if ($doNotLog) {
             if (is_array($doNotLog)) {
                 $key = array_search($fullActionName, $doNotLog);
                 if ($key !== false) {
@@ -142,8 +143,7 @@ class Enterprise_Logging_Model_Processor
             $sessionValue = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getSkipLoggingAction();
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
-            }
-            elseif (!$sessionValue) {
+            } elseif (!$sessionValue) {
                 $sessionValue = array();
             }
             $merge = array_merge($addValue, $sessionValue);
@@ -156,6 +156,7 @@ class Enterprise_Logging_Model_Processor
      * Get defference between data & orig_data and store in the internal modelsHandler container.
      *
      * @param object $model
+     * @param string $action
      */
     public function modelActionAfter($model, $action)
     {
@@ -165,7 +166,7 @@ class Enterprise_Logging_Model_Processor
         /**
          * These models used when we merge action models with action group models
          */
-        $usedModels = $defaultExpectedModels = null;
+        $defaultExpectedModels = null;
         if ($this->_eventConfig) {
             $actionGroupNode = $this->_eventConfig->getParent()->getParent();
             if (isset($actionGroupNode->expected_models)) {
@@ -184,13 +185,11 @@ class Enterprise_Logging_Model_Processor
                 return;
             }
             $usedModels = $defaultExpectedModels;
-        }
-        else {
+        } else {
             if ($expectedModels->getAttribute('extends') == 'merge') {
                 $defaultExpectedModels->extend($expectedModels);
                 $usedModels = $defaultExpectedModels;
-            }
-            else {
+            } else {
                 $usedModels = $expectedModels;
             }
         }
@@ -248,7 +247,6 @@ class Enterprise_Logging_Model_Processor
 
     /**
      * Postdispatch action handler
-     *
      */
     public function logAction()
     {
@@ -273,12 +271,12 @@ class Enterprise_Logging_Model_Processor
         ));
 
         if ($this->_actionName == 'denied') {
-            $_conf = $this->_config->getNode($this->_initAction);
-            if (!$_conf || !$this->_config->isActive($this->_initAction)) {
+            $config = $this->_config->getNode($this->_initAction);
+            if (!$config || !$this->_config->isActive($this->_initAction)) {
                 return;
             }
-            $loggingEvent->setAction($_conf->action);
-            $loggingEvent->setEventCode($_conf->getParent()->getParent()->getName());
+            $loggingEvent->setAction($config->action);
+            $loggingEvent->setEventCode($config->getParent()->getParent()->getName());
             $loggingEvent->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Access denied'));
             $loggingEvent->setIsSuccess(0);
             $loggingEvent->save();
@@ -309,7 +307,8 @@ class Enterprise_Logging_Model_Processor
                     $loggingEvent->setAdditionalInfo($this->getCollectedAdditionalData());
                 }
                 $loggingEvent->save();
-                if ($eventId = $loggingEvent->getId()) {
+                $eventId = $loggingEvent->getId();
+                if ($eventId) {
                     foreach ($this->_eventChanges as $changes) {
                         if ($changes && ($changes->getOriginalData() || $changes->getResultData())) {
                             $changes->setEventId($eventId);
@@ -400,7 +399,7 @@ class Enterprise_Logging_Model_Processor
      * Get callback function for logAction and modelActionAfter functions
      *
      * @param string $srtCallback
-     * @param oblect $defaultHandler
+     * @param object $defaultHandler
      * @param string $defaultFunction
      * @return array Contains two values 'handler' and 'callback' that indicate what callback function should be applied
      */

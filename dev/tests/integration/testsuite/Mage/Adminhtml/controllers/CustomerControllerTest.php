@@ -155,7 +155,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
 
     public function testSaveActionExistingCustomerAndExistingAddressData()
     {
-        $this->markTestIncomplete('Bug MAGETWO-2986');
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',

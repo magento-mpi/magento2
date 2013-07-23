@@ -20,7 +20,6 @@ class Mage_Adminhtml_Sales_Order_CreditmemoControllerTest extends Mage_Backend_U
      */
     public function testAddCommentAction()
     {
-        $this->markTestIncomplete('MAGETWO-7799');
         /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
         $stockItem->loadByProduct(1);

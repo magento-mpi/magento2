@@ -42,7 +42,6 @@ class Saas_PrintedTemplate_Model_Resource_Template_CollectionTest extends PHPUni
      */
     public function testToOptionArray()
     {
-        $this->markTestIncomplete('MAGETWO-7075');
         $this->assertNotEmpty($this->_collection->toOptionArray());
 
         foreach ($this->_collection->toOptionArray() as $item) {

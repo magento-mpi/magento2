@@ -18,7 +18,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Instance of Enterprise_Logging_Model_Logging
      *
-     * @var object Enterprise_Logging_Model_Logging
+     * @var Enterprise_Logging_Model_Processor
      */
     protected $_processor;
 

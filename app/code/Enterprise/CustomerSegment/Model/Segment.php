@@ -63,7 +63,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
      */
     protected function _beforeSave()
     {
-        if (!$this->getData('processing_frequency')){
+        if (!$this->getData('processing_frequency')) {
             $this->setData('processing_frequency', '1');
         }
 
@@ -225,7 +225,8 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = Mage::getModel('Mage_Log_Model_Visitor')->load($this->getVisitorId())->getQuoteId();
+                $params['quote_id'] = Mage::getModel('Mage_Log_Model_Visitor')
+                    ->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;
             }
