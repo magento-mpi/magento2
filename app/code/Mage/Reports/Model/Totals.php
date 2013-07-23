@@ -33,6 +33,9 @@ class Mage_Reports_Model_Totals
         }
 
         $count = 0;
+        /**
+         * This method doesn't work because of commit 6e15235, see MAGETWO-4751
+         */
         $report = $grid->getCollection()->getReportFull($from, $to);
         foreach ($report as $item) {
             if ($grid->getSubReportSize() && $count >= $grid->getSubReportSize()) {

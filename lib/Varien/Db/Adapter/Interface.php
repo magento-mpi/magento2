@@ -226,7 +226,8 @@ interface Varien_Db_Adapter_Interface
      * @return Varien_Db_Adapter_Interface
      */
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
-        $schemaName = null);
+        $schemaName = null
+    );
 
     /**
      * Modify the column definition
@@ -317,14 +318,17 @@ interface Varien_Db_Adapter_Interface
      * @param string $refColumnName
      * @param string $onDelete
      * @param string $onUpdate
-     * @param boolean $purge            trying remove invalid data
+     * @param boolean $purge trying remove invalid data
      * @param string $schemaName
      * @param string $refSchemaName
      * @return Varien_Db_Adapter_Interface
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
         $onDelete = self::FK_ACTION_CASCADE, $onUpdate = self::FK_ACTION_CASCADE,
-        $purge = false, $schemaName = null, $refSchemaName = null);
+        $purge = false, $schemaName = null, $refSchemaName = null
+    );
 
     /**
      * Drop the Foreign Key from table
@@ -373,7 +377,7 @@ interface Varien_Db_Adapter_Interface
      *
      * @param mixed $table The table to insert data into.
      * @param array $data Column-value pairs or array of column-value pairs.
-     * @param arrat $fields update fields pairs or values
+     * @param array $fields update fields pairs or values
      * @return int The number of affected rows.
      */
     public function insertOnDuplicate($table, array $data, array $fields = array());
@@ -668,6 +672,7 @@ interface Varien_Db_Adapter_Interface
      *
      * @param string $tableCacheKey
      * @param int $ddlType
+     * @param mixed $data
      * @return Varien_Db_Adapter_Interface
      */
     public function saveDdlCache($tableCacheKey, $ddlType, $data);
@@ -738,8 +743,8 @@ interface Varien_Db_Adapter_Interface
     /**
      * Returns valid IFNULL expression
      *
-     * @param string $column
-     * @param string $value OPTIONAL. Applies when $expression is NULL
+     * @param string $expression
+     * @param string|int $value OPTIONAL. Applies when $expression is NULL
      * @return Zend_Db_Expr
      */
 
@@ -917,9 +922,9 @@ interface Varien_Db_Adapter_Interface
      * Get insert from Select object query
      *
      * @param Varien_Db_Select $select
-     * @param string $table     insert into table
+     * @param string $table insert into table
      * @param array $fields
-     * @param int $mode
+     * @param int|bool $mode
      * @return string
      */
     public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false);
@@ -989,7 +994,7 @@ interface Varien_Db_Adapter_Interface
      * Converts fetched blob into raw binary PHP data.
      * Some DB drivers return blobs as hex-coded strings, so we need to process them.
      *
-     * @mixed $value
+     * @param mixed $value
      * @return mixed
      */
     public function decodeVarbinary($value);

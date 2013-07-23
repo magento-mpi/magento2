@@ -16,10 +16,7 @@
         <word>{license_notice}</word>
         <word>biz@magento.com</word>
         <word>enterprise</word>
-        <word>mssql</word>
-        <word>oracle</word>
         <word>petervarien</word>
-        <word>sqlsrv</word>
         <word>ukpromerchant</word>
         <word>pinba</word>
         <word>saas</word>
@@ -93,24 +90,6 @@
         </item>
         <item>
             <path>app/Mage.php</path>
-        </item>
-        <item>
-            <word>oracle</word>
-            <path>app/code/Mage/Reports/Model/Resource/Report/Abstract.php</path>
-        </item>
-        <item>
-            <word>oracle</word>
-            <word>mssql</word>
-            <path>dev/tests/integration/framework/Magento/Test/Bootstrap.php</path>
-        </item>
-        <item>
-            <word>mssql</word>
-            <word>sqlsrv</word>
-            <path>dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Bootstrap/_files/local-custom.xml</path>
-        </item>
-        <item>
-            <word>mssql</word>
-            <path>dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/BootstrapTest.php</path>
         </item>
         <item>
             <word>enterprise</word>

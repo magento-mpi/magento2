@@ -15,7 +15,9 @@
  */
 class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'download.phtml';
 
     /**
@@ -28,13 +30,19 @@ class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
         return $this->getUrl('*/*/downloadPost');
     }
 
+    /**
+     * @return string
+     */
     public function getNextUrl()
     {
         return Mage::getModel('Mage_Install_Model_Wizard')
             ->getStepByName('download')
-                ->getNextUrl();
+            ->getNextUrl();
     }
 
+    /**
+     * @return bool
+     */
     public function hasLocalCopy()
     {
         $dir = Mage::getConfig()->getModuleDir('etc', 'Mage_Adminhtml');

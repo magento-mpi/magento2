@@ -10,14 +10,13 @@
 
 /**
  * Install session model
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Session extends Mage_Core_Model_Session_Abstract
 {
-    public function __construct() 
+    /**
+     * Init session
+     */
+    public function __construct()
     {
         $this->init('install');
     }

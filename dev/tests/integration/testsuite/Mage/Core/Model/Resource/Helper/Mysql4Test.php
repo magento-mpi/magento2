@@ -23,9 +23,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestSkipped('Test is designed to run on MySQL only.');
-        }
         $this->_model = Mage::getResourceModel(
             'Mage_Core_Model_Resource_Helper_Mysql4',
             array('modulePrefix' => 'core')
@@ -58,12 +55,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_TestC
         $this->assertStringStartsWith('INSERT', $insert);
         $this->assertContains('core_store', $insert);
         $this->assertContains('store_id', $insert);
-    }
-
-    public function testLimitUnion()
-    {
-        $select = $this->_model->limitUnion($this->_select);
-        $this->assertEquals((string) $this->_select, (string)$select);
     }
 
     public function testPrepareColumnsList()

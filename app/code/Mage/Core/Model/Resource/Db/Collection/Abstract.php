@@ -495,9 +495,6 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         $helper = Mage::getResourceHelper('Mage_Core');
 
         $unionParts = $select->getPart(Zend_Db_Select::UNION);
-        if (!empty($unionParts)) {
-            $select = $helper->limitUnion($select);
-        }
 
         if ($this->_useAnalyticFunction) {
             $select = $helper->getQueryUsingAnalyticFunction($select);

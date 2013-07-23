@@ -54,7 +54,6 @@ return array(
     array('_getAmounts', 'Enterprise_GiftCard_Block_Catalog_Product_Price'),
     array('searchSuggestions', 'Enterprise_Search_Model_Client_Solr'),
     array('_registerProductsView', 'Enterprise_PageCache_Model_Container_Viewedproducts'),
-    array('_getForeignKeyName', 'Varien_Db_Adapter_Oracle'),
     array('getCacheInstance', 'Enterprise_PageCache_Model_Cache'),
     array('saveCustomerSegments', 'Enterprise_Banner_Model_Resource_Banner'),
     array('saveOptions', 'Enterprise_PageCache_Model_Cache'),
