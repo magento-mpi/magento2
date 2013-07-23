@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_View_DesignInterface
@@ -568,13 +568,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         ));
         Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_COre_Model_App_Area::PART_CONFIG);
 
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $themePath = implode(DS, array('frontend', 'package', 'default', 'theme.xml'));
-
-        $theme = $themeModel->getCollectionFromFilesystem()
-            ->setBaseDir(dirname(__DIR__) . '/_files/design/')
-            ->addTargetPattern($themePath)
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Collection');
+        $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/_files/design/')
+            ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'package', 'default', 'theme.xml')))
             ->getFirstItem()
             ->save();
 

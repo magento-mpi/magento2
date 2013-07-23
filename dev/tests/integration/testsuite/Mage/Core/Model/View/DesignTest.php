@@ -12,7 +12,7 @@
 /**
  * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
  */
-class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_View_DesignInterface
@@ -108,7 +108,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationDesignThemeDefaults()
     {
-        $this->markTestSkipped('Need to check if this test has any meaning at all in new conditions.');
         $this->assertEquals('f', $this->_model->getConfigurationDesignTheme());
         $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend'));
         $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend', array('store' => 0)));
@@ -180,7 +179,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         );
     }
 
-
     /**
      * @magentoAppIsolation enabled
      */
@@ -198,9 +196,9 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetConfigCustomized()
     {
         $this->_emulateFixtureTheme();
+        /** @var $theme Mage_Core_Model_Theme */
         $theme = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->getDesignTheme();
-
-        $customConfigFile = $theme->getCustomViewConfigPath();
+        $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem Magento_Filesystem */
         $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);

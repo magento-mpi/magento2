@@ -74,7 +74,7 @@ return array(
     array('_getPriceFilter', 'Mage_Catalog_Block_Layer_View'),
     array('_getProcessor', 'Mage_Core_Model_Cache'),
     array('_getProductQtyForCheck', 'Mage_CatalogInventory_Model_Observer'),
-    array('_getPublicFileUrl', 'Mage_Core_Model_Design_Package', 'getPublicFileUrl'),
+    array('_getPublicFileUrl', 'Mage_Core_Model_Design_Package', 'Mage_Core_Model_View_Url::getPublicFileUrl'),
     array('_getRangeByType', 'Mage_Log_Model_Resource_Visitor_Collection'),
     array('_getRecentProductsCollection'),
     array('_getScopeCode', 'Mage_Core_Model_Config'),

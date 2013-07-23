@@ -10,9 +10,9 @@
  */
 
 /**
- * Test that Design Package delegates fallback resolution to a Fallback model
+ * Test for view filesystem model
  */
-class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject

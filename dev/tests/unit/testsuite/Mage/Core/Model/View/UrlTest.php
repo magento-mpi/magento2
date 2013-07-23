@@ -9,38 +9,8 @@
  * @license     {license_link}
  */
 
-//@TODO Move test suite cause no more model Mage_Core_Model_Design_Package and it seems this test suite tests class
-// Mage_Core_Model_View_Url
-class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @param string $area
-     * @param string $themePath
-     * @param string $locale
-     * @param string $file
-     * @param string $module
-     * @param string $expected
-     * @dataProvider buildDeployedFilePathDataProvider
-     */
-    public function testBuildDeployedFilePath($area, $themePath, $locale, $file, $module, $expected)
-    {
-        $actual = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
-            $area, $themePath, $locale, $file, $module, $expected
-        );
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return array
-     */
-    public static function buildDeployedFilePathDataProvider()
-    {
-        return array(
-            'no module' => array('a', 't', 'l', 'f', null, str_replace('/', DIRECTORY_SEPARATOR, 'a/t/f')),
-            'with module' => array('a', 't', 'l', 'f', 'm', str_replace('/', DIRECTORY_SEPARATOR, 'a/t/m/f')),
-        );
-    }
-
     /**
      * @param Mage_Core_Model_Theme $themeModel
      * @dataProvider getViewFileUrlProductionModeDataProvider
