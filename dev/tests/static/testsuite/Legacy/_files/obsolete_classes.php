@@ -749,4 +749,6 @@ return array(
         'Mage_AdminNotification_Block_Grid_Renderer_Actions'),
     array('Mage_Adminhtml_Block_Cache_Notifications'),
     array('Mage_AdminNotification_Block_Grid'),
+    array('Mage_Core_Model_Design_Package'),
+    array('Mage_Core_Model_Design_PackageInterface'),
 );
