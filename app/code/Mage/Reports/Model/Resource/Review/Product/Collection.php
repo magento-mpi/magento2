@@ -20,6 +20,7 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
 {
     /**
      * Init Select
+     *
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     protected function _initSelect()
@@ -36,8 +37,6 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
      */
     protected function _joinReview()
     {
-        $helper    = Mage::getResourceHelper('Mage_Core');
-
         $subSelect = clone $this->getSelect();
         $subSelect->reset()
             ->from(array('rev' => $this->getTable('review')), 'COUNT(DISTINCT rev.review_id)')
@@ -59,14 +58,10 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
             $this->getConnection()->quoteInto('table_rating.store_id > ?', 0)
         );
 
-        /**
-         * @var $groupByCondition array of group by fields
-         */
-        $groupByCondition   = $this->getSelect()->getPart(Zend_Db_Select::GROUP);
         $percentField       = $this->getConnection()->quoteIdentifier('table_rating.percent');
-        $sumPercentField    = $helper->prepareColumn("SUM({$percentField})", $groupByCondition);
-        $sumPercentApproved = $helper->prepareColumn('SUM(table_rating.percent_approved)', $groupByCondition);
-        $countRatingId      = $helper->prepareColumn('COUNT(table_rating.rating_id)', $groupByCondition);
+        $sumPercentField    = new Zend_Db_Expr("SUM({$percentField})");
+        $sumPercentApproved = new Zend_Db_Expr('SUM(table_rating.percent_approved)');
+        $countRatingId      = new Zend_Db_Expr('COUNT(table_rating.rating_id)');
 
         $this->getSelect()
             ->joinLeft(

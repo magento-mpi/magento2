@@ -117,27 +117,11 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
         if ($setId) {
             $select->join(
                 array('set_table' => $this->getTable('eav_entity_attribute')),
-                $this->_getReadAdapter()->quoteInto('attr_table.attribute_id = set_table.attribute_id' .
-                ' AND set_table.attribute_set_id = ?', $setId),
+                $this->_getReadAdapter()->quoteInto('attr_table.attribute_id = set_table.attribute_id'
+                    . ' AND set_table.attribute_set_id = ?', $setId),
                 array()
             );
         }
-        return $select;
-    }
-
-    /**
-     * Adds Columns prepared for union
-     *
-     * @param Varien_Db_Select $select
-     * @param string $table
-     * @param string $type
-     * @return Varien_Db_Select
-     */
-    protected function _addLoadAttributesSelectFields($select, $table, $type)
-    {
-        $select->columns(
-            Mage::getResourceHelper('Mage_Catalog')->attributeSelectFields('attr_table', $type)
-        );
         return $select;
     }
 
@@ -277,7 +261,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
                 ->where('entity_type_id = ?', $attribute->getEntityTypeId())
                 ->where('attribute_id = ?', $attribute->getAttributeId())
                 ->where('store_id = ?', $this->getDefaultStoreId())
-                ->where('entity_id = ?',  $object->getEntityId());
+                ->where('entity_id = ?', $object->getEntityId());
             $row = $this->_getReadAdapter()->fetchOne($select);
 
             if (!$row) {
@@ -472,8 +456,8 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     protected function _canUpdateAttribute(
         Mage_Eav_Model_Entity_Attribute_Abstract $attribute,
         $value,
-        array &$origData)
-    {
+        array &$origData
+    ) {
         $result = parent::_canUpdateAttribute($attribute, $value, $origData);
         if ($result &&
             ($attribute->isScopeStore() || $attribute->isScopeWebsite()) &&

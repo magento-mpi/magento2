@@ -314,13 +314,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
-        $addressTable = $this->getResource()->getTable('customer_address_entity');
-
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)));
-
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
+        $select->limit(1);
 
         if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
             $value    = $this->getValue();

@@ -59,19 +59,9 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Mage_Core_
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Unknown operator specified.'));
+                Mage::throwException(
+                    Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Unknown operator specified.')
+                );
         }
-    }
-
-    /**
-     * Set Mysql specific limit
-     *
-     * @param Varien_Db_Select $select
-     * @return Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4
-     */
-    public function setOneRowLimit(Varien_Db_Select $select)
-    {
-        $select->limit(1);
-        return $this;
     }
 }

@@ -31,21 +31,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_TestC
         $this->_select = $collection->getSelect();
     }
 
-    public function testPrepareColumn()
-    {
-        $column = $this->_model->prepareColumn('test');
-        $this->assertInstanceOf('Zend_Db_Expr', $column);
-        $this->assertEquals('test', (string) $column);
-    }
-
-    public function testGetInsertFromSelectUsingAnalytic()
-    {
-        $insert = $this->_model->getInsertFromSelectUsingAnalytic($this->_select, 'core_store', array('store_id'));
-        $this->assertStringStartsWith('INSERT', $insert);
-        $this->assertContains('core_store', $insert);
-        $this->assertContains('store_id', $insert);
-    }
-
     public function testPrepareColumnsList()
     {
         $columns = $this->_model->prepareColumnsList($this->_select);

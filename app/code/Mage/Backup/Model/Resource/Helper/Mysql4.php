@@ -34,7 +34,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
      * Retrieve foreign keys for table(s)
      *
      * @param string|null $tableName
-     * @return string|false
+     * @return string|bool
      */
     public function getTableForeignKeysSql($tableName = null)
     {
@@ -73,24 +73,24 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
     }
 
      /**
-     * Get create script for table
-     *
-     * @param string $tableName
-     * @param boolean $addDropIfExists
-     * @return string
-     */
+      * Get create script for table
+      *
+      * @param string $tableName
+      * @param boolean $addDropIfExists
+      * @return string
+      */
     public function getTableCreateScript($tableName, $addDropIfExists = false)
     {
         $script = '';
         $quotedTableName = $this->_getReadAdapter()->quoteIdentifier($tableName);
 
         if ($addDropIfExists) {
-            $script .= 'DROP TABLE IF EXISTS ' . $quotedTableName .";\n";
+            $script .= 'DROP TABLE IF EXISTS ' . $quotedTableName . ";\n";
         }
         //TODO fix me
         $sql     = 'SHOW CREATE TABLE ' . $quotedTableName;
         $data    = $this->_getReadAdapter()->fetchRow($sql);
-        $script .= isset($data['Create Table']) ? $data['Create Table'].";\n" : '';
+        $script .= isset($data['Create Table']) ? $data['Create Table'] . ";\n" : '';
 
         return $script;
     }
@@ -235,7 +235,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
             ->limit($count, $offset);
         $query  = $adapter->query($select);
 
-        while ($row = $query->fetch()) {
+        while (true == ($row = $query->fetch())) {
             if ($sql === null) {
                 $sql = sprintf('INSERT INTO %s VALUES ', $adapter->quoteIdentifier($tableName));
             } else {
@@ -251,6 +251,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
 
         return $sql;
     }
+
     /**
      * Return table data SQL insert
      *
@@ -261,6 +262,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
     {
         return $this->getPartInsertSql($tableName);
     }
+
     /**
      * Quote Table Row
      *
@@ -274,13 +276,13 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
         $describe  = $adapter->describeTable($tableName);
         $dataTypes = array('bigint', 'mediumint', 'smallint', 'tinyint');
         $rowData   = array();
-        foreach ($row as $k => $v) {
-            if ($v === null) {
+        foreach ($row as $key => $data) {
+            if ($data === null) {
                 $value = 'NULL';
-            } elseif (in_array(strtolower($describe[$k]['DATA_TYPE']), $dataTypes)) {
-                $value = $v;
+            } elseif (in_array(strtolower($describe[$key]['DATA_TYPE']), $dataTypes)) {
+                $value = $data;
             } else {
-                $value = $adapter->quoteInto('?', $v);
+                $value = $adapter->quoteInto('?', $data);
             }
             $rowData[] = $value;
         }

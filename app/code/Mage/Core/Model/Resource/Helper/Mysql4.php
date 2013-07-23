@@ -18,33 +18,6 @@
 class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Abstract
 {
     /**
-     * Returns analytic expression for database column
-     *
-     * @param string $column
-     * @param string $groupAliasName OPTIONAL
-     * @param string $orderBy OPTIONAL
-     * @return Zend_Db_Expr
-     */
-    public function prepareColumn($column, $groupAliasName = null, $orderBy = null)
-    {
-        return new Zend_Db_Expr((string)$column);
-    }
-
-    /**
-     *
-     * Returns Insert From Select On Duplicate query with analytic functions
-     *
-     * @param Varien_Db_Select $select
-     * @param string $table
-     * @param array $fields
-     * @return string
-     */
-    public function getInsertFromSelectUsingAnalytic(Varien_Db_Select $select, $table, $fields)
-    {
-        return $select->insertFromSelect($table, $fields);
-    }
-
-    /**
      * Returns array of quoted orders with direction
      *
      * @param Varien_Db_Select $select
@@ -62,7 +35,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         foreach ($selectOrders as $term) {
             if (is_array($term)) {
                 if (!is_numeric($term[0])) {
-                    $orders[]   = sprintf('%s %s', $this->_getReadAdapter()->quoteIdentifier($term[0], true), $term[1]);
+                    $orders[] = sprintf('%s %s', $this->_getReadAdapter()->quoteIdentifier($term[0], true), $term[1]);
                 }
             } else {
                 if (!is_numeric($term)) {
@@ -189,12 +162,12 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         if ($limitCount !== null) {
               $limitCount = intval($limitCount);
             if ($limitCount <= 0) {
-//                throw new Exception("LIMIT argument count={$limitCount} is not valid");
+                //throw new Exception("LIMIT argument count={$limitCount} is not valid");
             }
 
             $limitOffset = intval($limitOffset);
             if ($limitOffset < 0) {
-//                throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
+                //throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
             }
 
             if ($limitOffset + $limitCount != $limitOffset + 1) {
@@ -202,7 +175,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
                 foreach ($columnList as $columnEntry) {
                     $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
                 }
-
                 $query = sprintf('%s LIMIT %s, %s', $query, $limitCount, $limitOffset);
             }
         }
@@ -233,7 +205,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
             if ($column instanceof Zend_Db_Expr) {
                 if ($alias !== null) {
                     if (preg_match('/(^|[^a-zA-Z_])^(SELECT)?(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column)) {
-                        $column = $this->prepareColumn($column, $groupByCondition);
+                        $column = new Zend_Db_Expr($column);
                     }
                     $preparedColumns[strtoupper($alias)] = array(null, $column, $alias);
                 } else {
@@ -286,9 +258,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         if ($groupConcatDelimiter) {
             $separator = sprintf(" SEPARATOR '%s'", $groupConcatDelimiter);
         }
-
         $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator))));
-
         return $select;
     }
 

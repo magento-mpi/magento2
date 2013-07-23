@@ -143,7 +143,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
+        $select->limit(1);
         return $select;
     }
 

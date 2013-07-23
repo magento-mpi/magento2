@@ -77,4 +77,10 @@ return array(
     array('_getQuote', 'Enterprise_GiftWrapping_Block_Checkout_Options',
         'Enterprise_GiftWrapping_Block_Checkout_Options::getQuote()'
     ),
+    array('addCustomerSegmentRelationsToCollection', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('_getRuleProductsTable', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('getCustomerSegmentRelations', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('_saveCustomerSegmentRelations', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('_prepareRuleProducts', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('getInetNtoaExpr', 'Enterprise_Logging_Model_Resource_Helper_Mysql4'),
 );

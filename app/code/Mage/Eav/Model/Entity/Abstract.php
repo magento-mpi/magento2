@@ -1000,7 +1000,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             $attribute = current($this->_attributesByTable[$table]);
             $eavType = $attribute->getBackendType();
             $select = $this->_getLoadAttributesSelect($object, $table);
-            $selects[$eavType][] = $this->_addLoadAttributesSelectFields($select, $table, $eavType);
+            $selects[$eavType][] = $select->columns('*');
         }
         $selectGroups = Mage::getResourceHelper('Mage_Eav')->getLoadAttributesSelectGroups($selects);
         foreach ($selectGroups as $selects) {
@@ -1058,22 +1058,6 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             ->from($table, array())
             ->where($this->getEntityIdField() . ' =?', $object->getId());
 
-        return $select;
-    }
-
-    /**
-     * Adds Columns prepared for union
-     *
-     * @param Varien_Db_Select $select
-     * @param string $table
-     * @param string $type
-     * @return Varien_Db_Select
-     */
-    protected function _addLoadAttributesSelectFields($select, $table, $type)
-    {
-        $select->columns(
-            Mage::getResourceHelper('Mage_Eav')->attributeSelectFields($table, $type)
-        );
         return $select;
     }
 
