@@ -17,8 +17,5 @@
                 <condition>giftregistry_enabled</condition>
             </action>
         </reference>
-        <reference name="content">
-            <block type="Enterprise_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
-        </reference>
     </checkout_onepage_index>
 </layout>
