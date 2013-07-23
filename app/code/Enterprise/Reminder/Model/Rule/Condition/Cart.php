@@ -126,16 +126,20 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $daysDiffSql */
-        $daysDiffSql = Mage::getResourceHelper('Mage_Core');
-        $daysDiffSql->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
+        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $resourceHelper */
+        $resourceHelper = Mage::getResourceHelper('Mage_Core');
+        $daysDiffSql = $resourceHelper->getDateDiff(
+            'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
+        );
         if ($operator == '=') {
             $select->where($daysDiffSql . ' < ?', $conditionValue);
             $select->where($daysDiffSql . ' > ?', $conditionValue - 1);
         } else {
             if ($operator == '>=' && $conditionValue == 0) {
                 $currentTime = $this->_dateModel->gmtDate();
-                $daysDiffSql->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
+                $daysDiffSql = $resourceHelper->getDateDiff(
+                    'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
+                );
             }
             $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         }
