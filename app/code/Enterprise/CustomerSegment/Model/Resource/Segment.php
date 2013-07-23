@@ -279,7 +279,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      */
     public function getSqlOperator($operator)
     {
-        return Mage::getResourceHelper('Mage_Core')->getSqlOperator($operator);
+        return Mage::getResourceHelper('Enterprise_CustomerSegment')->getSqlOperator($operator);
     }
 
     /**
