@@ -18,17 +18,6 @@
 class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Abstract
 {
     /**
-     * Returns expression for field unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function castField($field)
-    {
-        return $field;
-    }
-
-    /**
      * Returns analytic expression for database column
      *
      * @param string $column

@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Mage_Index_Model_Resource_Process _getResource()
  * @method Mage_Index_Model_Resource_Process getResource()
  * @method string getIndexerCode()
@@ -335,8 +333,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      * @param   null|string $entity
      * @param   null|string $type
      * @return  Mage_Index_Model_Process
+     * @throws Exception
      */
-    public function indexEvents($entity=null, $type=null)
+    public function indexEvents($entity = null, $type = null)
     {
         /**
          * Check if process indexer can match entity code and action type
@@ -390,7 +389,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     ) {
         // We can't reload the collection because of transaction
         /** @var $event Mage_Index_Model_Event */
-        while ($event = $eventsCollection->fetchItem()) {
+        while (true == ($event = $eventsCollection->fetchItem())) {
             try {
                 $this->processEvent($event);
                 if (!$skipUnmatched) {

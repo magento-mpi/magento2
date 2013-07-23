@@ -329,11 +329,9 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             if ($selectUnions) {
                 $unionParts = array();
                 $cloneSelect = clone $this->getSelect();
-                $helper = Mage::getResourceHelper('Mage_Core');
                 $unionParts[] = '(' . $cloneSelect . ')';
                 foreach ($selectUnions as $union) {
-                    $query = $helper->getQueryUsingAnalyticFunction($union);
-                    $unionParts[] = '(' . $query . ')';
+                    $unionParts[] = '(' . $union . ')';
                 }
                 $this->getSelect()->reset()->union($unionParts, Zend_Db_Select::SQL_UNION_ALL);
             }

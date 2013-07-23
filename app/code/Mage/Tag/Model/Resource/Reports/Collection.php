@@ -36,12 +36,6 @@ class Mage_Tag_Model_Resource_Reports_Collection extends Mage_Tag_Model_Resource
         }
 
         $select->group('main_table.tag_id');
-
-        /**
-         * Allow to use analytic function
-         */
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 }

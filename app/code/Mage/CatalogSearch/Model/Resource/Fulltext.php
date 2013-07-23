@@ -492,10 +492,9 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _unifyField($field, $backendType = 'varchar')
     {
         if ($backendType == 'datetime') {
-            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField(
-                $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s'));
+            $expr = $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s');
         } else {
-            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField($field);
+            $expr = $field;
         }
         return $expr;
     }

@@ -81,14 +81,6 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     protected $_joinFields                = array();
 
     /**
-     * Use analytic function flag
-     * If true - allows to prepare final select with analytic functions
-     *
-     * @var bool
-     */
-    protected $_useAnalyticFunction         = false;
-
-    /**
      * Cast map for attribute order
      *
      * @var array
@@ -887,6 +879,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     /**
      * Retrive all ids for collection
      *
+     * @param null|int|string $limit
+     * @param null|int|string $offset
      * @return array
      */
     public function getAllIds($limit = null, $offset = null)
@@ -1463,20 +1457,5 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     public function getLoadedIds()
     {
         return array_keys($this->_items);
-    }
-
-    /**
-     * Prepare select for load
-     *
-     * @param Zend_Db_Select $select
-     * @return Zend_Db_Select
-     */
-    public function _prepareSelect(Zend_Db_Select $select)
-    {
-        if ($this->_useAnalyticFunction) {
-            $helper = Mage::getResourceHelper('Mage_Core');
-            $select = $helper->getQueryUsingAnalyticFunction($select);
-        }
-        return $select;
     }
 }

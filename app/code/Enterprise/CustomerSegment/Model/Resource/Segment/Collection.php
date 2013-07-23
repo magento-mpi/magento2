@@ -149,8 +149,6 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
                 array('customer_count' => new Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
             )
             ->group('main_table.segment_id');
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 

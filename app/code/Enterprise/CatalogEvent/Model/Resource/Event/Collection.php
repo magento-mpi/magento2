@@ -204,8 +204,6 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             array()
         );
 
-        //$this->_useAnalyticFunction = true;
-
         return $this;
     }
 

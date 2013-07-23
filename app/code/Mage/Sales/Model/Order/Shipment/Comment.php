@@ -10,8 +10,6 @@
 
 
 /**
- * Enter description here ...
- *
  * @method Mage_Sales_Model_Resource_Order_Shipment_Comment _getResource()
  * @method Mage_Sales_Model_Resource_Order_Shipment_Comment getResource()
  * @method int getParentId()

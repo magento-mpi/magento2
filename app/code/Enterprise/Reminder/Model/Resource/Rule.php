@@ -342,9 +342,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
         if ($limit) {
             $select->limit($limit);
         }
-
-        $sql = $_helper->getQueryUsingAnalyticFunction($select);
-        return $adapter->fetchAll($sql);
+        return $adapter->fetchAll($select);
     }
 
     /**

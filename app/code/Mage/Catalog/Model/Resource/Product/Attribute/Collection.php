@@ -35,14 +35,15 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
+        $entityTypeId = (int)Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)
+            ->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
         $retColumns = array();
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
             if ($columnData['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_TEXT) {
-                $retColumns[$labelColumn] = Mage::getResourceHelper('Mage_Core')->castField('main_table.'.$labelColumn);
+                $retColumns[$labelColumn] = 'main_table.' . $labelColumn;
             }
         }
         $this->getSelect()
@@ -50,7 +51,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
             ->join(
                 array('additional_table' => $this->getTable('catalog_eav_attribute')),
                 'additional_table.attribute_id = main_table.attribute_id'
-                )
+            )
             ->where('main_table.entity_type_id = ?', $entityTypeId);
         return $this;
     }
