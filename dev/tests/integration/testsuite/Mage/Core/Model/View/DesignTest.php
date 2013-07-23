@@ -108,7 +108,6 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationDesignThemeDefaults()
     {
-        $this->markTestSkipped('Need to check if this test has any meaning at all in new conditions.');
         $this->assertEquals('f', $this->_model->getConfigurationDesignTheme());
         $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend'));
         $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend', array('store' => 0)));
@@ -179,7 +178,6 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
             array('dir/../file.ext'),
         );
     }
-
 
     /**
      * @magentoAppIsolation enabled
