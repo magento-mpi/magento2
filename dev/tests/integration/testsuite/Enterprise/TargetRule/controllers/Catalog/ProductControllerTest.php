@@ -16,12 +16,10 @@ class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_T
      * Checks if related products are displayed
      *
      * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
+     * @magentoDataFixture Enterprise/TargetRule/_files/related.php
      */
     public function testProductViewActionRelated()
     {
-        /**
-         * add @magentoDataFixture Enterprise/TargetRule/_files/related.php after fix
-         */
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
         $this->assertContains('<div class="box-collateral box-related">', $content);
@@ -33,12 +31,10 @@ class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_T
      * Checks if up-sell products are displayed
      *
      * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
+     * @magentoDataFixture Enterprise/TargetRule/_files/upsell.php
      */
     public function testProductViewActionUpsell()
     {
-        /**
-         * add @magentoDataFixture Enterprise/TargetRule/_files/upsell.php after fix
-         */
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
         $this->assertContains('<div class="box-collateral box-up-sell">', $content);

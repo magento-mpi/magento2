@@ -110,7 +110,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     protected $_valueTablePrefix;
 
-    /* Entity table string
+    /**
+     * Entity table string
      *
      * @var string
      */
@@ -192,7 +193,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      * Resource initialization
      */
     protected function _construct()
-    {}
+    {
+    }
 
     /**
      * Retrieve connection for read data
@@ -279,6 +281,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      * Retrieve current entity config
      *
      * @return Mage_Eav_Model_Entity_Type
+     * @throws Mage_Core_Exception
      */
     public function getEntityType()
     {
@@ -316,6 +319,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      *
      * @param array|string|null $attributes
      * @return Mage_Eav_Model_Entity_Abstract
+     * @throws Mage_Core_Exception
      */
     public function unsetAttributes($attributes = null)
     {
@@ -510,9 +514,10 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     /**
      * Retrieve configuration for all attributes
      *
+     * @param null|object $object
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function loadAllAttributes($object=null)
+    public function loadAllAttributes($object = null)
     {
         $attributeCodes = Mage::getSingleton('Mage_Eav_Model_Config')
             ->getEntityAttributeCodes($this->getEntityType(), $object);
@@ -570,18 +575,18 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     /**
      * Compare attributes
      *
-     * @param Mage_Eav_Model_Entity_Attribute $attribute1
-     * @param Mage_Eav_Model_Entity_Attribute $attribute2
+     * @param Mage_Eav_Model_Entity_Attribute $firstAttribute
+     * @param Mage_Eav_Model_Entity_Attribute $secondAttribute
      * @return int
      */
-    public function attributesCompare($attribute1, $attribute2)
+    public function attributesCompare($firstAttribute, $secondAttribute)
     {
-        $sort1 = $attribute1->getSortWeight((int)$this->_sortingSetId);
-        $sort2 = $attribute2->getSortWeight((int)$this->_sortingSetId);
+        $firstSort = $firstAttribute->getSortWeight((int)$this->_sortingSetId);
+        $secondSort = $secondAttribute->getSortWeight((int)$this->_sortingSetId);
 
-        if ($sort1 > $sort2) {
+        if ($firstSort > $secondSort) {
             return 1;
-        } elseif ($sort1 < $sort2) {
+        } elseif ($firstSort < $secondSort) {
             return -1;
         }
 
@@ -612,8 +617,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      * @param array $args
      * @param null|bool $collectExceptionMessages
      *
-     * @throws Mage_Eav_Model_Entity_Attribute_Exception
-     *
+     * @throws Exception|Mage_Eav_Model_Entity_Attribute_Exception
      * @return array
      */
     public function walkAttributes($partMethod, array $args = array(), $collectExceptionMessages = null)
@@ -1048,9 +1052,9 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     /**
      * Retrieve select object for loading entity attributes values
      *
-     * @param   Varien_Object $object
-     * @param   mixed $rowId
-     * @return  Zend_Db_Select
+     * @param Varien_Object $object
+     * @param string $table
+     * @return Zend_Db_Select
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
@@ -1246,7 +1250,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      * Return if attribute exists in original data array.
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param mixed $value New value of the attribute. Can be used in subclasses.
+     * @param mixed $v New value of the attribute. Can be used in subclasses.
      * @param array $origData
      * @return bool
      */
@@ -1528,6 +1532,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      * @param Varien_Object $object
      * @param string $attributeCode
      * @return Mage_Eav_Model_Entity_Abstract
+     * @throws Exception
      */
     public function saveAttribute(Varien_Object $object, $attributeCode)
     {
@@ -1583,7 +1588,9 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     /**
      * Delete entity using current object's data
      *
+     * @param Varien_Object|int|string $object
      * @return Mage_Eav_Model_Entity_Abstract
+     * @throws Exception
      */
     public function delete($object)
     {
@@ -1699,7 +1706,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      *
      * @return array
      */
-    public function getDefaultAttributes() {
+    public function getDefaultAttributes()
+    {
         return array_unique(array_merge($this->_getDefaultAttributes(), array($this->getEntityIdField())));
     }
 

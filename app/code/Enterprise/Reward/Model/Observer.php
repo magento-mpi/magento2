@@ -216,8 +216,8 @@ class Enterprise_Reward_Model_Observer
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
         if ($order->getCustomerIsGuest()
-            || !Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($order->getStore()->getWebsiteId()))
-        {
+            || !Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($order->getStore()->getWebsiteId())
+        ) {
             return $this;
         }
 
@@ -425,8 +425,7 @@ class Enterprise_Reward_Model_Observer
                 if (!$payment->getMethod()) {
                     $payment->setMethod('free');
                 }
-            }
-            else {
+            } else {
                 $quote->setUseRewardPoints(false);
             }
         }
@@ -587,7 +586,7 @@ class Enterprise_Reward_Model_Observer
         $order = $observer->getEvent()->getCreditmemo()->getOrder();
         $refundedAmount = (float)($order->getBaseRwrdCrrncyAmntRefnded() + $creditmemo->getBaseRewardCurrencyAmount());
         $rewardAmount = (float)$order->getBaseRwrdCrrncyAmtInvoiced();
-        if ($rewardAmount > 0 &&  $rewardAmount == $refundedAmount) {
+        if ($rewardAmount > 0 && $rewardAmount == $refundedAmount) {
             $order->setForcedCanCreditmemo(false);
         }
         return $this;
@@ -695,7 +694,8 @@ class Enterprise_Reward_Model_Observer
             if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($website->getId())) {
                 continue;
             }
-            $expiryType = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('expiry_calculation', $website->getId());
+            $expiryType = Mage::helper('Enterprise_Reward_Helper_Data')
+                ->getGeneralConfig('expiry_calculation', $website->getId());
             Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History')
                 ->expirePoints($website->getId(), $expiryType, 100);
         }

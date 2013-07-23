@@ -317,8 +317,8 @@ class Mage_Customer_Service_Customer
             $storeId = $customer->getSendemailStoreId();
 
             if ($isNewCustomer) {
-                $newResetPasswordLinkToken = $this->_translateHelper->generateResetPasswordLinkToken();
-                $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
+                $newLinkToken = $this->_translateHelper->generateResetPasswordLinkToken();
+                $customer->changeResetPasswordLinkToken($newLinkToken);
                 $customer->sendNewAccountEmail('registered', '', $storeId);
             } elseif (!$customer->getConfirmation()) {
                 // Confirm not confirmed customer

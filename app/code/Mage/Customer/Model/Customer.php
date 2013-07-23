@@ -839,7 +839,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please correct this email address: "%s".', $this->getEmail());
+            $errors[] = Mage::helper('Mage_Customer_Helper_Data')
+                ->__('Please correct this email address: "%s".', $this->getEmail());
         }
 
         $entityType = $this->_config->getEntityType('customer');
@@ -1070,18 +1071,18 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * Stores new reset password link token
      *
      * @throws Mage_Core_Exception
-     * @param string $newResetPasswordLinkToken
+     * @param string $passwordLinkToken
      * @return Mage_Customer_Model_Customer
      */
-    public function changeResetPasswordLinkToken($newResetPasswordLinkToken)
+    public function changeResetPasswordLinkToken($passwordLinkToken)
     {
-        if (!is_string($newResetPasswordLinkToken) || empty($newResetPasswordLinkToken)) {
+        if (!is_string($passwordLinkToken) || empty($passwordLinkToken)) {
             throw Mage::exception('Mage_Core',
                 Mage::helper('Mage_Customer_Helper_Data')->__('Invalid password reset token.'),
                 self::EXCEPTION_INVALID_RESET_PASSWORD_LINK_TOKEN
             );
         }
-        $this->_getResource()->changeResetPasswordLinkToken($this, $newResetPasswordLinkToken);
+        $this->_getResource()->changeResetPasswordLinkToken($this, $passwordLinkToken);
         return $this;
     }
 
@@ -1092,24 +1093,24 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function isResetPasswordLinkTokenExpired()
     {
-        $resetPasswordLinkToken = $this->getRpToken();
-        $resetPasswordLinkTokenCreatedAt = $this->getRpTokenCreatedAt();
+        $linkToken = $this->getRpToken();
+        $linkTokenCreatedAt = $this->getRpTokenCreatedAt();
 
-        if (empty($resetPasswordLinkToken) || empty($resetPasswordLinkTokenCreatedAt)) {
+        if (empty($linkToken) || empty($linkTokenCreatedAt)) {
             return true;
         }
 
-        $tokenExpirationPeriod = Mage::helper('Mage_Customer_Helper_Data')->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = Mage::helper('Mage_Customer_Helper_Data')->getResetPasswordLinkExpirationPeriod();
 
         $currentDate = Varien_Date::now();
         $currentTimestamp = Varien_Date::toTimestamp($currentDate);
-        $tokenTimestamp = Varien_Date::toTimestamp($resetPasswordLinkTokenCreatedAt);
+        $tokenTimestamp = Varien_Date::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }
 
         $dayDifference = floor(($currentTimestamp - $tokenTimestamp) / (24 * 60 * 60));
-        if ($dayDifference >= $tokenExpirationPeriod) {
+        if ($dayDifference >= $expirationPeriod) {
             return true;
         }
 
