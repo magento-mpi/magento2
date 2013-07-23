@@ -84,7 +84,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     /**
      * Return required validation
      *
-     * @return true
+     * @return bool
      */
     protected function _getRequiredValidation()
     {
@@ -112,7 +112,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
      */
     protected function _prepareConditionsSql($customer, $website)
     {
-        $conditionValue = (int) $this->getValue();
+        $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
             Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('The root shopping cart condition should have a days value of 0 or greater.'));
         }
@@ -126,16 +126,16 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
-            ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
+        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $daysDiffSql */
+        $daysDiffSql = Mage::getResourceHelper('Mage_Core');
+        $daysDiffSql->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
         if ($operator == '=') {
             $select->where($daysDiffSql . ' < ?', $conditionValue);
             $select->where($daysDiffSql . ' > ?', $conditionValue - 1);
         } else {
             if ($operator == '>=' && $conditionValue == 0) {
                 $currentTime = $this->_dateModel->gmtDate();
-                $daysDiffSql = Mage::getResourceHelper('Enterprise_Reminder')
-                    ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
+                $daysDiffSql->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
             }
             $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         }
