@@ -243,6 +243,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      */
     public function editOrderAllGiftOptionsAllowed($testData)
     {
+        $this->markTestIncomplete('MAGETWO-11766');
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
             array('product1' => $testData['simple'], 'giftWrappingDesign' => $testData['wrapping']));
