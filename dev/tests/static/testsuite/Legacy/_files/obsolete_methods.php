@@ -388,6 +388,7 @@ return array(
     ),
     array('getResourceTypeConfig', 'Mage_Core_Model_Config'),
     array('getResTreeJson', 'Mage_User_Block_Role_Tab_Edit', 'getTree'),
+    array('getResTreeJson', 'Mage_Adminhtml_Block_Api_Tab_Rolesedit', 'getTree'),
     array('getRowId', 'Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid'),
     array('getRowId', 'Mage_Adminhtml_Block_Widget_Grid'),
     array('getSaveTemplateFlag', 'Mage_Newsletter_Model_Queue'),

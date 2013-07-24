@@ -36,7 +36,7 @@ jQuery(function($) {
         },
         _bind: function() {
             this.element.on('loaded.jstree', $.proxy(this._checkNodes, this));
-            this.element.on('click.jstree', 'li', $.proxy(this._checkNode, this));
+            this.element.on('click.jstree', 'a', $.proxy(this._checkNode, this));
         },
         _checkNode: function(event) {
             event.stopPropagation();

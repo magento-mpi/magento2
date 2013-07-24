@@ -24,14 +24,14 @@
         <label class="label" for="all"><span><?php echo $this->__('Resource Access') ?></span></label>
 
         <div class="control">
-            <select id="all" name="all" onchange="jQuery('[data-role=tree_resources_container]').toggle()" class="select">
+            <select id="all" name="all" onchange="jQuery('[data-role=tree-resources-container]').toggle()" class="select">
                 <option value="0" <?php echo ($this->isEverythingAllowed()?'':'selected="selected"'); ?>><?php echo $this->__('Custom') ?></option>
                 <option value="1" <?php echo ($this->isEverythingAllowed()?'selected="selected"':''); ?>><?php echo $this->__('All') ?></option>
             </select>
         </div>
     </div>
 
-    <div class="field<?php if($this->isEverythingAllowed()):?> no-display<?php endif?>" data-role="tree_resources_container">
+    <div class="field<?php if($this->isEverythingAllowed()):?> no-display<?php endif?>" data-role="tree-resources-container">
         <label class="label"><span><?php echo $this->__('Resources') ?></span></label>
 
         <div class="control">

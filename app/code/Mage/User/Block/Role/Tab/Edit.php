@@ -143,7 +143,6 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
         $output = array();
         foreach ($resources as $resource) {
             $item = array();
-            $item['attr']['data-ui-id'] = $resource['id'];
             $item['attr']['data-id'] = $resource['id'];
             $item['data'] = $this->__($resource['title']);
             $item['children'] = array();

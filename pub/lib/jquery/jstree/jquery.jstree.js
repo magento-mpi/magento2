@@ -4550,7 +4550,7 @@
 
 
 /*
- * jsTree checkbox override
+ * jsTree checkbox plugin copy-paste
  * change_state method was modified
  * refactoring is needed after update to a newer version of jstree, that supports plugin extending
  */
