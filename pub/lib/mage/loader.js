@@ -11,6 +11,8 @@
     $.widget("mage.loader", {
         loaderStarted: 0,
         options: {
+            defaultContainer: '[data-container=body]',
+            loaderContainer: '[data-role="loader"]',
             icon: '',
             texts: {
                 loaderText: $.mage.__('Please wait...'),
@@ -30,16 +32,6 @@
          */
         _create: function() {
             this._bind();
-        },
-
-        /**
-         * Loader initialisation
-         * @private
-         */
-        _init: function() {
-            if (this.options.showOnInit) {
-                this.show();
-            }
         },
 
         /**
@@ -92,7 +84,7 @@
         },
 
         _findLoader: function() {
-            return this.element.find('[data-role="loader"]');
+            return this.element.find(this.options.loaderContainer);
         },
 
         /**
@@ -112,7 +104,7 @@
          * @protected
          */
         _getCssObj: function() {
-            var isBodyElement = this.element.is('body'),
+            var isBodyElement = this.element.is(this.options.defaultContainer),
                 width = isBodyElement ? $(window).width() : this.element.outerWidth(),
                 height = isBodyElement ? $(window).height() : this.element.outerHeight(),
                 position = isBodyElement ? 'fixed' : 'relative';
@@ -136,16 +128,19 @@
      * This widget takes care of registering the needed loader listeners on the body
      */
     $.widget("mage.loaderAjax", {
+        options: {
+            defaultContainer: '[data-container=body]'
+        },
         _create: function() {
             this._bind();
             // There should only be one instance of this widget, and it should be attached
             // to the body only. Having it on the page twice will trigger multiple processStarts.
-            if (!this.element.is('body') && $.mage.isDevMode(undefined)) {
+            if (!this.element.is(this.options.defaultContainer) && $.mage.isDevMode(undefined)) {
                 console.warn("This widget is intended to be attached to the body, not below.");
             }
         },
         _bind: function() {
-            this._on('body', {
+            this._on(this.options.defaultContainer, {
                 'ajaxSend': '_onAjaxSend',
                 'ajaxComplete': '_onAjaxComplete'
             });
