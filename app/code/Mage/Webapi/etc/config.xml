@@ -27,6 +27,7 @@
                 <frontName>webapi</frontName>
                 <front_controller>Mage_Webapi_Controller_Front</front_controller>
                 <!--TODO: Utilize base action controller from config, not constant-->
+                <!--TODO: Remove generic action controller configuration-->
                 <base_controller>Mage_Webapi_Controller_ActionAbstract</base_controller>
             </webapi>
         </areas>

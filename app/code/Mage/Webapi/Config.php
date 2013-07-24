@@ -17,6 +17,11 @@ class Mage_Webapi_Config
     const VERSION_NUMBER_PREFIX = 'V';
 
     /**
+     * Pattern for Web API interface name.
+     */
+    const SERVICE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+Interface(V\d+)$/';
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -328,9 +333,10 @@ class Mage_Webapi_Config
             foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
                 if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
                     $secure = isset($operationData['secure']) ? $operationData['secure'] : false;
+                    $methodRoute = isset($operationData['route']) ? $operationData['route'] : '';
                     $routes[] = $this->_createRoute(
                         array(
-                            'routePath' => $serviceData['baseUrl'] . $operationData['route'],
+                            'routePath' => $serviceData['baseUrl'] . $methodRoute,
                             'version' => $request->getServiceVersion(), // TODO: Take version from config
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
@@ -490,7 +496,7 @@ class Mage_Webapi_Config
          */
         $modulesDir = $this->_dir->getDir(Mage_Core_Model_Dir::MODULES);
         /** TODO: Change pattern to match interface instead of class. Think about sub-services. */
-        if (!preg_match(Mage_Webapi_Model_Config_ReaderAbstract::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
+        if (!preg_match(Mage_Webapi_Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
             // TODO: Generate exception when error handling strategy is defined
         }
         $vendorName = $matches[1];

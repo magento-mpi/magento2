@@ -39,13 +39,13 @@ abstract class Mage_Webapi_Routing_BaseService extends Magento_Test_TestCase_Web
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (Exception $e) {
-            $this->assertEquals(
+            $this->assertContains(
+                '{"errors":[{"code":404,"message":"Request does not match any route.',
                 $e->getMessage(),
-                '{"errors":[{"code":404,"message":"Request does not match any route."}]}',
                 sprintf(
-                    'REST routing did not fail as expected for Resource "%s" and method "%s"',
-                    $serviceInfo['rest']['resourcePath'],
-                    $serviceInfo['rest']['httpMethod']
+                    'REST routing did not fail as expected for the method "%s" of service "%s"',
+                    $serviceInfo['rest']['httpMethod'],
+                    $serviceInfo['rest']['resourcePath']
                 )
             );
         }

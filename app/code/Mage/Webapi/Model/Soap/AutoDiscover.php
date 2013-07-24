@@ -19,14 +19,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     const WSDL_CACHE_ID = 'WSDL';
 
     /**
-     * API config instance.
-     * Used to retrieve complex types data.
-     *
-     * @var Mage_Webapi_Config
-     */
-    protected $_apiConfig;
-
-    /**
      * TODO: Temporary variable for step-by-step refactoring according to new requirements
      *
      * @var Mage_Webapi_Config
@@ -59,7 +51,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * Construct auto discover with service config and list of requested services.
      *
      * @param Mage_Webapi_Config $newApiConfig
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
@@ -68,12 +59,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     public function __construct(
         Mage_Webapi_Config $newApiConfig,
-        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
     ) {
-        $this->_apiConfig = $apiConfig;
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;

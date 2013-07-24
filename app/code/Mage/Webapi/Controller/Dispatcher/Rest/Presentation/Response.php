@@ -9,9 +9,6 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
 {
-    /** @var Mage_Webapi_Model_Config_Rest */
-    protected $_apiConfig;
-
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_request;
 
@@ -30,7 +27,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Rest $apiConfig
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response_Rest $response
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
@@ -38,14 +34,12 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
      * @param Mage_Core_Model_Config $applicationConfig
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Rest $apiConfig,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response_Rest $response,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Magento_Controller_Router_Route_Factory $routeFactory,
         Mage_Core_Model_Config $applicationConfig
     ) {
-        $this->_apiConfig = $apiConfig;
         $this->_request = $requestFactory->get();
         $this->_response = $response;
         $this->_routeFactory = $routeFactory;
@@ -89,35 +83,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
         if ($this->_response->getMessages()) {
             $this->_render(array('messages' => $this->_response->getMessages()));
         }
-    }
-
-    /**
-     * Generate service location.
-     *
-     * @param Mage_Core_Model_Abstract $createdItem
-     * @return string URL
-     */
-    protected function _getCreatedItemLocation($createdItem)
-    {
-        /** @var $apiTypeRoute Zend_Controller_Router_Route_Abstract */
-        $apiTypeRoute = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Router_Route',
-            $this->_applicationConfig->getAreaFrontName() . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE
-        );
-        $serviceName = $this->_request->getServiceName();
-        $routeToItem = $this->_routeFactory->createRoute(
-            'Zend_Controller_Router_Route',
-            $this->_apiConfig->getRestRouteToItem($serviceName)
-        );
-        $chain = $apiTypeRoute->chain($routeToItem);
-        $params = array(
-            Mage_Webapi_Controller_Request::PARAM_API_TYPE => $this->_request->getApiType(),
-            Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID => $createdItem->getId(),
-            Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->_request->getServiceVersion()
-        );
-        $uri = $chain->assemble($params);
-
-        return '/' . $uri;
     }
 
     /**

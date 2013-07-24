@@ -13,9 +13,6 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
     protected $_dispatcher;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_apiConfigMock;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_soapServerMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -78,7 +75,6 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->getMock();
 
         $this->_dispatcher = new Mage_Webapi_Controller_Dispatcher_Soap(
-            $this->_apiConfigMock,
             $this->_requestMock,
             $this->_responseMock,
             $this->_autoDiscoverMock,
@@ -95,7 +91,6 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
     protected function tearDown()
     {
         unset($this->_dispatcher);
-        unset($this->_apiConfigMock);
         unset($this->_requestMock);
         unset($this->_responseMock);
         unset($this->_autoDiscoverMock);
@@ -182,31 +177,19 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->method('setHttpResponseCode')
             ->with(400);
 
-        $expectedServices = array(
-            'foo' => array('v1'),
-            'bar' => array('v2'),
-        );
         $expectedUrl = 'http://magento.host/api/soap/';
-        $this->_apiConfigMock->expects($this->once())
-            ->method('getAllServicesVersions')
-            ->will($this->returnValue($expectedServices));
+
         $this->_soapServerMock->expects($this->any())
             ->method('getEndpointUri')
             ->will($this->returnValue($expectedUrl));
-        $expectedDetails = array(
-            'availableServices' => array(
-                'foo' => array('v1' => $expectedUrl . '?wsdl&services=foo:v1'),
-                'bar' => array('v2' => $expectedUrl . '?wsdl&services=bar:v2'),
-            )
-        );
+
         $expectedFault = '<?xml version="1.0" encoding="utf8"?><root>SOAP_FAULT</root>';
         $this->_soapFaultMock->expects($this->once())
             ->method('getSoapFaultMessage')
             ->with(
                 $expectedException->getMessage(),
                 Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
-                'en',
-                $expectedDetails
+                'en'
             )
             ->will($this->returnValue($expectedFault));
 

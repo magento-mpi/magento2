@@ -16,8 +16,6 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected $_autoDiscover;
     /**  @var Mage_Webapi_Config * */
     protected $_newApiConfigMock;
-    /**  @var Mage_Webapi_Model_Config_Soap * */
-    protected $_apiConfig;
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Factory * */
     protected $_wsdlFactory;
     /**  @var Mage_Webapi_Helper_Config * */
@@ -72,7 +70,6 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
             $this->_newApiConfigMock,
-            $this->_apiConfig,
             $this->_wsdlFactory,
             $this->_helper,
             $this->_cache
@@ -84,7 +81,6 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->_autoDiscover);
-        unset($this->_apiConfig);
         unset($this->_wsdlFactory);
         unset($this->_helper);
         unset($this->_cache);

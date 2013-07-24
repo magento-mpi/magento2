@@ -9,9 +9,6 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_DispatcherInterface
 {
-    /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_apiConfig;
-
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
@@ -36,7 +33,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
@@ -46,7 +42,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
@@ -55,7 +50,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
     ) {
-        $this->_apiConfig = $apiConfig;
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_request = $request;
@@ -103,17 +97,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_setResponseContentType('text/xml');
         $this->_response->setHttpResponseCode(400);
         $details = array();
-        foreach ($this->_apiConfig->getAllServicesVersions() as $serviceName => $versions) {
-            foreach ($versions as $version) {
-                $details['availableServices'][$serviceName][$version] = sprintf(
-                    '%s?wsdl&services=%s:%s',
-                    $this->_soapServer->getEndpointUri(),
-                    $serviceName,
-                    $version
-                );
-            }
-        }
-
+        // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody(
             $this->_soapFault->getSoapFaultMessage(
                 $message,
@@ -165,8 +149,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_soapServer->initWsdlCache();
         $this->_soapServer->setWSDL($this->_soapServer->generateUri(true))
             ->setEncoding($this->_soapServer->getApiCharset())
-            ->setSoapVersion(SOAP_1_2)
-            ->setClassmap($this->_apiConfig->getTypeToClassMap());
+            ->setSoapVersion(SOAP_1_2);
         use_soap_error_handler(false);
         // TODO: Headers are not available at this point.
         // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
