@@ -12,6 +12,7 @@
         options: {
             itemCount: 0,
             baseItemId: 'new_item',
+            templatePrefix: '_templatePrefix_',
             loader: null,
             regionsUrl: null,
             defaultCountries: [],
@@ -20,9 +21,12 @@
             countryElement: null,
             regionIdElement: null,
             regionElement: null,
-            deleteConfirmPrompt: ''
+            deleteConfirmPrompt: '',
         },
 
+        /**
+         * This method adds a new address - tab and form to the widget.
+         */
         _addNewAddress: function () {
             this.options.itemCount++;
 
@@ -42,7 +46,6 @@
 
             var newForm = $('#form_' + formName);
 
-            // @TODO something different?
             var template = this._prepareTemplate(this.element.find('div[data-template="address_item"]').html())
                 .replace('data_item_value_', '' + this.options.itemCount)
                 .replace('delete_button', 'delete_button' + this.options.itemCount)
@@ -58,12 +61,7 @@
             // activate the newly added tab
             this.option('active', -1);
 
-            // @TODO Used in deleteAddress and cancelAdd?
-            var newItem = $(formName);
-            newItem.isNewAddress = true;
-            newItem.formBlock = newForm;
-
-            this.element.trigger('contentUpdated', newItem);
+            this.element.trigger('contentUpdated', $(formName));
 
             // pre-fill form with account firstname, lastname, and country
             newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]')
@@ -79,9 +77,6 @@
             // .val does not trigger change event, so manually trigger. (Triggering change of any field will handle update of all fields.)
             newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]').trigger("change");
 
-            // @TODO this function
-//            this.setActiveItem(newItem);
-
             this._bindCountryRegionRelation(newForm);
         },
 
@@ -95,6 +90,9 @@
             this._on(this.element.find('.countries'), {'change': '_onAddressCountryChanged'});
         },
 
+        /**
+         * Create, Initialize this widget.
+         */
         _create: function () {
             this._super();
             this._bind();
@@ -123,16 +121,23 @@
             }
         },
 
+        /**
+         * Initialize form template variables for the new address item.
+         * @param {Element} template Address form html 'template'.
+         * @private
+         */
         _prepareTemplate: function (template) {
-            // @TODO Replace '_template_' with data-mage-init option <?php echo $_templatePrefix ?>
+            var re = new RegExp(this.options.templatePrefix, "g");
             return template
-                .replace(/_template_/g, '_item' + this.options.itemCount)
+                .replace(re, '_item' + this.options.itemCount)
                 .replace(/_counted="undefined"/g, '')
                 .replace(/"select_button_"/g, 'select_button_' + this.options.itemCount);
         },
 
         /**
          * This method is used to grab the data from the form and display it nicely.
+         * @param {Element} container Address form container.
+         * @private
          */
         _syncFormData: function (container) {
             if (container) {
@@ -201,7 +206,7 @@
 
         /**
          * This method returns the form containing this element.
-         * @param element jQuery or DOM element.
+         * @param {JQuery|Element} element JQuery object or DOM element.
          * @private
          */
         _getFormContainer: function(element) {
@@ -213,7 +218,7 @@
 
         /**
          * This method binds a country change event to _onAddressCountryChanged method.
-         * @param formElement the form containing the country that changed.
+         * @param {JQuery} formElement The form containing the country that changed.
          * @private
          */
         _bindCountryRegionRelation : function(formElement){
@@ -221,8 +226,8 @@
         },
 
         /**
-         * This method updates region input; and region and zipCode optional/required indicator based on the country.
-         * @param event Change event occurring
+         * This method updates country dependent fields; region input, and region and zipCode required indicator.
+         * @param {Event} event Change event occurring.
          * @private
          */
         _onAddressCountryChanged : function(event){
@@ -231,9 +236,15 @@
 
             var formElement = $(countryElement).closest('.address-item-edit-content');
             var fieldElement = $(formElement).find('.field-region');
-            var regionIdElement =  $(fieldElement).find('.input-text');
-            this.options.regionIdElement = regionIdElement;
-            this.options.regionElement = regionIdElement.next();
+            var regionElement =  $(fieldElement).find('.input-text');
+            if ('select' == $(regionElement).prop("tagName").toLowerCase()) {
+                this.options.regionIdElement = regionElement;
+                this.options.regionElement = regionElement.next();
+            }
+            else {
+                this.options.regionElement = regionElement;
+                this.options.regionIdElement = regionElement.next();
+            }
 
             if (countryElement.value) {
                 // obtain regions for the country
@@ -250,7 +261,7 @@
 
         /**
          * This method updates the region input from the server response.
-         * @param serverResponse Array of regions/state/provinces or empty if regions n/a for country
+         * @param {Object} serverResponse Regions (state/province) or empty if regions n/a for the country.
          * @private
          */
         _refreshRegionField : function(serverResponse){
@@ -259,13 +270,13 @@
             var data = eval('(' + serverResponse + ')');
 
             var regionField = $(this.options.regionElement).closest('div.field');
-            var newInput = null; // id of input that was added to a page - filled below
             var regionControl = regionField.find('.control');
-            var regionInput = null;
-            var regionIdInput = null;
-
             // clear current region input/select
             regionControl.empty();
+
+            var regionInput = null;
+            var regionIdInput = null;
+            var newInput = null; // id of input that was added to a page - filled below
 
             if (data.length) {
                 // Create visible selectbox 'region_id' and hidden 'region'
@@ -276,12 +287,16 @@
                     title: this.options.regionIdElement.attr("title")
                 }).appendTo(regionControl);
 
-                data.each(function(item) {
-                    regionIdInput.append($("<option />").val(item.value).text(item.label));
-                });
+                var regionValue = this.options.regionElement.attr('value');
+                $.each(data, function(idx, item) {
+                    var regionOption = $("<option />").val(item.value).text(item.label);
 
-                // @TODO Set selected value
-                regionIdInput.val(this.options.regionElement.val());
+                    if(regionValue && regionValue == item.label) {
+                        regionOption.attr('selected', 'selected');
+                    }
+
+                    regionIdInput.append(regionOption);
+                });
 
                 regionInput = $('<input>').attr({
                     name: this.options.regionElement.attr("name"),
@@ -319,22 +334,18 @@
 
             // Updating in address info
             this._syncFormData(this._getFormContainer(newInput)); // Update address info now
-            var activeElement = regionInput;
-            if (('select' == $(regionIdInput).prop("tagName").toLowerCase()) && regionIdInput) {
-                activeElement = regionIdInput;
-            }
 
-            activeElement.on('change', $.proxy(this._syncFormData, this, this._getFormContainer(activeElement)));
-            this._checkRegionRequired([regionInput, regionIdInput], activeElement);
+            newInput.on('change', $.proxy(this._syncFormData, this, this._getFormContainer(newInput)));
+            this._checkRegionRequired([regionInput, regionIdInput], newInput);
         },
 
         /**
          * This method updates the region input required/optional and validation classes.
-         * @param elements Region elements
-         * @param activeElementId Active Region element
+         * @param {Array} elements Region elements
+         * @param {Element} activeElement Active Region element
          * @private
          */
-        _checkRegionRequired: function(elements, activeElementId)
+        _checkRegionRequired: function(elements, activeElement)
         {
             var label, wildCard;
             var that = this;
@@ -369,8 +380,8 @@
         },
 
         /**
-         * This method updates the zip/postal code required/optional indicator.
-         * @param countryElement
+         * This method shows/hides the zip/postalCode code required indicator.
+         * @param {Element} countryElement
          * @private
          */
         _setPostcodeOptional: function(countryElement) {
