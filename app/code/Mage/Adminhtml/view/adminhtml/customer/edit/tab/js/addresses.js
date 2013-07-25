@@ -13,7 +13,6 @@
             itemCount: 0,
             baseItemId: 'new_item',
             templatePrefix: '_templatePrefix_',
-            loader: null,
             regionsUrl: null,
             defaultCountries: [],
             optionalZipCountries: [],
@@ -96,7 +95,6 @@
         _create: function () {
             this._super();
             this._bind();
-            this.options.loader = new varienLoader(true);
         },
 
         /**
@@ -250,10 +248,17 @@
                 // obtain regions for the country
                 var url = this.options.regionsUrl + 'parent/' + countryElement.value;
                 console.log(url);
-                this.options.loader.load(url, {}, jQuery.proxy(this._refreshRegionField, this));
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: {garbage: true},
+                    context: this,
+                    success: jQuery.proxy(this._refreshRegionField, this)
+                });
             } else {
                 // Set empty text field in region
-                this._refreshRegionField('[]');
+                this._refreshRegionField({});
             }
             // set Zip optional/required
             this._setPostcodeOptional(countryElement);
@@ -264,11 +269,7 @@
          * @param {Object} serverResponse Regions (state/province) or empty if regions n/a for the country.
          * @private
          */
-        _refreshRegionField : function(serverResponse){
-            if (!serverResponse)
-                return;
-            var data = eval('(' + serverResponse + ')');
-
+        _refreshRegionField : function(data){
             var regionField = $(this.options.regionElement).closest('div.field');
             var regionControl = regionField.find('.control');
             // clear current region input/select
