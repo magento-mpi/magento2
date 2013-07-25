@@ -24,7 +24,12 @@
     </ul>
     <?php foreach ($this->getTabs() as $_index => $_tab): ?>
         <?php if($this->getChildHtml($_tab['alias'])): ?>
-            <div id="pt-<?php echo $_tab['alias'] ?>"><?php echo $this->getChildHtml($_tab['alias']) ?></div>
+            <div id="pt-<?php echo $_tab['alias'] ?>">
+                <?php if ($_tab['header']): ?>
+                    <h2><?php echo $this->escapeHtml($_tab['header']); ?></h2>
+                <?php endif;?>
+                <?php echo $this->getChildHtml($_tab['alias']) ?>
+            </div>
         <?php endif; ?>
     <?php endforeach; ?>
 </div>

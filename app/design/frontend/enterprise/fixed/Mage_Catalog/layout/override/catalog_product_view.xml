@@ -51,9 +51,6 @@
                     <action method="addToParentGroup">
                         <group>detailed_info</group>
                     </action>
-                    <action method="addToParentGroup">
-                        <group>detailed_info</group>
-                    </action>
                     <action method="setTitle" translate="value">
                         <value>Additional Information</value>
                     </action>
