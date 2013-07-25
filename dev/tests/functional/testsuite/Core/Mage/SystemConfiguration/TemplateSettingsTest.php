@@ -17,6 +17,11 @@
  */
 class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11337');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();

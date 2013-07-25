@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest
 {
     public function setUpBeforeTests()
     {
@@ -53,6 +53,21 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         return $userData;
+    }
+
+    /**
+     * <p>"Price" fieldset is not displayed if Single Store Mode enabled.</p>
+     *
+     * @test
+     * @TestLinkId TL-MAGE-6182
+     */
+    public function systemConfigurationVerificationCatalogPrice()
+    {
+        $this->admin('system_configuration');
+        $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'price'), 'Fieldset Price is absent on the page');
+        $this->assertFalse($this->controlIsPresent('dropdown', 'catalog_price_scope'), 'Price scope fields is visible');
+        $this->assertTrue($this->controlIsPresent('field', 'default_product_price'), 'Default price field is absent');
     }
 
     /**

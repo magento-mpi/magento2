@@ -90,7 +90,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
             array('stores-settings-configuration-currency_setup_section', 'general_currency_setup'),
             array('stores-settings-configuration-store_email_addresses_section', 'general_store_email_addresses'),
             array('stores-settings-configuration-contacts_section', 'general_contacts'),
-            array('stores-settings-configuration-google_api', 'sales_google_api'), //general google api
+            array('stores-settings-configuration-google_api', 'general_google_api'),
             array('stores-settings-configuration-reports', 'general_reports'),
             array('stores-settings-configuration-content_management', 'general_content_management'),
             array('stores-settings-configuration-catalog_section', 'catalog_catalog'),
@@ -187,6 +187,9 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      */
     public function systemConfigurationForWebsite($testData)
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11392');
+        }
         $this->adminUserHelper()->loginAdmin($testData);
         $this->navigate('system_configuration');
         //set the configuration scope Main Website

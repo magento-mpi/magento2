@@ -267,7 +267,6 @@ class Core_Mage_ImportExport_Customer_ImportTest extends Mage_Selenium_TestCase
             'prefix' => 'Mr.',
             'gender' => 'Male',
             'tax_vat_number' => '483-31-8400',
-            'password' => ''
         ));
         $csvMain[1] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
             'email' => '<realEmail>',
@@ -288,7 +287,6 @@ class Core_Mage_ImportExport_Customer_ImportTest extends Mage_Selenium_TestCase
             'gender' => 'Female',
             'date_of_birth' => '5/1/1964',
             'tax_vat_number' => '501-92-8747',
-            'password' => ''
         ));
 
         $mainCsvRows = array($csvMain[0], $csvMain[1]);
@@ -530,7 +528,6 @@ class Core_Mage_ImportExport_Customer_ImportTest extends Mage_Selenium_TestCase
                     'suffix' => '',
                     'taxvat' => '',
                     'website_id' => '0',
-                    'password' => ''
                 )))
             )
         );

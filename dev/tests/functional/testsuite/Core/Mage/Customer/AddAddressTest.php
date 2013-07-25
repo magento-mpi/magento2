@@ -85,9 +85,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType, $searchData)
     {
-        if ($emptyField == 'state') {
-            $this->markTestIncomplete('BUG: State is not required field');
-        }
         //Data
         $override = ($emptyField != 'country')
             ? array($emptyField => '')
@@ -210,6 +207,9 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      */
     public function withLongValuesExceptCountry(array $searchData)
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11620');
+        }
         //Data
         $addressData = $this->loadDataSet('Customers', 'long_values_address');
         //Steps

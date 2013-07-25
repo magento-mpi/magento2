@@ -40,7 +40,7 @@ default_rating:
             store_view_name: Default Store View
             store_view_title: Default Store View Title(%randomize%)
         store_view_2: %noValue%
-    is_active: No
+    is_active: Yes
     visible_in: %noValue%
 
 rating_required_fields:

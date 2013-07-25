@@ -61,8 +61,9 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      * Login Admin User
      *
      * @param array $loginData
+     * @param bool $validate
      */
-    public function loginAdmin($loginData)
+    public function loginAdmin($loginData, $validate = true)
     {
         $waitCondition = array(
             $this->_getMessageXpath('general_error'),
@@ -72,7 +73,9 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $this->fillFieldset($loginData, 'log_in');
         $this->clickButton('login', false);
         $this->waitForElement($waitCondition);
-        $this->validatePage();
+        if ($validate) {
+            $this->validatePage();
+        }
         if ($this->controlIsVisible('button', 'close_notification')) {
             $this->clickControl('button', 'close_notification', false);
         }
@@ -137,9 +140,13 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillRolesResources(array $roleResources)
     {
-        $roleWebsites = (isset($roleResources['role_scopes'])) ? $roleResources['role_scopes'] : array();
-        $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
         $this->openTab('role_resources');
+        if (isset($roleResources['role_scopes']) && $this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'role_scopes')) {
+            $roleWebsites = $roleResources['role_scopes'];
+        } else {
+            $roleWebsites = array();
+        }
+        $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
         $this->fillRoleScopes($roleWebsites);
         $this->fillRoleAccess($roleAccess);
     }
@@ -184,7 +191,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
                 ? explode(',', $roleAccess['resource_acl_skip'])
                 : $roleAccess['resource_acl_skip'];
             foreach ($access as $path) {
-                $this->fillCheckbox(trim($path), 'No');
+                $this->clickControl(self::FIELD_TYPE_CHECKBOX, trim($path));
             }
         }
     }

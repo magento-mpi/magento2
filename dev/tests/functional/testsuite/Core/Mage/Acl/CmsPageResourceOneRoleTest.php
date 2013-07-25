@@ -141,7 +141,6 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createCmsPageOneRoleResource($data, $loginData)
     {
-        $this->markTestIncomplete('MAGETWO-8415');
         $this->adminUserHelper()->loginAdmin($loginData);
         $pageData = $this->loadDataSet('CmsPage', 'new_page_all_fields', $data);
         unset($pageData['content']['variable_data']);

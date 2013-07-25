@@ -208,13 +208,13 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
         $this->productHelper()->selectTypeProduct('simple');
         $this->productHelper()->fillProductInfo($productData);
         $this->productHelper()->openProductTab('prices');
-        $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
+        $columnsName = $this->getTableHeadRowNames($this->_getControlXpath('pageelement', 'prices_group_price_grid'));
         //Verifying
-        $this->assertTrue((isset($columnsName['website'])), "Group Price table not contain 'Website' column");
+        $this->assertTrue(in_array('Web Site', $columnsName), "Group Price table not contain 'Web Site' column");
         //Steps
-        $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_tier_price_grid_head');
+        $columnsName = $this->getTableHeadRowNames($this->_getControlXpath('pageelement', 'prices_tier_price_grid'));
         //Verifying
-        $this->assertTrue((isset($columnsName['website'])), "Tier Price table not contain 'Website' column");
+        $this->assertTrue(in_array('Web Site', $columnsName), "Tier Price table not contain 'Web Site' column");
         $this->assertTrue($this->controlIsPresent('tab', 'websites'),
             "'Websites' tab is not present on the page ");
     }
@@ -273,7 +273,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      */
     public function verificationTags()
     {
-        $this->markTestIncomplete('BUG: wrong choose_store_view dropdown on add_new_tag page');
+        $this->markTestIncomplete('Tag module is disabled');
         //Steps
         $this->admin('all_tags');
         //Verifying
@@ -384,6 +384,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      */
     public function verificationPolls()
     {
+        $this->markTestIncomplete('CMS Poll module is disabled');
         $this->navigate('poll_manager');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_poll'),
             'There is no "Add New Poll" button on the page');
@@ -548,7 +549,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
             array('report_customer_accounts'),
             array('report_customer_totals'),
             array('report_customer_orders'),
-            array('report_tag_popular'),
+            //array('report_tag_popular'),
         );
     }
 

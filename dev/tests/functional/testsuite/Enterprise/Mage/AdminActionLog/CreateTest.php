@@ -31,6 +31,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      */
     public function saveRoleActionLog()
     {
+        $this->markTestIncomplete('MAGETWO-11393');
         //Load data
         $fieldData = $this->loadDataSet('ApiRoles', 'api_role_new');
         //Open API Roles Management page

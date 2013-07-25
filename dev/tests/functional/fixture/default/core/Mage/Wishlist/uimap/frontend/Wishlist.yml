@@ -59,7 +59,7 @@ my_wishlist:
             successfully_shared_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'Your wish list has been shared.')]
             specify_product_links: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify product link(s) for "%productName%".')]
             specify_product_options: //li[normalize-space(@class)='error-msg' and contains(.,' option(s) for "%productName%".')]
-            confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
+            confirmation_for_delete: Are you sure you want to remove this product from your wish list?
             invalid_emails: //li[@class='error-msg' and contains(.,'Please input a valid email address.')]
             invalid_emails_js: //div[@class='mage-error' and @for='email_address' and contains(.,'Please enter valid email addresses, separated by commas. For example, johndoe@domain.com, johnsmith@domain.com.')]
             specify_product_config_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product's option(s).")]

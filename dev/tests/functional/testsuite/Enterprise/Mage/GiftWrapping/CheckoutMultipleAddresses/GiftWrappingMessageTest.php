@@ -20,6 +20,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 {
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGETWO-11592');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
@@ -93,7 +94,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
      */
     public function withGiftWrappingAndMessage($testData)
     {
-        $this->markTestIncomplete('BUG: no gift_wrapping info on order review page for product');
         //Data
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'all_variants_for_gift_options', array(
             'product_name' => $testData['simple1'],
@@ -213,7 +213,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
      */
     public function giftWrappingForIndItemsNoAndMessagesYes($testData)
     {
-        $this->markTestIncomplete('BUG: It is impossible to add gift options to order');
         //Data
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_item',
             array('product_name' => $testData['simple1']));
@@ -281,7 +280,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
      */
     public function giftWrappingForOrderNoAndMessagesYes($testData)
     {
-        $this->markTestIncomplete('BUG: It is impossible to add gift options to order');
         //Data
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
@@ -400,7 +398,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
      */
     public function recountingGiftWrappingForOrder($testData)
     {
-        $this->markTestIncomplete('BUG: It is impossible to add gift options to order');
         //Data
         $product1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $product2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');

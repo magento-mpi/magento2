@@ -26,7 +26,7 @@ function disableEnableCouponsTabContent(disable) {
 }
 
 function handleCouponsTabContentActivity() {
-    $('couponCodesGrid').addClassName('ignore-validate');
+    jQuery('#couponCodesGrid').addClass('ignore-validate');
     disableEnableCouponsTabContent(!$('rule_use_auto_generation').checked);
 }
 
