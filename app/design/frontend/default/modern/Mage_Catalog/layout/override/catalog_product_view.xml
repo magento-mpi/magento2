@@ -30,9 +30,6 @@
                 -->
                 <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
-                <action method="setTierPriceTemplate">
-                    <template>product/view/tierprices.phtml</template>
-                </action>
                 <block type="Mage_Catalog_Block_Product_View_Tabs" name="product.info.tabs" as="info_tabs" template="product/view/tabs.phtml">
                     <action method="addTab" translate="title" module="Mage_Catalog">
                         <alias>description</alias>

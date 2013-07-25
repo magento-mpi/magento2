@@ -33,9 +33,6 @@
                 -->
                 <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
-                <action method="setTierPriceTemplate">
-                    <template>product/view/tierprices.phtml</template>
-                </action>
                 <block type="Mage_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
                     <action method="setColumnCount">
                         <columns>4</columns>
