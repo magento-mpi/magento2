@@ -96,13 +96,6 @@
                 </Mage_GoogleOptimizer>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <googleoptimizer module="Mage_GoogleOptimizer">
-                    <file>layout.xml</file>
-                </googleoptimizer>
-            </updates>
-        </layout>
     </frontend>
     <adminhtml>
         <translate>
@@ -114,13 +107,6 @@
                 </Mage_GoogleOptimizer>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <googleoptimizer module="Mage_GoogleOptimizer">
-                    <file>layout.xml</file>
-                </googleoptimizer>
-            </updates>
-        </layout>
     </adminhtml>
     <default>
         <google>

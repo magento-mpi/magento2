@@ -61,12 +61,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $this->setForm($form);
         $this->_addThemeCssFieldset();
 
-        $this->_customCssFile = $this->_getCurrentTheme()
-            ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
-
+        $customFiles = $this->_getCurrentTheme()->getCustomization()->getFilesByType(
+            Mage_Theme_Model_Theme_Customization_File_CustomCss::TYPE
+        );
+        $this->_customCssFile = reset($customFiles);
         $this->_addCustomCssFieldset();
 
-        $formData['custom_css_content'] = $this->_customCssFile->getContent();
+        $formData['custom_css_content'] = $this->_customCssFile ? $this->_customCssFile->getContent() : null;
 
         /** @var $session Mage_Backend_Model_Session */
         $session = $this->_objectManager->get('Mage_Backend_Model_Session');
@@ -158,7 +159,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
-        if (!$this->_customCssFile->getContent()) {
+        if (!$this->_customCssFile) {
             $downloadButtonConfig['disabled'] = 'disabled';
         }
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);

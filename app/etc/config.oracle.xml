@@ -32,13 +32,5 @@
                 </extensions>
             </oracle>
         </databases>
-
-        <layout>
-            <updates>
-                <install_oracle module="Mage_Install">
-                    <file>layout_oracle.xml</file>
-                </install_oracle>
-            </updates>
-        </layout>
     </install>
 </config>

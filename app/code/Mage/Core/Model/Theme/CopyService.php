@@ -39,24 +39,32 @@ class Mage_Core_Model_Theme_CopyService
     protected $_eventManager;
 
     /**
+     * @var Mage_Core_Model_Theme_Customization_Path
+     */
+    protected $_customizationPath;
+
+    /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Theme_FileFactory $fileFactory
      * @param Mage_Core_Model_Layout_Link $link
      * @param Mage_Core_Model_Layout_UpdateFactory $updateFactory
      * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Theme_Customization_Path $customization
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Theme_FileFactory $fileFactory,
         Mage_Core_Model_Layout_Link $link,
         Mage_Core_Model_Layout_UpdateFactory $updateFactory,
-        Mage_Core_Model_Event_Manager $eventManager
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Theme_Customization_Path $customization
     ) {
         $this->_filesystem = $filesystem;
         $this->_fileFactory = $fileFactory;
         $this->_link = $link;
         $this->_updateFactory = $updateFactory;
         $this->_eventManager = $eventManager;
+        $this->_customizationPath = $customization;
     }
 
     /**
@@ -82,11 +90,11 @@ class Mage_Core_Model_Theme_CopyService
     protected function _copyDatabaseCustomization(Mage_Core_Model_Theme $source, Mage_Core_Model_Theme $target)
     {
         /** @var $themeFile Mage_Core_Model_Theme_File */
-        foreach ($target->getFiles() as $themeFile) {
+        foreach ($target->getCustomization()->getFiles() as $themeFile) {
             $themeFile->delete();
         }
         /** @var $newFile Mage_Core_Model_Theme_File */
-        foreach ($source->getFiles() as $themeFile) {
+        foreach ($source->getCustomization()->getFiles() as $themeFile) {
             /** @var $newThemeFile Mage_Core_Model_Theme_File */
             $newThemeFile = $this->_fileFactory->create();
             $newThemeFile->setData(array(
@@ -141,8 +149,8 @@ class Mage_Core_Model_Theme_CopyService
      */
     protected function _copyFilesystemCustomization(Mage_Core_Model_Theme $source, Mage_Core_Model_Theme $target)
     {
-        $sourcePath = $source->getCustomizationPath();
-        $targetPath = $target->getCustomizationPath();
+        $sourcePath = $this->_customizationPath->getCustomizationPath($source);
+        $targetPath = $this->_customizationPath->getCustomizationPath($target);
 
         if (!$sourcePath || !$targetPath) {
             return;

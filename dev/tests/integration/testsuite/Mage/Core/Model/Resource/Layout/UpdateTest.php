@@ -23,18 +23,13 @@ class Mage_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestC
 
     /**
      * @magentoDataFixture Mage/Core/_files/layout_update.php
-     * @magentoAppIsolation enabled
      */
     public function testFetchUpdatesByHandle()
     {
-        /** @var Mage_Core_Model_View_DesignInterface $design */
-        $design = Mage::getSingleton('Mage_Core_Model_View_DesignInterface');
         /** @var $theme Mage_Core_Model_Theme */
         $theme = Mage::getModel('Mage_Core_Model_Theme');
         $theme->load('Test Theme', 'theme_title');
-        $design->setDesignTheme($theme);
-
-        $result = $this->_resourceModel->fetchUpdatesByHandle('test_handle');
+        $result = $this->_resourceModel->fetchUpdatesByHandle('test_handle', $theme, Mage::app()->getStore());
         $this->assertEquals('not_temporary', $result);
     }
 

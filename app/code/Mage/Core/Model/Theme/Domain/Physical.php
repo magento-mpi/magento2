@@ -78,7 +78,7 @@ class Mage_Core_Model_Theme_Domain_Physical
 
         /** @var $themeCustomization Mage_Core_Model_Theme */
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
-        $themeCustomization->getThemeImage()->createPreviewImageCopy();
+        $themeCustomization->getThemeImage()->createPreviewImageCopy($theme->getPreviewImage());
         $themeCustomization->save();
 
         $this->_themeCopyService->copy($theme, $themeCustomization);

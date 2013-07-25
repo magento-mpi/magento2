@@ -25,10 +25,8 @@ custom_design:
     option_5:
         admin_option_name: Magento Fixed Design
     option_6:
-        admin_option_name: Magento Iphone
-    option_7:
         admin_option_name: Magento Iphone (HTML5)
-    option_8:
+    option_7:
         admin_option_name: Magento Modern
     default_value: '-- Please Select --'
     set_default_value: Magento Fixed Design

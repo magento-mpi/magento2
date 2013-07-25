@@ -66,13 +66,6 @@
                 </Mage_Directory>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <directory module="Mage_Directory">
-                    <file>layout.xml</file>
-                </directory>
-            </updates>
-        </layout>
     </frontend>
     <adminhtml>
         <translate>

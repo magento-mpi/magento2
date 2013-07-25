@@ -22,13 +22,6 @@
         </Enterprise_Tag>
     </modules>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_tag module="Enterprise_Tag">
-                    <file>layout.xml</file>
-                </enterprise_tag>
-            </updates>
-        </layout>
         <events>
             <controller_action_predispatch_enterprise_reward_customer_info>
                 <observers>

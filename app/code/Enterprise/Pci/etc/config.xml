@@ -64,13 +64,6 @@
         </di>
     </global>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_pci module="Enterprise_Pci">
-                    <file>layout.xml</file>
-                </enterprise_pci>
-            </updates>
-        </layout>
         <events>
             <admin_user_authenticate_after>
                 <observers>
@@ -150,4 +143,4 @@
             </security>
         </admin>
     </default>
-</config>
+</config>

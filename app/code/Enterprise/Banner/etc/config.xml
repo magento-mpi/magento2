@@ -44,13 +44,6 @@
         </enterprise>
     </global>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_banner module="Enterprise_Banner">
-                    <file>layout.xml</file>
-                </enterprise_banner>
-            </updates>
-        </layout>
     </frontend>
     <admin>
         <routers>
@@ -64,13 +57,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_banner module="Enterprise_Banner">
-                    <file>layout.xml</file>
-                </enterprise_banner>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Banner>

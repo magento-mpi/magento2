@@ -36,8 +36,10 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
         $this->_segmentCollection = $this->getMock(
             'Enterprise_CustomerSegment_Model_Resource_Segment_Collection', array('toOptionArray'), array(), '', false
         );
+        $helperContext = $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false);
+        $helperContext->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $this->_helper = new Enterprise_CustomerSegment_Helper_Data(
-            new Mage_Core_Helper_Context($translator),
+            $helperContext,
             $this->_storeConfig,
             $this->_segmentCollection
         );

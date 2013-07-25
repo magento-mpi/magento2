@@ -105,22 +105,8 @@
                 </observers>
             </cms_page_render>
         </events>
-        <layout>
-            <updates>
-                <enterprise_cms module="Enterprise_Cms">
-                    <file>layout.xml</file>
-                </enterprise_cms>
-            </updates>
-        </layout>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_cms module="Enterprise_Cms">
-                    <file>layout.xml</file>
-                </enterprise_cms>
-            </updates>
-        </layout>
         <events>
             <adminhtml_cms_page_edit_tab_main_prepare_form>
                 <observers>
@@ -220,4 +206,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

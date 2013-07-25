@@ -21,31 +21,19 @@ class Mage_Core_Model_Layout_Merge
     /**#@-*/
 
     /**
-     * @var Mage_Core_Model_View_DesignInterface
+     * XPath of handles originally declared in layout updates
      */
-    protected $_design;
+    const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
 
     /**
-     * @var string
-     */
-    private $_area;
-
-    /**
-     * @var int
+     * @var Mage_Core_Model_Theme
      */
     private $_theme;
 
     /**
-     * @var int
+     * @var Mage_Core_Model_Store
      */
-    private $_storeId;
-
-    /**
-     * Layout Update Simplexml Element Class Name
-     *
-     * @var string
-     */
-    protected $_elementClass;
+    private $_store;
 
     /**
      * In-memory cache for loaded layout updates
@@ -78,9 +66,24 @@ class Mage_Core_Model_Layout_Merge
     /**
      * Substitution values in structure array('from' => array(), 'to' => array())
      *
-     * @var array
+     * @var array|null
      */
-    protected $_subst = array();
+    protected $_subst = null;
+
+    /**
+     * @var Mage_Core_Model_Layout_File_SourceInterface
+     */
+    private $_fileSource;
+
+    /**
+     * @var Mage_Core_Model_Resource_Layout_Update
+     */
+    private $_resource;
+
+    /**
+     * @var Mage_Core_Model_App_State
+     */
+    private $_appState;
 
     /**
      * @var Magento_Cache_FrontendInterface
@@ -88,45 +91,30 @@ class Mage_Core_Model_Layout_Merge
     protected $_cache;
 
     /**
-     * @var Mage_Core_Model_View_FileSystem
-     */
-    protected $_viewFileSystem;
-
-    /**
      * Init merge model
      *
      * @param Mage_Core_Model_View_DesignInterface $design
-     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Layout_File_SourceInterface $fileSource,
+     * @param Mage_Core_Model_Resource_Layout_Update $resource
+     * @param Mage_Core_Model_App_State $appState
      * @param Magento_Cache_FrontendInterface $cache
-     * @param array $arguments
+     * @param Mage_Core_Model_Theme $theme Non-injectable theme instance
      */
     public function __construct(
         Mage_Core_Model_View_DesignInterface $design,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Layout_File_SourceInterface $fileSource,
+        Mage_Core_Model_Resource_Layout_Update $resource,
+        Mage_Core_Model_App_State $appState,
         Magento_Cache_FrontendInterface $cache,
-        array $arguments = array()
+        Mage_Core_Model_Theme $theme = null
     ) {
-        /* Default values */
-        if (isset($arguments['area']) && isset($arguments['theme'])) {
-            $this->_area = $arguments['area'];
-            $this->_theme = $arguments['theme'];
-        } elseif (isset($arguments['area'])) {
-            $this->_area = $arguments['area'];
-            $this->_theme = $design->getArea() === $arguments['area'] ? $design->getDesignTheme()->getId() : null;
-        } else {
-            $this->_area = $design->getArea();
-            $this->_theme = $design->getDesignTheme()->getId();
-        }
-
-        $this->_storeId = Mage::app()->getStore(empty($arguments['store']) ? null : $arguments['store'])->getId();
-        $this->_elementClass = 'Mage_Core_Model_Layout_Element';
-
-        foreach (Mage::getConfig()->getPathVars() as $key => $value) {
-            $this->_subst['from'][] = '{{' . $key . '}}';
-            $this->_subst['to'][] = $value;
-        }
-        $this->_design = $design;
-        $this->_viewFileSystem = $viewFileSystem;
+        $this->_theme = $theme ?: $design->getDesignTheme();
+        $this->_store = $storeManager->getStore();
+        $this->_fileSource = $fileSource;
+        $this->_resource = $resource;
+        $this->_appState = $appState;
         $this->_cache = $cache;
     }
 
@@ -409,22 +397,8 @@ class Mage_Core_Model_Layout_Merge
             $this->_merge($handle);
         }
 
-        foreach ($this->_loadDbUpdates() as $updateXml) {
-            $this->addUpdate($updateXml);
-        }
-
         $this->_saveCache($this->asString(), $cacheId, $this->getHandles());
         return $this;
-    }
-
-    /**
-     * Load DB layout updates
-     *
-     * @return array
-     */
-    protected function _loadDbUpdates()
-    {
-        return array();
     }
 
     /**
@@ -436,7 +410,18 @@ class Mage_Core_Model_Layout_Merge
     {
         $updates = trim($this->asString());
         $updates = '<' . '?xml version="1.0"?' . '><layout>' . $updates . '</layout>';
-        return simplexml_load_string($updates, $this->_elementClass);
+        return $this->_loadXmlString($updates);
+    }
+
+    /**
+     * Return object representation of XML string
+     *
+     * @param string $xmlString
+     * @return SimpleXMLElement
+     */
+    protected function _loadXmlString($xmlString)
+    {
+        return simplexml_load_string($xmlString, 'Mage_Core_Model_Layout_Element');
     }
 
     /**
@@ -448,7 +433,7 @@ class Mage_Core_Model_Layout_Merge
     protected function _merge($handle)
     {
         $this->_fetchPackageLayoutUpdates($handle);
-        if (Mage::isInstalled()) {
+        if ($this->_appState->isInstalled()) {
             $this->_fetchDbLayoutUpdates($handle);
         }
         return $this;
@@ -484,14 +469,14 @@ class Mage_Core_Model_Layout_Merge
     {
         $_profilerKey = 'layout_db_update: ' . $handle;
         Magento_Profiler::start($_profilerKey);
-        $updateStr = $this->_getUpdateString($handle);
+        $updateStr = $this->_getDbUpdateString($handle);
         if (!$updateStr) {
             Magento_Profiler::stop($_profilerKey);
             return false;
         }
         $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
-        $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
-        $updateXml = simplexml_load_string($updateStr, $this->_elementClass);
+        $updateStr = $this->_substitutePlaceholders($updateStr);
+        $updateXml = $this->_loadXmlString($updateStr);
         $this->_fetchRecursiveUpdates($updateXml);
         $this->addUpdate($updateXml->innerXml());
 
@@ -500,14 +485,36 @@ class Mage_Core_Model_Layout_Merge
     }
 
     /**
+     * Substitute placeholders {{placeholder_name}} with their values in XML string
+     *
+     * @param string $xmlString
+     * @return string
+     */
+    protected function _substitutePlaceholders($xmlString)
+    {
+        if ($this->_subst === null) {
+            $placeholders = array(
+                'baseUrl'       => $this->_store->getBaseUrl(),
+                'baseSecureUrl' => $this->_store->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true),
+            );
+            $this->_subst = array();
+            foreach ($placeholders as $key => $value) {
+                $this->_subst['from'][] = '{{' . $key . '}}';
+                $this->_subst['to'][] = $value;
+            }
+        }
+        return str_replace($this->_subst['from'], $this->_subst['to'], $xmlString);
+    }
+
+    /**
      * Get update string
      *
      * @param string $handle
      * @return string
      */
-    protected function _getUpdateString($handle)
+    protected function _getDbUpdateString($handle)
     {
-        return Mage::getResourceModel('Mage_Core_Model_Resource_Layout_Update')->fetchUpdatesByHandle($handle);
+        return $this->_resource->fetchUpdatesByHandle($handle, $this->_theme, $this->_store);
     }
 
     /**
@@ -541,7 +548,7 @@ class Mage_Core_Model_Layout_Merge
         $cacheId = $this->_getCacheId();
         $result = $this->_loadCache($cacheId);
         if ($result) {
-            $result = simplexml_load_string($result, $this->_elementClass);
+            $result = $this->_loadXmlString($result);
         } else {
             $result = $this->_loadFileLayoutUpdatesXml();
             $this->_saveCache($result->asXml(), $cacheId);
@@ -558,7 +565,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getCacheId($suffix = '')
     {
-        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_theme}{$suffix}";
+        return "LAYOUT_{$this->_theme->getArea()}_STORE{$this->_store->getId()}_{$this->_theme->getId()}{$suffix}";
     }
 
     /**
@@ -592,56 +599,44 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _loadFileLayoutUpdatesXml()
     {
-        $layoutParams = array('area' => $this->_area, 'themeId' => $this->_theme);
-
-        /*
-         * Allow to modify declared layout updates.
-         * For example, the module can remove all its updates to not participate in rendering depending on settings.
-         */
-        $updatesRootPath = $this->_area . '/layout/updates';
-        $updatesRoot = Mage::app()->getConfig()->getNode($updatesRootPath);
-        /** dispatch event to remove some nodes */
-        Mage::dispatchEvent('core_layout_update_updates_get_after', array('updates' => $updatesRoot));
-
-        /* Layout update files declared in configuration */
-        $updateFiles = array();
-        foreach ($updatesRoot->children() as $updateNode) {
-            $module = $updateNode->getAttribute('module');
-            $file = (string)$updateNode->file;
-            if (!$module || !$file) {
-                $updateNodePath = $updatesRootPath . '/' . $updateNode->getName();
-                throw new Magento_Exception(
-                    "Layout update instruction '{$updateNodePath}' must specify module and file."
-                );
-            }
-            if (Mage::getStoreConfigFlag("advanced/modules_disable_output/{$module}", $this->_storeId)) {
-                continue;
-            }
-            /* Resolve layout update filename with fallback to the module */
-            $filename = $this->_viewFileSystem->getFilename($file, $layoutParams + array('module' => $module));
-            if (!is_readable($filename)) {
-                throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
-            }
-            $updateFiles[] = $filename;
-        }
-
-        /* Custom local layout updates file for the current theme */
-        $filename = $this->_viewFileSystem->getFilename('local.xml', $layoutParams);
-        if (is_readable($filename)) {
-            $updateFiles[] = $filename;
-        }
-
         $layoutStr = '';
-        foreach ($updateFiles as $filename) {
-            $fileStr = file_get_contents($filename);
-            $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
+        $theme = $this->_getPhysicalTheme($this->_theme);
+        $updateFiles = $this->_fileSource->getFiles($theme);
+        foreach ($updateFiles as $file) {
+            $fileStr = file_get_contents($file->getFilename());
+            $fileStr = $this->_substitutePlaceholders($fileStr);
             /** @var $fileXml Mage_Core_Model_Layout_Element */
-            $fileXml = simplexml_load_string($fileStr, $this->_elementClass);
+            $fileXml = $this->_loadXmlString($fileStr);
+            if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
+                throw new Magento_Exception(sprintf(
+                    "Theme layout update file '%s' must not declare page types.",
+                    $file->getFileName()
+                ));
+            }
             $layoutStr .= $fileXml->innerXml();
         }
         $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
-        $layoutXml = simplexml_load_string($layoutStr, $this->_elementClass);
+        $layoutXml = $this->_loadXmlString($layoutStr);
         return $layoutXml;
+    }
+
+    /**
+     * Find the closest physical theme among ancestors and a theme itself
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Theme
+     * @throws Magento_Exception
+     */
+    protected function _getPhysicalTheme(Mage_Core_Model_Theme $theme)
+    {
+        $result = $theme;
+        while ($result->getId() && !$result->isPhysical()) {
+            $result = $result->getParentTheme();
+        }
+        if (!$result) {
+            throw new Magento_Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
+        }
+        return $result;
     }
 
     /**
