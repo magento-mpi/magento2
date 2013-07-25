@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <catalogsearch_advanced_result>
+        <update handle="page_one_column"/>
+        <reference name="search_result_list">
+            <action method="setPageLayout">
+                <layout>one_column</layout>
+            </action>
+        </reference>
+    </catalogsearch_advanced_result>
+</layout>

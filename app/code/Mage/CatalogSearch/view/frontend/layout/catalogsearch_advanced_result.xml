@@ -10,10 +10,12 @@
 <layout version="0.1.0">
     <catalogsearch_advanced_result translate="label" module="Mage_CatalogSearch" type="page" parent="catalogsearch_advanced_index">
         <label>Advanced Search Result</label>
-        <update handle="page_two_columns_right"/>
         <reference name="root">
             <action method="setTemplate">
                 <template>2columns-right.phtml</template>
+            </action>
+            <action method="setLayoutCode">
+                <name>two_columns_right</name>
             </action>
         </reference>
         <reference name="content">
