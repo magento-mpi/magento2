@@ -116,10 +116,4 @@
             </block>
         </reference>
     </adminhtml_urlrewrite_index>
-
-    <adminhtml_urlrewrite_edit>
-        <reference name="head">
-            <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
-        </reference>
-    </adminhtml_urlrewrite_edit>
 </layout>
