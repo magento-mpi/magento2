@@ -31,7 +31,11 @@ class Mage_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framework_T
         $this->_factoryMock = $this->getMock('Magento_ObjectManager_Config_Reader_DomFactory',
             array('create'), array(), '', false
         );
-        $this->_model = new Mage_Core_Model_ObjectManager_ConfigLoader($this->_modulesReaderMock, $this->_factoryMock);
+
+        $this->_cacheMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $this->_model = new Mage_Core_Model_ObjectManager_ConfigLoader(
+            $this->_cacheMock, $this->_modulesReaderMock, $this->_factoryMock
+        );
     }
 
     /**

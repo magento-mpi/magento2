@@ -13,4 +13,9 @@
             <value>frontend</value>
         </param>
     </type>
+    <type name="Mage_Core_Model_Layout">
+        <param name="area">
+            <value>frontend</value>
+        </param>
+    </type>
 </config>

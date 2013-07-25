@@ -12,16 +12,6 @@
     <preference for="Magento_JobQueue_ClientInterface" type="Magento_JobQueue_Client_Gearman" />
     <preference for="Magento_JobQueue_Client_ConfigInterface" type="Enterprise_Queue_Model_Config_Gearman" />
     <preference for="Enterprise_PageCache_Model_Processor_RestrictionInterface" type="Saas_PageCache_Model_Processor_Restriction" />
-    <type name="Saas_Queue_Helper_Gearman">
-        <param name="config">
-            <instance type="Mage_Core_Model_Config_Primary" />
-        </param>
-    </type>
-    <type name="Enterprise_Queue_Helper_Gearman">
-        <param name="config">
-            <instance type="Mage_Core_Model_Config_Primary" />
-        </param>
-    </type>
     <type name="Mage_Core_Model_Config_Locales">
         <param name="storage">
             <instance type="Saas_Core_Model_Config_Storage_Locales" />
@@ -66,11 +56,6 @@
                     <class>Saas_Saas_Model_Http_Handler</class>
                 </saas>
             </value>
-        </param>
-    </type>
-    <type name="Saas_Saas_Model_Cache">
-        <param name="config">
-            <instance type="Mage_Core_Model_Config_Proxy" />
         </param>
     </type>
 </config>

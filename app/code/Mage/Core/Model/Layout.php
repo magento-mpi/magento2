@@ -276,6 +276,16 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
     }
 
     /**
+     * Set area code
+     *
+     * @param string $areaCode
+     */
+    public function setArea($areaCode)
+    {
+        $this->_area = $areaCode;
+    }
+
+    /**
      * Declaring layout direct output flag
      *
      * @param   bool $flag

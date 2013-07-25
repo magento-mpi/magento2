@@ -184,4 +184,20 @@
             <instance type="Mage_Core_Model_Config_Proxy" />
         </param>
     </type>
+    <type name="Mage_Core_Model_ObjectManager_ConfigLoader">
+        <param name="cache">
+            <instance type="Mage_Core_Model_Cache_Type_Config"/>
+        </param>
+        <param name="modulesReader">
+            <instance type="Mage_Core_Model_Config_Modules_Reader_Proxy" />
+        </param>
+        <param name="mode">
+            <argument name="Mage::PARAM_MODE" />
+        </param>
+    </type>
+    <type name="Mage_Core_Model_ObjectManager_ConfigCache">
+        <param name="cacheFrontend">
+            <instance type="Mage_Core_Model_Cache_Type_Config"/>
+        </param>
+    </type>
 </config>

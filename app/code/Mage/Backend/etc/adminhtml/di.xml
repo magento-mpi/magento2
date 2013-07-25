@@ -66,4 +66,9 @@
         </param>
     </type>
     <type name="Mage_Backend_Model_Config_Structure_Element_Group_Proxy" shared="false" />
+    <type name="Mage_Core_Model_Layout">
+        <param name="area">
+            <value>adminhtml</value>
+        </param>
+    </type>
 </config>

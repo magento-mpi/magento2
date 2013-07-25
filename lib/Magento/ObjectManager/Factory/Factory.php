@@ -57,27 +57,6 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
     }
 
     /**
-     * Retrieve class definitions
-     *
-     * @return Magento_ObjectManager_Definition
-     */
-    public function getDefinitions()
-    {
-        return $this->_definitions;
-    }
-
-    /**
-     * Set Object manager config
-     *
-     * @param Magento_ObjectManager_Config $config
-     */
-    public function setConfig(Magento_ObjectManager_Config $config)
-    {
-        $this->_config = $config;
-    }
-
-
-    /**
      * Resolve constructor arguments
      *
      * @param string $requestedType
@@ -110,7 +89,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
             } else {
                 $argument = $paramDefault;
             }
-            if ($paramRequired && $paramType && !is_object($argument)) {
+            if ($paramType && !is_object($argument) && $argument !== $paramDefault) {
                 if (!is_array($argument) || !isset($argument['instance'])) {
                     throw new InvalidArgumentException(
                         'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $requestedType

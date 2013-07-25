@@ -148,4 +148,9 @@
             <instance type="layoutFileSourceOverrideThemeSorted" />
         </param>
     </type>
+    <type name="Mage_Core_Model_Theme_Image">
+        <param name="uploader">
+            <instance type="Mage_Core_Model_Theme_Image_UploaderProxy" />
+        </param>
+    </type>
 </config>
