@@ -9,6 +9,6 @@
 -->
 <layout version="0.1.0">
     <catalog_category_view_type_default>
-        <move name="catalog.leftnav" destination="left" before="-"/>
+        <move element="catalog.leftnav" destination="left" before="-"/>
     </catalog_category_view_type_default>
 </layout>
