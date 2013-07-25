@@ -73,7 +73,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
 
         $form = new Varien_Data_Form();
 
-        $this->_addThemeFieldset($form, $formData)->_addRequirementsFieldset($form);
+        $this->_addThemeFieldset($form, $formData);
 
         if (!$this->getIsThemeExist()) {
             $formData = array_merge($formData, $this->_getDefaults());
@@ -185,37 +185,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     }
 
     /**
-     * Add requirements fieldset
-     *
-     * @param Varien_Data_Form $form
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
-     */
-    protected function _addRequirementsFieldset($form)
-    {
-        $requirementsFieldset = $form->addFieldset('requirements', array(
-            'legend'   => $this->__('Magento Requirements'),
-        ));
-
-        $requirementsFieldset->addField('magento_version_from', $this->_getFieldTextType(), array(
-            'label'    => $this->__('Magento Version From'),
-            'title'    => $this->__('Magento Version From'),
-            'name'     => 'magento_version_from',
-            'required' => $this->_isFieldAttrRequired(),
-            'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
-        ));
-
-        $requirementsFieldset->addField('magento_version_to', $this->_getFieldTextType(), array(
-            'label'    => $this->__('Magento Version To'),
-            'title'    => $this->__('Magento Version To'),
-            'name'     => 'magento_version_to',
-            'required' => $this->_isFieldAttrRequired(),
-            'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
-        ));
-
-        return $this;
-    }
-
-    /**
      * No field notes if theme is not editable
      *
      * @param $text
@@ -286,8 +255,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected function _getDefaults()
     {
         $defaults = array();
-        $defaults['magento_version_from'] = Mage::getVersion();
-        $defaults['magento_version_to'] = '*';
         $defaults['theme_version'] = '0.0.0.1';
         $defaults['theme_title'] = $this->__('New Theme');
 
@@ -311,9 +278,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
                 continue;
             }
             $data[$theme->getId()] = array(
-                'theme_title'          => $this->__('Copy of %s', $theme->getThemeTitle()),
-                'magento_version_from' => $theme->getMagentoVersionFrom(),
-                'magento_version_to'   => $theme->getMagentoVersionTo()
+                'theme_title'          => $this->__('Copy of %s', $theme->getThemeTitle())
             );
         }
 

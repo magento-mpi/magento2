@@ -60,9 +60,7 @@ class Mage_Core_Model_Theme_Validator
                   'message' => $this->_helper->__('Theme version has not compatible format'))
         );
 
-        $this->addDataValidators('theme_version', $versionValidators)
-            ->addDataValidators('magento_version_to', $versionValidators)
-            ->addDataValidators('magento_version_from', $versionValidators);
+        $this->addDataValidators('theme_version', $versionValidators);
 
         return $this;
     }

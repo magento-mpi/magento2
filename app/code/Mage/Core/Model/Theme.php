@@ -18,8 +18,6 @@
  * @method string getThemeTitle()
  * @method string getThemeVersion()
  * @method string getPreviewImage()
- * @method string getMagentoVersionFrom()
- * @method string getMagentoVersionTo()
  * @method bool getIsFeatured()
  * @method int getThemeId()
  * @method int getType()
@@ -35,8 +33,6 @@
  * @method Mage_Core_Model_Theme setThemeVersion(string $themeVersion)
  * @method Mage_Core_Model_Theme setArea(string $area)
  * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
- * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
- * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
  * @method Mage_Core_Model_Theme setType(int $type)
  * @method Mage_Core_Model_Theme setCode(string $code)
  *

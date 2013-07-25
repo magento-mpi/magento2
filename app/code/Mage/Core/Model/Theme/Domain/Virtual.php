@@ -123,8 +123,6 @@ class Mage_Core_Model_Theme_Domain_Virtual
             'theme_version'        => $this->_theme->getThemeVersion(),
             'theme_title'          => sprintf('%s - Staging', $this->_theme->getThemeTitle()),
             'preview_image'        => $this->_theme->getPreviewImage(),
-            'magento_version_from' => $this->_theme->getMagentoVersionFrom(),
-            'magento_version_to'   => $this->_theme->getMagentoVersionTo(),
             'is_featured'          => $this->_theme->getIsFeatured(),
             'area'                 => $this->_theme->getArea(),
             'type'                 => Mage_Core_Model_Theme::TYPE_STAGING
