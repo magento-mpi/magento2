@@ -36,7 +36,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             'Gateway error: This transaction cannot be accepted.',
             'Gateway error: Unable to read response, or response is empty',
             'Please verify the card with the issuer bank before placing the order.',
-            'Something went wrong while processing your order.'
+            'Something went wrong processing your order. Please try again later.'
         );
         $submitErrors = $this->getMessagesOnPage('error,validation,verification');
         foreach ($submitErrors as $error) {

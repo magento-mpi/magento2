@@ -87,7 +87,7 @@ create_cms_banner:
                                         wysiwyg_insert_variable: //a[@id='page_content_magentowidget']
                             -
                                 widget_insertion:
-                                    xpath: "//div[@id='widget_window' and //div[text()='Insert Widget...']]"
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert Widget...']]
                                     dropdowns:
                                         widget_type: //select[@name='widget_type']
                                         template: //select[@name='parameters[template]']
@@ -105,13 +105,16 @@ create_cms_banner:
                                         block_custom_width: "//input[@name='parameters[width]' and not(contains(@style,'display: none;'))]"
                                     buttons:
                                         submit_widget_insert: //button[span='Insert Widget']
-                                        select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
+                                        select_option: //button[contains(span,'Select')]
                                         close_widget_insertion: //div[@id='widget_window_close']
                                     multiselects:
                                         quick_search_form: //select[@name='parameters[types][]']
                                     pageelements:
                                         chosen_option: "//label[@class='widget-option-label'  and not(contains(@style,'display: none;'))]"
                                         chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
+                            -
+                                every_popup:
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content')]
                             -
                                 select_page:
                                     xpath: //*[div/span[text()='Select Page...']]
@@ -149,13 +152,17 @@ create_cms_banner:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_category:
-                                    xpath: //*[div/span[text()='Select Category...']]
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Category...']]
                                     links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        select_category_category_text: %categoryXpath%/div/a/span
+                                        select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        select_category_category_index_link: %categoryXpath%[%index%]/div/a
                                     buttons:
-                                        close_category_insertion: //div[@id='widget-chooser_close']
+                                        close_category_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                             -
                                 select_product:
                                     xpath: //*[div/span[text()='Select Product...']]

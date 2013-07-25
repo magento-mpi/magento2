@@ -92,15 +92,15 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'class'     => 'validate-date validate-date-range date-range-custom_theme-to'
         ));
 
+        /** @var $label Mage_Core_Model_Theme_Label */
+        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        $options = $label->getLabelsCollection(Mage::helper('Mage_Cms_Helper_Data')->__('-- Please Select --'));
         $designFieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
             'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Theme'),
-            'values'    => Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection(
-                Mage::helper('Mage_Cms_Helper_Data')->__('-- Please Select --')
-            ),
+            'values'    => $options,
             'disabled'  => $isElementDisabled
         ));
-
 
         $designFieldset->addField('custom_root_template', 'select', array(
             'name'      => 'custom_root_template',

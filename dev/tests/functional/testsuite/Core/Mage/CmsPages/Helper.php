@@ -92,9 +92,10 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     public function insertWidget(array $widgetData, $buttonName = 'insert_widget')
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
-        if ($this->controlIsEditable('button', $buttonName)) {
+        if ($this->controlIsVisible('button', $buttonName)) {
             $this->clickButton($buttonName, false);
-        } elseif ($this->waitForControlVisible('link', 'wysiwyg_' . $buttonName, 10)) {
+        } elseif ($this->waitForControlEditable('link', 'wysiwyg_' . $buttonName)) {
+            $this->waitForControlStopsMoving('link', 'wysiwyg_' . $buttonName);
             $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
         //@TODO remove when fixed bug for cms_static_block page
@@ -182,12 +183,13 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      */
     public function insertVariable($variable, $buttonName = 'insert_variable')
     {
-        if ($this->controlIsEditable('button', $buttonName)) {
+        if ($this->controlIsVisible('button', $buttonName)) {
             $this->clickButton($buttonName, false);
-        } elseif ($this->waitForControlVisible('link', 'wysiwyg_' . $buttonName, 10)) {
+        } elseif ($this->waitForControlEditable('link', 'wysiwyg_' . $buttonName)) {
+            $this->waitForControlStopsMoving('link', 'wysiwyg_' . $buttonName);
             $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
-        $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));
+        $this->waitForControlVisible('fieldset', 'variable_insertion');
         $this->addParameter('variableName', $variable);
         $this->clickControl('link', 'variable', false);
     }

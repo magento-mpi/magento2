@@ -38,7 +38,6 @@ class Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
         ));
         $this->_themeCollection = $this->getMock('Mage_Core_Model_Theme_Collection', array('isLoaded'), array(
             $this->_filesystem,
-            $this->getMockForAbstractClass('Magento_ObjectManager'),
             new Mage_Core_Model_Dir(__DIR__)
         ));
         $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));

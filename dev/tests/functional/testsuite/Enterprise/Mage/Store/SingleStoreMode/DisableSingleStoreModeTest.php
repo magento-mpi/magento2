@@ -80,6 +80,9 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
+        if ($dataWidgetType == 'cms_hierarchy_node_link' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11559');
+        }
         $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_settings');
         $this->navigate('manage_cms_widgets');
         $this->clickButton('add_new_widget_instance');

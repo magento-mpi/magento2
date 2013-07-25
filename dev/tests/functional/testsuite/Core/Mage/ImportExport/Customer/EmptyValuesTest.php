@@ -60,7 +60,6 @@ class Core_Mage_ImportExport_Customer_EmptyValuesTest extends Mage_Selenium_Test
         $data[0]['email'] = $userData['email'];
         $data[0]['firstname'] = $userData['first_name'];
         $data[0]['lastname'] = $userData['last_name'];
-        $data[0]['password'] = $userData['password'];
         //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');

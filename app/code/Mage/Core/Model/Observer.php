@@ -8,9 +8,10 @@
  * @license     {license_link}
  */
 
-
 /**
  * Core Observer model
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Observer
 {
@@ -30,28 +31,42 @@ class Mage_Core_Model_Observer
     private $_pageAssets;
 
     /**
-     * Instance of config model
-     *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
+
+    /**
+     * @var Mage_Core_Model_Page_Asset_PublicFileFactory
+     */
+    protected $_assetFileFactory;
+
+    /**
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_logger;
 
     /**
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
      * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_Page $page
      * @param Mage_Core_Model_ConfigInterface $config
+     * @param Mage_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
+     * @param Mage_Core_Model_Logger $logger
      */
     public function __construct(
         Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
         Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_Page $page,
-        Mage_Core_Model_ConfigInterface $config
+        Mage_Core_Model_ConfigInterface $config,
+        Mage_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory,
+        Mage_Core_Model_Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $page->getAssets();
         $this->_config = $config;
+        $this->_assetFileFactory = $assetFileFactory;
+        $this->_logger = $logger;
     }
 
     /**
@@ -82,7 +97,7 @@ class Mage_Core_Model_Observer
         try {
             Mage::getObjectManager()->get('Mage_Core_Model_Theme_Registration')->register($baseDir, $pathPattern);
         } catch (Mage_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }
@@ -96,10 +111,18 @@ class Mage_Core_Model_Observer
     public function applyThemeCustomization(Varien_Event_Observer $observer)
     {
         /** @var $themeFile Mage_Core_Model_Theme_File */
-        foreach ($this->_currentTheme->getFiles() as $themeFile) {
-            $asset = $themeFile->getAsset();
-            if ($asset) {
-                $this->_pageAssets->add($themeFile->getFilePath(), $asset);
+        foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
+            try {
+                $service = $themeFile->getCustomizationService();
+                if ($service instanceof Mage_Core_Model_Theme_Customization_FileAssetInterface) {
+                    $asset = $this->_assetFileFactory->create(array(
+                        'file'        => $themeFile->getFullPath(),
+                        'contentType' => $service->getContentType()
+                    ));
+                    $this->_pageAssets->add($themeFile->getData('file_path'), $asset);
+                }
+            } catch (InvalidArgumentException $e) {
+                $this->_logger->logException($e);
             }
         }
     }

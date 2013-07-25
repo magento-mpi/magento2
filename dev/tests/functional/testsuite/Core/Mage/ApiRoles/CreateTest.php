@@ -18,6 +18,11 @@
  */
 class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11393');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -76,7 +81,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
      */
     public function roleWithCustomAccess()
     {
-        $this->markTestIncomplete('BUG: Custom role_access grid is not visible');
         $fieldData = $this->loadDataSet('ApiRoles', 'api_role_new');
         //Open API Roles Management page
         $this->navigate('api_roles_management');

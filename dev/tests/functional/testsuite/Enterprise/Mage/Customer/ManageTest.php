@@ -15,6 +15,11 @@
  */
 class Enterprise_Mage_Customer_ManageTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11472');
+    }
+
     /**
      * <p>Preconditions:</p>
      * <p>Navigate Manage Customers</p>

@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.13</version>
+            <version>1.6.0.14</version>
             <active>true</active>
             <system_requirements>
                 <php>
@@ -100,6 +100,22 @@
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
         <events>
+            <theme_delete_before>
+                <observers>
+                    <clean_core_related_content>
+                        <class>Mage_Core_Model_Theme_Observer</class>
+                        <method>cleanThemeRelatedContent</method>
+                    </clean_core_related_content>
+                </observers>
+            </theme_delete_before>
+            <theme_save_after>
+                <observers>
+                    <clean_core_related_content>
+                        <class>Mage_Core_Model_Theme_Observer</class>
+                        <method>checkThemeIsAssigned</method>
+                    </clean_core_related_content>
+                </observers>
+            </theme_save_after>
             <theme_registration_from_filesystem>
                 <observers>
                     <theme_registration_observer>
@@ -192,9 +208,6 @@
                     </fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Collection>
-            <Mage_Core_Model_Theme_Image>
-                <shared>0</shared>
-            </Mage_Core_Model_Theme_Image>
             <Mage_Core_Model_Page_Asset_Collection>
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
@@ -222,6 +235,9 @@
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Layout_Update>
+            <Mage_Core_Model_Theme_Collection>
+                <shared>0</shared>
+            </Mage_Core_Model_Theme_Collection>
             <!--
                 Decorate layout file sources:
                 - filter out files that belong to inactive modules
@@ -556,6 +572,12 @@
                 <enabled>0</enabled>
             </single_store_mode>
         </general>
+        <theme>
+            <customization>
+                <css>Mage_Core_Model_Theme_Customization_File_Css</css>
+                <js>Mage_Core_Model_Theme_Customization_File_Js</js>
+            </customization>
+        </theme>
     </default>
     <stores>
         <default>

@@ -630,7 +630,7 @@ class Mage_Core_Model_Layout_Merge
     protected function _getPhysicalTheme(Mage_Core_Model_Theme $theme)
     {
         $result = $theme;
-        while ($result && !$result->isPhysical()) {
+        while ($result->getId() && !$result->isPhysical()) {
             $result = $result->getParentTheme();
         }
         if (!$result) {

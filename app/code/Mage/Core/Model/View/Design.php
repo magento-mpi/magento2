@@ -57,13 +57,6 @@ class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterfac
     protected $_callbackFileDir;
 
     /**
-     * Array of theme model used for fallback mechanism
-     *
-     * @var array
-     */
-    protected $_themes = array();
-
-    /**
      * Store list manager
      *
      * @var Mage_Core_Model_StoreManagerInterface
@@ -71,13 +64,22 @@ class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterfac
     protected $_storeManager;
 
     /**
+     * @var Mage_Core_Model_Theme_FlyweightFactory
+     */
+    protected $_themeFactory;
+
+    /**
      * Design
      *
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
      */
-    public function __construct(Mage_Core_Model_StoreManagerInterface $storeManager)
-    {
+    public function __construct(
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Theme_FlyweightFactory $themeFactory
+    ) {
         $this->_storeManager = $storeManager;
+        $this->_themeFactory = $themeFactory;
     }
 
     /**
@@ -107,33 +109,6 @@ class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterfac
     }
 
     /**
-     * Load design theme
-     *
-     * @param int|string $themeId
-     * @param string|null $area
-     * @return Mage_Core_Model_Theme
-     */
-    public function loadDesignTheme($themeId, $area = self::DEFAULT_AREA)
-    {
-        $key = sprintf('%s/%s', $area, $themeId);
-        if (isset($this->_themes[$key])) {
-            return $this->_themes[$key];
-        }
-
-        if (is_numeric($themeId)) {
-            $themeModel = clone $this->getDesignTheme();
-            $themeModel->load($themeId);
-        } else {
-            /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-            $collection = $this->getDesignTheme()->getCollection();
-            $themeModel = $collection->getThemeByFullPath($area . '/' . $themeId);
-        }
-        $this->_themes[$key] = $themeModel;
-
-        return $themeModel;
-    }
-
-    /**
      * Set theme path
      *
      * @param Mage_Core_Model_Theme|int|string $theme
@@ -149,7 +124,7 @@ class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterfac
         if ($theme instanceof Mage_Core_Model_Theme) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->loadDesignTheme($theme, $this->getArea());
+            $this->_theme = $this->_themeFactory->create($theme, $this->getArea());
         }
 
         return $this;

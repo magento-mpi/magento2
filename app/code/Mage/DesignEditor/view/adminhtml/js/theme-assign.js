@@ -92,8 +92,12 @@
          * @returns {*}
          */
         assignAfter: function(response) {
-            var messageType = response.error ? 'error' : 'success';
-            this.messages.add(response.message, messageType);
+            if (response.error) {
+                this.messages.add(response.message, messageType);
+            } else {
+                this.close();
+                document.location.reload();
+            }
             return this;
         },
 

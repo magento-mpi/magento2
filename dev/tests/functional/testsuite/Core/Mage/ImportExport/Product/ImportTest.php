@@ -84,7 +84,7 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
         //Import csv file without custom options
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Products', 'Append Complex Data');
-        $importResult = $this->importExportHelper()->import($csv);
+        $importResult = $this->importExportHelper()->import(array($csv[0]));
         //Verify import result
         $this->assertArrayHasKey('import', $importResult,
             "Import has not been finished successfully: " . print_r($importResult, true));

@@ -57,7 +57,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     public function createCategory()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $category = $this->loadDataSet('Category', 'sub_category_required_permissions_deny');
         $this->categoryHelper()->createCategory($category);
@@ -206,7 +206,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $this->storeHelper()->createStore($storeView, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
         //Create category
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');

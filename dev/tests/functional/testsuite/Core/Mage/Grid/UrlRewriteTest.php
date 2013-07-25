@@ -20,6 +20,7 @@ class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
+        $this->markTestIncomplete('MAGETWO-11231');
         $this->loginAdminUser();
     }
 
