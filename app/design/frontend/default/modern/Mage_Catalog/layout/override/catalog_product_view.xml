@@ -31,11 +31,12 @@
                 <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
                 <block type="Mage_Catalog_Block_Product_View_Tabs" name="product.info.tabs" as="info_tabs" template="product/view/tabs.phtml">
-                    <action method="addTab" translate="title" module="Mage_Catalog">
+                    <action method="addTab" translate="title,header" module="Mage_Catalog">
                         <alias>description</alias>
                         <title>Product Description</title>
                         <block>Mage_Catalog_Block_Product_View_Description</block>
                         <template>product/view/description.phtml</template>
+                        <header>Details</header>
                     </action>
                     <action method="addTab" translate="title" module="Mage_Catalog">
                         <alias>upsell_products</alias>
@@ -43,11 +44,12 @@
                         <block>Mage_Catalog_Block_Product_List_Upsell</block>
                         <template>product/list/upsell.phtml</template>
                     </action>
-                    <action method="addTab" translate="title" module="Mage_Catalog">
+                    <action method="addTab" translate="title,header" module="Mage_Catalog">
                         <alias>additional</alias>
                         <title>Additional Information</title>
                         <block>Mage_Catalog_Block_Product_View_Attributes</block>
                         <template>product/view/attributes.phtml</template>
+                        <header>Additional Information</header>
                     </action>
                 </block>
                 <block type="Mage_Catalog_Block_Product_View_Additional" name="product.info.additional" as="product_additional_data"/>

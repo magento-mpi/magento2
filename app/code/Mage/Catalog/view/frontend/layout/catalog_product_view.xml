@@ -44,10 +44,16 @@
                     <action method="addToParentGroup">
                         <group>detailed_info</group>
                     </action>
+                    <action method="setTitle" translate="value">
+                        <value>Details</value>
+                    </action>
                 </block>
                 <block type="Mage_Catalog_Block_Product_View_Attributes" name="product.attributes" as="additional" template="product/view/attributes.phtml">
                     <action method="addToParentGroup">
                         <group>detailed_info</group>
+                    </action>
+                    <action method="setTitle" translate="value">
+                        <value>Additional Information</value>
                     </action>
                 </block>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
