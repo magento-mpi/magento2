@@ -53,7 +53,7 @@ class Mage_Centinel_Model_Service extends Magento_Object
     /**
      * Return validation session object
      *
-     * @return Mage_Centinel_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     protected function _getSession()
     {

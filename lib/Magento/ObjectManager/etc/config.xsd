@@ -108,7 +108,6 @@
     <xs:complexType name="paramType">
         <xs:choice>
             <xs:element name="instance" minOccurs="0" maxOccurs="1" type="instanceType" />
-            <xs:element name="argument" minOccurs="0" maxOccurs="1" type="argumentType" />
             <xs:element name="value" minOccurs="0" maxOccurs="1" type="valueType" />
         </xs:choice>
         <xs:attribute name="name" type="xs:string" use="required" />
@@ -119,16 +118,13 @@
         <xs:attribute name="shared" type="xs:boolean" use="optional" />
     </xs:complexType>
 
-    <xs:complexType name="argumentType" xml:base="xs:string">
-        <xs:attribute name="name" use="required" />
-    </xs:complexType>
-
     <xs:complexType name="valueType" mixed="true">
         <xs:choice>
             <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" />
         </xs:choice>
         <xs:attribute name="translate" type="xs:string" use="optional" />
         <xs:attribute name="module" type="xs:string" use="optional" />
+        <xs:attribute name="type" type="xs:string" use="optional" />
     </xs:complexType>
 
     <xs:complexType name="pluginType">

@@ -52,7 +52,8 @@ class Mage_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framework_T
         $this->_modulesReaderMock->expects($this->once())
             ->method('getModuleConfigurationFiles')->with($configFileName)->will($this->returnValue($configFiles));
         $this->_factoryMock->expects($this->once())->method('create')
-            ->with(array('configFiles' => $configFiles))->will($this->returnValue($configReaderMock));
+            ->with(array('configFiles' => $configFiles,'isRuntimeValidated' => false))
+            ->will($this->returnValue($configReaderMock));
 
         $configReaderMock->expects($this->once())->method('read')->will($this->returnValue($configData));
         $this->assertEquals($configData, $this->_model->load($area));

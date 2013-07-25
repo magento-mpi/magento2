@@ -346,8 +346,8 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ),
             'Magento_Test_Di_Aggregate_Parent' => array(
                 'parameters' => array(
-                    'scalar' => array('argument' => 'Magento_Test_Di_Aggregate_Interface::PARAM_ONE'),
-                    'optionalScalar' => array('argument' => 'Magento_Test_Di_Aggregate_Interface::PARAM_TWO')
+                    'scalar' => array('argument' => 'one'),
+                    'optionalScalar' => array('argument' => 'two')
                 )
             )
         ));

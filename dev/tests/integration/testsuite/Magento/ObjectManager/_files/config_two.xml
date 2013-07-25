@@ -12,7 +12,7 @@
     <preference for="Mage_Core_Model_Db_UpdaterInterface" type="Mage_Core_Model_Db_UpdaterOne" />
     <type name="Mage_Core_Model_Config_Loader_Local" shared="false">
         <param name="customFile">
-            <argument name="Mage::PARAM_CUSTOM_LOCAL_FILE_CUSTOM" />
+            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE_CUSTOM</value>
         </param>
         <param name="newParam">
             <value>paramValue</value>
@@ -37,4 +37,25 @@
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="one" sortOrder="800"/>
     </virtualType>
+    <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
+        <param name="cacheTags">
+            <value>
+                <const type='const'>Mage_Core_Model_Website::CACHE_TAG</const>
+                <boolFalse type='bool'>1</boolFalse>
+                <boolTrue type='int'>10</boolTrue>
+                <boolOne type='string' pattern="[0-9]*">1</boolOne>
+                <boolZero type='bool'>0</boolZero>
+                <stringPattern pattern="[a-zA-Z\-]*">Az-Value</stringPattern>
+            </value>
+        </param>
+        <param name="constParam">
+            <value type='const'>Mage_Core_Model_Website::CACHE_TAG</value>
+        </param>
+        <param name="boolFalseParam">
+            <value type='int'>100</value>
+        </param>
+        <param name="nullValueParam">
+            <value type='bool'>true</value>
+        </param>
+    </type>
 </config>

@@ -25,23 +25,23 @@
             </value>
         </param>
     </type>
-    <type name="Saas_Limitation_Model_Store_Observer_Controller">
+    <virtualType name="Saas_Limitation_Model_Store_Observer_Controller" type="Saas_Limitation_Model_Observer_Controller">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Store_Limitation" />
         </param>
         <param name="messageCode">
             <value>store</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Store_Observer_Entity">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Store_Observer_Entity" type="Saas_Limitation_Model_Observer_Entity">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Store_Limitation" />
         </param>
         <param name="messageCode">
             <value>store</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Store_Observer_Grid">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Store_Observer_Grid" type="Saas_Limitation_Model_Observer_Grid">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Store_Limitation" />
         </param>
@@ -51,16 +51,16 @@
         <param name="buttonId">
             <value>add_store</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Store_Group_Observer_Entity">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Store_Group_Observer_Entity" type="Saas_Limitation_Model_Observer_Entity">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Store_Group_Limitation" />
         </param>
         <param name="messageCode">
             <value>store_group</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Store_Group_Observer_Grid">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Store_Group_Observer_Grid" type="Saas_Limitation_Model_Observer_Grid">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Store_Group_Limitation" />
         </param>
@@ -70,16 +70,16 @@
         <param name="buttonId">
             <value>add_group</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Website_Observer_Entity">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Website_Observer_Entity" type="Saas_Limitation_Model_Observer_Entity">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Website_Limitation" />
         </param>
         <param name="messageCode">
             <value>website</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Website_Observer_Grid">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Website_Observer_Grid" type="Saas_Limitation_Model_Observer_Grid">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Website_Limitation" />
         </param>
@@ -89,24 +89,24 @@
         <param name="buttonId">
             <value>add</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_User_Observer_Controller">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_User_Observer_Controller" type="Saas_Limitation_Model_Observer_Controller">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_User_Limitation" />
         </param>
         <param name="messageCode">
             <value>user</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_User_Observer_Entity">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_User_Observer_Entity" type="Saas_Limitation_Model_Observer_Entity">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_User_Limitation" />
         </param>
         <param name="messageCode">
             <value>user</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_User_Observer_Grid">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_User_Observer_Grid" type="Saas_Limitation_Model_Observer_Grid">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_User_Limitation" />
         </param>
@@ -116,36 +116,36 @@
         <param name="buttonId">
             <value>add</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Catalog_Category_Observer_Controller">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Catalog_Category_Observer_Controller" type="Saas_Limitation_Model_Observer_Controller">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Category_Limitation" />
         </param>
         <param name="messageCode">
             <value>catalog_category</value>
         </param>
-    </type>
-    <type name="Saas_Limitation_Model_Catalog_Category_Observer_Entity">
+    </virtualType>
+    <virtualType name="Saas_Limitation_Model_Catalog_Category_Observer_Entity" type="Saas_Limitation_Model_Observer_Entity">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Category_Limitation" />
         </param>
         <param name="messageCode">
             <value>catalog_category</value>
         </param>
-    </type>
+    </virtualType>
     <type name="Saas_Limitation_Model_Catalog_Category_Observer_Block">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Category_Limitation" />
         </param>
     </type>
-    <type name="Saas_Limitation_Model_Catalog_Product_Observer_Controller">
+    <virtualType name="Saas_Limitation_Model_Catalog_Product_Observer_Controller" type="Saas_Limitation_Model_Observer_Controller">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Product_Limitation" />
         </param>
         <param name="messageCode">
             <value>catalog_product</value>
         </param>
-    </type>
+    </virtualType>
     <type name="Saas_Limitation_Model_Catalog_Product_Observer_Controller_Redirect">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Product_Limitation" />
@@ -154,14 +154,14 @@
             <value>catalog_product_creation</value>
         </param>
     </type>
-    <type name="Saas_Limitation_Model_Catalog_Product_Observer_Entity">
+    <virtualType name="Saas_Limitation_Model_Catalog_Product_Observer_Entity" type="Saas_Limitation_Model_Observer_Entity">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Product_Limitation" />
         </param>
         <param name="messageCode">
             <value>catalog_product</value>
         </param>
-    </type>
+    </virtualType>
     <type name="Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Product_Limitation" />
@@ -178,7 +178,7 @@
             <value>catalog_product_variations</value>
         </param>
     </type>
-    <type name="Saas_Limitation_Model_Catalog_Product_Observer_Grid">
+    <virtualType name="Saas_Limitation_Model_Catalog_Product_Observer_Grid" type="Saas_Limitation_Model_Observer_Grid">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Product_Limitation" />
         </param>
@@ -188,7 +188,7 @@
         <param name="buttonId">
             <value>add_new</value>
         </param>
-    </type>
+    </virtualType>
     <type name="Saas_Limitation_Model_Catalog_Product_Observer_Form">
         <param name="limitation">
             <instance type="Saas_Limitation_Model_Catalog_Product_Limitation" />

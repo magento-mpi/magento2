@@ -8,9 +8,12 @@
  */
 -->
 <config>
-    <type name="Mage_Tag_Model_Session">
+    <virtualType name="Mage_Tag_Model_Session" type="Mage_Core_Model_Session_Generic">
+        <param name="sessionNamespace">
+            <value>tag</value>
+        </param>
         <param name="sessionName">
             <value>frontend</value>
         </param>
-    </type>
+    </virtualType>
 </config>

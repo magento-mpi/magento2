@@ -19,6 +19,7 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Magento_ObjectManager_Config $config
      * @param array $sharedInstances
+     * @throws Magento_BootstrapException
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $primaryConfig,
@@ -54,8 +55,16 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
         Mage::setObjectManager($this);
 
         Magento_Profiler::start('global_primary');
-        $primaryLoader = new Mage_Core_Model_ObjectManager_ConfigLoader_Primary($primaryConfig->getDirectories());
-        $configData = $primaryLoader->load();
+        $primaryLoader = new Mage_Core_Model_ObjectManager_ConfigLoader_Primary(
+            $primaryConfig->getDirectories(),
+            $appMode
+        );
+        try {
+            $configData = $primaryLoader->load();
+        } catch (Exception $e) {
+            throw new Magento_BootstrapException($e->getMessage());
+        }
+
         if ($configData) {
             $this->configure($configData);
         }

@@ -13,7 +13,7 @@
     <preference for="Mage_Core_Model_AppInterface" type="Mage_Core_Model_App_Proxy" />
     <type name="Mage_Core_Model_App_State">
         <param name="mode">
-            <argument name="Mage::PARAM_MODE" />
+            <value type="argument">Mage::PARAM_MODE</value>
         </param>
     </type>
     <type name="Mage_Core_Model_Config_Modules">
@@ -48,6 +48,42 @@
     <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
         <param name="cacheLifetime"><value>86400</value></param>
+        <param name="cacheTags">
+            <value>
+                <const type='const'>Mage_Core_Model_Website::CACHE_TAG</const>
+                <boolFalse type='bool'>false</boolFalse>
+                <boolTrue type='bool'>true</boolTrue>
+                <boolOne type='bool'>1</boolOne>
+                <boolZero type='bool'>0</boolZero>
+                <intValue type='int'>100500</intValue>
+                <nullValue type='null' />
+                <stringPattern type='string' pattern="[a-z\-]*">az-value</stringPattern>
+            </value>
+        </param>
+        <param name="constParam">
+            <value type='const'>Mage_Core_Model_Website::CACHE_TAG</value>
+        </param>
+        <param name="boolFalseParam">
+            <value type='bool'>false</value>
+        </param>
+        <param name="boolTrueParam">
+            <value type='bool'>true</value>
+        </param>
+        <param name="boolOneParam">
+            <value type='bool'>1</value>
+        </param>
+        <param name="boolZeroParam">
+            <value type='bool'>0</value>
+        </param>
+        <param name="intValueParam">
+            <value type='int'>100500</value>
+        </param>
+        <param name="nullValueParam">
+            <value type='null' />
+        </param>
+        <param name="stringPatternParam">
+            <value type='string' pattern="[a-z\-]*">az-value</value>
+        </param>
     </type>
     <virtualType name="customCacheInstance" type="Mage_Core_Model_Cache" shared="true" />
     <virtualType name="customOverriddenInstance" shared="false" />

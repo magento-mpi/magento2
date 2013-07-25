@@ -39,27 +39,55 @@
             <value>global_acl_resources</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Resource_Website_Collection_FetchStrategy">
+    <virtualType name="Mage_Core_Model_Resource_Website_Collection_FetchStrategy" type="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">
             <instance type="Mage_Core_Model_Cache_Type_Collection" />
         </param>
-    </type>
-    <type name="Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy">
+        <param name="cacheIdPrefix">
+            <value>app_</value>
+        </param>
+        <param name="cacheTags">
+            <value>
+                <storeTag type="const">Mage_Core_Model_Website::CACHE_TAG</storeTag>
+            </value>
+        </param>
+        <param name="cacheLifetime">
+            <value type="bool">false</value>
+        </param>
+    </virtualType>
+    <virtualType name="Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy" type="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">
             <instance type="Mage_Core_Model_Cache_Type_Collection" />
         </param>
-    </type>
-    <type name="Mage_Core_Model_Resource_Store_Collection_FetchStrategy">
+        <param name="cacheIdPrefix">
+            <value>app_</value>
+        </param>
+        <param name="cacheTags">
+            <value>
+                <storeTag type="const">Mage_Core_Model_Store_Group::CACHE_TAG</storeTag>
+            </value>
+        </param>
+        <param name="cacheLifetime">
+            <value type="bool">false</value>
+        </param>
+    </virtualType>
+    <virtualType name="Mage_Core_Model_Resource_Store_Collection_FetchStrategy" type="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">
             <instance type="Mage_Core_Model_Cache_Type_Collection" />
         </param>
-    </type>
+        <param name="cacheIdPrefix">
+            <value>app_</value>
+        </param>
+        <param name="cacheTags">
+            <value>
+                <storeTag type="const">Mage_Core_Model_Store::CACHE_TAG</storeTag>
+            </value>
+        </param>
+        <param name="cacheLifetime">
+            <value type="bool">false</value>
+        </param>
+    </virtualType>
     <type name="Mage_Core_Model_Resource_Website_Collection">
-        <param name="fetchStrategy">
-            <instance type="Mage_Core_Model_Resource_Website_Collection_FetchStrategy" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Resource_Website_Grid_Collection">
         <param name="fetchStrategy">
             <instance type="Mage_Core_Model_Resource_Website_Collection_FetchStrategy" />
         </param>

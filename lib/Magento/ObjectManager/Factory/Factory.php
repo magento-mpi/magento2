@@ -110,7 +110,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                     : $this->_objectManager->create($argumentType);
                 unset($this->_creationStack[$requestedType]);
             } else if (is_array($argument) && isset($argument['argument'])) {
-                $argKey = constant($argument['argument']);
+                $argKey = $argument['argument'];
                 $argument = isset($this->_globalArguments[$argKey]) ? $this->_globalArguments[$argKey] : $paramDefault;
             }
             $resolvedArguments[] = $argument;

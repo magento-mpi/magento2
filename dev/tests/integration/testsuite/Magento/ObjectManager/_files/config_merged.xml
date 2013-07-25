@@ -12,7 +12,7 @@
     <preference for="Mage_Core_Model_Db_UpdaterInterfaceTwo" type="Mage_Core_Model_Db_UpdaterTwo"/>
     <type name="Mage_Core_Model_Config_Loader_Local" shared="false">
         <param name="customFile">
-            <argument name="Mage::PARAM_CUSTOM_LOCAL_FILE_CUSTOM" />
+            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE_CUSTOM</value>
         </param>
         <param name="customConfig">
             <instance shared="false" type="Mage_Core_Model_Config_Storage_Modules" />
@@ -36,7 +36,7 @@
     </type>
     <virtualType name="Mage_Core_Model_Config_Loader_LocalVirtual" type="Mage_Core_Model_Config_Loader_Local" shared="true">
         <param name="customFile">
-            <argument name="Mage::PARAM_CUSTOM_LOCAL_FILE" />
+            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
         <param name="customConfig">
             <instance type="Mage_Core_Model_Config_Storage_Modules" />
@@ -54,4 +54,44 @@
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="three" type="somePluginThree"/>
     </virtualType>
+    <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
+        <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
+        <param name="cacheLifetime"><value>86400</value></param>
+        <param name="cacheTags">
+            <value>
+                <const type='const'>Mage_Core_Model_Website::CACHE_TAG</const>
+                <boolFalse type='bool'>1</boolFalse>
+                <boolTrue type='int'>10</boolTrue>
+                <boolOne type='string' pattern="[0-9]*">1</boolOne>
+                <boolZero type='bool'>0</boolZero>
+                <intValue type='int'>100500</intValue>
+                <nullValue type='null' />
+                <stringPattern type='string' pattern="[a-zA-Z\-]*">Az-Value</stringPattern>
+            </value>
+        </param>
+        <param name="constParam">
+            <value type='const'>Mage_Core_Model_Website::CACHE_TAG</value>
+        </param>
+        <param name="boolFalseParam">
+            <value type='int'>100</value>
+        </param>
+        <param name="boolTrueParam">
+            <value type='bool'>true</value>
+        </param>
+        <param name="boolOneParam">
+            <value type='bool'>1</value>
+        </param>
+        <param name="boolZeroParam">
+            <value type='bool'>0</value>
+        </param>
+        <param name="intValueParam">
+            <value type='int'>100500</value>
+        </param>
+        <param name="nullValueParam">
+            <value type='bool'>true</value>
+        </param>
+        <param name="stringPatternParam">
+            <value type='string' pattern="[a-z\-]*">az-value</value>
+        </param>
+    </type>
 </config>

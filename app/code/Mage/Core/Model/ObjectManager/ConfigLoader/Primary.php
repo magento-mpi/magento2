@@ -15,11 +15,20 @@ class Mage_Core_Model_ObjectManager_ConfigLoader_Primary
     protected $_dirs;
 
     /**
-     * @param Mage_Core_Model_Dir $dirs
+     * Application mode
+     *
+     * @var string
      */
-    public function __construct(Mage_Core_Model_Dir $dirs)
+    protected $_appMode;
+
+    /**
+     * @param Mage_Core_Model_Dir $dirs
+     * @param string $appMode
+     */
+    public function __construct(Mage_Core_Model_Dir $dirs, $appMode = Mage_Core_Model_App_State::MODE_DEFAULT)
     {
         $this->_dirs = $dirs;
+        $this->_appMode = $appMode;
     }
 
     /**
@@ -32,7 +41,10 @@ class Mage_Core_Model_ObjectManager_ConfigLoader_Primary
         $reader = new Magento_ObjectManager_Config_Reader_Dom(
             glob($this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG)
                 . DIRECTORY_SEPARATOR . 'di' . DIRECTORY_SEPARATOR . '*'
-        ));
+            ),
+            new Magento_ObjectManager_Config_Mapper_Dom(),
+            $this->_appMode == Mage_Core_Model_App_State::MODE_DEVELOPER
+        );
         return $reader->read();
     }
 }

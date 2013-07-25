@@ -360,6 +360,18 @@ class Utility_Files
     }
 
     /**
+     * Look for DI config through the system
+     * @return array
+     */
+    public function getDiConfigs()
+    {
+        $primaryConfigs = glob($this->_path . '/app/etc/di/*.xml');
+        $moduleConfigs = glob($this->_path . '/app/code/*/*/etc/{di,*/di}.xml', GLOB_BRACE);
+        $configs = array_merge($primaryConfigs, $moduleConfigs);
+        return $configs;
+    }
+
+    /**
      * Check if specified class exists
      *
      * @param string $class

@@ -9,14 +9,9 @@
 -->
 <config>
     <preference for="Enterprise_PageCache_Model_Processor_RestrictionInterface" type="Enterprise_PageCache_Model_Processor_Restriction" />
-    <type name="Enterprise_PageCache_Model_Cache">
-        <param name="config">
-            <instance type="Mage_Core_Model_Config_Proxy" />
-        </param>
-    </type>
     <type name="Enterprise_PageCache_Model_Request_Identifier">
         <param name="scopeCode">
-            <argument name="Mage::PARAM_RUN_CODE" />
+            <value type="argument">Mage::PARAM_RUN_CODE</value>
         </param>
     </type>
     <type name="Enterprise_PageCache_Model_Processor">
@@ -48,14 +43,9 @@
             </value>
         </param>
     </type>
-    <type name="Enterprise_Queue_Helper_Gearman">
-        <param name="config">
-            <instance type="Mage_Core_Model_Config" />
-        </param>
-    </type>
     <type name="Enterprise_Queue_Model_Queue">
         <param name="taskNamePrefix">
-            <argument name="Enterprise_Queue_Model_Queue::PARAM_TASK_NAME_PREFIX" />
+            <value type="argument">Enterprise_Queue_Model_Queue::PARAM_TASK_NAME_PREFIX</value>
         </param>
     </type>
 </config>

@@ -14,7 +14,7 @@ return array(
     'Mage_Core_Model_App_State' => array(
         'parameters' => array(
             'mode' => array(
-                'argument' => 'Mage::PARAM_MODE',
+                'argument' => 'MAGE_MODE',
             ),
         ),
     ),
@@ -28,13 +28,13 @@ return array(
         ),
         'plugins' => array(
             'simple_modules_plugin' => array(
-                'instance' => 'Mage_Core_Model_Config_Modules_Plugin',
                 'sortOrder' => 10,
                 'disabled' => true,
+                'instance' => 'Mage_Core_Model_Config_Modules_Plugin',
             ),
             'simple_modules_plugin_advanced' => array(
-                'instance' => 'Mage_Core_Model_Config_Modules_PluginAdvanced',
                 'sortOrder' => 0,
+                'instance' => 'Mage_Core_Model_Config_Modules_PluginAdvanced',
             ),
             'overridden_plugin' => array(
                 'sortOrder' => 30,
@@ -66,6 +66,24 @@ return array(
         'parameters' => array(
             'cacheIdPrefix' => 'collection_',
             'cacheLifetime' => '86400',
+            'cacheTags' => array(
+                'const' => Mage_Core_Model_Website::CACHE_TAG,
+                'boolFalse' => false, 
+                'boolTrue' => true,
+                'boolOne' => true,
+                'boolZero' => false,
+                'intValue' => 100500,
+                'nullValue' => null,
+                'stringPattern' => 'az-value',
+            ),
+            'constParam' => 'website',
+            'boolFalseParam' => false,
+            'boolTrueParam' => true,
+            'boolOneParam' => true,
+            'boolZeroParam' => false,
+            'intValueParam' => 100500,
+            'nullValueParam' => null,
+            'stringPatternParam' => 'az-value',
         ),
     ),
 

@@ -48,22 +48,20 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $files
+     * @param string $file
      * @return void
      * @dataProvider linearFilesProvider
      */
-    public function testDiConfigFile(array $files)
+    public function testDiConfigFileWithoutMerging($file)
     {
         /** @var $reader Magento_ObjectManager_Config_Reader_Dom */
         $reader = $this->getMock('Magento_ObjectManager_Config_Reader_Dom', array('_merge'), array(), '', false);
         $xsd = $reader->getSchemaFile();
 
-        foreach ($files as $file) {
-            $dom = new DOMDocument();
-            $dom->load($file);
-            if (!@$dom->schemaValidate($xsd)) {
-                $this->fail('File ' . $file . ' has invalid xml structure.');
-            }
+        $dom = new DOMDocument();
+        $dom->load($file);
+        if (!@$dom->schemaValidate($xsd)) {
+            $this->fail('File ' . $file . ' has invalid xml structure.');
         }
     }
 
@@ -79,14 +77,19 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
             $common = array_merge($common, $files);
         }
 
-        return array(array($common));
+        $output = array();
+        foreach ($common as $file) {
+            $output[$file] = array($file);
+        }
+
+        return $output;
     }
 
     /**
      * @param array $files
      * @dataProvider mixedFilesProvider
      */
-    public function testConfig(array $files)
+    public function testMergedDiConfig(array $files)
     {
         $mapper = $this->getMock('Magento_ObjectManager_Config_Mapper_Dom', array(), array(), '', false);
         new Magento_ObjectManager_Config_Reader_Dom($files, $mapper, true);
@@ -107,6 +110,7 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
         }
         $moduleFiles['all module global config files'] = array(self::$_moduleGlobalFiles);
 
+        $areaFiles = array();
         foreach (self::$_moduleAreaFiles as $area => $files) {
             foreach ($files as $file) {
                 $areaFiles[$file] = array(array($file));
@@ -115,12 +119,5 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
         }
 
         return $primaryFiles + $moduleFiles + $areaFiles;
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$_primaryFiles = array();
-        self::$_moduleGlobalFiles = array();
-        self::$_moduleAreaFiles = array();
     }
 }

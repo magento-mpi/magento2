@@ -32,7 +32,6 @@ class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_XmlAbstract
         $this->_isRuntimeValidated = $isRuntimeValidated;
         $this->_mapper = $mapper ?: new Magento_ObjectManager_Config_Mapper_Dom();
         $this->_merge($configFiles);
-
     }
 
     /**

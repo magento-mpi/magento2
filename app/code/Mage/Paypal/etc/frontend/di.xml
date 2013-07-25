@@ -8,9 +8,12 @@
  */
 -->
 <config>
-    <type name="Mage_Paypal_Model_Session">
+    <virtualType name="Mage_Paypal_Model_Session" type="Mage_Core_Model_Session_Generic">
+        <param name="sessionNamespace">
+            <value>paypal</value>
+        </param>
         <param name="sessionName">
             <value>frontend</value>
         </param>
-    </type>
+    </virtualType>
 </config>

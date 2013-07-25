@@ -77,11 +77,6 @@ class Magento_ObjectManager_Config_Mapper_Dom
                                                     ? false : true;
                                             }
                                             break;
-                                        case 'argument':
-                                            $paramData['argument'] = $paramChildNode->attributes
-                                                ->getNamedItem('name')
-                                                ->nodeValue;
-                                            break;
                                         case 'value':
                                             $paramData = $this->_processValueNode($paramChildNode);
                                             break;
@@ -133,25 +128,63 @@ class Magento_ObjectManager_Config_Mapper_Dom
 
     /**
      * Retrieve value of the given node
-     *
      * Treat all child nodes as an assoc array
-     *
+     * @todo this method has high cyclomatic complexity in order to avoid performance issues
      * @param DOMNode $valueNode
      * @return array|string
+     * @throws InvalidArgumentException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _processValueNode(DOMNode $valueNode)
     {
         $output = array();
         $childNodesCount = $valueNode->childNodes->length;
+        $valueNodeType = $valueNode->attributes->getNamedItem('type');
+        if ($valueNodeType && 'null' == $valueNodeType->nodeValue) {
+            return null;
+        }
+        
         /** @var DOMNode $node */
         foreach ($valueNode->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
-                $output[$node->nodeName] = $this->_processValueNode($node);
+                $nodeType = $node->attributes->getNamedItem('type');
+                if ($nodeType && 'null' == $nodeType->nodeValue) {
+                    $output[$node->nodeName] = null;
+                } else {
+                    $output[$node->nodeName] = $this->_processValueNode($node);
+                }
             } elseif (($node->nodeType == XML_TEXT_NODE || $node->nodeType == XML_CDATA_SECTION_NODE)
                 && $childNodesCount == 1
             ) {
                 // process DomText or DOMCharacterData node only if it is a single child of its parent
-                return trim($node->nodeValue);
+                $output = trim($node->nodeValue);
+                if ($valueNodeType) {
+                    switch ($valueNodeType->nodeValue) {
+                        case 'const':
+                            $output = constant($output);
+                            break;
+                        case 'argument':
+                            $output = array('argument' => constant($output));
+                            break;
+                        case 'bool':
+                            $output = strtolower($output) == 'true' || $output == '1';
+                            break;
+                        case 'int':
+                            if (!preg_match('/^[0-9]*$/', $output)) {
+                                throw new InvalidArgumentException('Invalid integer value');
+                            }
+                            $output = (int)$output;
+                            break;
+                        case 'string':
+                            $pattern = $valueNode->attributes->getNamedItem('pattern')->nodeValue;
+                            if (!preg_match('/^' . $pattern . '$/', $output)) {
+                                throw new InvalidArgumentException('Invalid string value format');
+                            }
+                            break;
+                        default:
+                            throw new InvalidArgumentException('Unknown parameter type');
+                    }
+                }
             }
         }
         return $output;
