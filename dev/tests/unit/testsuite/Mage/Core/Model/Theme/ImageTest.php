@@ -101,8 +101,6 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
             'theme_id'             => 1,
             'theme_title'          => 'Sample theme',
             'preview_image'        => 'images/preview.png',
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
             'area'                 => Mage_Core_Model_App_Area::AREA_FRONTEND,
             'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
         );

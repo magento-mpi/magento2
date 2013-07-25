@@ -62,8 +62,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'theme_version'        => '2.0.0.1',
             'theme_title'          => 'Iphone',
             'preview_image'        => 'images/preview.png',
-            'magento_version_from' => '2.0.0.1-dev1',
-            'magento_version_to'   => '*',
             'is_featured'          => true,
             'theme_directory'      => implode(DIRECTORY_SEPARATOR,
                 array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
@@ -188,18 +186,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             array(Mage_Core_Model_Theme::TYPE_STAGING, true),
             array(Mage_Core_Model_Theme::TYPE_PHYSICAL, false)
         );
-    }
-
-    public function testIsThemeCompatible()
-    {
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
-
-        $themeModel->setMagentoVersionFrom('2.0.0.0')->setMagentoVersionTo('*');
-        $this->assertFalse($themeModel->isThemeCompatible());
-
-        $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*');
-        $this->assertTrue($themeModel->isThemeCompatible());
     }
 
     /**

@@ -68,8 +68,6 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                     'parent_id'            => null,
                     'parent_theme_path'    => null,
                     'is_featured'          => true,
-                    'magento_version_from' => '2.0.0.0-dev1',
-                    'magento_version_to'   => '*',
                     'theme_path'           => 'default/default',
                     'code'                 => 'default/default',
                     'preview_image'        => null,
@@ -96,8 +94,6 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
             'theme_version'        => '2.0.0.0',
             'parent_id'            => null,
             'is_featured'          => false,
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
             'theme_path'           => 'default/space',
             'preview_image'        => 'images/preview.png',
             'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL

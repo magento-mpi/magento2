@@ -57,8 +57,6 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
             'theme_version'         => 'fixture_theme_version',
             'theme_title'           => 'fixture_theme_title',
             'preview_image'         => 'fixture_preview_image',
-            'magento_version_from'  => 'fixture_magento_version_from',
-            'magento_version_to'    => 'fixture_magento_version_to',
             'is_featured'           => 'fixture_is_featured',
             'area'                  => 'fixture_area',
             'type'                  => Mage_Core_Model_Theme::TYPE_VIRTUAL
@@ -71,8 +69,6 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
             'theme_version'         => 'fixture_theme_version',
             'theme_title'           => 'fixture_theme_title - Staging',
             'preview_image'         => 'fixture_preview_image',
-            'magento_version_from'  => 'fixture_magento_version_from',
-            'magento_version_to'    => 'fixture_magento_version_to',
             'is_featured'           => 'fixture_is_featured',
             'area'                  => 'fixture_area',
             'type'                  => Mage_Core_Model_Theme::TYPE_STAGING,

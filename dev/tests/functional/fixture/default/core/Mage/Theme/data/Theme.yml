@@ -18,14 +18,9 @@ theme_search_data:
     theme_parent: %noValue%
     theme_path: %noValue%
     theme_version: %noValue%
-    magento_version_from: %noValue%
-    magento_version_to: %noValue%
 
 new_theme:
     theme_settings:
         theme_parent: Upstream
         theme_version: %noValue%
         theme_title: %noValue%
-    requirements:
-        magento_version_from: %noValue%
-        magento_version_to: %noValue%

@@ -27,8 +27,6 @@ $theme->setData(array(
     'theme_version'        => '2.0.0.0',
     'theme_title'          => 'Default',
     'preview_image'        => 'media/preview_image.jpg',
-    'magento_version_from' => '2.0.0.0-dev1',
-    'magento_version_to'   => '*',
     'is_featured'          => '0'
 ));
 $theme->save();

@@ -54,7 +54,6 @@ class Mage_Core_Model_Theme_Label
             $themeCollection = $this->_collectionFactory->create();
             $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC);
             $themeCollection->filterVisibleThemes()->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND);
-            $this->_prepareThemeCompatible($themeCollection);
             $this->_labelsCollection = $themeCollection->toOptionArray();
         }
         $options = $this->_labelsCollection;
@@ -72,20 +71,5 @@ class Mage_Core_Model_Theme_Label
     public function getLabelsCollectionForSystemConfiguration()
     {
         return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
-    }
-
-    /**
-     * Check if the theme is compatible with Magento version and mark theme label if not compatible
-     *
-     * @param Mage_Core_Model_Resource_Theme_Collection $collection
-     */
-    protected function _prepareThemeCompatible(Mage_Core_Model_Resource_Theme_Collection $collection)
-    {
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($collection as $theme) {
-            if (!$theme->isThemeCompatible()) {
-                $theme->setThemeTitle($this->_helper->__('%s (incompatible version)', $theme->getThemeTitle()));
-            }
-        }
     }
 }

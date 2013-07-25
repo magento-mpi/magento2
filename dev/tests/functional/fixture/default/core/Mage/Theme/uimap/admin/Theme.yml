@@ -30,8 +30,6 @@ theme_list:
                             theme_parent: //input[@id='theme_grid_filter_parent_theme_title']
                             theme_path: //input[@id='theme_grid_filter_theme_path']
                             theme_version: //input[@id='theme_grid_filter_theme_version']
-                            magento_version_from: //input[@id='theme_grid_filter_magento_version_from']
-                            magento_version_to: //input[@id='theme_grid_filter_magento_version_to']
                             page: //input[@name='page']
                         pageelements:
                             theme_grid: //table[@id='theme_grid_table']
@@ -64,12 +62,6 @@ new_theme:
                                         theme_title: //input[@id='theme_title']
                                     pageelements:
                                         page_title: "/../../../../../../..//*[@class='page-title']"
-                            -
-                                requirements:
-                                    xpath: //form[@id='edit_form']//fieldset[@id='requirements']
-                                    fields:
-                                        magento_version_from: //input[@id='magento_version_from']
-                                        magento_version_to: //input[@id='magento_version_to']
         buttons:
             back: //button[@id='back']
             reset: //button[@id='reset']
@@ -100,12 +92,6 @@ edit_theme:
                                     pageelements:
                                         page_title: "/../../../../../../..//*[@class='page-title']"
                                         theme_parent: //*[@id='parent_title']
-                            -
-                                requirements:
-                                    xpath: //form[@id='edit_form']//fieldset[@id='requirements']
-                                    fields:
-                                        magento_version_from: //input[@id='magento_version_from']
-                                        magento_version_to: //input[@id='magento_version_to']
                 -
                     css_editor:
                         xpath: //a[@id='theme_tabs_css_tab']

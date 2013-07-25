@@ -311,24 +311,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
     }
 
     /**
-     * Check if the theme is compatible with Magento version
-     *
-     * @return bool
-     */
-    public function isThemeCompatible()
-    {
-        $magentoVersion = Mage::getVersion();
-        if (version_compare($magentoVersion, $this->getMagentoVersionFrom(), '>=')) {
-            if ($this->getMagentoVersionTo() == '*'
-                || version_compare($magentoVersion, $this->getMagentoVersionFrom(), '<=')
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Get one of theme domain models
      *
      * @param int|null $type
