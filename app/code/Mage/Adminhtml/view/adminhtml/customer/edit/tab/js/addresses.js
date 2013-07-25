@@ -21,7 +21,7 @@
             countryElement: null,
             regionIdElement: null,
             regionElement: null,
-            deleteConfirmPrompt: '',
+            deleteConfirmPrompt: ''
         },
 
         /**
@@ -281,10 +281,10 @@
             if (data.length) {
                 // Create visible selectbox 'region_id' and hidden 'region'
                 regionIdInput = $('<select>').attr({
-                    name: this.options.regionIdElement.attr("name"),
-                    id: this.options.regionIdElement.attr("id"),
-                    class: "required-entry input-text select",
-                    title: this.options.regionIdElement.attr("title")
+                    'name': this.options.regionIdElement.attr("name"),
+                    'id': this.options.regionIdElement.attr("id"),
+                    'class': "required-entry input-text select",
+                    'title': this.options.regionIdElement.attr("title")
                 }).appendTo(regionControl);
 
                 var regionValue = this.options.regionElement.attr('value');
@@ -299,9 +299,9 @@
                 });
 
                 regionInput = $('<input>').attr({
-                    name: this.options.regionElement.attr("name"),
-                    id: this.options.regionElement.attr("id"),
-                    type: "hidden"
+                    'name': this.options.regionElement.attr("name"),
+                    'id': this.options.regionElement.attr("id"),
+                    'type': "hidden"
                 }).appendTo(regionControl);
 
                 regionField.addClass("required");
@@ -311,17 +311,17 @@
             else {
                 // Create visible text input 'region' and hidden 'region_id'
                 regionInput = $('<input>').attr({
-                    type: "text",
-                    name: this.options.regionElement.attr("name"),
-                    id: this.options.regionElement.attr("id"),
-                    class: "input-text",
-                    title: this.options.regionElement.attr("title")
+                    'type': "text",
+                    'name': this.options.regionElement.attr("name"),
+                    'id': this.options.regionElement.attr("id"),
+                    'class': "input-text",
+                    'title': this.options.regionElement.attr("title")
                 }).appendTo(regionControl);
 
                 regionIdInput = $('<input>').attr({
-                    type: "hidden",
-                    name: this.options.regionIdElement.attr("name"),
-                    id: this.options.regionIdElement.attr("id")
+                    'type': "hidden",
+                    'name': this.options.regionIdElement.attr("name"),
+                    'id': this.options.regionIdElement.attr("id")
                 }).appendTo(regionControl);
 
                 regionField.removeClass("required");
