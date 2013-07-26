@@ -170,7 +170,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         $themeItems = $this->getItems();
         /** @var $theme Varien_Object|Mage_Core_Model_ThemeInterface */
         foreach ($themeItems as $theme) {
-            $parentThemePath = $theme->getParentThemePath();
+            $parentThemePath = $theme->getData('parent_theme_path');
             if ($parentThemePath) {
                 $themePath = $theme->getArea() . Mage_Core_Model_ThemeInterface::PATH_SEPARATOR . $parentThemePath;
                 if (isset($themeItems[$themePath])) {
@@ -190,9 +190,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected function _loadFromFilesystem(array $themeConfigPaths)
     {
         foreach ($themeConfigPaths as $themeConfigPath) {
-            $theme = $this->getNewEmptyItem()
-                ->addData($this->_preparePathData($themeConfigPath))
-                ->addData($this->_prepareConfigurationData($themeConfigPath));
+            $theme = $this->getNewEmptyItem()->addData($this->_prepareConfigurationData($themeConfigPath));
             $this->addItem($theme);
         }
         $this->_setIsLoaded();
@@ -212,8 +210,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         $fullPath = trim(substr($themeDirectory, strlen($this->getBaseDir())), DIRECTORY_SEPARATOR);
         $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
         $area = array_shift($pathPieces);
-        $themePath = implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $pathPieces);
-        return array('area' => $area, 'theme_path' => $themePath, 'theme_directory' => $themeDirectory);
+        return array('area' => $area, 'theme_path_pieces' => $pathPieces);
     }
 
     /**
@@ -225,28 +222,33 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     public function _prepareConfigurationData($configPath)
     {
         $themeConfig = $this->_getConfigModel(array($configPath));
+        $pathData = $this->_preparePathData($configPath);
+        $media = $themeConfig->getMedia();
 
-        $packageCodes = $themeConfig->getPackageCodes();
-        $packageCode = reset($packageCodes);
+        $parentPathPieces = $themeConfig->getParentTheme();
+        if (count($parentPathPieces) == 1) {
+            $pathPieces = $pathData['theme_path_pieces'];
+            array_pop($pathPieces);
+            $parentPathPieces = array_merge($pathPieces, $parentPathPieces);
+        }
 
-        $themeCodes = $themeConfig->getPackageThemeCodes($packageCode);
-        $themeCode = reset($themeCodes);
-
-        $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
-        $media = $themeConfig->getMedia($packageCode, $themeCode);
-        $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
+        $themePath = implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $pathData['theme_path_pieces']);
+        $themeCode = implode(
+            Mage_Core_Model_Theme::CODE_SEPARATOR,
+            array_merge(array($pathData['area']), $pathData['theme_path_pieces'])
+        );
+        $parentPath = $parentPathPieces ? implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $parentPathPieces) : null;
 
         return array(
-            'code'                 => $packageCode . Mage_Core_Model_Theme::CODE_SEPARATOR . $themeCode,
-            'parent_id'            => null,
-            'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL,
-            'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
-            'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
-            'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
-            'magento_version_from' => $themeVersions['from'],
-            'magento_version_to'   => $themeVersions['to'],
-            'is_featured'          => $themeConfig->isFeatured($packageCode, $themeCode),
-            'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null
+            'parent_id'         => null,
+            'type'              => Mage_Core_Model_Theme::TYPE_PHYSICAL,
+            'area'              => $pathData['area'],
+            'theme_path'        => $themePath,
+            'code'              => $themeCode,
+            'theme_version'     => $themeConfig->getThemeVersion(),
+            'theme_title'       => $themeConfig->getThemeTitle(),
+            'preview_image'     => $media['preview_image'] ? $media['preview_image'] : null,
+            'parent_theme_path' => $parentPath
         );
     }
 
