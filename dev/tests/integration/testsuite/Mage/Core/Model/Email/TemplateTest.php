@@ -89,7 +89,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplate()
     {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $this->_setBlueThemeForFixtureStore();
+        $this->_setBlankThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/default/blank/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
@@ -103,7 +103,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      * Set 'default/blank' for the 'fixturestore' store.
      * Application isolation is required, if a test uses this method.
      */
-    protected function _setBlueThemeForFixtureStore()
+    protected function _setBlankThemeForFixtureStore()
     {
         $theme = Mage::getModel('Mage_Core_Model_Theme');
         $theme->load('default/blank', 'theme_path');
@@ -132,7 +132,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplateSubject()
     {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $this->_setBlueThemeForFixtureStore();
+        $this->_setBlankThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/default/blank/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
