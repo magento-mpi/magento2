@@ -75,8 +75,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             array('theme_parent', 'dropdown'),
             array('theme_version', 'field'),
             array('theme_title', 'field'),
-            array('magento_version_from', 'field'),
-            array('magento_version_to', 'field'),
         );
     }
 
@@ -110,8 +108,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             array(
                  'theme_version' => $this->themeHelper()->generateVersion(),
                  'theme_title' => $this->generate('string', 65, ':alnum:'),
-                 'magento_version_from' => $this->themeHelper()->generateVersion(),
-                 'magento_version_to' => $this->themeHelper()->generateVersion(),
             )
         );
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
@@ -228,8 +224,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         return array(
             array('theme_version', '0.0.0.1'),
             array('theme_title', 'Copy of Magento Demo'),
-            array('magento_version_from', '2.0.0.0-dev1'),
-            array('magento_version_to', '*')
         );
     }
 
@@ -249,8 +243,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             array('theme_parent' => '%noValue%',
                  'theme_version' => $this->themeHelper()->generateVersion(),
                  'theme_title' => $this->generate('string', 65, ':alnum:'),
-                 'magento_version_from' => $this->themeHelper()->generateVersion(),
-                 'magento_version_to' => $this->themeHelper()->generateVersion()
             )
         );
         //Steps
@@ -282,8 +274,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             array('theme_parent' => '%noValue%',
                  'theme_version' => $this->themeHelper()->generateVersion(),
                  'theme_title' => $this->generate('string', 65, ':alnum:'),
-                 'magento_version_from' => $this->themeHelper()->generateVersion(),
-                 'magento_version_to' => $this->themeHelper()->generateVersion()
             )
         );
         //Steps:
