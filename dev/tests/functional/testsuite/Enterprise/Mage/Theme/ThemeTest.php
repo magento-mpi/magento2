@@ -27,7 +27,7 @@ class Enterprise_Mage_Theme_ThemeTest extends Core_Mage_Theme_ThemeTest
     {
         return array(
             array('theme_version', '0.0.0.1'),
-            array('theme_title', 'Copy of Magento Fixed Design'),
+            array('theme_title', 'Copy of Magento Fixed Width'),
             array('magento_version_from', '2.0.0.0-dev1'),
             array('magento_version_to', '*')
         );

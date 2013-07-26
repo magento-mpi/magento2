@@ -98,7 +98,7 @@ applications:
     ee: &ee
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
-        design_theme: Enterprise/Magento Fixed Design
+        design_theme: Enterprise/Magento Fixed Width
         ftp: *ftp
         areas:
             admin:
