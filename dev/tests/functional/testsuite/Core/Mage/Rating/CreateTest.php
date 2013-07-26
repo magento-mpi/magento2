@@ -150,6 +150,7 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->ratingHelper()->openRating($search);
         $this->ratingHelper()->verifyRatingData($rating);
+        $this->clickButtonAndConfirm('delete_rating', 'confirmation_for_single_delete');
     }
 
     /**
@@ -174,5 +175,6 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->ratingHelper()->openRating($search);
         $this->ratingHelper()->verifyRatingData($rating);
+        $this->clickButtonAndConfirm('delete_rating', 'confirmation_for_single_delete');
     }
 }

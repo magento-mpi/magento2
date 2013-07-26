@@ -67,7 +67,7 @@ class Mage_DesignEditor_Model_Observer
         $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
-            if ($asset->getContentType() == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS) {
+            if ($asset->getContentType() == Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS) {
                 $pageAssets->remove($assetId);
             }
         }
@@ -88,13 +88,14 @@ class Mage_DesignEditor_Model_Observer
             /** @var $renderer Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
             $renderer = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer');
             $content = $renderer->render($configuration->getAllControlsData());
-
-            /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
-            $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
-            $themeCss->setDataForSave(array(
-                Mage_Core_Model_Theme_Customization_Files_Css::QUICK_STYLE_CSS => $content
-            ));
-            $theme->setCustomization($themeCss)->save();
+            /** @var $cssService Mage_DesignEditor_Model_Theme_Customization_File_QuickStyleCss */
+            $cssService = $this->_objectManager->create(
+                'Mage_DesignEditor_Model_Theme_Customization_File_QuickStyleCss'
+            );
+            /** @var $singleFile Mage_Theme_Model_Theme_SingleFile */
+            $singleFile = $this->_objectManager->create('Mage_Theme_Model_Theme_SingleFile',
+                array('fileService' => $cssService));
+            $singleFile->update($theme, $content);
         }
     }
 

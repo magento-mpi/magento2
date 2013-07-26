@@ -55,6 +55,7 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
      */
     public function mergeWebsite($websiteName)
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Data
         $mergeWebsiteData = $this->loadDataSet(
             'StagingWebsite', 'merge_website', array('filter_website_name' => $websiteName));

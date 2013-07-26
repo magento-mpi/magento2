@@ -41,6 +41,11 @@
                     <file>email/password_reset_confirmation.html</file>
                     <type>html</type>
                 </admin_emails_forgot_email_template>
+                <admin_emails_reset_password_template translate="label" module="Mage_User">
+                    <label>Reset Password</label>
+                    <file>email/password_reset.html</file>
+                    <type>html</type>
+                </admin_emails_reset_password_template>
             </email>
         </template>
         <di>
@@ -67,6 +72,11 @@
                     </aclCache>
                 </parameters>
             </Mage_User_Model_Resource_User>
+            <Mage_User_Model_Resource_Rules>
+                <parameters>
+                    <aclCache>Mage_Core_Model_Acl_Cache_Proxy</aclCache>
+                </parameters>
+            </Mage_User_Model_Resource_Rules>
             <preferences>
                 <Mage_Backend_Model_Auth_Credential_StorageInterface>Mage_User_Model_User</Mage_Backend_Model_Auth_Credential_StorageInterface>
             </preferences>
@@ -85,13 +95,6 @@
                 </parameters>
             </Magento_Acl_Builder>
         </di>
-        <layout>
-            <updates>
-                <user module="Mage_User">
-                    <file>layout.xml</file>
-                </user>
-            </updates>
-        </layout>
     </adminhtml>
     <default>
         <admin>
@@ -99,6 +102,7 @@
                 <forgot_email_template>admin_emails_forgot_email_template</forgot_email_template>
                 <forgot_email_identity>general</forgot_email_identity>
                 <password_reset_link_expiration_period>1</password_reset_link_expiration_period>
+                <reset_password_template>admin_emails_reset_password_template</reset_password_template>
             </emails>
         </admin>
     </default>
@@ -113,4 +117,4 @@
             </adminhtml>
         </routers>
     </admin>
-</config>
+</config>

@@ -103,13 +103,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_giftregistry module="Enterprise_GiftRegistry">
-                    <file>layout.xml</file>
-                </enterprise_giftregistry>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_GiftRegistry>
@@ -131,16 +124,6 @@
         </events>
     </adminhtml>
     <frontend>
-        <layout>
-            <updates>
-                <enterprise_giftregistry module="Enterprise_GiftRegistry">
-                    <file>layout.xml</file>
-                </enterprise_giftregistry>
-                <enterprise_giftregistry_checkout_onepage module="Enterprise_GiftRegistry">
-                    <file>layout_checkout_onepage.xml</file>
-                </enterprise_giftregistry_checkout_onepage>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_GiftRegistry>

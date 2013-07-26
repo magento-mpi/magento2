@@ -738,6 +738,14 @@
     background-image: url(../mui/images/ajax-loader-small.gif);
 }
 
+.header .search .mage-suggest {
+    border: none;
+}
+
+.header .search .mage-suggest::after {
+    content: '';
+}
+
 .search .dropdown-menu {
     display: block;
     right: auto;

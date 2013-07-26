@@ -641,20 +641,6 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Disable entire RP layout
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_Reward_Model_Observer
-     */
-    public function disableLayout(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()) {
-            unset($observer->getUpdates()->enterprise_reward);
-        }
-        return $this;
-    }
-
-    /**
      * Send scheduled low balance warning notifications
      *
      * @return Enterprise_Reward_Model_Observer

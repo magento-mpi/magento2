@@ -166,12 +166,5 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <webapi_permissions module="Mage_Webapi">
-                    <file>layout.xml</file>
-                </webapi_permissions>
-            </updates>
-        </layout>
     </adminhtml>
 </config>

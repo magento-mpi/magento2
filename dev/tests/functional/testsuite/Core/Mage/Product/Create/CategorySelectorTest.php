@@ -39,7 +39,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
                  'name' => $default['name']
             ));
         //Create root category
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($newRoot);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Create new categories in 'Default Category'
@@ -74,7 +75,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $product = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $category['parent_category'] . '/' . $afterSave));
         //Preconditions
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Steps
@@ -101,7 +103,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $categories['newRoot']));
         //Preconditions
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Steps
@@ -133,13 +136,12 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->openProductTab('general');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($categoryName);
         $this->waitUntil(function ($testCase) {
-                /** @var Mage_Selenium_TestCase $testCase */
-                $class = $testCase->getControlAttribute('field', 'general_categories', 'class');
-                if (strpos($class, 'mage-suggest-state-loading') === false) {
-                    return true;
-                }
-            }, 40000
-        );
+            /** @var Mage_Selenium_TestCase $testCase */
+            $class = $testCase->getControlAttribute('field', 'general_categories', 'class');
+            if (strpos($class, 'mage-suggest-state-loading') === false) {
+                return true;
+            }
+        });
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         //Verifying
         $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'no_category_found'));
@@ -259,7 +261,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      */
     public function createNewCategoryValidationFailed()
     {
-        $this->markTestIncomplete('MAGETWO-8857');
+        $this->markTestIncomplete('MAGETWO-11396');
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
 
@@ -289,25 +291,22 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         );
 
         $this->fillField('name', $this->generate('string', 256, ':alnum:'));
-        $this->clickControl(self::FIELD_TYPE_INPUT, 'parent_category');
-        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'parent_category');
         $this->fillField('parent_category', $this->generate('string', 256, ':alnum:'));
         $this->clickButton('new_category_save', false);
-        sleep(1); // giving time for messages to disappear with animation, waitForElementNotVisible would do the job
 
         // only "Choose existing category" validation message is displayed
+        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
+            '"Choose existing category" message is not appear'
+        );
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'category_name_required'),
             '"This is a required field" message appeared for Category Name'
         );
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'),
             '"This is a required field" message appeared for Parent Category');
-        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
-            '"Choose existing category" message is not appear'
-        );
 
-        $this->clickButton('new_category_cancel', false);
-        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
-            '"Choose existing category" message appeared'
+        $this->clickButton('new_category_close', false);
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form'),
+            'New category form is not closed'
         );
 
         $this->clickButton('new_category', false);
@@ -355,7 +354,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->openProduct(array('product_sku' => $product['general_sku']));
         $product['general_categories'] = $path . '/' . $expectedNameAfterSave;
         $this->productHelper()->verifyProductInfo($product);
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->selectCategory($product['general_categories']);
         $this->openTab('general_information');
         $this->assertEquals($expectedNameAfterSave,

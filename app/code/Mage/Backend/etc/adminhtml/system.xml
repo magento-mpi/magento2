@@ -108,7 +108,7 @@
                 <label>Design Theme</label>
                 <field id="theme_id" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Design Theme</label>
-                    <source_model>Mage_Core_Model_Theme::getLabelsCollectionForSystemConfiguration</source_model>
+                    <source_model>Mage_Core_Model_Theme_Label::getLabelsCollectionForSystemConfiguration</source_model>
                     <backend_model>Mage_Core_Model_Design_Backend_Theme</backend_model>
                     <comment><![CDATA[If no value is specified, the system default will be used. The system default may be modified by third party extensions.]]></comment>
                 </field>
@@ -400,7 +400,7 @@
                     <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
                 <field id="forgot_email_identity" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Forgot Password Email Sender</label>
+                    <label>Forgot and Reset Email Sender</label>
                     <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="password_reset_link_expiration_period" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">

@@ -70,14 +70,29 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure($systemConfig);
         //System attributes
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()
-            ->editAttribute('meta_title', array('default_text_field_value' => '', 'values_required' => 'No'));
+        $this->productAttributeHelper()->editAttribute(
+            'meta_title',
+            array(
+                 'advanced_attribute_properties' => array('default_text_field_value' => ''),
+                 'attribute_properties' => array('values_required' => 'No')
+            )
+        );
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()
-            ->editAttribute('meta_description', array('default_text_area_value' => '', 'values_required' => 'No'));
+        $this->productAttributeHelper()->editAttribute(
+            'meta_description',
+            array(
+                 'advanced_attribute_properties' => array('default_text_area_value' => ''),
+                 'attribute_properties' => array('values_required' => 'No')
+            )
+        );
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()
-            ->editAttribute('meta_keyword', array('default_text_area_value' => '', 'values_required' => 'No'));
+        $this->productAttributeHelper()->editAttribute(
+            'meta_keyword',
+            array(
+                 'advanced_attribute_properties' => array('default_text_area_value' => ''),
+                 'attribute_properties' => array('values_required' => 'No')
+            )
+        );
         $this->assertMessagePresent('success', 'success_saved_attribute');
     }
 
@@ -286,8 +301,8 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
             array($metaCode . '_mask' => $mask));
         $this->systemConfigurationHelper()->configure($systemConfig);
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()
-            ->editAttribute($metaCode, array('default_' . $fieldType . '_value' => $editedElement));
+        $this->productAttributeHelper()->editAttribute($metaCode,
+            array('advanced_attribute_properties' => array('default_' . $fieldType . '_value' => $editedElement)));
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_products');
@@ -323,8 +338,13 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()
-            ->editAttribute($metaCode, array('values_required' => 'No', 'default_' . $fieldType . '_value' => ''));
+        $this->productAttributeHelper()->editAttribute(
+            $metaCode,
+            array(
+                 'attribute_properties' => array('values_required' => 'No'),
+                 'advanced_attribute_properties' => array('default_' . $fieldType . '_value' => '')
+            )
+        );
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
@@ -353,7 +373,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
     {
         //Data
         $metaAttributes = array('meta_title', 'meta_keyword', 'meta_description');
-        $editedElement = array('values_required' => 'Yes');
+        $editedElement = array('attribute_properties' => array('values_required' => 'Yes'));
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_attributes');
@@ -387,8 +407,13 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
             array($metaCode . '_mask'   => ''));
         $this->systemConfigurationHelper()->configure($systemConfig);
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()
-            ->editAttribute($metaCode, array('values_required' => 'Yes', 'default_' . $fieldType . '_value' => ''));
+        $this->productAttributeHelper()->editAttribute(
+            $metaCode,
+            array(
+                 'attribute_properties' => array('values_required' => 'Yes'),
+                 'advanced_attribute_properties' => array('default_' . $fieldType . '_value' => '')
+            )
+        );
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_products');

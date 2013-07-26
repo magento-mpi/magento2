@@ -41,13 +41,6 @@
         </routers>
     </admin>
     <frontend>
-        <layout>
-            <updates>
-                <social_facebook module="Social_Facebook">
-                    <file>layout.xml</file>
-                </social_facebook>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Social_Facebook>

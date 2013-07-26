@@ -29,6 +29,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     protected $_customer;
 
+    /** @var Mage_Customer_Helper_Data|PHPUnit_Framework_MockObject_MockObject */
+    protected $_helperMock;
+
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -36,11 +39,12 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helper = $this->getMockBuilder('Mage_Customer_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Mage_Customer_Helper_Data')
             ->disableOriginalConstructor()
+            ->setMethods(array('generateResetPasswordLinkToken', '__'))
             ->getMock();
 
-        $helper->expects($this->any())
+        $this->_helperMock->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
         $this->_customerFactory = $this->getMockBuilder('Mage_Customer_Model_CustomerFactory')
@@ -56,7 +60,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('save', 'generatePassword', 'getOrigData', 'sendNewAccountEmail', 'getConfirmation',
                 'getPrimaryAddress', 'getAddresses', 'getAdditionalAddresses', 'load', 'getId', 'changePassword',
                 'sendPasswordReminderEmail', 'addAddress', 'getAddressItemById', 'getAddressesCollection',
-                'hashPassword')
+                'hashPassword', 'changeResetPasswordLinkToken')
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -69,7 +73,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_address));
 
-        $this->_service = new Mage_Customer_Service_Customer($helper, $this->_customerFactory, $this->_addressFactory);
+        $this->_service = new Mage_Customer_Service_Customer($this->_helperMock, $this->_customerFactory,
+            $this->_addressFactory
+        );
     }
 
     /**
@@ -102,6 +108,10 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test for setSendRemainderEmail
+     *
+     * @param bool $set
+     * @param bool $expected
      * @dataProvider setSendRemainderDataProvider
      */
     public function testSetSendRemainderEmail($set, $expected)
@@ -110,6 +120,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($expected, '_sendRemainderEmail', $this->_service);
     }
 
+    /**
+     * @return array
+     */
     public function setSendRemainderDataProvider()
     {
         return array(
@@ -118,6 +131,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test beforeSave and afterSave callback are set correctly
+     */
     public function testSetBeforeSaveCallback()
     {
         $this->assertInstanceOf('Mage_Customer_Service_Customer', $this->_service->setBeforeSaveCallback('intval'));
@@ -125,6 +141,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check beforeSave and afterSave callbacks for create and update methods
+     *
+     * @param string $method
      * @dataProvider methodsDataProvider
      */
     public function testCallback($method)
@@ -155,6 +174,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return array
+     */
     public function methodsDataProvider()
     {
         return array(
@@ -169,6 +191,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals('intval', '_afterSaveCallback', $this->_service);
     }
 
+    /**
+     * Test setIsAdminStore setter
+     */
     public function testSetIsAdminStore()
     {
         $this->assertInstanceOf('Mage_Customer_Service_Customer', $this->_service->setIsAdminStore(true));
@@ -176,6 +201,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param bool $isAdminStore
+     * @param array $customerData
+     * @param array $expectedData
      * @dataProvider forceConfirmedDataProvider
      */
     public function testCreateForceConfirmed($isAdminStore, array $customerData, array $expectedData)
@@ -195,6 +223,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedData, $this->_customer->toArray(array_keys($expectedData)));
     }
 
+    /**
+     * @return array
+     */
     public function forceConfirmedDataProvider()
     {
         return array(
@@ -239,6 +270,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $customerData
+     * @param string $type
+     * @param int|null $origId
      * @dataProvider welcomeEmailDataProvider
      */
     public function testSendWelcomeEmail(array $customerData, $type, $origId)
@@ -258,6 +292,85 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->create($customerData));
     }
 
+    /**
+     * Test that email is send for registered users
+     */
+    public function testSendWelcomeEmailRegistered()
+    {
+        $storeId = 1;
+        $type = 'registered';
+        $customerData = array(
+            'sendemail_store_id' => $storeId,
+            'website_id' => 1,
+            'sendemail' => true,
+            'autogenerate_password' => true
+        );
+        $hash = 1234567890;
+
+        $this->_customer->expects($this->once())
+            ->method('sendNewAccountEmail')
+            ->with($type, '', $storeId);
+        $this->_customer->expects($this->once())
+            ->method('save');
+        $this->_customer->expects($this->any())
+            ->method('getOrigData')
+            ->with($this->equalTo('id'))
+            ->will($this->returnValue(false));
+
+        $this->_helperMock->expects($this->once())
+            ->method('generateResetPasswordLinkToken')
+            ->will($this->returnValue($hash));
+
+        $this->_customer->expects($this->once())->method('changeResetPasswordLinkToken')->with($this->equalTo($hash));
+        $this->_customer->expects($this->once())
+            ->method('sendNewAccountEmail')
+            ->with(
+                $this->equalTo($type),
+                $this->equalTo(''),
+                $this->equalTo($storeId)
+            );
+
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->create($customerData));
+    }
+
+    /**
+     * Test that email is send in case when user is confirmed
+     */
+    public function testSendWelcomeEmailConfirmed()
+    {
+        $storeId = 1;
+        $type = 'confirmed';
+        $customerData = array(
+            'sendemail_store_id' => $storeId,
+            'website_id' => 1,
+            'sendemail' => true,
+            'autogenerate_password' => true
+        );
+
+        $this->_customer->expects($this->once())
+            ->method('sendNewAccountEmail')
+            ->with($type, '', $storeId);
+        $this->_customer->expects($this->once())
+            ->method('save');
+        $this->_customer->expects($this->any())
+            ->method('getOrigData')
+            ->with($this->equalTo('id'))
+            ->will($this->returnValue(true));
+
+        $this->_customer->expects($this->once())
+            ->method('sendNewAccountEmail')
+            ->with(
+                $this->equalTo($type),
+                $this->equalTo(''),
+                $this->equalTo($storeId)
+            );
+
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->create($customerData));
+    }
+
+    /**
+     * @return array
+     */
     public function welcomeEmailDataProvider()
     {
         return array(
@@ -301,6 +414,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $customerData
+     * @param int|null $origId
      * @dataProvider welcomeEmailNotCalledDataProvider
      */
     public function testSendWelcomeEmailNotCalled(array $customerData, $origId)
@@ -321,6 +436,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->create($customerData));
     }
 
+    /**
+     * @return array
+     */
     public function welcomeEmailNotCalledDataProvider()
     {
         return array(
@@ -389,6 +507,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $customerData
      * @dataProvider changePasswordDataProvider
      */
     public function testChangePassword(array $customerData)
@@ -415,6 +534,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_service->update(1, $customerData));
     }
 
+    /**
+     * @return array
+     */
     public function changePasswordDataProvider()
     {
         return array(
@@ -428,6 +550,12 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $addressData
+     * @param Mage_Customer_Model_Address|null $newAddress
+     * @param Mage_Customer_Model_Address|null $existingAddress
+     * @param array $addressCollection
+     * @param bool $dataChanged
+     * @param bool $expectedDataChange
      * @dataProvider addressesDataProvider
      */
     public function testPrepareCustomerAddressForSave(array $addressData, $newAddress, $existingAddress,
@@ -495,6 +623,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'Customer change data status is incorrect');
     }
 
+    /**
+     * @return array
+     */
     public function addressesDataProvider()
     {
         $newAddress = $this->_createAddress(true, null);

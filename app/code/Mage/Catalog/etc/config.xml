@@ -387,16 +387,6 @@
                 </Mage_Catalog>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <catalog module="Mage_Catalog">
-                    <file>layout.xml</file>
-                </catalog>
-                <map module="Mage_Catalog">
-                    <file>msrp.xml</file>
-                </map>
-            </updates>
-        </layout>
         <catalog>
             <per_page_values>
                 <grid>9,15,30</grid>

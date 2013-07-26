@@ -26,14 +26,19 @@
 </script>
 <script>
     jQuery(function ($) {
-        $('#product-template-suggest')
+        var $suggest = $('#product-template-suggest');
+        $suggest.closest('.dropdown-menu').siblings('[data-toggle=dropdown]').on('click.toggleDropdown', function () {
+            if ($(this).hasClass('active')) {
+                $suggest.click();
+            }
+        });
+        $suggest
             .mage('suggest',<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
             .on('suggestselect', function (e, ui) {
                 if (ui.item.id) {
-                    $('#product-edit-form').trigger('changeAttributeSet', ui.item);
+                    $('[data-form=edit-product]').trigger('changeAttributeSet', ui.item);
                     $('#product-template-suggest-container .action-toggle.active ').trigger('click');
                 }
-
             });
     });
 </script>

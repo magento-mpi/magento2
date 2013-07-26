@@ -22,8 +22,11 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit_Fr
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManagerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_designPackageMock;
+    /** @var Mage_Core_Model_View_Url  */
+    protected $_viewUrl;
+
+    /** @var Mage_Core_Model_View_Config   */
+    protected $_viewConfig;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperImageMock;
@@ -46,7 +49,10 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit_Fr
         $this->_storeManagerMock = $this->getMockBuilder('Mage_Core_Model_StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_designPackageMock = $this->getMockBuilder('Mage_Core_Model_Design_Package')
+        $this->_viewUrl = $this->getMockBuilder('Mage_Core_Model_View_Url')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_viewConfig = $this->getMockBuilder('Mage_Core_Model_View_Config')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_helperImageMock = $this->getMockBuilder('Mage_Catalog_Helper_Image')
@@ -64,7 +70,8 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit_Fr
             $this->_urlHelperMock,
             $this->_dataHelperMock,
             $this->_storeManagerMock,
-            $this->_designPackageMock,
+            $this->_viewUrl,
+            $this->_viewConfig,
             $this->_helperImageMock,
             $this->_loggerMock,
             $this->_localeMock
@@ -93,7 +100,7 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit_Fr
     {
         $themesUrl = "http://www.example.com/themes";
 
-        $this->_designPackageMock->expects($this->once())
+        $this->_viewUrl->expects($this->once())
             ->method('getViewFileUrl')
             ->will($this->returnValue($themesUrl));
 
@@ -102,14 +109,14 @@ class Mage_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit_Fr
     }
 
     /**
-     * Test getViewFileUrl when designPackage throws an exception
+     * Test getViewFileUrl when model throws an exception
      */
     public function testGetViewFileUrlException()
     {
         $magentoException = new Magento_Exception('test exception');
         $notFoundUrl = 'not found';
 
-        $this->_designPackageMock->expects($this->once())
+        $this->_viewUrl->expects($this->once())
             ->method('getViewFileUrl')
             ->will($this->throwException($magentoException));
         $this->_loggerMock->expects($this->once())

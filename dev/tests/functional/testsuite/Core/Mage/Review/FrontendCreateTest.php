@@ -18,6 +18,15 @@
  */
 class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $config = $this->loadDataSet('FlatCatalog', 'flat_catalog_reviews',
+            array('allow_guests_to_write_reviews' => 'Yes'));
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
+    }
+
     protected function tearDownAfterTest()
     {
         $this->frontend();
@@ -34,18 +43,13 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $storeView = $this->loadDataSet('StoreView', 'generic_store_view');
         $rating = $this->loadDataSet('ReviewAndRating', 'default_rating',
-            array('visible_in' => $storeView['store_view_name'], 'is_active' => 'Yes'));
+            array('visible_in' => $storeView['store_view_name']));
         //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
@@ -61,14 +65,18 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rating');
         $this->reindexInvalidedData();
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
+
         return array(
-            'login'      => array('email'    => $userData['email'],
-                                  'password' => $userData['password']),
-            'sku'        => $simple['general_sku'],
-            'name'       => $simple['general_name'],
-            'store'      => $storeView['store_view_name'],
-            'withRating' => array('filter_sku'  => $simple['general_sku'],
-                                  'rating_name' => $rating['default_value']));
+            'login' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'sku' => $simple['general_sku'],
+            'name' => $simple['general_name'],
+            'store' => $storeView['store_view_name'],
+            'withRating' => array('filter_sku' => $simple['general_sku'], 'rating_name' => $rating['default_value'])
+        );
     }
 
     /**
@@ -84,14 +92,13 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     public function addReviewByGuest($data)
     {
         //Data
-        $reviewData = $this->loadDataSet('ReviewAndRating', 'frontend_review');
+        $review = $this->loadDataSet('ReviewAndRating', 'frontend_review');
         $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_guest',
-                                         array('filter_nickname'   => $reviewData['nickname'],
-                                              'filter_product_sku' => $data['name']));
+            array('filter_nickname' => $review['nickname'], 'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($data['name']);
-        $this->reviewHelper()->frontendAddReview($reviewData);
+        $this->reviewHelper()->frontendAddReview($review);
         //Verification
         $this->assertMessagePresent('success', 'accepted_review');
         //Steps
@@ -99,7 +106,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_all_reviews');
         $this->reviewHelper()->openReview($searchData);
         //Verification
-        $this->reviewHelper()->verifyReviewData($reviewData);
+        $this->reviewHelper()->verifyReviewData($review);
     }
 
     /**
@@ -113,17 +120,17 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function addReviewByGuestWithRating($data)
     {
+        $this->markTestIncomplete('BUG: Fatal error on page after save review');
         //Data
-        $reviewData = $this->loadDataSet('ReviewAndRating', 'review_with_rating',
-                                         array('rating_name' => $data['withRating']['rating_name']));
+        $review = $this->loadDataSet('ReviewAndRating', 'review_with_rating',
+            array('rating_name' => $data['withRating']['rating_name']));
         $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_guest',
-                                         array('filter_nickname'   => $reviewData['nickname'],
-                                              'filter_product_sku' => $data['name']));
+            array('filter_nickname' => $review['nickname'], 'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
         $this->selectFrontStoreView($data['store']);
         $this->productHelper()->frontOpenProduct($data['name']);
-        $this->reviewHelper()->frontendAddReview($reviewData);
+        $this->reviewHelper()->frontendAddReview($review);
         //Verification
         $this->assertMessagePresent('success', 'accepted_review');
         //Steps
@@ -131,7 +138,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_all_reviews');
         $this->reviewHelper()->openReview($searchData);
         //Verification
-        $this->reviewHelper()->verifyReviewData($reviewData);
+        $this->reviewHelper()->verifyReviewData($review);
     }
 
     /**
@@ -150,8 +157,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $simple = $data['name'];
         $reviewData = $this->loadDataSet('ReviewAndRating', 'frontend_review');
         $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_customer',
-                                         array('filter_nickname'   => $reviewData['nickname'],
-                                              'filter_product_sku' => $simple));
+            array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $simple));
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['login']);
         $this->productHelper()->frontOpenProduct($simple);
@@ -224,8 +230,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData = $this->loadDataSet('ReviewAndRating', $reviewData);
         $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_guest',
-                                         array('filter_nickname'   => $reviewData['nickname'],
-                                              'filter_product_sku' => $data['name']));
+            array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($data['name']);

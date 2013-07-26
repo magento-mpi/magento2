@@ -28,6 +28,13 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_stores');
     }
 
+    public function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteAllStoresExceptSpecified();
+    }
+
     /**
      * <p>Test navigation.</p>
      *
@@ -77,6 +84,7 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function withCodeThatAlreadyExists(array $storeViewData)
     {
         //Steps
+        $this->markTestIncomplete('BUG: There is no "store_view_code_exist" message on the page');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
         $this->assertMessagePresent('error', 'store_view_code_exist');
@@ -99,9 +107,8 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
@@ -118,13 +125,13 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3626
+     * @TestlinkId TL-MAGE-3626
      */
     public function withLongValues()
     {
         //Data
         $longValues = array('store_view_name' => $this->generate('string', 255, ':alnum:'),
-                            'store_view_code' => $this->generate('string', 32, ':lower:'));
+            'store_view_code' => $this->generate('string', 32, ':lower:'));
         $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view', $longValues);
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');

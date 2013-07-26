@@ -14,9 +14,9 @@
 
 class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser();
+        $this->admin('log_in_to_admin');
     }
 
     protected function tearDownAfterTest()
@@ -37,32 +37,32 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      */
     public function systemConfigurationOneTab($resourceCheckbox, $tabName)
     {
-        $this->loginAdminUser();
-        $this->navigate('manage_roles');
-        //create user with specific role to verifying ACL permission
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_acl' => $resourceCheckbox));
+        $testData = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
+        $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
+        $loginData = array('user_name' => $testData['user_name'], 'password' => $testData['password']);
+        //create user with specific role to verifying ACL permission
+        $this->loginAdminUser();
+        $this->navigate('manage_roles');
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
-        $testData = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testData);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($testData);
+
+        $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('system_configuration');
-        $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
-        $xpath = $this->_getControlXpath('tab', 'all_tabs');
         //verify that only one tab is presented on page
         $this->assertEquals(1, $this->getControlCount('tab', 'all_tabs'),
             'Not only "' . $tabName . '" is presented on page.');
         //verify that this tab equal to resource from ACL tree
         foreach ($tabElement[$tabName] as $fieldset => $fieldsetName) {
             if (!$this->controlIsPresent('fieldset', $fieldset)) {
-                $this->addVerificationMessage(
-                    'The fieldset "' . $fieldset . '" does not present on tab "' . $tabName . '"');
+                $this->addVerificationMessage('The fieldset "' . $fieldset . '" does not present on tab "'
+                    . $tabName . '"');
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -71,11 +71,10 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
     public function systemConfigurationOneTabDataProvider()
     {
         return array(
-            array('config_invitations', 'customer_invitations'),
-            array('config_gift_registry', 'customer_gift_registry'),
-            array('config_gift_card_account', 'sales_gift_card'),
-            array('config_promotions','customers_promotions'),
-            array('config_reward_points','customer_reward_points'),
+            array('stores-settings-configuration-invitation_section', 'customer_invitations'),
+            array('stores-settings-configuration-gift_registry_section', 'customer_gift_registry'),
+            array('stores-settings-configuration-gift_cards', 'sales_gift_card'),
+            array('stores-settings-configuration-reward_points', 'customer_reward_points'),
         );
     }
 
@@ -88,19 +87,20 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      */
     public function createAdminWithTestRole()
     {
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+            array('resource_acl' => 'stores-settings-configuration'));
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
+        //Steps
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_acl' => 'configurations'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-        $testData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
-        return $testData;
+
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
@@ -116,21 +116,20 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      */
     public function systemConfigurationForWebsite($testData)
     {
-        $this->admin('log_in_to_admin', false);
-        $waitCondition = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
-                               $this->_getControlXpath('pageelement', 'admin_logo'));
-        $this->fillFieldset($testData, 'log_in');
-        $this->clickButton('login', false);
-        $this->waitForElement($waitCondition);
-        $this->navigate('system_configuration_website_base');
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11392');
+        }
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_website');
+        //Steps
+        $this->adminUserHelper()->loginAdmin($testData);
+        $this->navigate('system_configuration_website_base');
         //verifying that all necessary tabs and fieldsets are present
         foreach ($tabElement as $tab => $tabName) {
             $this->systemConfigurationHelper()->openConfigurationTab($tab);
             foreach ($tabName as $fieldset => $fieldsetName) {
                 if (!$this->controlIsPresent('fieldset', $fieldset)) {
-                    $this->addVerificationMessage(
-                        'The fieldset "' . $fieldset . '" does not present on tab "' . $tab . '"');
+                    $this->addVerificationMessage('The fieldset "' . $fieldset . '" does not present on tab "'
+                        . $tab . '"');
                 }
             }
         }

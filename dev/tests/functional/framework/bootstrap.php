@@ -8,8 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-if (version_compare(PHPUnit_Extensions_Selenium2TestCase::VERSION, '1.2.10', '<')) {
-    throw new PHPUnit_Framework_Exception('PHPUnit_Selenium 1.2.11 (or later) is required.');
+if (version_compare(PHPUnit_Extensions_Selenium2TestCase::VERSION, '1.3.0', '<')) {
+    throw new PHPUnit_Framework_Exception('PHPUnit_Selenium 1.3.0 (or later) is required.');
 }
 define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 define('SELENIUM_TESTS_SCREENSHOTDIR', realpath(

@@ -70,7 +70,8 @@ class Core_Mage_Agcc_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->fillField('code_length', $value);
         $this->clickButton('save_config', false);
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_code_length');
+        $this->addFieldIdToMessage('field', 'code_length');
+        $this->assertMessagePresent('validation', 'enter_valid_number');
     }
 
     public function withFilledCodeLengthFieldNegativeDataProvider()
@@ -201,7 +202,8 @@ class Core_Mage_Agcc_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->fillField('dash_every_x_characters', $value);
         $this->clickButton('save_config', false);
         //Verification
-        $this->assertMessagePresent('validation', 'validation_for_field_dash');
+        $this->addFieldIdToMessage('field', 'dash_every_x_characters');
+        $this->assertMessagePresent('validation', 'enter_valid_number');
     }
 
     public function withFilledDashFieldNegativeDataProvider()

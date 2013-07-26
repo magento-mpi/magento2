@@ -18,6 +18,13 @@
  */
 class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
+    }
+
     public function assertPreconditions()
     {
         $this->loginAdminUser();
@@ -35,6 +42,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     /**
      * @test
      * @return array
+     * @skipTearDown
      */
     public function preconditionsForTests()
     {
@@ -47,8 +55,11 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
         $this->giftWrappingHelper()->createGiftWrapping($giftWrapping);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
 
-        return array('sku_1'  => $simple1['simple']['product_sku'], 'sku_2' => $simple2['simple']['product_sku'],
-                     'design' => $giftWrapping['gift_wrapping_design']);
+        return array(
+            'sku_1' => $simple1['simple']['product_sku'],
+            'sku_2' => $simple2['simple']['product_sku'],
+            'design' => $giftWrapping['gift_wrapping_design']
+        );
     }
 
     /**
@@ -65,10 +76,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      */
     public function changeGiftOptionsSettings($settings)
     {
-        $settings = $this->loadDataSet('GiftMessage', $settings);
-        $this->systemConfigurationHelper()->configure($settings);
-        $this->verifyForm($settings['tab_1']['configuration']['gift_options']);
-        $this->assertEmptyVerificationErrors();
+        $this->systemConfigurationHelper()->configure('GiftMessage/' . $settings);
     }
 
     public function changeGiftOptionsSettingsDataProvider()
@@ -95,17 +103,20 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      */
     public function giftWrappingBackendWebsite($testData)
     {
+        $this->markTestIncomplete('BUG: Gift Options for item apply to all');
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
-            array('product1'           => $testData['sku_1'], 'product2' => $testData['sku_1'],
-                  'giftWrappingDesign' => $testData['design']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null, array(
+            'product1' => $testData['sku_1'],
+            'product2' => $testData['sku_2'],
+            'giftWrappingDesign' => $testData['design']
+        ));
         //Steps
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all_website');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verification
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderHelper()->verifyGiftOptions($orderData);
+        $this->orderHelper()->verifyGiftOptions($orderData['gift_messages']);
     }
 
     /**
@@ -118,12 +129,11 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      */
     public function giftWrappingBackendGlobalScope($testData)
     {
-        //Preconditions
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all_default_config');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all_website');
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
-            array('product1' => $testData['sku_1'], 'product2' => $testData['sku_1']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null, array(
+            'product1' => $testData['sku_1'],
+            'product2' => $testData['sku_2']
+        ));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);

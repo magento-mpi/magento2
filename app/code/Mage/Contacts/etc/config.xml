@@ -41,13 +41,6 @@
                 </Mage_Contacts>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <contact module="Mage_Contacts">
-                    <file>layout.xml</file>
-                </contact>
-            </updates>
-        </layout>
     </frontend>
     <global>
         <resources>

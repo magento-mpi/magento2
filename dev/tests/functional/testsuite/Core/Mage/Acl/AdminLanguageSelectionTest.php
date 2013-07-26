@@ -18,13 +18,18 @@
  */
 class Core_Mage_Acl_AdminLanguageSelectionTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser();
+        $this->admin('log_in_to_admin');
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $this->logoutAdminUser();
     }
 
     /**
-     * <p>Precondition method</p>
+     * Precondition method
      *
      * @test
      * @return array
@@ -37,67 +42,56 @@ class Core_Mage_Acl_AdminLanguageSelectionTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
-        $loginData = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name'],
-            'interface_locale' =>'English (United States) / English (United States)'));
+        $loginData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array(
+            'role_name' => $roleSource['role_info_tab']['role_name'],
+            'interface_locale' => 'English (United States) / English (United States)'
+        ));
         $this->adminUserHelper()->createAdminUser($loginData);
         $this->assertMessagePresent('success', 'success_saved_user');
 
-        return $loginData;
+        return array(
+            'loginData' => array('user_name' => $loginData['user_name'], 'password' => $loginData['password']),
+            'email' => $loginData['email'],
+            'user_name' => $loginData['user_name']
+        );
     }
 
     /**
-     * @param $loginData
-     */
-    protected function _goToMyAccount($loginData)
-    {
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        //go to My Account link from Account Settings area
-        $adminUserLocator = $this->_getControlXpath('link', 'account_avatar');
-        $availableElement = $this->elementIsPresent($adminUserLocator);
-        if ($availableElement){
-            $this->focusOnElement($availableElement);
-    $this->clickControl('link', 'account_avatar', false);
-    $this->clickControl('link', 'account_settings');
-    }
-    $this->validatePage('my_account');
-    }
-
-    /**
-     * <p>Test navigation.</p>
+     * Test navigation
      *
-     * @param array $loginData
+     * @param array $userData
      * @test
      * @depends createAdminWithTestRole
      */
-    public function navigationTest($loginData)
+    public function navigationTest($userData)
     {
-        $this->_goToMyAccount($loginData);
-        $this->assertTrue($this->buttonIsPresent('save_account'),
-            'There is no "Save account" button on the page');
-        $this->assertTrue($this->buttonIsPresent('reset_filter'), 'There is no "Reset" button on the page');;
+        $this->adminUserHelper()->loginAdmin($userData['loginData']);
+        $this->adminUserHelper()->goToMyAccount();
+        $this->assertTrue($this->buttonIsPresent('save_account'), 'There is no "Save account" button on the page');
+        $this->assertTrue($this->buttonIsPresent('reset_filter'), 'There is no "Reset" button on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'interface_locale'),
             'There is no "Interface Locale" dropdown on the page');
     }
 
     /**
-     * <p>Need to verify that it is possible change locale using My Account settings</p>
+     * Need to verify that it is possible change locale using My Account settings
      *
      * @param string $locale
      * @param string $message
-     * @param array $loginData
+     * @param array $userData
      *
      * @test
-     * @depends createAdminWithTestRole
      * @dataProvider changeInterfaceLocaleDataProvider
+     * @depends createAdminWithTestRole
      * @TestlinkId TL-MAGE-6927
      */
-    public function changeInterfaceLocale($locale, $message, $loginData)
+    public function changeInterfaceLocale($locale, $message, $userData)
     {
-        $this->_goToMyAccount($loginData);
+        $this->markTestIncomplete('MAGETWO-11335');
+        $this->adminUserHelper()->loginAdmin($userData['loginData']);
+        $this->adminUserHelper()->goToMyAccount();
         $this->fillDropdown('interface_locale', $locale);
-        $this->clickButton('save_account', false);
+        $this->saveForm('save_account');
         $this->assertMessagePresent('success', $message);
     }
 
@@ -110,30 +104,29 @@ class Core_Mage_Acl_AdminLanguageSelectionTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Need to verify that it is possible change locale by editing own user</p>
+     * Need to verify that it is possible change locale by editing own user
      *
      * @param $locale
      * @param $message
-     * @param $loginData
+     * @param $userData
      *
      * @test
-     * @depends createAdminWithTestRole
      * @dataProvider changeInterfaceLocalByUserDataProvider
+     * @depends createAdminWithTestRole
      * @TestlinkId TL-MAGE-6928
      */
-    public function changeInterfaceLocalByUser($locale, $message, $loginData)
+    public function changeInterfaceLocalByUser($locale, $message, $userData)
     {
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->markTestIncomplete('MAGETWO-11335');
+        $this->adminUserHelper()->loginAdmin($userData['loginData']);
         $this->navigate('manage_admin_users');
-        $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user',
-            array('email' => $loginData['email'],
-                'first_name' => $loginData['first_name'],
-                'last_name' => $loginData['last_name'],
-                'user_name' => $loginData['user_name']));
-        $this->searchAndOpen($searchData, 'permissionsUserGrid');
+        $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user', array(
+            'email' => $userData['email'],
+            'user_name' => $userData['user_name']
+        ));
+        $this->adminUserHelper()->openAdminUser($searchData);
         $this->fillDropdown('interface_locale', $locale);
-        $this->clickButton('save_admin_user');
+        $this->saveForm('save_admin_user');
         $this->assertMessagePresent('success', $message);
     }
 
@@ -145,4 +138,3 @@ class Core_Mage_Acl_AdminLanguageSelectionTest extends Mage_Selenium_TestCase
         );
     }
 }
-

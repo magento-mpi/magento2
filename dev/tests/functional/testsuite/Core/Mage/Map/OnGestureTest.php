@@ -18,6 +18,13 @@
  */
 class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
 {
+    public function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Map/disable_map');
+    }
+
     /**
      * <p>Preconditions:</p>
      * @return string
@@ -55,10 +62,11 @@ class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
      */
     public function enableMinimumAdvertisedPriceOnGesture($category)
     {
+        $this->markTestIncomplete('MAGETWO-11469');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('MAP/enable_map_gesture');
+        $this->systemConfigurationHelper()->configure('Map/enable_map_gesture');
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category);
         //Verification

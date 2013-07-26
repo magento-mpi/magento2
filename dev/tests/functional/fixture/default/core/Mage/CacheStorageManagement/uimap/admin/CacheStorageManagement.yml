@@ -38,7 +38,7 @@ cache_storage_management:
             flush_magento_cache: //button[span='Flush Magento Cache']
             flush_cache_storage: //button[span='Flush Cache Storage']
         messages:
-            success_refreshed_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'We refreshed %qtySelected% cache type(s).')]"
+            success_refreshed_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) refreshed.')]"
             success_disabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'We disabled %qtySelected% cache type(s).')]"
             success_enabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'We enabled %qtySelected% cache type(s).')]"
             success_flushed_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'The Magento cache storage has been flushed.')]"

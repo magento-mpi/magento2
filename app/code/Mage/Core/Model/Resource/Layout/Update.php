@@ -14,35 +14,19 @@
 class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Mage_Core_Model_StoreManager
-     */
-    private $_storeManager;
-
-    /**
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    private $_designPackage;
-
-    /**
      * @var Magento_Cache_FrontendInterface
      */
     private $_cache;
 
     /**
      * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_StoreManager $storeManager
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Magento_Cache_FrontendInterface $cache
      */
     public function __construct(
         Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
         Magento_Cache_FrontendInterface $cache
     ) {
         parent::__construct($resource);
-        $this->_storeManager = $storeManager;
-        $this->_designPackage = $designPackage;
         $this->_cache = $cache;
     }
 
@@ -58,24 +42,18 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
      * Retrieve layout updates by handle
      *
      * @param string $handle
-     * @param array $params
+     * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Store $store
      * @return string
      */
-    public function fetchUpdatesByHandle($handle, $params = array())
+    public function fetchUpdatesByHandle($handle, Mage_Core_Model_Theme $theme, Mage_Core_Model_Store $store)
     {
         $bind = array(
-            'store_id' => $this->_storeManager->getStore()->getId(),
-            'theme_id' => $this->_designPackage->getDesignTheme()->getThemeId(),
+            'layout_update_handle' => $handle,
+            'theme_id' => $theme->getId(),
+            'store_id' => $store->getId(),
         );
-
-        foreach ($params as $key => $value) {
-            if (isset($bind[$key])) {
-                $bind[$key] = $value;
-            }
-        }
-        $bind['layout_update_handle'] = $handle;
         $result = '';
-
         $readAdapter = $this->_getReadAdapter();
         if ($readAdapter) {
             $select = $this->_getFetchUpdatesByHandleSelect();

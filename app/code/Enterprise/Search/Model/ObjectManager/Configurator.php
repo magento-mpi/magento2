@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Search_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectManager_ConfigAbstract
+class Enterprise_Search_Model_ObjectManager_Configurator implements Mage_Core_Model_ObjectManager_DynamicConfigInterface
 {
     /**
-     * Configure di instance
+     * Retrieve runtime environment specific di configuration
      *
-     * @param Magento_ObjectManager $objectManager
+     * @return array
      */
-    public function configure(Magento_ObjectManager $objectManager)
+    public function getConfiguration()
     {
         if (extension_loaded('solr')) {
             $adapter = 'Enterprise_Search_Model_Adapter_PhpExtension';
@@ -23,11 +23,11 @@ class Enterprise_Search_Model_ObjectManager_Configurator extends Mage_Core_Model
             $adapter = 'Enterprise_Search_Model_Adapter_HttpStream';
             $clientFactory = 'Enterprise_Search_Model_Client_Solr_Factory';
         }
-        $objectManager->configure(array(
+        return array(
             'preferences' => array(
                 'Enterprise_Search_Model_AdapterInterface' => $adapter,
                 'Enterprise_Search_Model_Client_FactoryInterface' => $clientFactory
             )
-        ));
+        );
     }
 }

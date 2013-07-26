@@ -52,13 +52,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_invitation module="Enterprise_Invitation">
-                    <file>layout.xml</file>
-                </enterprise_invitation>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Invitation>
@@ -80,13 +73,6 @@
                 </full_action_names>
             </websiterestriction>
         </enterprise>
-        <layout>
-            <updates>
-                <enterprise_invitation module="Enterprise_Invitation">
-                    <file>layout.xml</file>
-                </enterprise_invitation>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Enterprise_Invitation>

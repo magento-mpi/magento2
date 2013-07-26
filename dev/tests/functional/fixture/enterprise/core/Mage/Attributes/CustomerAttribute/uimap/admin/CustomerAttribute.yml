@@ -19,7 +19,7 @@ manage_customer_attributes:
             fieldsets:
                 -
                     attributes_grid:
-                        xpath:  //div[@id='customerAttributeGrid']
+                        xpath: //div[@id='customerAttributeGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -29,14 +29,13 @@ manage_customer_attributes:
                         dropdowns:
                             required: //select[@name='is_required']
                             system: //select[@name='is_user_defined']
-                            visible:  //select[@name='is_visible']
+                            visible: //select[@name='is_visible']
                             sort: //input[@name='sort_order']
                         pageelements:
                             attributes_grid_head: //div[@id='customerAttributeGrid']//thead/tr[@class='headings']
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &customerAttributeMessages
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the customer attribute.')]
             exists_attribute_code: //span[@data-ui-id='messages-message-error' and contains(.,'An attribute with this code already exists.')]
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the customer attribute.')]
@@ -44,13 +43,13 @@ manage_customer_attributes:
             invalid_attribute_code: //label[normalize-space(@class)='mage-error' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             error_invalid_position: //div[@id='advice-validate-digits-position']
             invalid_lines_range: //label[normalize-space(@class)='mage-error' and contains(.,'The value is not within the specified range.')]
-            use_numbers_only:  //label[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid number in this field.')]
+            use_numbers_only: //label[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid number in this field.')]
             delete_confirm_message: Are you sure you want to do this?
 
 # Add New Customer Attribute page
 new_customer_attribute:
     mca: customer_attribute/new/
-    title: New Attribute / Customer Attributes / Stores / Magento Admin
+    title: New Customer Address Attribute / Customer Attributes / Stores / Magento Admin
     uimap:
         form: &newCustomerAttributeForm
             tabs:
@@ -69,6 +68,7 @@ new_customer_attribute:
                                         input_output_filter: "//select[@id='input_filter']"
                                         use_customer_segment: //select[@id='is_used_for_customer_segment']
                                     fields:
+                                        attribute_label: //input[@name='frontend_label[0]']
                                         attribute_code: //input[@id='attribute_code']
                                         default_value: "//input[@id='default_value_text']"
                                         default_text_field_value: "//textarea[@id='default_value_textarea']"
@@ -102,9 +102,8 @@ new_customer_attribute:
                                 manage_titles:
                                     xpath: //div[@id="customer_attribute_tabs_options_content"]//table[@id="attribute-labels-table"]
                                     fields:
-                                        admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
+                                    required: [attribute_label]
                             -
                                 manage_options:
                                     xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
@@ -116,17 +115,17 @@ new_customer_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         store_view_titles: //input[@name='option[value][option_%fieldOptionNumber%][1]']
-                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //td[@class='col-draggable']/input
                                     pageelements:
-                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        manage_options_option: //*[@data-role='options-container']/tr
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
-            back: //button[@id="back"]
-            reset: //button[@id="reset"]
-            save_attribute: //button[@id="save"]
-            save_and_continue_edit: //button[@id="save_and_edit_button"]
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_attribute: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_edit_button']
         messages: *customerAttributeMessages
 
 # Manage customer Attributes page
@@ -146,9 +145,8 @@ edit_customer_attribute:
                                 manage_titles:
                                     xpath: //div[@id="customer_attribute_tabs_options_content"]//table[@id="attribute-labels-table"]
                                     fields:
-                                        admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
+                                    required: [attribute_label]
                             -
                                 manage_options:
                                     xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
@@ -159,16 +157,16 @@ edit_customer_attribute:
                                         is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
-                                        option_position: //input[@name='option[order][%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //tr/td[3]/input
                                     pageelements:
-                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        manage_options_option: //*[@data-role='options-container']/tr
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
             delete_attribute: //button[span='Delete Attribute']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_attribute: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_edit_button']
         messages: *customerAttributeMessages

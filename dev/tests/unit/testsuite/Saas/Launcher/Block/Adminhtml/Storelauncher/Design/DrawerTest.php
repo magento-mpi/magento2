@@ -72,12 +72,27 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
                     array(), array(), '', false)
             )
         );
-
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('getPhysicalThemes'), array(), '', false);
-
-        $themeService->expects($this->any())
-            ->method('getPhysicalThemes')
+        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollectionMock */
+        $themeCollectionMock = $this->getMock(
+            'Mage_Core_Model_Resource_Theme_Collection', array('filterPhysicalThemes'), array(), '', false
+        );
+        $themeCollectionMock->expects($this->any())
+            ->method('filterPhysicalThemes')
             ->will($this->returnValue($this->_getThemes()));
+
+        $collectionFactory = $this->getMock(
+            'Mage_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+        );
+        $collectionFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($themeCollectionMock));
+
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+
+        $themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
+        $themeFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($themeMock));
 
         $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->any())
@@ -111,7 +126,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             'layout' => $layout,
             'storeConfig' => $config,
             'helperFactory' => $helperFactoryMock,
-            'themeService' => $themeService,
+            'themeFactory' => $themeFactory,
+            'collectionFactory' => $collectionFactory,
             'objectManager' => $this->_objectManagerMock
         );
 
@@ -179,8 +195,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     protected function _getConfigSource()
     {
         return array(
-            1 => array(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID => '118'),
-            null => array(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID => '272'),
+            1 => array(Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '118'),
+            null => array(Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '272'),
         );
     }
 

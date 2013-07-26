@@ -40,7 +40,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'newsletter_templates'));
+            array('resource_acl' => 'marketing-communications-newsletter_template'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -53,10 +53,10 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Steps
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('newsletter_templates');
+        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
         $newsData = $this->loadDataSet('Newsletter', 'generic_newsletter_data');
         $this->newsletterHelper()->createNewsletterTemplate($newsData);
-        $this->validatePage('newsletter_templates');
+        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
         $this->assertMessagePresent('success', 'success_saved_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newsData);
         $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
@@ -81,7 +81,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'newsletter_templates'));
+            array('resource_acl' => 'marketing-communications-newsletter_template'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -94,11 +94,11 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Steps
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('newsletter_templates');
+        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
         $this->newsletterHelper()->editNewsletter($newsData, $newNewsletterData);
-        $this->validatePage('newsletter_templates');
-        //$this->assertMessagePresent('success', 'success_save_newsletter');
+        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_saved_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
         $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template (Name: ' . $newNewsletterData['newsletter_template_name'] . ') is not presented in grid');
@@ -120,9 +120,10 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
     {
         //Preconditions
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'newsletter_templates'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Newsletter/Newsletter Queue';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl', array('resource_acl' => array(
+            'marketing-communications-newsletter_template',
+            'marketing-communications-newsletter_queue'
+        )));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -135,35 +136,40 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Steps
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('newsletter_templates');
+        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
         $newData = $this->loadDataSet('Newsletter', 'edit_newsletter_before_queue',
             array('newsletter_queue_data' => '12.12.12'));
         $this->newsletterHelper()->putNewsToQueue($newNewsletterData, $newData);
-        $this->validatePage('newsletter_queue');
+        $this->assertTrue($this->checkCurrentPage('newsletter_queue'), $this->getParsedMessages());
         $this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
-        $this->assertNotNull($this->search(array('filter_queue_subject' => $newData['newsletter_template_subject']),
-                'newsletter_queue'),
-            'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
+        $this->assertNotNull(
+            $this->search(
+                array('filter_queue_subject' => $newData['newsletter_template_subject']),
+                'newsletter_queue'
+            ),
+            'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid'
+        );
     }
 
     /**
      * <p>Admin with Resource: Newsletter/Newsletter Templates</p>
      * <p>And Newsletter Queue has ability to delete newsletter template</p>
      *
-     * @param $newNewsletterData
+     * @param $newNewsletter
      *
      * @test
      * @depends  editNewsletterResourceDifferentRoles
      * @TestlinkId TL-MAGE-6069
      */
 
-    public function deleteNewsletterOneRole($newNewsletterData)
+    public function deleteNewsletterOneRole($newNewsletter)
     {
         //Preconditions
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'newsletter_templates'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Newsletter/Newsletter Queue';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl', array('resource_acl' => array(
+            'marketing-communications-newsletter_template',
+            'marketing-communications-newsletter_queue'
+        )));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -176,19 +182,19 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Steps
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('newsletter_templates');
-        $this->newsletterHelper()->deleteNewsletter($newNewsletterData);
-        $this->validatePage('newsletter_templates');
-        //$this->assertMessagePresent('success', 'success_delete_newsletter');
-        $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
+        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
+        $this->newsletterHelper()->deleteNewsletter($newNewsletter);
+        $this->assertTrue($this->checkCurrentPage('newsletter_templates'), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_deleted_newsletter');
+        $searchData = $this->newsletterHelper()->convertToFilter($newNewsletter);
         $this->assertNull($this->search($searchData, 'newsletter_templates_grid'),
-            'Template(Name:' . $newNewsletterData['newsletter_template_subject']
-            . ') is presented in grid, should be deleted');
+            'Template(Name:' . $newNewsletter['newsletter_template_subject']
+                . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
-        $result = $this->search(array('filter_queue_subject' => $newNewsletterData['newsletter_template_subject']),
-            'newsletter_queue_grid');
-        $this->assertNull($result, 'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
-                                   . ') is presented in queue grid, should be deleted');
+        $result = $this->search(array('filter_queue_subject' => $newNewsletter['newsletter_template_subject']),
+            'newsletter_queue');
+        $this->assertNull($result, 'Template (Subject:' . $newNewsletter['newsletter_template_subject']
+            . ') is presented in queue grid, should be deleted');
     }
 
     /**
@@ -239,7 +245,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'newsletter_subscribers'));
+            array('resource_acl' => 'marketing-communications-newsletter_subscribers'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -252,7 +258,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Steps
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('newsletter_subscribers');
+        $this->assertTrue($this->checkCurrentPage('newsletter_subscribers'), $this->getParsedMessages());
         //Verify that subscriber is present in grid and has status 'subscribed'(For Full newsletter ACL resources admin)
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $subscriberEmail),
             'Incorrect status for ' . $subscriberEmail['filter_email'] . ' email or subscriber is not presented');

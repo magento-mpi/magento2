@@ -983,13 +983,6 @@
                 </Saas_PrintedTemplate>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <saas_printedtemplate module="Saas_PrintedTemplate">
-                    <file>layout.xml</file>
-                </saas_printedtemplate>
-            </updates>
-        </layout>
         <events>
             <cms_wysiwyg_config_prepare>
                 <observers>

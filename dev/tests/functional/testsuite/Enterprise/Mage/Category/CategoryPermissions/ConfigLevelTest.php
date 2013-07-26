@@ -78,18 +78,19 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $catPath = $category['parent_category'] . '/' . $category['name'];
         $productCat = array('general_categories' => $catPath);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
         return array(
             'user' => array('email' => $userData['email'], 'password' => $userData['password']),
@@ -244,7 +245,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
-        $this->assertFalse($this->controlIsVisible('fieldset', 'categories_menu'),
+        $this->assertFalse($this->controlIsVisible('pageelement', 'categories_menu'),
             'Navigation menu should be absent');
     }
 
@@ -269,7 +270,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->clearInvalidedCache();
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->assertTrue($this->controlIsVisible('fieldset', 'categories_menu'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'categories_menu'),
             'Navigation menu must be present');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $url = $this->url();
@@ -335,4 +336,3 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
     }
 }
-

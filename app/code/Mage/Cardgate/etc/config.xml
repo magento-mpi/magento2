@@ -62,13 +62,6 @@
                 </Mage_Cardgate>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <cardgate module="Mage_Cardgate">
-                    <file>layout.xml</file>
-                </cardgate>
-            </updates>
-        </layout>
     </frontend>
 
     <adminhtml>

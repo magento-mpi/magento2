@@ -18,6 +18,11 @@
  */
 class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11393');
+    }
+
     /**
      * <p>Preconditions:</p>
      * <p>1. Login to Admin page</p>
@@ -134,9 +139,8 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('error', 'api_user_empty_required_field');
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 

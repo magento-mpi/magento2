@@ -32,14 +32,9 @@ class Enterprise_Mage_PriceRules_EmailReminder_CreateTest extends Mage_Selenium_
      */
     public function requiredFields()
     {
-        //Data
-        $ruleData = array ('rule_name' => $this->generate('text', '10'));
+        $emailRule = $this->loadDataSet('AutomatedEmailRule', 'create_automated_email_rule');
         //Steps
-        $this->clickButton('add_new_rule');
-        $this->validatePage('create_automated_email_reminder_rule');
-        $this->fillFieldset($ruleData, 'general_information');
-        $this->saveForm('save_rule');
-        //Verification
+        $this->priceRulesHelper()->createEmailReminderRule($emailRule);
         $this->assertMessagePresent('success', 'success_saved_rule');
     }
 }

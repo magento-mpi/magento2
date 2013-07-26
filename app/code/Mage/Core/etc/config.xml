@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.12</version>
+            <version>1.6.0.14</version>
             <active>true</active>
             <system_requirements>
                 <php>
@@ -100,6 +100,22 @@
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
         <events>
+            <theme_delete_before>
+                <observers>
+                    <clean_core_related_content>
+                        <class>Mage_Core_Model_Theme_Observer</class>
+                        <method>cleanThemeRelatedContent</method>
+                    </clean_core_related_content>
+                </observers>
+            </theme_delete_before>
+            <theme_save_after>
+                <observers>
+                    <clean_core_related_content>
+                        <class>Mage_Core_Model_Theme_Observer</class>
+                        <method>checkThemeIsAssigned</method>
+                    </clean_core_related_content>
+                </observers>
+            </theme_save_after>
             <theme_registration_from_filesystem>
                 <observers>
                     <theme_registration_observer>
@@ -124,7 +140,6 @@
                 <Magento_Authorization_Policy>Magento_Authorization_Policy_Default</Magento_Authorization_Policy>
                 <Magento_Authorization_RoleLocator>Magento_Authorization_RoleLocator_Default</Magento_Authorization_RoleLocator>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
-                <Mage_Core_Model_Store_ConfigInterface>Mage_Core_Model_Store_Config</Mage_Core_Model_Store_ConfigInterface>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
                 <Mage_Core_Model_Page_Asset_MergeStrategyInterface>Mage_Core_Model_Page_Asset_MergeStrategy_Direct</Mage_Core_Model_Page_Asset_MergeStrategyInterface>
                 <Twig_LoaderInterface>Mage_Core_Model_TemplateEngine_Twig_FullFileName</Twig_LoaderInterface>
@@ -193,9 +208,6 @@
                     </fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Collection>
-            <Mage_Core_Model_Theme_Image>
-                <shared>0</shared>
-            </Mage_Core_Model_Theme_Image>
             <Mage_Core_Model_Page_Asset_Collection>
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
@@ -208,6 +220,9 @@
             </Mage_Core_Model_Observer>
             <Mage_Core_Model_Layout_Merge>
                 <parameters>
+                    <fileSource>
+                        <instance>Mage_Core_Model_Layout_File_Source_Aggregated</instance>
+                    </fileSource>
                     <cache>
                         <instance>Mage_Core_Model_Cache_Type_Layout</instance>
                     </cache>
@@ -220,16 +235,94 @@
                     </cache>
                 </parameters>
             </Mage_Core_Model_Resource_Layout_Update>
-            <Mage_Core_Model_Theme_Service>
+            <Mage_Core_Model_Theme_Collection>
+                <shared>0</shared>
+            </Mage_Core_Model_Theme_Collection>
+            <!--
+                Decorate layout file sources:
+                - filter out files that belong to inactive modules
+                - sort files according to dependencies between modules
+            -->
+            <layoutFileSourceBaseFiltered>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
                 <parameters>
-                    <configCache>
-                        <instance>Mage_Core_Model_Cache_Type_Config</instance>
-                    </configCache>
-                    <layoutCache>
-                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
-                    </layoutCache>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Base</instance>
+                    </subject>
                 </parameters>
-            </Mage_Core_Model_Theme_Service>
+            </layoutFileSourceBaseFiltered>
+            <layoutFileSourceBaseSorted>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency</type>
+                <parameters>
+                    <subject>
+                        <instance>layoutFileSourceBaseFiltered</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceBaseSorted>
+            <layoutFileSourceThemeFiltered>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
+                <parameters>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Theme</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceThemeFiltered>
+            <layoutFileSourceThemeSorted>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency</type>
+                <parameters>
+                    <subject>
+                        <instance>layoutFileSourceThemeFiltered</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceThemeSorted>
+            <layoutFileSourceOverrideBaseFiltered>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
+                <parameters>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Override_Base</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceOverrideBaseFiltered>
+            <layoutFileSourceOverrideBaseSorted>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency</type>
+                <parameters>
+                    <subject>
+                        <instance>layoutFileSourceOverrideBaseFiltered</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceOverrideBaseSorted>
+            <layoutFileSourceOverrideThemeFiltered>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleOutput</type>
+                <parameters>
+                    <subject>
+                        <instance>Mage_Core_Model_Layout_File_Source_Override_Theme</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceOverrideThemeFiltered>
+            <layoutFileSourceOverrideThemeSorted>
+                <type>Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency</type>
+                <parameters>
+                    <subject>
+                        <instance>layoutFileSourceOverrideThemeFiltered</instance>
+                    </subject>
+                </parameters>
+            </layoutFileSourceOverrideThemeSorted>
+            <Mage_Core_Model_Layout_File_Source_Aggregated>
+                <parameters>
+                    <baseFiles>
+                        <instance>layoutFileSourceBaseSorted</instance>
+                    </baseFiles>
+                    <themeFiles>
+                        <instance>layoutFileSourceThemeSorted</instance>
+                    </themeFiles>
+                    <overridingBaseFiles>
+                        <instance>layoutFileSourceOverrideBaseSorted</instance>
+                    </overridingBaseFiles>
+                    <overridingThemeFiles>
+                        <instance>layoutFileSourceOverrideThemeSorted</instance>
+                    </overridingThemeFiles>
+                </parameters>
+            </Mage_Core_Model_Layout_File_Source_Aggregated>
         </di>
     </global>
     <frontend>
@@ -263,13 +356,6 @@
                 </Mage_Core>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <core module="Mage_Core">
-                    <file>layout.xml</file>
-                </core>
-            </updates>
-        </layout>
         <events>
             <controller_action_layout_render_before>
                 <observers>
@@ -486,6 +572,12 @@
                 <enabled>0</enabled>
             </single_store_mode>
         </general>
+        <theme>
+            <customization>
+                <css>Mage_Core_Model_Theme_Customization_File_Css</css>
+                <js>Mage_Core_Model_Theme_Customization_File_Js</js>
+            </customization>
+        </theme>
     </default>
     <stores>
         <default>

@@ -18,18 +18,26 @@
  */
 class Core_Mage_ImportExport_Customer_EmptyValuesTest extends Mage_Selenium_TestCase
 {
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export/p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('import');
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
     /**
      * Empty values for existing attributes in csv for Customers Main File
      *
@@ -46,13 +54,12 @@ class Core_Mage_ImportExport_Customer_EmptyValuesTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-        $this->customerHelper()->fillForm(array('middle_name' => 'Test Middle Name'), 'account_information');
+        $this->fillForm(array('middle_name' => 'Test Middle Name'), 'account_information');
         $this->saveForm('save_customer');
 
         $data[0]['email'] = $userData['email'];
         $data[0]['firstname'] = $userData['first_name'];
         $data[0]['lastname'] = $userData['last_name'];
-        $data[0]['password'] = $userData['password'];
         //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
@@ -70,32 +77,32 @@ class Core_Mage_ImportExport_Customer_EmptyValuesTest extends Mage_Selenium_Test
         $this->assertTrue($this->verifyForm(array('middle_name' => 'Test Middle Name'), 'account_information'),
             'Existent customer has been updated');
     }
+
     public function importData()
     {
         return array(
             array(
                 array(
                     $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-                            'confirmation' => '',
-                            'created_at' => '19.06.2012 18:00',
-                            'created_in' => 'Admin',
-                            'default_billing' => '',
-                            'default_shipping' => '',
-                            'disable_auto_group_change' => '0',
-                            'dob' => '',
-                            'gender' => '',
-                            'group_id' => '1',
-                            'middlename' => '',
-                            'prefix' => '',
-                            'rp_token' => '',
-                            'rp_token_created_at' => '',
-                            'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
-                            'store_id' => '0',
-                            'website_id' => '0',
-                            'suffix' => '',
-                            'taxvat' => '',
-                            )
-                    )
+                        'confirmation' => '',
+                        'created_at' => '19.06.2012 18:00',
+                        'created_in' => 'Admin',
+                        'default_billing' => '',
+                        'default_shipping' => '',
+                        'disable_auto_group_change' => '0',
+                        'dob' => '',
+                        'gender' => '',
+                        'group_id' => '1',
+                        'middlename' => '',
+                        'prefix' => '',
+                        'rp_token' => '',
+                        'rp_token_created_at' => '',
+                        'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
+                        'store_id' => '0',
+                        'website_id' => '0',
+                        'suffix' => '',
+                        'taxvat' => '',
+                    ))
                 )
             )
         );

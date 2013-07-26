@@ -18,6 +18,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
@@ -71,6 +72,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * Scheduled structure array index for layout element object
      */
     const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
+
+    /**
+     * @var Mage_Core_Model_View_DesignInterface
+     */
+    private $_design;
 
     /**
      * Layout Update module
@@ -174,6 +180,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_renderers = array();
 
     /**
+     * @param Mage_Core_Model_View_DesignInterface $design
      * @param Mage_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
      * @param Mage_Core_Model_Layout_Argument_Processor $argumentProcessor
@@ -183,14 +190,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $area
      */
     public function __construct(
+        Mage_Core_Model_View_DesignInterface $design,
         Mage_Core_Model_BlockFactory $blockFactory,
         Magento_Data_Structure $structure,
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Mage_Core_Model_DataService_Graph $dataServiceGraph,
-        $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
+        $area = Mage_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
+        $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
         $this->_structure = $structure;
@@ -227,10 +236,33 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getUpdate()
     {
         if (!$this->_update) {
-            $arguments = array('area' => $this->getArea());
-            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => $arguments));
+            $theme = $this->_getThemeInstance($this->getArea());
+            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
         }
         return $this->_update;
+    }
+
+    /**
+     * Retrieve instance of a theme currently used in an area
+     *
+     * @param string $area
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _getThemeInstance($area)
+    {
+        if ($this->_design->getDesignTheme()->getArea() == $area || $this->_design->getArea() == $area) {
+            return $this->_design->getDesignTheme();
+        }
+        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollection */
+        $themeCollection = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
+        $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
+        if (is_numeric($themeIdentifier)) {
+            $result = $themeCollection->getItemById($themeIdentifier);
+        } else {
+            $themeFullPath = $area . Mage_Core_Model_Theme::PATH_SEPARATOR . $themeIdentifier;
+            $result = $themeCollection->getThemeByFullPath($themeFullPath);
+        }
+        return $result;
     }
 
     /**
@@ -416,6 +448,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 case self::TYPE_REMOVE:
                     $this->_scheduledStructure->setElementToRemoveList((string)$node->getAttribute('name'));
                     break;
+
+                default:
+                    break;
             }
         }
     }
@@ -506,6 +541,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $arguments;
     }
 
+    /**
+     * Fill arguments array
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @param array $argumentsArray
+     * @param string $moduleName
+     */
     protected function _fillArgumentsArray(Mage_Core_Model_Layout_Element $node, &$argumentsArray, $moduleName)
     {
         $moduleName = isset($node['module']) ? (string)$node['module'] : $moduleName;

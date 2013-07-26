@@ -53,6 +53,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown');
+        $attributeCode = $attributeData['advanced_attribute_properties']['attribute_code'];
         $newAttributeSet = $this->generate('string', 10, ':alnum:');
         $baseAttributeSet = $productData['product_attribute_set'];
         //Steps
@@ -62,9 +63,9 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         //Verifying
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet($newAttributeSet);
-        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeData['attribute_code']));
+        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode));
         $this->attributeSetHelper()->openAttributeSet($baseAttributeSet);
-        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeData['attribute_code']), false);
+        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode), false);
     }
 
     /**
@@ -92,9 +93,9 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
-            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
+            'Attribute Set'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
-        $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
+        $this->addParameter('attributeCodeField', $attributeData['advanced_attribute_properties']['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
             'Created attribute was added to Default attribute set');
     }
@@ -127,9 +128,9 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
-            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
+            'Attribute Set'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
-        $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
+        $this->addParameter('attributeCodeField', $attributeData['advanced_attribute_properties']['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
             'Created attribute was added to Default attribute set');
     }
@@ -143,6 +144,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
      */
     public function editProductMetaTab($productSkuDefault)
     {
+        $this->markTestIncomplete('MAGETWO-11394');
         //Data
         $attributeSetName = $this->generate('string', 10, ':alnum:');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
@@ -159,10 +161,10 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
-            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
+            'Attribute Set'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->productHelper()->openProductTab('meta_information');
-        $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
+        $this->addParameter('attributeCodeField', $attributeData['advanced_attribute_properties']['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'meta_information_user_attr_field'),
             'Created attribute was added to Default attribute set');
     }

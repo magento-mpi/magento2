@@ -19,15 +19,15 @@
 class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
+     * Log in to Backend.
      */
-    public function assertPreConditions()
+    protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }
 
     /**
-     * <p>Preconditions:</p>
+     * Preconditions: Create new store and simple product
      *
      * @test
      * @return string
@@ -48,14 +48,16 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('store' => $storeView['store_view_name'],
-                     'sku'   => $simpleData['general_sku']);
+        return array(
+            'store' => $storeView['store_view_name'],
+            'sku' => $simpleData['general_sku']
+        );
     }
 
     /**
-     * <p>Delete rating that is used in Review</p>
+     * Delete rating that is used in Review
      *
-     * @param $data
+     * @param array $data
      *
      * @test
      * @depends preconditionsForTests
@@ -64,15 +66,17 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
     public function deleteRatingUsedInReview($data)
     {
         $rating = $this->loadDataSet('ReviewAndRating', 'default_rating', array('visible_in' => $data['store']));
-        $review = $this->loadDataSet('ReviewAndRating', 'review_required_with_rating',
-            array('rating_name' => $rating['default_value'],
-                  'visible_in'  => $data['store'],
-                  'filter_sku'  => $data['sku']));
+        $review = $this->loadDataSet('ReviewAndRating', 'review_required_with_rating', array(
+            'rating_name' => $rating['default_value'],
+            'visible_in' => $data['store'],
+            'filter_sku' => $data['sku']
+        ));
         $searchRating = $this->loadDataSet('ReviewAndRating', 'search_rating',
             array('filter_rating_name' => $rating['default_value']));
-        $searchReview = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
-            array('filter_nickname'    => $review['nickname'],
-                  'filter_product_sku' => $data['sku']));
+        $searchReview = $this->loadDataSet('ReviewAndRating', 'search_review_admin', array(
+            'filter_nickname' => $review['nickname'],
+            'filter_product_sku' => $data['sku']
+        ));
         //Steps
         $this->navigate('manage_ratings');
         $this->ratingHelper()->createRating($rating);
@@ -96,7 +100,7 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete rating</p>
+     * Delete rating
      *
      * @test
      * @TestlinkId TL-MAGE-3477

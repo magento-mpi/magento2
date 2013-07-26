@@ -106,13 +106,6 @@
                 </Mage_Bundle>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <bundle module="Mage_Bundle">
-                    <file>layout.xml</file>
-                </bundle>
-            </updates>
-        </layout>
         <product>
             <collection>
                 <attributes>
@@ -177,13 +170,6 @@
                 </Mage_Bundle>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <bundle module="Mage_Bundle">
-                    <file>layout.xml</file>
-                </bundle>
-            </updates>
-        </layout>
         <sales>
             <order>
                 <create>

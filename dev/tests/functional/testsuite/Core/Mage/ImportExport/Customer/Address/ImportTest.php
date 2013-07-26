@@ -22,30 +22,29 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
 {
     protected static $_customerData = array();
 
-    /**
-     * Precondition:
-     * Create 2 customers
-     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('manage_customers');
+        $this->runMassAction('Delete', 'all', 'confirmation_for_massaction_delete');
         self::$_customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer(self::$_customerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
 
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export
-     */
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('import');
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -83,13 +82,12 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
             '_email' => $userWithoutAddress['email'],
             'city' => 'Lincoln',
             'country_id' => 'US',
-            'firstname'  => 'Jana',
+            'firstname' => 'Jana',
             'lastname' => 'Johnson',
             'postcode' => '90232',
-            'street'     => "4955 Crummit\nLane",
+            'street' => "4955 Crummit\nLane",
             'telephone' => '402-219-4835'
-            )
-        );
+        ));
         $unformattedStreet = $userWoAddressCsv['street'];
         $userWoAddressCsv['street'] = stripcslashes($userWoAddressCsv['street']);
         $userWithAddressCsv = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
@@ -100,10 +98,9 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
             'firstname' => 'Kim',
             'lastname' => 'Montgomery',
             'postcode' => '53213',
-            'street'     => "593 Grant View Drive",
+            'street' => "593 Grant View Drive",
             'telephone' => '414-411-2378'
-            )
-        );
+        ));
         //Build CSV array
         $data = array($userWoAddressCsv, $userWithAddressCsv);
         //Import file with default flow
@@ -118,16 +115,17 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
         //Check updated customer
         $this->customerHelper()->openCustomer(array('email' => $userWithoutAddress['email']));
         $newAddressData = array(
-            'city'                  => $data[0]['city'],
-            'first_name'            => $data[0]['firstname'],
-            'last_name'             => $data[0]['lastname'],
-            'zip_code'              => $data[0]['postcode'],
+            'city' => $data[0]['city'],
+            'first_name' => $data[0]['firstname'],
+            'last_name' => $data[0]['lastname'],
+            'zip_code' => $data[0]['postcode'],
             'street_address_line_1' => substr($unformattedStreet, 0, strpos($unformattedStreet, "\n")),
             'street_address_line_2' => substr($unformattedStreet, strpos($unformattedStreet, "\n") + 1),
-            'telephone'             => $data[0]['telephone']
+            'telephone' => $data[0]['telephone']
         );
         //Verify customer account address
-        $this->assertTrue((bool)$this->customerHelper()->isAddressPresent($newAddressData),
+        $this->openTab('addresses');
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($newAddressData),
             'New customer address has not been created ' . print_r($newAddressData, true));
         //Verify customer account
         $this->navigate('manage_customers');
@@ -140,7 +138,8 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
         $existingAddressData['street_address_line_2'] = '';
         $existingAddressData['telephone'] = $data[1]['telephone'];
         $existingAddressData['state'] = $data[1]['region'];
-        $this->assertTrue((bool)$this->customerHelper()->isAddressPresent($existingAddressData),
+        $this->openTab('addresses');
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($existingAddressData),
             'Existent customer address has not been updated ' . print_r($existingAddressData, true));
     }
 
@@ -178,51 +177,56 @@ class Core_Mage_ImportExport_Customer_Address_ImportTest extends Mage_Selenium_T
 
     public function partialImportData()
     {
-        $csv[0][0] = $this->loadDataSet('ImportExport', 'generic_address_csv',
-            array('_email'    => '<realEmail>', 'city' => 'Camden', 'company' => 'Team Electronics',
-                  'fax'       => '609-504-6350', 'firstname' => 'William', 'lastname' => 'Holler', 'middlename' => 'E.',
-                  'postcode'  => '08102', 'prefix' => '', 'region' => 'New Jersey', 'street' => '3186 Lincoln Street',
-                  'telephone' => '609-504-6350',));
-        $newAddressData[0] = $this->loadDataSet('Customers', 'generic_address',
-            array('first_name'            => 'William', 'middle_name' => 'E.', 'last_name' => 'Holler',
-                  'company'               => 'Team Electronics', 'street_address_line_1' => '3186 Lincoln Street',
-                  'street_address_line_2' => '', 'city' => 'Camden', 'state' => 'New Jersey', 'zip_code' => '08102',
-                  'telephone'             => '609-504-6350', 'fax' => '609-504-6350',));
+        $csv[0][0] = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+            '_email' => '<realEmail>', 'city' => 'Camden', 'company' => 'Team Electronics',
+            'fax' => '609-504-6350', 'firstname' => 'William', 'lastname' => 'Holler', 'middlename' => 'E.',
+            'postcode' => '08102', 'prefix' => '', 'region' => 'New Jersey', 'street' => '3186 Lincoln Street',
+            'telephone' => '609-504-6350'
+        ));
+        $newAddressData[0] = $this->loadDataSet('Customers', 'generic_address', array(
+            'first_name' => 'William', 'middle_name' => 'E.', 'last_name' => 'Holler',
+            'company' => 'Team Electronics', 'street_address_line_1' => '3186 Lincoln Street',
+            'street_address_line_2' => '', 'city' => 'Camden', 'state' => 'New Jersey', 'zip_code' => '08102',
+            'telephone' => '609-504-6350', 'fax' => '609-504-6350'
+        ));
         $csv[0][1] = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array('_email' => '<realEmail>', '_website' => 'invalid',));
-
         $csvFile[0] = array($csv[0][0], $csv[0][1]);
-
-        $message[0] = array('validation' => array(
-            'error' => array("Invalid value in website column in rows: 2"),
+        $message[0] = array(
             'validation' => array(
-            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
-            "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
+                'error' => array("Invalid value in website column in rows: 2"),
+                'validation' => array(
+                    "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                    "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
+                )
+            ),
+            'import' => array('success' => array('Import successfully done')
             )
-        ), 'import' => array('success' => array("Import successfully done."),),);
-
-        $csv[1][0] = $this->loadDataSet('ImportExport', 'generic_address_csv',
-            array('_email'    => '<realEmail>', 'city' => 'San Antonio', 'company' => 'Wherehouse Music',
-                  'fax'       => '210-315-4837', 'firstname' => 'Cora', 'lastname' => 'Robles', 'middlename' => 'K.',
-                  'postcode'  => '78258', 'prefix' => '', 'region' => 'Texas', 'street' => '1506 Weekley Street',
-                  'telephone' => '210-315-4837',));
-        $newAddressData[1] = $this->loadDataSet('Customers', 'generic_address',
-            array('first_name'            => 'Cora', 'middle_name' => 'K.', 'last_name' => 'Robles',
-                  'company'               => 'Wherehouse Music', 'street_address_line_1' => '1506 Weekley Street',
-                  'street_address_line_2' => '', 'city' => 'San Antonio', 'state' => 'Texas', 'zip_code' => '78258',
-                  'telephone'             => '210-315-4837', 'fax' => '210-315-4837',));
+        );
+        $csv[1][0] = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+            '_email' => '<realEmail>', 'city' => 'San Antonio', 'company' => 'Wherehouse Music',
+            'fax' => '210-315-4837', 'firstname' => 'Cora', 'lastname' => 'Robles', 'middlename' => 'K.',
+            'postcode' => '78258', 'prefix' => '', 'region' => 'Texas', 'street' => '1506 Weekley Street',
+            'telephone' => '210-315-4837'
+        ));
+        $newAddressData[1] = $this->loadDataSet('Customers', 'generic_address', array(
+            'first_name' => 'Cora', 'middle_name' => 'K.', 'last_name' => 'Robles',
+            'company' => 'Wherehouse Music', 'street_address_line_1' => '1506 Weekley Street',
+            'street_address_line_2' => '', 'city' => 'San Antonio', 'state' => 'Texas', 'zip_code' => '78258',
+            'telephone' => '210-315-4837', 'fax' => '210-315-4837'
+        ));
         $csv[1][1] = $this->loadDataSet('ImportExport', 'generic_address_csv', array('_email' => '',));
-
         $csvFile[1] = array($csv[1][0], $csv[1][1]);
-
-        $message[1] = array('validation' => array(
-            'error' => array("E-mail is not specified in rows: 2"),
+        $message[1] = array(
             'validation' => array(
-            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
-            "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
-            )
-        ), 'import' => array('success' => array("Import successfully done."),),);
-
+                'error' => array("E-mail is not specified in rows: 2"),
+                'validation' => array(
+                    "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                    "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
+                )
+            ),
+            'import' => array('success' => array('Import successfully done'))
+        );
         return array(
             array($csvFile[0], $newAddressData[0], $message[0]),
             array($csvFile[1], $newAddressData[1], $message[1]),

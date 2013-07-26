@@ -18,17 +18,14 @@
  */
 class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11393');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->closeLastWindow();
     }
 
     /**
@@ -42,13 +39,12 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         //Open API Roles Management page
         $this->navigate('api_roles_management');
         //Click Add New Role button
-        $this->clickButton('add_new_role', true);
+        $this->clickButton('add_new_role');
         //Click Save API Role button
-        $this->clickButton('save', false);
+        $this->saveForm('save');
         //Verify that validation message appear
-        $xpath = $this->_getControlXpath('field', 'role_name');
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->addFieldIdToMessage('field', 'role_name');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -64,7 +60,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         //Open API Roles Management page
         $this->navigate('api_roles_management');
         //Click Add New Role button
-        $this->clickButton('add_new_role', true);
+        $this->clickButton('add_new_role');
         //Fill Role name field
         $this->fillField('role_name', $fieldData['role_name']);
         //Open Resources Tab
@@ -72,7 +68,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         //Selecting All at Role Access Dropdown
         $this->fillDropdown('role_access', 'All');
         //Saving API Role
-        $this->clickButton('save');
+        $this->saveForm('save');
         //Verify that role is saved
         $this->assertMessagePresent('success', 'success_saved_role');
     }
@@ -89,7 +85,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         //Open API Roles Management page
         $this->navigate('api_roles_management');
         //Click Add New Role button
-        $this->clickButton('add_new_role', true);
+        $this->clickButton('add_new_role');
         //Fill Role name field
         $this->fillField('role_name', $fieldData['role_name']);
         //Open Resources Tab
@@ -100,7 +96,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('subName', 'Create');
         $this->clickControl('link', 'sub_root', false);
         //Saving API Role
-        $this->clickButton('save');
+        $this->saveForm('save');
         //Verify that role is saved
         $this->assertMessagePresent('success', 'success_saved_role');
     }
@@ -118,7 +114,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         //Open API Roles Management page
         $this->navigate('api_roles_management');
         //Click Add New Role button
-        $this->clickButton('add_new_role', true);
+        $this->clickButton('add_new_role');
         //Fill Role name field
         $this->fillField('role_name', $fieldData['role_name']);
         //Open Resources Tab
@@ -126,15 +122,15 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         //Selecting All at Role Access Dropdown
         $this->fillDropdown('role_access', 'All');
         //Saving API Role
-        $this->clickButton('save');
+        $this->saveForm('save');
         //Verify that role is saved
         $this->assertMessagePresent('success', 'success_saved_role');
-        $this->clickButton('save');
         //Open created role from the role grid
+        $this->navigate('api_roles_management');
         $userSearch = array('filter_role_name' => $fieldData['role_name']);
         $this->searchAndOpen($userSearch, 'api_roles_grid');
         //Click Delete API Role button
-        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verify that message "You deleted the role." is displayed
         $this->assertMessagePresent('success', 'success_deleted_role');
     }

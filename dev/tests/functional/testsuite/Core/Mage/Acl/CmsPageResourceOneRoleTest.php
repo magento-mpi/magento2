@@ -15,25 +15,26 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
+ */
+class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->admin('log_in_to_admin', false);
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-    }
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
+        $this->logoutAdminUser();
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->admin('log_in_to_admin');
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $this->logoutAdminUser();
     }
 
     /**
@@ -51,6 +52,7 @@
         $product = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
@@ -75,8 +77,8 @@
     {
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl', array('resource_acl' => 'cms_pages'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'content-elements-pages'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -102,12 +104,12 @@
     {
         // Verify that navigation menu has only 1 parent element
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_cms_pages');
+        $this->assertTrue($this->checkCurrentPage('manage_cms_pages'), $this->getParsedMessages());
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Children elements not equal 2 should be equal');
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Children elements not equal 1 should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsPageElements', 'manage_cms_pages_elements');
         $resultElementsArray = array();
@@ -116,8 +118,8 @@
         }
         foreach ($resultElementsArray as $elementName => $elementType) {
             if (!$this->controlIsVisible($elementType, $elementName)) {
-                $this->addVerificationMessage("Element type= '$elementType'
-                                                       name= '$elementName' is not present on the page");
+                $this->addVerificationMessage("Element type= '$elementType' name= '$elementName' "
+                    . "is not present on the page");
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -147,11 +149,12 @@
         $this->cmsPagesHelper()->createCmsPage($pageData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_cms_page');
-        //comment due to bug MAGETWO-8415
-        //$this->cmsPagesHelper()->frontValidatePage($pageData);
+        $this->cmsPagesHelper()->frontValidatePage($pageData);
 
-        return array('filter_title' => $pageData['page_information']['page_title'],
-            'filter_url_key' => $pageData['page_information']['url_key']);
+        return array(
+            'filter_title' => $pageData['page_information']['page_title'],
+            'filter_url_key' => $pageData['page_information']['url_key']
+        );
     }
 
     /**
@@ -170,7 +173,7 @@
     public function editCmsPageOneRoleResource($loginData, $searchPageData)
     {
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_cms_pages');
+        $this->assertTrue($this->checkCurrentPage('manage_cms_pages'), $this->getParsedMessages());
 
         $this->cmsPagesHelper()->openCmsPage($searchPageData);
         $randomName = array('page_title' => $this->generate('string', 15));
@@ -178,10 +181,13 @@
         $this->addParameter('elementTitle', $randomName['page_title']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_cms_page');
-        $this->validatePage('save_and_continue_edit_cms_page');
+        $this->assertTrue($this->checkCurrentPage('save_and_continue_edit_cms_page'),
+            $this->getParsedMessages());
 
-        return array('filter_title'   => $randomName['page_title'],
-                     'filter_url_key' => $searchPageData['filter_url_key']);
+        return array(
+            'filter_title' => $randomName['page_title'],
+            'filter_url_key' => $searchPageData['filter_url_key']
+        );
     }
 
     /**
@@ -200,7 +206,7 @@
     public function deleteCmsPageOneRoleResource($loginData, $searchPageData)
     {
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_cms_pages');
+        $this->assertTrue($this->checkCurrentPage('manage_cms_pages'), $this->getParsedMessages());
         //Steps
         $this->cmsPagesHelper()->deleteCmsPage($searchPageData);
         //Verification

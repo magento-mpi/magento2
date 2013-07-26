@@ -17,6 +17,11 @@
  */
 class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11337');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -31,15 +36,12 @@ class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_T
      */
     public function insertVariableInForgotPasswordTemplate()
     {
-        $this->clickButton('add_new_template');
         //Data
-        $templateData = $this->loadDataSet('System', 'load_default_template');
-        $variable = 'reset_password_url_variable';
+        $templateData = $this->loadDataSet('System', 'load_forgot_password_template',
+            array('variable_1' => 'Reset Password URL'));
         //Steps
-        $this->fillFieldset($templateData, 'load_default_template');
-        $this->clickButton('load_template', false);
-        $this->waitForAjax();
-        $this->transactionalEmailsHelper()->insertVariable($variable);
+        $this->clickButton('add_new_template');
+        $this->transactionalEmailsHelper()->fillEmailTemplateData($templateData);
     }
 
     /**
@@ -51,12 +53,10 @@ class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_T
     public function newForgotAdminPasswordTemplate()
     {
         //Data
-        $templateData = $this->loadDataSet('System', 'load_default_admin_template');
-        $templateInformation = $this->loadDataSet('System', 'admin_template_information');
-        $templateName = array('template_name' => $templateInformation['template_name']);
-        $variable = 'reset_password_url_variable';
+        $loadTemplate = $this->loadDataSet('System', 'load_forgot_admin_password_template',
+            array('variable_1' => 'Reset Password URL', 'template_name' => 'New Admin Forgot Password'));
         //Verifying
-        $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, $variable);
+        $this->transactionalEmailsHelper()->createEmailTemplate($loadTemplate);
         $this->assertMessagePresent('success', 'success_create_template');
     }
 
@@ -69,12 +69,10 @@ class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_T
     public function newForgotCustomerPasswordTemplate()
     {
         //Data
-        $templateData = $this->loadDataSet('System', 'load_default_template');
-        $templateInformation = $this->loadDataSet('System', 'template_information');
-        $templateName = array('template_name' => $templateInformation['template_name']);
-        $variable = 'reset_password_url_variable';
-        //Verification
-        $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, $variable);
+        $loadTemplate = $this->loadDataSet('System', 'load_forgot_password_template',
+            array('variable_1' => 'Reset Password URL', 'template_name' => 'New Customer Forgot Password'));
+        //Verifying
+        $this->transactionalEmailsHelper()->createEmailTemplate($loadTemplate);
         $this->assertMessagePresent('success', 'success_create_template');
     }
 }

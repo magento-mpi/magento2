@@ -216,18 +216,6 @@ class Enterprise_CustomerBalance_Model_Observer
     }
 
     /**
-     * Disable entire customerbalance layout
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function disableLayout($observer)
-    {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
-            unset($observer->getUpdates()->enterprise_customerbalance);
-        }
-    }
-
-    /**
      * The same as paymentDataImport(), but for admin checkout
      *
      * @param Varien_Event_Observer $observer

@@ -14,13 +14,31 @@
 
 class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteAllStoresExceptSpecified();
+        $this->assertEquals(1, $this->getTotalRecordsInTable('fieldset', 'manage_stores'));
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
+        $this->systemConfigurationHelper()->configure('CustomerSegment/enable_customer_segment');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/enable_single_store_mode');
+    }
+
     /**
-     * <p>Create customer and delete store view </p>
+     * <p>Create customer</p>
      *
      * @return array
      * @test
@@ -30,11 +48,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
-        $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -51,7 +64,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
     public function verificationManageHierarchy()
     {
         $this->navigate('manage_pages_hierarchy');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'choose_scope'),
+        $this->assertTrue($this->controlIsPresent('dropdown', 'choose_store_view'),
             'There is no "Choose Scope" selector on the page');
     }
 
@@ -67,6 +80,9 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
+        if ($dataWidgetType == 'cms_hierarchy_node_link' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11559');
+        }
         $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_settings');
         $this->navigate('manage_cms_widgets');
         $this->clickButton('add_new_widget_instance');
@@ -138,16 +154,16 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      */
     public function editCustomer($userData)
     {
+        $this->markTestIncomplete('BUG: Fatal error on customer wishlist tab');
         //Preconditions
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-        $rewardGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_head');
-        $this->assertTrue((isset($rewardGrid['website'])), "Reward Points table not contain 'Website' column");
-        $storeCreditGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('store_credit_head');
-        $this->assertTrue((isset($storeCreditGrid['website'])), "Store Credit table not contain 'website' column");
-        $salesGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
-        $this->assertTrue((isset($salesGrid['website']) && isset($salesGrid['store'])
-            && isset($salesGrid['store_view'])), "Sales Statistics table not contain all columns");
+        $rewardGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'reward_points'));
+        $this->assertTrue(in_array('Website', $rewardGrid), "Reward Points table not contain 'Website' column");
+        $storeCreditGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'store_credit_balance'));
+        $this->assertTrue(in_array('Website', $storeCreditGrid), "Store Credit table not contain 'Website' column");
+        $salesGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'sales_statistics'));
+        $this->assertTrue(in_array('Website', $salesGrid), "Sales Statistics table not contain 'Website' column");
         $this->openTab('account_information');
         $this->assertTrue($this->controlIsPresent('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website is not present on page");
@@ -170,7 +186,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
         $this->openTab('gift_regystry');
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'), "Dropdown 'filter_website' is absent");
         $this->openTab('reward_points');
-        $rewardGrid2 = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_balance_head');;
+        $rewardGrid2 = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_balance_head');
         $this->assertTrue((isset($rewardGrid2['website'])), "Reward Points table is not contain 'website' column");
         $this->assertTrue($this->controlIsPresent('dropdown', 'store'), "Dropdown 'store' is absent");
         $this->clickControl('link', 'reward_points_history_link', false);

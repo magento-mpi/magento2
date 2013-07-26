@@ -23,7 +23,7 @@ paypal_developer_home:
                 #PayPal Login popup
                 -
                     login_form:
-                        xpath: //form
+                        xpath: //*[@id='PPA']//form
                         buttons:
                             login: //input[@value='Log In']
                         checkboxes:
@@ -51,21 +51,21 @@ paypal_developer_sandbox_accounts:
             fieldsets:
                 -
                     test_accounts:
-                        xpath: //div[@class='mainContainer' and contains(.,'Sandbox test accounts')]
+                        xpath: //div[div/h1='Sandbox test accounts']
                         links:
-                            account_details: //tr[td/div[contains(., '%accountEmail%')]]/td/div/i
-                            account_profile: //tr[td/div[contains(., '%accountEmail%')]]//a[text()='Profile']
+                            account_details: //td[normalize-space(div)='%accountEmail%']/div/i
+                            account_profile: //td[normalize-space(div)='%accountEmail%']//a[text()='Profile']
                         buttons:
                             create_account: //a[text()='Create Account']
-                            delete_account: //a[@id='delAcc']
+                            delete_account: //a[@id='delAcc'][not(@disabled)]
                         checkboxes:
                             select_all_accounts: //input[@class='selectAll']
-                            select_account: //tr[td/div[contains(., '%accountEmail%')]]/td/input
+                            select_account: //tr[normalize-space(td/div)='%accountEmail%']//input
                         pageelements:
-                            account_line: //tr[td/div[contains(., '%email%')]]
+                            account_line: //tr[normalize-space(td/div)='%accountEmail%']
                 -
                     account_details_popup:
-                        xpath: //div[@class='modal' and contains(., 'Account details')]
+                        xpath: //div[div/h3='Account details']
                         links:
                             api_credentials_tab: //a[@href='#tab-api']
                             funding_tab: //a[@href='#tab-funding']

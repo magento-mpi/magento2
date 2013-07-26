@@ -27,19 +27,22 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
     public function preconditionsForTest()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps and Verification
         $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
-        return array($productData['general_name'], array('email'    => $userData['email'],
-                                                         'password' => $userData['password']));
+        return array(
+            $productData['general_name'],
+            array('email' => $userData['email'], 'password' => $userData['password'])
+        );
     }
 
     /**

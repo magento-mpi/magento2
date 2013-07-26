@@ -68,7 +68,7 @@ applications:
         design_theme: Default/Magento Demo
         ftp: &ftp
             url: 'localhost'
-            base_dir: ''
+            base_dir: '/'
             login: 'admin'
             password: '123123q'
         areas:

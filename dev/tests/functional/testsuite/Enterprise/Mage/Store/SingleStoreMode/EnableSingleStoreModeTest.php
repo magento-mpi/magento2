@@ -11,8 +11,19 @@
  * @license     {license_link}
  */
 
-class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteAllStoresExceptSpecified();
+        $this->assertEquals(1, $this->getTotalRecordsInTable('fieldset', 'manage_stores'));
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/enable_single_store_mode');
+        $this->systemConfigurationHelper()->configure('CustomerSegment/enable_customer_segment');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -20,9 +31,11 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     protected function tearDownAfterTestClass()
     {
-        $config = $this->loadDataSet('SingleStoreMode', 'disable_single_store_mode');
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteAllStoresExceptSpecified();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/enable_single_store_mode');
     }
 
     /**
@@ -34,17 +47,27 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $config = $this->loadDataSet('SingleStoreMode', 'enable_single_store_mode');
         //Steps
-        $this->admin('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
 
         return $userData;
+    }
+
+    /**
+     * <p>"Price" fieldset is not displayed if Single Store Mode enabled.</p>
+     *
+     * @test
+     * @TestLinkId TL-MAGE-6182
+     */
+    public function systemConfigurationVerificationCatalogPrice()
+    {
+        $this->admin('system_configuration');
+        $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'price'), 'Fieldset Price is absent on the page');
+        $this->assertFalse($this->controlIsPresent('dropdown', 'catalog_price_scope'), 'Price scope fields is visible');
+        $this->assertTrue($this->controlIsPresent('field', 'default_product_price'), 'Default price field is absent');
     }
 
     /**
@@ -57,7 +80,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
     public function verificationManageHierarchy()
     {
         $this->navigate('manage_pages_hierarchy');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'choose_scope'),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'choose_store_view'),
             'There is "Choose Scope" selector on the page');
     }
 
@@ -146,16 +169,16 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      */
     public function editCustomer($userData)
     {
+        $this->markTestIncomplete('BUG: Fatal error on customer wishlist tab');
         //Preconditions
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-        $rewardGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_head');
-        $this->assertTrue((!isset($rewardGrid['website'])), "Sales Statistics table contain 'Website' column");
-        $storeCreditGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('store_credit_head');
-        $this->assertTrue((!isset($storeCreditGrid['website'])), "Sales Statistics table contain 'website' column");
-        $salesGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
-        $this->assertTrue((!isset($salesGrid['website']) && !isset($salesGrid['store'])
-            && !isset($salesGrid['store_view'])), "Sales Statistics table contain unnecessary columns");
+        $rewardGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'reward_points'));
+        $this->assertFalse(in_array('Website', $rewardGrid), "Reward Points table contain 'Website' column");
+        $storeCreditGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'store_credit_balance'));
+        $this->assertFalse(in_array('Website', $storeCreditGrid), "Store Credit table contain 'Website' column");
+        $salesGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'sales_statistics'));
+        $this->assertFalse(in_array('Website', $salesGrid), "Sales Statistics table contain 'Website' column");
         $this->openTab('account_information');
         $this->assertFalse($this->controlIsPresent('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website is present on page");

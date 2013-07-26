@@ -189,12 +189,8 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock(
-                'Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid'
-            )->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
@@ -328,8 +324,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             $area = Mage::getDesign()->getArea();
             $theme = Mage::getDesign()->getDesignTheme();
             Mage::getDesign()->setDesignTheme(
-                Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME),
-                Mage_Core_Model_App_Area::AREA_FRONTEND
+                Mage::getDesign()->getConfigurationDesignTheme(Mage_Core_Model_App_Area::AREA_FRONTEND)
             );
 
             /** @var $observer Enterprise_ImportExport_Model_Observer */

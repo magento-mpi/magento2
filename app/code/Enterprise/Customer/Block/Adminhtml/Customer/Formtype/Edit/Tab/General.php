@@ -76,7 +76,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'value'     => $model->getLabel()
         ));
 
-        $options = Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection();
+        /** @var $label Mage_Core_Model_Theme_Label */
+        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        $options = $label->getLabelsCollection();
         array_unshift($options, array(
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes'),
             'value' => ''

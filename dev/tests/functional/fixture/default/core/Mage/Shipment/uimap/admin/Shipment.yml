@@ -46,7 +46,7 @@ manage_sales_shipments:
 create_shipment:
     mca: sales_order_shipment/new/order_id/%id%/
     title: New Shipment / Shipments / Operations / Sales / Magento Admin
-    uimap:
+    uimap: &create_shipment-uimap
         form: &orderShipment
             fieldsets:
                 -
@@ -103,3 +103,7 @@ create_shipment:
         buttons:
             back: //div[@class='page-actions']//button[span='Back']
             reset: //div[@class='page-actions']//button[span='Reset']
+
+create_shipment_denied:
+    mca: sales_order_shipment/start/order_id/%id%/
+    title: Magento Admin

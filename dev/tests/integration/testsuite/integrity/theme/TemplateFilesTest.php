@@ -34,7 +34,9 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 'module'   => $module
             );
             try {
-                $templateFilename = Mage::getDesign()->getFilename($file, $params);
+                $templateFilename = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename(
+                    $file, $params
+                );
                 $this->assertFileExists($templateFilename);
             } catch (PHPUnit_Framework_ExpectationFailedException $e) {
                 $invalidTemplates[] = "File \"$templateFilename\" does not exist." . PHP_EOL
@@ -52,10 +54,8 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
 
         $themes = $this->_getDesignThemes();
         foreach ($themes as $theme) {
-            $layoutUpdate = Mage::getModel(
-                'Mage_Core_Model_Layout_Merge',
-                array('arguments' => array('area' => $theme->getArea(), 'theme' => $theme->getId()))
-            );
+            /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
+            $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
                 $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);

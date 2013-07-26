@@ -18,9 +18,9 @@
  */
 class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser();
+        $this->admin('log_in_to_admin');
     }
 
     protected function tearDownAfterTest()
@@ -39,7 +39,7 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'permissions'));
+            array('resource_acl' => 'system-permissions'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -48,7 +48,10 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testData);
         $this->assertMessagePresent('success', 'success_saved_user');
 
-        return $testData;
+        return array(
+            'login' => array('user_name' => $testData['user_name'], 'password' => $testData['password']),
+            'role_name' => $testData['role_name']
+        );
     }
 
     /**
@@ -65,60 +68,52 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All configuration pages(one after other) are successfully opened.</p>
      *
-     * @depends createAdminWithTestRole
-     *
      * @param $testData
      *
      * @test
+     * @depends createAdminWithTestRole
      * @TestlinkId TL-MAGE-6071
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemPermissions($testData)
     {
-        $this->markTestIncomplete('MAGETWO-8428:Exception on page if admin user edit his own role and fatal
-                                   error on login page');
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($testData);
+        $this->adminUserHelper()->loginAdmin($testData['login']);
         // Verify that navigation menu has only 2 child elements
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
-        $this->assertEquals(5, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 5, should be equal 5');
         $this->navigate('manage_roles');
         $editedRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name',
-            array('resource_1' => 'System/Configuration'), array('roleName' => $testData['role_name'],
-                  'newRoleName' => $testData['role_name']));
+            array('resource_acl' => 'stores-settings-configuration'),
+            array('roleName' => $testData['role_name'], 'newRoleName' => $testData['role_name'])
+        );
         //Data
         $this->adminUserHelper()->editRole($editedRole);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_role');
+        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            'Count of Top Navigation Menu elements not equal 2, should be equal');
         $this->navigate('system_configuration');
-        $this->assertEquals(6, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 6, should be equal 6');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verify that this tab equal to resource from ACL tree
-        foreach ($tabElement as $tab => $tabName) {
-            $this->systemConfigurationHelper()->openConfigurationTab($tab);
+        foreach (array_keys($tabElement) as $tabName) {
+            $this->systemConfigurationHelper()->openConfigurationTab($tabName);
         }
     }
 
     /**
      * <p> Actions available for user with Permission System-Permissions </p>
      *
-     * @depends createAdminWithTestRole
-     *
      * @param $testData
      *
      * @test
+     * @depends createAdminWithTestRole
      * @TestlinkId TL-MAGE-6072
      */
     public function systemPermissionsActions($testData)
     {
-        $this->admin('log_in_to_admin', false);
-        $this->adminUserHelper()->loginAdmin($testData);
+        $this->adminUserHelper()->loginAdmin($testData['login']);
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-                                         array('resource_acl' => 'configurations'));
+            array('resource_acl' => 'stores-settings-configuration'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -157,7 +152,7 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsEditable('field', 'user_name'));
 
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'catalog_sales_role');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl');
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         return $roleSource['role_info_tab']['role_name'];
@@ -177,7 +172,7 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         $this->assertMessagePresent('success', 'success_saved_user');
 
-        return $userData;
+        return array('user_name' => $userData['user_name'], 'password' => $userData['password']);
     }
 
     /**
@@ -190,7 +185,6 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
      */
     public function loginSalesOnlyUser($loginData)
     {
-        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->assertTrue($this->controlIsPresent('link', 'log_out'));
         $this->assertFalse($this->controlIsPresent('link', 'account_settings'));

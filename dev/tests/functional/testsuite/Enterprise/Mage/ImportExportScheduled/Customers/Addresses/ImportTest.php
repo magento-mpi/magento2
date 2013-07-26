@@ -18,6 +18,11 @@
  */
 class Enterprise_Mage_ImportExportScheduled_Customers_Addresses_ImportTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11477');
+    }
+
     protected function assertPreConditions()
     {
         //logged in once for all tests
@@ -57,7 +62,7 @@ class Enterprise_Mage_ImportExportScheduled_Customers_Addresses_ImportTest exten
                 $this->openTab('addresses');
                 if ($this->customerHelper()->isAddressPresent($value) == 0) {
                     $this->customerHelper()->addAddress($value);
-                    $this->customerHelper()->saveForm('save_customer');
+                    $this->saveForm('save_customer');
                     $this->assertMessagePresent('success', 'success_saved_customer');
                     $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
                     $this->openTab('addresses');

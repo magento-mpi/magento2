@@ -14,14 +14,18 @@
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_inputType = 'numeric';
 
     /**
-     * Class constructor
+     * @param Mage_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
     {
-        parent::__construct();
+        parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes');
         $this->setValue(null);
     }
@@ -105,7 +109,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
                 $field = 'item.base_cost';
                 break;
             default:
-                Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown attribute specified'));
+                Mage::throwException(
+                    Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown attribute specified')
+                );
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');

@@ -14,13 +14,24 @@
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $area
-     * @param int $themeId
+     * Cached lists of files
+     *
+     * @var array
+     */
+    protected static $_cachedFiles = array();
+
+    public static function tearDownAfterClass()
+    {
+        self::$_cachedFiles = array(); // Free memory
+    }
+
+    /**
+     * @param Mage_Core_Model_Theme $theme
      * @dataProvider areasAndThemesDataProvider
      */
-    public function testHandlesHierarchy($area, $themeId)
+    public function testHandlesHierarchy(Mage_Core_Model_Theme $theme)
     {
-        $xml = $this->_composeXml($area, $themeId);
+        $xml = $this->_composeXml($theme);
 
         /**
          * There could be used an xpath "/layouts/*[@type or @owner or @parent]", but it randomly produced bugs, by
@@ -52,16 +63,13 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * Composes full layout xml for designated parameters
      *
-     * @param string $area
-     * @param int $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Layout_Element
      */
-    protected function _composeXml($area, $themeId)
+    protected function _composeXml(Mage_Core_Model_Theme $theme)
     {
-        $layoutUpdate = Mage::getModel(
-            'Mage_Core_Model_Layout_Merge',
-            array('arguments' => array('area' => $area, 'theme' => $themeId))
-        );
+        /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
+        $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 
@@ -93,8 +101,6 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * List all themes available in the system
      *
-     * The "no theme" (false) is prepended to the result -- it means layout updates must be loaded from modules
-     *
      * A test that uses such data provider is supposed to gather view resources in provided scope
      * and analyze their integrity. For example, merge and verify all layouts in this scope.
      *
@@ -111,25 +117,24 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme')->getCollection();
-        /** @var $themeCollection Mage_Core_Model_Theme */
+        /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
             if ($theme->getFullPath() == 'frontend/magento2/reference') {
                 /** Skip the theme because of MAGETWO-9063 */
                 continue;
             }
-            $result[] = array($theme->getArea(), $theme->getId());
+            $result[] = array($theme);
         }
         return $result;
     }
 
     /**
-     * @param string $area
-     * @param int $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @dataProvider areasAndThemesDataProvider
      */
-    public function testHandleLabels($area, $themeId)
+    public function testHandleLabels(Mage_Core_Model_Theme $theme)
     {
-        $xml = $this->_composeXml($area, $themeId);
+        $xml = $this->_composeXml($theme);
 
         $xpath = '/layouts/*['
             . '@type="' . Mage_Core_Model_Layout_Merge::TYPE_PAGE . '"'
@@ -147,5 +152,157 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         if ($errors) {
             $this->fail("The following handles must have label, but they don't have it:\n" . var_export($errors, 1));
         }
+    }
+
+    /**
+     * Check whether page types are declared only in layout update files allowed for it - base ones
+     *
+     * @dataProvider pageTypesDeclarationDataProvider
+     */
+    public function testPageTypesDeclaration(Mage_Core_Model_Layout_File $layout)
+    {
+        $content = simplexml_load_file($layout->getFilename());
+        $this->assertEmpty(
+            $content->xpath(Mage_Core_Model_Layout_Merge::XPATH_HANDLE_DECLARATION),
+            "Theme layout update '" . $layout->getFilename() . "' contains page type declaration(s)"
+        );
+    }
+
+    /**
+     * Get theme layout updates
+     *
+     * @return Mage_Core_Model_Layout_File[]
+     */
+    public function pageTypesDeclarationDataProvider()
+    {
+        /** @var $themeUpdates Mage_Core_Model_Layout_File_Source_Theme */
+        $themeUpdates = Mage::getModel('Mage_Core_Model_Layout_File_Source_Theme');
+        /** @var $themeUpdatesOverride Mage_Core_Model_Layout_File_Source_Override_Theme */
+        $themeUpdatesOverride = Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme');
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeCollection->addDefaultPattern('*');
+        /** @var $themeLayouts Mage_Core_Model_Layout_File[] */
+        $themeLayouts = array();
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            $themeLayouts = array_merge($themeLayouts, $themeUpdates->getFiles($theme));
+            $themeLayouts = array_merge($themeLayouts, $themeUpdatesOverride->getFiles($theme));
+        }
+        $result = array();
+        foreach ($themeLayouts as $layout) {
+            $result[] = array($layout);
+        }
+        return $result;
+    }
+
+    /**
+     * Check, that for an overriding file ($themeFile) in a theme ($theme), there is a corresponding base file
+     *
+     * @param Mage_Core_Model_Layout_File $themeFile
+     * @param Mage_Core_Model_Theme $theme
+     * @dataProvider overrideBaseFilesDataProvider
+     */
+    public function testOverrideBaseFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
+    {
+        $baseFiles = self::_getCachedFiles($theme->getArea(), 'Mage_Core_Model_Layout_File_Source_Base', $theme);
+        $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
+        $this->assertArrayHasKey($fileKey, $baseFiles,
+            sprintf("Could not find base file, overridden by theme file '%s'.", $themeFile->getFilename())
+        );
+    }
+
+    /**
+     * Check, that for an ancestor-overriding file ($themeFile) in a theme ($theme), there is a corresponding file
+     * in that ancestor theme
+     *
+     * @param Mage_Core_Model_Layout_File $themeFile
+     * @param Mage_Core_Model_Theme $theme
+     * @dataProvider overrideThemeFilesDataProvider
+     */
+    public function testOverrideThemeFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
+    {
+        // Find an ancestor theme, where a file is to be overridden
+        $ancestorTheme = $theme;
+        while ($ancestorTheme = $ancestorTheme->getParentTheme()) {
+            if ($ancestorTheme == $themeFile->getTheme()) {
+                break;
+            }
+        }
+        $this->assertNotNull(
+            $ancestorTheme,
+            sprintf("Could not find ancestor theme '%s', its layout file is supposed to be overridden by file '%s'.",
+                $themeFile->getTheme()->getCode(), $themeFile->getFilename())
+        );
+
+        // Search for the overridden file in the ancestor theme
+        $ancestorFiles = self::_getCachedFiles($ancestorTheme->getFullPath(),
+            'Mage_Core_Model_Layout_File_Source_Theme', $ancestorTheme);
+        $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
+        $this->assertArrayHasKey($fileKey, $ancestorFiles,
+            sprintf("Could not find original file in '%s' theme, overridden by file '%s'.",
+                $themeFile->getTheme()->getCode(), $themeFile->getFilename())
+        );
+    }
+
+    /**
+     * Retrieve list of cached source files
+     *
+     * @param string $cacheKey
+     * @param string $sourceClass
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Layout_File[]
+     */
+    protected static function _getCachedFiles($cacheKey, $sourceClass, Mage_Core_Model_Theme $theme)
+    {
+        if (!isset(self::$_cachedFiles[$cacheKey])) {
+            /* @var $fileList Mage_Core_Model_Layout_File[] */
+            $fileList = Mage::getModel($sourceClass)->getFiles($theme);
+            $files = array();
+            foreach ($fileList as $file) {
+                $files[$file->getModule() . '/' . $file->getName()] = true;
+            }
+            self::$_cachedFiles[$cacheKey] = $files;
+        }
+        return self::$_cachedFiles[$cacheKey];
+    }
+
+    /**
+     * @return array
+     */
+    public function overrideBaseFilesDataProvider()
+    {
+        return $this->_retrieveFilesForEveryTheme(Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Base'));
+    }
+
+    /**
+     * @return array
+     */
+    public function overrideThemeFilesDataProvider()
+    {
+        return $this->_retrieveFilesForEveryTheme(Mage::getModel('Mage_Core_Model_Layout_File_Source_Override_Theme'));
+    }
+
+    /**
+     * Scan all the themes in the system, for each theme retrieve list of files via $filesRetriever,
+     * and return them as array of pairs [file, theme].
+     *
+     * @param Mage_Core_Model_Layout_File_SourceInterface $filesRetriever
+     * @return array
+     */
+    protected function _retrieveFilesForEveryTheme(Mage_Core_Model_Layout_File_SourceInterface $filesRetriever)
+    {
+        $result = array();
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeCollection->addDefaultPattern('*');
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            foreach ($filesRetriever->getFiles($theme) as $file) {
+                $result[] = array($file, $theme);
+            }
+        }
+
+        return $result;
     }
 }

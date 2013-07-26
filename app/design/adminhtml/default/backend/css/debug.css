@@ -376,6 +376,10 @@ ul.messages li.success-msg li:before {
     left: 40%;
 }
 
+.dashboard-container #diagram_tab {
+    margin: 20px 20px 0;
+}
+
 /* TODO: arrange configuration tables */
 .accordion .collapseable.disabled {
     background: #f1f1f1;
@@ -1713,3 +1717,10 @@ th.required:after {
 .field-url-rewrite-option-select {
     padding-top: 13px;
 }
+
+
+/* jstree */
+.jstree-default .disabled > a {
+    color: #a29c94;
+}
+/*  File brouser */

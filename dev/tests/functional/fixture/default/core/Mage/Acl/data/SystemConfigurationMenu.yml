@@ -22,7 +22,7 @@ configuration_menu_default:
         unsecure: ~
         secure: ~
         default_pages: ~
-        polls: ~
+#        polls: ~
         session_cookie_management: ~
         session_validation_settings: ~
         browser_capabilities_detection: ~
@@ -47,11 +47,11 @@ configuration_menu_default:
     general_contacts:
         contact_us: ~
         email_options: ~
-    sales_google_api:
+    general_google_api:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~
-        google_website_optimizer: ~
+        #google_website_optimizer: ~
         google_checkout_shipping_merchant_calculated: ~
         google_checkout_shipping_carrier_calculated: ~
         google_checkout_shipping_flat_rate: ~
@@ -89,8 +89,6 @@ configuration_menu_default:
         order_rss: ~
     catalog_email_to_a_friend:
         email_templates: ~
-    social_facebook:
-        facebook_config: ~
     customers_newsletter:
         subscription_options: ~
     customers_customer_configuration:
@@ -208,7 +206,7 @@ configuration_menu_website:
         unsecure: ~
         secure: ~
         default_pages: ~
-        polls: ~
+#        polls: ~
         session_cookie_management: ~
         session_validation_settings: ~
         browser_capabilities_detection: ~
@@ -231,11 +229,11 @@ configuration_menu_website:
     general_contacts:
         contact_us: ~
         email_options: ~
-    sales_google_api:
+    general_google_api:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~
-        google_website_optimizer: ~
+        #google_website_optimizer: ~
         google_checkout_shipping_merchant_calculated: ~
         google_checkout_shipping_carrier_calculated: ~
         google_checkout_shipping_flat_rate: ~
@@ -266,8 +264,6 @@ configuration_menu_website:
         order_rss: ~
     catalog_email_to_a_friend:
         email_templates: ~
-    social_facebook:
-        facebook_config: ~
     customers_newsletter:
         subscription_options: ~
     customers_customer_configuration:

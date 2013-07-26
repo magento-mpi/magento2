@@ -99,7 +99,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
                         'selectedValue');
                     $productValues['product_' . $i][$key] = $value;
                 } elseif ($key == 'product_name'
-                          && $this->controlIsPresent('pageelement', 'table_line_index_cell_index_options')
+                    && $this->controlIsPresent('pageelement', 'table_line_index_cell_index_options')
                 ) {
                     $name =
                         $this->getControlAttribute('pageelement', 'table_line_index_cell_index_product_name', 'text');
@@ -318,14 +318,11 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontClearShoppingCart()
     {
-        if ($this->getArea() == 'frontend' && !$this->controlIsPresent('link', 'empty_my_cart')) {
+        if ($this->getArea() == 'frontend' && !$this->controlIsVisible('link', 'empty_my_cart')) {
             $this->frontend('shopping_cart');
-            $productCount = $this->getControlCount('pageelement', 'product_line');
-            if (0 == $productCount) {
-                $this->assertMessagePresent('success', 'shopping_cart_is_empty');
-                return;
+            if ($this->controlIsVisible('button', 'clear_shopping_cart')) {
+                $this->clickButton('clear_shopping_cart');
             }
-            $this->clickButton('clear_shopping_cart');
             $this->assertMessagePresent('success', 'shopping_cart_is_empty');
         }
     }

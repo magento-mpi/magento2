@@ -14,6 +14,16 @@
 interface Mage_Core_Model_ThemeInterface
 {
     /**
+     * Separator between theme_path elements
+     */
+    const PATH_SEPARATOR = '/';
+
+    /**
+     * Separator between parts of full theme code (package and theme code)
+     */
+    const CODE_SEPARATOR = '/';
+
+    /**
      * Retrieve code of an area a theme belongs to
      *
      * @return string
@@ -40,4 +50,11 @@ interface Mage_Core_Model_ThemeInterface
      * @return Mage_Core_Model_ThemeInterface|null
      */
     public function getParentTheme();
+
+    /**
+     * Get code of the theme
+     *
+     * @return string
+     */
+    public function getCode();
 }

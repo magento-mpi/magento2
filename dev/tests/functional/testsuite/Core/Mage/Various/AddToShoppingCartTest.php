@@ -37,6 +37,9 @@ class Core_Mage_Various_AddToShoppingCartTest extends Mage_Selenium_TestCase
      */
     public function bundleWithSimpleProductPercentPrice()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11557');
+        }
         //Data
         $simpleData = $this->loadDataSet('Product', 'simple_product_visible');
         $bundleData = $this->loadDataSet('Product', 'fixed_bundle_visible');

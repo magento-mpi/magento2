@@ -39,7 +39,7 @@ class Saas_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
     public function tileIsDisplayed($tile)
     {
         $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_FIELDSET, $tile),
-            'Ttile is absent on Store Launcher page. Tile code: ' . $tile);
+            'Tile is absent on Store Launcher page. Tile code: ' . $tile);
     }
 
     /**

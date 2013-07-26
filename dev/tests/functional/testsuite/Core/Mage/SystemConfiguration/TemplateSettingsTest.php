@@ -15,9 +15,13 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11337');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -36,8 +40,9 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
      */
     public function diffEmailSendersAdminTemplate($emailSender)
     {
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Advanced', 'admin_user_emails_settings',
-            array('forgot_password_email_sender' => $emailSender)));
+        $config = $this->loadDataSet('Advanced', 'admin_user_emails_settings',
+            array('forgot_password_email_sender' => $emailSender));
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     public function diffEmailSendersAdminTemplateDataProvider()
@@ -94,19 +99,19 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
     public function newAdminEmailTemplate()
     {
         //Data
-        $templateData = $this->loadDataSet('System', 'load_default_admin_template');
-        $templateInformation = $this->loadDataSet('System', 'admin_template_information');
-        $templateName = array('template_name' => $templateInformation['template_name']);
+        $templateData = $this->loadDataSet('System', 'load_forgot_admin_password_template',
+            array('template_name' => '%randomize%'));
+        $config = $this->loadDataSet('Advanced', 'admin_user_emails_settings',
+            array('forgot_password_email_template' => $templateData['template_name']));
         //Steps
         $this->navigate('system_email_template');
-        $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, '');
+        $this->transactionalEmailsHelper()->createEmailTemplate($templateData);
         //Verification
         $this->assertMessagePresent('success', 'success_create_template');
         //Steps
         $this->navigate('system_configuration');
         //Verification
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Advanced', 'admin_user_emails_settings',
-            array('forgot_password_email_template' => $templateInformation['template_name'])));
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
@@ -122,8 +127,9 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
     public function diffEmailSendersForCustomerTemplate($emailSender)
     {
         //Steps
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Advanced',
-            'customer_configuration_password_options', array('forgot_email_sender' => $emailSender)));
+        $config = $this->loadDataSet('Advanced', 'customer_configuration_password_options',
+            array('forgot_email_sender' => $emailSender));
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     public function diffEmailSendersForCustomerTemplateDataProvider()
@@ -188,19 +194,19 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
     public function diffEmailTemplates($emailTemplate)
     {
         //Data
-        $templateData = $this->loadDataSet('System', 'load_default_template');
-        $templateInformation = $this->loadDataSet('System', 'template_information');
-        $templateName = array('template_name' => $templateInformation['template_name']);
+        $templateData = $this->loadDataSet('System', 'load_forgot_password_template',
+            array('template_name' => '%randomize%'));
+        $config = $this->loadDataSet('Advanced', 'customer_configuration_password_options',
+            array($emailTemplate => $templateData['template_name']));
         //Steps
         $this->navigate('system_email_template');
-        $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, '');
+        $this->transactionalEmailsHelper()->createEmailTemplate($templateData);
         //Verification
         $this->assertMessagePresent('success', 'success_create_template');
         //Steps
         $this->navigate('system_configuration');
         //Verification
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Advanced',
-            'customer_configuration_password_options', array($emailTemplate => $templateInformation['template_name'])));
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     public function diffEmailTemplatesDataProvider()

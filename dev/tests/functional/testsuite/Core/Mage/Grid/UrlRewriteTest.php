@@ -18,22 +18,10 @@
  */
 class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>PreConditions:</p>
-     * <p>Log in to Backend </p>
-     */
     protected function assertPreConditions()
     {
+        $this->markTestIncomplete('MAGETWO-11231');
         $this->loginAdminUser();
-    }
-
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
-    protected function tearDownAfterTestClass()
-    {
-        $this->logoutAdminUser();
     }
 
     /**
@@ -44,42 +32,34 @@ class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
      * <p>Count Rows in URL Rewrite Grid</p>
      * <p>Click 'Add New Rewrite' button</p>
      * <p>At Create URL rewrite dropdown fill request path</p>
-     * <p>Varifications:</p>
-     * <p>Check that Category URL was successfull added to grid list</p>
+     * <p>Verifications:</p>
+     * <p>Check that Category URL was successfully added to grid list</p>
      *
      * @test
-     * @author Viktoriia Gumeniuk
      */
     public function checkUrlCatalogAdded()
     {
-        //PreConditions: Create Category
+        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category');
+        $categoryData = $this->loadDataSet('Category', 'sub_category_required');
+        //Create Category
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
-        $categoryData = $this->loadDataSet('Category', 'sub_category_required');
         $this->categoryHelper()->createCategory($categoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
-        //Count rows in grid before adding CategoryURL
+        //Add Rewrite Rule
         $this->navigate('url_rewrite_management');
-        $gridElement = $this->getControlElement('pageelement', 'page_grid');
-        $before= count($this->getChildElements($gridElement, 'tbody/tr', false));
-        //Click 'Add new rewrite' button
-        $this->clickButton('add_new_rewrite', 'true');
-        //At Create URL rewrite dropdown select For category
+        $this->clickButton('add_new_rewrite');
         $this->fillDropdown('create_url_rewrite_dropdown', 'For category');
-        //Select Subcategory by name and detect it's id from url
         $this->addParameter('subName', $categoryData['name']);
         $this->clickControl('link', 'sub_category', false);
         $this->waitForPageToLoad();
-        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category');
+        $this->addParameter('id', $this->defineParameterFromUrl('category'));
+        $this->validatePage();
         $this->fillField('request_path', $fieldData['request_path']);
-        $this->clickButton('save', false);
-        $this->waitForPageToLoad();
-        //count rows after URL added
-        $this->navigate('url_rewrite_management');
-        $gridElement2 = $this->getControlElement('pageelement', 'page_grid');
-        $after = count($this->getChildElements($gridElement2, 'tbody/tr', false));
-        // Check that Category URL was successfull added to grid list
-        $this->assertEquals($before + 1, $after, 'Category URL was wrong add to grid list ');
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_url_rewrite');
+        $locator = $this->search(array('filter_request_path' => $fieldData['request_path']), 'url_rewrite_grid');
+        $this->assertNotNull($locator, 'URL Rewrite Rule is not added');
     }
 }

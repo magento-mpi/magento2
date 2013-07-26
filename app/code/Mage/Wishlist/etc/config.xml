@@ -93,13 +93,6 @@
                 </Mage_Wishlist>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <wishlist module="Mage_Wishlist">
-                    <file>layout.xml</file>
-                </wishlist>
-            </updates>
-        </layout>
         <events>
             <customer_login>
                 <observers>
@@ -139,13 +132,6 @@
                 </Mage_Wishlist>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <wishlist module="Mage_Wishlist">
-                    <file>layout.xml</file>
-                </wishlist>
-            </updates>
-        </layout>
         <di>
             <Mage_Wishlist_Model_Session>
                 <parameters>
@@ -167,4 +153,4 @@
             </email>
         </wishlist>
     </default>
-</config>
+</config>

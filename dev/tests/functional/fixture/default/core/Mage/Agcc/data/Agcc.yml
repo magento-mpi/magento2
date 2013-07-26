@@ -100,6 +100,7 @@ scpr_required_fields_deactivate_agcc:
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         use_auto_generation: No
+        coupon_code: %randomize%
     actions:
         apply: Percent of product price discount
         discount_amount: 15

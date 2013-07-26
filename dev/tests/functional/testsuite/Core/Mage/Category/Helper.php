@@ -71,7 +71,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectCategory($categoryPath, $fieldsetName = 'select_category')
     {
-        $this->waitForControlVisible('fieldset', $fieldsetName);
+        $this->waitForControlEditable('fieldset', $fieldsetName);
         foreach (explode('/', $categoryPath) as $categoryNode) {
             if (isset($trueCategory)) {
                 $trueSubCat = array();
@@ -142,7 +142,6 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createCategory($categoryData)
     {
-        $this->pleaseWait();
         $categoryData = $this->fixtureDataToArray($categoryData);
         if (array_key_exists('parent_category', $categoryData)) {
             $this->selectCategory($categoryData['parent_category']);
@@ -155,9 +154,11 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         if (isset($categoryData['name'])) {
             $this->addParameter('elementTitle', $categoryData['name']);
         }
-        $waitCondition = array($this->_getMessageXpath('general_error'),
-                               $this->_getControlXpath('pageelement', 'created_category_name_header'),
-                               $this->_getMessageXpath('general_validation'));
+        $waitCondition = array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getControlXpath('pageelement', 'created_category_name_header'),
+            $this->_getMessageXpath('general_validation')
+        );
         $this->clickButton('save_category', false);
         $this->waitForElementVisible($waitCondition);
         $this->pleaseWait();
@@ -169,6 +170,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function checkCategoriesPage()
     {
+        $this->waitForAjax();
         if (!$this->isCategoriesPage()) {
             $this->fail("Opened page is not 'manage_categories' page");
         }
@@ -198,21 +200,18 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
     {
         $locator = $this->_getControlXpath('button', $buttonName);
         $availableElement = $this->elementIsPresent($locator);
-        if ($availableElement) {
-            $confirmation = $this->_getMessageXpath($message);
-            $availableElement->click();
-            $actualText = $this->alertText();
-            if ($actualText == $confirmation) {
-                $this->acceptAlert();
-                $this->pleaseWait();
-                $this->checkCategoriesPage();
-                return;
-            } else {
-                $this->fail("The confirmation text incorrect: '$actualText' != '$confirmation''");
-            }
-        } else {
+        if (!$availableElement) {
             $this->fail("There is no way to remove a category(There is no 'Delete' button)");
         }
+        $confirmation = $this->_getMessageXpath($message);
+        $availableElement->click();
+        $actualText = $this->alertText();
+        if ($actualText != $confirmation) {
+            $this->fail("The confirmation text incorrect: '$actualText' != '$confirmation''");
+        }
+        $this->acceptAlert();
+        $this->pleaseWait();
+        $this->checkCategoriesPage();
     }
 
     /**
@@ -228,16 +227,15 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : null;
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : null;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
-
-        if (!is_null($category) && !is_null($productName)) {
-            $foundIt = $this->frontSearchAndOpenPageWithProduct($productName, $category);
-            if (!$foundIt) {
-                $this->fail('Could not find the product');
-            }
-            $this->frontVerifyProductPrices($verificationData, $productName);
-        } else {
+        if (is_null($category) || is_null($productName)) {
             $this->fail('Category or product name is not specified');
+
         }
+        $foundIt = $this->frontSearchAndOpenPageWithProduct($productName, $category);
+        if (!$foundIt) {
+            $this->fail('Could not find the product');
+        }
+        $this->frontVerifyProductPrices($verificationData);
     }
 
     /**
@@ -289,14 +287,15 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->addParameter('elementTitle', $title);
         //Form category xpath
-        $link = "//ul[@id='nav']";
+        $link = $this->_getControlXpath('pageelement', 'categories_menu');
         foreach ($nodes as $node) {
-            $link = $link . '//li[contains(a/span,"' . $node . '")]';
+            $this->addParameter('catName', $node);
+            $link = $link . $this->_getControlXpath('pageelement', 'category_container');
         }
-        $link = $link . '/a';
+        $link = $link . $this->_getControlXpath('button', 'category_button');
         $availableElement = $this->elementIsPresent($link);
         if (!$availableElement) {
-            $this->fail('"' . $categoryPath . '" category page could not be opened');
+            $this->fail('"' . $categoryPath . '" category page could not be opened with locator ' . $link);
         }
         //Determine category mca parameters
         $mca = $this->getMcaFromUrl($availableElement->attribute('href'));
@@ -321,7 +320,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('productName', $productName);
         $value = 1;
         for (; ;) {
-            if ($this->controlIsPresent('pageelement', 'product_name_header')) {
+            if ($this->controlIsPresent('pageelement', 'product_name')) {
                 return $value;
             } elseif ($this->controlIsPresent('link', 'next_page')) {
                 $value++;
@@ -338,29 +337,21 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      * Verifies the correctness of prices in the category
      *
      * @param array $verificationData
-     * @param string $productName
+     * @param string $currency
      */
-    public function frontVerifyProductPrices(array $verificationData, $productName = '')
+    public function frontVerifyProductPrices(array $verificationData, $currency = '$')
     {
-        if ($productName) {
-            $productName = "Product with name '$productName': ";
+        $productName = $this->getControlAttribute('pageelement', 'product_name', 'text');
+        if (isset($verificationData['qty'])) {
+            $actualQty = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
+            $this->assertSame($verificationData['qty'], $actualQty, 'Wrong Qty for ' . $productName . ' product');
+            unset($verificationData['qty']);
         }
-        $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
-        foreach ($verificationData as $key => $value) {
-            $this->addParameter('price', $value);
-            if (!$this->controlIsPresent('pageelement', $key)) {
-                $this->addVerificationMessage(
-                    $productName . 'Could not find element ' . $key . ' with price ' . $value);
-            }
-            unset($pageelements['ex_' . $key]);
+        $prices = $this->productHelper()->getFrontendProductPrices();
+        foreach ($verificationData as $priceName => $priceValue) {
+            $verificationData[$priceName] = floatval(str_replace($currency, '', $priceValue));
         }
-        foreach ($pageelements as $key => $value) {
-            if (preg_match('/^ex_/', $key) && $this->controlIsPresent('pageelement', $key)) {
-                $this->addVerificationMessage($productName . 'Element ' . $key . ' is on the page');
-            }
-        }
-
-        $this->assertEmptyVerificationErrors();
+        $this->assertEquals($verificationData, $prices, 'Wrong prices for ' . $productName . ' product');
     }
 
     /**

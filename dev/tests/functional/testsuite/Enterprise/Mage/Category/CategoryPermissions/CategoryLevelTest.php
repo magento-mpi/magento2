@@ -48,17 +48,19 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
         $simple = $this->loadDataSet('Product', 'simple_product_visible', array('general_categories' => $catPath));
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
 
         return array(
             'user' => array('email' => $userData['email'], 'password' => $userData['password']),
@@ -82,7 +84,8 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         //Data
         $this->addParameter('row', '1');
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->selectCategory($testData['catPath']);
         $this->assertTrue($this->controlIsPresent('tab', 'category_permissions_tab'),
             'Category permissions must be present');
@@ -134,7 +137,8 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
         $this->categoryHelper()->addNewCategoryPermissions($permission);
         $this->saveForm('save_category', false);
@@ -167,7 +171,8 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
         $this->categoryHelper()->addNewCategoryPermissions($permission);
         $this->saveForm('save_category', false);
@@ -198,7 +203,8 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
         $this->categoryHelper()->addNewCategoryPermissions($permission);
         $this->saveForm('save_category', false);
@@ -224,13 +230,15 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
      */
     public function severalPermissions($testData)
     {
+        $this->markTestIncomplete('MAGETWO-11599');
         //Data
         $permission = $this->loadDataSet('Category', 'several_permissions');
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         $this->addParameter('catName', $testData['catName']);
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
         $this->categoryHelper()->addNewCategoryPermissions($permission);
         $this->saveForm('save_category', false);
@@ -264,7 +272,8 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
         $this->categoryHelper()->addNewCategoryPermissions($permission);
         $this->saveForm('save_category', false);
@@ -293,7 +302,8 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $permission = $this->loadDataSet('Category', 'permissions_deny_browsing_category');
         $this->addParameter('catName', $testData['catName']);
         //Steps
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
         $this->categoryHelper()->addNewCategoryPermissions($permission);
         $this->saveForm('save_category', false);
@@ -314,7 +324,8 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('CategoryPermissions/category_permissions_disable');
-        $this->navigate('manage_categories');
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
         $this->assertFalse($this->controlIsPresent('tab', 'category_permissions_tab'),
             'Category permissions tab must be absent');
     }
