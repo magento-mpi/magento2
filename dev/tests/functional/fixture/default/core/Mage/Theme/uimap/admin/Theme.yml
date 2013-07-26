@@ -47,7 +47,7 @@ theme_list:
 new_theme:
     mca: system_design_theme/new/
     title: Design / Content / Magento Admin
-    uimap:
+    uimap: &newTheme
         form:
             tabs:
                 -
@@ -70,21 +70,22 @@ new_theme:
                                     fields:
                                         magento_version_from: //input[@id='magento_version_from']
                                         magento_version_to: //input[@id='magento_version_to']
-        buttons:
+        buttons: &themeButtons
             back: //button[@id='back']
             reset: //button[@id='reset']
             save_theme: //button[@id='save']
             delete_theme: //button[@id='delete']
             save_and_continue_edit: //button[@id='save_and_continue']
-        messages:
+        messages: &themeMessages
             success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the theme.')]
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the theme.')]
+            confirmation_for_delete: Are you sure you want to do this?
 
 # Edit Theme Page
 edit_theme:
     mca: system_design_theme/edit/id/%id%/
     title: Design / Content / Magento Admin
-    uimap:
+    uimap: &editTheme
         form:
             tabs:
                 -
@@ -149,13 +150,5 @@ edit_theme:
                                     fields:
                                         select_js_file_to_upload: //input[@id='js_files_uploader']
                                         upload_js: //input[@id='js_uploader_button']
-        buttons:
-            back: //button[@id='back']
-            reset: //button[@id='reset']
-            save_theme: //button[@id='save']
-            delete_theme: //button[@id='delete']
-            save_and_continue_edit: //button[@id='save_and_continue']
-        messages:
-            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the theme.')]
-            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the theme.')]
-            confirmation_for_delete: Are you sure you want to do this?
+        buttons: *themeButtons
+        messages: *themeMessages

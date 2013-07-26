@@ -27,6 +27,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Test for verifying main controls
      *
      * @test
      */
@@ -47,22 +48,27 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      *
      * @param $emptyField
      * @param $fieldType
-     * @dataProvider withRequiredFieldsEmptyDataProvider
      *
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
-        //Data:
+        //Data
         $themeData = $this->loadDataSet('Theme', 'new_theme', array($emptyField => ''));
-        //Steps:
+        //Steps
         $this->themeHelper()->createTheme($themeData);
-        //Verify:
+        //Verify
         $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
+    /**
+     * DataProvider for empty required fields
+     *
+     * @return array
+     */
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
@@ -83,7 +89,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     public function createOnlyRequiredField()
     {
         //Data
-        $themeData = $this->loadDataSet('Theme', 'new_theme', array('theme_parent' => 'Recon'));
+        $themeData = $this->loadDataSet('Theme', 'new_theme');
         //Steps
         $this->themeHelper()->createTheme($themeData);
         //Verify
@@ -93,13 +99,15 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     /**
      * Create Theme with all changed fields
      *
+     * @return array
+     *
      * @test
      */
     public function createWithAllFields()
     {
-        //Data:
+        //Data
         $themeData = $this->loadDataSet('Theme', 'new_theme',
-            array('theme_parent' => 'Umecha',
+            array(
                  'theme_version' => $this->themeHelper()->generateVersion(),
                  'theme_title' => $this->generate('string', 65, ':alnum:'),
                  'magento_version_from' => $this->themeHelper()->generateVersion(),
@@ -108,9 +116,9 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         );
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
             array('theme_title' => $themeData['theme_settings']['theme_title']));
-        //Steps:
+        //Steps
         $this->themeHelper()->createTheme($themeData);
-        //Verify:
+        //Verify
         $this->assertMessagePresent('success', 'success_saved_theme');
         $this->themeHelper()->openTheme($searchData);
         $this->themeHelper()->verifyTheme($themeData);
@@ -121,17 +129,21 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     /**
      * Delete virtual theme
      *
-     * @depends createWithAllFields
      * @params $themeData
+     *
      * @test
+     * @depends createWithAllFields
      */
     public function deleteTheme($themeData)
     {
+        //Data
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
             array('theme_title' => $themeData['theme_settings']['theme_title']));
+        //Steps
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($searchData);
         $this->clickButtonAndConfirm('delete_theme', 'confirmation_for_delete');
+        //Verify
         $this->assertMessagePresent('success', 'success_deleted_theme');
         $theme = $this->themeHelper()->searchTheme($searchData);
         $this->assertNull($theme, 'Theme is present in grid after deleting');
@@ -144,8 +156,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      */
     public function deletePhysicalTheme()
     {
-        $searchData = $this->loadDataSet('Theme', 'theme_search_data',
-            array('theme_title' => 'Piece of Cake'));
+        $searchData = $this->loadDataSet('Theme', 'theme_search_data');
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($searchData);
         $this->assertFalse($this->controlIsVisible('button', 'delete_theme'));
@@ -160,11 +171,11 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     {
         //Data
         $themeData = $this->loadDataSet('Theme', 'new_theme', array(
-            'theme_parent' => 'Recon',
             'theme_title' => $this->generate('string', 65, ':alnum:')
-            ));
+        ));
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
-            array('theme_title' => $themeData['theme_settings']['theme_title']));
+            array('theme_title' => $themeData['theme_settings']['theme_title'])
+        );
         //Steps
         $this->themeHelper()->createTheme($themeData);
         $this->assertMessagePresent('success', 'success_saved_theme');
@@ -198,20 +209,25 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      */
     public function verifyThemeAutogeneratedValues($fieldName, $value)
     {
-        //Data:
+        //Data
         $themeData = $this->loadDataSet('Theme', 'new_theme', array($fieldName => '%noValue%'));
-        //Steps:
+        //Steps
         $this->themeHelper()->createTheme($themeData, false);
-        $this->clickButton('save_and_continue_edit');
+        //Verify
         $this->assertEquals($value, $this->getControlAttribute('field', $fieldName, 'value'),
             'Autogenerated values are not correct');
     }
 
+    /**
+     * DataProvider of prepopulated values for Theme fields
+     *
+     * @return array
+     */
     public function prepopulatedValuesDataProvider()
     {
         return array(
             array('theme_version', '0.0.0.1'),
-            array('theme_title', 'Copy of Upstream'),
+            array('theme_title', 'Copy of Magento Demo'),
             array('magento_version_from', '2.0.0.0-dev1'),
             array('magento_version_to', '*')
         );
@@ -219,14 +235,14 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 
     /**
      * Edit Theme
-
+     *
      * @test
      */
     public function editThemeInfo()
     {
         //Data:
         $themeData = $this->loadDataSet('Theme', 'new_theme',
-            array('theme_parent' => 'Electron', 'theme_title' => $this->generate('string', 65, ':alnum:')));
+            array('theme_title' => $this->generate('string', 65, ':alnum:')));
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
             array('theme_title' => $themeData['theme_settings']['theme_title']));
         $editData = $this->loadDataSet('Theme', 'new_theme',
@@ -241,8 +257,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->createTheme($themeData);
         $this->assertMessagePresent('success', 'success_saved_theme');
         $this->themeHelper()->openTheme($searchData);
-        $this->fillFieldset($editData['theme_settings'], 'theme_settings');
-        $this->fillFieldset($editData['requirements'], 'requirements');
+        $this->themeHelper()->fillThemeGeneralTab($editData);
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_theme');
         //Verify
@@ -253,13 +268,14 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 
     /**
      * Reset button functionality
+     *
      * @test
      */
     public function resetThemeForm()
     {
         //Data:
         $themeData = $this->loadDataSet('Theme', 'new_theme',
-            array('theme_parent' => 'Magento Fixed Design', 'theme_title' => $this->generate('string', 65, ':alnum:')));
+            array('theme_title' => $this->generate('string', 65, ':alnum:')));
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
             array('theme_title' => $themeData['theme_settings']['theme_title']));
         $editData = $this->loadDataSet('Theme', 'new_theme',
@@ -274,8 +290,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->createTheme($themeData, false);
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_theme');
-        $this->fillFieldset($editData['theme_settings'], 'theme_settings');
-        $this->fillFieldset($editData['requirements'], 'requirements');
+        $this->themeHelper()->fillThemeGeneralTab($editData);
         $this->clickButton('reset');
         $this->clickButton('save_theme');
         $this->assertMessagePresent('success', 'success_saved_theme');
@@ -287,92 +302,97 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @depends
+     * Verify quantity of theme CSS links
+     *
+     * @param string $linkName
+     * @param int $linkQty
+     * @param array $themeData
+     *
+     * @depends resetThemeForm
      * @dataProvider allThemeCssLinks
      * @test
      */
-    public function verifyThemeCssLinks($linkName, $linkQty)
+    public function verifyThemeCssLinks($linkName, $linkQty, $themeData)
     {
-        $themeData = $this->loadDataSet('Theme', 'new_theme',
-            array('theme_parent' => 'Magento Demo',
-                 'theme_version' => $this->themeHelper()->generateVersion(),
-                 'theme_title' => $this->generate('string', 65, ':alnum:'),
-                 'magento_version_from' => $this->themeHelper()->generateVersion(),
-                 'magento_version_to' => $this->themeHelper()->generateVersion(),
-            )
-        );
+        //Data
+        $searchData = $this->loadDataSet('Theme', 'theme_search_data',
+            array('theme_title' => $themeData['theme_settings']['theme_title']));
         //Steps:
-        $this->themeHelper()->createTheme($themeData, false);
-        $this->clickButton('save_and_continue_edit');
-        $this->assertMessagePresent('success', 'success_saved_theme');
+
+        $this->themeHelper()->openTheme($searchData);
+        //Verify
         $this->openTab('css_editor');
         $existedLinks = $this->getControlCount('link', $linkName);
         $this->assertEquals($linkQty, $existedLinks, 'Incorrect quantity of theme links');
     }
 
+    /**
+     * DataProvider for verifying quantity of css links
+     *
+     * @return array
+     */
     public function allThemeCssLinks()
     {
         return array(
-            array('framework_files', '7'),
-            array('library_files', '1'),
-            array('theme_files', '3'),
+            array('framework_files', 7),
+            array('library_files', 1),
+            array('theme_files', 3),
         );
     }
 
     /**
-     * <p>Notice: setup *.css in mimeType</p>
+     * Notice: setup *.css in mimeType
      * https://wiki.corp.x.com/display/QAA/Configure+FireFox+for+auto+confirm+any+file+types
      *
      * Download theme css files
      *
      * @param $linkName
      * @param $fileName
-     * @dataProvider allThemeCss
+     * @param $themeData
+     *
      * @test
+     * @depends resetThemeForm
+     * @dataProvider allThemeCss
      */
-    public function downloadThemeCss($fileName, $linkName)
+    public function downloadThemeCss($fileName, $linkName, $themeData)
     {
         //Data
         $fileUrl = $this->getConfigHelper()->getPathToTestFiles($fileName);
         $expectedContent = file_get_contents($fileUrl);
         $expectedContent = str_replace(array("\r\n", "\n"), '', $expectedContent);
-        $themeData = $this->loadDataSet('Theme', 'new_theme',
-            array('theme_parent' => 'Magento Demo',
-                 'theme_version' => $this->themeHelper()->generateVersion(),
-                 'theme_title' => $this->generate('string', 65, ':alnum:'),
-                 'magento_version_from' => $this->themeHelper()->generateVersion(),
-                 'magento_version_to' => $this->themeHelper()->generateVersion(),
-            )
-        );
-        //Steps:
-        $this->themeHelper()->createTheme($themeData, false);
-        $this->clickButton('save_and_continue_edit');
-        $this->assertMessagePresent('success', 'success_saved_theme');
+        $searchData = $this->loadDataSet('Theme', 'theme_search_data',
+            array('theme_title' => $themeData['theme_settings']['theme_title']));
+        //Steps
+        $this->themeHelper()->openTheme($searchData);
         $this->openTab('css_editor');
-
+        //Verify
         $selectedFileUrl = $this->getControlAttribute('link', $linkName, 'href');
         $downloadedFileContent = $this->getFile($selectedFileUrl);
         $downloadedFileContent = str_replace(array("\r\n", "\n"), '', $downloadedFileContent);
-        $this->assertEquals($expectedContent, $downloadedFileContent, 'File was not downloaded or not equal to expected.');
+        $this->assertEquals($expectedContent, $downloadedFileContent,
+            'File was not downloaded or not equal to expected.');
     }
 
+    /**
+     * DataProvider of css links' content
+     * @return array
+     */
     public function allThemeCss()
     {
         return array(
-            array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),//0
-            array('Mage_Catalog__zoom.css', 'mage_catalog_zoom'), //1
-            array('Mage_Cms__widgets.css', 'mage_cms_widgets'), //2
-            array('Mage_Oauth--css-oauth-simple.css', 'mage_oauth_css_oauth_simple'), //3
-            array('Mage_Page__css_tabs.css', 'mage_page_css_tabs'), //4
-            array('Mage_Reports__widgets.css', 'mage_reports_widgets'), //5
-            array('Mage_Widget__widgets.css', 'mage_widget_widgets'), //6
-            array('mage-calendar.css', 'mage_calendar'), //7
-            array('css_print.css', 'css_print'), //8
-            array('css_styles-ie.css', 'css_style_ie'), //9
-            array('css_styles.css', 'css_style'), //10
-            );
+            array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
+            array('Mage_Catalog__zoom.css', 'mage_catalog_zoom'),
+            array('Mage_Cms__widgets.css', 'mage_cms_widgets'),
+            array('Mage_Oauth--css-oauth-simple.css', 'mage_oauth_css_oauth_simple'),
+            array('Mage_Page__css_tabs.css', 'mage_page_css_tabs'),
+            array('Mage_Reports__widgets.css', 'mage_reports_widgets'),
+            array('Mage_Widget__widgets.css', 'mage_widget_widgets'),
+            array('mage-calendar.css', 'mage_calendar'),
+            array('css_print.css', 'css_print'),
+            array('css_styles-ie.css', 'css_style_ie'),
+            array('css_styles.css', 'css_style'),
+        );
     }
-
 
     /**
      * TBD. Should be resolved problem with file upload
@@ -399,9 +419,9 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $downloadDir  = $appConfig['downloadDir'];
         $fileName = 'Mage_Catalog__widgets.css';
         $filePath = $downloadDir . DIRECTORY_SEPARATOR . $fileName;
-//        $this->fillField('select_css_file_to_upload', $filePath); //Problem with file upload.
-//        $this->fillForm(array('select_css_file_to_upload' => $filePath)); try to find workaround
-//        $this->assertTrue($this->controlIsEditable('field','upload_css'));
+        $this->fillField('select_css_file_to_upload', $filePath); //Problem with file upload.
+        $this->fillForm(array('select_css_file_to_upload' => $filePath));
+        $this->assertTrue($this->controlIsEditable('field','upload_css'));
     }
 
     /**
@@ -428,8 +448,8 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $downloadDir  = $appConfig['downloadDir'];
         $fileName = 'Mage_Catalog__widgets.css';
         $filePath = $downloadDir . DIRECTORY_SEPARATOR . $fileName;
-//        $this->fillField('select_js_file_to_upload', $filePath); //Problem with file upload.
-//        $this->assertTrue($this->controlIsEditable('field','upload_js'));
+        $this->fillField('select_js_file_to_upload', $filePath); //Problem with file upload.
+        $this->assertTrue($this->controlIsEditable('field','upload_js'));
     }
 
     /**
@@ -438,9 +458,9 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      */
     public function deleteAllThemes()
     {
+        $this->markTestIncomplete('TBD Deleting test cases creation');
         $this->navigate('theme_list');
         $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'));
-
         $xpath = $this->_getControlXpath('pageelement', 'theme_grid_theme_path_empty_column');
         while ($this->elementIsPresent($xpath)) {
             $this->clickControl('pageelement', 'theme_grid_theme_path_empty_column');
@@ -451,6 +471,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             $this->waitForPageToLoad();
             $this->assertMessagePresent('success', 'success_deleted_theme');
         }
-
     }
 }
+

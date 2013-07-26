@@ -80,6 +80,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
     public function searchTheme($themeData)
     {
         $searchData = $this->_prepareDataForSearch($themeData);
+        $this->navigate('theme_list');
         $themeLocator = $this->search($searchData, 'theme_list_grid');
 
         return $themeLocator;
@@ -100,7 +101,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         $cellElement = $this->getChildElement($themeRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($themeUrl));
-        //Open product
+        //Open theme
         $this->url($themeUrl);
         $this->validatePage('edit_theme');
     }
