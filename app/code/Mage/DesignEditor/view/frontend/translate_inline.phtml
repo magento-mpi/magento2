@@ -32,11 +32,9 @@
   <img src="${img}" height="16" width="16" class="translate-edit-icon">
 </script>
 
-<div id="translate-dialog" data-role="translate-dialog"></div>
-
-<div id="loading_mask_loader" data-container="loading_mask_loader" class="hidden">
-    <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif', array('area' => 'adminhtml')) ?>"/>
-</div>
+<div id="translate-dialog" data-role="translate-dialog"
+     data-mage-init="{loader: {icon: '<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif', array('area' => 'adminhtml')) ?>'}}">
+ </div>
 
 <script type="text/javascript">
     (function($){
