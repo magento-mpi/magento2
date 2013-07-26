@@ -9,6 +9,6 @@
 -->
 <layout version="0.1.0">
     <catalogsearch_result_index>
-        <update handle="page_one_column"/>
+        <move element="catalogsearch.leftnav" destination="left" before="-"/>
     </catalogsearch_result_index>
 </layout>
