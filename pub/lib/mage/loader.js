@@ -10,9 +10,8 @@
 (function($, console) {
     $.widget("mage.loader", {
         loaderStarted: 0,
+        spinner: $(undefined),
         options: {
-            defaultContainer: '[data-container=body]',
-            loaderContainer: '[data-role="loader"]',
             icon: '',
             texts: {
                 loaderText: $.mage.__('Please wait...'),
@@ -66,7 +65,7 @@
         show: function() {
             this._render();
             this.loaderStarted++;
-            this._findLoader().show();
+            this.spinner.show();
             return false;
         },
 
@@ -77,14 +76,10 @@
             if (this.loaderStarted > 0) {
                 this.loaderStarted--;
                 if (this.loaderStarted === 0) {
-                    this._findLoader().hide();
+                    this.spinner.hide();
                 }
             }
             return false;
-        },
-
-        _findLoader: function() {
-            return this.element.find(this.options.loaderContainer);
         },
 
         /**
@@ -92,11 +87,11 @@
          * @protected
          */
         _render: function() {
-            if (this._findLoader().length === 0) {
-                this.loader = $.tmpl(this.options.template, this.options)
+            if (this.spinner.length === 0) {
+                this.spinner = $.tmpl(this.options.template, this.options)
                     .css(this._getCssObj());
-                this.element.prepend(this.loader);
             }
+            this.element.prepend(this.spinner);
         },
 
         /**
@@ -104,7 +99,7 @@
          * @protected
          */
         _getCssObj: function() {
-            var isBodyElement = this.element.is(this.options.defaultContainer),
+            var isBodyElement = this.element.is('[data-container=body]'),
                 width = isBodyElement ? $(window).width() : this.element.outerWidth(),
                 height = isBodyElement ? $(window).height() : this.element.outerHeight(),
                 position = isBodyElement ? 'fixed' : 'relative';
@@ -120,7 +115,7 @@
          * Destroy loader
          */
         _destroy: function() {
-            this._findLoader().remove();
+            this.spinner.remove();
         }
     });
 
