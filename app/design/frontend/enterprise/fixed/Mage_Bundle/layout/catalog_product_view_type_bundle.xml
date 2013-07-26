@@ -30,13 +30,13 @@
         <reference name="product.info.options.wrapper.bottom">
             <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
             <action method="unsetChild">
-                <block>product.info.addtocart</block>
+                <block>addtocart</block>
             </action>
             <action method="setHideRequiredNotice">
                 <flag>1</flag>
             </action>
             <action method="unsetChild">
-                <block>product.info.addto</block>
+                <block>addto</block>
             </action>
         </reference>
     </catalog_product_view_type_bundle>
