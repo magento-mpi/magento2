@@ -71,7 +71,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     /**
      * Test that non-frontend areas are not affected neither by user-agent reg expressions, nor by the "design change"
      *
-     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:22:"default/demo_blue";}}
+     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:22:"default/blank";}}
      * magentoDataFixture Mage/Core/_files/design_change.php
      * @magentoAppIsolation enabled
      */
@@ -82,6 +82,6 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         $model = Mage::getModel('Mage_Core_Model_App_Area', array('areaCode' => 'install'));
         $model->detectDesign(new Zend_Controller_Request_Http);
         $this->assertNotEquals('default/modern', Mage::getDesign()->getDesignTheme()->getThemePath());
-        $this->assertNotEquals('default/demo_blue', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertNotEquals('default/blank', Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 }
