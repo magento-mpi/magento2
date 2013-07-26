@@ -28,7 +28,7 @@
                 <label>Bundle Product View Summary</label>
                 <block type="Mage_Bundle_Block_Catalog_Product_Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
                     <action method="setMAPTemplate">
-                        <tmpl>Mage_Catalog::catalog/product/price_msrp_item.phtml</tmpl>
+                        <tmpl>Mage_Catalog::product/price_msrp_item.phtml</tmpl>
                     </action>
                 </block>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>

@@ -23,12 +23,6 @@
 
         <move element="bundle.prices" destination="bundle.summary" before="-"/>
 
-        <reference name="bundle.prices">
-            <action method="setMAPTemplate">
-                <tmpl>Mage_Catalog::catalog/product/price_msrp_item.phtml</tmpl>
-            </action>
-        </reference>
-
         <reference name="product.info.options.wrapper">
             <block type="Mage_Catalog_Block_Product_View" name="bundle.product.view.options.notice" after="-" template="Mage_Bundle::catalog/product/view/options/notice.phtml"/>
         </reference>
