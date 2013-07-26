@@ -106,6 +106,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsCatalogPriceRulesReadRights()
     {
+        $this->markTestIncomplete('MAGETWO-3687');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl', array(
             'resource_acl' => 'marketing-promotions-catalog_price_rules',
             'resource_acl_skip' => 'marketing-promotions-catalog_price_rules-edit'
@@ -193,6 +194,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsShoppingCartRulesReadRights()
     {
+        $this->markTestIncomplete('MAGETWO-3687');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl', array(
             'resource_acl' => 'marketing-promotions-cart_price_rules',
             'resource_acl_skip' => 'marketing-promotions-cart_price_rules-edit'

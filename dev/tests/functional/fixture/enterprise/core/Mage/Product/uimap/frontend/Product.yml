@@ -14,12 +14,12 @@ product_page:
         form:
             fieldsets:
                 -
-                    customize_product_info:
+                    customize_product_info: &customize_product_info-fieldset
                         xpath: //div[@id='options-container']
                         links:
-                            customized_add_to_wishlist: //a[text()='Add to Wish List']
+                            customized_add_to_wishlist: //a[text()='Add to Wishlist']
                 -
-                    product_info:
+                    product_info: &product_info-fieldset
                         buttons:
                             customize_and_add_to_cart: //button[span='Customize and Add to Cart']
                         pageelements:
@@ -55,12 +55,9 @@ product_review:
         form:
             fieldsets:
                 -
-                    customize_product_info:
-                        xpath: //div[@id='options-container']
+                    customize_product_info: *customize_product_info-fieldset
                 -
-                    product_info:
-                        buttons:
-                            customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+                    product_info: *product_info-fieldset
                 -
                     customer_reviews:
                         pageelements:

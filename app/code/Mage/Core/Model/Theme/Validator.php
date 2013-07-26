@@ -32,7 +32,7 @@ class Mage_Core_Model_Theme_Validator
      *
      * @var array
      */
-    protected $_errorMessages = array();
+    protected $_errorMessages;
 
     /**
      * Initialize validators
@@ -60,9 +60,7 @@ class Mage_Core_Model_Theme_Validator
                   'message' => $this->_helper->__('Theme version has not compatible format'))
         );
 
-        $this->addDataValidators('theme_version', $versionValidators)
-            ->addDataValidators('magento_version_to', $versionValidators)
-            ->addDataValidators('magento_version_from', $versionValidators);
+        $this->addDataValidators('theme_version', $versionValidators);
 
         return $this;
     }
@@ -195,6 +193,7 @@ class Mage_Core_Model_Theme_Validator
      */
     public function validate(Varien_Object $data)
     {
+        $this->_errorMessages = array();
         foreach ($this->_dataValidators as $dataKey => $validators) {
             if (!isset($data[$dataKey]) || !$data->dataHasChangedFor($dataKey)) {
                 continue;

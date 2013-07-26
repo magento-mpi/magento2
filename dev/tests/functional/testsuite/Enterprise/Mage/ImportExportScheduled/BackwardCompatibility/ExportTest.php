@@ -96,6 +96,7 @@ class Enterprise_Mage_ImportExportScheduled_BackwardCompatibility_ExportTest ext
      */
     public function simpleScheduledImport($customersCsv, $productsCsv)
     {
+        $this->markTestIncomplete('MAGETWO-11477');
         // Import Customer
         $importDataCustomers = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'entity_type' => 'Customers',

@@ -23,7 +23,6 @@ app/code/Enterprise/Wishlist
 app/code/Mage/Authorizenet
 app/code/Mage/Ogone
 app/code/Mage/PageCache
-app/design/frontend/mage_iphone/Mage_Downloadable
 app/design/frontend/mage_fixed_width/Enterprise_GiftRegistry
 app/design/frontend/mage_fixed_width/Mage_Downloadable
 app/design/frontend/mage_iphone_html5/Mage_Downloadable

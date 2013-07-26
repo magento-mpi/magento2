@@ -48,11 +48,11 @@ configuration_menu_default:
     general_contacts:
         contact_us: ~
         email_options: ~
-    sales_google_api:
+    general_google_api:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~
-        google_website_optimizer: ~
+        #google_website_optimizer: ~
         google_checkout_shipping_merchant_calculated: ~
         google_checkout_shipping_carrier_calculated: ~
         google_checkout_shipping_flat_rate: ~
@@ -273,11 +273,11 @@ configuration_menu_website:
     general_contacts:
         contact_us: ~
         email_options: ~
-    sales_google_api:
+    general_google_api:
         google_analytics: ~
         google_shopping: ~
         google_checkout: ~
-        google_website_optimizer: ~
+        #google_website_optimizer: ~
         google_checkout_shipping_merchant_calculated: ~
         google_checkout_shipping_carrier_calculated: ~
         google_checkout_shipping_flat_rate: ~

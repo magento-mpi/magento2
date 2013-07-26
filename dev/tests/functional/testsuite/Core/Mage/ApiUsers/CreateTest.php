@@ -18,6 +18,11 @@
  */
 class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11393');
+    }
+
     /**
      * <p>Preconditions:</p>
      * <p>1. Login to Admin page</p>

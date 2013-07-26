@@ -22,7 +22,7 @@
             imageRatioClass: '.image-ratio',
             imageWidthClass: '.image-width',
             imageHeightClass: '.image-height',
-            formUrl: '<?php echo $this->getUrl('*/system_design_editor_tools/saveImageSizing', array('theme_id' => $this->getTheme()->getId())) ?>',
+            formUrl: '<?php echo $this->getImageSizingUrl() ?>',
             maxSizeValue: <?php echo Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator::MAX_SIZE_VALUE ?>,
             messagesContainer: '#vde-tab-imagesizing-messages-placeholder'
         });

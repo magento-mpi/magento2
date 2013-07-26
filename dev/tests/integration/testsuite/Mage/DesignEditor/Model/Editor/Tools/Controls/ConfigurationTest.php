@@ -114,10 +114,10 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends PH
         $theme = Mage::getDesign()->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $theme);
         $configuration->saveData($saveData);
-        $this->assertFileExists($theme->getCustomViewConfigPath());
+        $this->assertFileExists($theme->getCustomization()->getCustomViewConfigPath());
 
         $actual = new DOMDocument();
-        $actual->load($theme->getCustomViewConfigPath());
+        $actual->load($theme->getCustomization()->getCustomViewConfigPath());
         $domXpath = new DOMXPath($actual);
         foreach ($xpathData as $xpath => $isEmpty) {
             if ($isEmpty) {

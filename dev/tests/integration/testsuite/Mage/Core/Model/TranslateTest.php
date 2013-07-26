@@ -67,7 +67,10 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         $this->_designModel = $this->getMock('Mage_Core_Model_View_Design',
             array('getDesignTheme'),
-            array(Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'))
+            array(
+                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
+                Mage::getSingleton('Mage_Core_Model_Theme_FlyweightFactory')
+            )
         );
 
         $this->_designModel->expects($this->any())

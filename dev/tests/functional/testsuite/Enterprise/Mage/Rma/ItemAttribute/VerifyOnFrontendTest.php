@@ -165,7 +165,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         //Steps
         $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
         $this->fillDropdown('show_on_frontend', 'No');
-        $this->clickButton('save_attribute');
+        $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
@@ -180,7 +180,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->addParameter('elementTitle', $attributeLabel);
         $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
         $this->fillDropdown('show_on_frontend', 'Yes');
-        $this->clickButton('save_attribute');
+        $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
     }
 

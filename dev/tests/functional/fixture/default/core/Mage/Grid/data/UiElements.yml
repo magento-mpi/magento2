@@ -489,8 +489,6 @@ theme_list:
         theme_parent_id: ~
         theme_path: ~
         theme_version: ~
-        magento_version_from: ~
-        magento_version_to: ~
     dropdown:
         view_per_page: ~
     headers:

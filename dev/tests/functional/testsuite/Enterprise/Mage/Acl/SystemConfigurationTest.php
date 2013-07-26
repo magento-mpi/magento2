@@ -116,6 +116,9 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      */
     public function systemConfigurationForWebsite($testData)
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11392');
+        }
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_website');
         //Steps
         $this->adminUserHelper()->loginAdmin($testData);

@@ -1717,3 +1717,10 @@ th.required:after {
 .field-url-rewrite-option-select {
     padding-top: 13px;
 }
+
+
+/* jstree */
+.jstree-default .disabled > a {
+    color: #a29c94;
+}
+/*  File brouser */

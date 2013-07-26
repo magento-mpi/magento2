@@ -192,16 +192,18 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Create CMS Banner with all widgets type</p>
      *
-     * @test
+     * @param array $widgetData
      *
+     * @test
      * @depends preconditionsForTests
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-6029
      */
-    public function withAllWidgetsType()
+    public function withAllWidgetsType($widgetData)
     {
         //Data
-        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields');
+        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields',
+            array('filter_sku' => $widgetData['filter_sku']));
         //Steps
         $this->navigate('manage_cms_banners');
         $this->cmsBannersHelper()->createCmsBanner($pageData);
@@ -213,19 +215,21 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Create CMS Banner with all widgets type for Specific Content</p>
      *
-     * @test
+     * @param array $widgetData
      *
+     * @test
      * @depends preconditionsForTests
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-6030
      */
-    public function withAllWidgetsTypeSpecificContent()
+    public function withAllWidgetsTypeSpecificContent($widgetData)
     {
         //Data
         $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields', array(
             'no_default_content' => 'Yes',
             'content_area' => '%noValue%',
-            'specific_content_use_default' => 'No'
+            'specific_content_use_default' => 'No',
+            'filter_sku' => $widgetData['filter_sku']
         ));
         //Steps
         $this->navigate('manage_cms_banners');
@@ -275,10 +279,9 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Create CMS Banner with Related Promotions Rules</p>
      *
-     * param array $priceRuleData
+     * @param array $priceRuleData
      *
      * @test
-     *
      * @depends preconditionsForTests
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-6032

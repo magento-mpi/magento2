@@ -111,7 +111,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
             return;
         }
 
-        $resource   = explode(',', $this->getRequest()->getParam('resource', false));
+        $resource   = $this->getRequest()->getParam('resource', false);
         $roleUsers  = $this->getRequest()->getParam('in_role_user', null);
         parse_str($roleUsers, $roleUsers);
         $roleUsers = array_keys($roleUsers);

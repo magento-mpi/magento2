@@ -157,18 +157,18 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         //Steps
         $this->productHelper()->selectTypeProduct('simple');
         $this->productHelper()->fillProductInfo($productData);
+        //Steps
+        $this->productHelper()->openProductTab('prices');
+        $columnsName = $this->getTableHeadRowNames($this->_getControlXpath('pageelement', 'prices_group_price_grid'));
+        //Verifying
+        $this->assertFalse(in_array('Web Site', $columnsName), "Group Price table contain 'Web Site' column");
+        //Steps
+        $columnsName = $this->getTableHeadRowNames($this->_getControlXpath('pageelement', 'prices_tier_price_grid'));
+        //Verifying
+        $this->assertFalse(in_array('Web Site', $columnsName), "Tier Price table contain 'Web Site' column");
         //Verifying
         $this->assertFalse($this->controlIsPresent('tab', 'websites'),
             "'Websites' tab is present on the page ");
-        //Steps
-        $this->productHelper()->openProductTab('prices');
-        $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
-        //Verifying
-        $this->assertFalse((isset($columnsName['website'])), "Group Price table contains 'Website' column");
-        //Steps
-        $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_tier_price_grid_head');
-        //Verifying
-        $this->assertFalse((isset($columnsName['website'])), "Tier Price table contains 'Website' column");
     }
 
     /**
@@ -225,6 +225,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      */
     public function verificationTags()
     {
+        $this->markTestIncomplete('Tag module is disabled');
         //Steps
         $this->admin('all_tags');
         //Verifying
@@ -336,6 +337,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      */
     public function verificationPolls()
     {
+        $this->markTestIncomplete('CMS Poll module is disabled');
         $this->navigate('poll_manager');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_poll'),
             'There is no "Add New Poll" button on the page');
@@ -496,7 +498,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
             array('report_customer_accounts'),
             array('report_customer_totals'),
             array('report_customer_orders'),
-            array('report_tag_popular'),
+            //array('report_tag_popular'),
         );
     }
 
