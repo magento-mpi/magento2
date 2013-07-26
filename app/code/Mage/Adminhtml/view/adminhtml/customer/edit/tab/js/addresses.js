@@ -246,13 +246,12 @@
 
             if (countryElement.value) {
                 // obtain regions for the country
-                var url = this.options.regionsUrl + 'parent/' + countryElement.value;
-                console.log(url);
                 $.ajax({
-                    url: url,
+                    url: this.options.regionsUrl,
                     type: 'post',
                     dataType: 'json',
-                    data: {garbage: true},
+                    showLoader: true,
+                    data: {parent: countryElement.value},
                     context: this,
                     success: jQuery.proxy(this._refreshRegionField, this)
                 });
