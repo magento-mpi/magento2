@@ -7,4 +7,4 @@ app/code/Enterprise/GiftRegistry
 app/code/Enterprise/Pbridge
 app/code/Enterprise/Rma
 app/code/Enterprise/Wishlist
-app/design/frontend/enterprise/fixed/js
+app/design/frontend/mage_fixed_width/js

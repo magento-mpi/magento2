@@ -103,7 +103,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     public function addDefaultPattern($area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode(DIRECTORY_SEPARATOR, array($area, '*', '*', 'theme.xml')));
+        $this->addTargetPattern(implode(DIRECTORY_SEPARATOR, array($area, '*', 'theme.xml')));
         return $this;
     }
 
@@ -234,7 +234,11 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
         $area = array_shift($pathPieces);
         $themePath = implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $pathPieces);
-        return array('area' => $area, 'theme_path' => $themePath, 'theme_directory' => $themeDirectory);
+        return array(
+            'area'            => $area,
+            'theme_path'      => $themePath,
+            'theme_directory' => $themeDirectory,
+            'code'            => $themePath);
     }
 
     /**
@@ -258,7 +262,6 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
 
         return array(
-            'code'                 => $packageCode . Mage_Core_Model_Theme::CODE_SEPARATOR . $themeCode,
             'parent_id'            => null,
             'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
             'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),

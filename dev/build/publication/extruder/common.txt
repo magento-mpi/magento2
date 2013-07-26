@@ -10,9 +10,9 @@ app/code/Mage/Install/Block/Db/Type/{Oracle,Mssql}.php
 app/code/Mage/Install/Model/Installer/Db/{Mssql,Oracle}.php
 app/code/Mage/Install/view/install/db/{mssql,oracle}.phtml
 app/code/Mage/Install/view/install/layout/install_wizard_config_{oracle,mssql}.xml
-app/design/adminhtml/default/pro
-app/design/frontend/pro
-app/design/install/default/pro
+app/design/adminhtml/mage_pro
+app/design/frontend/mage_pro
+app/design/install/mage_pro
 app/etc/aliases_to_classes_map.json
 app/etc/config.{oracle,mssql}.xml
 dev/tests/functional

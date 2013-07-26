@@ -166,7 +166,7 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
         if (count($result) > 1) {
             return $result;
         }
-        return array($package, $parentTheme);
+        return array($parentTheme);
     }
 
     /**
