@@ -120,7 +120,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'static/frontend/default/modern/en_US/Mage_Page/favicon.ico',
+            'static/frontend/default/blank/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
