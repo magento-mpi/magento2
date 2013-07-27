@@ -17,9 +17,6 @@
             defaultCountries: [],
             optionalZipCountries: [],
             requiredStateForCountries: [],
-            countryElement: null,
-            regionIdElement: null,
-            regionElement: null,
             deleteConfirmPrompt: ''
         },
 
@@ -86,7 +83,11 @@
             this._on(this.element.find(':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'),
                 {'click': '_addNewAddress'});
             this._on({'formchange': '_updateAddress', 'dataItemDelete': '_deleteItemPrompt'});
-            this._on(this.element.find('.countries'), {'change': '_onAddressCountryChanged'});
+            this.element.find('.countries').addressCountry({
+                regionsUrl: this.options.regionsUrl,
+                optionalZipCountries: this.optionalZipCountries,
+                requiredStateForCountries: this.requiredStateForCountries
+            });
         },
 
         /**
@@ -215,12 +216,43 @@
         },
 
         /**
-         * This method binds a country change event to _onAddressCountryChanged method.
-         * @param {JQuery} formElement The form containing the country that changed.
+         * This method binds a country element on the given form to the addressCountry widget.
+         * @param {JQuery} formElement The form containing the country.
          * @private
          */
         _bindCountryRegionRelation : function(formElement){
-            this._on(formElement.find('.countries'), {'change': '_onAddressCountryChanged'});
+            $(formElement).find('.countries').addressCountry({
+                regionsUrl: this.options.regionsUrl,
+                optionalZipCountries: this.optionalZipCountries,
+                requiredStateForCountries: this.requiredStateForCountries
+            });
+        }
+    });
+
+    $.widget('mage.addressCountry', {
+        options: {
+            regionsUrl: null,
+            optionalZipCountries: [],
+            requiredStateForCountries: [],
+            countryElement: null,
+            regionIdElement: null,
+            regionElement: null
+        },
+
+        /**
+         * This method is used to bind events associated with this widget.
+         */
+        _bind: function () {
+            this._on({
+                'change': '_onAddressCountryChange'
+            });
+        },
+
+        /**
+         * Create, Initialize this widget.
+         */
+         _create: function () {
+            this._bind();
         },
 
         /**
@@ -228,7 +260,7 @@
          * @param {Event} event Change event occurring.
          * @private
          */
-        _onAddressCountryChanged : function(event){
+        _onAddressCountryChange : function(event){
             var countryElement = event.target;
             this.options.countryElement = countryElement;
 
@@ -333,10 +365,19 @@
             this.options.regionIdElement = regionIdInput;
 
             // Updating in address info
-            this._syncFormData(this._getFormContainer(newInput)); // Update address info now
+            this.element.trigger('formchange');
 
-            newInput.on('change', $.proxy(this._syncFormData, this, this._getFormContainer(newInput)));
+            // bind region input change event
+            newInput.on('change', $.proxy(this._triggerFormChange, this, newInput));
+
             this._checkRegionRequired([regionInput, regionIdInput], newInput);
+        },
+
+        /**
+         * This method is used to trigger a change element for a given element.
+         */
+        _triggerFormChange: function (element) {
+            element.trigger('formchange');
         },
 
         /**
@@ -364,7 +405,7 @@
                         currentElement.removeClass('required-entry');
                     }
                     if ('select' == currentElement.prop("tagName").toLowerCase() &&
-                            currentElement.hasClass('validate-select')) {
+                        currentElement.hasClass('validate-select')) {
                         currentElement.removeClass('validate-select');
                     }
                 } else if (activeElement == currentElement) {
@@ -372,7 +413,7 @@
                         currentElement.addClass('required-entry');
                     }
                     if ('select' == currentElement.prop("tagName").toLowerCase() &&
-                            !currentElement.hasClass('validate-select')) {
+                        !currentElement.hasClass('validate-select')) {
                         currentElement.addClass('validate-select');
                     }
                 }
@@ -411,7 +452,7 @@
          * This method is used to bind events associated with this widget.
          */
         _bind: function () {
-            this._on(this.element.find(':input'), {'change': '_triggerChange'});
+            this._on(this.element.find(':input').not('.countries'), {'change': '_triggerChange'});
         },
 
         _create: function () {
