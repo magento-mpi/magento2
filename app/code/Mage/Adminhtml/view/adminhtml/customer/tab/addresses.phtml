@@ -9,17 +9,21 @@
  */
 ?>
 <script data-template="item-content-tmpl" type="text/x-jquery-tmpl">
-    ${prefix} ${firstname} ${middlename} ${lastname} ${suffix}<br/>
-    ${company}<br/>
-    ${street0}<br/>
-    ${street1}<br/>
-    ${street2}<br/>
-    ${street3}<br/>
-    ${city}, ${region}, ${postcode}<br/>
-    ${country_id}<br/>
-    T: ${telephone}<br/>
-    F: ${fax}<br/>
-    VAT: ${vat_id}
+    {{if prefix || firstname || middlename || lastname || suffix}}
+        ${prefix} ${firstname} ${middlename} ${lastname} ${suffix}<br/>
+    {{/if}}
+    {{if company}}${company}<br/>{{/if}}
+    {{if street0}}${street0}<br/>{{/if}}
+    {{if street1}}${street1}<br/>{{/if}}
+    {{if street2}}${street2}<br/>{{/if}}
+    {{if street3}}${street3}<br/>{{/if}}
+    {{if city || region || postcode}}
+        {{if city}}${city}{{/if}}{{if region}}{{if city}}, {{/if}}${region}{{/if}}{{if postcode}}{{if city || region}}, {{/if}}${postcode}{{/if}}<br/>
+    {{/if}}
+    {{if country_id}}${country_id}<br/>{{/if}}
+    {{if telephone}}T: ${telephone}<br/>{{/if}}
+    {{if fax}}F: ${fax}<br/>{{/if}}
+    {{if vat_id}}VAT: ${vat_id}{{/if}}
 </script>
 
 <!-- Addresses list -->
@@ -78,13 +82,13 @@
         </ul>
 
         <!-- Template for adding address item to list -->
-        <?php $_templatePrefix = $this->getTemplatePrefix() ?>
-        <div id="address_item_template" class="hidden template" data-template="address_item">
-            <li class="address-list-item" id="address_item_" data-item="data_item_value_">
-                <a href="#form_new_item" data-mage-init="{dataItemDeleteButton: {}}">
+        <script data-template="address_item_template" type="text/x-jquery-tmpl">
+        <div id="address_item_template" class="hidden template">
+            <li class="address-list-item" id="address_item_${itemId}" data-item="${itemId}">
+                <a href="#form_new_item${itemId}" data-mage-init="{dataItemDeleteButton: {}}">
                     <?php if (!$this->isReadonly()): ?>
                     <div class="address-list-item-actions">
-                        <button class="action-delete" type="button" title="Remove address" id="delete_button<?php echo ++$_iterator ?>" data-role="delete">
+                        <button class="action-delete" type="button" title="Remove address" id="delete_button${itemId}" data-role="delete">
                             <span>Remove address</span>
                         </button>
                         <button class="action-edit" type="button" title="Edit address">
@@ -98,29 +102,36 @@
                     </address>
                 </a>
                 <div class="field choice field-address-item-billing">
-                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_templatePrefix ?>" id="address_item_billing<?php echo $_templatePrefix ?>" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>" />
-                    <label class="label" for="address_item_billing<?php echo $_templatePrefix ?>">
+                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="_item${itemId}" id="address_item_billing_item${itemId}" name="account[default_billing]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Billing Address') ?>" />
+                    <label class="label" for="address_item_billing_item${itemId}">
                         <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Billing Address') ?></span>
                     </label>
                 </div>
                 <div class="field choice field-address-item-shipping">
-                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="<?php echo $_templatePrefix ?>" id="address_item_shipping<?php echo $_templatePrefix ?>" name="account[default_shipping]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Shipping Address') ?>"/>
-                    <label class="label" for="address_item_shipping<?php echo $_templatePrefix ?>">
+                        <input type="checkbox" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> value="_item${itemId}" id="address_item_shipping_item${itemId}" name="account[default_shipping]" title="<?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Set as Default Shipping Address') ?>"/>
+                    <label class="label" for="address_item_shipping_item${itemId}">
                         <span><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Default Shipping Address') ?></span>
                     </label>
                 </div>
             </li>
         </div>
+        </script>
 
         <!-- Address form template -->
+        <?php $_templatePrefix = $this->getTemplatePrefix() ?>
+        <script data-template="address_form_template" type="text/x-jquery-tmpl">
         <div id="address_form_template" class="no-display template" data-template="address_form"><!-- Don`t delete class no-display, save customer stops work  -->
-            <?php
-                // Set form template elements prefix
-                $this->getForm()->setHtmlIdPrefix($_templatePrefix)
-                        ->setFieldNameSuffix('address['.$_templatePrefix.']');
-            ?>
-            <?php echo $this->getForm()->getHtml() ?>
+            <div id="form_${formName}" data-item="${itemCount}" class="address-item-edit-content"
+                 data-mage-init="{observableInputs:{'name': '${formName}'}}">
+                <?php
+                    // Set form template elements prefix
+                    $this->getForm()->setHtmlIdPrefix($_templatePrefix)
+                            ->setFieldNameSuffix('address['.$_templatePrefix.']');
+                ?>
+                <?php echo $this->getForm()->getHtml() ?>
+            </div>
         </div>
+        </script>
 
         <!-- Addresses forms -->
         <div class="address-item-edit" id="address_form_container">

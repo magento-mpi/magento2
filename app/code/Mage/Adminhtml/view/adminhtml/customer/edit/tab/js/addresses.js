@@ -34,22 +34,21 @@
             var formName = this.options.baseItemId + this.options.itemCount;
 
             // add the new address form
-            this.element.find('.address-item-edit').append('<div id="' + 'form_' + formName +
-                '" data-item="' + this.options.itemCount +
-                '" class="address-item-edit-content" data-mage-init="{observableInputs:{\'name\': \'' + formName +
-                '\'}}">' + this._prepareTemplate(this.element.find('div[data-template="address_form"]').html()) +
-                '</div>');
+            var formData = {
+                formName: formName,
+                itemCount: this.options.itemCount
+            };
+            var formTemplate = this.element.find('script[data-template="address_form_template"]').tmpl(formData).html();
+            this.element.find('.address-item-edit').append(this._prepareTemplate(formTemplate));
 
             var newForm = $('#form_' + formName);
 
-            var template = this._prepareTemplate(this.element.find('div[data-template="address_item"]').html())
-                .replace('data_item_value_', '' + this.options.itemCount)
-                .replace('delete_button', 'delete_button' + this.options.itemCount)
-                .replace('form_new_item', 'form_new_item' + this.options.itemCount)
-                .replace('address_item_', 'address_item_' + this.options.itemCount);
+            // Replace template attributes
+            var itemData = {'itemId': this.options.itemCount};
+            var itemTemplate = this.element.find('script[data-template="address_item_template"]').tmpl(itemData).html();
 
             // add the new address to the tabs list before the add new action list
-            this.element.find('.address-list-actions').before(template);
+            this.element.find('.address-list-actions').before(itemTemplate);
 
             // refresh the widget to pick up the newly added tab.
             this.refresh();
@@ -60,8 +59,8 @@
             this.element.trigger('contentUpdated', $(formName));
 
             // pre-fill form with account firstname, lastname, and country
-            newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]')
-                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
+            var firstname = newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]');
+            firstname.val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
             newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]')
                 .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]').val());
 
@@ -71,7 +70,7 @@
             }
 
             // .val does not trigger change event, so manually trigger. (Triggering change of any field will handle update of all fields.)
-            newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]').trigger("change");
+            firstname.trigger("change");
 
             this._bindCountryRegionRelation(newForm);
         },
@@ -127,10 +126,7 @@
          */
         _prepareTemplate: function (template) {
             var re = new RegExp(this.options.templatePrefix, "g");
-            return template
-                .replace(re, '_item' + this.options.itemCount)
-                .replace(/_counted="undefined"/g, '')
-                .replace(/"select_button_"/g, 'select_button_' + this.options.itemCount);
+            return template.replace(re, '_item' + this.options.itemCount);
         },
 
         /**
@@ -180,16 +176,7 @@
                 // Set data to html
                 var itemContainer = this.element.find("[aria-selected='true'] address");
                 if (itemContainer.length && itemContainer[0]) {
-                    var html = $("<div/>").append($('[data-template="item-content-tmpl"]').tmpl(data)).html();
-                    html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}', 'img'), '<br/>');
-                    html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}\\s*<br\\s*/?>', 'ig'), '<br/>');
-                    html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}(.*)<br\\s*/?>', 'ig'), '<br/>$2<br/>');
-                    html = html.replace(new RegExp('<br\\s*/?>(.*?)(,\\s*){1,}<br\\s*/?>', 'ig'), '<br/>$1<br/>');
-                    html = html.replace(new RegExp('<br\\s*/?>(.*?)(,\\s*){2,}(.*?)<br\\s*/?>', 'ig'), '<br/>$1, $3<br/>');
-                    html = html.replace(new RegExp('t:\\s*<br\\s*/?>', 'ig'), '');
-                    html = html.replace(new RegExp('f:\\s*<br\\s*/?>', 'ig'), '');
-                    html = html.replace(new RegExp('vat:\\s*$', 'ig'), '');
-                    itemContainer[0].innerHTML = html;
+                    itemContainer[0].innerHTML = $("<div/>").append($('[data-template="item-content-tmpl"]').tmpl(data)).html();
                 }
             }
         },
@@ -388,8 +375,6 @@
          */
         _checkRegionRequired: function(elements, activeElement)
         {
-            var label, wildCard;
-            var that = this;
             var regionRequired = this.options.requiredStateForCountries.indexOf(this.options.countryElement.value) >= 0;
 
             elements.each(function(currentElement) {
