@@ -96,7 +96,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         foreach ($nodesList as $node) {
             $actualTypes[] = $node->getAttribute('name');
         }
-        $expectedTypes = array('ItemsResponse', 'ArrayItem');
+        $expectedTypes = array('targetNamespaceItemsResponse', 'targetNamespaceArrayItem');
         $this->assertEquals(
             $expectedCount,
             count(array_intersect($expectedTypes, $actualTypes)),
@@ -110,7 +110,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function _getXsdDocument()
     {
         $xsd =
-            '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="targetNamespace">
                 <xsd:complexType name="ItemRequest">
                     <xsd:sequence>
                         <xsd:element name="id" type="xsd:int" />
