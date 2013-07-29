@@ -10,14 +10,7 @@
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="default">
-        <title>Default</title>
-        <theme code="default" version="0.0.0.1">
-            <title>Default</title>
-            <requirements>
-                <magento_version from="0.0.0.1" to="0.0.0.1"/>
-            </requirements>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>Default</title>
+    <version>0.0.0.1</version>
+</theme>

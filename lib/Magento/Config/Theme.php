@@ -49,8 +49,8 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
 
         return array(
             'title'   => $themeTitleNode->nodeValue,
-            'parent'  => $themeParentNode->nodeValue,
-            'version' => $themeVersionNode->nodeValue,
+            'parent'  => $themeParentNode ? $themeParentNode->nodeValue : null,
+            'version' => $themeVersionNode ? $themeVersionNode->nodeValue : null,
             'media'   => array(
                 'preview_image' => $previewImage
             )

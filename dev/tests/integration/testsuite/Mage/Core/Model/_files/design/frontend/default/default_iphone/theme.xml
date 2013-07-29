@@ -9,17 +9,11 @@
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="default">
-        <title>Default</title>
-        <theme version="2.0.0.0" code="default_iphone" parent="default">
-            <title>Iphone</title>
-            <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
-            </requirements>
-            <media>
-                <preview_image>images/preview.png</preview_image>
-            </media>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>Iphone</title>
+    <version>2.0.0.0</version>
+    <parent>default</parent>
+    <media>
+        <preview_image>images/preview.png</preview_image>
+    </media>
+</theme>

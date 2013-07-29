@@ -2,20 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Design
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="package">
-        <title>Default</title>
-        <theme version="2.0.0.0" code="test">
-            <title>Default</title>
-            <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
-            </requirements>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>Default</title>
+    <version>2.0.0.0</version>
+</theme>
