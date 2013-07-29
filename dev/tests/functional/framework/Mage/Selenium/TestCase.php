@@ -59,6 +59,7 @@
  * @method Core_Mage_TermsAndConditions_Helper                                                         termsAndConditionsHelper()
  * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  * @method Core_Mage_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
+ * @method Core_Mage_UrlRewrite_Helper                                                                 urlRewriteHelper()
  * @method Core_Mage_Vde_Helper                                                                        vdeHelper()
  * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
  * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()

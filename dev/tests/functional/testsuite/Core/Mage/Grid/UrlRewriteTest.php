@@ -11,10 +11,6 @@
 
 /**
  * URL Rewrite Grid Tests
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
 {
@@ -39,8 +35,10 @@ class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
      */
     public function checkUrlCatalogAdded()
     {
-        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category');
         $categoryData = $this->loadDataSet('Category', 'sub_category_required');
+        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category',array(
+            'category'=> $categoryData['parent_category'] . '/' . $categoryData['name']
+        ));
         //Create Category
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -49,17 +47,9 @@ class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->checkCategoriesPage();
         //Add Rewrite Rule
         $this->navigate('url_rewrite_management');
-        $this->clickButton('add_new_rewrite');
-        $this->fillDropdown('create_url_rewrite_dropdown', 'For category');
-        $this->addParameter('subName', $categoryData['name']);
-        $this->clickControl('link', 'sub_category', false);
-        $this->waitForPageToLoad();
-        $this->addParameter('id', $this->defineParameterFromUrl('category'));
-        $this->validatePage();
-        $this->fillField('request_path', $fieldData['request_path']);
-        $this->saveForm('save');
+        $this->urlRewriteHelper()->createUrlRewrite($fieldData);
         $this->assertMessagePresent('success', 'success_saved_url_rewrite');
-        $locator = $this->search(array('filter_request_path' => $fieldData['request_path']), 'url_rewrite_grid');
+        $locator = $this->search(array('filter_request_path' => $fieldData['rewrite_info']['request_path']), 'url_rewrite_grid');
         $this->assertNotNull($locator, 'URL Rewrite Rule is not added');
     }
 }
