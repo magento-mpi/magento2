@@ -39,7 +39,7 @@
             <container name="right" as="right" label="Right Column"/>
             <container name="footer.before" as="footer_before" label="Page Footer" htmlTag="div" htmlClass="footer-before-container"/>
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml">
-                <block type="Mage_Page_Block_Template_Links" name="footer_links" as="footer_links" after="footer.newsletter" template="template/links.phtml"/>
+                <block type="Mage_Page_Block_Template_Links" name="footer_links" as="footer_links" after="newsletter_subscription" template="template/links.phtml"/>
                 <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" after="-" template="switch/stores.phtml"/>
             </block>
             <container name="before_body_end" as="before_body_end" label="Page Bottom"/>

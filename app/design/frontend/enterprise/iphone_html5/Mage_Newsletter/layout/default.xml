@@ -9,8 +9,6 @@
 -->
 <layout version="0.1.0">
     <default>
-        <reference name="footer">
-            <block type="Mage_Newsletter_Block_Subscribe" name="footer.newsletter" as="newsletter" template="subscribe.phtml"/>
-        </reference>
+        <move element="newsletter_subscription" destination="footer" as="newsletter" after="-"/>
     </default>
 </layout>
