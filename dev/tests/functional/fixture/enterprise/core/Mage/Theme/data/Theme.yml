@@ -14,13 +14,13 @@
 #*         Backend                           *
 #*********************************************
 theme_search_data:
-    theme_title: Magento Demo
+    theme_title: Magento Fixed Width
     theme_parent: %noValue%
     theme_path: %noValue%
     theme_version: %noValue%
 
 new_theme:
     theme_settings:
-        theme_parent: Magento Demo
+        theme_parent: Magento Fixed Width
         theme_version: %noValue%
         theme_title: %noValue%

@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_User>
-            <version>1.6.1.4</version>
+            <version>1.6.1.5</version>
             <active>true</active>
             <depends>
                 <Mage_Backend />

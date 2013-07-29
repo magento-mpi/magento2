@@ -49,9 +49,6 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         if (isset($themeData['theme_settings'])) {
             $this->fillFieldset($themeData['theme_settings'], 'theme_settings');
         }
-        if (isset($themeData['requirements'])) {
-            $this->fillFieldset($themeData['requirements'], 'requirements');
-        }
     }
     /**
      * Define parameter theme_id by theme title
@@ -80,6 +77,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
     public function searchTheme($themeData)
     {
         $searchData = $this->_prepareDataForSearch($themeData);
+        $this->navigate('theme_list');
         $themeLocator = $this->search($searchData, 'theme_list_grid');
 
         return $themeLocator;
@@ -100,7 +98,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         $cellElement = $this->getChildElement($themeRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($themeUrl));
-        //Open product
+        //Open theme
         $this->url($themeUrl);
         $this->validatePage('edit_theme');
     }
@@ -116,11 +114,6 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
             $this->openTab('general');
             $this->verifyForm($themeData['theme_settings'], 'general');
             unset($themeData['theme_settings']);
-        }
-        if (isset($themeData['requirements'])) {
-            $this->openTab('general');
-            $this->verifyForm($themeData['requirements'], 'general');
-            unset($themeData['requirements']);
         }
     }
 
