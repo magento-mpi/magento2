@@ -101,8 +101,7 @@
             <fileset dir="${product_root_dir}/dev/tests/api-functional/_files" includes="TestModule*/**"/>
         </copy>
 
-        <!--Ensure that tmp directory fore tests exists and is writable-->
-        <mkdir dir="${product_root_dir}/dev/tests/api-functional/tmp"/>
+        <!--Ensure that tmp directory fore tests is writable-->
         <chmod perm="a+w">
             <dirset dir="${product_root_dir}/dev/tests/api-functional/tmp"/>
         </chmod>
