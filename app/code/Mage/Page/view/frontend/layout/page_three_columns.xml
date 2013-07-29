@@ -18,6 +18,9 @@
             <action method="setIsHandle">
                 <applied>1</applied>
             </action>
+            <action method="setLayoutCode">
+                <name>three_columns</name>
+            </action>
         </reference>
     </page_three_columns>
 </layout>

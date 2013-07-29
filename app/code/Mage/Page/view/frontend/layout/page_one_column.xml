@@ -18,6 +18,9 @@
             <action method="setIsHandle">
                 <applied>1</applied>
             </action>
+            <action method="setLayoutCode">
+                <name>one_column</name>
+            </action>
         </reference>
     </page_one_column>
 </layout>
