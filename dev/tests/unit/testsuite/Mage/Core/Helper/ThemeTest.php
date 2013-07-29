@@ -358,16 +358,16 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     public function getGroupedCssFilesDataProvider()
     {
         $item11 = array(
-            'path'     => '/zzz/qqq/design00/area11/package11/theme11/test11.test',
-            'safePath' => 'design00/area11/package11/theme11/test11.test'
+            'path'     => '/zzz/qqq/design00/area11/vendor11_theme11/test11.test',
+            'safePath' => 'design00/area11/vendor11_theme11/test11.test'
         );
         $item12 = array(
-            'path'     => '/zzz/qqq/design00/area12/package12/theme12/test12.test',
-            'safePath' => 'design00/area12/package12/theme12/test12.test'
+            'path'     => '/zzz/qqq/design00/area12/vendor12_theme12/test12.test',
+            'safePath' => 'design00/area12/vendor12_theme12/test12.test'
         );
         $item13 = array(
-            'path'     => '/zzz/qqq/design00/area13/package13/theme13/test13.test',
-            'safePath' => 'design00/area13/package13/theme13/test13.test'
+            'path'     => '/zzz/qqq/design00/area13/vendor13_theme13/test13.test',
+            'safePath' => 'design00/area13/vendor13_theme13/test13.test'
         );
 
         $item21 = array(
@@ -381,44 +381,44 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $groups11 = array(
             '"11" Theme files' => array(
                 array(
-                    'path'     => '/zzz/qqq/design00/area11/package11/theme11/test11.test',
-                    'safePath' => 'design00/area11/package11/theme11/test11.test'
+                    'path'     => '/zzz/qqq/design00/area11/vendor11_theme11/test11.test',
+                    'safePath' => 'design00/area11/vendor11_theme11/test11.test'
                 ),
             )
         );
         $groups12 = array(
             '"12" Theme files' => array(
                 array(
-                    'path'     => '/zzz/qqq/design00/area12/package12/theme12/test12.test',
-                    'safePath' => 'design00/area12/package12/theme12/test12.test'
+                    'path'     => '/zzz/qqq/design00/area12/vendor12_theme12/test12.test',
+                    'safePath' => 'design00/area12/vendor12_theme12/test12.test'
                 ),
             )
         );
         $groups13 = array(
             '"13" Theme files' => array(
                 array(
-                    'path'     => '/zzz/qqq/design00/area13/package13/theme13/test13.test',
-                    'safePath' => 'design00/area13/package13/theme13/test13.test'
+                    'path'     => '/zzz/qqq/design00/area13/vendor13_theme13/test13.test',
+                    'safePath' => 'design00/area13/vendor13_theme13/test13.test'
                 ),
             )
         );
         $groups1 = array(
             '"11" Theme files' => array(
                 array(
-                    'path'     => '/zzz/qqq/design00/area11/package11/theme11/test11.test',
-                    'safePath' => 'design00/area11/package11/theme11/test11.test'
+                    'path'     => '/zzz/qqq/design00/area11/vendor11_theme11/test11.test',
+                    'safePath' => 'design00/area11/vendor11_theme11/test11.test'
                 ),
             ),
             '"12" Theme files' => array(
                 array(
-                    'path'     => '/zzz/qqq/design00/area12/package12/theme12/test12.test',
-                    'safePath' => 'design00/area12/package12/theme12/test12.test'
+                    'path'     => '/zzz/qqq/design00/area12/vendor12_theme12/test12.test',
+                    'safePath' => 'design00/area12/vendor12_theme12/test12.test'
                 ),
             ),
             '"13" Theme files' => array(
                 array(
-                    'path'     => '/zzz/qqq/design00/area13/package13/theme13/test13.test',
-                    'safePath' => 'design00/area13/package13/theme13/test13.test'
+                    'path'     => '/zzz/qqq/design00/area13/vendor13_theme13/test13.test',
+                    'safePath' => 'design00/area13/vendor13_theme13/test13.test'
                 ),
             )
         );
@@ -573,9 +573,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $themeCollection->expects($this->any())
             ->method('getThemeByFullPath')
             ->will($this->returnValueMap(array(
-                array('area11/package11/theme11', $theme11),
-                array('area12/package12/theme12', $theme12),
-                array('area13/package13/theme13', $theme13),
+                array('area11/vendor11_theme11', $theme11),
+                array('area12/vendor12_theme12', $theme12),
+                array('area13/vendor13_theme13', $theme13),
         )));
 
         return $themeCollection;

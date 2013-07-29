@@ -11,10 +11,10 @@
  */
 -->
 <design>
-    <package code="test">
-        <title>Test</title>
-        <theme version="2.0.0.0" code="external_package_descendant" parent="default/test2">
-            <title>Default</title>
+    <package code="default">
+        <title>Default</title>
+        <theme version="2.0.0.0" code="default_test2" parent="default_test">
+            <title>Test2</title>
             <requirements>
                 <magento_version from="2.0.0.0-dev1" to="*"/>
             </requirements>

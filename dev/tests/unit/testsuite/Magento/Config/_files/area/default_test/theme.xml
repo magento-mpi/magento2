@@ -13,10 +13,10 @@
 <design>
     <package code="default">
         <title>Default</title>
-        <theme version="2.0.0.0" code="test2" parent="test">
-            <title>Test2</title>
+        <theme version="2.0.0.0" code="default_test" parent="default_default">
+            <title>Test</title>
             <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
+                <magento_version from="2.0.0.0" to="*"/>
             </requirements>
         </theme>
     </package>

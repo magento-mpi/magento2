@@ -18,7 +18,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_model = new Magento_Config_Theme(glob(__DIR__ . '/_files/packages/*/*/theme.xml'));
+        self::$_model = new Magento_Config_Theme(glob(__DIR__ . '/_files/area/*/theme.xml'));
     }
 
     /**
@@ -32,35 +32,6 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     public function testGetSchemaFile()
     {
         $this->assertFileExists(self::$_model->getSchemaFile());
-    }
-
-    /**
-     * @param string $package
-     * @param mixed $expected
-     * @dataProvider getPackageTitleDataProvider
-     */
-    public function testGetPackageTitle($package, $expected)
-    {
-        $this->assertSame($expected, self::$_model->getPackageTitle($package));
-    }
-
-    /**
-     * @return array
-     */
-    public function getPackageTitleDataProvider()
-    {
-        return array(
-            array('default', 'Default'),
-            array('test',    'Test'),
-        );
-    }
-
-    /**
-     * @expectedException Magento_Exception
-     */
-    public function testGetPackageTitleException()
-    {
-        self::$_model->getPackageTitle('invalid');
     }
 
     /**
@@ -80,8 +51,8 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     public function getThemeTitleDataProvider()
     {
         return array(
-            array('default', 'default', 'Default'),
-            array('default', 'test',    'Test'),
+            array('default', 'default_default', 'Default'),
+            array('default', 'default_test',    'Test'),
         );
     }
 
@@ -102,10 +73,10 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     public function getParentThemeDataProvider()
     {
         return array(
-            array('default', 'default', null),
-            array('default', 'test', array('default', 'default')),
-            array('default', 'test2', array('default', 'test')),
-            array('test', 'external_package_descendant', array('default', 'test2')),
+            array('default', 'default_default', null),
+            array('default', 'default_test', array('default_default')),
+            array('default', 'default_test2', array('default_test')),
+            array('test', 'test_external_package_descendant', array('default_test2')),
         );
     }
 
@@ -120,8 +91,8 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     public function getCompatibleVersionsDataProvider()
     {
         return array(
-            array('test', 'default', array('from' => '2.0.0.0-dev1', 'to' => '*')),
-            array('default', 'test', array('from' => '2.0.0.0', 'to' => '*')),
+            array('test', 'test_default', array('from' => '2.0.0.0-dev1', 'to' => '*')),
+            array('default', 'default_test', array('from' => '2.0.0.0', 'to' => '*')),
         );
     }
 
