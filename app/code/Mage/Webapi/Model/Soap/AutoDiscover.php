@@ -141,7 +141,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             foreach ($referencedTypes as $referencedType) {
                 $referencedTypeName = $referencedType->value;
                 $prefixedRefTypeName = $this->_getPrefixedTypeName($referencedTypeName, $domDocument);
-                if ($this->_isComplexType($referencedTypeName, $domDocument)
+                if ($this->isComplexType($referencedTypeName, $domDocument)
                     && !in_array($prefixedRefTypeName, $this->_registeredTypes)
                 ) {
                     $response += $this->getComplexTypeNodes($referencedTypeName, $domDocument);
@@ -168,7 +168,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param string $typeName
      * @return bool
      */
-    protected function _isComplexType($typeName)
+    public function isComplexType($typeName)
     {
         return !strpos($typeName, ':');
     }

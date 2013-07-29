@@ -89,7 +89,10 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
     public function testGetComplexTypeNodes()
     {
-        $nodesList = $this->_autoDiscover->getComplexTypeNodes('ItemsResponse', $this->_getXsdDocument());
+        $nodesList = $this->_autoDiscover->getComplexTypeNodes(
+            'ItemsResponse',
+            $this->_getXsdDocumentWithReferencedTypes()
+        );
         $expectedCount = 2;
         $this->assertCount($expectedCount, $nodesList, "Defined complex types count does not match.");
         $actualTypes = array();
@@ -107,7 +110,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     /**
      * @return DOMDocument
      */
-    protected function _getXsdDocument()
+    protected function _getXsdDocumentWithReferencedTypes()
     {
         $xsd =
             '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="targetNamespace">
@@ -140,6 +143,60 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $xsdDom = new DOMDocument();
         $xsdDom->loadXML($xsd);
         return $xsdDom;
+    }
+
+    public function testGetComplexTypeNodesExceptionMissingNamespace()
+    {
+        $this->setExpectedException(
+            'LogicException',
+            'Each service payload schema must have targetNamespace specified.'
+        );
+        $this->_autoDiscover->getComplexTypeNodes('ItemsResponse', $this->_getXsdDocumentMissingTargetNamespace());
+    }
+
+    /**
+     * @return DOMDocument
+     */
+    protected function _getXsdDocumentMissingTargetNamespace()
+    {
+        $xsd =
+            '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                <xsd:complexType name="ItemRequest">
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+                <xsd:complexType name="ItemResponse">
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int" />
+                        <xsd:element name="name"  type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:schema>';
+        $xsdDom = new DOMDocument();
+        $xsdDom->loadXML($xsd);
+        return $xsdDom;
+    }
+
+    /**
+     * @dataProvider providerIsComplexType
+     */
+    public function testIsComplexType($type, $isComplex)
+    {
+        $this->assertEquals(
+            $isComplex,
+            $this->_autoDiscover->isComplexType($type),
+            "Complex type is defined incorrectly"
+        );
+    }
+
+    public static function providerIsComplexType()
+    {
+        return array(
+            array('xs:int', false),
+            array('xsd:string', false),
+            array('itemRequest', true),
+        );
     }
 
     /**
