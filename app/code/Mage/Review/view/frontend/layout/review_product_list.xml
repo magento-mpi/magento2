@@ -42,7 +42,7 @@
                 <block type="Mage_Core_Block_Template" name="product_review_list.count" template="Mage_Review::product/view/count.phtml"/>
                 <block type="Mage_Review_Block_Product_View_List" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml">
                     <block type="Mage_Review_Block_Form" name="product.review.form" as="review_form">
-                        <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before" htmlTag="div"/>
+                        <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
                     </block>
                 </block>
             </block>
