@@ -8,18 +8,12 @@
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="magento2">
-        <title>Themes</title>
-        <theme version="1.0.0.0" code="zen" parent="modern2" featured="1">
-            <title>Zen</title>
-            <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
-            </requirements>
-            <media>
-                <preview_image>media/preview.jpg</preview_image>
-            </media>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>Zen</title>
+    <version>1.0.0.0</version>
+    <parent>modern2</parent>
+    <media>
+        <preview_image>media/preview.jpg</preview_image>
+    </media>
+</theme>
 
