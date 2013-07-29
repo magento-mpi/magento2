@@ -30,6 +30,9 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
     /**
      * Initialize dependencies.
      *
@@ -39,6 +42,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
      * @param Mage_Webapi_Controller_Router_Rest $router
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Webapi_Helper_Data $helper
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Rest $request,
@@ -47,7 +51,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
         Mage_Webapi_Controller_Router_Rest $router,
         // TODO: Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication,
-        Magento_ObjectManager $objectManager
+        Magento_ObjectManager $objectManager,
+        Mage_Webapi_Helper_Data $helper
     ) {
         $this->_restPresentation = $restPresentation;
         $this->_router = $router;
@@ -56,6 +61,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
+        $this->_helper = $helper;
     }
 
     /**
@@ -71,8 +77,10 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
 
             // check if the operation is a secure operation & whether the request was made in HTTPS
             if ($route->isSecure() && !$this->_request->isSecure()) {
-                // TODO: Set the right error code and replace generic Exception with right exception instance
-                throw new Exception("Operation allowed only in HTTPS", 40001);
+                throw new Mage_Webapi_Exception(
+                    $this->_helper->__('Operation allowed only in HTTPS'),
+                    Mage_Webapi_Exception::HTTP_FORBIDDEN
+                );
             }
             /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation $inputData */
             $inputData = $this->_restPresentation->fetchRequestData();

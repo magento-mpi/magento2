@@ -221,7 +221,6 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      * Retrieve action version.
      *
      * @return int
-     * @throws LogicException If service version cannot be identified.
      */
     public function getServiceVersion()
     {
@@ -294,30 +293,5 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         }
         $operationName = $this->getServiceName() . ucfirst($methodName);
         return $operationName;
-    }
-
-    /**
-     * Identify service type by operation name.
-     *
-     * @param string $operation
-     * @return string 'collection' or 'item'
-     * @throws InvalidArgumentException When method does not match the list of allowed methods
-     */
-    public static function getActionTypeByOperation($operation)
-    {
-        $actionTypeMap = array(
-            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => self::ACTION_TYPE_COLLECTION,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => self::ACTION_TYPE_COLLECTION,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_GET => self::ACTION_TYPE_ITEM,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_LIST => self::ACTION_TYPE_COLLECTION,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => self::ACTION_TYPE_ITEM,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => self::ACTION_TYPE_COLLECTION,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE => self::ACTION_TYPE_ITEM,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => self::ACTION_TYPE_COLLECTION,
-        );
-        if (!isset($actionTypeMap[$operation])) {
-            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid service method.', $operation));
-        }
-        return $actionTypeMap[$operation];
     }
 }

@@ -30,6 +30,9 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     /** @var Magento_ObjectManager */
     protected $_objectManagerMock;
 
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helperMock;
+
     protected function setUp()
     {
         /** Init dependencies for SUT. */
@@ -43,9 +46,10 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
             ->getMock();
         $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest_Authentication')
             ->disableOriginalConstructor()->getMock();
-
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()->getMock();
+        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         /** Init SUT. */
         $this->_restDispatcher = new Mage_Webapi_Controller_Dispatcher_Rest(
@@ -54,7 +58,8 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
             $this->_restPresentation,
             $this->_routerMock,
             $this->_authenticationMock,
-            $this->_objectManagerMock
+            $this->_objectManagerMock,
+            $this->_helperMock
         );
         parent::setUp();
     }
@@ -69,6 +74,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         unset($this->_objectManagerMock);
         unset($this->_authorizationMock);
         unset($this->_restPresentation);
+        unset($this->_helperMock);
         parent::tearDown();
     }
 
@@ -172,7 +178,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
 
         /** Assert that setException method will be executed once. */
         $this->_responseMock->expects($this->once())->method('setException')->with(
-            new Exception("Operation allowed only in HTTPS", 40001)
+            new Mage_Webapi_Exception('Operation allowed only in HTTPS', Mage_Webapi_Exception::HTTP_FORBIDDEN)
         );
 
         $this->_restDispatcher->dispatch();

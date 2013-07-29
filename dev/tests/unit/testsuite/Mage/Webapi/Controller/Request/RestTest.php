@@ -215,44 +215,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderTestGetActionTypeByMethod
-     * @param string $methodName
-     * @param string $expectedActionType
-     */
-    public function testGetActionTypeByMethod($methodName, $expectedActionType)
-    {
-        $this->assertEquals(
-            $expectedActionType,
-            Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName),
-            "Action type was identified incorrectly by method name."
-        );
-    }
-
-    public static function dataProviderTestGetActionTypeByMethod()
-    {
-        return array(
-            array(
-                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION
-            ),
-            array(
-                Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
-            ),
-        );
-    }
-
-    public function testGetActionTypeException()
-    {
-        $methodName = 'invalidMethodV1';
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            sprintf('The "%s" method is not a valid service method.', $methodName)
-        );
-        Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName);
-    }
-
     public function testGetServiceVersion()
     {
         $this->_request->setParam('serviceVersion', 'v1');

@@ -249,21 +249,6 @@ class Mage_Webapi_Config
     }
 
     /**
-     * Retrieve info about the given service
-     *
-     * @param string $serviceName Name
-     * @throws InvalidArgumentException if the service does not exist
-     */
-    public function getRestService($serviceName)
-    {
-        if (isset($this->_restServices[$serviceName])) {
-            return $this->_restServices[$serviceName];
-        }
-
-        throw new InvalidArgumentException("Service $serviceName does not exists");
-    }
-
-    /**
      * Collect the list of services with their operations available in SOAP.
      * The list of services is taken from webapi.xml configuration files.
      * The list of methods in contrast to REST is taken from PHP Interface using reflection.
@@ -288,24 +273,6 @@ class Mage_Webapi_Config
             };
         }
         return $this->_soapServices;
-    }
-
-    /**
-     * Retrieve info about the given operation
-     *
-     * @param string $serviceName
-     * @param string $operation
-     * @throws InvalidArgumentException if the service or operation do not exist
-     */
-    public function getOperation($serviceName, $operation)
-    {
-        $service = $this->getRestService($serviceName);
-
-        if (isset($service[self::KEY_OPERATIONS][$operation])) {
-            return $service[self::KEY_OPERATIONS][$operation];
-        }
-
-        throw new InvalidArgumentException("Operation $operation does not exist");
     }
 
     /**

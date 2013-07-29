@@ -95,6 +95,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             foreach ($requestedServices as $serviceName => $serviceVersion) {
                 $services[$serviceName] = $this->_prepareServiceData($serviceName, $serviceVersion);
             }
+        } catch (Mage_Webapi_Exception $e) {
+            throw $e;
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
@@ -376,14 +378,16 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param string $serviceName
      * @param string $serviceVersion
      * @return array
-     * @throws LogicException
+     * @throws Mage_Webapi_Exception
      */
     protected function _prepareServiceData($serviceName, $serviceVersion)
     {
         $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName => $serviceVersion));
         if (empty($requestedServices)) {
-            // TODO: throw proper exception according to new error handling strategy
-            throw new LogicException("Version '$serviceVersion' of service '$serviceName' is not available.");
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__('Version "%s" of service "%s" is not available.', $serviceVersion, $serviceName),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
         }
         /** $requestedServices is expected to contain exactly one item */
         $serviceData = reset($requestedServices);
@@ -398,9 +402,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $inputComplexTypes = $this->getComplexTypeNodes($inputParameterName, $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
-                    // TODO: throw proper exception according to new error handling strategy
-                    throw new LogicException("The method '{$serviceMethod}' of service '{$serviceName}' "
-                    . "must have '{$inputParameterName}' complex type defined in its schema.");
+                    throw new Mage_Webapi_Exception(
+                        $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $inputParameterName),
+                        Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                    );
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
                     $inputComplexTypes[] = $this->_generateEmptyComplexType($inputParameterName);
@@ -412,9 +417,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             if (!empty($outputComplexTypes)) {
                 $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
-                // TODO: throw proper exception according to new error handling strategy
-                throw new LogicException("The method '{$serviceMethod}' of service '{$serviceName}' "
-                . "must have '{$outputParameterName}' complex type defined in its schema.");
+                throw new Mage_Webapi_Exception(
+                    $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $outputParameterName),
+                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                );
             }
         }
         return $serviceDataTypes;
