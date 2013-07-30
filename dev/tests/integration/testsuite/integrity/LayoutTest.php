@@ -201,7 +201,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * @param Mage_Core_Model_Theme $theme
      * @dataProvider overrideBaseFilesDataProvider
      */
-    public function testOverrideBaseFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
+    public function testOverrideBaseFiles($themeFile, $theme)
     {
         if ($themeFile === self::NO_OVERRIDDEN_THEMES_MARKER) {
             $this->markTestSkipped('No overriden themes.');
@@ -221,7 +221,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * @param Mage_Core_Model_Theme $theme
      * @dataProvider overrideThemeFilesDataProvider
      */
-    public function testOverrideThemeFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
+    public function testOverrideThemeFiles($themeFile, $theme)
     {
         if ($themeFile === self::NO_OVERRIDDEN_THEMES_MARKER) {
             $this->markTestSkipped('No overridden themes.');
