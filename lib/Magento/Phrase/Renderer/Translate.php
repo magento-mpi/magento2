@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Translate_Phrase_Renderer_Translate implements Magento_Translate_Phrase_RendererInterface
+class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterface
 {
     /**
-     * Translator
+     * Basic object for translation
      *
      * @var Magento_Translate_TranslateInterface
      */
@@ -27,12 +27,11 @@ class Magento_Translate_Phrase_Renderer_Translate implements Magento_Translate_P
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
-    public function render(Magento_Translate_Phrase $phrase)
+    public function render($text, array $arguments = array())
     {
-        $arguments = $phrase->getArguments();
-        array_unshift($arguments, $phrase->getText());
+        array_unshift($arguments, $text);
 
         return call_user_func_array(array($this->_translator, 'translate'), $arguments);
     }

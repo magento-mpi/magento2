@@ -1,6 +1,6 @@
 <?php
 /**
- * Translate
+ * Basic object for translation (facade)
  *
  * {license_notice}
  *

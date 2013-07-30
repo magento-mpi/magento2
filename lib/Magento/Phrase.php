@@ -7,42 +7,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Translate_Phrase
+class Magento_Phrase
 {
     /**
      * Phrase renderer. Allows stacking renderers that "don't know about each other"
      *
-     * @var Magento_Translate_Phrase_RendererInterface
+     * @var Magento_Phrase_RendererInterface
      */
-    protected static $_renderer;
+    private static $_renderer;
 
     /**
      * String for rendering
      *
      * @var string
      */
-    protected $_text;
+    private $_text;
 
     /**
      * Arguments for placeholder values
      *
      * @var array
      */
-    protected $_arguments;
+    private $_arguments;
 
     /**
      * Rendered result
      *
      * @var string
      */
-    protected $_result;
+    private $_result;
 
     /**
      * Set Phrase renderer
      *
-     * @param Magento_Translate_Phrase_RendererInterface $renderer
+     * @param Magento_Phrase_RendererInterface $renderer
      */
-    public static function setRenderer(Magento_Translate_Phrase_RendererInterface $renderer)
+    public static function setRenderer(Magento_Phrase_RendererInterface $renderer)
     {
         self::$_renderer = $renderer;
     }
@@ -60,26 +60,6 @@ class Magento_Translate_Phrase
     }
 
     /**
-     * Get text
-     *
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->_text;
-    }
-
-    /**
-     * Get arguments
-     *
-     * @return array
-     */
-    public function getArguments()
-    {
-        return $this->_arguments;
-    }
-
-    /**
      * Defers rendering to the last possible moment (when converted to string)
      *
      * @return string
@@ -87,7 +67,8 @@ class Magento_Translate_Phrase
     public function __toString()
     {
         if (null === $this->_result) {
-            $this->_result = self::$_renderer ? self::$_renderer->render($this) : $this->getText();
+            $this->_result = self::$_renderer ? self::$_renderer->render($this->_text, $this->_arguments)
+                : $this->_text;
         }
 
         return $this->_result;

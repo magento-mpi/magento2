@@ -1,6 +1,6 @@
 <?php
 /**
- * Translate Interface
+ * Basic translation object interface
  *
  * {license_notice}
  *
@@ -10,7 +10,8 @@
 interface Magento_Translate_TranslateInterface
 {
     /**
-     * Translate
+     * Translates the given string
+     * returns the translation
      *
      * @return string
      */
