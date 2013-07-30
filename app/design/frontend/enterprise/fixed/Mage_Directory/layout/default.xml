@@ -12,8 +12,5 @@
         <reference name="top.switches">
             <block type="Mage_Directory_Block_Currency" name="currency" before="store_language" template="currency.phtml"/>
         </reference>
-        <reference name="head">
-            <block type="Mage_Core_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml"/>
-        </reference>
     </default>
 </layout>
