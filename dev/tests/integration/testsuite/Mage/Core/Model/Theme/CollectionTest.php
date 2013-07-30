@@ -32,9 +32,9 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadThemesFromFileSystem()
     {
-        $pathPattern = implode(DS, array('frontend', 'default', '*', 'theme.xml'));
+        $pathPattern = implode(DS, array('frontend', '*', 'theme.xml'));
         $this->_model->addTargetPattern($pathPattern);
-        $this->assertEquals(2, count($this->_model));
+        $this->assertEquals(8, count($this->_model));
     }
 
     /**
@@ -56,11 +56,11 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
     public function expectedThemeDataFromConfiguration()
     {
         $designPath = implode(DIRECTORY_SEPARATOR, array(
-            dirname(__DIR__), '_files', 'design', 'frontend', 'default', 'default'
+            dirname(__DIR__), '_files', 'design', 'frontend', 'mage_default'
         ));
         return array(
             array(
-                'themePath'    => implode(DIRECTORY_SEPARATOR, array('frontend', 'default', 'default', 'theme.xml')),
+                'themePath'    => implode(DIRECTORY_SEPARATOR, array('frontend', 'mage_default', 'theme.xml')),
                 'expectedData' => array(
                     'area'                 => 'frontend',
                     'theme_title'          => 'Default',
@@ -68,8 +68,8 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                     'parent_id'            => null,
                     'parent_theme_path'    => null,
                     'is_featured'          => true,
-                    'theme_path'           => 'default/default',
-                    'code'                 => 'default/default',
+                    'theme_path'           => 'mage_default',
+                    'code'                 => 'mage_default',
                     'preview_image'        => null,
                     'theme_directory'      => $designPath,
                     'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
@@ -94,7 +94,7 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
             'theme_version'        => '2.0.0.0',
             'parent_id'            => null,
             'is_featured'          => false,
-            'theme_path'           => 'default/space',
+            'theme_path'           => 'default_space',
             'preview_image'        => 'images/preview.png',
             'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
         ));

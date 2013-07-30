@@ -44,7 +44,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
                 Mage_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
-        Mage::getDesign()->setDesignTheme('package/default');
+        Mage::getDesign()->setDesignTheme('vendor_default');
     }
 
     public function tearDown()
@@ -99,7 +99,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($resultingFile);
         foreach ($related as $file) {
             $this->assertFileExists(
-                self::$_themePublicDir . '/frontend/package/default/en_US/' . $file
+                self::$_themePublicDir . '/frontend/vendor_default/en_US/' . $file
             );
         }
     }
@@ -126,7 +126,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
         foreach ($related as $file) {
             $this->assertFileExists(
-                self::$_themePublicDir . '/frontend/package/default/en_US/' . $file
+                self::$_themePublicDir . '/frontend/vendor_default/en_US/' . $file
             );
         }
     }

@@ -46,7 +46,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
 
     // @codingStandardsIgnoreStart
     /**
-     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:14:"default/modern";}}
+     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:14:"mage_modern";}}
      * @magentoAppIsolation enabled
      */
     // @codingStandardsIgnoreEnd
@@ -54,7 +54,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $this->_model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertEquals('default/modern', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertEquals('mage_modern', Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function testDetectDesignDesignChange()
     {
         $this->_model->detectDesign();
-        $this->assertEquals('default/modern', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertEquals('mage_modern', Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 
     // @codingStandardsIgnoreStart
@@ -81,7 +81,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $model = Mage::getModel('Mage_Core_Model_App_Area', array('areaCode' => 'install'));
         $model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertNotEquals('default/modern', Mage::getDesign()->getDesignTheme()->getThemePath());
-        $this->assertNotEquals('default/demo_blue', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertNotEquals('mage_modern', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertNotEquals('mage_demo_blue', Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 }

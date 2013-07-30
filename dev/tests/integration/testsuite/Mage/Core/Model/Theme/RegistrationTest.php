@@ -52,7 +52,7 @@ class Mage_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCase
     protected function _getTestTheme()
     {
         $theme = $this->_theme->getCollection()->getThemeByFullPath(
-            implode(Mage_Core_Model_Theme::PATH_SEPARATOR, array('frontend', 'test', 'test_theme'))
+            implode(Mage_Core_Model_Theme::PATH_SEPARATOR, array('frontend', 'test_test_theme'))
         );
         $this->assertNotEmpty($theme->getId());
         return $theme;
