@@ -9,7 +9,9 @@
 -->
 <layout version="0.1.0">
     <default>
-        <update handle="page_one_column"/>
+        <action method="setTemplate">
+            <template>1column.phtml</template>
+        </action>
         <reference name="head">
             <action method="addCss">
                 <file>css/iphone.css</file>

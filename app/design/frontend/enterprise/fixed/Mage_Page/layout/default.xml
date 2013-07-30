@@ -26,5 +26,7 @@
             <block type="Mage_Page_Block_Html_Welcome" name="welcome" as="welcome" after="top.container"/>
         </reference>
         <move element="store_language" destination="top.switches"/>
+        <move element="store_switcher" destination="footer" as="store_switcher" after="-"/>
+        <remove name="bottom.container"/>
     </default>
 </layout>
