@@ -36,23 +36,7 @@
                     <label>Address Book</label>
                 </action>
             </block>
-            <block type="Mage_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml">
-                <action method="addItemRender">
-                    <type>simple</type>
-                    <block>Mage_Checkout_Block_Cart_Item_Renderer</block>
-                    <template>cart/sidebar/default.phtml</template>
-                </action>
-                <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block>
-                    <template>cart/sidebar/default.phtml</template>
-                </action>
-                <action method="addItemRender">
-                    <type>configurable</type>
-                    <block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block>
-                    <template>cart/sidebar/default.phtml</template>
-                </action>
-            </block>
+            <move element="cart_sidebar" destination="left" before="catalog.compare.sidebar"/>
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
             <remove name="tags_popular"/>
         </reference>

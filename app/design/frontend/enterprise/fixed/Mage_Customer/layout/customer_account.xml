@@ -8,5 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <customer_account/>
+    <customer_account>
+        <move element="cart_sidebar" as="topCart" destination="header"/>
+    </customer_account>
 </layout>

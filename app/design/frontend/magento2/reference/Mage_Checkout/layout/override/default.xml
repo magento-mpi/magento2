@@ -35,18 +35,9 @@
                     <block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block>
                     <template>cart/sidebar/default.phtml</template>
                 </action>
-                <container name="minicart.extra.info" as="minicart_info" label="My Cart Extra info" module="Mage_Checkout"/>
-                <container name="topCart.extra_actions" as="extra_actions" label="My Cart Extra Actions" module="Mage_Checkout"/>
+                <container name="minicart.extra.info" as="minicart_info" label="My Cart Extra Info" module="Mage_Checkout"/>
+                <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions" module="Mage_Checkout"/>
             </block>
-        </reference>
-        <reference name="right">
-            <!-- May be used instead of topCart block -->
-            <!--block type="Mage_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
-                <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/sidebar/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>cart/sidebar/default.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/sidebar/default.phtml</template></action>
-                <container name="topCart.extra_actions" as="extra_actions" label="Extra Actions"/>
-            </block-->
         </reference>
     </default>
 </layout>
