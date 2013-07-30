@@ -79,12 +79,12 @@ pub/lib/mage/directpost.js
 # following functionality introduced in Mage/Enterprise modules is overlapped in Saas modules
 dev/tests/integration/testsuite/Enterprise/Enterprise/CodeIntegrityTest.php
 dev/tests/integration/testsuite/Enterprise/PageCache/Model/Processor/RestrictionTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/CacheControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterQueueControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterTemplateControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/System/DesignControllerTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/CacheTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/NewsletterQueueTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/NewsletterTemplateTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/System/DesignTest.php
 # multi-address checkout is disabled
-dev/tests/integration/testsuite/Mage/Checkout/controllers/MultishippingControllerTest.php
+dev/tests/integration/testsuite/Mage/Checkout/Controller/MultishippingTest.php
 ########################################################################################################################
 # following tests must be refactored to be applicable in Saas Edition
 # MAGETWO-10542, test requires Mage_Downloadable module,
@@ -94,4 +94,4 @@ dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
 # MAGETWO-10544, test requires Mage_Downloadable module
 dev/tests/integration/testsuite/Mage/Catalog/Model/Product/TypeTest.php
 # MAGETWO-10543, test requires Mage_Downloadable module
-dev/tests/integration/testsuite/Mage/Checkout/controllers/CartControllerTest.php
+dev/tests/integration/testsuite/Mage/Checkout/Controller/CartTest.php

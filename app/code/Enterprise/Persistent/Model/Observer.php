@@ -244,7 +244,7 @@ class Enterprise_Persistent_Model_Observer
         }
 
         $controller = $observer->getEvent()->getControllerAction();
-        if ($controller instanceof Mage_Wishlist_IndexController) {
+        if ($controller instanceof Mage_Wishlist_Controller_Index) {
             $controller->skipAuthentication();
         }
     }

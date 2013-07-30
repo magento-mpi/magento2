@@ -61,13 +61,13 @@
                     </controllerFactory>
                 </parameters>
             </Mage_Backend_Controller_Router_Default>
-            <Mage_Backend_Adminhtml_System_Config_SaveController>
+            <Mage_Backend_Controller_Adminhtml_System_Config_Save>
                 <parameters>
                     <cache>
                         <instance>Mage_Core_Model_Cache_Type_Layout</instance>
                     </cache>
                 </parameters>
-            </Mage_Backend_Adminhtml_System_Config_SaveController>
+            </Mage_Backend_Controller_Adminhtml_System_Config_Save>
         </di>
     </global>
     <admin>
