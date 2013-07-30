@@ -402,9 +402,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $inputComplexTypes = $this->getComplexTypeNodes($inputParameterName, $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $inputParameterName),
-                        Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                    throw new LogicException(
+                        $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $inputParameterName)
                     );
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
@@ -417,9 +416,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             if (!empty($outputComplexTypes)) {
                 $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
-                throw new Mage_Webapi_Exception(
-                    $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $outputParameterName),
-                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                throw new LogicException(
+                    $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $outputParameterName)
                 );
             }
         }
