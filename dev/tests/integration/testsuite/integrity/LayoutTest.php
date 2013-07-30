@@ -13,6 +13,8 @@
 
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
+    const NO_OVERRIDDEN_THEMES_MARKER = 'no-overriden-themes';
+
     /**
      * Cached lists of files
      *
@@ -201,6 +203,9 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testOverrideBaseFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
     {
+        if ($themeFile === self::NO_OVERRIDDEN_THEMES_MARKER) {
+            $this->markTestSkipped('No overriden themes.');
+        }
         $baseFiles = self::_getCachedFiles($theme->getArea(), 'Mage_Core_Model_Layout_File_Source_Base', $theme);
         $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
         $this->assertArrayHasKey($fileKey, $baseFiles,
@@ -218,6 +223,9 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testOverrideThemeFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
     {
+        if ($themeFile === self::NO_OVERRIDDEN_THEMES_MARKER) {
+            $this->markTestSkipped('No overridden themes.');
+        }
         // Find an ancestor theme, where a file is to be overridden
         $ancestorTheme = $theme;
         while ($ancestorTheme = $ancestorTheme->getParentTheme()) {
@@ -298,7 +306,6 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 $result[] = array($file, $theme);
             }
         }
-
-        return $result;
+        return $result === array() ? array(array(self::NO_OVERRIDDEN_THEMES_MARKER, '')) : $result;
     }
 }
