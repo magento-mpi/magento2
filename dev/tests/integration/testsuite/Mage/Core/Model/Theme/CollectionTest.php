@@ -55,9 +55,6 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
      */
     public function expectedThemeDataFromConfiguration()
     {
-        $designPath = implode(DIRECTORY_SEPARATOR, array(
-            dirname(__DIR__), '_files', 'design', 'frontend', 'default', 'default'
-        ));
         return array(
             array(
                 'themePath'    => implode(DIRECTORY_SEPARATOR, array('frontend', 'default', 'default', 'theme.xml')),
@@ -67,13 +64,9 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                     'theme_version'        => '2.0.0.0',
                     'parent_id'            => null,
                     'parent_theme_path'    => null,
-                    'is_featured'          => true,
-                    'magento_version_from' => '2.0.0.0-dev1',
-                    'magento_version_to'   => '*',
                     'theme_path'           => 'default/default',
-                    'code'                 => 'default/default',
+                    'code'                 => 'frontend/default/default',
                     'preview_image'        => null,
-                    'theme_directory'      => $designPath,
                     'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
                 )
             )
