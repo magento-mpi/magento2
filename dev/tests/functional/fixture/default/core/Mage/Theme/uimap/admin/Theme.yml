@@ -53,15 +53,18 @@ new_theme:
                         xpath: //a[@id='theme_tabs_general_section']
                         fieldsets: &newThemeFieldset
                             -
-                                theme_settings:
+                                theme_settings: &themeSettings
                                     xpath: //form[@id='edit_form']//fieldset[@id='theme']
                                     dropdowns:
                                         theme_parent: //select[@id='parent_id']
                                     fields:
                                         theme_version: //input[@id='theme_version']
                                         theme_title: //input[@id='theme_title']
+                            -
+                                theme_content:
+                                    xpath: //*[@id='anchor-content']
                                     pageelements:
-                                        page_title: "/../../../../../../..//*[@class='page-title']"
+                                        page_title: //*[@class="page-title-inner"]
         buttons: &themeButtons
             back: //button[@id='back']
             reset: //button[@id='reset']
@@ -91,8 +94,9 @@ edit_theme:
                                         theme_version: //input[@id='theme_version']
                                         theme_title: //input[@id='theme_title']
                                     pageelements:
-                                        page_title: "/../../../../../../..//*[@class='page-title']"
                                         theme_parent: //*[@id='parent_title']
+                                    dropdowns:
+                                        theme_parent: //select[@id='parent_id']
                 -
                     css_editor:
                         xpath: //a[@id='theme_tabs_css_tab']

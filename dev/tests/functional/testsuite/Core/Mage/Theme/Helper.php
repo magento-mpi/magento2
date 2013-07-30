@@ -21,10 +21,9 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Create new virtual theme
      *
-     * @param $themeData
+     * @param array $themeData
      * @param bool $save
      *
-     * @return mixed
      */
     public function createTheme($themeData, $save = true)
     {
@@ -32,17 +31,15 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         $this->elementIsPresent('theme_grid');
         $this->clickButton('add_new_theme');
         $this->fillThemeGeneralTab($themeData);
-        if ($save != false) {
+        if ($save) {
             $this->clickButton('save_theme');
         }
-
-        return $themeData;
     }
 
     /**
      * Fill fields on General tab
      *
-     * @param $themeData
+     * @param array $themeData
      */
     public function fillThemeGeneralTab($themeData)
     {
@@ -70,7 +67,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Search theme
      *
-     * @param $themeData
+     * @param array $themeData
      *
      * @return string
      */
@@ -113,19 +110,19 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         if (isset($themeData['theme_settings'])) {
             $this->openTab('general');
             $this->verifyForm($themeData['theme_settings'], 'general');
-            unset($themeData['theme_settings']);
+        }
+        else {
+            $this->fail('No information about Theme Settings to verify');;
         }
     }
 
     /**
      * Generate version according to format
+     *
      * @return string
      */
     public function generateVersion()
     {
-        $version = '1' . '.' . $this->generate('string', 1, ':digit:') . '.'
-        . $this->generate('string', 1, ':digit:') . '.' . $this->generate('string', 1, ':digit:');
-
-        return $version;
+        return '1.' . implode('.',str_split($this->generate('string', 3, ':digit:')));
     }
 }
