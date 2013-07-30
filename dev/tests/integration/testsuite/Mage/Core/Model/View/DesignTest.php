@@ -67,7 +67,7 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      *
      * @param string $themePath
      */
-    protected function _emulateFixtureTheme($themePath = 'test/default')
+    protected function _emulateFixtureTheme($themePath = 'test_default')
     {
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
@@ -90,7 +90,7 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     public function testSetDesignTheme()
     {
-        $this->_model->setDesignTheme('test/test', 'test');
+        $this->_model->setDesignTheme('test_test', 'test');
         $this->assertEquals('test', $this->_model->getArea());
         $this->assertEquals(null, $this->_model->getDesignTheme()->getThemePath());
     }
@@ -271,7 +271,7 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
             array(
                 Mage_Core_Model_App_State::MODE_DEFAULT,
                 'Mage_Page::favicon.ico',
-                'http://localhost/pub/static/frontend/test/default/en_US/Mage_Page/favicon.ico',
+                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Page/favicon.ico',
             ),
             array(
                 Mage_Core_Model_App_State::MODE_DEFAULT,
@@ -281,22 +281,22 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
             array(
                 Mage_Core_Model_App_State::MODE_DEVELOPER,
                 'Mage_Page::menu.js',
-                'http://localhost/pub/static/frontend/test/default/en_US/Mage_Page/menu.js'
+                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Page/menu.js'
             ),
             array(
                 Mage_Core_Model_App_State::MODE_DEFAULT,
                 'Mage_Page::menu.js',
-                'http://localhost/pub/static/frontend/test/default/en_US/Mage_Page/menu.js'
+                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Page/menu.js'
             ),
             array(
                 Mage_Core_Model_App_State::MODE_DEFAULT,
                 'Mage_Catalog::widgets.css',
-                'http://localhost/pub/static/frontend/test/default/en_US/Mage_Catalog/widgets.css'
+                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Catalog/widgets.css'
             ),
             array(
                 Mage_Core_Model_App_State::MODE_DEVELOPER,
                 'Mage_Catalog::widgets.css',
-                'http://localhost/pub/static/frontend/test/default/en_US/Mage_Catalog/widgets.css'
+                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Catalog/widgets.css'
             ),
         );
     }
