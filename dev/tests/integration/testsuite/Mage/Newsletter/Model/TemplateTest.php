@@ -25,10 +25,10 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture                    install/design/theme/full_name   default/basic
-     * @magentoConfigFixture                    adminhtml/design/theme/full_name default/basic
-     * @magentoConfigFixture current_store      design/theme/full_name           default/iphone
-     * @magentoConfigFixture fixturestore_store design/theme/full_name           default/demo_blue
+     * @magentoConfigFixture                    install/design/theme/full_name   mage_basic
+     * @magentoConfigFixture                    adminhtml/design/theme/full_name mage_basic
+     * @magentoConfigFixture current_store      design/theme/full_name           mage_blank
+     * @magentoConfigFixture fixturestore_store design/theme/full_name           mage_demo_blue
      * @magentoAppIsolation  enabled
      * @dataProvider         getProcessedTemplateDataProvider
      */

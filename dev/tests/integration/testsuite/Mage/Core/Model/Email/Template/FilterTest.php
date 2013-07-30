@@ -80,7 +80,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
 
     /**
      * @magentoDataFixture Mage/Core/Model/Email/_files/themes.php
-     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
+     * @magentoConfigFixture adminhtml/design/theme/full_name test_default
      * @magentoAppIsolation enabled
      * @dataProvider layoutDirectiveDataProvider
      *

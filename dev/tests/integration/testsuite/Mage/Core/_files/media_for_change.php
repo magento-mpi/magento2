@@ -10,8 +10,8 @@
  */
 Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
 $designDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
-$themeDir = $designDir . DIRECTORY_SEPARATOR . 'frontend/test/default';
-$sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test/publication/';
+$themeDir = $designDir . DIRECTORY_SEPARATOR . 'frontend/test_default';
+$sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test_publication/';
 
 mkdir($themeDir . '/images', 0777, true);
 
@@ -27,5 +27,5 @@ foreach ($files as $file) {
 $registration = Mage::getModel('Mage_Core_Model_Theme_Registration');
 $registration->register(
     $designDir,
-    implode(DIRECTORY_SEPARATOR, array('*', '*', '*', 'theme.xml'))
+    implode(DIRECTORY_SEPARATOR, array('*', '*', 'theme.xml'))
 );

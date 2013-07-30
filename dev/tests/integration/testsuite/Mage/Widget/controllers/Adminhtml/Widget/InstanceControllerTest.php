@@ -24,7 +24,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Backend_U
     }
 
     /**
-     * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
+     * @magentoConfigFixture adminhtml/design/theme/full_name mage_basic
      */
     public function testEditAction()
     {
@@ -35,7 +35,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Backend_U
     }
 
     /**
-     * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
+     * @magentoConfigFixture adminhtml/design/theme/full_name mage_basic
      */
     public function testBlocksAction()
     {
@@ -44,7 +44,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Backend_U
     }
 
     /**
-     * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
+     * @magentoConfigFixture adminhtml/design/theme/full_name mage_basic
      */
     public function testTemplateAction()
     {

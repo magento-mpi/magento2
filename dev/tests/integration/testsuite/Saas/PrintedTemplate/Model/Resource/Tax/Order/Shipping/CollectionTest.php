@@ -30,7 +30,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
      * Tear down
      */
     /**
-     * @magentoConfigFixture current_store design/theme/full_name default/demo
+     * @magentoConfigFixture current_store design/theme/full_name mage_demo
      * @magentoDataFixture Saas/PrintedTemplate/_files/order.php
      */
     public function testFilterByOrder()
@@ -45,7 +45,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name default/demo
+     * @magentoConfigFixture current_store design/theme/full_name mage_demo
      * @magentoDataFixture Saas/PrintedTemplate/_files/invoice.php
      */
     public function testFilterByInvoice()
@@ -59,7 +59,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name default/demo
+     * @magentoConfigFixture current_store design/theme/full_name mage_demo
      * @magentoDataFixture Saas/PrintedTemplate/_files/creditmemo.php
      */
     public function testFilterByCreditmemo()

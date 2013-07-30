@@ -267,9 +267,9 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture install/design/theme/full_name default/basic
-     * @magentoConfigFixture frontend/design/theme/full_name default/demo
-     * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
+     * @magentoConfigFixture install/design/theme/full_name mage_basic
+     * @magentoConfigFixture frontend/design/theme/full_name mage_demo
+     * @magentoConfigFixture adminhtml/design/theme/full_name mage_basic
      * @magentoAppIsolation enabled
      * @dataProvider controllerAreaDesignDataProvider
      *
@@ -311,21 +311,21 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
                 'Mage_Install_Controller_Action',
                 'install',
                 'default',
-                'default/basic',
+                'mage_basic',
                 'Mage_Core_Controller_Varien_Action_Context'
             ),
             'frontend' => array(
                 'Mage_Core_Controller_Front_Action',
                 'frontend',
                 'default',
-                'default/demo',
+                'mage_demo',
                 'Mage_Core_Controller_Varien_Action_Context'
             ),
             'backend' => array(
                 'Mage_Adminhtml_Controller_Action',
                 'adminhtml',
                 'admin',
-                'default/basic',
+                'mage_basic',
                 'Mage_Backend_Controller_Context'
             ),
         );

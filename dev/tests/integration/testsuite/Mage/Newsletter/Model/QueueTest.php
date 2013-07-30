@@ -13,7 +13,7 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Newsletter/_files/queue.php
-     * @magentoConfigFixture frontend/design/theme/full_name default/demo_blue
+     * @magentoConfigFixture frontend/design/theme/full_name mage_demo_blue
      * @magentoConfigFixture fixturestore_store general/locale/code  de_DE
      * @magentoAppIsolation enabled
      */
