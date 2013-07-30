@@ -123,7 +123,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 /** Skip the theme because of MAGETWO-9063 */
                 continue;
             }
-            $result[] = array($theme);
+            $result[$theme->getFullPath()] = array($theme);
         }
         return $result;
     }

@@ -68,25 +68,12 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @dataProvider themeConfigFileDataProvider
      */
-    public function testThemeConfigFilePackageTheme($file)
+    public function testThemeConfigFileHasSingleTheme($file)
     {
-        list($expectedPackage, $expectedTheme) = array_slice(preg_split('[\\/]', $file), -3, 2);
         /** @var $configXml SimpleXMLElement */
         $configXml = simplexml_load_file($file);
-        $actualPackages = $configXml->xpath('/design/package');
-        $this->assertCount(1, $actualPackages, 'Single design package declaration is expected.');
-        $this->assertEquals(
-            $expectedPackage,
-            $actualPackages[0]['code'],
-            'Design package code does not correspond to the directory name.'
-        );
-        $actualThemes = $configXml->xpath('/design/package/theme');
+        $actualThemes = $configXml->xpath('/theme');
         $this->assertCount(1, $actualThemes, 'Single theme declaration is expected.');
-        $this->assertEquals(
-            $expectedTheme,
-            $actualThemes[0]['code'],
-            'Theme code does not correspond to the directory name.'
-        );
     }
 
     /**
