@@ -767,5 +767,10 @@ return array(
     array('Varien_Db_Adapter_Mysqli'),
     array('Mage_DB_Mysqli'),
     array('Mage_DB_Exception'),
+    array(
+        'Magento_Catalog_Block_Product_View_Media',
+        'Decomposed into Magento_Catalog_Block_Product_View_Gallery'
+            . ' and Magento_Catalog_Block_Product_View_BaseImage classes'
+    ),
     array('Magento_Wishlist_Block_Links', 'Magento_Wishlist_Block_Link'),
 );
