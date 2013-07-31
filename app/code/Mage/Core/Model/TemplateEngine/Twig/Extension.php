@@ -7,8 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_TemplateEngine_Twig_Extension
-    extends Twig_Extension
+class Mage_Core_Model_TemplateEngine_Twig_Extension extends Twig_Extension
 {
     const MAGENTO = 'Magento';
 
@@ -92,13 +91,7 @@ class Mage_Core_Model_TemplateEngine_Twig_Extension
      */
     public function translate()
     {
-        $currentModuleName =  Mage_Core_Block_Abstract::extractModuleName(
-            get_class($this->_blockTracker->getCurrentBlock())
-        );
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $currentModuleName);
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
+        return $this->_translator->translate(func_get_args());
     }
 
     /**
