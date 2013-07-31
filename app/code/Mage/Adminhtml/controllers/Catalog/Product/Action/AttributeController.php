@@ -18,13 +18,6 @@
  */
 class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adminhtml_Controller_Action
 {
-
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Mage_Catalog');
-    }
-
     public function editAction()
     {
         if (!$this->_validateProducts()) {

@@ -19,11 +19,6 @@ require_once 'Mage/Adminhtml/controllers/Catalog/ProductController.php';
  */
 class Mage_Bundle_Adminhtml_Bundle_Product_EditController extends Mage_Adminhtml_Catalog_ProductController
 {
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Bundle');
-    }
-
     public function formAction()
     {
         $product = $this->_initProduct();

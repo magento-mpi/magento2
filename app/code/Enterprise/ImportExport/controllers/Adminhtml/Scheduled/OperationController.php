@@ -18,17 +18,6 @@
 class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Custom constructor.
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Enterprise_ImportExport');
-    }
-
-    /**
      * Initialize layout.
      *
      * @return Enterprise_ImportExport_Adminhtml_Scheduled_OperationController

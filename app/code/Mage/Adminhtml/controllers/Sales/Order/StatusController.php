@@ -18,15 +18,6 @@
 class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
-    /**
      * Initialize status model based on status code in request
      *
      * @return Mage_Sales_Model_Order_Status | false
