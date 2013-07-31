@@ -525,7 +525,6 @@ class Mage_Core_Model_Translate
         if ($this->_isEmptyTranslateArg($text)) {
             return '';
         }
-
         if ($text instanceof Mage_Core_Model_Translate_Expr) {
             $code = $text->getCode(self::SCOPE_SEPARATOR);
             $module = $text->getModule();
@@ -541,10 +540,7 @@ class Mage_Core_Model_Translate
             $translated = $this->_getTranslatedString($text, $code);
         }
 
-        $result = @vsprintf($translated, $args);
-        if ($result === false) {
-            $result = $translated;
-        }
+        $result = $this->_replacePlaceholders($translated, $args);
 
         if ($this->_translateInline && $this->getTranslateInline()) {
             if (strpos($result, '{{{') === false
@@ -556,6 +552,34 @@ class Mage_Core_Model_Translate
         }
 
         return $result;
+    }
+
+    /**
+     * Return a formatted string. Replace placeholders %1, %2... with value
+     *
+     * @param string $phrase
+     * @param array $arguments
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    protected function _replacePlaceholders($phrase, $arguments)
+    {
+        if (preg_match_all('/%(\d+)/', $phrase, $matches) || $arguments) {
+            $placeholdersInPhrase = array_unique($matches[1]);
+            if (count($placeholdersInPhrase) != count($arguments)) {
+                throw new InvalidArgumentException(
+                    'The number of placeholders is not equal to the number of arguments.'
+                );
+            }
+        }
+        if ($arguments) {
+            $placeholders = array();
+            for ($i = 1, $size = count($arguments); $i <= $size; $i++) {
+                $placeholders[] = "%$i";
+            }
+            $phrase = str_replace($placeholders, $arguments, $phrase);
+        }
+        return $phrase;
     }
 
     /**
