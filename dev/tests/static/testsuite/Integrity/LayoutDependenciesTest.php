@@ -24,9 +24,16 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
     );
 
     /**
+     * Dataset with layout files names, namespaces and modules
+     *
+     * @var array
+     */
+    protected $_dataset = array();
+
+    /**
      * Execute all rules
      *
-     * @dataProvider getLayoutFiles
+     * @dataProvider getDataset
      */
     public function testByRules($file, $namespace, $module)
     {
@@ -58,11 +65,11 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
         $patterns = array(
             '/<.+module\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)[_](?<module>[A-Z][a-zA-Z]+)[\'"].*>/'
         );
-        return $this->searchDependencies($contents, $namespace, $module, $patterns);
+        return $this->searchDependenciesByRegexp($contents, $namespace, $module, $patterns);
     }
 
     /**
-     * The rule to check dependencies for <block> element.
+     * The rule to check dependencies for <block> element
      *
      * Search dependencies for type="..." attribute.
      * Search dependencies for template="..." attribute.
@@ -78,11 +85,11 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
             '/<block.*type\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>/',
             '/<block.*template\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>/'
         );
-        return $this->searchDependencies($contents, $namespace, $module, $patterns);
+        return $this->searchDependenciesByRegexp($contents, $namespace, $module, $patterns);
     }
 
     /**
-     * The rule to check dependencies for <action> element.
+     * The rule to check dependencies for <action> element
      *
      * Search dependencies for <block> element.
      * Search dependencies for <template> element.
@@ -102,7 +109,7 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
             '/<file\s*>(?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>/',
             '<.*helper\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>'
         );
-        return $this->searchDependencies($contents, $namespace, $module, $patterns);
+        return $this->searchDependenciesByRegexp($contents, $namespace, $module, $patterns);
     }
 
     /**
@@ -114,41 +121,42 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
      * @param array $patterns
      * @return array
      */
-    protected function searchDependencies($contents, $namespace, $module, $patterns = array())
+    protected function searchDependenciesByRegexp($contents, $namespace, $module, $patterns = array())
     {
-        $result = array();
+        $dependencies = array();
         foreach ($patterns as $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $item) {
                     if ($namespace != $item['namespace'] || $module != $item['module']) {
                         $name = $item['namespace'] . '_' . $item['module'];
-                        $result[$name] = $name;
+                        $dependencies[$name] = $name;
                     }
                 }
             }
         }
-        return $result;
+        return $dependencies;
     }
 
     /**
-     * Return layout files
+     * Retrieve dataset with layout files names, namespaces and modules
      *
      * Return: array(file, namespace, module).
      *
      * @return array
      */
-    public function getLayoutFiles()
+    public function getDataset()
     {
-        $pattern = '/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/';
-
-        $files = Utility_Files::init()->getLayoutFiles(array(), false);
-
-        $result = array();
-        foreach ($files as $file) {
-            if (preg_match($pattern, $file, $matches)) {
-                $result[$file] = array($file, $matches['namespace'], $matches['module']);
+        if (!count($this->_dataset)) {
+            $files = Utility_Files::init()->getLayoutFiles(array(), false);
+            foreach ($files as $file) {
+                if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+                    $this->_dataset[$file] = array(
+                        'file' => $file,
+                        'namespace' => $matches['namespace'],
+                        'module' => $matches['module']);
+                }
             }
         }
-        return $result;
+        return $this->_dataset;
     }
 }
