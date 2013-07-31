@@ -8,5 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <catalogsearch_advanced_index/>
+    <catalogsearch_advanced_result>
+        <remove name="right_currency"/>
+    </catalogsearch_advanced_result>
 </layout>
