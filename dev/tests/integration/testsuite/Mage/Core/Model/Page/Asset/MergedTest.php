@@ -143,7 +143,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
                     'mage/calendar.css',
                     'css/file.css',
                 ),
-                'c028046b30a5cc2eee49498db083828d.css',
+                '67b062e295aeb5a09b62c86d2823632a.css',
                 array(
                     'css/file.css',
                     'recursive.css',
@@ -164,7 +164,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
                     'mage/calendar.js',
                     'scripts.js',
                 ),
-                'd4417a959615e25a2f5cebfc74269374.js',
+                'c1a0045f608acb03f57f285c162c9f95.js',
             ),
         );
     }
