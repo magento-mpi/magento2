@@ -1,24 +1,30 @@
 <?xml version="1.0"?>
 <!--
 /**
+ * Interface schema for test service ErrorV1
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:mage="http://www.magento.com">
-
-    <xs:element name="successRequest"/>
-    <xs:element name="successResponse"/>
-    <xs:element name="resourceNotFoundExceptionRequest"/>
-    <xs:element name="resourceNotFoundExceptionResponse"/>
-    <xs:element name="serviceExceptionRequest"/>
-    <xs:element name="serviceExceptionResponse"/>
-    <xs:element name="authorizationExceptionRequest"/>
-    <xs:element name="authorizationExceptionResponse"/>
-    <xs:element name="otherExceptionRequest"/>
-    <xs:element name="otherExceptionResponse"/>
-
-</xs:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:complexType name="testModule3ErrorSuccessResponse">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="testModule3ErrorResourceNotFoundExceptionResponse">
+        <xsd:sequence/>
+    </xsd:complexType>
+    <xsd:complexType name="testModule3ErrorServiceExceptionResponse">
+        <xsd:sequence/>
+    </xsd:complexType>
+    <xsd:complexType name="testModule3ErrorAuthorizationExceptionResponse">
+        <xsd:sequence/>
+    </xsd:complexType>
+    <xsd:complexType name="testModule3ErrorOtherExceptionResponse">
+        <xsd:sequence/>
+    </xsd:complexType>
+</xsd:schema>

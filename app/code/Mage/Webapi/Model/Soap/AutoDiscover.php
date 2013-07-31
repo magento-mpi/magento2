@@ -134,8 +134,11 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         /** TODO: Use object manager to instantiate objects */
         $xpath = new DOMXPath($domDocument);
         /** @var $elemList DOMNode */
-        $complexTypeNode = $xpath->query("//xsd:complexType[@name='$complexTypeName']")->item(0);
-        if (!empty($complexTypeNode)) {
+        $complexTypeNodes = $xpath->query("//xsd:complexType[@name='$complexTypeName']");
+        if ($complexTypeNodes) {
+            $complexTypeNode = $complexTypeNodes->item(0);
+        }
+        if (isset($complexTypeNode)) {
             $this->_registeredTypes[] = $complexTypeName;
 
             $referencedTypes = $xpath->query("//xsd:complexType[@name='$complexTypeName']//@type");

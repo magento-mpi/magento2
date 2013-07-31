@@ -9,9 +9,9 @@
  */
 interface Mage_TestModule3_Service_ErrorInterfaceV1
 {
-    public function success($request);
-    public function resourceNotFoundException($request);
-    public function serviceException($request);
-    public function authorizationException($request);
-    public function otherException($request);
+    public function success();
+    public function resourceNotFoundException();
+    public function serviceException();
+    public function authorizationException();
+    public function otherException();
 }

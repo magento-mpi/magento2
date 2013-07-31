@@ -9,27 +9,27 @@
  */
 class Mage_TestModule3_Service_ErrorV1 implements Mage_TestModule3_Service_ErrorInterfaceV1
 {
-    public function success($request)
+    public function success()
     {
         return array('id' => 'a good id');
     }
 
-    public function resourceNotFoundException($request)
+    public function resourceNotFoundException()
     {
         throw new Mage_Service_ResourceNotFoundException('Resource not found', 2345);
     }
 
-    public function serviceException($request)
+    public function serviceException()
     {
         throw new Mage_Service_Exception('Generic service exception', 3456);
     }
 
-	public function authorizationException($request)
+	public function authorizationException()
     {
         throw new Mage_Service_AuthorizationException('Service authorization exception', 4567);
     }
 
-    public function otherException($request)
+    public function otherException()
     {
         throw new Exception('Non service exception', 5678);
     }
