@@ -21,17 +21,17 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        $themeId = $collection->getThemeByFullPath('frontend/default/demo')->getId();
+        $themeId = $collection->getThemeByFullPath('frontend/mage_demo')->getId();
         Mage::app()->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
         $subscriberOne = $this->getMock('Zend_Mail', array('send', 'setBodyHTML'), array('utf-8'));
         $subscriberOne->expects($this->any())->method('send');
         $subscriberTwo = clone $subscriberOne;
         $subscriberOne->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/default/demo_blue/en_US/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/mage_demo_blue/en_US/images/logo.gif')
         );
         $subscriberTwo->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/default/demo/de_DE/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/mage_demo/de_DE/images/logo.gif')
         );
 
         $emailTemplate = $this->getMock('Mage_Core_Model_Email_Template',

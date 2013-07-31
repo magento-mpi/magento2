@@ -34,7 +34,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
      */
     public function testGetFilesCollection()
     {
-        Mage::getDesign()->setDesignTheme('default/basic', 'adminhtml');
+        Mage::getDesign()->setDesignTheme('mage_basic', 'adminhtml');
         /** @var $model Mage_Cms_Model_Wysiwyg_Images_Storage */
         $model = Mage::getModel('Mage_Cms_Model_Wysiwyg_Images_Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
@@ -43,7 +43,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
             $this->assertInstanceOf('Varien_Object', $item);
             $this->assertStringEndsWith('/1.swf', $item->getUrl());
             $this->assertStringMatchesFormat(
-                'http://%s/static/adminhtml/%s/%s/%s/Mage_Cms/images/placeholder_thumbnail.jpg',
+                'http://%s/static/adminhtml/%s/%s/Mage_Cms/images/placeholder_thumbnail.jpg',
                 $item->getThumbUrl()
             );
             return;

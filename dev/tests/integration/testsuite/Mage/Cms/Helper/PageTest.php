@@ -36,7 +36,7 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
             ),
             $page->getId()
         );
-        $this->assertEquals('default/modern', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertEquals('mage_modern', Mage::getDesign()->getDesignTheme()->getThemePath());
         $this->assertTrue($result);
     }
 }

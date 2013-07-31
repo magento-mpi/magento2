@@ -44,7 +44,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Back
         $this->getRequest()->setPost('page_id', $page->getId());
 
         $this->dispatch('backend/admin/cms_page_revision/drop/');
-        $this->assertContains('static/frontend/default/modern', $this->getResponse()->getBody());
+        $this->assertContains('static/frontend/mage_modern', $this->getResponse()->getBody());
         $this->assertContains($page->getContent(), $this->getResponse()->getBody());
     }
 }
