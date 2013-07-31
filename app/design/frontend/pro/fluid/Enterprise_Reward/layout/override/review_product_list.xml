@@ -12,7 +12,7 @@
         <reference name="product.review.form.fields.before">
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
                 <action method="initRewardType">
-                    <type>enterprise_reward/action_review</type>
+                    <type>Enterprise_Reward_Model_Action_Review</type>
                 </action>
                 <action method="setWrapperClass">
                     <class>reward-review</class>
