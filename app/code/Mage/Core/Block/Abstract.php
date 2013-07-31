@@ -838,10 +838,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function __()
     {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->getModuleName());
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
+        return $this->_translator->translate(func_get_args());
     }
 
     /**
