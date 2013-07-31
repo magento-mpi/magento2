@@ -16,6 +16,8 @@
     <xs:element name="resourceNotFoundExceptionResponse"/>
     <xs:element name="serviceExceptionRequest"/>
     <xs:element name="serviceExceptionResponse"/>
+    <xs:element name="parameterizedExceptionRequest"/>
+    <xs:element name="parameterizedExceptionResponse"/>
     <xs:element name="authorizationExceptionRequest"/>
     <xs:element name="authorizationExceptionResponse"/>
     <xs:element name="otherExceptionRequest"/>

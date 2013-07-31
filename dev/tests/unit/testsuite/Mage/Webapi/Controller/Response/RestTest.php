@@ -225,7 +225,7 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
     /**
      * Test sendResponse method with various exceptions
      *
-     * @dataProvider dataProviderForSendResponseEexceptions
+     * @dataProvider dataProviderForSendResponseExceptions
      */
     public function testSendResponseWithExceptions($exception, $expectedHttpCode, $expectedResult, $assertMessage)
     {
@@ -245,26 +245,32 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
         $this->assertEquals($expectedResult, $actualResponse, $assertMessage);
     }
 
-    public function dataProviderForSendResponseEexceptions()
+    public function dataProviderForSendResponseExceptions()
     {
         return array(
             'Mage_Service_ResourceNotFoundException' => array(
                 new Mage_Service_ResourceNotFoundException('Resource not found', 2345),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND,
-                '{"errors":[{"code":2345,"message":"Resource not found"}]}',
+                '{"errors":[{"code":2345,"message":"Resource not found","parameters":[]}]}',
                 'Response sending with Mage_Service_ResourceNotFoundException is invalid'
             ),
             'Mage_Service_AuthorizationException' => array(
                 new Mage_Service_AuthorizationException('Service authorization exception', 3456),
                 Mage_Webapi_Exception::HTTP_UNAUTHORIZED,
-                '{"errors":[{"code":3456,"message":"Service authorization exception"}]}',
+                '{"errors":[{"code":3456,"message":"Service authorization exception","parameters":[]}]}',
                 'Response sending with Mage_Service_AuthorizationException is invalid'
             ),
             'Mage_Service_Exception' => array(
                 new Mage_Service_Exception('Generic service exception', 4567),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST,
-                '{"errors":[{"code":4567,"message":"Generic service exception"}]}',
+                '{"errors":[{"code":4567,"message":"Generic service exception","parameters":[]}]}',
                 'Response sending with Mage_Service_Exception is invalid'
+            ),
+            'Mage_Service_Exception_With_Parameters' => array(
+                new Mage_Service_Exception('Parameterized service exception', 1234, null, array("P1", "P2")),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST,
+                '{"errors":[{"code":1234,"message":"Parameterized service exception","parameters":["P1","P2"]}]}',
+                'Response sending with Mage_Service_Exception with parameters is invalid'
             ),
             'Exception' => array(
                 new Exception('Non service exception', 5678),

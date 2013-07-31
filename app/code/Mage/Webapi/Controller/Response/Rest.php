@@ -88,7 +88,6 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
      */
     protected function _renderMessages()
     {
-        $formattedMessages = array();
         $formattedMessages = $this->getMessages();
         $responseHttpCode = null;
         /** @var Exception $exception */
@@ -106,6 +105,10 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
             }
 
             $messageData = array('code' => $exception->getCode(), 'message' => $exception->getMessage());
+            if ($exception instanceof Mage_Service_Exception) {
+                /** @var Mage_Service_Exception $exception */
+                $messageData['parameters'] = $exception->getParameters();
+            }
             if ($this->_app->isDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }

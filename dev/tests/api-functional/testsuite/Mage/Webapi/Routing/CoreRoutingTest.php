@@ -43,35 +43,6 @@ class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAb
         $this->assertEquals($itemId, $item['id'], "Item was retrieved unsuccessfully");
     }
 
-    public function testExceptionSoapMissingRequiredField()
-    {
-        $this->_markTestAsSoapOnly();
-        $serviceInfo = array(
-            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
-            'method' => 'item',
-        );
-        $this->setExpectedException(
-            'SoapFault',
-            "Encoding: object has no 'id' property"
-        );
-        /** Params are intentionally omitted to cause exception */
-        $this->_webApiCall($serviceInfo);
-    }
-
-    public function testExceptionSoapInvalidOperation()
-    {
-        $this->_markTestAsSoapOnly();
-        $serviceInfo = array(
-            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
-            'method' => 'invalid',
-        );
-        $this->setExpectedException(
-            'SoapFault',
-            'Function ("testModule1AllSoapAndRestInvalid") is not a valid method for this service'
-        );
-        $this->_webApiCall($serviceInfo);
-    }
-
     public function testExceptionSoapInternalError()
     {
         // TODO: Uncomment test
