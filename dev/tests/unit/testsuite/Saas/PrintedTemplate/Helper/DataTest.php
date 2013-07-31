@@ -42,8 +42,8 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         // preapre
         $menuItems = array(
-            'Mage_Adminhtml::system'        => $this->itemMock('System'),
-            'Mage_Adminhtml::system_config' => $this->itemMock('Configuration'),
+            'Magento_Adminhtml::system'        => $this->itemMock('System'),
+            'Magento_Adminhtml::system_config' => $this->itemMock('Configuration'),
         );
         $configElements = array(
             array('sales_pdf', $this->elementMock('PDF Print-outs')),

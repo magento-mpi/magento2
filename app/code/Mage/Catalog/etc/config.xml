@@ -142,56 +142,56 @@
                 <options>
                     <custom>
                         <groups>
-                            <text translate="label" module="Mage_Adminhtml">
+                            <text translate="label" module="Magento_Adminhtml">
                                 <label>Text</label>
-                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text</render>
+                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text</render>
                                 <types>
-                                    <field translate="label" module="Mage_Adminhtml">
+                                    <field translate="label" module="Magento_Adminhtml">
                                         <label>Field</label>
                                     </field>
-                                    <area translate="label" module="Mage_Adminhtml">
+                                    <area translate="label" module="Magento_Adminhtml">
                                         <label>Area</label>
                                     </area>
                                 </types>
                             </text>
-                            <file translate="label" module="Mage_Adminhtml">
+                            <file translate="label" module="Magento_Adminhtml">
                                 <label>File</label>
-                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_File</render>
+                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_File</render>
                                 <types>
-                                    <file translate="label" module="Mage_Adminhtml">
+                                    <file translate="label" module="Magento_Adminhtml">
                                         <label>File</label>
                                     </file>
                                 </types>
                             </file>
-                            <select translate="label" module="Mage_Adminhtml">
+                            <select translate="label" module="Magento_Adminhtml">
                                 <label>Select</label>
-                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select</render>
+                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select</render>
                                 <types>
-                                    <drop_down translate="label" module="Mage_Adminhtml">
+                                    <drop_down translate="label" module="Magento_Adminhtml">
                                         <label>Drop-down</label>
                                     </drop_down>
-                                    <radio translate="label" module="Mage_Adminhtml">
+                                    <radio translate="label" module="Magento_Adminhtml">
                                         <label>Radio Buttons</label>
                                     </radio>
-                                    <checkbox translate="label" module="Mage_Adminhtml">
+                                    <checkbox translate="label" module="Magento_Adminhtml">
                                         <label>Checkbox</label>
                                     </checkbox>
-                                    <multiple translate="label" module="Mage_Adminhtml">
+                                    <multiple translate="label" module="Magento_Adminhtml">
                                         <label>Multiple Select</label>
                                     </multiple>
                                 </types>
                             </select>
-                            <date translate="label" module="Mage_Adminhtml">
+                            <date translate="label" module="Magento_Adminhtml">
                                 <label>Date</label>
-                                <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date</render>
+                                <render>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date</render>
                                 <types>
-                                    <date translate="label" module="Mage_Adminhtml">
+                                    <date translate="label" module="Magento_Adminhtml">
                                         <label>Date</label>
                                     </date>
-                                    <date_time translate="label" module="Mage_Adminhtml">
+                                    <date_time translate="label" module="Magento_Adminhtml">
                                         <label>Date &amp; Time</label>
                                     </date_time>
-                                    <time translate="label" module="Mage_Adminhtml">
+                                    <time translate="label" module="Magento_Adminhtml">
                                         <label>Time</label>
                                     </time>
                                 </types>

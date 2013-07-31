@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Controller_Action
+class Enterprise_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Banners list
@@ -43,7 +43,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
                 ->addError(Mage::helper('Enterprise_Banner_Helper_Data')->__('This banner no longer exists.'));
             $this->_redirect('*/*/');
             return;
@@ -51,7 +51,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
 
         $this->_title($model->getId() ? $model->getName() : $this->__('New Banner'));
 
-        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
+        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -78,7 +78,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
             $bannerId = $this->getRequest()->getParam('id');
             $model = $this->_initBanner();
             if (!$model->getId() && $bannerId) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                     Mage::helper('Enterprise_Banner_Helper_Data')->__('This banner does not exist.')
                 );
                 $this->_redirect('*/*/');
@@ -96,7 +96,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
 
             // prepare post data
             if (isset($data['banner_catalog_rules'])) {
-                $related = Mage::helper('Mage_Adminhtml_Helper_Js')
+                $related = Mage::helper('Magento_Adminhtml_Helper_Js')
                     ->decodeGridSerializedInput($data['banner_catalog_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
@@ -104,7 +104,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
                 $data['banner_catalog_rules'] = $related;
             }
             if (isset($data['banner_sales_rules'])) {
-                $related = Mage::helper('Mage_Adminhtml_Helper_Js')
+                $related = Mage::helper('Magento_Adminhtml_Helper_Js')
                     ->decodeGridSerializedInput($data['banner_sales_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
@@ -116,11 +116,11 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
             try {
                 if (!empty($data)) {
                     $model->addData($data);
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData($data);
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
                 }
                 $model->save();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(false);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Enterprise_Banner_Helper_Data')->__('You saved the banner.')
                 );
             } catch (Mage_Core_Exception $e) {
@@ -155,7 +155,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
                 $model->load($bannerId);
                 $model->delete();
                 // display success message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Enterprise_Banner_Helper_Data')->__('The banner has been deleted.')
                 );
                 // go to grid
@@ -171,14 +171,14 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
                 );
                 Mage::logException($e);
                 // save data in session
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData($data);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('id' => $bannerId));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
             Mage::helper('Enterprise_Banner_Helper_Data')->__('We cannot find a banner to delete.')
         );
         // go to grid
@@ -272,7 +272,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                 Mage::helper('Enterprise_Banner_Helper_Data')->__('This banner does not exist.')
             );
             $this->_redirect('*/*/');
@@ -298,7 +298,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                 Mage::helper('Enterprise_Banner_Helper_Data')->__('This banner does not exist.')
             );
             $this->_redirect('*/*/');
@@ -324,7 +324,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
         if ($ruleId) {
             $model->load($ruleId);
             if (! $model->getRuleId()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                     Mage::helper('Mage_SalesRule_Helper_Data')->__('This rule no longer exists.')
                 );
                 $this->_redirect('*/*');
@@ -353,7 +353,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Mage_Adminhtml_Contr
         if ($ruleId) {
             $model->load($ruleId);
             if (! $model->getRuleId()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                     Mage::helper('Mage_CatalogRule_Helper_Data')->__('This rule no longer exists.')
                 );
                 $this->_redirect('*/*');

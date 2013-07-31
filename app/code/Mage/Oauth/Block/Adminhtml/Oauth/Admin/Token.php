@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +15,7 @@
  * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Construct grid container
@@ -26,7 +26,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token extends Mage_Adminhtml_Block_
 
         $this->_blockGroup = 'Mage_Oauth';
         $this->_controller = 'adminhtml_oauth_admin_token';
-        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('My Applications');
+        $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('My Applications');
         $this->_removeButton('add');
     }
 }

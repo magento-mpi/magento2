@@ -15,7 +15,7 @@
             <version>1.11.0.0.1</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
+                <Magento_Adminhtml/>
                 <Mage_Sales />
             </depends>
         </Enterprise_GiftRegistry>
@@ -96,7 +96,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_giftregistry before="Mage_Adminhtml">Enterprise_GiftRegistry_Adminhtml</enterprise_giftregistry>
+                        <enterprise_giftregistry before="Magento_Adminhtml">Enterprise_GiftRegistry_Adminhtml</enterprise_giftregistry>
                     </modules>
                 </args>
             </adminhtml>

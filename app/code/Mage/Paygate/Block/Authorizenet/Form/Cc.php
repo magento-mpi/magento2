@@ -152,7 +152,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCancelButtonHtml()
     {
-        $cancelButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $cancelButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'id'      => 'payment_cancel',
                 'label'   => Mage::helper('Mage_Paygate_Helper_Data')->__('Cancel'),

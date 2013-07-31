@@ -15,7 +15,7 @@
  * @package     currencysymbol
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends Mage_Adminhtml_Controller_Action
+class Mage_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Show Currency Symbols Management dialog
@@ -46,7 +46,7 @@ class Mage_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends Mag
         $symbolsDataArray = $this->getRequest()->getParam('custom_currency_symbol', null);
         if (is_array($symbolsDataArray)) {
             foreach ($symbolsDataArray as &$symbolsData) {
-                $symbolsData = Mage::helper('Mage_Adminhtml_Helper_Data')->stripTags($symbolsData);
+                $symbolsData = Mage::helper('Magento_Adminhtml_Helper_Data')->stripTags($symbolsData);
             }
         }
 
@@ -56,7 +56,7 @@ class Mage_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends Mag
                 Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('The custom currency symbols were applied.')
             );
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         }
 
         $this->_redirectReferer();

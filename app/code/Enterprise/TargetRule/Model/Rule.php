@@ -153,7 +153,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
     {
         $result = array();
         if ($withEmpty) {
-            $result[''] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --');
+            $result[''] = Mage::helper('Magento_Adminhtml_Helper_Data')->__('-- Please Select --');
         }
         $result[Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS]
             = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Products');

@@ -35,7 +35,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_GoogleShopping before="Mage_Adminhtml">Mage_GoogleShopping_Adminhtml</Mage_GoogleShopping>
+                        <Mage_GoogleShopping before="Magento_Adminhtml">Mage_GoogleShopping_Adminhtml</Mage_GoogleShopping>
                     </modules>
                 </args>
             </adminhtml>

@@ -19,6 +19,6 @@ class Saas_Customer_Model_Limitation_Specification_Backend_CustomerOnline
     public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'customer_online'
-            || $request->getControllerModule() != 'Mage_Adminhtml';
+            || $request->getControllerModule() != 'Magento_Adminhtml';
     }
 }

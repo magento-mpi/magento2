@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
-    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
 
     protected $_template = 'types/edit/attributes.phtml';
@@ -28,13 +28,13 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Add New Attribute'),
             'class' => 'add',
             'id'    => 'add_new_attribute',
             'on_click' => 'gContentAttribute.add()'
         ));
-        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Remove'),
             'class' => 'delete delete-product-option',
             'on_click' => 'gContentAttribute.remove(event)'
@@ -108,7 +108,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setId($this->getFieldId().'_{{index}}_attribute')
             ->setName($this->getFieldName().'[{{index}}][attribute_id]')
             ->setOptions($this->_getAttributes($this->getAttributeSetId(), $escapeJsQuotes));

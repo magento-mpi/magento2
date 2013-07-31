@@ -15,7 +15,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Block_Adminhtml_Widget_Instance extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Widget_Block_Adminhtml_Widget_Instance extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Block constructor

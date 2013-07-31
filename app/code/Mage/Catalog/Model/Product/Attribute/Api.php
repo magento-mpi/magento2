@@ -373,7 +373,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
         }
         // data in the following format is accepted by the model
         // it simulates parameters of the request made to
-        // Mage_Adminhtml_Controller_Catalog_Product_Attribute::saveAction()
+        // Magento_Adminhtml_Controller_Catalog_Product_Attribute::saveAction()
         $modelData = array(
             'option' => array(
                 'value' => array(
@@ -415,7 +415,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
 
         // data in the following format is accepted by the model
         // it simulates parameters of the request made to
-        // Mage_Adminhtml_Controller_Catalog_Product_Attribute::saveAction()
+        // Magento_Adminhtml_Controller_Catalog_Product_Attribute::saveAction()
         $modelData = array(
             'option' => array(
                 'value' => array(

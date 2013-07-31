@@ -33,7 +33,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template extends Mage_Backend_Block_T
     protected function _prepareLayout()
     {
         $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => $this->__('Add New Template'),
                     'onclick'   => "window.location='" . $this->getCreateUrl() . "'",

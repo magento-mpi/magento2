@@ -247,7 +247,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
 
     /**
      * Return formatted option value ready to edit, ready to parse
-     * (ex: Admin re-order, see Mage_Adminhtml_Model_Sales_Order_Create)
+     * (ex: Admin re-order, see Magento_Adminhtml_Model_Sales_Order_Create)
      *
      * @param string $optionValue Prepared for cart option value
      * @return string

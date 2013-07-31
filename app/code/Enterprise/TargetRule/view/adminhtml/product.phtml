@@ -28,7 +28,7 @@
                 <label for="<?php echo $this->getFieldName('position_limit'); ?>_default" class="normal"><?php echo Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Use Config Settings') ?></label>
             </td>
             <?php if (!Mage::app()->isSingleStoreMode()): ?>
-            <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
+            <td class="value scope-label"><?php echo Mage::helper('Magento_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
             <?php endif; ?>
         </tr>
         <tr>
@@ -46,7 +46,7 @@
             <label for="<?php echo $this->getFieldName('position_behavior'); ?>_default" class="normal"><?php echo Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Use Config Settings') ?></label>
             </td>
             <?php if (!Mage::app()->isSingleStoreMode()): ?>
-            <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
+            <td class="value scope-label"><?php echo Mage::helper('Magento_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
             <?php endif; ?>
         </tr>
         </table>

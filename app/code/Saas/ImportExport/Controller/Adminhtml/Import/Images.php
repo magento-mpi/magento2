@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Mage_Adminhtml_Controller_Action
+class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Magento_Adminhtml_Controller_Action
 {
     /**
      * @var Saas_ImportExport_Model_Service_Image_Import

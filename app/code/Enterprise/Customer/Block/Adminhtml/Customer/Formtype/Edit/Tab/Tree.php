@@ -16,8 +16,8 @@
  * @package    Enterprise_Customer
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Retrieve current form type instance
@@ -37,26 +37,26 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
             'onclick'   => 'formType.newFieldset()',
             'class'     => 'add',
         );
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData($addButtonData)->toHtml();
     }
 
     public function getFieldsetButtonsHtml()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save'),
             'onclick'   => 'formType.saveFieldset()',
             'class'     => 'save',
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
             'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Remove'),
             'onclick'   => 'formType.deleteFieldset()',
             'class'     => 'delete',
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Cancel'),
             'onclick'   => 'formType.cancelFieldset()',

@@ -21,7 +21,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adminhtml_Block_Template
+abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_Adminhtml_Block_Template
 {
     /**
      * List type of current block
@@ -57,13 +57,13 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
             $headBlock->addJs('Enterprise_Checkout::addbysku.js');
         }
 
-        $this->addChild('deleteButton', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('deleteButton', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'   => '',
             'onclick' => 'addBySku.del(this)',
             'class'   => 'delete'
         ));
 
-        $this->addChild('addButton', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'   => 'Add',
             'onclick' => 'addBySku.add()',
             'class'   => 'add'

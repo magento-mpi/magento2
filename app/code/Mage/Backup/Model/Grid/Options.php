@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Backup types option array
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backup_Model_Grid_Options implements Mage_Core_Model_Option_ArrayInterface

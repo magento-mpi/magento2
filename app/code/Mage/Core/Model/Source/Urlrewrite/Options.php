@@ -34,9 +34,9 @@ class Mage_Core_Model_Source_Urlrewrite_Options
     {
         if (is_null($this->_options)) {
             $this->_options = array(
-                ''              => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
-                self::TEMPORARY => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Temporary (302)'),
-                self::PERMANENT => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Permanent (301)')
+                ''              => Mage::helper('Magento_Adminhtml_Helper_Data')->__('No'),
+                self::TEMPORARY => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Temporary (302)'),
+                self::PERMANENT => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Permanent (301)')
             );
         }
         return $this->_options;

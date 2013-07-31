@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
 
     protected $_template = 'customer/form.phtml';
@@ -24,7 +24,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         $this->addChild('entity_items', 'Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items');
         $this->addChild('cart_items', 'Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart');
         $this->addChild('sharing_form', 'Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing');
-        $this->addChild('update_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Update Items and Qty\'s'),
             'type'  => 'submit'
         ));

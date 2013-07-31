@@ -24,7 +24,7 @@
                 <file>jquery/editableMultiselect/css/jquery.multiselect.css</file>
             </action>
             <action method="addCss">
-                <file>Mage_Adminhtml::catalog/category-selector.css</file>
+                <file>Magento_Adminhtml::catalog/category-selector.css</file>
             </action>
             <action method="addCss">
                 <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>

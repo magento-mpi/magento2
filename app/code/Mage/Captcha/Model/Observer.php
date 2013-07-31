@@ -225,11 +225,11 @@ class Mage_Captcha_Model_Observer
     /**
      * Returns backend session
      *
-     * @return Mage_Adminhtml_Model_Session
+     * @return Magento_Adminhtml_Model_Session
      */
     protected function _getBackendSession()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
     }
 
     /**

@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Mage_Theme::system_design_theme" title="Themes" module="Mage_Theme" sortOrder="20" parent="Mage_Adminhtml::system_design" action="adminhtml/system_design_theme" resource="Mage_Theme::theme"/>
+        <add id="Mage_Theme::system_design_theme" title="Themes" module="Mage_Theme" sortOrder="20" parent="Magento_Adminhtml::system_design" action="adminhtml/system_design_theme" resource="Mage_Theme::theme"/>
     </menu>
 </config>

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
-    extends Mage_Adminhtml_Block_Widget implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
 
     /**
@@ -115,7 +115,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getGroupCode()
     {
-        return Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE;
+        return Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE;
     }
 
     /**
@@ -125,11 +125,11 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     protected function _toHtml()
     {
-        $accordion = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion')
+        $accordion = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Accordion')
             ->setId('downloadableInfo');
 
         $accordion->addItem('samples', array(
-            'title'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Samples'),
+            'title'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Samples'),
             'content' => $this->getLayout()
                 ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples')
                 ->toHtml(),
@@ -137,7 +137,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         ));
 
         $accordion->addItem('links', array(
-            'title'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Links'),
+            'title'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Links'),
             'content' => $this->getLayout()->createBlock(
                 'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
                 'catalog.product.edit.tab.downloadable.links')->toHtml(),

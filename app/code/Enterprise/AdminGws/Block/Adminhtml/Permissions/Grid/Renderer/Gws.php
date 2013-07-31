@@ -12,7 +12,7 @@
  * Website permissions column grid
  *
  */
-class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * @var array

@@ -10,9 +10,9 @@
 <layout version="0.1.0">
     <launcher_storelauncher_product_drawer_load>
         <block type="Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer" name="product.drawer" template="page/storelauncher/product/drawer.phtml">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"/>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
-            <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml" name="wysiwyg-editor"/>
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"/>
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
+            <block type="Mage_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml" name="wysiwyg-editor"/>
         </block>
     </launcher_storelauncher_product_drawer_load>
 </layout>

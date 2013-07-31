@@ -72,7 +72,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <oauth before="Mage_Adminhtml">Mage_Oauth_Adminhtml</oauth>
+                        <oauth before="Magento_Adminhtml">Mage_Oauth_Adminhtml</oauth>
                     </modules>
                 </args>
             </adminhtml>

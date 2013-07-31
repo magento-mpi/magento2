@@ -16,8 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Internal constructor

@@ -114,6 +114,6 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag_Customer
      */
     public function getGroupCode()
     {
-        return Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE;
+        return Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE;
     }
 }

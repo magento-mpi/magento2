@@ -46,7 +46,7 @@ $rulesCollection = Mage::getModel('Mage_User_Model_Rules')->getCollection()
 if ($rulesCollection->count() == 0) {
     Mage::getModel('Mage_User_Model_Rules')->setData(array(
         'role_id'       => $admGroupRole->getId(),
-        'resource_id'   => 'Mage_Adminhtml::all',
+        'resource_id'   => 'Magento_Adminhtml::all',
         'privileges'    => null,
         'role_type'     => 'G',
         'permission'    => 'allow'
@@ -54,7 +54,7 @@ if ($rulesCollection->count() == 0) {
     ->save();
 } else {
     foreach ($rulesCollection as $rule) {
-        $rule->setData('resource_id', 'Mage_Adminhtml::all')
+        $rule->setData('resource_id', 'Magento_Adminhtml::all')
             ->save();
     }
 }

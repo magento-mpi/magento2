@@ -15,7 +15,7 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Controller_Adminhtml_Customer extends Mage_Adminhtml_Controller_Action
+class Mage_Tag_Controller_Adminhtml_Customer extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Adds to registry current customer instance

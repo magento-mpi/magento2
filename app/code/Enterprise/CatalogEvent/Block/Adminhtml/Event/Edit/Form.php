@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**
@@ -142,7 +142,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
-                '<a href="' . Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_category/edit',
+                '<a href="' . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_category/edit',
                                                             array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );

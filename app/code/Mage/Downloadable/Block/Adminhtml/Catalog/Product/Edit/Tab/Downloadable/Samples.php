@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples
-    extends Mage_Adminhtml_Block_Widget
+    extends Magento_Adminhtml_Block_Widget
 {
     /**
      * Block config data
@@ -55,7 +55,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $addButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label' => Mage::helper('Mage_Downloadable_Helper_Data')->__('Add New Row'),
                 'id' => 'add_sample_item',
@@ -137,9 +137,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     protected function _prepareLayout()
     {
-        $this->addChild('upload_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('upload_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'id'      => '',
-            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
+            'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Upload Files'),
             'type'    => 'button',
             'onclick' => 'Downloadable.massUploadByType(\'samples\')'
         ));
@@ -169,7 +169,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         $this->getConfig()->setFileField('samples');
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
+                'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('All Files'),
                 'files' => array('*.*')
             )
         ));

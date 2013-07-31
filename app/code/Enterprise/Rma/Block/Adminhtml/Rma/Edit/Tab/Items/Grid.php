@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Default limit collection
@@ -89,7 +89,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
     /**
      * Prepare columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

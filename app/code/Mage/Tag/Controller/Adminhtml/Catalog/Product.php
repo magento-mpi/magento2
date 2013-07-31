@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Controller_Adminhtml_Catalog_Product extends Mage_Adminhtml_Controller_Action
+class Mage_Tag_Controller_Adminhtml_Catalog_Product extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Get tag grid

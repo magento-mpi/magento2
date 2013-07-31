@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize Grid block
@@ -56,7 +56,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
     /**
      * Prepare grid columns
      *
-     * @return Mage_Adminhtml_Block_Extension_Custom_Edit_Tab_Grid
+     * @return Magento_Adminhtml_Block_Extension_Custom_Edit_Tab_Grid
      */
     protected function _prepareColumns()
     {

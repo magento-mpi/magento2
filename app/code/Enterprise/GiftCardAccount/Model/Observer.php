@@ -189,11 +189,11 @@ class Enterprise_GiftCardAccount_Model_Observer
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addException(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addException(
                     $e,
                     $this->__('We cannot apply this gift card.')
                 );
@@ -208,11 +208,11 @@ class Enterprise_GiftCardAccount_Model_Observer
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addError(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->addException(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addException(
                     $e,
                     $this->__('We cannot remove this gift card.')
                 );

@@ -16,7 +16,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set grid Id

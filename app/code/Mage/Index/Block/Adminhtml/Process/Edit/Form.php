@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Index_Block_Adminhtml_Process_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Index_Block_Adminhtml_Process_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     protected function _prepareForm()
     {

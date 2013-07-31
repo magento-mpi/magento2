@@ -15,7 +15,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Preparing form - container, which contains all attributes
@@ -46,14 +46,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         );
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
-        $okButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $okButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('OK'),
                 'class'   => 'ok_button',
             ));
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $cancelButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Cancel'),
                 'class'   => 'cancel_button',
@@ -84,7 +84,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
     {
         Magento_Data_Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                'Mage_Adminhtml_Block_Widget_Form_Renderer_Element',
+                'Magento_Adminhtml_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
@@ -96,7 +96,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         );
         Magento_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
+                'Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );

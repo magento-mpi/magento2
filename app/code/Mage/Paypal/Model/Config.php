@@ -982,10 +982,10 @@ class Mage_Paypal_Model_Config
     public function getWpsPaymentDeliveryMethods()
     {
         return array(
-            self::WPS_TRANSPORT_IPN      => Mage::helper('Mage_Adminhtml_Helper_Data')->__('IPN (Instant Payment Notification) Only'),
+            self::WPS_TRANSPORT_IPN      => Mage::helper('Magento_Adminhtml_Helper_Data')->__('IPN (Instant Payment Notification) Only'),
             // not supported yet:
-//            self::WPS_TRANSPORT_PDT      => Mage::helper('Mage_Adminhtml_Helper_Data')->__('PDT (Payment Data Transfer) Only'),
-//            self::WPS_TRANSPORT_IPN_PDT  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Both IPN and PDT'),
+//            self::WPS_TRANSPORT_PDT      => Mage::helper('Magento_Adminhtml_Helper_Data')->__('PDT (Payment Data Transfer) Only'),
+//            self::WPS_TRANSPORT_IPN_PDT  => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Both IPN and PDT'),
         );
     }
 

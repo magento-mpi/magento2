@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Js
-    extends Mage_Adminhtml_Block_Template
+    extends Magento_Adminhtml_Block_Template
 {
     /**
      * Retrieve allowed Input Validate Filters in JSON format

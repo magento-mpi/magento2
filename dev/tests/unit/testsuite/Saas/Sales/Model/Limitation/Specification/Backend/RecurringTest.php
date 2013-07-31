@@ -46,7 +46,7 @@ class Saas_Sales_Model_Limitation_Specification_Backend_RecurringTest extends PH
     public function dataProviderForIsSatisfiedBy()
     {
         return array(
-            array('unknown', 'Mage_Adminhtml'),
+            array('unknown', 'Magento_Adminhtml'),
             array('sales_recurring_profile', 'unknown'),
             array('unknown', 'unknown'),
         );
@@ -55,7 +55,7 @@ class Saas_Sales_Model_Limitation_Specification_Backend_RecurringTest extends PH
     public function testIsNotAllowed()
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Adminhtml'));
+            ->will($this->returnValue('Magento_Adminhtml'));
         $this->_requestMock->expects($this->any())->method('getControllerName')
             ->will($this->returnValue('sales_recurring_profile'));
 

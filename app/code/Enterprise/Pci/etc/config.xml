@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml />
+                <Magento_Adminhtml />
                 <Mage_Customer />
                 <Mage_Api />
             </depends>
@@ -96,7 +96,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_Pci before="Mage_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
+                        <Enterprise_Pci before="Magento_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
                     </modules>
                 </args>
             </adminhtml>
@@ -134,4 +134,4 @@
             </security>
         </admin>
     </default>
-</config>
+</config>

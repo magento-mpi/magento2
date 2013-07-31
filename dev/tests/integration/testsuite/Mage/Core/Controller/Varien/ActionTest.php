@@ -324,7 +324,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
                 'Mage_Core_Controller_Varien_Action_Context'
             ),
             'backend' => array(
-                'Mage_Adminhtml_Controller_Action',
+                'Magento_Adminhtml_Controller_Action',
                 'adminhtml',
                 'admin',
                 'magento_basic',

@@ -264,7 +264,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_Paypal before="Mage_Adminhtml">Mage_Paypal_Adminhtml</Mage_Paypal>
+                        <Mage_Paypal before="Magento_Adminhtml">Mage_Paypal_Adminhtml</Mage_Paypal>
                     </modules>
                 </args>
             </adminhtml>

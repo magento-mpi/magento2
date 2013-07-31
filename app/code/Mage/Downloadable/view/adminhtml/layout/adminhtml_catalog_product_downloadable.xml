@@ -17,11 +17,11 @@
             </action>
         </reference>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Mage_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
-                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
-                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute" template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
-                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix" template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
+                <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
+                    <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
+                    <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
+                    <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
                 </block>
             </block>
         </reference>

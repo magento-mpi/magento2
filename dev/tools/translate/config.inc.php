@@ -522,9 +522,9 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/enterprise_wishlist.xml',
         'app/design/frontend/enterprise/default/template/wishlist/'
     ),
-    'Mage_Adminhtml' => array(
+    'Magento_Adminhtml' => array(
         'app/code/Mage/Admin/',
-        'app/code/Mage/Adminhtml/',
+        'app/code/Magento/Adminhtml/',
         'app/design/adminhtml/default/default/layout/',
         'app/design/adminhtml/default/default/template/',
         '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
@@ -559,8 +559,8 @@ $CONFIG['translates'] = array(
     ),
 );
 
-$CONFIG['helpers'] = array(
-    'adminhtml'         => 'Mage_Adminhtml',
+$CONFIG['helpers']  = array(
+    'adminhtml'         => 'Magento_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
     'api'               => 'Mage_Api',
     'webapi'              => 'Mage_Webapi',

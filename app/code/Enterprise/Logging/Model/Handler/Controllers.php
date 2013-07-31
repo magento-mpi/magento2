@@ -163,7 +163,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 $info = Mage::app()->getRequest()->getParam('email');
             }
             $success = true;
-            $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+            $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
             if ($messages) {
                 $success = 'error' != $messages->getType();
             }
@@ -241,7 +241,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = Mage::app()->getHelper('Mage_Adminhtml_Helper_Data')->prepareFilterString($filter);
+            $filterData = Mage::app()->getHelper('Magento_Adminhtml_Helper_Data')->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
@@ -320,7 +320,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -343,7 +343,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
+            $products = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -557,7 +557,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             ->setOriginalData(array())
             ->setResultData(array('rates' => implode(', ', $values))));
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -588,7 +588,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         }
 
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -608,7 +608,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -648,7 +648,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($request->getParam('action')) {
             $message .= ucfirst($request->getParam('action')) . ' action: ';
         }
-        $message .= Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
+        $message .= Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
     }
 

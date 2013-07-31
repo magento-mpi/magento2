@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
-    extends Mage_Adminhtml_Block_Widget_Form_Container
+    extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Return current customer address attribute instance

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminhtml_Controller_Action
+class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminhtml_Controller_Action
 {
     /**
      * RMA Item Entity Type instance
@@ -151,7 +151,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminh
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('An attribute with the same code already exists.')
                 );
 
-                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

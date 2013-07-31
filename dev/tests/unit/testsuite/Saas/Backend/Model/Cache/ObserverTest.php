@@ -43,7 +43,7 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->_requestMock->expects($this->once())->method('getControllerName')->will($this->returnValue('cache'));
         $this->_requestMock->expects($this->once())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Adminhtml'));
+            ->will($this->returnValue('Magento_Adminhtml'));
         $this->_helperMock->expects($this->once())->method('customizeNoRoutForward')->with($this->_requestMock);
 
         $this->_modelCacheObserver->disableAdminhtmlCacheController($this->_observerMock);
@@ -69,7 +69,7 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
     public function dataProviderForNotDisabledAdminhtmlCacheController()
     {
         return array(
-            array('index', 'Mage_Adminhtml'),
+            array('index', 'Magento_Adminhtml'),
             array('cache', 'Mage_Checkout'),
             array('unknown', 'unknown'),
         );

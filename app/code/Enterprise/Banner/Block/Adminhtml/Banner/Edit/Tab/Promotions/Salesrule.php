@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * @param Mage_Backend_Block_Template_Context $context
@@ -75,7 +75,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
     /**
      * Create grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

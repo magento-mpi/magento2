@@ -1,5 +1,5 @@
 Find/Feed/Block/Adminhtml
-Mage/Adminhtml
+Magento/Adminhtml
 Mage/Backend
 Mage/Bundle
 Mage/Catalog/Block/Product/List

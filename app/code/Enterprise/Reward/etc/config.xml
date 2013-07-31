@@ -212,7 +212,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <reward before="Mage_Adminhtml">Enterprise_Reward_Adminhtml</reward>
+                        <reward before="Magento_Adminhtml">Enterprise_Reward_Adminhtml</reward>
                     </modules>
                 </args>
             </adminhtml>
@@ -423,4 +423,4 @@
             </enterprise_reward_expire_points>
         </jobs>
     </crontab>
-</config>
+</config>

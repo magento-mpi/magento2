@@ -22,7 +22,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <connect before="Mage_Adminhtml">Mage_Connect_Adminhtml</connect>
+                        <connect before="Magento_Adminhtml">Mage_Connect_Adminhtml</connect>
                     </modules>
                 </args>
             </adminhtml>

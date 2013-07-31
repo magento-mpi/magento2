@@ -18,7 +18,7 @@
  */
 class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     extends Enterprise_Pbridge_Block_Iframe_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Block template

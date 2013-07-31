@@ -22,7 +22,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected $_varienObserver;
 
     /**
-     * @var Mage_Adminhtml_Block_Widget_Grid
+     * @var Magento_Adminhtml_Block_Widget_Grid
      */
     protected $_block;
 
@@ -37,7 +37,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
                 'can_edit_product_status' => false,
                 'default_product_price_string' => 'default'
             )));
-        $this->_block = $this->getMock('Mage_Adminhtml_Block_Widget_Grid',
+        $this->_block = $this->getMock('Magento_Adminhtml_Block_Widget_Grid',
             array('getNameInLayout', 'getMassactionBlock', 'setCanReadPrice', 'setCanEditPrice', 'setTabData',
                 'getChildBlock', 'getParentBlock', 'setDefaultProductPrice', 'getForm'),
             array(), '', false);
@@ -82,7 +82,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
         $this->_setGetNameInLayoutExpects('admin.customer.view.cart');
 
         $this->_observer->expects($this->exactly(2))->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('Mage_Adminhtml_Block_Widget_Grid'),
+            ->with($this->isInstanceOf('Magento_Adminhtml_Block_Widget_Grid'),
             $this->logicalOr(
                 $this->equalTo('price'),
                 $this->equalTo('total')
@@ -210,7 +210,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
         $this->_setGetNameInLayoutExpects('adminhtml.catalog.product.edit.tab.attributes');
 
         $this->_observer->expects($this->once())->method('_hidePriceElements')
-            ->with($this->isInstanceOf('Mage_Adminhtml_Block_Widget_Grid'));
+            ->with($this->isInstanceOf('Magento_Adminhtml_Block_Widget_Grid'));
 
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
@@ -246,7 +246,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
             ->will($this->returnValue($parentBlock));
 
         $this->_observer->expects($this->exactly(2))->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('Mage_Adminhtml_Block_Widget_Grid'),
+            ->with($this->isInstanceOf('Magento_Adminhtml_Block_Widget_Grid'),
             $this->logicalOr(
                 $this->equalTo('price'),
                 $this->equalTo('total')
@@ -259,7 +259,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected function _assertPriceColumnRemove()
     {
         $this->_observer->expects($this->once())->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('Mage_Adminhtml_Block_Widget_Grid'), $this->equalTo('price'));
+            ->with($this->isInstanceOf('Magento_Adminhtml_Block_Widget_Grid'), $this->equalTo('price'));
     }
 
     protected function _setGetNameInLayoutExpects($blockName)

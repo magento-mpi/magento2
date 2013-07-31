@@ -12,9 +12,9 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::content">
-                    <resource id="Mage_Adminhtml::content_elements">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::content">
+                    <resource id="Magento_Adminhtml::content_elements">
                         <resource id="Mage_Cms::page" title="Pages" module="Mage_Cms" sortOrder="10">
                             <resource id="Mage_Cms::save" title="Save Page" sortOrder="10" />
                             <resource id="Mage_Cms::page_delete" title="Delete Page" sortOrder="20" />
@@ -23,9 +23,9 @@
                         <resource id="Mage_Cms::media_gallery" title="Media Gallery" sortOrder="70" />
                     </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Adminhtml::config">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
                             <resource id="Mage_Cms::config_cms" module="Mage_Cms" title="Content Management" />
                         </resource>
                     </resource>

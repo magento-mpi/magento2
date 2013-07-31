@@ -9,6 +9,6 @@
 -->
 <config>
     <menu>
-        <add id="Saas_JobNotification::grid" title="Task Notifications" module="Saas_JobNotification" sortOrder="50" parent="Mage_Adminhtml::system_other_settings" action="jobnotification/view/index" resource="Saas_JobNotification::notification_grid" />
+        <add id="Saas_JobNotification::grid" title="Task Notifications" module="Saas_JobNotification" sortOrder="50" parent="Magento_Adminhtml::system_other_settings" action="jobnotification/view/index" resource="Saas_JobNotification::notification_grid" />
     </menu>
 </config>

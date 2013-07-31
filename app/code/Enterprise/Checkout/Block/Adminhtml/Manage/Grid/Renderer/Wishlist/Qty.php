@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty
-    extends Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
+    extends Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
 {
     /**
      * Returns whether this qty field must be inactive

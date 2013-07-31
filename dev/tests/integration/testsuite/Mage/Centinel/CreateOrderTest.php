@@ -20,8 +20,8 @@ class Mage_Centinel_CreateOrderTest extends Mage_Backend_Utility_Controller
      */
     public function testIndexAction()
     {
-        /** @var $order Mage_Adminhtml_Model_Sales_Order_Create */
-        $order = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
+        /** @var $order Magento_Adminhtml_Model_Sales_Order_Create */
+        $order = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
         $paymentData = array(
             'cc_owner' => 'Test User',
             'cc_type' => 'visa',

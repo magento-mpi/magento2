@@ -100,7 +100,7 @@
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <no_link>1</no_link>
-                            <renderer>Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action</renderer>
+                            <renderer>Magento_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action</renderer>
                             <header_css_class>col-actions</header_css_class>
                             <column_css_class>col-actions</column_css_class>
                         </arguments>

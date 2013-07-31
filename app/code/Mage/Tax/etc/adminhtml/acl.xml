@@ -12,18 +12,18 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::stores">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::stores">
                     <resource id="Mage_Tax::manage_tax" module="Mage_Tax" title="Taxes" sortOrder="20" />
-                    <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Adminhtml::config">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
                             <resource id="Mage_Tax::config_tax" title="Tax Section" sortOrder="55" />
                         </resource>
                     </resource>
                 </resource>
 
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::convert">
+                <resource id="Magento_Adminhtml::system">
+                    <resource id="Magento_Adminhtml::convert">
                         <resource id="Mage_Tax::import_export" module="Mage_Tax" title="Import/Export Tax Rates" sortOrder="30" />
                     </resource>
                 </resource>

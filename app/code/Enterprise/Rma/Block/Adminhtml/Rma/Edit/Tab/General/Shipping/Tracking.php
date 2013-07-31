@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends Mage_Adminhtml_Block_Template
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends Magento_Adminhtml_Block_Template
 {
     /**
      * Retrieve shipment model instance
@@ -61,7 +61,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Add'),

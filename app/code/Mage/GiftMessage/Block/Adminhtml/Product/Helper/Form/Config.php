@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
-    extends Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Config
+    extends Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Config
 {
     /**
      * Get config value data

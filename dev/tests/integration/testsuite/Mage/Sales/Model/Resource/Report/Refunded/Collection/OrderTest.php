@@ -38,7 +38,7 @@ class Mage_Sales_Model_Resource_Report_Refunded_Collection_OrderTest extends PHP
             ),
         );
         $actualResult = array();
-        /** @var Mage_Adminhtml_Model_Report_Item $reportItem */
+        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);
         }

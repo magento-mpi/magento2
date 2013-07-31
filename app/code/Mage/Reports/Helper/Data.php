@@ -72,7 +72,7 @@ class Mage_Reports_Helper_Data extends Mage_Core_Helper_Abstract
         $intervals = $this->getIntervals($from, $to, $periodType);
 
         foreach ($intervals as $interval) {
-            $item = Mage::getModel('Mage_Adminhtml_Model_Report_Item');
+            $item = Mage::getModel('Magento_Adminhtml_Model_Report_Item');
             $item->setPeriod($interval);
             $item->setIsEmpty();
             $collection->addItem($item);

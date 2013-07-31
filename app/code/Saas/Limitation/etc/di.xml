@@ -46,7 +46,7 @@
             <instance type="Saas_Limitation_Model_Store_Limitation" />
         </param>
         <param name="blockClass">
-            <value>Mage_Adminhtml_Block_System_Store_Store</value>
+            <value>Magento_Adminhtml_Block_System_Store_Store</value>
         </param>
         <param name="buttonId">
             <value>add_store</value>
@@ -65,7 +65,7 @@
             <instance type="Saas_Limitation_Model_Store_Group_Limitation" />
         </param>
         <param name="blockClass">
-            <value>Mage_Adminhtml_Block_System_Store_Store</value>
+            <value>Magento_Adminhtml_Block_System_Store_Store</value>
         </param>
         <param name="buttonId">
             <value>add_group</value>
@@ -84,7 +84,7 @@
             <instance type="Saas_Limitation_Model_Website_Limitation" />
         </param>
         <param name="blockClass">
-            <value>Mage_Adminhtml_Block_System_Store_Store</value>
+            <value>Magento_Adminhtml_Block_System_Store_Store</value>
         </param>
         <param name="buttonId">
             <value>add</value>
@@ -183,7 +183,7 @@
             <instance type="Saas_Limitation_Model_Catalog_Product_Limitation" />
         </param>
         <param name="blockClass">
-            <value>Mage_Adminhtml_Block_Catalog_Product</value>
+            <value>Magento_Adminhtml_Block_Catalog_Product</value>
         </param>
         <param name="buttonId">
             <value>add_new</value>

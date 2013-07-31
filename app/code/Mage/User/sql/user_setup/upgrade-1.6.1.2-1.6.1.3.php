@@ -23,9 +23,9 @@ $condition = $connection->prepareSqlCondition('resource_id', array(
              * either first or second in the database
              */
             'admin/system/convert/gui',
-            'Mage_Adminhtml::gui',
+            'Magento_Adminhtml::gui',
             'admin/system/convert/profiles',
-            'Mage_Adminhtml::profiles'
+            'Magento_Adminhtml::profiles'
         ),
     ),
 ));

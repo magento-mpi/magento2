@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml />
+                <Magento_Adminhtml />
                 <Mage_Catalog />
                 <Mage_Cms />
                 <Mage_Sales />
@@ -125,7 +125,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_catalogevent before="Mage_Adminhtml">Enterprise_CatalogEvent_Adminhtml</enterprise_catalogevent>
+                        <enterprise_catalogevent before="Magento_Adminhtml">Enterprise_CatalogEvent_Adminhtml</enterprise_catalogevent>
                     </modules>
                 </args>
             </adminhtml>

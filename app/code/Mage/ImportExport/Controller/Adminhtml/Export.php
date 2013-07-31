@@ -15,7 +15,7 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ImportExport_Controller_Adminhtml_Export extends Mage_Adminhtml_Controller_Action
+class Mage_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Custom constructor.

@@ -18,7 +18,7 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
-    extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
+    extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 {
     /**
      * Adding onchange js call

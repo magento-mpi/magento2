@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Block_Adminhtml_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Tag_Block_Adminhtml_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
 
     protected function _construct()
@@ -29,7 +29,7 @@ class Mage_Tag_Block_Adminhtml_Edit_Form extends Mage_Adminhtml_Block_Widget_For
     /**
      * Prepare form
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Magento_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -86,13 +86,13 @@ class Mage_Tag_Block_Adminhtml_Edit_Form extends Mage_Adminhtml_Block_Widget_For
             'scope_label' => ' ' . Mage::helper('Mage_Tag_Helper_Data')->__('[STORE VIEW]'),
         ));
 
-        if (!$model->getId() && !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData() ) {
+        if (!$model->getId() && !Mage::getSingleton('Magento_Adminhtml_Model_Session')->getTagData() ) {
             $model->setStatus(Mage_Tag_Model_Tag::STATUS_APPROVED);
         }
 
-        if ( Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData() ) {
-            $form->addValues(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData());
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setTagData(null);
+        if ( Mage::getSingleton('Magento_Adminhtml_Model_Session')->getTagData() ) {
+            $form->addValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getTagData());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setTagData(null);
         } else {
             $form->addValues($model->getData());
         }

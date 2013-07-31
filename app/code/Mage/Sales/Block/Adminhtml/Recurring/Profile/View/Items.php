@@ -12,10 +12,10 @@
  * Adminhtml recurring profile items grid
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Mage_Adminhtml_Block_Sales_Items_Abstract
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     /**
      * Retrieve required options from parent
@@ -23,7 +23,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Mage_Admin
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid parent block for this block'));
+            Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Invalid parent block for this block'));
         }
         parent::_beforeToHtml();
     }

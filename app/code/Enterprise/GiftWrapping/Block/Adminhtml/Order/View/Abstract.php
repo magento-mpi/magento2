@@ -80,7 +80,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
      */
     protected function _preparePrices($basePrice, $price)
     {
-        return $this->helper('Mage_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $basePrice, $price);
+        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $basePrice, $price);
     }
 
     /**

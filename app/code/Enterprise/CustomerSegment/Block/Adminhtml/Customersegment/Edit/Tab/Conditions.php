@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare conditions form
@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
         $params = array('apply_to' => $model->getApplyTo());
         $url = $this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
 
-        $renderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($url);
         $fieldset = $form->addFieldset('conditions_fieldset', array(

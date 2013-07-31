@@ -15,8 +15,8 @@
             <version>2.0.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Core />
-                <Mage_Adminhtml />
+               <Mage_Core />
+               <Magento_Adminhtml />
             </depends>
         </Mage_AdminNotification>
     </modules>
@@ -55,7 +55,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <adminnotification before="Mage_Adminhtml">Mage_AdminNotification_Adminhtml</adminnotification>
+                        <adminnotification before="Magento_Adminhtml">Mage_AdminNotification_Adminhtml</adminnotification>
                     </modules>
                 </args>
             </adminhtml>

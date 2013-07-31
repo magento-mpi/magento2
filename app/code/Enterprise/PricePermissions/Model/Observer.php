@@ -128,7 +128,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Call needed function depending on block name
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _filterByBlockName($block)
     {
@@ -143,7 +143,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Remove status option in massaction
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _removeStatusMassaction($block)
     {
@@ -155,7 +155,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Remove price column from grid
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _removeColumnPrice($block)
     {
@@ -165,7 +165,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Remove price and total columns from grid
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _removeColumnsPriceTotal($block)
     {
@@ -175,7 +175,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Set read price to false
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _setCanReadPriceFalse($block)
     {
@@ -187,7 +187,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Set read and edit price to false
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _setCanEditReadPriceFalse($block)
     {
@@ -200,7 +200,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Set edit and read tab to false
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _setTabEditReadFalse($block)
     {
@@ -215,7 +215,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Set edit and read price in child block to false
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _setOptionsEditReadFalse($block)
     {
@@ -233,7 +233,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Set default product price
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _setCanEditReadDefaultPrice($block)
     {
@@ -246,7 +246,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Set edit and read price to child block
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _setCanEditReadChildBlock($block)
     {
@@ -269,7 +269,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Set form element value and readonly
      *
-     * @param Mage_Adminhtml_Block_Template $block
+     * @param Magento_Adminhtml_Block_Template $block
      */
     protected function _setFormElementAttributes($block)
     {
@@ -295,7 +295,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block Mage_Adminhtml_Block_Template */
+        /** @var $block Magento_Adminhtml_Block_Template */
         $block = $observer->getBlock();
 
         $this->_filterByBlockName($block);
@@ -314,7 +314,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Remove columns from grid
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid $block
+     * @param Magento_Adminhtml_Block_Widget_Grid $block
      * @param array $columns
      */
     protected function _removeColumnsFromGrid($block, array $columns)
@@ -329,13 +329,13 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Remove column from grid
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid $block
+     * @param Magento_Adminhtml_Block_Widget_Grid $block
      * @param string $column
-     * @return Mage_Adminhtml_Block_Widget_Grid|bool
+     * @return Magento_Adminhtml_Block_Widget_Grid|bool
      */
     protected function _removeColumnFromGrid($block, $column)
     {
-        if (!$block instanceof Mage_Adminhtml_Block_Widget_Grid) {
+        if (!$block instanceof Magento_Adminhtml_Block_Widget_Grid) {
             return false;
         }
         return $block->removeColumn($column);
@@ -701,7 +701,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
     {
-        /** @var $block Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
+        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
         $block = $observer->getEvent()->getObject();
         $excludedFieldList = array();
 
@@ -727,7 +727,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function catalogProductAttributeUpdateBefore($observer)
     {
-        /** @var $block Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
+        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
         $attributesData = $observer->getEvent()->getAttributesData();
         $excludedAttributes = array();
 

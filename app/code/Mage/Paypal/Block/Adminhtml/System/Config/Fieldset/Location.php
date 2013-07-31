@@ -339,6 +339,6 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
             });
         ';
-        return $this->toHtml() . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
+        return $this->toHtml() . $this->helper('Magento_Adminhtml_Helper_Js')->getScript($js);
     }
 }

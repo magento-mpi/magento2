@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare form before rendering HTML

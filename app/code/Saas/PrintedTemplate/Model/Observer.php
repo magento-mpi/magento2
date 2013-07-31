@@ -238,7 +238,7 @@ class Saas_PrintedTemplate_Model_Observer
     {
         $block = $observer->getEvent()->getBlock();
         if (!($block->getNameInLayout() == 'adminhtml.widget.instance.grid.container' &&
-            $block instanceof Mage_Adminhtml_Block_Widget_Grid)) {
+            $block instanceof Magento_Adminhtml_Block_Widget_Grid)) {
             return $this;
         }
 
@@ -299,16 +299,16 @@ class Saas_PrintedTemplate_Model_Observer
             return $this;
         }
 
-        if ($block instanceof Mage_Adminhtml_Block_Sales_Order_Grid) {
+        if ($block instanceof Magento_Adminhtml_Block_Sales_Order_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfinvoices_order', 'invoice')
                 ->_setMassactionPrintEntitiesUrl($block, 'pdfcreditmemos_order', 'creditmemo')
                 ->_setMassactionPrintEntitiesUrl($block, 'pdfshipments_order', 'shipment')
                 ->_setMassactionPrintEntitiesUrl($block, 'pdfdocs_order', 'all');
-        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Invoice_Grid) {
+        } else if ($block instanceof Magento_Adminhtml_Block_Sales_Invoice_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfinvoices_order', 'invoice');
-        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Creditmemo_Grid) {
+        } else if ($block instanceof Magento_Adminhtml_Block_Sales_Creditmemo_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfcreditmemos_order', 'creditmemo');
-        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Shipment_Grid) {
+        } else if ($block instanceof Magento_Adminhtml_Block_Sales_Shipment_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfshipments_order', 'shipment');
         }
 
@@ -318,7 +318,7 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Replace massaction item URL in the grid block
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid|Mage_Backend_Block_Widget_Grid $block grid block
+     * @param Magento_Adminhtml_Block_Widget_Grid|Mage_Backend_Block_Widget_Grid $block grid block
      * @param string $itemName the name of mass action item
      * @param string $type entity type
      * @return Saas_PrintedTemplate_Model_Observer

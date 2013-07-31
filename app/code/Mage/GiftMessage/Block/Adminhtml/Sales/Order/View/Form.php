@@ -15,7 +15,7 @@
  * @package    Mage_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Form extends Mage_Adminhtml_Block_Template
+class Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Form extends Magento_Adminhtml_Block_Template
 {
     /**
      * Indicates that block can display gift message form

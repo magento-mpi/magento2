@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare general properties form

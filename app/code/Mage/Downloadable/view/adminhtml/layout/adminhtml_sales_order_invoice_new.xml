@@ -12,7 +12,7 @@
         <reference name="order_items">
             <action method="addItemRender">
                 <type>downloadable</type>
-                <block>Mage_Adminhtml_Block_Sales_Items_Renderer_Default</block>
+                <block>Magento_Adminhtml_Block_Sales_Items_Renderer_Default</block>
                 <template>Mage_Downloadable::sales/order/invoice/create/items/renderer/downloadable.phtml</template>
             </action>
             <action method="addColumnRender">

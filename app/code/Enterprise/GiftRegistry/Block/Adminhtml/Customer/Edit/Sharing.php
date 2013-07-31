@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
 
     protected function _prepareForm()
@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
      */
     public function getShareButton()
     {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->addData(array(
                 'id'      => '',
                 'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Share Gift Registry'),

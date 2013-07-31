@@ -12,10 +12,10 @@
  * WYSIWYG widget plugin main block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Block_Adminhtml_Widget extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Widget_Block_Adminhtml_Widget extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     protected function _construct()
     {

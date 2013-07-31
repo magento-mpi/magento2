@@ -43,7 +43,7 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPUnit
     {
         $this->_helperMock = $this->getMock('Mage_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
-        $this->_tabsMock = $this->getMock('Mage_Adminhtml_Block_Catalog_Category_Tabs', array(), array(), '', false);
+        $this->_tabsMock = $this->getMock('Magento_Adminhtml_Block_Catalog_Category_Tabs', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);

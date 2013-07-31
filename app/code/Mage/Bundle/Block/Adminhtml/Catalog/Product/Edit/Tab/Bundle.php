@@ -15,8 +15,8 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_Adminhtml_Block_Widget
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Magento_Adminhtml_Block_Widget
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     protected $_product = null;
 
@@ -39,7 +39,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_A
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Create New Option'),
             'class' => 'add',
             'id'    => 'add_new_option',

@@ -51,7 +51,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Bac
      */
     public function getHeader()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Currency Symbols');
+        return Mage::helper('Magento_Adminhtml_Helper_Data')->__('Currency Symbols');
     }
 
     /**
@@ -62,7 +62,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Bac
     public function getSaveButtonHtml()
     {
         /** @var $block Mage_Core_Block_Abstract */
-        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button');
+        $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button');
         $block->setData(array(
             'label'     => Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('Save Currency Symbols'),
             'class'     => 'save',

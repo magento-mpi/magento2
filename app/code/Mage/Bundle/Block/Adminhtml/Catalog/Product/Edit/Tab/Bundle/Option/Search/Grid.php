@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected function _construct()
     {

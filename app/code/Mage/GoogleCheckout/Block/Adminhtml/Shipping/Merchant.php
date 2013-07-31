@@ -138,7 +138,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected function _getAddRowButtonHtml($container, $template, $title='Add')
     {
         if (!isset($this->_addRowButtonHtml[$container])) {
-            $this->_addRowButtonHtml[$container] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->_addRowButtonHtml[$container] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add ' . $this->_getDisabled())
                     ->setLabel($this->__($title))
@@ -152,7 +152,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected function _getRemoveRowButtonHtml($selector = 'li', $title = 'Remove')
     {
         if (!$this->_removeRowButtonHtml) {
-            $this->_removeRowButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->_removeRowButtonHtml = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('delete v-middle ' . $this->_getDisabled())
                     ->setLabel($this->__($title))

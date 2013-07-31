@@ -11,7 +11,7 @@
 /**
  * Log grid container
  */
-class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Widget_Container
 {
     /**
      * Store curent event

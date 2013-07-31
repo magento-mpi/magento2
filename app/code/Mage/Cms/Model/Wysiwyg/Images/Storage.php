@@ -459,11 +459,11 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     /**
      * Storage session
      *
-     * @return Mage_Adminhtml_Model_Session
+     * @return Magento_Adminhtml_Model_Session
      */
     public function getSession()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
     }
 
     /**

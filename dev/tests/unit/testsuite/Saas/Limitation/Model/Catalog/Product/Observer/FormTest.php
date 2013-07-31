@@ -90,7 +90,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
         }
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
+            'Magento_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
         );
         $block->expects($this->once())
             ->method('getChildBlock')->with('save-split-button')->will($this->returnValue($button));
@@ -121,7 +121,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
         $this->_emulateThresholdIsReached(false);
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
+            'Magento_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
         );
         $block->expects($this->never())->method('getChildBlock');
 

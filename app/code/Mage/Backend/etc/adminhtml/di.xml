@@ -29,7 +29,7 @@
     </type>
     <type name="Mage_Core_Model_Acl_RootResource">
         <param name="identifier">
-            <value>Mage_Adminhtml::all</value>
+            <value>Magento_Adminhtml::all</value>
         </param>
     </type>
     <type name="Mage_Core_Model_Session">

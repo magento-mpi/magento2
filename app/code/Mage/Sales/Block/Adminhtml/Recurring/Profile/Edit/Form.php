@@ -97,10 +97,10 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
         $form = new Magento_Data_Form();
 
         $form->setFieldsetRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
         );
         $form->setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element')
         );
 
         /**
@@ -114,7 +114,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
             $form->addField('', 'hidden', array('name' => ''));
         }
 
-        $noYes = array(Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'));
+        $noYes = array(Mage::helper('Magento_Adminhtml_Helper_Data')->__('No'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Yes'));
 
         // schedule
         $schedule = $form->addFieldset('schedule_fieldset', array(
@@ -138,7 +138,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
             'disabled'  => $this->_isReadOnly
         ));
         $this->_addField($billing, 'period_unit', array(
-            'options' => $this->_getPeriodUnitOptions(Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --')),
+            'options' => $this->_getPeriodUnitOptions(Mage::helper('Magento_Adminhtml_Helper_Data')->__('-- Please Select --')),
         ), 'select');
         $this->_addField($billing, 'period_frequency');
         $this->_addField($billing, 'period_max_cycles');
@@ -149,7 +149,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
             'disabled'  => $this->_isReadOnly
         ));
         $this->_addField($trial, 'trial_period_unit', array(
-            'options' => $this->_getPeriodUnitOptions(Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Not Selected --')),
+            'options' => $this->_getPeriodUnitOptions(Mage::helper('Magento_Adminhtml_Helper_Data')->__('-- Not Selected --')),
         ), 'select');
         $this->_addField($trial, 'trial_period_frequency');
         $this->_addField($trial, 'trial_period_max_cycles');

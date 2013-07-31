@@ -13,7 +13,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mage_Adminhtml_Controller_Action
+class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Magento_Adminhtml_Controller_Action
 {
     /**
      * @var Mage_Theme_Model_Config

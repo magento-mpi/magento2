@@ -40,16 +40,16 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
         $blockClass = '';
         $skipBlocks = array(
             // blocks with abstract constructor arguments
-            'Mage_Adminhtml_Block_System_Email_Template',
-            'Mage_Adminhtml_Block_System_Email_Template_Edit',
+            'Magento_Adminhtml_Block_System_Email_Template',
+            'Magento_Adminhtml_Block_System_Email_Template_Edit',
             'Mage_Backend_Block_System_Config_Edit',
             'Mage_Backend_Block_System_Config_Form',
             'Mage_Backend_Block_System_Config_Tabs',
             'Mage_Review_Block_Form',
             // Fails because of of bug in Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader constructor
-            'Mage_Adminhtml_Block_Cms_Page',
-            'Mage_Adminhtml_Block_Cms_Page_Edit',
-            'Mage_Adminhtml_Block_Sales_Order',
+            'Magento_Adminhtml_Block_Cms_Page',
+            'Magento_Adminhtml_Block_Cms_Page_Edit',
+            'Magento_Adminhtml_Block_Sales_Order',
             'Mage_Oauth_Block_Adminhtml_Oauth_Consumer',
             'Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid',
             'Mage_Paypal_Block_Adminhtml_Settlement_Report',
@@ -58,7 +58,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
             // Fails only in SAAS, could be something wrong list of classes being deleted
             'Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit',
-            'Mage_Adminhtml_Block_Sales_Order_Invoice_View',
+            'Magento_Adminhtml_Block_Sales_Order_Invoice_View',
             'Mage_AdminNotification_Block_Window',
             'Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer',
             'Saas_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen',
@@ -102,7 +102,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
         $area = 'frontend';
         if ($module == 'Mage_Install') {
             $area = 'install';
-        } elseif ($module == 'Mage_Adminhtml' || strpos($blockClass, '_Adminhtml_')
+        } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
             || strpos($blockClass, '_Backend_')
             || $class->isSubclassOf('Mage_Backend_Block_Template')
         ) {

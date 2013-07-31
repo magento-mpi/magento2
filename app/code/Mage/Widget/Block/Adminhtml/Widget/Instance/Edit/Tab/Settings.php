@@ -16,8 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     protected function _construct()
     {
@@ -114,7 +114,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'values'   => $options
         ));
         $continueButton = $this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Continue'),
                 'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'theme_id')",

@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Mage_Eav />
-                <Mage_Adminhtml />
+                <Magento_Adminhtml />
             </depends>
         </Enterprise_Eav>
     </modules>

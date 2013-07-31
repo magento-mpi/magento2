@@ -21,11 +21,11 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     /**
      * Getter
      *
-     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
+        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**

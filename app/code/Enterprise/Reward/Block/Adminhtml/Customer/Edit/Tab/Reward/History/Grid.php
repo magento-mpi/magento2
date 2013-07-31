@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Internal constructor
@@ -50,7 +50,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     /**
      * Add column filter to collection
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @return Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
      */
     protected function _addColumnFilterToCollection($column)

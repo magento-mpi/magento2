@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Index_Block_Adminhtml_Process extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Index_Block_Adminhtml_Process extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     protected function _construct()
     {

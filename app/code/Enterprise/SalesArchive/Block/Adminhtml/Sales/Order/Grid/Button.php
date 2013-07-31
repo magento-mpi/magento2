@@ -12,7 +12,7 @@
  *  Add sales archiving to order's grid view massaction
  *
  */
-class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button extends Mage_Adminhtml_Block_Sales_Order_Abstract
+class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button extends Magento_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _prepareLayout()
     {

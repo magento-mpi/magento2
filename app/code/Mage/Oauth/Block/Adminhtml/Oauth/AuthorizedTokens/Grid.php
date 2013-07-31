@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +15,7 @@
  * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Construct grid block
@@ -164,7 +164,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
      *
      * @param string $value
      * @param Mage_Oauth_Model_Token $row
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      * @return mixed
      */
@@ -183,7 +183,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
      *
      * @param string $value
      * @param Mage_Oauth_Model_Token $row
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      * @return mixed
      */

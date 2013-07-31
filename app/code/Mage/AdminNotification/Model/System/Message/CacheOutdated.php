@@ -77,7 +77,7 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
      */
     public function isDisplayed()
     {
-        return $this->_authorization->isAllowed('Mage_Adminhtml::cache')
+        return $this->_authorization->isAllowed('Magento_Adminhtml::cache')
             && count($this->_getCacheTypesForRefresh()) > 0;
     }
 

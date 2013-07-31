@@ -13,11 +13,11 @@
  * Adminhtml Google Content Item Type Country Renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleShopping_Block_Adminhtml_Types_Renderer_Country
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders Google Content Item Id

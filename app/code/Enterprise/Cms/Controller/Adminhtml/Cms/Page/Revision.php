@@ -78,7 +78,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
         $revision = $this->_initRevision($revisionId);
 
         if ($revisionId && !$revision->getId()) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                 Mage::helper('Enterprise_Cms_Helper_Data')->__('We could not load the specified revision.'));
 
             $this->_redirect('*/cms_page/edit',
@@ -86,7 +86,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
             return;
         }
 
-        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
+        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $_data = $revision->getData();
             $_data = array_merge($_data, $data);
@@ -130,9 +130,9 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
                 $revision->save();
 
                 // display success message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have saved the revision.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have saved the revision.'));
                 // clear previously saved data from session
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(false);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/' . $this->getRequest()->getParam('back'),
@@ -151,9 +151,9 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData($data);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit',
                     array(
@@ -176,12 +176,12 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
         try {
             $revision->publish();
             // display success message
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have published the revision.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have published the revision.'));
             $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
             return;
         } catch (Exception $e) {
             // display error message
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             // redirect to edit form
             $this->_redirect('*/*/edit', array(
                     'page_id' => $this->getRequest()->getParam('page_id'),
@@ -339,7 +339,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
                 $revision = $this->_initRevision();
                 $revision->delete();
                 // display success message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have deleted the revision.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have deleted the revision.'));
                 $this->_redirect('*/cms_page_version/edit', array(
                         'page_id' => $revision->getPageId(),
                         'version_id' => $revision->getVersionId()
@@ -347,11 +347,11 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
                 return;
             } catch (Mage_Core_Exception $e) {
                 // display error message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $error = true;
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while deleting the revision.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while deleting the revision.'));
                 $error = true;
             }
 
@@ -362,7 +362,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
             }
         }
         // display error message
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__("We can't find a revision to delete."));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__("We can't find a revision to delete."));
         // go to grid
         $this->_redirect('*/cms_page/edit', array('_current' => true));
     }
@@ -393,7 +393,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
     /**
      * Controller predispatch method
      *
-     * @return Mage_Adminhtml_Controller_Action
+     * @return Magento_Adminhtml_Controller_Action
      */
     public function preDispatch()
     {

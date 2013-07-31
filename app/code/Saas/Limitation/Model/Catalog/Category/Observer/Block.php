@@ -38,9 +38,9 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
     public function disableCreationButtons(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getData('block');
-        if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Tree) {
+        if ($block instanceof Magento_Adminhtml_Block_Catalog_Category_Tree) {
             $this->_disableButtonsInCategoryTree($block);
-        } else if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Edit_Form) {
+        } else if ($block instanceof Magento_Adminhtml_Block_Catalog_Category_Edit_Form) {
             $this->_disableButtonsInCategoryForm($block);
         } else if ($block instanceof Mage_Backend_Block_Widget_Button) {
             $this->_disableButtonsInProduct($block);
@@ -62,7 +62,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
      *
      * @param $block
      */
-    protected function _disableButtonsInCategoryTree(Mage_Adminhtml_Block_Catalog_Category_Tree $block)
+    protected function _disableButtonsInCategoryTree(Magento_Adminhtml_Block_Catalog_Category_Tree $block)
     {
         if ($this->_isThresholdReached()) {
             $this->_disableChildButtons($block, array('add_root_button', 'add_sub_button'));
@@ -72,9 +72,9 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
     /**
      * Disable Save button in form on category page
      *
-     * @param Mage_Adminhtml_Block_Catalog_Category_Edit_Form $block
+     * @param Magento_Adminhtml_Block_Catalog_Category_Edit_Form $block
      */
-    protected function _disableButtonsInCategoryForm(Mage_Adminhtml_Block_Catalog_Category_Edit_Form $block)
+    protected function _disableButtonsInCategoryForm(Magento_Adminhtml_Block_Catalog_Category_Edit_Form $block)
     {
         if ($block->getCategoryId() === null && $this->_isThresholdReached()) {
             $this->_disableChildButtons($block, array('save_button'));

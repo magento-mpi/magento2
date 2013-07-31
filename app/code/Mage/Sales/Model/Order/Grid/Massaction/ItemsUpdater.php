@@ -12,7 +12,7 @@
  * Sales orders grid massaction items updater
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Grid_Massaction_ItemsUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface

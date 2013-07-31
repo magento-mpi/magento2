@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Controller_Adminhtml_Customer_Address_Attribute
-    extends Mage_Adminhtml_Controller_Action
+    extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Customer Address Entity Type instance
@@ -164,7 +164,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Address_Attribute
                     Mage::helper('Enterprise_Customer_Helper_Data')->__('An attribute with this code already exists.')
                 );
 
-                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

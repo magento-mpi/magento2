@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Mage_Adminhtml_Block_Widget_Accordion
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Magento_Adminhtml_Block_Widget_Accordion
 {
     /**
      * Add accordion items based on layout updates

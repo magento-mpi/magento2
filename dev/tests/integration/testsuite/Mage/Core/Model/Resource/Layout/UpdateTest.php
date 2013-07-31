@@ -34,8 +34,8 @@ class Mage_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/application_cache.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php
      * @magentoDataFixture Mage/Core/_files/layout_cache.php
      */
     public function testSaveAfterClearCache()

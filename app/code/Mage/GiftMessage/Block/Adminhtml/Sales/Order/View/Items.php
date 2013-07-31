@@ -15,7 +15,7 @@
  * @package    Mage_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Mage_Adminhtml_Block_Template
+class Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Magento_Adminhtml_Block_Template
 {
     /**
      * Gift message array
@@ -115,7 +115,7 @@ class Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Mage_Admin
     /**
      * Initialize gift message for entity
      *
-     * @return Mage_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Name_Giftmessage
+     * @return Magento_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Name_Giftmessage
      */
     protected function _initMessage()
     {

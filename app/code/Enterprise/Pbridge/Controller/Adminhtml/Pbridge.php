@@ -15,7 +15,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Mage_Adminhtml_Controller_Action
+class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Load only action layout handles
@@ -29,7 +29,7 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Mage_Adminhtml_Con
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
-        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+        $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
         return $this;
     }
 

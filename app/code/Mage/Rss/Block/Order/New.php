@@ -22,7 +22,7 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Abstract
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
 
-        $newurl = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
+        $newurl = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
             'adminhtml/sales_order',
             array(
                 '_secure' => true,
@@ -62,7 +62,7 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Abstract
         $order->reset()->load($args['row']['entity_id']);
         if ($order && $order->getId()) {
             $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-            $url = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
+            $url = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
                 'adminhtml/sales_order/view',
                 array(
                     '_secure' => true,

@@ -24,7 +24,7 @@
                         <id>inventory_in_stock</id>
                         <filter>0</filter>
                         <sortable>1</sortable>
-                        <renderer>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory</renderer>
+                        <renderer>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory</renderer>
                     </arguments>
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">

@@ -66,7 +66,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
 
                 Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
                     ->addIsInStockFilterToCollection($productCollection);
-                $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')
+                $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')
                     ->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }

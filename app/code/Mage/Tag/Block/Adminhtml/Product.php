@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Tag_Block_Adminhtml_Product extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
 
     protected function _construct()

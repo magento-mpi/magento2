@@ -35,7 +35,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Saas_Backend before="Mage_Adminhtml">Saas_Backend_Adminhtml</Saas_Backend>
+                        <Saas_Backend before="Magento_Adminhtml">Saas_Backend_Adminhtml</Saas_Backend>
                     </modules>
                 </args>
             </adminhtml>

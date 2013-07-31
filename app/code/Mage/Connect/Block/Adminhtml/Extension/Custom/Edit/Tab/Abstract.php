@@ -16,8 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * TODO
@@ -83,7 +83,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!isset($this->_addRowButtonHtml[$container])) {
             $this->_addRowButtonHtml[$container] = $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+                ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel($this->__($title))
@@ -100,7 +100,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!$this->_removeRowButtonHtml) {
             $this->_removeRowButtonHtml = $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+                ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('delete')
                     ->setLabel($this->__('Remove'))
@@ -114,7 +114,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
     {
         if (!$this->_addFileDepButtonHtml) {
             $this->_addFileDepButtonHtml = $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+                ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel($this->__('Add files'))

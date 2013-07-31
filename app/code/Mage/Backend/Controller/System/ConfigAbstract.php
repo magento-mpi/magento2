@@ -73,7 +73,7 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Adminhtml::config');
+        return $this->_authorization->isAllowed('Magento_Adminhtml::config');
     }
 
     /**

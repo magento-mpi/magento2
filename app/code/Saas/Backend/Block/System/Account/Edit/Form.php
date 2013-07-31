@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Backend_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block_System_Account_Edit_Form
+class Saas_Backend_Block_System_Account_Edit_Form extends Magento_Adminhtml_Block_System_Account_Edit_Form
 {
     /**
      * Locale source model

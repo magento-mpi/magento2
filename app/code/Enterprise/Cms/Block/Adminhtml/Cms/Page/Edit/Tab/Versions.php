@@ -17,8 +17,8 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
-    extends Mage_Adminhtml_Block_Widget_Grid
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Grid
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Array of admin users in system

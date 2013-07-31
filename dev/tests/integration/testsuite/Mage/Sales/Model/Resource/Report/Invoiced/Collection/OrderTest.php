@@ -33,7 +33,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced_Collection_OrderTest extends PHP
             array('orders_count' => 1, 'orders_invoiced' => 1),
         );
         $actualResult = array();
-        /** @var Mage_Adminhtml_Model_Report_Item $reportItem */
+        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array(
                 'orders_count' => $reportItem->getData('orders_count'),

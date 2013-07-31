@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
+ * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
 class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 {
@@ -85,7 +85,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Mage/Core/_files/db_translate.php
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
      */
     public function testInitCaching()
     {

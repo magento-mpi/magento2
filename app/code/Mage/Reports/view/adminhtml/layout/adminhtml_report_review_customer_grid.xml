@@ -68,7 +68,7 @@
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <is_system>1</is_system>
-                            <renderer>Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Customer</renderer>
+                            <renderer>Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Customer</renderer>
                             <id>action</id>
                             <column_css_class>col-actions</column_css_class>
                             <header_css_class>col-actions</header_css_class>

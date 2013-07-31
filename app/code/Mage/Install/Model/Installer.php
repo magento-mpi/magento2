@@ -200,9 +200,9 @@ class Mage_Install_Model_Installer extends Magento_Object
         }
 
         if (!empty($data['enable_charts'])) {
-            $setupModel->setConfigData(Mage_Adminhtml_Block_Dashboard::XML_PATH_ENABLE_CHARTS, 1);
+            $setupModel->setConfigData(Magento_Adminhtml_Block_Dashboard::XML_PATH_ENABLE_CHARTS, 1);
         } else {
-            $setupModel->setConfigData(Mage_Adminhtml_Block_Dashboard::XML_PATH_ENABLE_CHARTS, 0);
+            $setupModel->setConfigData(Magento_Adminhtml_Block_Dashboard::XML_PATH_ENABLE_CHARTS, 0);
         }
 
         if (!empty($data['admin_no_form_key'])) {

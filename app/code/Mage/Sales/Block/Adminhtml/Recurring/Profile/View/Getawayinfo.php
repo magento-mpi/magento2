@@ -12,10 +12,10 @@
  * Recurring profile getaway info block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Getawayinfo extends Mage_Adminhtml_Block_Widget
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Getawayinfo extends Magento_Adminhtml_Block_Widget
 {
     /**
      * Return recurring profile getaway information for view

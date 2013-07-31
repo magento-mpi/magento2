@@ -17,7 +17,7 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected function _construct()
     {

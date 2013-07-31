@@ -20,7 +20,7 @@
             </block>
         </reference>
         <reference name="order_tab_info">
-            <block type="Mage_Adminhtml_Block_Template" name="popup_window" template="Mage_GiftMessage::popup.phtml">
+            <block type="Magento_Adminhtml_Block_Template" name="popup_window" template="Mage_GiftMessage::popup.phtml">
                 <block type="Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Form" name="gift_options_form" template="giftoptionsform.phtml"/>
             </block>
         </reference>

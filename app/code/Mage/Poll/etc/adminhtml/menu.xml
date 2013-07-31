@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Mage_Poll::cms_poll" title="Polls" module="Mage_Poll" sortOrder="60" parent="Mage_Adminhtml::content_elements" action="adminhtml/poll" resource="Mage_Poll::poll"/>
+        <add id="Mage_Poll::cms_poll" title="Polls" module="Mage_Poll" sortOrder="60" parent="Magento_Adminhtml::content_elements" action="adminhtml/poll" resource="Mage_Poll::poll"/>
     </menu>
 </config>

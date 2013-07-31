@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set grid params
@@ -51,7 +51,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
     /**
      * Prepare collection for grid
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
@@ -64,7 +64,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
     /**
      * Add columns to grid
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

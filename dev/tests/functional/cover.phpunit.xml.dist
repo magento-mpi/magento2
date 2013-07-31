@@ -54,7 +54,7 @@
             <exclude>
                 <directory>../lib</directory>
                 <directory>../app/code/Mage/Admin/Model/Acl/Assert</directory>
-                <directory>../app/code/Mage/Adminhtml/Block</directory>
+                <directory>../app/code/Magento/Adminhtml/Block</directory>
                 <directory>../app/code/Mage/Install</directory>
                 <directory>../app/code/Mage/Reports</directory>
                 <directory>../app/code/Mage/Api/Model/Acl/Assert</directory>
@@ -64,7 +64,7 @@
                 <file>../app/code/Mage/Payment/Model/Paygate/Request.php</file>
                 <file>../app/code/Mage/Sales/Model/Mysql4/Report/Abstract.php</file>
                 <file>../app/code/Mage/Sales/Model/Mysql4/Abstract.php</file>
-                <file>../app/code/Mage/Adminhtml/Model/Extension.php</file>
+                <file>../app/code/Magento/Adminhtml/Model/Extension.php</file>
                 <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Price/Interface.php</file>
                 <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Eav/Abstract.php</file>
                 <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Abstract.php</file>

@@ -15,7 +15,7 @@
  * @package     Mage_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Block_Adminhtml_Cache_Additional extends Mage_Adminhtml_Block_Template
+class Mage_PageCache_Block_Adminhtml_Cache_Additional extends Magento_Adminhtml_Block_Template
 {
     /**
      * Get clean cache url

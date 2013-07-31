@@ -15,7 +15,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Controller_Adminhtml_Paypal_Reports extends Mage_Adminhtml_Controller_Action
+class Mage_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Grid action

@@ -38,7 +38,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
     /**
      * Add fields to form and create template info form
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Magento_Adminhtml_Block_Widget_Form
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
@@ -176,7 +176,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
             }
         }
 
-        $values = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getData('printed_template_form_data', true);
+        $values = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getData('printed_template_form_data', true);
         if ($values) {
             $form->setValues($values);
         }

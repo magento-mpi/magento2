@@ -15,14 +15,14 @@
  * @package    Enterprise_CatalogPermissions
  */
 class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row
-    extends Mage_Adminhtml_Block_Catalog_Category_Abstract
+    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
 {
 
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             //'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Remove Permission'),
             'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
             'disabled' => $this->isReadonly(),

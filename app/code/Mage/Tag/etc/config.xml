@@ -82,7 +82,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_Tag before="Mage_Adminhtml">Mage_Tag_Adminhtml</Mage_Tag>
+                        <Mage_Tag before="Magento_Adminhtml">Mage_Tag_Adminhtml</Mage_Tag>
                     </modules>
                 </args>
             </adminhtml>

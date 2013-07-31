@@ -17,7 +17,7 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Mage_Adminhtml_Controller_Action
+class Mage_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Perform layout initialization actions

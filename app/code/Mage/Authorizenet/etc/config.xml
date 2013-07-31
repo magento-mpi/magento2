@@ -85,7 +85,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_Authorizenet before="Mage_Adminhtml">Mage_Authorizenet_Adminhtml</Mage_Authorizenet>
+                        <Mage_Authorizenet before="Magento_Adminhtml">Mage_Authorizenet_Adminhtml</Mage_Authorizenet>
                     </modules>
                 </args>
             </adminhtml>

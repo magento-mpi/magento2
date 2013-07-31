@@ -101,7 +101,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_Centinel before="Mage_Adminhtml">Mage_Centinel_Adminhtml</Mage_Centinel>
+                        <Mage_Centinel before="Magento_Adminhtml">Mage_Centinel_Adminhtml</Mage_Centinel>
                     </modules>
                 </args>
             </adminhtml>

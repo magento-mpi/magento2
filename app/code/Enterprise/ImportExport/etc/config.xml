@@ -67,7 +67,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_importexport before="Mage_Adminhtml">Enterprise_ImportExport_Adminhtml</enterprise_importexport>
+                        <enterprise_importexport before="Magento_Adminhtml">Enterprise_ImportExport_Adminhtml</enterprise_importexport>
                     </modules>
                 </args>
             </adminhtml>

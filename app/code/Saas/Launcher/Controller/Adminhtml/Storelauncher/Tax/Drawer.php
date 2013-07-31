@@ -41,12 +41,12 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Tax_Drawer
 
             Mage::register('tax_rule', Mage::getModel('Mage_Tax_Model_Calculation_Rule'));
             $this->loadLayout();
-            /** @var $editRuleFormBlock Mage_Adminhtml_Block_Tax_Rule_Edit_Form */
-            $editRuleFormBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rule_Edit_Form');
+            /** @var $editRuleFormBlock Magento_Adminhtml_Block_Tax_Rule_Edit_Form */
+            $editRuleFormBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rule_Edit_Form');
             $editRuleFormBlock->toHtml();
             $taxRateElement = $editRuleFormBlock->getForm()->getElement('tax_rate');
-            /** @var $taxRatePopUpBlock Mage_Adminhtml_Block_Tax_Rate_Form */
-            $taxRatePopUpBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rate_Form');
+            /** @var $taxRatePopUpBlock Magento_Adminhtml_Block_Tax_Rate_Form */
+            $taxRatePopUpBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rate_Form');
 
             $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => true,

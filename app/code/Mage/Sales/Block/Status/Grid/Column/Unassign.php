@@ -45,7 +45,7 @@ class Mage_Sales_Block_Status_Grid_Column_Unassign extends Mage_Backend_Block_Wi
      *
      * @param string $value
      * @param Mage_Sales_Model_Order_Status $row
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      * @return string
      */

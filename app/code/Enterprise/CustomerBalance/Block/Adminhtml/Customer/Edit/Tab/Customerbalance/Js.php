@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Mage_Adminhtml_Block_Template
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Magento_Adminhtml_Block_Template
 {
     public function getCustomerWebsite()
     {

@@ -27,7 +27,7 @@ $this->getConfigJson();
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
+            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Magento_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 
@@ -69,7 +69,7 @@ var sampleTemplate = '<tr>'+
                                         '<div id="downloadable_sample_{{id}}_file-old" class="file-row-info"></div>'+
                                         '<div id="downloadable_sample_{{id}}_file-new" class="file-row-info new-file"></div>'+
                                         '<div class="fileinput-button form-buttons">'+
-                                            '<span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
+                                            '<span><?php echo Mage::helper('Magento_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
                                             '<input id="downloadable_sample_{{id}}_file" type="file" name="<?php echo $this->getConfig()->getFileField() ?>" data-url="<?php echo $this->getConfig()->getUrl() ?>">' +
                                             '<script type="text/javascript">' +
                                             '/*<![CDATA[*/' +

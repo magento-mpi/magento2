@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize Grid block

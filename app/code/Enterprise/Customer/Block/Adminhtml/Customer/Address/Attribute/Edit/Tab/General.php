@@ -18,7 +18,7 @@
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
     extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Preparing global layout

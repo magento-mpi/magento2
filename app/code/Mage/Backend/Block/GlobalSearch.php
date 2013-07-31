@@ -13,7 +13,7 @@ class Mage_Backend_Block_GlobalSearch extends Mage_Backend_Block_Template
     /**
      * @var string
      */
-    protected $_template = 'Mage_Adminhtml::system/search.phtml';
+    protected $_template = 'Magento_Adminhtml::system/search.phtml';
 
     /**
      * Get components configuration

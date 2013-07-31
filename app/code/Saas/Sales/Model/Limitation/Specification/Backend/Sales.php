@@ -19,6 +19,6 @@ class Saas_Sales_Model_Limitation_Specification_Backend_Sales
     public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'sales_transactions'
-            || $request->getControllerModule() != 'Mage_Adminhtml';
+            || $request->getControllerModule() != 'Magento_Adminhtml';
     }
 }

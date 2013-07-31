@@ -11,7 +11,7 @@
 /**
  * Recurring profiles grid
  */
-class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set ajax/session parameters
@@ -57,7 +57,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store'),
+                'header'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Store'),
                 'index'      => 'store_id',
                 'type'       => 'store',
                 'store_view' => true,

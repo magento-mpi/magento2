@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
-    extends Mage_Adminhtml_Block_Template
+    extends Magento_Adminhtml_Block_Template
 {
     /**
      * Block config data
@@ -80,7 +80,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getPurchasedSeparatelySelect()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
             ->setOptions(Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray())
@@ -96,7 +96,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $addButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label' => Mage::helper('Mage_Downloadable_Helper_Data')->__('Add New Row'),
                 'id'    => 'add_link_item',
@@ -244,9 +244,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     protected function _prepareLayout()
     {
-        $this->addChild('upload_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('upload_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'id'      => '',
-            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
+            'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Upload Files'),
             'type'    => 'button',
             'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
         ));
@@ -299,7 +299,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $this->getConfig()->setFileField($this->getFileFieldName($type));
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
+                'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('All Files'),
                 'files' => array('*.*')
             )
         ));

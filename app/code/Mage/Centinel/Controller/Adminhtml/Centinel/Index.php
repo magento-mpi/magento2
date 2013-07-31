@@ -15,7 +15,7 @@
  * @package  Mage_Centinel
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Centinel_Controller_Adminhtml_Centinel_Index extends Mage_Adminhtml_Controller_Action
+class Mage_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Process validate payment data action
@@ -84,7 +84,7 @@ class Mage_Centinel_Controller_Adminhtml_Centinel_Index extends Mage_Adminhtml_C
      */
     private function _getPayment()
     {
-        $model = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
+        $model = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
         return $model->getQuote()->getPayment();
     }
 

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**
@@ -97,7 +97,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
             )
         ));
 
-        $fieldset->addType('price', 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
+        $fieldset->addType('price', 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
         $fieldset->addField('base_price', 'price', array(
             'label'    => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Price'),
             'name'     => 'base_price',
@@ -106,7 +106,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
             'after_element_html' => '<strong>[' .  Mage::app()->getBaseCurrencyCode() . ']</strong>'
         ));
 
-        $uploadButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $uploadButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Upload File'),
                 'id' => 'upload_image_button',

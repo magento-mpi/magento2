@@ -11,7 +11,7 @@
 /**
  * Recurring profile view page
  */
-class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_Block_Widget_Container
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Magento_Adminhtml_Block_Widget_Container
 {
     /**
      * Create buttons
@@ -21,7 +21,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_B
     protected function _prepareLayout()
     {
         $this->_addButton('back', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
+            'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Back'),
             'onclick'   => "setLocation('{$this->getUrl('*/*/')}')",
             'class'     => 'back',
         ));

@@ -15,7 +15,7 @@
  * @package    Mage_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Controller_Adminhtml_Refresh extends Mage_Adminhtml_Controller_Action
+class Mage_Captcha_Controller_Adminhtml_Refresh extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Refreshes captcha and returns JSON encoded URL to image (AJAX action)

@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
      * Render product name to add Configure link

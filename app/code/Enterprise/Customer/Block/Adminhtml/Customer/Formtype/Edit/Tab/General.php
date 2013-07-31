@@ -16,8 +16,8 @@
  * @package    Enterprise_Customer
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Initialize Edit Form

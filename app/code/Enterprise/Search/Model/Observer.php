@@ -19,7 +19,7 @@ class Enterprise_Search_Model_Observer
 {
     /**
      * Add search weight field to attribute edit form (only for quick search)
-     * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @see Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
      *
      * @param Magento_Event_Observer $observer
      */

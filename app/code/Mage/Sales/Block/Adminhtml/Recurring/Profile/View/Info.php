@@ -12,10 +12,10 @@
  * Recurring profile info block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Info extends Mage_Adminhtml_Block_Widget
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Info extends Magento_Adminhtml_Block_Widget
 {
     /**
      * Return recurring profile information for view

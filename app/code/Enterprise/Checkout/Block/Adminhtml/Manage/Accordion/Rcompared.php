@@ -74,7 +74,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
                 0,
                 $skipProducts
             );
-            $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
             // Remove disabled and out of stock products from the grid
             foreach ($productCollection as $product) {
                 if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Index_Block_Adminhtml_Process_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
 
     protected function _construct()

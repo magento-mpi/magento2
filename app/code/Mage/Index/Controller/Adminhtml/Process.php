@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Index_Controller_Adminhtml_Process extends Mage_Adminhtml_Controller_Action
+class Mage_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Initialize process object by request

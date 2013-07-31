@@ -9,8 +9,8 @@
  */
 
 class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
- extends Mage_Adminhtml_Block_Widget
- implements Mage_Adminhtml_Block_Widget_Tab_Interface
+ extends Magento_Adminhtml_Block_Widget
+ implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * @var Mage_Core_Model_StoreManager

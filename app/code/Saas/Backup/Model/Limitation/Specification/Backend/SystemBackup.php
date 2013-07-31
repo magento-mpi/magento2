@@ -18,6 +18,6 @@ class Saas_Backup_Model_Limitation_Specification_Backend_SystemBackup
      */
     public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
-        return $request->getControllerName() != 'system_backup' || $request->getControllerModule() != 'Mage_Adminhtml';
+        return $request->getControllerName() != 'system_backup' || $request->getControllerModule() != 'Magento_Adminhtml';
     }
 }

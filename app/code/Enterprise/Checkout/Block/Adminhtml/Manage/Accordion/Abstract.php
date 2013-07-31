@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract extends Mage_Adminhtml_Block_Widget_Grid
+abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Collection field name for using in controls
@@ -103,7 +103,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Prepare Grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -151,7 +151,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
         $this->addColumn('qty', array(
             'sortable'  => false,
             'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Quantity'),
-            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
+            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',

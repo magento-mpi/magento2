@@ -11,7 +11,7 @@
 /**
  * Adminhtml Manage Widgets Instance Controller
  */
-class Mage_Widget_Controller_Adminhtml_Widget_Instance extends Mage_Adminhtml_Controller_Action
+class Mage_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Load layout, set active menu and breadcrumbs
@@ -124,7 +124,7 @@ class Mage_Widget_Controller_Adminhtml_Widget_Instance extends Mage_Adminhtml_Co
         $result = $widgetInstance->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+            $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -200,7 +200,7 @@ class Mage_Widget_Controller_Adminhtml_Widget_Instance extends Mage_Adminhtml_Co
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
         $chooser = $this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser')
+            ->createBlock('Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser')
             ->setUseMassaction(true)
             ->setId(Mage::helper('Mage_Core_Helper_Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
@@ -217,13 +217,13 @@ class Mage_Widget_Controller_Adminhtml_Widget_Instance extends Mage_Adminhtml_Co
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser')
+            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser')
             ->setName(Mage::helper('Mage_Core_Helper_Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
-        /* @var $serializer Mage_Adminhtml_Block_Widget_Grid_Serializer */
-        $serializer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Serializer');
+        /* @var $serializer Magento_Adminhtml_Block_Widget_Grid_Serializer */
+        $serializer = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Grid_Serializer');
         $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
         $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }

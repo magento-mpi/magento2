@@ -12,7 +12,7 @@
  * Reminder rules edit form email templates and labels fields
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare general properties form

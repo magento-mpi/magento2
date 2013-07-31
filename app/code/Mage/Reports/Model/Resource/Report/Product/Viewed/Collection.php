@@ -39,7 +39,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
     ) {
         $resource->init(Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY);
         parent::__construct($fetchStrategy, $resource);
-        $this->setModel('Mage_Adminhtml_Model_Report_Item');
+        $this->setModel('Magento_Adminhtml_Model_Report_Item');
     }
 
     /**

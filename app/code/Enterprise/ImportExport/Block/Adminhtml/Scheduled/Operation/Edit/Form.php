@@ -25,7 +25,7 @@
  */
 // @codingStandardsIgnoreEnd
 abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare general form for scheduled operation

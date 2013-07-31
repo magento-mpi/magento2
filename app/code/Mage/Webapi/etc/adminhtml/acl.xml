@@ -13,8 +13,8 @@
     <acl>
         <resources>
 
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::system">
                     <resource id="Mage_Webapi::webapi" module="Mage_Webapi" title="Rest" sortOrder="40">
                         <resource id="Mage_Webapi::webapi_users"  module="Mage_Webapi" title="Users" sortOrder="10"/>
                         <resource id="Mage_Webapi::webapi_roles" module="Mage_Webapi"  title="Roles" sortOrder="20"/>

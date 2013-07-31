@@ -27,7 +27,7 @@
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
+            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Magento_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 
@@ -37,7 +37,7 @@
             <?php echo $this->getPurchasedSeparatelySelect()?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') : ''; ?>
+            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Magento_Adminhtml_Helper_Data')->__('[GLOBAL]') : ''; ?>
         </div>
     </div>
 
@@ -111,7 +111,7 @@ var linkTemplate = '<tr>'+
                     '<div id="downloadable_link_{{id}}_sample_file-old" class="file-row-info"></div>'+
                     '<div id="downloadable_link_{{id}}_sample_file-new" class="file-row-info"></div>'+
                     '<div class="fileinput-button form-buttons">'+
-                        '<span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
+                        '<span><?php echo Mage::helper('Magento_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
                         '<input id="downloadable_link_{{id}}_sample_file" type="file" name="<?php echo $this->getFileFieldName('link_samples') ?>">' +
                         '<script type="text/javascript">' +
                         '/*<![CDATA[*/' +
@@ -139,7 +139,7 @@ var linkTemplate = '<tr>'+
                     '<div id="downloadable_link_{{id}}_file-old" class="file-row-info"></div>'+
                     '<div id="downloadable_link_{{id}}_file-new" class="file-row-info new-file"></div>'+
                     '<div class="fileinput-button form-buttons">'+
-                        '<span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
+                        '<span><?php echo Mage::helper('Magento_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
                         '<input id="downloadable_link_{{id}}_file" type="file" name="<?php echo $this->getFileFieldName('links') ?>">' +
                         '<script type="text/javascript">' +
                         '/*<![CDATA[*/' +

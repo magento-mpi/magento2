@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Controller_Action
+class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Perform layout initialization actions

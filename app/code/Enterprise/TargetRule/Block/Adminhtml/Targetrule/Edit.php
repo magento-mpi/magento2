@@ -12,7 +12,7 @@
  * Target rule edit form block
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     protected $_blockGroup = 'Enterprise_TargetRule';
     protected $_controller = 'adminhtml_targetrule';

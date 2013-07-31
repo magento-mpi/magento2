@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Process model
@@ -187,7 +187,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
      *
      * @param string $value
      * @param Mage_Index_Model_Process $row
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      *
      * @return string
@@ -214,7 +214,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
      *
      * @param string $value
      * @param Mage_Index_Model_Process $row
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      *
      * @return string
@@ -238,7 +238,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
      *
      * @param string $value
      * @param Mage_Index_Model_Process $row
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      *
      * @return string

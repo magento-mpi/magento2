@@ -12,7 +12,7 @@
  * Reminder rules edit form conditions
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare conditions form
@@ -24,7 +24,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
         $form = new Magento_Data_Form();
         $model = Mage::registry('current_reminder_rule');
 
-        $renderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(

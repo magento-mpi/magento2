@@ -94,7 +94,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (!$this->_session) {
             $sessionClassPath = Mage::app()->getStore()->isAdmin() ?
-                    'Mage_Adminhtml_Model_Session' : 'Mage_Customer_Model_Session';
+                    'Magento_Adminhtml_Model_Session' : 'Mage_Customer_Model_Session';
             $this->_session =  Mage::getSingleton($sessionClassPath);
         }
 

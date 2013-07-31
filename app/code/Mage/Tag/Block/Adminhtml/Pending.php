@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Block_Adminhtml_Pending extends Mage_Adminhtml_Block_Template
+class Mage_Tag_Block_Adminhtml_Pending extends Magento_Adminhtml_Block_Template
 {
 
     protected $_template = 'tag/index.phtml';

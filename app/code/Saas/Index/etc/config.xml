@@ -35,7 +35,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Saas_Index before="Mage_Adminhtml">Saas_Index_Adminhtml</Saas_Index>
+                        <Saas_Index before="Magento_Adminhtml">Saas_Index_Adminhtml</Saas_Index>
                     </modules>
                 </args>
             </adminhtml>

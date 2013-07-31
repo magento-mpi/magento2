@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Block_Adminhtml_Grid_All extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Tag_Block_Adminhtml_Grid_All extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected function _construct()
     {

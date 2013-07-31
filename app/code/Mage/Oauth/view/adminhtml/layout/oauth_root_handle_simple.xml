@@ -10,8 +10,8 @@
 <layout version="0.1.0">
     <oauth_root_handle_simple>
         <remove name="js_cookie"/>
-        <block type="Mage_Adminhtml_Block_Page" name="root" output="1" template="Mage_Oauth::empty.phtml">
-            <block type="Mage_Adminhtml_Block_Page_Head" name="head" as="head" template="Mage_Oauth::authorize/head-simple.phtml">
+        <block type="Magento_Adminhtml_Block_Page" name="root" output="1" template="Mage_Oauth::empty.phtml">
+            <block type="Magento_Adminhtml_Block_Page_Head" name="head" as="head" template="Mage_Oauth::authorize/head-simple.phtml">
                 <action method="addCss">
                     <name>Mage_Oauth::css/oauth-simple.css</name>
                 </action>

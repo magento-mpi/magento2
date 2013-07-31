@@ -12,7 +12,7 @@
  * Controller for Customer Attributes Management
  */
 class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
-    extends Mage_Adminhtml_Controller_Action
+    extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Customer Address Entity Type instance
@@ -42,7 +42,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Adminhtml::stores_attributes')
+            ->_setActiveMenu('Magento_Adminhtml::stores_attributes')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'),
                 Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'))
@@ -154,7 +154,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
                     Mage::helper('Enterprise_Customer_Helper_Data')->__('An attribute with this code already exists.')
                 );
 
-                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

@@ -16,7 +16,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer extends Mage_Adminhtml_Block_Sales_Items_Renderer_Default
+class Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer extends Magento_Adminhtml_Block_Sales_Items_Renderer_Default
 {
     /**
      * Getting all available childs for Invoice, Shipmen or Creditmemo item

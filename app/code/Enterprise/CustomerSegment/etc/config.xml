@@ -17,7 +17,7 @@
             <depends>
                 <Mage_Customer/>
                 <Enterprise_Customer/>
-                <Mage_Adminhtml/>
+                <Magento_Adminhtml/>
                 <Mage_Catalog/>
                 <Mage_CatalogRule/>
                 <Mage_Rule/>
@@ -74,7 +74,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_customersegment before="Mage_Adminhtml">Enterprise_CustomerSegment_Adminhtml</enterprise_customersegment>
+                        <enterprise_customersegment before="Magento_Adminhtml">Enterprise_CustomerSegment_Adminhtml</enterprise_customersegment>
                     </modules>
                 </args>
             </adminhtml>

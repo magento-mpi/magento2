@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Element type used by default if configuration is omitted
@@ -77,7 +77,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         $this->setData('main_fieldset', $fieldset);
 
         // add dependence javascript block
-        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence');
+        $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence');
         $this->setChild('form_after', $block);
 
         return $fieldset;
@@ -86,7 +86,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
     /**
      * Add fields to main fieldset based on specified widget type
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Magento_Adminhtml_Block_Widget_Form
      */
     public function addFields()
     {

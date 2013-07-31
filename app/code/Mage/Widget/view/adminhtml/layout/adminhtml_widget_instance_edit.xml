@@ -52,7 +52,7 @@
             </block>
         </reference>
         <reference name="js">
-            <block type="Mage_Adminhtml_Block_Template" template="Mage_Widget::instance/js.phtml" name="widget_instance_js"/>
+            <block type="Magento_Adminhtml_Block_Template" template="Mage_Widget::instance/js.phtml" name="widget_instance_js"/>
         </reference>
     </adminhtml_widget_instance_edit>
 </layout>

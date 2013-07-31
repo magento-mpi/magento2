@@ -68,7 +68,7 @@ class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Mod
         }
 
         catch (Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to save Cron expression'));
+            Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Unable to save Cron expression'));
         }
     }
 }

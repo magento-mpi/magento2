@@ -70,7 +70,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Prepare Grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -83,7 +83,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
 
         $this->addColumn('name', array(
             'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product'),
-            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
+            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));
 
@@ -100,7 +100,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
+            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
         ));
 
         $this->_addControlColumns();
@@ -111,7 +111,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Custom products grid search callback
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareLayout()
     {
@@ -123,7 +123,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Search by selected products
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -173,7 +173,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _addControlColumns()
     {

@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
+                <Magento_Adminhtml/>
                 <Mage_Sales/>
                 <Mage_Catalog/>
             </depends>
@@ -110,7 +110,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_Logging before="Mage_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
+                        <Enterprise_Logging before="Magento_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
                     </modules>
                 </args>
             </adminhtml>

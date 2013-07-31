@@ -15,7 +15,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Controller_Adminhtml_Bundle_Selection extends Mage_Adminhtml_Controller_Action
+class Mage_Bundle_Controller_Adminhtml_Bundle_Selection extends Magento_Adminhtml_Controller_Action
 {
     protected function _construct()
     {

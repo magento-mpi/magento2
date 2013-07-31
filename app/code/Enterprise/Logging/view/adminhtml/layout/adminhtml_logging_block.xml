@@ -80,7 +80,7 @@
                             <index>ip</index>
                             <type>text</type>
                             <filter>Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip</filter>
-                            <renderer>Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Ip</renderer>
+                            <renderer>Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Ip</renderer>
                             <sortable>0</sortable>
                             <width>125</width>
                         </arguments>
@@ -120,7 +120,7 @@
                             <index>info</index>
                             <type>text</type>
                             <sortable>0</sortable>
-                            <filter>Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text</filter>
+                            <filter>Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Text</filter>
                             <renderer>Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Details</renderer>
                             <width>100</width>
                         </arguments>

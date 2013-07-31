@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist
-    extends Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
+    extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
 {
     /**
      * Retrieve item collection

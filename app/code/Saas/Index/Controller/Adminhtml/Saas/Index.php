@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Index_Controller_Adminhtml_Saas_Index extends Mage_Adminhtml_Controller_Action
+class Saas_Index_Controller_Adminhtml_Saas_Index extends Magento_Adminhtml_Controller_Action
 {
     /**
      * @var Saas_Index_Model_Flag

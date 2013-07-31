@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget
+class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block_Widget
 {
     /**
      * Attributes is read only flag

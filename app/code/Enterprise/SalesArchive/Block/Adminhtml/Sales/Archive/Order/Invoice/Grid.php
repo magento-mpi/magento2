@@ -14,7 +14,7 @@
  */
 
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid
-    extends Mage_Adminhtml_Block_Sales_Invoice_Grid
+    extends Magento_Adminhtml_Block_Sales_Invoice_Grid
 {
     protected function _construct()
     {

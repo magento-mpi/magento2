@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml />
+                <Magento_Adminhtml />
                 <Mage_Customer />
             </depends>
         </Enterprise_Customer>
@@ -236,7 +236,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_customer before="Mage_Adminhtml">Enterprise_Customer_Adminhtml</enterprise_customer>
+                        <enterprise_customer before="Magento_Adminhtml">Enterprise_Customer_Adminhtml</enterprise_customer>
                     </modules>
                 </args>
             </adminhtml>

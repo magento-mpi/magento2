@@ -15,7 +15,7 @@
  * @package    Enterprise_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**

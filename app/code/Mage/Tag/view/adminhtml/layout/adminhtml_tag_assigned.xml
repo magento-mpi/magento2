@@ -11,7 +11,7 @@
     <adminhtml_tag_assigned>
         <remove name="root"/>
         <block type="Mage_Tag_Block_Adminhtml_Assigned_Grid" name="tag_assigned_grid" output="1"/>
-        <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="tag_grid_serializer" output="1">
+        <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="tag_grid_serializer" output="1">
             <reference name="tag_grid_serializer">
                 <action method="initSerializerBlock">
                     <grid_block_name>tag_assigned_grid</grid_block_name>

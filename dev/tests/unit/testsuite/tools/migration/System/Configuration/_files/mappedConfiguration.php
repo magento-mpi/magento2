@@ -43,7 +43,7 @@ return array(
                 ),
                 array(
                     'name' => 'resource',
-                    '#text' => 'Mage_Adminhtml::acl'
+                    '#text' => 'Magento_Adminhtml::acl'
                 ),
                 array(
                     'name' => 'header_css',

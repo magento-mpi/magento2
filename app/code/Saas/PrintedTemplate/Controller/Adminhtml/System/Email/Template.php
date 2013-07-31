@@ -16,13 +16,13 @@
  * @subpackage  Controllers
  */
 class Saas_PrintedTemplate_Controller_Adminhtml_System_Email_Template
-    extends Mage_Adminhtml_Controller_System_Email_Template
+    extends Magento_Adminhtml_Controller_System_Email_Template
 {
     /**
      * Override to change ACL
      *
      * @return bool
-     * @see Mage_Adminhtml_Controller_System_Email_Template::_isAllowed()
+     * @see Magento_Adminhtml_Controller_System_Email_Template::_isAllowed()
      */
     protected function _isAllowed()
     {

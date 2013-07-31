@@ -95,7 +95,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_Index before="Mage_Adminhtml">Mage_Index_Adminhtml</Mage_Index>
+                        <Mage_Index before="Magento_Adminhtml">Mage_Index_Adminhtml</Mage_Index>
                     </modules>
                 </args>
             </adminhtml>
@@ -112,4 +112,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

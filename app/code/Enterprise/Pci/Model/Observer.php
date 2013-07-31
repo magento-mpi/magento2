@@ -101,8 +101,8 @@ class Enterprise_Pci_Model_Observer
                     $myAccountUrl = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_account/');
                     $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('It\'s time to <a href="%s">change your password</a>.', $myAccountUrl);
                 }
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice($message);
-                if ($message = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()) {
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice($message);
+                if ($message = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()) {
                     $message->setIdentifier('enterprise_pci_password_expired')->setIsSticky(true);
                     Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setPciAdminUserIsPasswordExpired(true);
                 }
@@ -216,7 +216,7 @@ class Enterprise_Pci_Model_Observer
                 $resource     = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User');
                 $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
                         ->getMessages()
                         ->deleteMessageByIdentifier('enterprise_pci_password_expired');
                 Mage::getSingleton('Mage_Backend_Model_Auth_Session')->unsPciAdminUserIsPasswordExpired();
@@ -263,7 +263,7 @@ class Enterprise_Pci_Model_Observer
         $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), $actionList)) {
-                if ($this->_authorization->isAllowed('Mage_Adminhtml::myaccount')) {
+                if ($this->_authorization->isAllowed('Magento_Adminhtml::myaccount')) {
                     $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Backend_Model_Url')
                             ->getUrl('adminhtml/system_account/'));
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
@@ -274,8 +274,8 @@ class Enterprise_Pci_Model_Observer
                      * than we need to do force logout with error message
                      */
                     Mage::getSingleton('Mage_Backend_Model_Auth_Session')->unsetAll();
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->unsetAll();
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->unsetAll();
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                         Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired; please contact your administrator.')
                     );
                     $controller->getRequest()->setDispatched(false);

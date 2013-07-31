@@ -253,7 +253,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         }
 
         $tabs = $observer->getEvent()->getTabs();
-        /* @var $tabs Mage_Adminhtml_Block_Catalog_Category_Tabs */
+        /* @var $tabs Magento_Adminhtml_Block_Catalog_Category_Tabs */
 
         //if (Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isAllowedCategory($tabs->getCategory())) {
             $tabs->addTab(

@@ -259,7 +259,7 @@ class Enterprise_Logging_Model_Processor
             $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
             $username = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getUsername();
         }
-        $errors = Mage::getModel('Mage_Adminhtml_Model_Session')->getMessages()->getErrors();
+        $errors = Mage::getModel('Magento_Adminhtml_Model_Session')->getMessages()->getErrors();
         /** @var Enterprise_Logging_Model_Event $loggingEvent */
         $loggingEvent = Mage::getModel('Enterprise_Logging_Model_Event')->setData(array(
             'ip'            => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),

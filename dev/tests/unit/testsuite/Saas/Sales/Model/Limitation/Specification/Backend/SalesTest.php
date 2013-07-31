@@ -46,7 +46,7 @@ class Saas_Sales_Model_Limitation_Specification_Backend_SalesTest extends PHPUni
     public function dataProviderForIsSatisfiedBy()
     {
         return array(
-            array('Mage_Adminhtml', 'unknown'),
+            array('Magento_Adminhtml', 'unknown'),
             array('unknown', 'sales_transactions'),
             array('unknown', 'unknown')
         );
@@ -55,7 +55,7 @@ class Saas_Sales_Model_Limitation_Specification_Backend_SalesTest extends PHPUni
     public function testIsNotSatisfied()
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Adminhtml'));
+            ->will($this->returnValue('Magento_Adminhtml'));
         $this->_requestMock->expects($this->any())->method('getControllerName')
             ->will($this->returnValue('sales_transactions'));
 

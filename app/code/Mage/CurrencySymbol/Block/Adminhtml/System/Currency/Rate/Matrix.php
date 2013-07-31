@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Manage currency block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends Mage_Backend_Block_Template
@@ -22,8 +22,8 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends Ma
 
     protected function _prepareLayout()
     {
-        $newRates = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getRates();
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->unsetData('rates');
+        $newRates = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRates();
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->unsetData('rates');
 
         $currencyModel = Mage::getModel('Mage_Directory_Model_Currency');
         $currencies = $currencyModel->getConfigAllowCurrencies();

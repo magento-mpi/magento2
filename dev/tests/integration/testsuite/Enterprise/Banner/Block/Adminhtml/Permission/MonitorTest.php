@@ -49,13 +49,13 @@ class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_F
             array(
                 'Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners',
                 'salesrule.related.banners',
-                'Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs',
+                'Magento_Adminhtml_Block_Promo_Quote_Edit_Tabs',
                 'promo_quote_edit_tabs',
             ),
             array(
                 'Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners',
                 'catalogrule.related.banners',
-                'Mage_Adminhtml_Block_Widget_Tabs',
+                'Magento_Adminhtml_Block_Widget_Tabs',
                 'promo_catalog_edit_tabs',
             ),
         );

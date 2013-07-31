@@ -11,7 +11,7 @@
 /**
  * Ip-address grid filter
  */
-class Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text
+class Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Text
 {
     /**
      * Collection condition filter getter

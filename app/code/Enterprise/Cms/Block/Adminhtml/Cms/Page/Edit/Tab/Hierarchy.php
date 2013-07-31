@@ -16,8 +16,8 @@
  * @package    Enterprise_Cms
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
-    extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Array of nodes for tree

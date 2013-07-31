@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Controller_Adminhtml_Extension_Local extends Mage_Adminhtml_Controller_Action
+class Mage_Connect_Controller_Adminhtml_Extension_Local extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Redirect to Magento Connect

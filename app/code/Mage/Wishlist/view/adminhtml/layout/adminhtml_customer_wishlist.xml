@@ -39,7 +39,7 @@
                         <header translate="true" module="Mage_Wishlist">Product</header>
                         <id>product_name</id>
                         <index>product_name</index>
-                        <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item</renderer>
+                        <renderer>Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item</renderer>
                     </arguments>
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="description">
@@ -47,7 +47,7 @@
                         <header translate="true" module="Mage_Wishlist">User description</header>
                         <index>description</index>
                         <id>description</id>
-                        <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description</renderer>
+                        <renderer>Magento_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description</renderer>
                     </arguments>
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
@@ -88,7 +88,7 @@
                     <arguments>
                         <header translate="true" module="Mage_Wishlist">Action</header>
                         <index>wishlist_item_id</index>
-                        <renderer>Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction</renderer>
+                        <renderer>Magento_Adminhtml_Block_Customer_Grid_Renderer_Multiaction</renderer>
                         <sortable>0</sortable>
                         <filter>0</filter>
                         <actions>

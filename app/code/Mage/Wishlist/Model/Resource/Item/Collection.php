@@ -170,7 +170,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
             ->addUrlRewrite();
 
         if ($this->_productSalable) {
-            $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
         }
 
         Mage::dispatchEvent('wishlist_item_collection_products_after_load', array(

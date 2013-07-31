@@ -13,7 +13,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Mage_Adminhtml_Block_Media_Uploader
+class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Magento_Adminhtml_Block_Media_Uploader
 {
     /**
      * Path to uploader template
@@ -25,7 +25,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Mage_Adm
     /**
      * Prepare layout
      *
-     * @return Mage_Adminhtml_Block_Media_Uploader
+     * @return Magento_Adminhtml_Block_Media_Uploader
      */
     protected function _prepareLayout()
     {

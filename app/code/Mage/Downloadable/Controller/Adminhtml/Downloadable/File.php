@@ -15,7 +15,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Controller_Adminhtml_Downloadable_File extends Mage_Adminhtml_Controller_Action
+class Mage_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_Adminhtml_Controller_Action
 {
 
     /**

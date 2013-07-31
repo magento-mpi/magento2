@@ -17,7 +17,7 @@
  */
 class Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     extends Enterprise_Rma_Block_Adminhtml_Rma_Grid
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     public function _construct()
     {

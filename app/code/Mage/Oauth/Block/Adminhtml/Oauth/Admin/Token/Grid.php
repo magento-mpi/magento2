@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +15,7 @@
  * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Construct grid block

@@ -28,9 +28,13 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
      */
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
-        $block = $this->_layout->createBlock('Mage_Adminhtml_Block_Template', $parentBlock);
-        $this->_layout->addBlock('Mage_Adminhtml_Block_Template', $childBlock, $parentBlock);
-        $gridBlock = $this->_layout->addBlock('Mage_Adminhtml_Block_Template', 'banners_grid_serializer', $childBlock);
+        $block = $this->_layout->createBlock('Magento_Adminhtml_Block_Template', $parentBlock);
+        $this->_layout->addBlock('Magento_Adminhtml_Block_Template', $childBlock, $parentBlock);
+        $gridBlock = $this->_layout->addBlock(
+            'Magento_Adminhtml_Block_Template',
+            'banners_grid_serializer',
+            $childBlock
+        );
 
         $this->assertSame(
             $gridBlock,

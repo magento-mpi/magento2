@@ -232,7 +232,7 @@ class Mage_Bundle_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            Mage::helper('Mage_Adminhtml_Helper_Catalog')
+            Mage::helper('Magento_Adminhtml_Helper_Catalog')
                 ->setAttributeTabBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes');
         }
         return $this;

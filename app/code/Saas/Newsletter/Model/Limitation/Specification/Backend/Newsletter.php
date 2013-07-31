@@ -18,7 +18,7 @@ class Saas_Newsletter_Model_Limitation_Specification_Backend_Newsletter
      */
     public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
-        if ('Mage_Adminhtml' == $request->getControllerModule()) {
+        if ('Magento_Adminhtml' == $request->getControllerModule()) {
             $controllerParts = explode('_', $request->getControllerName());
 
             if ('newsletter' == $controllerParts[0]

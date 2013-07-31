@@ -967,7 +967,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Saas_PrintedTemplate before="Mage_Adminhtml">Saas_PrintedTemplate_Adminhtml</Saas_PrintedTemplate>
+                        <Saas_PrintedTemplate before="Magento_Adminhtml">Saas_PrintedTemplate_Adminhtml</Saas_PrintedTemplate>
                     </modules>
                 </args>
             </adminhtml>

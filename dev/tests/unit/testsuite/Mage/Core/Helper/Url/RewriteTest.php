@@ -19,14 +19,14 @@ class Mage_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $helper = $this->getMockBuilder('Mage_Adminhtml_Helper_Data')
+        $helper = $this->getMockBuilder('Magento_Adminhtml_Helper_Data')
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();
         $helper->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
-        Mage::register('_helper/Mage_Adminhtml_Helper_Data', $helper);
+        Mage::register('_helper/Magento_Adminhtml_Helper_Data', $helper);
 
         $optionsModel = new Mage_Core_Model_Source_Urlrewrite_Options();
         Mage::register('_singleton/Mage_Core_Model_Source_Urlrewrite_Options', $optionsModel);
@@ -37,7 +37,7 @@ class Mage_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::unregister('_helper/Mage_Adminhtml_Helper_Data');
+        Mage::unregister('_helper/Magento_Adminhtml_Helper_Data');
         Mage::unregister('_singleton/Mage_Core_Model_Source_Urlrewrite_Options');
     }
 

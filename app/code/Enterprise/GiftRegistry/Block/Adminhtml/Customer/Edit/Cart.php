@@ -12,7 +12,7 @@
  * Adminhtml customer cart items grid block
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected function _construct()
     {

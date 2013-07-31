@@ -15,7 +15,7 @@
  * @package     Mage_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Controller_Adminhtml_PageCache extends Mage_Adminhtml_Controller_Action
+class Mage_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Clean external cache action

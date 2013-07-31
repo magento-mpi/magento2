@@ -12,7 +12,7 @@
  * Column renderer for gift registry items grid action column
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render gift registry item action as select html element

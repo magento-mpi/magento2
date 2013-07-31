@@ -15,7 +15,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection extends Mage_Adminhtml_Block_Widget
+class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection extends Magento_Adminhtml_Block_Widget
 {
     protected $_template = 'product/edit/bundle/option/selection.phtml';
 
@@ -56,7 +56,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
      */
     protected function _prepareLayout()
     {
-        $this->addChild('selection_delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('selection_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
             'class' => 'delete icon-btn',
             'on_click' => 'bSelection.remove(event)'
@@ -81,7 +81,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
      */
     public function getPriceTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id'    => $this->getFieldId() . '_{{index}}_price_type',
                 'class' => 'select select-product-option-type required-option-select'
@@ -101,7 +101,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
      */
     public function getQtyTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_can_change_qty',
                 'class' => 'select'

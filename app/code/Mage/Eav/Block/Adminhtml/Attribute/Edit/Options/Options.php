@@ -26,7 +26,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
     /**
      * @inheritdoc
      */
-    protected $_template = 'Mage_Adminhtml::catalog/product/attribute/options.phtml';
+    protected $_template = 'Magento_Adminhtml::catalog/product/attribute/options.phtml';
 
     /**
      * @inheritdoc

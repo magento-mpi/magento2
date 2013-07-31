@@ -26,7 +26,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backen
     /**
      * @inheritdoc
      */
-    protected $_template = 'Mage_Adminhtml::catalog/product/attribute/labels.phtml';
+    protected $_template = 'Magento_Adminhtml::catalog/product/attribute/labels.phtml';
 
     /**
      * @inheritdoc

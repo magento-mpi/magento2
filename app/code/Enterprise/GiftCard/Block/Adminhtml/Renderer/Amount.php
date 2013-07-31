@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
- extends Mage_Adminhtml_Block_Widget
+ extends Magento_Adminhtml_Block_Widget
  implements Magento_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
@@ -32,7 +32,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
     {
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
-        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Add Amount'),
             'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
             'class'     => 'action-add',

@@ -8,7 +8,7 @@
  * @license {license_link}
  */
 class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer
-    extends Mage_Adminhtml_Block_Catalog_Form
+    extends Magento_Adminhtml_Block_Catalog_Form
 {
     /**
      * @var Mage_Core_Model_Registry

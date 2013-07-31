@@ -33,7 +33,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_CollectionTest extends P
     {
         $expectedResult = array(1 => 3, 2 => 1, 21 => 2);
         $actualResult = array();
-        /** @var Mage_Adminhtml_Model_Report_Item $reportItem */
+        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[$reportItem->getData('product_id')] = $reportItem->getData('views_num');
         }

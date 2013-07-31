@@ -13,7 +13,7 @@
  * Admin Actions Log Archive grid
  *
  */
-class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize default sorting and html ID

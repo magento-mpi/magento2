@@ -106,12 +106,12 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
              */
             /** @var $menu Mage_Backend_Model_Menu */
             $menu = $this->_getMenuConfig()->getMenu();
-            $item = $menu->get('Mage_Adminhtml::system');
+            $item = $menu->get('Magento_Adminhtml::system');
             // create prefix path parts
             $prefixParts[] = array(
                 'title' => $item->getModuleHelper()->__($item->getTitle()),
             );
-            $item = $menu->get('Mage_Adminhtml::system_config');
+            $item = $menu->get('Magento_Adminhtml::system_config');
             $prefixParts[] = array(
                 'title' => $item->getModuleHelper()->__($item->getTitle()),
                 'url' => $this->_getBackendHelper()->getUrl('adminhtml/system_config/'),

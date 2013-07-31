@@ -14,7 +14,7 @@
  */
 
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
-    extends Mage_Adminhtml_Block_Sales_Shipment_Grid
+    extends Magento_Adminhtml_Block_Sales_Shipment_Grid
 {
     public function _construct()
     {

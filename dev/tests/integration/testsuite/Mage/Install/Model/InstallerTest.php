@@ -157,7 +157,7 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
      */
     public function testFinish()
     {

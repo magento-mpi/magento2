@@ -62,7 +62,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_search before="Mage_Adminhtml">Enterprise_Search_Adminhtml</enterprise_search>
+                        <enterprise_search before="Magento_Adminhtml">Enterprise_Search_Adminhtml</enterprise_search>
                     </modules>
                 </args>
             </adminhtml>

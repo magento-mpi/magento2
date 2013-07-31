@@ -19,14 +19,14 @@ class Mage_Core_Model_Source_Urlrewrite_OptionsTest extends PHPUnit_Framework_Te
      */
     protected function setUp()
     {
-        $helper = $this->getMockBuilder('Mage_Adminhtml_Helper_Data')
+        $helper = $this->getMockBuilder('Magento_Adminhtml_Helper_Data')
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();
         $helper->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
-        Mage::register('_helper/Mage_Adminhtml_Helper_Data', $helper);
+        Mage::register('_helper/Magento_Adminhtml_Helper_Data', $helper);
     }
 
     /**
@@ -34,7 +34,7 @@ class Mage_Core_Model_Source_Urlrewrite_OptionsTest extends PHPUnit_Framework_Te
      */
     protected function tearDown()
     {
-        Mage::unregister('_helper/Mage_Adminhtml_Helper_Data');
+        Mage::unregister('_helper/Magento_Adminhtml_Helper_Data');
     }
 
     /**

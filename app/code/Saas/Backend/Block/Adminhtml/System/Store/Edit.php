@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Backend_Block_Adminhtml_System_Store_Edit extends Mage_Adminhtml_Block_System_Store_Edit
+class Saas_Backend_Block_Adminhtml_System_Store_Edit extends Magento_Adminhtml_Block_System_Store_Edit
 {
     /**
      * Store type 'store'

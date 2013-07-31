@@ -24,7 +24,7 @@ class Saas_Launcher_Controller_BasePage extends Mage_Backend_Controller_ActionAb
     {
         $layout = $this->loadLayout();
         $layout->getLayout();
-        $this->_setActiveMenu('Mage_Adminhtml::dashboard');
+        $this->_setActiveMenu('Magento_Adminhtml::dashboard');
         $layout->renderLayout();
     }
 }

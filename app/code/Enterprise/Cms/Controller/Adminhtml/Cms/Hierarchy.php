@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_Controller_Action
+class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Current Scope

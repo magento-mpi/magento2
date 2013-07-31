@@ -15,7 +15,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Controller_Adminhtml_Widget extends Mage_Adminhtml_Controller_Action
+class Mage_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Wisywyg widget plugin main page

@@ -46,7 +46,7 @@ class Saas_Backup_Model_Limitation_Specification_Backend_SystemBackupTest extend
     public function dataProviderForIsSatisfiedBy()
     {
         return array(
-            array('Mage_Adminhtml', 'unknown'),
+            array('Magento_Adminhtml', 'unknown'),
             array('unknown', 'system_backup'),
             array('unknown', 'unknown'),
         );
@@ -55,7 +55,7 @@ class Saas_Backup_Model_Limitation_Specification_Backend_SystemBackupTest extend
     public function testIsNotAllowed()
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Adminhtml'));
+            ->will($this->returnValue('Magento_Adminhtml'));
         $this->_requestMock->expects($this->any())->method('getControllerName')
             ->will($this->returnValue('system_backup'));
 

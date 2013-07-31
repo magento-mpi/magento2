@@ -104,7 +104,7 @@
                             <align>center</align>
                             <filter>0</filter>
                             <sortable>0</sortable>
-                            <renderer>Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Product</renderer>
+                            <renderer>Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Product</renderer>
                             <id>action</id>
                             <is_system>1</is_system>
                             <column_css_class>col-actions</column_css_class>

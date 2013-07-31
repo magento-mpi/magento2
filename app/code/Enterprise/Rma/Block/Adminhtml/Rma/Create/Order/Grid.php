@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
 
     /**
@@ -46,7 +46,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
     /**
      * Prepare columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

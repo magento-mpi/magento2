@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Form, created in parent block

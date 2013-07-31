@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders qty column

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Saas_Backend_Controller_Adminhtml_System_Store extends Mage_Adminhtml_Controller_System_Store
+class Saas_Backend_Controller_Adminhtml_System_Store extends Magento_Adminhtml_Controller_System_Store
 {
     /**
      * Backup database
@@ -16,7 +16,7 @@ class Saas_Backend_Controller_Adminhtml_System_Store extends Mage_Adminhtml_Cont
      *
      * @param string $failPath redirect path if backup failed
      * @param array $arguments
-     * @return Mage_Adminhtml_Controller_System_Store
+     * @return Magento_Adminhtml_Controller_System_Store
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _backupDatabase($failPath, $arguments = array())

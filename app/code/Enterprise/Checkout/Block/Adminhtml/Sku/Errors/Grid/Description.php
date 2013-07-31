@@ -20,7 +20,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Mage_Adminhtml_Block_Template
+class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Magento_Adminhtml_Block_Template
 {
     protected $_template = 'sku/errors/grid/description.phtml';
 
@@ -35,8 +35,8 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
         $productId = $this->escapeHtml(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getProduct()->getId()));
         $itemSku = $this->escapeHtml(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getItem()->getSku()));
 
-        /* @var $button Mage_Adminhtml_Block_Widget_Button */
-        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array('data' => array(
+        /* @var $button Magento_Adminhtml_Block_Widget_Button */
+        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
             'class'    => $canConfigure ? 'action-configure' : 'action-configure action-disabled',
             'onclick'  => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
             'disabled' => !$canConfigure,

@@ -11,7 +11,7 @@
 /**
  * Log and archive grids controller
  */
-class Enterprise_Logging_Controller_Adminhtml_Logging extends Mage_Adminhtml_Controller_Action
+class Enterprise_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Log page

@@ -38,7 +38,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Form
     public function removeSavingButtons(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getData('block');
-        if ($block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit) {
+        if ($block instanceof Magento_Adminhtml_Block_Catalog_Product_Edit) {
             $product = $block->getProduct();
             $isThresholdReached = $this->_limitationValidator->exceedsThreshold(
                 $this->_limitation,

@@ -73,12 +73,14 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $mockItem = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $mockItem->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
         $mockItem->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $mockItem->expects($this->any())->method('getId')->will($this->returnValue('Mage_Adminhtml::system_acl_roles'));
+        $mockItem->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
         $mockItem->expects($this->any())->method('getAction')->will($this->returnValue('adminhtml/user_role'));
 
         $this->_menuMock->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Mage_Adminhtml::system_acl_roles'))
+            ->with($this->equalTo('Magento_Adminhtml::system_acl_roles'))
             ->will($this->returnValue($mockItem));
 
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
@@ -88,7 +90,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->_storeConfigMock->expects($this->any())
             ->method('getConfig')
             ->with(Mage_Backend_Model_Url::XML_PATH_STARTUP_MENU_ITEM)
-            ->will($this->returnValue('Mage_Adminhtml::system_acl_roles'));
+            ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
 
         $this->_model = new Mage_Backend_Model_Url(
             $helperMock,

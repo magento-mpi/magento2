@@ -31,7 +31,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_CollectionTest extends PHPUni
     {
         $expectedResult = array(1 => 2);
         $actualResult = array();
-        /** @var Mage_Adminhtml_Model_Report_Item $reportItem */
+        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[$reportItem->getData('product_id')] = $reportItem->getData('qty_ordered');
         }

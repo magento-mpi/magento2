@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::all" title="Allow everything" />
-            <resource id="Mage_Adminhtml::admin" module="Mage_Adminhtml" title="Magento Admin">
-                <resource id="Mage_Adminhtml::dashboard" title="Dashboard" sortOrder="0" />
-                <resource id="Mage_Adminhtml::system" title="System" sortOrder="90">
-                    <resource id="Mage_Adminhtml::store" title="Manage Stores" />
+            <resource id="Magento_Adminhtml::all" title="Allow everything" />
+            <resource id="Magento_Adminhtml::admin" module="Magento_Adminhtml" title="Magento Admin">
+                <resource id="Magento_Adminhtml::dashboard" title="Dashboard" sortOrder="0" />
+                <resource id="Magento_Adminhtml::system" title="System" sortOrder="90">
+                    <resource id="Magento_Adminhtml::store" title="Manage Stores" />
                 </resource>
             </resource>
         </resources>

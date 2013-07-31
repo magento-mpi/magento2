@@ -88,8 +88,8 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Mage_Sales_Bl
              * form creates appropriate child block and uses this alias. In this case we can't use the same alias
              * without core logic changes, that's why the code below was moved inside method '_afterToHtml'.
              */
-            /** @var $formAfterBlock Mage_Adminhtml_Block_Widget_Form_Element_Dependence */
-            $formAfterBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence',
+            /** @var $formAfterBlock Magento_Adminhtml_Block_Widget_Form_Element_Dependence */
+            $formAfterBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence',
                 'adminhtml.block.widget.form.element.dependence'
             );
             $formAfterBlock->addFieldMap($htmlIdPrefix . 'price_rule_type', 'price_rule_type')

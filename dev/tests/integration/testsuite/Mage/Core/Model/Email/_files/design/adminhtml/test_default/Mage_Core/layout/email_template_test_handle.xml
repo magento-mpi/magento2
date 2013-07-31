@@ -12,6 +12,6 @@
 -->
 <layout>
     <email_template_test_handle>
-        <block type="Mage_Adminhtml_Block_Template" name="sample_email_content" template="Mage_Core::sample_email_content.phtml"/>
+        <block type="Magento_Adminhtml_Block_Template" name="sample_email_content" template="Mage_Core::sample_email_content.phtml"/>
     </email_template_test_handle>
 </layout>

@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adminhtml_Block_Template
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Magento_Adminhtml_Block_Template
 {
     /**
      * Unique Hash Id

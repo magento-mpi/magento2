@@ -39,7 +39,7 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
 
             }
             $this->setValue($value);
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
                 Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please correct the value for "%s" parameter, otherwise we\'ll use the saved value instead.', $parameter)
             );
         }

@@ -180,12 +180,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Return quote instance depending on current area
      *
-     * @return Mage_Adminhtml_Model_Session_Quote|Mage_Sales_Model_Quote
+     * @return Magento_Adminhtml_Model_Session_Quote|Mage_Sales_Model_Quote
      */
     public function getActualQuote()
     {
         if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
+            return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
                 $customer = Mage::helper('Mage_Customer_Helper_Data')->getCustomer();
@@ -293,7 +293,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      *
      * @param   mixed $product
      * @param   array|float|int|Magento_Object $config
-     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
     {
@@ -316,7 +316,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%s".', $productId)
+                    Mage::helper('Magento_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%s".', $productId)
                 );
             }
         }

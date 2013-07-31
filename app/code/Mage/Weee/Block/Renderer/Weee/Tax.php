@@ -12,10 +12,10 @@
  * Adminhtml weee tax item renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget implements Magento_Data_Form_Element_Renderer_Interface
+class Mage_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widget implements Magento_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
     protected $_countries = null;
@@ -40,7 +40,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     {
         $this->addChild(
             'add_button',
-            'Mage_Adminhtml_Block_Widget_Button',
+            'Magento_Adminhtml_Block_Widget_Button',
             array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tax'),
                 'data_attribute' => array('action' => 'add-fpt-item'),
@@ -49,7 +49,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         );
         $this->addChild(
             'delete_button',
-            'Mage_Adminhtml_Block_Widget_Button',
+            'Magento_Adminhtml_Block_Widget_Button',
             array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Tax'),
                 'data_attribute' => array('action' => 'delete-fpt-item'),

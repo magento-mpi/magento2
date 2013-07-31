@@ -15,7 +15,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends Mage_Adminhtml_Block_Widget
+class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends Magento_Adminhtml_Block_Widget
 {
     /**
      * Form element
@@ -108,20 +108,20 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
 
     protected function _prepareLayout()
     {
-        $this->addChild('add_selection_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_selection_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'id'    => $this->getFieldId() . '_{{index}}_add_button',
             'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Add Products to Option'),
             'class' => 'add add-selection'
         ));
 
-        $this->addChild('close_search_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('close_search_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'id'    => $this->getFieldId().'_{{index}}_close_button',
             'label'     => Mage::helper('Mage_Bundle_Helper_Data')->__('Close'),
             'on_click'   => 'bSelection.closeSearch(event)',
             'class' => 'back no-display'
         ));
 
-        $this->addChild('option_delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('option_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Option'),
             'class' => 'action-delete',
             'on_click' => 'bOption.remove(event)'
@@ -203,7 +203,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
 
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_type',
                 'class' => 'select select-product-option-type required-option-select',
@@ -217,7 +217,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
 
     public function getRequireSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_required',
                 'class' => 'select'

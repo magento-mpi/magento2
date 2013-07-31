@@ -16,7 +16,7 @@
  * @name       Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Types
  * @author     Magento Core Team <core@magentocommerce.com>
 */
-class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Types extends Mage_Adminhtml_Controller_Action
+class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Types extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Dispatches controller_action_postdispatch_adminhtml Event (as not Adminhtml router)
@@ -56,8 +56,8 @@ class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Types extends Mage
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_GoogleShopping::catalog_googleshopping_types')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'));
+            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Google Content'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Google Content'));
         return $this;
     }
 
@@ -93,7 +93,7 @@ class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Types extends Mage
             $this->_title($this->__('New Google Content Attribute Mapping'));
 
             $this->_initAction()
-                ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New attribute set mapping'))
+                ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('New attribute set mapping'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('New attribute set mapping'))
                 ->_addContent($this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Edit'))
                 ->renderLayout();
         } catch (Exception $e) {
@@ -181,14 +181,14 @@ class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Types extends Mage
                 }
             }
 
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The attribute mapping has been saved.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addSuccess(Mage::helper('Mage_GoogleShopping_Helper_Category')->getMessage());
             }
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't save Attribute Set Mapping."));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("We can't save Attribute Set Mapping."));
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }

@@ -12,7 +12,7 @@
  * Adminhtml block for fieldset of bundle product
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle

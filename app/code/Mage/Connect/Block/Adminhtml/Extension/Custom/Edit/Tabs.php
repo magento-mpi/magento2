@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
 {
     /**
     * Constructor

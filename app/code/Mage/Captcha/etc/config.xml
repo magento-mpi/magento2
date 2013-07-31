@@ -17,7 +17,7 @@
             <depends>
                 <Mage_Customer />
                 <Mage_Checkout />
-                <Mage_Adminhtml />
+                <Magento_Adminhtml />
             </depends>
         </Mage_Captcha>
     </modules>

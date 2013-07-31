@@ -16,7 +16,7 @@
  * @name       Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Items
  * @author     Magento Core Team <core@magentocommerce.com>
 */
-class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends Mage_Adminhtml_Controller_Action
+class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Initialize general settings for action
@@ -27,8 +27,8 @@ class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends Mage
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_GoogleShopping::catalog_googleshopping_items')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Google Content'));
+            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Google Content'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Google Content'));
         return $this;
     }
 

@@ -19,7 +19,7 @@ if ($attribute) {
         'input' => 'categories',
         'group' => 'General Information',
         'backend_model' => 'Mage_Catalog_Model_Product_Attribute_Backend_Category',
-        'frontend_input_renderer' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category',
+        'frontend_input_renderer' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category',
     );
     foreach ($properties as $key => $value) {
         $this->updateAttribute(

@@ -48,9 +48,9 @@ class Saas_Downloadable_Model_Limitation_Specification_Backend_ReportTest extend
     public function dataProviderForIsSatisfiedBy()
     {
         return array(
-            array('Mage_Adminhtml', 'unknown', 'unknown'),
-            array('Mage_Adminhtml', 'report_product', 'unknown'),
-            array('Mage_Adminhtml', 'unknown', 'downloads'),
+            array('Magento_Adminhtml', 'unknown', 'unknown'),
+            array('Magento_Adminhtml', 'report_product', 'unknown'),
+            array('Magento_Adminhtml', 'unknown', 'downloads'),
             array('unknown', 'report_product', 'unknown'),
             array('unknown', 'report_product', 'downloads'),
             array('unknown', 'unknown', 'downloads'),
@@ -65,7 +65,7 @@ class Saas_Downloadable_Model_Limitation_Specification_Backend_ReportTest extend
     public function testIsNotSatisfied($action)
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Adminhtml'));
+            ->will($this->returnValue('Magento_Adminhtml'));
         $this->_requestMock->expects($this->any())->method('getControllerName')
             ->will($this->returnValue('report_product'));
         $this->_requestMock->expects($this->any())->method('getActionName')

@@ -48,7 +48,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="link">
                         <arguments>
                             <header translate="true" module="Mage_Sitemap">Link for Google</header>
-                            <renderer>Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link</renderer>
+                            <renderer>Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link</renderer>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_time">
@@ -74,7 +74,7 @@
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <width>100px</width>
-                            <renderer>Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Action</renderer>
+                            <renderer>Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Action</renderer>
                         </arguments>
                     </block>
                 </block>

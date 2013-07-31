@@ -32,7 +32,7 @@ class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNotEmpty($this->_block->getSelectedResources());
         $this->assertContains(
-            'Mage_Adminhtml::all',
+            'Magento_Adminhtml::all',
             $this->_block->getSelectedResources()
         );
     }

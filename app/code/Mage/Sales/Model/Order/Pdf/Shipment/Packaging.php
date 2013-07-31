@@ -80,7 +80,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
         if ($this->getPackageShippingBlock()) {
             $packaging = $this->getPackageShippingBlock();
         } else {
-            $packaging = Mage::getBlockSingleton('Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging');
+            $packaging = Mage::getBlockSingleton('Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging');
         }
         $packages = $packaging->getPackages();
 

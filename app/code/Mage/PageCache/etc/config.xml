@@ -90,7 +90,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_PageCache before="Mage_Adminhtml">Mage_PageCache_Adminhtml</Mage_PageCache>
+                        <Mage_PageCache before="Magento_Adminhtml">Mage_PageCache_Adminhtml</Mage_PageCache>
                     </modules>
                 </args>
             </adminhtml>

@@ -15,7 +15,7 @@
  * @package     Mage_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Selection extends Mage_Adminhtml_Controller_Action
+class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Selection extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Search result grid with available products for Google Content

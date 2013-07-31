@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
+                <Magento_Adminhtml/>
                 <Mage_Sales/>
             </depends>
         </Enterprise_AdminGws>
@@ -499,25 +499,25 @@
                     <adminhtml__rma_item_attribute__delete>validateRmaAttributeDeleteAction</adminhtml__rma_item_attribute__delete>
                 </controller_predispatch>
                 <block_html_before>
-                    <mage_adminhtml_block_customer>widgetCustomerGridContainer</mage_adminhtml_block_customer>
-                    <mage_adminhtml_block_system_store_store>widgetManageStores</mage_adminhtml_block_system_store_store>
-                    <mage_adminhtml_block_catalog_product>widgetProductGridContainer</mage_adminhtml_block_catalog_product>
+                    <magento_adminhtml_block_customer>widgetCustomerGridContainer</magento_adminhtml_block_customer>
+                    <magento_adminhtml_block_system_store_store>widgetManageStores</magento_adminhtml_block_system_store_store>
+                    <magento_adminhtml_block_catalog_product>widgetProductGridContainer</magento_adminhtml_block_catalog_product>
                     <enterprise_catalogEvent_block_adminhtml_event>widgetCatalogEventGridContainer</enterprise_catalogEvent_block_adminhtml_event>
                     <enterprise_catalogEvent_block_adminhtml_event>removeCatalogEventControlButtons</enterprise_catalogEvent_block_adminhtml_event>
                     <enterprise_catalogEvent_block_adminhtml_event>restrictCatalogEventEditForm</enterprise_catalogEvent_block_adminhtml_event>
-                    <mage_adminhtml_block_catalog_product_attribute>removeCatalogProductAttributeAddButton</mage_adminhtml_block_catalog_product_attribute>
-                    <mage_adminhtml_block_catalog_product_attribute_edit>removeCatalogProductAttributeButtons</mage_adminhtml_block_catalog_product_attribute_edit>
-                    <mage_adminhtml_block_catalog_product_attribute_edit_tab_main>disableCatalogProductAttributeEditTabMainFields</mage_adminhtml_block_catalog_product_attribute_edit_tab_main>
-                    <mage_adminhtml_block_catalog_product_attribute_edit_tab_options>disableCatalogProductAttributeEditTabOptionsFields</mage_adminhtml_block_catalog_product_attribute_edit_tab_options>
-                    <mage_adminhtml_block_catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</mage_adminhtml_block_catalog_category_edit_form>
-                    <mage_adminhtml_block_newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</mage_adminhtml_block_newsletter_queue_edit_form>
-                    <mage_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>catalogProductMassUpdateWebsites</mage_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>
-                    <mage_adminhtml_block_catalog_product_grid>catalogProductPrepareMassaction</mage_adminhtml_block_catalog_product_grid>
-                    <mage_adminhtml_block_cms_page_edit>removeCmsPageButtons</mage_adminhtml_block_cms_page_edit>
-                    <mage_adminhtml_block_cms_block_edit>removeCmsBlockButtons</mage_adminhtml_block_cms_block_edit>
-                    <mage_adminhtml_block_poll_edit>removePollButtons</mage_adminhtml_block_poll_edit>
+                    <magento_adminhtml_block_catalog_product_attribute>removeCatalogProductAttributeAddButton</magento_adminhtml_block_catalog_product_attribute>
+                    <magento_adminhtml_block_catalog_product_attribute_edit>removeCatalogProductAttributeButtons</magento_adminhtml_block_catalog_product_attribute_edit>
+                    <magento_adminhtml_block_catalog_product_attribute_edit_tab_main>disableCatalogProductAttributeEditTabMainFields</magento_adminhtml_block_catalog_product_attribute_edit_tab_main>
+                    <magento_adminhtml_block_catalog_product_attribute_edit_tab_options>disableCatalogProductAttributeEditTabOptionsFields</magento_adminhtml_block_catalog_product_attribute_edit_tab_options>
+                    <magento_adminhtml_block_catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</magento_adminhtml_block_catalog_category_edit_form>
+                    <magento_adminhtml_block_newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</magento_adminhtml_block_newsletter_queue_edit_form>
+                    <magento_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>catalogProductMassUpdateWebsites</magento_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>
+                    <magento_adminhtml_block_catalog_product_grid>catalogProductPrepareMassaction</magento_adminhtml_block_catalog_product_grid>
+                    <magento_adminhtml_block_cms_page_edit>removeCmsPageButtons</magento_adminhtml_block_cms_page_edit>
+                    <magento_adminhtml_block_cms_block_edit>removeCmsBlockButtons</magento_adminhtml_block_cms_block_edit>
+                    <magento_adminhtml_block_poll_edit>removePollButtons</magento_adminhtml_block_poll_edit>
                     <enterprise_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</enterprise_reward_block_adminhtml_reward_rate_edit>
-                    <mage_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</mage_adminhtml_block_sales_order_grid>
+                    <magento_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</magento_adminhtml_block_sales_order_grid>
                     <mage_index_block_adminhtml_process_grid>removeProcessListButtons</mage_index_block_adminhtml_process_grid>
                     <mage_index_block_adminhtml_process_edit>removeProcessEditButtons</mage_index_block_adminhtml_process_edit>
                     <enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>
@@ -526,8 +526,8 @@
                     <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>
                     <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountControlButtons</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>
                     <mage_currencySymbol_block_adminhtml_system_currency>removeManageCurrencyRatesButtons</mage_currencySymbol_block_adminhtml_system_currency>
-                    <mage_adminhtml_block_system_email_template>removeEmailTemplateGridButtons</mage_adminhtml_block_system_email_template>
-                    <mage_adminhtml_block_system_email_template_edit>removeTransactionalEmailsEditButtons</mage_adminhtml_block_system_email_template_edit>
+                    <magento_adminhtml_block_system_email_template>removeEmailTemplateGridButtons</magento_adminhtml_block_system_email_template>
+                    <magento_adminhtml_block_system_email_template_edit>removeTransactionalEmailsEditButtons</magento_adminhtml_block_system_email_template_edit>
                     <enterprise_targetRule_block_adminhtml_product>readonlyTargetRuleProductAttribute</enterprise_targetRule_block_adminhtml_product>
                     <enterprise_targetRule_block_adminhtml_product>removeTargetRuleGridButtons</enterprise_targetRule_block_adminhtml_product>
                     <enterprise_targetRule_block_adminhtml_product>removeTargetRuleEditButtons</enterprise_targetRule_block_adminhtml_product>
@@ -536,26 +536,26 @@
                     <enterprise_banner_block_adminhtml_banner_edit>validateBannerPermissions</enterprise_banner_block_adminhtml_banner_edit>
                     <enterprise_cms_block_adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms_block_adminhtml_cms_hierarchy_edit>
                     <enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>
-                    <mage_adminhtml_block_customer_group>removeCustomerGroupAddButton</mage_adminhtml_block_customer_group>
-                    <mage_adminhtml_block_customer_group_edit>removeCustomerGroupControlButtons</mage_adminhtml_block_customer_group_edit>
-                    <mage_adminhtml_block_sales_transactions_detail>removeSalesTransactionControlButtons</mage_adminhtml_block_sales_transactions_detail>
-                    <mage_adminhtml_block_tax_rule>removeTaxRuleAddButton</mage_adminhtml_block_tax_rule>
-                    <mage_adminhtml_block_tax_rule_edit>removeTaxRuleControlButtons</mage_adminhtml_block_tax_rule_edit>
-                    <mage_adminhtml_block_tax_rule_edit_form>disableTaxRelatedMultiselects</mage_adminhtml_block_tax_rule_edit_form>
-                    <mage_adminhtml_block_tax_rate_toolbar_add>removeTaxRateAddButton</mage_adminhtml_block_tax_rate_toolbar_add>
-                    <mage_adminhtml_block_tax_rate_toolbar_save>removeTaxRateControlButtons</mage_adminhtml_block_tax_rate_toolbar_save>
-                    <mage_adminhtml_block_tax_rate_ImportExport>removeTaxRateImport</mage_adminhtml_block_tax_rate_ImportExport>
+                    <magento_adminhtml_block_customer_group>removeCustomerGroupAddButton</magento_adminhtml_block_customer_group>
+                    <magento_adminhtml_block_customer_group_edit>removeCustomerGroupControlButtons</magento_adminhtml_block_customer_group_edit>
+                    <magento_adminhtml_block_sales_transactions_detail>removeSalesTransactionControlButtons</magento_adminhtml_block_sales_transactions_detail>
+                    <magento_adminhtml_block_tax_rule>removeTaxRuleAddButton</magento_adminhtml_block_tax_rule>
+                    <magento_adminhtml_block_tax_rule_edit>removeTaxRuleControlButtons</magento_adminhtml_block_tax_rule_edit>
+                    <magento_adminhtml_block_tax_rule_edit_form>disableTaxRelatedMultiselects</magento_adminhtml_block_tax_rule_edit_form>
+                    <magento_adminhtml_block_tax_rate_toolbar_add>removeTaxRateAddButton</magento_adminhtml_block_tax_rate_toolbar_add>
+                    <magento_adminhtml_block_tax_rate_toolbar_save>removeTaxRateControlButtons</magento_adminhtml_block_tax_rate_toolbar_save>
+                    <magento_adminhtml_block_tax_rate_ImportExport>removeTaxRateImport</magento_adminhtml_block_tax_rate_ImportExport>
                     <enterprise_customer_block_adminhtml_customer_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute>
                     <enterprise_customer_block_adminhtml_customer_address_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute>
                     <enterprise_customer_block_adminhtml_customer_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute_edit>
                     <enterprise_customer_block_adminhtml_customer_address_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute_edit>
-                    <mage_adminhtml_block_promo_catalog>removeRuleEntityGridButtons</mage_adminhtml_block_promo_catalog>
-                    <mage_adminhtml_block_promo_quote>removeRuleEntityGridButtons</mage_adminhtml_block_promo_quote>
+                    <magento_adminhtml_block_promo_catalog>removeRuleEntityGridButtons</magento_adminhtml_block_promo_catalog>
+                    <magento_adminhtml_block_promo_quote>removeRuleEntityGridButtons</magento_adminhtml_block_promo_quote>
                     <enterprise_customerSegment_block_adminhtml_customersegment>removeRuleEntityGridButtons</enterprise_customerSegment_block_adminhtml_customersegment>
                     <enterprise_reminder_block_adminhtml_reminder>removeRuleEntityGridButtons</enterprise_reminder_block_adminhtml_reminder>
-                    <mage_adminhtml_block_promo_catalog_edit>removeRuleEntityEditButtons</mage_adminhtml_block_promo_catalog_edit>
-                    <mage_adminhtml_block_promo_quote_edit>removeRuleEntityEditButtons</mage_adminhtml_block_promo_quote_edit>
-                    <mage_adminhtml_block_rating_edit>removeRatingEditButtons</mage_adminhtml_block_rating_edit>
+                    <magento_adminhtml_block_promo_catalog_edit>removeRuleEntityEditButtons</magento_adminhtml_block_promo_catalog_edit>
+                    <magento_adminhtml_block_promo_quote_edit>removeRuleEntityEditButtons</magento_adminhtml_block_promo_quote_edit>
+                    <magento_adminhtml_block_rating_edit>removeRatingEditButtons</magento_adminhtml_block_rating_edit>
                     <enterprise_customerSegment_block_adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customerSegment_block_adminhtml_customersegment_edit>
                     <enterprise_reminder_block_adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder_block_adminhtml_reminder_edit>
                     <enterprise_rma_block_adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</enterprise_rma_block_adminhtml_rma_item_attribute_edit>

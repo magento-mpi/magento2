@@ -12,7 +12,7 @@
 <config>
     <menu>
         <add id="Mage_Reports::report" title="Reports" module="Mage_Reports" sortOrder="60" resource="Mage_Reports::report"/>
-        <add id="Mage_Reports::report_marketing" title="Marketing" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Reports::report" resource="Mage_Reports::report_marketing"/>
+        <add id="Mage_Reports::report_marketing" title="Marketing" module="Magento_Adminhtml" sortOrder="10" parent="Mage_Reports::report" resource="Mage_Reports::report_marketing"/>
         <add id="Mage_Reports::report_salesroot" title="Sales" module="Mage_Reports" sortOrder="40" parent="Mage_Reports::report" resource="Mage_Reports::salesroot"/>
         <add id="Mage_Reports::report_salesroot_sales" title="Orders" module="Mage_Reports" sortOrder="10" parent="Mage_Reports::report_salesroot" action="adminhtml/report_sales/sales" resource="Mage_Reports::salesroot_sales"/>
         <add id="Mage_Reports::report_salesroot_tax" title="Tax" module="Mage_Reports" sortOrder="20" parent="Mage_Reports::report_salesroot" action="adminhtml/report_sales/tax" resource="Mage_Reports::tax"/>

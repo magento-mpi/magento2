@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_GoogleShopping_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_GoogleShopping_Block_Adminhtml_Types_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     protected function _construct()
     {

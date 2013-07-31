@@ -14,7 +14,7 @@
  * @method Mage_Widget_Model_Widget_Instance getWidgetInstance()
  */
 class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
-    extends Mage_Adminhtml_Block_Template implements Magento_Data_Form_Element_Renderer_Interface
+    extends Magento_Adminhtml_Block_Template implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * @var Magento_Data_Form_Element_Abstract
@@ -243,7 +243,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getAddLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Add Layout Update'),
                 'onclick'   => 'WidgetInstance.addPageGroup({})',
@@ -259,7 +259,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getRemoveLayoutButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Remove Layout Update')),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',

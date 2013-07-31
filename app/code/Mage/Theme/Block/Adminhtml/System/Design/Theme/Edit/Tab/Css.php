@@ -165,7 +165,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
         /** @var $imageButton Mage_Backend_Block_Widget_Button */
-        $imageButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $imageButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
             'id'        => 'css_images_manager',
             'label'     => $this->__('Manage'),
@@ -189,7 +189,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         ));
 
         /** @var $fontButton Mage_Backend_Block_Widget_Button */
-        $fontButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $fontButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
             'id'        => 'css_fonts_manager',
             'label'     => $this->__('Manage'),

@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Controllers
  */
-class Saas_PrintedTemplate_Controller_Adminhtml_Template extends Mage_Adminhtml_Controller_Action
+class Saas_PrintedTemplate_Controller_Adminhtml_Template extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Index action

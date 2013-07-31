@@ -12,11 +12,11 @@
  * WYSIWYG widget options form
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Template
+class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Block_Template
 {
     /**
      * Chooser source URL getter
@@ -149,7 +149,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
         }
 
         $buttons = $config->getButtons();
-        $chooseButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $chooseButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setType('button')
             ->setId($chooserId . 'control')
             ->setClass('btn-chooser')

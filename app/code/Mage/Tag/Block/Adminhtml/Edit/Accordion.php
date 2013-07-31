@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Block_Adminhtml_Edit_Accordion extends Mage_Adminhtml_Block_Widget_Accordion
+class Mage_Tag_Block_Adminhtml_Edit_Accordion extends Magento_Adminhtml_Block_Widget_Accordion
 {
     /**
      * Add products and customers accordion to layout

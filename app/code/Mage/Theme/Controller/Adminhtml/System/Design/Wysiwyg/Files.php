@@ -11,7 +11,7 @@
 /**
  * Files controller
  */
-class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Mage_Adminhtml_Controller_Action
+class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Index action

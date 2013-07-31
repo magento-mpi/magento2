@@ -154,7 +154,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_Bundle before="Mage_Adminhtml">Mage_Bundle_Adminhtml</Mage_Bundle>
+                        <Mage_Bundle before="Magento_Adminhtml">Mage_Bundle_Adminhtml</Mage_Bundle>
                     </modules>
                 </args>
             </adminhtml>

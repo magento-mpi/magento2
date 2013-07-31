@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Mage_Adminhtml_Controller_Action
+class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Session name
@@ -34,22 +34,22 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Mage_Adminhtml_Con
     /**
      * Disable showing of login form
      *
-     * @see Mage_Adminhtml_Model_Observer::actionPreDispatchAdmin() method for explanation
+     * @see Magento_Adminhtml_Model_Observer::actionPreDispatchAdmin() method for explanation
      * @return void
      */
     public function preDispatch()
     {
         $this->getRequest()->setParam('forwarded', true);
 
-        // check login data before it set null in Mage_Adminhtml_Model_Observer::actionPreDispatchAdmin
+        // check login data before it set null in Magento_Adminhtml_Model_Observer::actionPreDispatchAdmin
         $loginError = $this->_checkLoginIsEmpty();
 
         parent::preDispatch();
 
         // call after parent::preDispatch(); to get session started
         if ($loginError) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                ->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please correct the user name or password.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                ->addError(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please correct the user name or password.'));
             $params = array('_query' => array('oauth_token' => $this->getRequest()->getParam('oauth_token', null)));
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);

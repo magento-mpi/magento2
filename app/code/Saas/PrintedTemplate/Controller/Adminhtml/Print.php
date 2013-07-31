@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Controllers
  */
-class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Controller_Action
+class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Print PDF for entity: invoice, creditmemo or shipment

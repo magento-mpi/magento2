@@ -12,7 +12,7 @@
  * Sales orders grid row url generator
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Grid_Row_UrlGenerator extends Mage_Backend_Model_Widget_Grid_Row_UrlGenerator

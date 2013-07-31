@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
-    extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+    extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     protected $_designCollection;
 

@@ -42,7 +42,7 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
     /**
      * Initialize message templates with translating
      *
-     * @return Mage_Adminhtml_Model_Core_File_Validator_SavePath_Available
+     * @return Magento_Adminhtml_Model_Core_File_Validator_SavePath_Available
      */
     protected function _initMessageTemplates()
     {

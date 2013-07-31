@@ -15,7 +15,7 @@
  * @package    Mage_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Mage_Adminhtml_Block_Template
+class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magento_Adminhtml_Block_Template
 {
     /**
      * Get order item
@@ -50,7 +50,7 @@ class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Mage_Adm
      */
     public function getFormHtml()
     {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form')
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form')
             ->setEntity($this->getItem())
             ->setEntityType('item')
             ->toHtml();

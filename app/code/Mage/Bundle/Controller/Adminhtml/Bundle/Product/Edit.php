@@ -15,7 +15,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Controller_Adminhtml_Bundle_Product_Edit extends Mage_Adminhtml_Controller_Catalog_Product
+class Mage_Bundle_Controller_Adminhtml_Bundle_Product_Edit extends Magento_Adminhtml_Controller_Catalog_Product
 {
     protected function _construct()
     {

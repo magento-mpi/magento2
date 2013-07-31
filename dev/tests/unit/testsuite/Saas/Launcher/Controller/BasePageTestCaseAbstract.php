@@ -76,7 +76,7 @@ abstract class Saas_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
         $this->_controller->expects($this->once())->method('renderLayout')->will($this->returnSelf());
         $this->_controller->expects($this->once())
             ->method('_setActiveMenu')
-            ->with($this->equalTo('Mage_Adminhtml::dashboard'))
+            ->with($this->equalTo('Magento_Adminhtml::dashboard'))
             ->will($this->returnSelf());
 
         $this->_controller->indexAction();

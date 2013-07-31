@@ -47,7 +47,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
         sort($modules);
 
         foreach ($modules as $moduleName) {
-            if ($moduleName === 'Mage_Adminhtml' || $moduleName === 'Mage_Backend') {
+            if ($moduleName === 'Magento_Adminhtml' || $moduleName === 'Mage_Backend') {
                 continue;
             }
             $html.= $this->_getFieldHtml($element, $moduleName);

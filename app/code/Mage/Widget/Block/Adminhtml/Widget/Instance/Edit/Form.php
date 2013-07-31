@@ -15,7 +15,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare form before rendering HTML

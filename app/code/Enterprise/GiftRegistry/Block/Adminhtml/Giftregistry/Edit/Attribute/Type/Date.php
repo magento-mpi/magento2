@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Date
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
 
     protected $_template = 'edit/type/date.phtml';
@@ -21,7 +21,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_D
      */
     public function getDateFormatSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setData(array(
                 'id'    =>  '{{prefix}}_attribute_{{id}}_date_format',
                 'class' => 'select global-scope'

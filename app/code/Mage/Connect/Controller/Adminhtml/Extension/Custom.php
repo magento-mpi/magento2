@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Controller_Adminhtml_Extension_Custom extends Mage_Adminhtml_Controller_Action
+class Mage_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Redirect to edit Extension Package action
@@ -178,6 +178,6 @@ class Mage_Connect_Controller_Adminhtml_Extension_Custom extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Adminhtml::custom');
+        return $this->_authorization->isAllowed('Magento_Adminhtml::custom');
     }
 }

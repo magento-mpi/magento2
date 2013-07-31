@@ -98,7 +98,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid extends Mage_Backend_Bl
      *
      * @param Magento_Object $row
      * @return string
-     * @see Mage_Adminhtml_Block_Widget_Grid::getRowUrl()
+     * @see Magento_Adminhtml_Block_Widget_Grid::getRowUrl()
      */
     public function getRowUrl($row)
     {

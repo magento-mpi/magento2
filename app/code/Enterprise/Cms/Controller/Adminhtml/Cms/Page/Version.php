@@ -71,7 +71,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
         $version = $this->_initVersion();
 
         if (!$version->getId()) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                 Mage::helper('Enterprise_Cms_Helper_Data')->__('We could not load the specified revision.'));
 
             $this->_redirect('*/cms_page/edit',
@@ -81,7 +81,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
 
         $page = $this->_initPage();
 
-        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
+        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $_data = $version->getData();
             $_data = array_merge($_data, $data);
@@ -121,9 +121,9 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
                 $version->save();
 
                 // display success message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have saved the version.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have saved the version.'));
                 // clear previously saved data from session
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(false);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/' . $this->getRequest()->getParam('back'),
@@ -139,9 +139,9 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData($data);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit',
                     array(
@@ -224,16 +224,16 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
             try {
                 $version->delete();
                 // display success message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have deleted the version.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have deleted the version.'));
                 $this->_redirect('*/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
             } catch (Mage_Core_Exception $e) {
                 // display error message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $error = true;
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while deleting this version.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while deleting this version.'));
                 $error = true;
             }
 
@@ -244,7 +244,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
             }
         }
         // display error message
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__("We can't find a version to delete."));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__("We can't find a version to delete."));
         // go to grid
         $this->_redirect('*/cms_page/edit', array('_current' => true));
         return $this;
@@ -279,9 +279,9 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
             try {
                 $version->save();
                 // display success message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have created the new version.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have created the new version.'));
                 // clear previously saved data from session
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(false);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
                 if (isset($data['revision_id'])) {
                     $this->_redirect('*/cms_page_revision/edit', array(
                         'page_id' => $version->getPageId(),
@@ -296,10 +296,10 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
                 return;
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 if ($this->_getRefererUrl()) {
                     // save data in session
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData($data);
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
                 }
                 // redirect to edit form
                 $this->_redirectReferer($this->getUrl('*/cms_page/edit',

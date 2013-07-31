@@ -15,7 +15,7 @@
  * @package    Enterprise_License
  */
 
-class Enterprise_License_Block_Adminhtml_Checker extends Mage_Adminhtml_Block_Template
+class Enterprise_License_Block_Adminhtml_Checker extends Magento_Adminhtml_Block_Template
 {
     /**
      * Number of days until the expiration of license.

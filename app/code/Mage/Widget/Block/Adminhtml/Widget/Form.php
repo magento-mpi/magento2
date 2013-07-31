@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Form with widget to select
@@ -94,7 +94,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Form extends Mage_Adminhtml_Block_Widge
             if ($withEmptyElement) {
                 array_unshift($result, array(
                     'type'        => '',
-                    'name'        => $this->helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --'),
+                    'name'        => $this->helper('Magento_Adminhtml_Helper_Data')->__('-- Please Select --'),
                     'description' => '',
                 ));
             }

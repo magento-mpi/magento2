@@ -15,8 +15,8 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Banner helper
@@ -122,7 +122,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Prepare Banners Content Tab form, define Editor settings
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Magento_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {

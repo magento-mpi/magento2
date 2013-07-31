@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends Mage_Adminhtml_Controller_Action
+class Enterprise_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends Magento_Adminhtml_Controller_Action
 {
     protected function _initEntity($requestParam = 'id')
     {
@@ -55,13 +55,13 @@ class Enterprise_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends
 
             $this->loadLayout()->renderLayout();
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/customer/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
                 'active_tab' => 'giftregistry'
             ));
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
                 ->addError($this->__('Something went wrong while editing the gift registry.'));
             Mage::logException($e);
             $this->_redirect('*/customer/edit', array(
@@ -81,21 +81,21 @@ class Enterprise_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends
             try {
                 $skippedItems = $model->addQuoteItems($quoteIds);
                 if (count($quoteIds) - $skippedItems > 0) {
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                         $this->__('Shopping cart items have been added to gift registry.')
                     );
                 }
                 if ($skippedItems) {
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
                         $this->__('Virtual, Downloadable, and virtual Gift Card products cannot be added to gift registries.')
                     );
                 }
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addError($this->__('Failed to add shopping cart items to gift registry.'));
                 Mage::logException($e);
             }
@@ -130,16 +130,16 @@ class Enterprise_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends
                     }
                 }
                 if ($updatedCount) {
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                         $this->__('You updated this gift registry.')
                     );
                 }
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $entity->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We couldn't update these gift registry items."));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__("We couldn't update these gift registry items."));
                 Mage::logException($e);
             }
         }
@@ -211,16 +211,16 @@ class Enterprise_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends
             $model = $this->_initEntity();
             $customerId = $model->getCustomerId();
             $model->delete();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                 $this->__('You deleted this gift registry entity.')
             );
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We couldn't delete this gift registry entity."));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__("We couldn't delete this gift registry entity."));
             Mage::logException($e);
         }
         $this->_redirect('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));

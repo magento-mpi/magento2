@@ -49,7 +49,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_objectFactory = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
-        $this->_controllerMock = $this->getMock('Mage_Adminhtml_Controller_Action', array(), array(), '', false);
+        $this->_controllerMock = $this->getMock('Magento_Adminhtml_Controller_Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(
             'Mage_Core_Controller_Request_Http',
             array(),

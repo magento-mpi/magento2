@@ -9,7 +9,7 @@
  */
 
 class Enterprise_Rma_Block_Adminhtml_Product_Bundle_Product
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
      * Render product name to add Configure link

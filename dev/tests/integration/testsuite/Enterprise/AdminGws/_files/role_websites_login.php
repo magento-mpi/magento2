@@ -29,7 +29,7 @@ $role->save();
 /** @var $rule Mage_User_Model_Rules */
 $rule = Mage::getModel('Mage_User_Model_Rules');
 $rule->setRoleId($role->getId())
-    ->setResources(array('Mage_Adminhtml::all'))
+    ->setResources(array('Magento_Adminhtml::all'))
     ->saveRel();
 
 $user = Mage::getModel('Mage_User_Model_User');

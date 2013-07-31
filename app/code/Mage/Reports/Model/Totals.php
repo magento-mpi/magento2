@@ -20,7 +20,7 @@ class Mage_Reports_Model_Totals
     /**
      * Retrieve count totals
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid $grid
+     * @param Magento_Adminhtml_Block_Widget_Grid $grid
      * @param string $from
      * @param string $to
      * @return Magento_Object

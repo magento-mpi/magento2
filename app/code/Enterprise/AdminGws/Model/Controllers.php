@@ -50,7 +50,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Make sure the System Configuration pages are used in proper scopes
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSystemConfig($controller)
     {
@@ -92,7 +92,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate misc catalog product requests
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProduct($controller)
     {
@@ -104,7 +104,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate catalog product edit page
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductEdit($controller)
     {
@@ -117,7 +117,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate catalog product review save, edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductReview($controller)
     {
@@ -136,7 +136,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate catalog product massStatus
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductMassActions($controller)
     {
@@ -153,7 +153,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Avoid viewing disallowed customer
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCustomerEdit($controller)
     {
@@ -166,7 +166,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Avoid viewing disallowed customer balance
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCustomerbalance()
     {
@@ -182,7 +182,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow submitting gift cards without website-level permissions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateGiftCardAccount($controller)
     {
@@ -199,7 +199,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Prevent viewing wrong categories and creation pages
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogCategories($controller)
     {
@@ -247,7 +247,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow viewing categories in disallowed scopes
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogCategoryView($controller)
     {
@@ -257,7 +257,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow submitting catalog event in wrong scope
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogEvents($controller)
     {
@@ -275,7 +275,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow viewing wrong catalog events or viewing them in disallowed scope
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogEventEdit($controller)
     {
@@ -302,7 +302,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow any creation order activity, if there is no website-level access
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderCreation($controller)
     {
@@ -320,7 +320,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      *
      * Returns false if disallowed
      *
-     * @param Mage_Adminhtml_Controller_Action $controller (first param is reserved, don't remove it)
+     * @param Magento_Adminhtml_Controller_Action $controller (first param is reserved, don't remove it)
      * @param string|array $denyActions
      * @param string $saveAction
      * @param string $idFieldName
@@ -344,7 +344,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Manage Stores pages actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSystemStore($controller)
     {
@@ -423,7 +423,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Redirect to a specific page
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     protected function _redirect($controller, $url = null)
     {
@@ -503,7 +503,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Order view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderViewAction($controller)
     {
@@ -523,7 +523,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Creditmemo view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderCreditmemoViewAction($controller)
     {
@@ -547,7 +547,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Invoice view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderInvoiceViewAction($controller)
     {
@@ -571,7 +571,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Shipment view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderShipmentViewAction($controller)
     {
@@ -595,7 +595,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Creditmemo creation actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderCreditmemoCreateAction($controller)
     {
@@ -625,7 +625,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Invoice creation actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderInvoiceCreateAction($controller)
     {
@@ -653,7 +653,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Shipment creation actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderShipmentCreateAction($controller)
     {
@@ -681,7 +681,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Order mass actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderMassAction($controller)
     {
@@ -705,7 +705,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Order edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderEditStartAction($controller)
     {
@@ -726,7 +726,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Shipment tracking actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderShipmentTrackAction($controller)
     {
@@ -747,7 +747,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Terms and Conditions management edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCheckoutAgreementEditAction($controller)
     {
@@ -770,7 +770,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate URL Rewrite Management edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateUrlRewriteEditAction($controller)
     {
@@ -790,7 +790,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Admin User management actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateAdminUserAction($controller)
     {
@@ -814,7 +814,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Admin Role management actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateAdminRoleAction($controller)
     {
@@ -837,7 +837,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Attribute management actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductAttributeActions($controller)
     {
@@ -851,7 +851,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Attribute creation action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -868,7 +868,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Products in Catalog Product MassDelete Action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function catalogProductMassDeleteAction($controller)
     {
@@ -891,7 +891,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
             $message = Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to delete this item(s): %s.', $productNotExclusiveIds);
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($message);
         }
 
         $this->_request->setParam('product', $productExclusiveIds);
@@ -901,7 +901,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Attribute set creation, deletion and saving actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -939,7 +939,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Block index actions for all GWS limited users.
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool
      */
     public function blockIndexAction($controller)
@@ -951,7 +951,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate misc Manage Currency Rates requests
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -968,7 +968,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate misc Transactional Emails
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1007,7 +1007,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Giftregistry actions : edit, add, share, delete
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1030,7 +1030,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate customer attribute actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool
      */
     public function validateCustomerAttributeActions($controller)
@@ -1050,7 +1050,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Deny certain actions at rule entity in disallowed scopes
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1139,7 +1139,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate applying catalog rules action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1154,7 +1154,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      *
      * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1168,7 +1168,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      *
      * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @param Mage_Core_Model_Abstract $model
      *
      * @return bool
@@ -1181,7 +1181,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Promo catalog index action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return Enterprise_AdminGws_Model_Controllers
      */
     public function promoCatalogIndexAction($controller)
@@ -1195,7 +1195,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Block editing of RMA attributes on disallowed websites
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool|void
      */
     public function validateRmaAttributeEditAction($controller)
@@ -1245,7 +1245,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Block deleting of options of attributes for all GWS enabled users
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool
      */
     public function validateRmaAttributeSaveAction($controller)

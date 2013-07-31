@@ -48,7 +48,7 @@ class Mage_Backend_Controller_Adminhtml_System_Config extends Mage_Backend_Contr
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('Mage_Adminhtml::system_config');
+        $this->_setActiveMenu('Magento_Adminhtml::system_config');
         $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
@@ -82,8 +82,8 @@ class Mage_Backend_Controller_Adminhtml_System_Config extends Mage_Backend_Contr
     public function exportTableratesAction()
     {
         $fileName   = 'tablerates.csv';
-        /** @var $gridBlock Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
-        $gridBlock  = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
+        /** @var $gridBlock Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
+        $gridBlock  = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
         $website    = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');

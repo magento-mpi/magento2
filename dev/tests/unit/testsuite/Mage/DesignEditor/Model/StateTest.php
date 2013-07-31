@@ -238,7 +238,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->method('createLayout')
             ->with(array('area' => self::AREA_CODE), self::LAYOUT_NAVIGATION_CLASS_NAME);
 
-        $controller = $this->getMock('Mage_Adminhtml_Controller_Action', array(), array(), '', false);
+        $controller = $this->getMock('Magento_Adminhtml_Controller_Action', array(), array(), '', false);
 
         $this->assertNull($this->_model->update(self::AREA_CODE, $request, $controller));
     }

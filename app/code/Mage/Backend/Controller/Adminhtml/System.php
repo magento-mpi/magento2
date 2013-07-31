@@ -20,7 +20,7 @@ class Mage_Backend_Controller_Adminhtml_System extends Mage_Backend_Controller_A
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Adminhtml::system');
+        $this->_setActiveMenu('Magento_Adminhtml::system');
         $this->_addBreadcrumb(
             $this->_helper->__('System'),
             $this->_helper->__('System')
@@ -39,6 +39,6 @@ class Mage_Backend_Controller_Adminhtml_System extends Mage_Backend_Controller_A
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Adminhtml::system');
+        return $this->_authorization->isAllowed('Magento_Adminhtml::system');
     }
 }

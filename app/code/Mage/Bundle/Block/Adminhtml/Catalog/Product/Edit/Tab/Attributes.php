@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
-    extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
+    extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
 {
     /**
      * Prepare attributes form of bundle product
@@ -100,7 +100,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $tier_price = $this->getForm()->getElement('tier_price');
         if ($tier_price) {
             $tier_price->setRenderer(
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier')
+                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier')
                     ->setPriceColumnHeader(Mage::helper('Mage_Bundle_Helper_Data')->__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-number-range number-range-0.00-100.00')
             );
@@ -109,7 +109,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         $groupPrice = $this->getForm()->getElement('group_price');
         if ($groupPrice) {
             $groupPrice->setRenderer(
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group')
+                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group')
                     ->setPriceColumnHeader(Mage::helper('Mage_Bundle_Helper_Data')->__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-number-range number-range-0.00-100.00')
             );

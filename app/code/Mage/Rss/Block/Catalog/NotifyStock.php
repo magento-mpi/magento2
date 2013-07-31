@@ -80,7 +80,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Core_Block_Abstract
     {
         $product = $args['product'];
         $product->setData($args['row']);
-        $url = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/edit/',
+        $url = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/edit/',
             array('id' => $product->getId(), '_secure' => true, '_nosecret' => true));
         $qty = 1 * $product->getQty();
         $description = Mage::helper('Mage_Rss_Helper_Data')->__('%s has reached a quantity of %s.', $product->getName(), $qty);

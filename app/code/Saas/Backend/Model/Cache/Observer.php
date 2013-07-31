@@ -37,7 +37,7 @@ class Saas_Backend_Model_Cache_Observer
      */
     public function disableAdminhtmlCacheController(Magento_Event_Observer $observer)
     {
-        if ($this->_request->getControllerModule() == 'Mage_Adminhtml'
+        if ($this->_request->getControllerModule() == 'Magento_Adminhtml'
             && $this->_request->getControllerName() == 'cache'
         ) {
             $this->_saasHelper->customizeNoRoutForward($this->_request);

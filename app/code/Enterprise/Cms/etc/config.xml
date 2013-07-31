@@ -15,7 +15,7 @@
             <version>1.11.0.4</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml />
+                <Magento_Adminhtml />
                 <Mage_Cms />
                 <Mage_Widget />
             </depends>
@@ -172,7 +172,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_cms before="Mage_Adminhtml">Enterprise_Cms_Adminhtml</enterprise_cms>
+                        <enterprise_cms before="Magento_Adminhtml">Enterprise_Cms_Adminhtml</enterprise_cms>
                     </modules>
                 </args>
             </adminhtml>
@@ -190,4 +190,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

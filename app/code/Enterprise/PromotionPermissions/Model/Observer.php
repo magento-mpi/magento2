@@ -106,7 +106,7 @@ class Enterprise_PromotionPermissions_Model_Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block Mage_Adminhtml_Block_Template */
+        /** @var $block Magento_Adminhtml_Block_Template */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -228,9 +228,9 @@ class Enterprise_PromotionPermissions_Model_Observer
 
         if (in_array($controllerActionName, $forbiddenActionNames)
             && ((!$this->_canEditSalesRules
-            && $controllerAction instanceof Mage_Adminhtml_Controller_Promo_Quote)
+            && $controllerAction instanceof Magento_Adminhtml_Controller_Promo_Quote)
             || (!$this->_canEditCatalogRules
-            && $controllerAction instanceof Mage_Adminhtml_Controller_Promo_Catalog)
+            && $controllerAction instanceof Magento_Adminhtml_Controller_Promo_Catalog)
             || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
             && $controllerAction instanceof Enterprise_Reminder_Controller_Adminhtml_Reminder))
         ) {

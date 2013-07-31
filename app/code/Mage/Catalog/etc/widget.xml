@@ -130,7 +130,7 @@
                 <label>Product</label>
                 <type>label</type>
                 <helper_block>
-                    <type>Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser</type>
+                    <type>Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Product...</open>
@@ -181,7 +181,7 @@
                 <label>Category</label>
                 <type>label</type>
                 <helper_block>
-                    <type>Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser</type>
+                    <type>Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Category...</open>

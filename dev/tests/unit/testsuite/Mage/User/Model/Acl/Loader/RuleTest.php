@@ -29,7 +29,7 @@ class Mage_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_resourceMock = $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false);
-        $this->_rootResourceMock = new Mage_Core_Model_Acl_RootResource('Mage_Adminhtml::all');
+        $this->_rootResourceMock = new Mage_Core_Model_Acl_RootResource('Magento_Adminhtml::all');
         $this->_model = new Mage_User_Model_Acl_Loader_Rule(
             $this->_rootResourceMock,
             $this->_resourceMock
@@ -52,7 +52,12 @@ class Mage_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
         $adapterMock->expects($this->once())
             ->method('fetchAll')
             ->will($this->returnValue(array(
-            array('role_id' => 1, 'role_type' => 'G', 'resource_id' => 'Mage_Adminhtml::all', 'permission' => 'allow'),
+            array(
+                'role_id' => 1,
+                'role_type' => 'G',
+                'resource_id' => 'Magento_Adminhtml::all',
+                'permission' => 'allow'
+            ),
             array('role_id' => 2, 'role_type' => 'U', 'resource_id' => 1, 'permission' => 'allow'),
             array('role_id' => 3, 'role_type' => 'U', 'resource_id' => 1, 'permission' => 'deny'),
         )));
@@ -64,7 +69,7 @@ class Mage_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
         $aclMock = $this->getMock('Magento_Acl');
         $aclMock->expects($this->any())->method('has')->will($this->returnValue(true));
         $aclMock->expects($this->at(1))->method('allow')->with('G1', null, null);
-        $aclMock->expects($this->at(2))->method('allow')->with('G1', 'Mage_Adminhtml::all', null);
+        $aclMock->expects($this->at(2))->method('allow')->with('G1', 'Magento_Adminhtml::all', null);
         $aclMock->expects($this->at(4))->method('allow')->with('U2', 1, null);
         $aclMock->expects($this->at(6))->method('deny')->with('U3', 1, null);
 

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegment
-    extends Mage_Adminhtml_Controller_Action
+    extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Admin session
@@ -74,7 +74,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_Customerse
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                     $this->__('You requested the wrong customer segment.')
                 );
             }
@@ -145,7 +145,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_Customerse
                     $viewModeLabel = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getViewModeLabel(
                         $this->_getAdminSession()->getViewMode()
                     );
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
                         $this->__('Viewing combined "%s" report from segments: %s.', $viewModeLabel, implode(', ', $segments))
                     );
                 }
@@ -171,13 +171,13 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_Customerse
                 if ($segment->getApplyTo() != Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
                     $segment->matchCustomers();
                 }
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                     $this->__('Customer Segment data has been refreshed.')
                 );
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
             } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/detail', array('_current' => true));

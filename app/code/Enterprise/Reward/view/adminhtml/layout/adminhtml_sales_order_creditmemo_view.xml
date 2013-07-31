@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_sales_order_creditmemo_view>
         <reference name="creditmemo_totals">
-            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="reward.points.refunded" template="Enterprise_Reward::sales/order/refunded.phtml">
+            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward.points.refunded" template="Enterprise_Reward::sales/order/refunded.phtml">
                 <action method="setDisplayArea">
                     <area>footer</area>
                 </action>

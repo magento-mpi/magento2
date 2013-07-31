@@ -80,7 +80,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_Pbridge after="Mage_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
+                        <Enterprise_Pbridge after="Magento_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
                     </modules>
                 </args>
             </adminhtml>

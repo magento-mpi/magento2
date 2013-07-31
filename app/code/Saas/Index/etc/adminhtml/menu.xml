@@ -10,6 +10,6 @@
 <config>
     <menu>
         <remove id="Mage_Index::system_index"/>
-        <add id="Saas_Index::system_index" title="Search Reindexing" module="Saas_Index" sortOrder="92" parent="Mage_Adminhtml::system_tools" action="adminhtml/process/list" resource="Saas_Index::index"/>
+        <add id="Saas_Index::system_index" title="Search Reindexing" module="Saas_Index" sortOrder="92" parent="Magento_Adminhtml::system_tools" action="adminhtml/process/list" resource="Saas_Index::index"/>
     </menu>
 </config>

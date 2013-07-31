@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected $_currentTagModel;
 
@@ -127,7 +127,7 @@ class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Prepeare columns for grid
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

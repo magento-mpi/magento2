@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_Adminhtml_Block_Catalog_Category_Abstract
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_Adminhtml_Block_Catalog_Category_Abstract
 {
     protected $_template = 'categories.phtml';
 

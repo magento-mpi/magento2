@@ -15,7 +15,7 @@
  */
 class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
     extends Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Columns, that should be removed from grid
@@ -101,13 +101,13 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
             ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);
-        return Mage_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        return Magento_Adminhtml_Block_Widget_Grid::_prepareCollection();
     }
 
     /**
      * Remove some columns and make other not sortable
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

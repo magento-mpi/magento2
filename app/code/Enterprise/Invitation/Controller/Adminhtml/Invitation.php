@@ -15,7 +15,7 @@
  * @package    Enterprise_Invitation
  */
 
-class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Mage_Adminhtml_Controller_Action
+class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Invitation list

@@ -31,7 +31,7 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract
         Mage_Sales_Model_Resource_Report $resource
     ) {
         parent::__construct($fetchStrategy, $resource);
-        $this->setModel('Mage_Adminhtml_Model_Report_Item');
+        $this->setModel('Magento_Adminhtml_Model_Report_Item');
     }
 
     /**

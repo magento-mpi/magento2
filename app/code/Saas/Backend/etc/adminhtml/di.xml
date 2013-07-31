@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Mage_AdminNotification_Model_System_Message_CacheOutdated" type="Saas_Backend_Model_System_Message_CacheOutdated" />
-    <preference for="Mage_Adminhtml_Block_System_Store_Edit" type="Saas_Backend_Block_Adminhtml_System_Store_Edit" />
+    <preference for="Magento_Adminhtml_Block_System_Store_Edit" type="Saas_Backend_Block_Adminhtml_System_Store_Edit" />
     <type name="Saas_Backend_Model_Config_Source_Locale">
         <param name="allowedLocaleCodes">
             <value>

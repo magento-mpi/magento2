@@ -190,7 +190,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
          * Start temporary block
          * TODO: Sprint#27. Delete after adminhtml refactoring
          */
-        if ($realModule == 'Mage_Adminhtml') {
+        if ($realModule == 'Magento_Adminhtml') {
             return parent::getControllerClassName($realModule, $controller);
         }
         /**

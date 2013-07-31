@@ -15,7 +15,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Internal constructor

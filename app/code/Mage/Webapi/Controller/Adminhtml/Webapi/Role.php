@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Adminhtml_Webapi_Role extends Mage_Adminhtml_Controller_Action
+class Mage_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Init.

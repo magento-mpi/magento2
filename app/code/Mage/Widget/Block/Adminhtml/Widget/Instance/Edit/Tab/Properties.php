@@ -17,7 +17,7 @@
  */
 class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
     extends Mage_Widget_Block_Adminhtml_Widget_Options
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Prepare label for tab

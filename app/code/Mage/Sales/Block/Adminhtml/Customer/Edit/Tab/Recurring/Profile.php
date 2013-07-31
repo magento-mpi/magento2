@@ -15,7 +15,7 @@
  */
 class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     extends Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Disable filters and paging
@@ -81,7 +81,7 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
             $collection->setOrder('profile_id', 'desc');
         }
         $this->setCollection($collection);
-        return Mage_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        return Magento_Adminhtml_Block_Widget_Grid::_prepareCollection();
     }
 
     /**

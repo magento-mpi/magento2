@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set default sort

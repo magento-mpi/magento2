@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Return current gift registry type instance

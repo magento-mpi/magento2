@@ -101,7 +101,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
 
         Mage::register('use_wrapper', false);
         $tabAttributesBlock = $this->getLayout()->createBlock(
-            'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes',
+            'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes',
             'product_tabs_attributes_tab'
         );
         $htmlContent = '';

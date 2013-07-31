@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Limitation_Mage_Adminhtml_Controller_System_StoreTest extends Mage_Backend_Utility_Controller
+class Saas_Limitation_Magento_Adminhtml_Controller_System_StoreTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture limitations/website 1
