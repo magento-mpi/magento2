@@ -240,9 +240,6 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected function __()
     {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), 'Mage_DesignEditor');
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
+        return $this->_translator->translate(func_get_args());
     }
 }
