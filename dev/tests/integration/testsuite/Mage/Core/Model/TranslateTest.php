@@ -232,17 +232,11 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Mage::getModel('Mage_Core_Model_Translate_Expr', array(
-                    'text'   => 'Text with different translation on different modules',
-                    'module' => 'Mage_Core'
-                )),
+                'Text with different translation on different modules',
                 'Text translation by Mage_Core module in en_UK'
             ),
             array(
-                Mage::getModel('Mage_Core_Model_Translate_Expr', array(
-                    'text'   => 'Original value for Mage_Core module',
-                    'module' => 'Mage_Core'
-                )),
+                'Original value for Mage_Core module',
                 'Translated value for Mage_Core module in en_AU'
             ),
         );
