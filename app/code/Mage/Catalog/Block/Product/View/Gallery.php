@@ -15,15 +15,8 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_View_Abstract
+class Mage_Catalog_Block_Product_View_Gallery extends Mage_Catalog_Block_Product_View_Abstract
 {
-    /**
-     * Flag, that defines whether gallery is disabled
-     *
-     * @var boolean
-     */
-    protected $_isGalleryDisabled;
-
     /**
      * Retrieve list of gallery images
      *
@@ -31,11 +24,7 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
      */
     public function getGalleryImages()
     {
-        if ($this->_isGalleryDisabled) {
-            return array();
-        }
-        $collection = $this->getProduct()->getMediaGalleryImages();
-        return $collection;
+        return $this->getProduct()->getMediaGalleryImages();
     }
 
     /**
@@ -51,13 +40,5 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
             $params['image'] = $image->getValueId();
         }
         return $this->getUrl('catalog/product/gallery', $params);
-    }
-
-    /**
-     * Disable gallery
-     */
-    public function disableGallery()
-    {
-        $this->_isGalleryDisabled = true;
     }
 }

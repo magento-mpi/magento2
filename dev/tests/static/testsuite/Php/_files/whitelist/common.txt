@@ -25,6 +25,8 @@ app/code/Mage/Cardgate
 app/code/Mage/Catalog/Block/Product/Configurable
 app/code/Mage/Catalog/Block/Product/Grouped
 app/code/Mage/Catalog/Block/Product/TemplateSelector.php
+app/code/Mage/Catalog/Block/Product/View/BaseImage.php
+app/code/Mage/Catalog/Block/Product/View/Gallery.php
 app/code/Mage/Catalog/Block/Product/View/Tabs.php
 app/code/Mage/Catalog/Model/Resource/Product/Collection
 app/code/Mage/Catalog/Model/Product/Type.php

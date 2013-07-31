@@ -549,6 +549,11 @@ return array(
     array('Mage_Adminhtml_System_ConfigController', 'Mage_Backend_Controller_Adminhtml_System_Config'),
     array('Mage_Bundle_Product_EditController', 'Mage_Bundle_Controller_Adminhtml_Bundle_Selection'),
     array('Mage_Bundle_SelectionController', 'Mage_Bundle_Controller_Adminhtml_Bundle_Selection'),
+    array(
+        'Mage_Catalog_Block_Product_View_Media',
+        'Decomposed into Mage_Catalog_Block_Product_View_Gallery '
+            . 'and Mage_Catalog_Block_Product_View_BaseImage classes'
+    ),
     array('Mage_Catalog_Model_Category_Limitation'),
     array('Mage_Catalog_Model_Convert'),
     array('Mage_Catalog_Model_Convert_Adapter_Catalog'),

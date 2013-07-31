@@ -22,9 +22,7 @@
         </reference>
         <reference name="content">
             <block type="Mage_Review_Block_Product_View" name="product.info" template="Mage_Catalog::product/view.phtml">
-                <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml">
-                    <action method="disableGallery"/>
-                </block>
+                <block type="Mage_Catalog_Block_Product_View_BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml">
                     <!-- workaround: a better place for this code is in paypal.xml -->

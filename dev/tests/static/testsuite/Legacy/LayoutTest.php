@@ -212,7 +212,6 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'addToParentGroup',
             'append',
             'chooseTemplate',
-            'disableGallery',
             'initRewardType',
             'initSerializerBlock',
             'prepareAddressInfo',

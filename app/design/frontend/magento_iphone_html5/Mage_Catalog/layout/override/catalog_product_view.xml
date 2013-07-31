@@ -27,7 +27,14 @@
         <reference name="content">
             <remove name="breadcrumbs"/>
             <block type="Mage_Catalog_Block_Product_View" name="product.info" template="product/view.phtml">
-                <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
+                <container htmlTag="div" htmlClass="product-image-wrap">
+                    <container htmlTag="div" htmlClass="product-image">
+                        <container htmlTag="ul">
+                            <block type="Mage_Catalog_Block_Product_View_BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
+                            <block type="Mage_Catalog_Block_Product_View_Gallery" name="product-info-gallery" as="gallery" template="product/view/gallery.phtml"/>
+                        </container>
+                    </container>
+                </container>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
                 <block type="Mage_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
