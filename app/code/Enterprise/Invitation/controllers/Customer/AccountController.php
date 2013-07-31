@@ -58,16 +58,6 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
     }
 
     /**
-     * Hack real module name in order to make translations working correctly
-     *
-     * @return string
-     */
-    protected function _getRealModuleName()
-    {
-        return 'Mage_Customer';
-    }
-
-    /**
      * Initialize invitation from request
      *
      * @return Enterprise_Invitation_Model_Invitation

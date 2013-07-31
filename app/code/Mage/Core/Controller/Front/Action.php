@@ -50,12 +50,10 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
      * Translate a phrase
      *
      * @return string
+     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function __()
     {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
-        array_unshift($args, $expr);
-        return $this->_objectManager->get('Mage_Core_Model_Translate')->translate($args);
+        return $this->_objectManager->get('Mage_Core_Model_Translate')->translate(func_get_args());
     }
 }

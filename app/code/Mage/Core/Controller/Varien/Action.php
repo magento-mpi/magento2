@@ -883,24 +883,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     }
 
     /**
-     * Get real module name (like 'Mage_Module')
-     *
-     * @return  string
-     */
-    protected function _getRealModuleName()
-    {
-        if (empty($this->_realModuleName)) {
-            $class = get_class($this);
-            $this->_realModuleName = substr(
-                $class,
-                0,
-                strpos(strtolower($class), '_' . strtolower($this->getRequest()->getControllerName() . 'Controller'))
-            );
-        }
-        return $this->_realModuleName;
-    }
-
-    /**
      * Support for controllers rewrites
      *
      * Example of configuration:
