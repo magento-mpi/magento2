@@ -236,7 +236,6 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         $themeCodes = $themeConfig->getPackageThemeCodes($packageCode);
         $themeCode = reset($themeCodes);
 
-        $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
         $media = $themeConfig->getMedia($packageCode, $themeCode);
         $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
 
