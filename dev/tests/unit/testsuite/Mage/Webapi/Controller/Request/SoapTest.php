@@ -98,47 +98,39 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         $this->_soapRequest->getRequestedServices();
     }
 
-    public function testGetRequestedServicesSameRequestedServicesException()
+    /**
+     * @dataProvider providerTestGetRequestedServicesSuccess
+     * @param $requestParamServices
+     * @param $expectedResult
+     */
+    public function testGetRequestedServicesSuccess($requestParamServices, $expectedResult)
     {
-        $service = "testModule1AllSoapAndRest";
-        $expectedMsg = 'Service"' . $service . '" cannot be requested more than once';
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => "$service:V1,$service:V2"
+            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => $requestParamServices
         );
         $this->_soapRequest->setParams($requestParams);
-
-        $this->_helperMock->expects($this->at(0))
-            ->method('__')
-            ->with('Service "%s" cannot be requested more than once', "testModule1AllSoapAndRest")
-            ->will($this->returnValue($expectedMsg));
-
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            $expectedMsg,
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
-
-        $this->_soapRequest->getRequestedServices();
+        $this->assertEquals($expectedResult, $this->_soapRequest->getRequestedServices());
     }
 
-    public function testGetRequestedResourcesSuccess()
+    public function providerTestGetRequestedServicesSuccess()
     {
-        $serviceA = "testModule1AllSoapAndRest";
-        $serviceB = "testModule2AllSoapNoRest";
-        $requestParams = array(
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => "$serviceA:V1,$serviceB:V2"
-        );
-        $this->_soapRequest->setParams($requestParams);
-
-        $expected = array(
-            $serviceA => 'V1',
-            $serviceB => 'V2',
-        );
-        $this->assertEquals(
-            $expected,
-            $this->_soapRequest->getRequestedServices()
+        $testModule1 = 'testModule1AllSoapAndRest';
+        $testModule2 = 'testModule2AllSoapNoRest';
+        return array(
+            array(
+                "$testModule1:V1,$testModule2:V2",
+                array(
+                    $testModule1 => 'V1',
+                    $testModule2 => 'V2'
+                )
+            ),
+            array(
+                "$testModule1:V1,$testModule1:V2",
+                array(
+                    $testModule1 => 'V2',
+                )
+            )
         );
     }
 }
