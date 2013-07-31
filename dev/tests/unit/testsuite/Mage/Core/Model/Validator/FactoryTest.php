@@ -90,11 +90,6 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValidatorConfig()
     {
-        $this->_objectManager->expects($this->at(2))
-            ->method('create')
-            ->with('Mage_Core_Model_Translate_Expr')
-            ->will($this->returnValue(new Mage_Core_Model_Translate_Expr()));
-
         $factory = new Mage_Core_Model_Validator_Factory(
             $this->_objectManager,
             $this->_config,
