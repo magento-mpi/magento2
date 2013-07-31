@@ -27,6 +27,13 @@ class Integrity_ModuleTest extends PHPUnit_Framework_TestCase
     protected static $_pattern = '';
 
     /**
+     * Circular dependency errors
+     *
+     * @var array
+     */
+    protected $_circularDependencyErrors = array();
+
+    /**
      *  Define analysis rules
      */
     public static function setUpBeforeClass()
@@ -54,9 +61,6 @@ class Integrity_ModuleTest extends PHPUnit_Framework_TestCase
             }
         }
 
-        foreach (array_keys($this->_modulesDependencies) as $module) {
-            $this->_expandDependencies($module);
-        }
     }
 
     /**
@@ -74,10 +78,9 @@ class Integrity_ModuleTest extends PHPUnit_Framework_TestCase
         }
 
         $modulesCheckChain[] = $module;
-
         foreach ($this->_modulesDependencies[$module] as $dependency) {
             if (in_array($dependency, $modulesCheckChain)) {
-                throw new Exception("Circular dependency is not allowed in $module on $dependency");
+                throw new Exception("Circular dependency is not allowed in $module on $dependency", crc32($module.$dependency));
             }
 
             $mergeResult = array_unique(array_merge($this->_modulesDependencies[$module],
@@ -91,15 +94,23 @@ class Integrity_ModuleTest extends PHPUnit_Framework_TestCase
 
     /**
      * Check Magento modules structure for circular dependencies
+     * @expectedException Exception
      */
     public function testModulesDependencies()
     {
-        try {
-            $this->_buildModulesDependencies();
-        } catch (Exception $e) {
-            $this->fail($e->getMessage());
+
+        $this->_buildModulesDependencies();
+        foreach (array_keys($this->_modulesDependencies) as $module) {
+            try {
+                $this->_expandDependencies($module);
+            } catch(Exception $e) {
+                $this->_circularDependencyErrors[$e->getCode()] = $e->getMessage();
+            }
         }
 
+        if (!empty($this->_circularDependencyErrors)) {
+            $this->fail(implode(PHP_EOL, $this->_circularDependencyErrors));
+        }
     }
 
 
@@ -107,7 +118,6 @@ class Integrity_ModuleTest extends PHPUnit_Framework_TestCase
      * Check undeclared or invalid modules dependencies
      *
      * @dataProvider getModulesPhpFiles
-     * @depends testModulesDependencies
      */
     public function testPhpFilesDependencies($file)
     {
