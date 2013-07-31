@@ -2810,7 +2810,6 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('sendfriend_setup', '1.6.0.0', '1.6.0.0'),
 	('shipping_setup', '1.6.0.0', '1.6.0.0'),
 	('sitemap_setup', '1.6.0.0', '1.6.0.0'),
-	('social_facebook_setup', '1.6.0.1', '1.6.0.1'),
 	('tag_setup', '1.6.0.0', '1.6.0.0'),
 	('tax_setup', '1.6.0.5', '1.6.0.5'),
 	('usa_setup', '1.6.0.1', '1.6.0.1'),
@@ -10042,21 +10041,6 @@ CREATE TABLE IF NOT EXISTS `sitemap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='XML Sitemap';
 
 # Dumping data for table sitemap: ~0 rows (approximately)
-
-
-
-
-# Dumping structure for table social_facebook_actions
-CREATE TABLE IF NOT EXISTS `social_facebook_actions` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `facebook_id` varchar(100) NOT NULL COMMENT 'Facebook User Id',
-  `facebook_name` varchar(100) NOT NULL COMMENT 'Facebook User Name',
-  `facebook_action` varchar(100) NOT NULL COMMENT 'User Action',
-  `item_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  PRIMARY KEY (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Social Facebook Actions';
-
-# Dumping data for table social_facebook_actions: ~0 rows (approximately)
 
 
 
