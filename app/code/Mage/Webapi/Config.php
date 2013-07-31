@@ -281,8 +281,7 @@ class Mage_Webapi_Config
                     // find if method is secure, look into rest operation definition of each operation
                     // if operation is not defined, assume operation is not secure
                     $isOperationSecure = false;
-                    if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()]['secure']))
-                    {
+                    if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()]['secure'])) {
                         $secureFlagValue = $serviceData[self::KEY_OPERATIONS][$method->getName()]['secure'];
                         $isOperationSecure = (strtolower($secureFlagValue) === 'true');
                     }
