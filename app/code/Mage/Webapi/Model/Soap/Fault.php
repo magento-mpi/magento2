@@ -58,7 +58,7 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
      * @param $isDeveloperMode
      * @return string
      */
-    public function toXml($isDeveloperMode)
+    public function toXml($isDeveloperMode = false)
     {
         if ($isDeveloperMode) {
             $this->addDetails(array('ExceptionTrace' => "<![CDATA[{$this->getTraceAsString()}]]>"));
@@ -133,22 +133,22 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
      * @param string $reason Human-readable explanation of the fault
      * @param string $code SOAP fault code
      * @param string $language Reason message language
-     * @param string|array|null $details Detailed reason message(s)
+     * @param array|null $details Detailed reason message(s)
      * @return string
      */
     public function getSoapFaultMessage($reason, $code, $language, $details)
     {
-        if (is_string($details)) {
-            $detailsXml = "<env:Detail>" . htmlspecialchars($details) . "</env:Detail>";
-        } elseif (is_array($details)) {
-            $detailsXml = "<env:Detail>" . $this->_convertDetailsToXml($details) . "</env:Detail>";
+        if (is_array($details) && !empty($details)) {
+            $detailsXml = $this->_convertDetailsToXml($details);
+            $detailsXml = $detailsXml ? "<env:Detail>" . $detailsXml . "</env:Detail>" : '';
         } else {
             $detailsXml = '';
         }
+        $detailsNamespace = !empty($detailsXml) ? 'xmlns:m="http://magento.com"': '';
         $reason = htmlentities($reason);
         $message = <<<FAULT_MESSAGE
 <?xml version="1.0" encoding="utf-8" ?>
-<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" $detailsNamespace>
    <env:Body>
       <env:Fault>
          <env:Code>
