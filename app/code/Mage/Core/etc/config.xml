@@ -146,6 +146,7 @@
                 <Mage_Core_Model_DataService_ConfigInterface>Mage_Core_Model_DataService_Config</Mage_Core_Model_DataService_ConfigInterface>
                 <Mage_Core_Model_ConfigInterface>Mage_Core_Model_Config</Mage_Core_Model_ConfigInterface>
                 <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
+                <Magento_Translate_TranslateInterface>Mage_Core_Model_Translate</Magento_Translate_TranslateInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
