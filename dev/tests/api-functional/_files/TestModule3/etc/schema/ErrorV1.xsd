@@ -21,6 +21,9 @@
     <xsd:complexType name="testModule3ErrorServiceExceptionResponse">
         <xsd:sequence/>
     </xsd:complexType>
+    <xsd:complexType name="testModule3ErrorParameterizedExceptionResponse">
+        <xsd:sequence/>
+    </xsd:complexType>
     <xsd:complexType name="testModule3ErrorAuthorizationExceptionResponse">
         <xsd:sequence/>
     </xsd:complexType>

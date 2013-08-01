@@ -44,7 +44,8 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
             ),
         );
 
-        $this->_errorTest($serviceInfo, 404, 2345, 'Resource not found');
+        // Mage_Service_ResourceNotFoundException
+        $this->_errorTest($serviceInfo, Mage_Webapi_Exception::HTTP_NOT_FOUND, 2345, 'Resource not found');
     }
 
     public function testUnauthorized()
@@ -57,7 +58,9 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
             ),
         );
 
-        $this->_errorTest($serviceInfo, 401, 4567, 'Service authorization exception');
+        // Mage_Service_AuthorizationException
+        $this->_errorTest(
+            $serviceInfo, Mage_Webapi_Exception::HTTP_UNAUTHORIZED, 4567, 'Service authorization exception');
     }
 
     public function testServiceException()
@@ -70,7 +73,24 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
             ),
         );
 
-        $this->_errorTest($serviceInfo, 400, 3456, 'Generic service exception');
+        // Mage_Service_Exception
+        $this->_errorTest($serviceInfo, Mage_Webapi_Exception::HTTP_BAD_REQUEST, 3456, 'Generic service exception');
+    }
+
+    public function testServiceExceptionWithParameters()
+    {
+        $this->_markTestAsRestOnly();
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/errortest/parameterizedexception',
+                'httpMethod' => 'GET'
+            )
+        );
+
+        // Mage_Service_Exception (with parameters)
+        $this->_errorTest(
+            $serviceInfo, Mage_Webapi_Exception::HTTP_BAD_REQUEST, 1234, 'Parameterized service exception',
+            array('product', 'email'));
     }
 
     public function testOtherException()
@@ -83,10 +103,21 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
             ),
         );
 
-        $this->_errorTest($serviceInfo, 500, 5678, 'Non service exception');
+        // Something other than Mage_Service_Exception
+        $this->_errorTest(
+            $serviceInfo, Mage_Webapi_Exception::HTTP_INTERNAL_ERROR, 5678, 'Non service exception', null);
     }
 
-    protected function _errorTest ($serviceInfo, $httpStatus, $errorCode, $errorMessage)
+    /**
+     * Perform a negative REST api call test case and compare the results with expected values.
+     *
+     * @param string $serviceInfo - REST Service information (i.e. resource path and HTTP method)
+     * @param int $httpStatus - Expected HTTP status
+     * @param int $errorCode - Expected error code
+     * @param string $errorMessage - Exception error message
+     * @param array $parameters - Optional parameters array, or null if no parameters
+     */
+    protected function _errorTest ($serviceInfo, $httpStatus, $errorCode, $errorMessage, $parameters = array())
     {
         // TODO: need to get header info instead of catching the exception
         try {
@@ -97,6 +128,8 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
             $body = json_decode($e->getMessage(), true);
             $this->assertEquals($errorCode, $body['errors'][0]['code'], 'Checking body code');
             $this->assertEquals($errorMessage, $body['errors'][0]['message'], 'Checking body message');
+
+            $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
         }
     }
 }

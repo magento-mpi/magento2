@@ -24,7 +24,12 @@ class Mage_TestModule3_Service_ErrorV1 implements Mage_TestModule3_Service_Error
         throw new Mage_Service_Exception('Generic service exception', 3456);
     }
 
-	public function authorizationException()
+    public function parameterizedException()
+    {
+        throw new Mage_Service_Exception('Parameterized service exception', 1234, null, array('product', 'email'));
+    }
+
+    public function authorizationException()
     {
         throw new Mage_Service_AuthorizationException('Service authorization exception', 4567);
     }
