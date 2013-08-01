@@ -31,5 +31,6 @@
                 <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
             </block>
         </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </sales_email_order_invoice_items>
 </layout>

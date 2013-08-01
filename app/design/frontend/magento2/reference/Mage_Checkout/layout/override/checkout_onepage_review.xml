@@ -33,6 +33,7 @@
                 <block type="Mage_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
                 <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Mage_Checkout::onepage/review/button.phtml"/>
             </block>
+            <container name="additional.product.info" label="Additional Product Info"/>
         </block>
     </checkout_onepage_review>
 </layout>

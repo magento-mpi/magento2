@@ -57,5 +57,6 @@
                 <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
             </block>
         </reference>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_cart_index>
 </layout>

@@ -17,5 +17,6 @@
                 <template>email/items/shipment/default.phtml</template>
             </action>
         </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </sales_email_order_shipment_items>
 </layout>

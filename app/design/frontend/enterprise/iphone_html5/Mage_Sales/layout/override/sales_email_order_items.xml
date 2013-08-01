@@ -34,5 +34,6 @@
                 </block>
             </block>
         </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </sales_email_order_items>
 </layout>
