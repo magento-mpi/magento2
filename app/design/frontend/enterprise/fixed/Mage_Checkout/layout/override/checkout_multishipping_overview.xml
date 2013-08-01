@@ -49,6 +49,5 @@
                 <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
             </block>
         </reference>
-        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_multishipping_overview>
 </layout>

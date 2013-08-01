@@ -47,6 +47,5 @@
                 </block>
             </block>
         </reference>
-        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_multishipping_shipping>
 </layout>

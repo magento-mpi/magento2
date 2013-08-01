@@ -62,6 +62,5 @@
                 <label>Refunds</label>
             </action>
         </reference>
-        <container name="additional.product.info" label="Additional Product Info"/>
     </sales_order_creditmemo>
 </layout>
