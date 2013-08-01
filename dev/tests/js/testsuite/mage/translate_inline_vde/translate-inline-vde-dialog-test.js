@@ -68,7 +68,7 @@ TranslateInlineDialogVdeTest.prototype.testOpenAndClose = function() {
       element : jQuery('#randomElement')
     };
 
-    jQuery('#translate-dialog').translateInlineDialogVde('open', null, widget, function() { });
+    jQuery('#translate-dialog').translateInlineDialogVde('openWithWidget', null, widget, function() { });
     assertTrue(jQuery('#translate-dialog').translateInlineDialogVde('isOpen'));
 
     jQuery('#translate-dialog').translateInlineDialogVde('close');
