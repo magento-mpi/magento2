@@ -233,10 +233,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         }
 
         $themePath = implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $pathData['theme_path_pieces']);
-        $themeCode = implode(
-            Mage_Core_Model_Theme::CODE_SEPARATOR,
-            array_merge(array($pathData['area']), $pathData['theme_path_pieces'])
-        );
+        $themeCode = implode(Mage_Core_Model_Theme::CODE_SEPARATOR, $pathData['theme_path_pieces']);
         $parentPath = $parentPathPieces ? implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $parentPathPieces) : null;
 
         return array(

@@ -65,7 +65,7 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                     'parent_id'            => null,
                     'parent_theme_path'    => null,
                     'theme_path'           => 'default/default',
-                    'code'                 => 'frontend/default/default',
+                    'code'                 => 'default/default',
                     'preview_image'        => null,
                     'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
                 )
