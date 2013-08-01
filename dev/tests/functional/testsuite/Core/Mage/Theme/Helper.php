@@ -32,7 +32,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('add_new_theme');
         $this->fillThemeGeneralTab($themeData);
         if ($save) {
-            $this->clickButton('save_theme');
+            $this->saveForm('save_theme');
         }
     }
 
@@ -45,8 +45,11 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
     {
         if (isset($themeData['theme_settings'])) {
             $this->fillFieldset($themeData['theme_settings'], 'theme_settings');
+        } else {
+            $this->fail('No information about Theme Settings to fulfill');;
         }
     }
+
     /**
      * Define parameter theme_id by theme title
      *
@@ -79,6 +82,7 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
 
         return $themeLocator;
     }
+
     /**
      * Open theme.
      *
@@ -110,9 +114,8 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         if (isset($themeData['theme_settings'])) {
             $this->openTab('general');
             $this->verifyForm($themeData['theme_settings'], 'general');
-        }
-        else {
-            $this->fail('No information about Theme Settings to verify');;
+        } else {
+            $this->fail('No information about Theme Settings to verify');
         }
     }
 

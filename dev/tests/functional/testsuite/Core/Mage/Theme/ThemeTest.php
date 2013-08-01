@@ -158,7 +158,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->openTheme($searchData);
         //Verify
         $this->assertFalse($this->controlIsVisible('button', 'delete_theme',
-            'Delete button is present .but should not'));
+            'Delete button is present, but should not'));
     }
 
     /**
@@ -180,7 +180,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_theme');
         //Verify
         $this->themeHelper()->openTheme($searchData);
-        $this->assertFalse($this->controlIsPresent('dropdown', 'theme_parent'),
+        $this->assertFalse($this->controlIsVisible('dropdown', 'theme_parent'),
             'Parent Theme can be changed, but should not');
     }
 
