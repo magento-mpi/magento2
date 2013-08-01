@@ -26,6 +26,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected $_rules = array(
         'Integrity_DependencyTest_PhpRule',
+        'Integrity_DependencyTest_DbRule',
     );
 
     /**
@@ -125,6 +126,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
         $dependenciesInfo = array();
         foreach ($this->_rulesInstances as $rule) {
+            /** @var Integrity_DependencyTest_RuleInterface $rule */
             $dependenciesInfo = array_merge($dependenciesInfo,
                 $rule->getDependencyInfo($module, $fileType, $file, $contents));
         }
