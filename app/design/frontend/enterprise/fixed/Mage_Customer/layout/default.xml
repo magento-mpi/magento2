@@ -24,10 +24,5 @@
                 <text_after>.</text_after>
             </action>
         </reference>
-        <reference name="account.links">
-            <action method="removeLinkByUrl" ifconfig="enterprise_invitation/general/registration_required_invitation">
-                <url helper="Mage_Customer_Helper_Data::getRegisterUrl"/>
-            </action>
-        </reference>
     </default>
 </layout>

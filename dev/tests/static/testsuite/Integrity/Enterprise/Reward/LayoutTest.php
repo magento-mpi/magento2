@@ -28,7 +28,7 @@ class Integrity_Enterprise_Reward_LayoutTest extends PHPUnit_Framework_TestCase
         }
         if ($errors) {
             $this->fail("Invalid class declarations in {$file}. Files are not found in code pools:\n"
-                    . implode(PHP_EOL, $errors) . PHP_EOL
+                . implode(PHP_EOL, $errors) . PHP_EOL
             );
         }
     }

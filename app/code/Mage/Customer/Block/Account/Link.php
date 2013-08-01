@@ -83,6 +83,19 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
     }
 
     /**
+     * Remove link to customer registration page in the target block
+     *
+     * @param string $target
+     * @return Mage_Customer_Block_Account_Link
+     */
+    public function removeRegisterLink($target)
+    {
+        $helper = $this->_helperFactory->get('Mage_Customer_Helper_Data');
+        $this->_removeLink($target, $helper->getRegisterUrl());
+        return $this;
+    }
+
+    /**
      * Add Log In link to the target block
      *
      * @param string $target

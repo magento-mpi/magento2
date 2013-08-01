@@ -8,8 +8,48 @@
 
 class Mage_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
 {
+    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Customer_Model_Session */
+    protected $_session;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Customer_Helper_Data */
+    protected $_helper;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Page_Block_Template_Links */
+    protected $_targetBlock;
+
     /** @var Mage_Customer_Block_Account_Link */
     protected $_block;
+
+    public function setUp()
+    {
+        $this->_session = $this->getMock('Mage_Customer_Model_Session', array(), array(), '', false);
+
+        $this->_helper = $this->getMock('Mage_Customer_Helper_Data', array(), array(), '', false);
+
+        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $helperFactory->expects($this->any())
+            ->method('get')
+            ->with('Mage_Customer_Helper_Data')
+            ->will($this->returnValue($this->_helper));
+
+        $this->_targetBlock = $this->getMock('Mage_Page_Block_Template_Links', array(), array(), '', false);
+
+        $layout = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $layout->expects($this->any())
+            ->method('getBlock')
+            ->with('target_block')
+            ->will($this->returnValue($this->_targetBlock));
+
+        $context = $this->getMock('Mage_Core_Block_Context', array(), array(), '', false);
+        $context->expects($this->any())
+            ->method('getHelperFactory')
+            ->will($this->returnValue($helperFactory));
+        $context->expects($this->any())
+            ->method('getLayout')
+            ->will($this->returnValue($layout));
+
+        $this->_block = new Mage_Customer_Block_Account_Link($context, $this->_session);
+    }
 
     /**
      * @param bool $isLoggedIn
@@ -18,44 +58,20 @@ class Mage_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveAuthLink($isLoggedIn, $expectedUrlMethod)
     {
-        $session = $this->getMock('Mage_Customer_Model_Session', array(), array(), '', false);
-        $session->expects($this->once())
+        $this->_session->expects($this->once())
             ->method('isLoggedIn')
             ->will($this->returnValue($isLoggedIn));
 
-        $helper = $this->getMock('Mage_Customer_Helper_Data', array(), array(), '', false);
-        $helper->expects($this->once())
+        $this->_helper->expects($this->once())
             ->method($expectedUrlMethod)
             ->will($this->returnValue('composed_url'));
 
-        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $helperFactory->expects($this->once())
-            ->method('get')
-            ->with('Mage_Customer_Helper_Data')
-            ->will($this->returnValue($helper));
-
-        $targetBlock = $this->getMock('Mage_Page_Block_Template_Links', array(), array(), '', false);
-        $targetBlock->expects($this->once())
+        $this->_targetBlock->expects($this->once())
             ->method('removeLinkByUrl')
             ->with('composed_url');
 
-        $layout = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
-        $layout->expects($this->once())
-            ->method('getBlock')
-            ->with('target_block')
-            ->will($this->returnValue($targetBlock));
-
-        $context = $this->getMock('Mage_Core_Block_Context', array(), array(), '', false);
-        $context->expects($this->once())
-            ->method('getHelperFactory')
-            ->will($this->returnValue($helperFactory));
-        $context->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layout));
-
-        $block = new Mage_Customer_Block_Account_Link($context, $session);
-        $result = $block->removeAuthLink('target_block');
-        $this->assertSame($block, $result);
+        $result = $this->_block->removeAuthLink('target_block');
+        $this->assertSame($this->_block, $result);
     }
 
     /**
@@ -73,5 +89,19 @@ class Mage_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
                 'getLoginUrl',
             ),
         );
+    }
+
+    public function testRemoveRegisterLink()
+    {
+        $this->_helper->expects($this->once())
+            ->method('getRegisterUrl')
+            ->will($this->returnValue('register_url'));
+
+        $this->_targetBlock->expects($this->once())
+            ->method('removeLinkByUrl')
+            ->with('register_url');
+
+        $result = $this->_block->removeRegisterLink('target_block');
+        $this->assertSame($this->_block, $result);
     }
 }
