@@ -19,6 +19,7 @@ return array(
     'app/design/frontend/mage_reference/js/selectivizr-min.js',
     'app/etc/local.xml',
     'dev/build/publication/license',
+    'dev/tests/functional/fixture/_testFiles/jquery_jqzoom_css_jquery.jqzoom.css',
     'dev/tests/functional/framework/Mage/Testlink/class-IXR.php',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
