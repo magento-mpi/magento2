@@ -30,7 +30,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
     {
         Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
-        $eventCount = count($collection);
+        $eventCountBefore = count($collection);
 
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
 
@@ -43,7 +43,10 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
         );
         $this->dispatch($url);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
-        $this->assertEquals($eventCount + 1, count($collection), $action . ' event wasn\'t logged');
+
+        // Number 2 means we have "login" event logged first and then the tested one.
+        $eventCountAfter = $eventCountBefore + 2;
+        $this->assertEquals($eventCountAfter, count($collection), $action . ' event wasn\'t logged');
         $lastEvent = $collection->getLastItem();
         $this->assertEquals($action, $lastEvent['action']);
     }
@@ -55,34 +58,36 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
     {
         return array(
             array('backend/admin/user/edit/user_id/2', 'view'),
-//            array(
-//                'backend/admin/user/save', 'save',
-//                array(
-//                    'email' => 'newuser@ebay.com',
-//                    'roles[]' => 1,
-//                    'username' => 'newuser',
-//                    'password' => 'password'
-//                )
-//            ),
-//            array('backend/admin/user/delete/user_id/2', 'delete'),
-//            array('backend/admin/user_role/editrole/rid/2', 'view'),
-//            array(
-//                'backend/admin/user_role/saverole', 'save',
-//                array(
-//                    'rolename' => 'newrole2',
-//                    'gws_is_all' => '1'
-//                )
-//            ),
-//            array('backend/admin/user_role/delete/rid/2', 'delete'),
-//            array('backend/admin/tax_class/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
-//            array('backend/admin/tax_class/ajaxSave', 'save',
-//                array(
-//                    'class_id' => null,
-//                    'class_name' => 'test',
-//                    'class_type' => 'PRODUCT',
-//                    'isAjax' => true,
-//                )
-//            )
+            array(
+                'backend/admin/user/save', 'save',
+                array(
+                    'firstname' => 'firstname',
+                    'lastname'  => 'lastname',
+                    'email' => 'newuniqueuser@ebay.com',
+                    'roles[]' => 1,
+                    'username' => 'newuniqueuser',
+                    'password' => 'password123'
+                )
+            ),
+            array('backend/admin/user/delete/user_id/2', 'delete'),
+            array('backend/admin/user_role/editrole/rid/2', 'view'),
+            array(
+                'backend/admin/user_role/saverole', 'save',
+                array(
+                    'rolename' => 'newrole2',
+                    'gws_is_all' => '1'
+                )
+            ),
+            array('backend/admin/user_role/delete/rid/2', 'delete'),
+            array('backend/admin/tax_class/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
+            array('backend/admin/tax_class/ajaxSave', 'save',
+                array(
+                    'class_id' => null,
+                    'class_name' => 'test',
+                    'class_type' => 'PRODUCT',
+                    'isAjax' => true,
+                )
+            )
         );
     }
 }
