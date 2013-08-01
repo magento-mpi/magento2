@@ -69,7 +69,7 @@
                     $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
                     $textTranslations.translateInlineVde('hide');
                     dialogVde.translateInlineDialogVde(
-                        'open',
+                        'openWithWidget',
                         e,
                         widget,
                         $.proxy(widget.replaceText, widget)
@@ -85,7 +85,7 @@
                     $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
                     $imageTranslations.translateInlineImageVde('hide');
                     dialogVde.translateInlineDialogVde(
-                        'open',
+                        'openWithWidget',
                         e,
                         widget,
                         $.proxy(widget.replaceText, widget)
@@ -101,7 +101,7 @@
                     $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
                     $scriptTranslations.translateInlineScriptVde('hide');
                     dialogVde.translateInlineDialogVde(
-                        'open',
+                        'openWithWidget',
                         e,
                         widget,
                         $.proxy(widget.replaceText, widget)
