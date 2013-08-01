@@ -74,7 +74,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Not allowed parameters: param_1, param_2. Please use only "'
-                . $wsdlParam . '" and "' . $servicesParam . '".',
+            . $wsdlParam . '" and "' . $servicesParam . '".',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         /** Execute SUT. */
@@ -115,20 +115,28 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
 
     public function providerTestGetRequestedServicesSuccess()
     {
-        $testModule1 = 'testModule1AllSoapAndRest';
-        $testModule2 = 'testModule2AllSoapNoRest';
+        $testModuleA = 'testModule1AllSoapAndRestV1';
+        $testModuleB = 'testModule1AllSoapAndRestV2';
+        $testModuleC = 'testModule2AllSoapNoRestV1';
         return array(
             array(
-                "$testModule1:V1,$testModule2:V2",
+                "{$testModuleA},{$testModuleB}",
                 array(
-                    $testModule1 => 'V1',
-                    $testModule2 => 'V2'
+                    $testModuleA,
+                    $testModuleB
                 )
             ),
             array(
-                "$testModule1:V1,$testModule1:V2",
+                "{$testModuleA},{$testModuleC}",
                 array(
-                    $testModule1 => 'V2',
+                    $testModuleA,
+                    $testModuleC
+                )
+            ),
+            array(
+                "{$testModuleA}",
+                array(
+                    $testModuleA
                 )
             )
         );
