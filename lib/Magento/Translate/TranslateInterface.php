@@ -13,7 +13,8 @@ interface Magento_Translate_TranslateInterface
      * Translates the given string
      * returns the translation
      *
+     * @param array $args
      * @return string
      */
-    public function translate();
+    public function translate($args);
 }
