@@ -72,7 +72,7 @@ return array (
     'enterprise_rma_item_eav_attribute_website' => 'Enterprise_Rma',
     'enterprise_rma_item_entity' => 'Enterprise_Rma',
     'enterprise_rma_item_form_attribute' => 'Enterprise_Rma',
-    'Enterprise_rma' => 'Enterprise_Rma',
+    'enterprise_rma' => 'Enterprise_Rma',
     'enterprise_rma_grid' => 'Enterprise_Rma',
     'enterprise_rma_shipping_label' => 'Enterprise_Rma',
     'enterprise_rma_status_history' => 'Enterprise_Rma',
