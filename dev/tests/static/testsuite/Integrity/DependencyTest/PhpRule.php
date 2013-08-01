@@ -25,8 +25,8 @@ class Integrity_DependencyTest_PhpRule implements Integrity_DependencyTest_RuleI
      */
     public function __construct()
     {
-        $this->_pattern = '~[\'"\s](?<class>(?<module>(' . implode('_|', Utility_Files::init()->getNamespaces())
-            . '_)[a-zA-Z0-9]+)[a-zA-Z0-9_]+)~';
+        $this->_pattern = '~\b(?<class>(?<module>(' . implode('_|', Utility_Files::init()->getNamespaces())
+            . '_)[a-zA-Z0-9]+)[a-zA-Z0-9_]*)\b~';
     }
 
     /**
@@ -38,9 +38,9 @@ class Integrity_DependencyTest_PhpRule implements Integrity_DependencyTest_RuleI
      * @param string $contents
      * @return array
      */
-    public function getDependencyInfo($currentModule, $fileType, $file, $contents)
+    public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
-        if ($fileType != 'php') {
+        if (!in_array($fileType, array('php', 'template', 'config', 'layout'))) {
             return array();
         }
 

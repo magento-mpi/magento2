@@ -17,14 +17,21 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_modulesDependencies = array();
+    protected static $_modulesDependencies = array();
+
+    /**
+     * Corrected modules dependencies map
+     *
+     * @var array
+     */
+    protected static $_correctedModulesDependencies = array();
 
     /**
      * Rule list
      *
      * @var array
      */
-    protected $_rules = array(
+    protected static $_rules = array(
         'Integrity_DependencyTest_PhpRule',
         'Integrity_DependencyTest_DbRule',
     );
@@ -34,16 +41,16 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_rulesInstances = array();
+    protected static $_rulesInstances = array();
 
     /**
      * Sets up data
      *
      */
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->_buildModulesDependencies();
-        $this->_instantiateRules();
+        self::_buildModulesDependencies();
+        self::_instantiateRules();
     }
 
     /**
@@ -51,7 +58,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected function _buildModulesDependencies()
     {
-        $this->_modulesDependencies = array();
+        self::$_modulesDependencies = array();
 
         $configFiles = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
         foreach ($configFiles as $configFile) {
@@ -60,7 +67,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $config = simplexml_load_file($configFile);
             $nodes = $config->xpath("/config/modules/$moduleName/depends/*") ?: array();
             foreach ($nodes as $node) {
-                $this->_modulesDependencies[$moduleName][] = $node->getName();
+                /** @var SimpleXMLElement $node */
+                self::$_modulesDependencies[$moduleName][] = $node->getName();
             }
         }
     }
@@ -68,16 +76,16 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Create rules objects
      */
-    protected function _instantiateRules()
+    public static function _instantiateRules()
     {
-        $this->_rulesInstances = array();
+        self::$_rulesInstances = array();
 
-        foreach ($this->_rules as $ruleClass) {
+        foreach (self::$_rules as $ruleClass) {
             if (class_exists($ruleClass)) {
                 $rule = new $ruleClass();
                 if ($rule instanceof Integrity_DependencyTest_RuleInterface)
                 {
-                    $this->_rulesInstances[$ruleClass] = $rule;
+                    self::$_rulesInstances[$ruleClass] = $rule;
                 }
             }
         }
@@ -97,27 +105,41 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             case 'php':
                 //Removing php comments
                 $contents = preg_replace('~/\*.*?\*/~s', '', $contents);
-                $contents = preg_replace('~^\s*//.*$~s', '', $contents);
+                $contents = preg_replace('~^\s*//.*$~sm', '', $contents);
                 break;
-            case 'config':
-                break;
-            case 'layout':
+            case 'config': case 'layout':
+                //Removing xml comments
+                $contents = preg_replace('~\<!\-\-/.*?\-\-\>~s', '', $contents);
                 break;
             case 'template':
+                //Removing html
+                $contentsWithoutHtml = '';
+                preg_replace_callback(
+                    '~(<\?php\s+.*\?>)~U',
+                    function ($matches) use ($contents, &$contentsWithoutHtml) {
+                        $contentsWithoutHtml .= $matches[1];
+                        return $contents;
+                    },
+                    $contents
+                );
+                $contents = $contentsWithoutHtml;
+                //Removing php comments
+                $contents = preg_replace('~/\*.*?\*/~s', '', $contents);
+                $contents = preg_replace('~^\s*//.*$~s', '', $contents);
                 break;
         }
         return $contents;
     }
 
     /**
-     * Check undeclared or invalid modules dependencies for specified file
+     * Check undeclared modules dependencies for specified file
      *
      * @param string $fileType
      * @param string $file
      *
-     * @dataProvider getModulesFiles
+     * @dataProvider getAllFiles
      */
-    public function testFilesDependencies($fileType, $file)
+    public function testDependencies($fileType, $file)
     {
         $contents = $this->_getCleanedFileContents($fileType, $file);
 
@@ -125,14 +147,14 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         $module = $pieces[2] . '_' . $pieces[3];
 
         $dependenciesInfo = array();
-        foreach ($this->_rulesInstances as $rule) {
+        foreach (self::$_rulesInstances as $rule) {
             /** @var Integrity_DependencyTest_RuleInterface $rule */
             $dependenciesInfo = array_merge($dependenciesInfo,
                 $rule->getDependencyInfo($module, $fileType, $file, $contents));
         }
 
-        $declaredDependencies = isset($this->_modulesDependencies[$module])
-            ? $this->_modulesDependencies[$module]
+        $declaredDependencies = isset(self::$_modulesDependencies[$module])
+            ? self::$_modulesDependencies[$module]
             : array();
 
         $undeclaredDependencies = array();
@@ -141,6 +163,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             if (!in_array($dependencyInfo['module'], $declaredDependencies)) {
                 $undeclaredDependencies[] = $dependencyInfo['module'];
                 $undeclaredDependenciesInfo[] = $dependencyInfo;
+
+                if (!isset(self::$_correctedModulesDependencies[$module])) {
+                    self::$_correctedModulesDependencies[$module] = array();
+                }
+                if (!in_array($dependencyInfo['module'], self::$_correctedModulesDependencies[$module])) {
+                    self::$_correctedModulesDependencies[$module][] = $dependencyInfo['module'];
+                }
             }
         }
         $undeclaredDependencies = array_unique($undeclaredDependencies);
@@ -151,6 +180,14 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Check undeclared modules dependencies for specified file
+     */
+    public function testShowCorrectedDependencies()
+    {
+        $this->fail('Corrected modules dependencies:'
+            . var_export(self::$_correctedModulesDependencies, true));
+    }
     /**
      * Extract Magento relative filename from absolute filename
      *
@@ -182,15 +219,21 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return modules files
+     * Return all files
      *
      * @return array
      */
-    public function getModulesFiles()
+    public function getAllFiles()
     {
-        $files = $this->_prepareFiles('php', Utility_Files::init()->getPhpFiles(true, false, false, true));
+        $files = array();
+        // Get all php files
+        $files = array_merge($files,
+            $this->_prepareFiles('php', Utility_Files::init()->getPhpFiles(true, false, false, true)));
+        // Get all configuration files
         $files = array_merge($files, $this->_prepareFiles('config', Utility_Files::init()->getConfigFiles()));
+        //Get all layout updates files
         $files = array_merge($files, $this->_prepareFiles('layout', Utility_Files::init()->getLayoutFiles()));
+        // Get all template files
         $files = array_merge($files, $this->_prepareFiles('template', Utility_Files::init()->getPhtmlFiles()));
         return $files;
     }

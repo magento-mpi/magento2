@@ -27,5 +27,5 @@ interface Integrity_DependencyTest_RuleInterface
      * @param string $contents
      * @return array
      */
-    public function getDependencyInfo($currentModule, $fileType, $file, $contents);
+    public function getDependencyInfo($currentModule, $fileType, $file, &$contents);
 }
