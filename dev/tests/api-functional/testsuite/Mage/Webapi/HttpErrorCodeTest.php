@@ -82,7 +82,7 @@ class Mage_Webapi_HttpErrorCodeTest extends Magento_Test_TestCase_WebapiAbstract
         $this->_markTestAsRestOnly();
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/errortest/parameterizedexception',
+                'resourcePath' => '/V1/errortest/parameterizedserviceexception',
                 'httpMethod' => 'GET'
             )
         );

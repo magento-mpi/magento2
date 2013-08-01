@@ -12,7 +12,7 @@
         <rest-route httpMethod="GET" method="success">/success</rest-route>
         <rest-route httpMethod="GET" method="resourceNotFoundException">/notfound</rest-route>
         <rest-route httpMethod="GET" method="serviceException">/serviceexception</rest-route>
-        <rest-route httpMethod="GET" method="parameterizedException">/parameterizedexception</rest-route>
+        <rest-route httpMethod="GET" method="parameterizedServiceException">/parameterizedserviceexception</rest-route>
         <rest-route httpMethod="GET" method="authorizationException">/unauthorized</rest-route>
         <rest-route httpMethod="GET" method="otherException">/otherexception</rest-route>
     </service>

@@ -12,7 +12,8 @@ interface Mage_TestModule3_Service_ErrorInterfaceV1
     public function success();
     public function resourceNotFoundException();
     public function serviceException();
-    public function parameterizedException($params);
+    public function parameterizedServiceException($parameters);
     public function authorizationException();
+    public function webapiException();
     public function otherException();
 }

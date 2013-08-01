@@ -148,7 +148,7 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
         $reason = htmlentities($reason);
         $message = <<<FAULT_MESSAGE
 <?xml version="1.0" encoding="utf-8" ?>
-<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
    <env:Body>
       <env:Fault>
          <env:Code>
@@ -180,9 +180,9 @@ FAULT_MESSAGE;
                 continue;
             }
             if (is_string($detailValue) || is_numeric($detailValue)) {
-                $detailsXml .= "<$detailNode>" . htmlspecialchars($detailValue) . "</$detailNode>";
+                $detailsXml .= "<m:$detailNode>" . htmlspecialchars($detailValue) . "</m:$detailNode>";
             } elseif (is_array($detailValue)) {
-                $detailsXml .= "<$detailNode>" . $this->_convertDetailsToXml($detailValue) . "</$detailNode>";
+                $detailsXml .= "<m:$detailNode>" . $this->_convertDetailsToXml($detailValue) . "</m:$detailNode>";
             }
         }
         return $detailsXml;
