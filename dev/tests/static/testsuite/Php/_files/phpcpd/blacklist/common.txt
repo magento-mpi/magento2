@@ -73,7 +73,7 @@ lib/Magento/Acl
 lib/PEAR
 lib/phpseclib
 lib/Twig
-lib/Varien/Convert
+lib/Magento/Convert
 Mage/Cron/Model
 Mage/SalesRule/Model/Resource/Report/Rule
 Mage/SalesRule/Model/Quote/Nominal

@@ -16,7 +16,7 @@
  * @package    Varien_Convert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Varien_Convert_Container_Abstract
+abstract class Magento_Convert_Container_Abstract
 {
     protected $_vars;
     protected $_data;
@@ -62,7 +62,7 @@ abstract class Varien_Convert_Container_Abstract
             $data = $this->getData();
         }
         if (!is_string($data)) {
-            $this->addException("Invalid data type, expecting string.", Varien_Convert_Exception::FATAL);
+            $this->addException("Invalid data type, expecting string.", Magento_Convert_Exception::FATAL);
         }
         return true;
     }
@@ -76,7 +76,7 @@ abstract class Varien_Convert_Container_Abstract
             if (count($data)==0) {
                 return true;
             }
-            $this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
+            $this->addException("Invalid data type, expecting 2D grid array.", Magento_Convert_Exception::FATAL);
         }
         return true;
     }
@@ -96,8 +96,8 @@ abstract class Varien_Convert_Container_Abstract
 
     public function addException($error, $level=null)
     {
-        $exception = new Varien_Convert_Exception($error);
-        $exception->setLevel(!is_null($level) ? $level : Varien_Convert_Exception::NOTICE);
+        $exception = new Magento_Convert_Exception($error);
+        $exception->setLevel(!is_null($level) ? $level : Magento_Convert_Exception::NOTICE);
         $exception->setContainer($this);
         $exception->setPosition($this->getPosition());
 

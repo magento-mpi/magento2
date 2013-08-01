@@ -16,7 +16,7 @@
  * @package    Varien_Convert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Varien_Convert_Exception extends Varien_Exception
+class Magento_Convert_Exception extends Varien_Exception
 {
     const NOTICE = 'NOTICE';
     const WARNING = 'WARNING';

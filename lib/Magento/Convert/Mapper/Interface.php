@@ -16,7 +16,7 @@
  * @package    Varien_Convert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Varien_Convert_Mapper_Interface
+interface Magento_Convert_Mapper_Interface
 {
     public function map();
 }
