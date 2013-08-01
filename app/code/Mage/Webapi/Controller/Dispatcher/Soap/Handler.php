@@ -111,6 +111,15 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 $requestedService = $this->_request->getRequestedServices();
                 $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation, $requestedService);
                 $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation, $requestedService);
+
+                // check if the operation is a secure operation & whether the request was made in HTTPS
+                if ($this->_newApiConfig->isSoapOperationSecure($operation, $requestedService)
+                    && !$this->_request->isSecure()
+                ) {
+                    // TODO: Set the right error code and replace generic Exception with right exception instance
+                    throw new Mage_Webapi_Exception("Operation allowed only in HTTPS", 4000);
+                }
+
                 $service = $this->_objectManager->get($serviceId);
                    $outputData = $service->$serviceMethod($arguments);
                 if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
