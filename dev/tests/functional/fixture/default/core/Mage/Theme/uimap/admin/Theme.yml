@@ -60,11 +60,12 @@ new_theme:
                                     fields:
                                         theme_version: //input[@id='theme_version']
                                         theme_title: //input[@id='theme_title']
-                            -
-                                theme_content:
-                                    xpath: //*[@id='anchor-content']
-                                    pageelements:
-                                        page_title: //*[@class="page-title-inner"]
+            fieldsets:
+                -
+                    theme_title:
+                        xpath: //*[@id='anchor-content']
+                        pageelements:
+                            page_title: //*[@class="page-title-inner"]
         buttons: &themeButtons
             back: //button[@id='back']
             reset: //button[@id='reset']
