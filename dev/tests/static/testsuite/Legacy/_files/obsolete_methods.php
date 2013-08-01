@@ -151,6 +151,7 @@ return array(
     array('addHandle', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     array('addKey', 'Magento_DB_Adapter_Pdo_Mysql'),
     array('addObserver', 'Mage'),
+    array('addPagerLimit', 'Mage_Catalog_Block_Product_List_Toolbar'),
     array('addPageHandles', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     array('addReviewSummaryTemplate', 'Mage_Catalog_Block_Product_Abstract'),
     array('addSaleableFilterToCollection'),
