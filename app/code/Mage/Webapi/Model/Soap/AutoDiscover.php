@@ -92,8 +92,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 //        }
         $services = array();
         try {
-            foreach ($requestedServices as $serviceName => $serviceVersion) {
-                $services[$serviceName] = $this->_prepareServiceData($serviceName, $serviceVersion);
+            foreach ($requestedServices as $serviceName) {
+                $services[$serviceName] = $this->_prepareServiceData($serviceName);
             }
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
@@ -435,16 +435,15 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * Prepare data about requested service for WSDL generator.
      *
      * @param string $serviceName
-     * @param string $serviceVersion
      * @return array
      * @throws LogicException
      */
-    protected function _prepareServiceData($serviceName, $serviceVersion)
+    protected function _prepareServiceData($serviceName)
     {
-        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName => $serviceVersion));
+        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             // TODO: throw proper exception according to new error handling strategy
-            throw new LogicException("Version '$serviceVersion' of service '$serviceName' is not available.");
+            throw new LogicException("Service '$serviceName' is not available.");
         }
         /** $requestedServices is expected to contain exactly one item */
         $serviceData = reset($requestedServices);

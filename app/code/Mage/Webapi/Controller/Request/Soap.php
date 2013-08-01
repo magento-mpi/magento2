@@ -76,7 +76,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         $serviceArray = array();
         foreach ($serviceVersionArray as $service) {
             $arr = explode($serviceVerSeparator, $service);
-            $serviceArray[$arr[0]] = $arr[1];
+            $serviceArray[] = $arr[0] . $arr[1];
         }
         return $serviceArray;
     }

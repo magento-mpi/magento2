@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="testModule2SubsetRest" xmlns="testModule2SubsetRest">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="testModule2SubsetRestV1" xmlns="testModule2SubsetRestV1">
     <xsd:complexType name="ItemRequest">
         <xsd:annotation>
             <xsd:documentation/>
