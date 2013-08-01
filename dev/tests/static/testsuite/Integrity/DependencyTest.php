@@ -49,14 +49,14 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::_buildModulesDependencies();
-        self::_instantiateRules();
+        self::buildModulesDependencies();
+        self::instantiateRules();
     }
 
     /**
      * Build modules dependencies
      */
-    protected function _buildModulesDependencies()
+    public static function buildModulesDependencies()
     {
         self::$_modulesDependencies = array();
 
@@ -76,15 +76,14 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Create rules objects
      */
-    public static function _instantiateRules()
+    public static function instantiateRules()
     {
         self::$_rulesInstances = array();
 
         foreach (self::$_rules as $ruleClass) {
             if (class_exists($ruleClass)) {
                 $rule = new $ruleClass();
-                if ($rule instanceof Integrity_DependencyTest_RuleInterface)
-                {
+                if ($rule instanceof Integrity_DependencyTest_RuleInterface) {
                     self::$_rulesInstances[$ruleClass] = $rule;
                 }
             }
@@ -164,12 +163,12 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $undeclaredDependencies[] = $dependencyInfo['module'];
                 $undeclaredDependenciesInfo[] = $dependencyInfo;
 
-                if (!isset(self::$_correctedModulesDependencies[$module])) {
-                    self::$_correctedModulesDependencies[$module] = array();
-                }
-                if (!in_array($dependencyInfo['module'], self::$_correctedModulesDependencies[$module])) {
-                    self::$_correctedModulesDependencies[$module][] = $dependencyInfo['module'];
-                }
+            }
+            if (!isset(self::$_correctedModulesDependencies[$module])) {
+                self::$_correctedModulesDependencies[$module] = array();
+            }
+            if (!in_array($dependencyInfo['module'], self::$_correctedModulesDependencies[$module])) {
+                self::$_correctedModulesDependencies[$module][] = $dependencyInfo['module'];
             }
         }
         $undeclaredDependencies = array_unique($undeclaredDependencies);

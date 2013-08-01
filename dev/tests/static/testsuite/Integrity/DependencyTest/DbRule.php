@@ -58,7 +58,7 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
      * @param string $contents
      * @return array
      */
-    public function getDependencyInfo($currentModule, $fileType, $file, $contents)
+    public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
         if (!preg_match($this->_dbFilePattern, $file)) {
             return array();
