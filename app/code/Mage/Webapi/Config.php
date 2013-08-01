@@ -15,6 +15,7 @@ class Mage_Webapi_Config
     const CACHE_ID = 'webapi';
     const KEY_OPERATIONS = 'operations';
     const VERSION_NUMBER_PREFIX = 'V';
+    const SECURE_ATTR_NAME = 'isSecure';
 
     /**
      * Pattern for Web API interface name.
@@ -281,8 +282,9 @@ class Mage_Webapi_Config
                     // find if method is secure, look into rest operation definition of each operation
                     // if operation is not defined, assume operation is not secure
                     $isOperationSecure = false;
-                    if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()]['secure'])) {
-                        $secureFlagValue = $serviceData[self::KEY_OPERATIONS][$method->getName()]['secure'];
+                    if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()][self::SECURE_ATTR_NAME])) {
+                        $secureFlagValue = $serviceData[self::KEY_OPERATIONS]
+                            [$method->getName()][self::SECURE_ATTR_NAME];
                         $isOperationSecure = (strtolower($secureFlagValue) === 'true');
                     }
 
@@ -290,7 +292,7 @@ class Mage_Webapi_Config
                     $this->_soapServices[$serviceData['class']]['operations'][$method->getName()] = array(
                         'method' => $method->getName(),
                         'inputRequired' => (bool)$method->getNumberOfParameters(),
-                        'secure' => $isOperationSecure
+                        self::SECURE_ATTR_NAME => $isOperationSecure
                     );
                     $this->_soapServices[$serviceData['class']]['class'] = $serviceData['class'];
                 };
@@ -341,7 +343,9 @@ class Mage_Webapi_Config
             // TODO: skip if version is not null and does not match
             foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
                 if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
-                    $secure = isset($operationData['secure']) ? $operationData['secure'] : false;
+                    $secure = isset($operationData[self::SECURE_ATTR_NAME])
+                        ? $operationData[self::SECURE_ATTR_NAME]
+                        : false;
                     $methodRoute = isset($operationData['route']) ? $operationData['route'] : '';
                     $routes[] = $this->_createRoute(
                         array(
@@ -350,7 +354,7 @@ class Mage_Webapi_Config
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
                             'httpMethod' => $httpMethod,
-                            'secure' => $secure
+                            self::SECURE_ATTR_NAME => $secure
                         )
                     );
                 }
@@ -385,7 +389,7 @@ class Mage_Webapi_Config
             ->setHttpMethod($routeData['httpMethod'])
             ->setServiceMethod($routeData['serviceMethod'])
             ->setServiceVersion(self::VERSION_NUMBER_PREFIX . $routeData['version'])
-            ->setSecure($routeData['secure']);
+            ->setSecure($routeData[self::SECURE_ATTR_NAME]);
         return $route;
     }
 
@@ -412,7 +416,7 @@ class Mage_Webapi_Config
                     $this->_soapOperations[$operationName] = array(
                         'class' => $serviceData['class'],
                         'method' => $method,
-                        'secure' => $methodData['secure']
+                        self::SECURE_ATTR_NAME => $methodData[self::SECURE_ATTR_NAME]
                     );
                 }
             }
@@ -513,7 +517,7 @@ class Mage_Webapi_Config
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
-        return $soapOperations[$soapOperation]['secure'];
+        return $soapOperations[$soapOperation][self::SECURE_ATTR_NAME];
     }
 
     /**
