@@ -106,13 +106,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 //                $this->_authorization->checkServiceAcl($serviceName, $method);
 
                 $arguments = reset($arguments);
+                $this->_unpackArguments($arguments);
                 $arguments = get_object_vars($arguments);
 
                 $requestedService = $this->_request->getRequestedServices();
                 $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation, $requestedService);
                 $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation, $requestedService);
                 $service = $this->_objectManager->get($serviceId);
-                   $outputData = $service->$serviceMethod($arguments);
+                $outputData = $service->$serviceMethod($arguments);
                 if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
                     $outputData = $outputData->getData();
                 }
@@ -121,6 +122,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 return $outputData;
             } catch (Mage_Webapi_Exception $e) {
                 throw new Mage_Webapi_Model_Soap_Fault($e->getMessage(), $e->getOriginator(), $e);
+            } catch (Mage_Service_Exception $e) {
+                throw new Mage_Webapi_Model_Soap_Fault(
+                    $e->getMessage(),
+                    Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER,
+                    $e,
+                    $e->getParameters(),
+                    $e->getCode()
+                );
             } catch (Exception $e) {
                 $maskedException = $this->_errorProcessor->maskException($e);
                 throw new Mage_Webapi_Model_Soap_Fault(
@@ -161,5 +170,48 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 }
                 break;
         }
+    }
+
+    /**
+     * TODO: Refactor method, which was copied from Mage_Api module
+     * Go through an object parameters and unpack associative object to array.
+     *
+     * @param Object $obj - Link to Object
+     * @return Object
+     */
+    protected function _unpackArguments(&$obj)
+    {
+        if (is_object($obj)
+            && property_exists($obj, 'key')
+            && property_exists($obj, 'value')
+        ) {
+            if (count(array_keys(get_object_vars($obj))) == 2) {
+                $obj = array($obj->key => $obj->value);
+                return true;
+            }
+        } elseif (is_array($obj)) {
+            $arr = array();
+            $needReplacement = true;
+            foreach ($obj as &$value) {
+                $isAssoc = $this->_unpackArguments($value);
+                if ($isAssoc) {
+                    foreach ($value as $aKey => $aVal) {
+                        $arr[$aKey] = $aVal;
+                    }
+                } else {
+                    $needReplacement = false;
+                }
+            }
+            if ($needReplacement) {
+                $obj = $arr;
+            }
+        } elseif (is_object($obj)) {
+            $objectKeys = array_keys(get_object_vars($obj));
+
+            foreach ($objectKeys as $key) {
+                $this->_unpackArguments($obj->$key);
+            }
+        }
+        return false;
     }
 }

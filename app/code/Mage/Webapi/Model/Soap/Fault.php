@@ -15,22 +15,41 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     const FAULT_CODE_RECEIVER = 'Receiver';
 
     /** @var string */
-    protected $_soapCode;
+    protected $_soapFaultCode;
+
+    /** @var string */
+    protected $_errorCode;
+
+    /** @var array */
+    protected $_parameters;
+
+    /**
+     * Details that are used to generate 'Detail' node of SoapFault.
+     *
+     * @var array
+     */
+    protected $_details = array();
 
     /**
      * Construct exception.
      *
      * @param string $reason
-     * @param string $code
+     * @param string $faultCode
      * @param Exception $previous
+     * @param array $parameters
+     * @param string|null $errorCode
      */
     public function __construct(
         $reason = self::FAULT_REASON_INTERNAL,
-        $code = self::FAULT_CODE_RECEIVER,
-        Exception $previous = null
+        $faultCode = self::FAULT_CODE_RECEIVER,
+        Exception $previous = null,
+        $parameters = array(),
+        $errorCode = null
     ) {
         parent::__construct($reason, 0, $previous);
-        $this->_soapCode = $code;
+        $this->_soapCode = $faultCode;
+        $this->_parameters = $parameters;
+        $this->_errorCode = $errorCode;
     }
 
     /**
@@ -41,16 +60,61 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
      */
     public function toXml($isDeveloperMode)
     {
-        $details = null;
         if ($isDeveloperMode) {
-            $details = array(
-                'ExceptionTrace' => "<![CDATA[{$this->getTraceAsString()}]]>"
-            );
+            $this->addDetails(array('ExceptionTrace' => "<![CDATA[{$this->getTraceAsString()}]]>"));
+        }
+        if ($this->getParameters()) {
+            $this->addDetails(array('Parameters' => $this->getParameters()));
+        }
+        if ($this->getErrorCode()) {
+            $this->addDetails(array('ErrorCode' => $this->getErrorCode()));
         }
 
         // TODO: Implement Current language definition
         $language = 'en';
-        return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $language, $details);
+        return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $language, $this->getDetails());
+    }
+
+    /**
+     * Retrieve additional details about current fault.
+     *
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->_parameters;
+    }
+
+    /**
+     * Retrieve error code.
+     *
+     * @return string|null
+     */
+    public function getErrorCode()
+    {
+        return $this->_errorCode;
+    }
+
+    /**
+     * Add details about current fault.
+     *
+     * @param array $details Associative array containing details about current fault
+     * @return Mage_Webapi_Model_Soap_Fault
+     */
+    public function addDetails($details)
+    {
+        $this->_details = array_merge($this->_details, $details);
+        return $this;
+    }
+
+    /**
+     * Retrieve additional details about current fault.
+     *
+     * @return array
+     */
+    public function getDetails()
+    {
+        return $this->_details;
     }
 
     /**
@@ -115,7 +179,7 @@ FAULT_MESSAGE;
             if (is_numeric($detailNode)) {
                 continue;
             }
-            if (is_string($detailValue)) {
+            if (is_string($detailValue) || is_numeric($detailValue)) {
                 $detailsXml .= "<$detailNode>" . htmlspecialchars($detailValue) . "</$detailNode>";
             } elseif (is_array($detailValue)) {
                 $detailsXml .= "<$detailNode>" . $this->_convertDetailsToXml($detailValue) . "</$detailNode>";
