@@ -564,14 +564,6 @@ class Mage_Core_Model_Translate
      */
     protected function _replacePlaceholders($phrase, $arguments)
     {
-        if (preg_match_all('/%(\d+)/', $phrase, $matches) || $arguments) {
-            $placeholdersInPhrase = array_unique($matches[1]);
-            if (count($placeholdersInPhrase) != count($arguments)) {
-                throw new InvalidArgumentException(
-                    'The number of placeholders is not equal to the number of arguments.'
-                );
-            }
-        }
         if ($arguments) {
             $placeholders = array();
             for ($i = 1, $size = count($arguments); $i <= $size; $i++) {
