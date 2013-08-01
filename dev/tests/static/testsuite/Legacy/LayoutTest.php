@@ -201,7 +201,6 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'addLinkRel',
             'addLogInLink',
             'addNotice',
-            'addOptionRenderer',
             'addPriceBlockType',
             'addRegisterLink',
             'addRenderer',

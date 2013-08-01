@@ -44,29 +44,6 @@ class Mage_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_Test
         $this->assertSame($product, $this->_block->getProduct());
     }
 
-    public function testAddAndGetOptionRenderer()
-    {
-        $this->_block->addOptionRenderer('test', 'test/test', 'test.phtml');
-        $this->assertEquals(
-            array(
-                'block'     => 'test/test',
-                'template'  => 'test.phtml',
-                'renderer'  => null,
-            ),
-            $this->_block->getOptionRender('test')
-        );
-
-        $this->assertEquals(
-            array(
-                'block'     => 'Mage_Catalog_Block_Product_View_Options_Type_Default',
-                'template'  => 'product/view/options/type/default.phtml',
-                'renderer'  => null,
-            ),
-            $this->_block->getOptionRender('not_exists')
-        );
-
-    }
-
     public function testGetGroupOfOption()
     {
         $this->assertEquals('default', $this->_block->getGroupOfOption('test'));
@@ -91,28 +68,5 @@ class Mage_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_Test
         $config = json_decode($this->_block->getJsonConfig());
         $this->assertNotNull($config);
         $this->assertNotEmpty($config);
-    }
-
-    public function testGetOptionHtml()
-    {
-        $this->_block->addOptionRenderer(
-            'select',
-            'Mage_Catalog_Block_Product_View_Options_Type_Select',
-            'product/view/options/type/select.phtml'
-        );
-        $this->_block->addOptionRenderer(
-            'date',
-            'Mage_Catalog_Block_Product_View_Options_Type_Date',
-            'product/view/options/type/date.phtml'
-        );
-        $this->_block->setLayout(Mage::app()->getLayout());
-        $html = false;
-        foreach ($this->_block->getOptions() as $option) {
-            $html = $this->_block->getOptionHtml($option);
-            $this->assertContains('Test', $html); /* contain Test in option title */
-        }
-        if (!$html) {
-            $this->fail('Product with options is required for test');
-        }
     }
 }

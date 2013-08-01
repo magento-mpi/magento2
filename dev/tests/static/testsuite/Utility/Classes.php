@@ -154,7 +154,7 @@ class Utility_Classes
             '/layout//action/attributeType | /layout//action[@method="addTab"]/content
                 | /layout//action[@method="addRenderer" or @method="addItemRender" or @method="addColumnRender"
                     or @method="addPriceBlockType" or @method="addMergeSettingsBlockType"
-                    or @method="addInformationRenderer" or @method="addOptionRenderer" or @method="addRowItemRender"
+                    or @method="addInformationRenderer" or @method="addRowItemRender"
                     or @method="addDatabaseBlock"]/*[2]
                 | /layout//action[@method="setMassactionBlockName"]/name
                 | /layout//action[@method="setEntityModelClass"]/code'

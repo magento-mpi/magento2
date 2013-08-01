@@ -115,7 +115,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
         $this->_urlBuilder      = $urlBuilder;
         $this->_translator      = $translator;
         $this->_cache           = $cache;
-        $this->_design   = $design;
+        $this->_design          = $design;
         $this->_session         = $session;
         $this->_storeConfig     = $storeConfig;
         $this->_frontController = $frontController;

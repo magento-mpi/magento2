@@ -52,9 +52,7 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
         return array(
             array('Enterprise_Customer', '//action[@method=\'addRenderer\']/renderer_block'),
             array('Enterprise_Rma', '//action[@method=\'addRenderer\']/renderer_block'),
-            array('Mage_Adminhtml', '//action[@method=\'addOptionRenderer\']/block'),
             array('Mage_Bundle', '//action[@method=\'addRenderer\']/block'),
-            array('Mage_Catalog', '//action[@method=\'addOptionRenderer\']/block'),
         );
     }
 }

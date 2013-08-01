@@ -20,16 +20,26 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
 {
     protected $_product;
 
-    protected $_optionRenders = array();
+    /**
+     * Product option
+     *
+     * @var Mage_Catalog_Model_Product_Option
+     */
+    protected $_option;
 
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addOptionRenderer(
-            'default',
-            'Mage_Catalog_Block_Product_View_Options_Type_Default',
-            'product/view/options/type/default.phtml'
-        );
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Catalog_Model_Product_Option $option,
+        array $data = array()
+    ) {
+        $this->_option = $option;
+        parent::__construct($context, $data);
     }
 
     /**
@@ -61,42 +71,9 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         return $this;
     }
 
-    /**
-     * Add option renderer to renderers array
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     * @return Mage_Catalog_Block_Product_View_Options
-     */
-    public function addOptionRenderer($type, $block, $template)
-    {
-        $this->_optionRenders[$type] = array(
-            'block' => $block,
-            'template' => $template,
-            'renderer' => null
-        );
-        return $this;
-    }
-
-    /**
-     * Get option render by given type
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getOptionRender($type)
-    {
-        if (isset($this->_optionRenders[$type])) {
-            return $this->_optionRenders[$type];
-        }
-
-        return $this->_optionRenders['default'];
-    }
-
     public function getGroupOfOption($type)
     {
-        $group = Mage::getSingleton('Mage_Catalog_Model_Product_Option')->getGroupByType($type);
+        $group = $this->_option->getGroupByType($type);
 
         return $group == '' ? 'default' : $group;
     }
@@ -170,19 +147,16 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
      * Get option html block
      *
      * @param Mage_Catalog_Model_Product_Option $option
+     * @return string
      */
     public function getOptionHtml(Mage_Catalog_Model_Product_Option $option)
     {
-        $renderer = $this->getOptionRender(
-            $this->getGroupOfOption($option->getType())
-        );
-        if (is_null($renderer['renderer'])) {
-            $renderer['renderer'] = $this->getLayout()->createBlock($renderer['block'])
-                ->setTemplate($renderer['template']);
-        }
-        return $renderer['renderer']
-            ->setProduct($this->getProduct())
-            ->setOption($option)
-            ->toHtml();
+        $type = $this->getGroupOfOption($option->getType());
+        $renderer = $this->getChildBlock($type);
+
+        $renderer->setProduct($this->getProduct())
+            ->setOption($option);
+
+        return $this->getChildHtml($type, false);
     }
 }

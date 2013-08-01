@@ -18,21 +18,6 @@
 class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends Mage_Catalog_Block_Product_View_Options
 {
     /**
-     * Constructor for our block with options
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addOptionRenderer(
-            'default',
-            'Mage_Catalog_Block_Product_View_Options_Type_Default',
-            'catalog/product/composite/fieldset/options/type/default.phtml'
-        );
-    }
-
-    /**
      * Get option html block
      *
      * @param Mage_Catalog_Model_Product_Option $option
@@ -41,17 +26,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends Ma
      */
     public function getOptionHtml(Mage_Catalog_Model_Product_Option $option)
     {
-        $renderer = $this->getOptionRender(
-            $this->getGroupOfOption($option->getType())
-        );
-        if (is_null($renderer['renderer'])) {
-            $renderer['renderer'] = $this->getLayout()->createBlock($renderer['block'])
-                ->setTemplate($renderer['template'])
-                ->setSkipJsReloadPrice(1);
-        }
-        return $renderer['renderer']
+        $type = $this->getGroupOfOption($option->getType());
+        $renderer = $this->getChildBlock($type);
+        $renderer->setSkipJsReloadPrice(1)
             ->setProduct($this->getProduct())
-            ->setOption($option)
-            ->toHtml();
+            ->setOption($option);
+
+        return $this->getChildHtml($type, false);
     }
 }
