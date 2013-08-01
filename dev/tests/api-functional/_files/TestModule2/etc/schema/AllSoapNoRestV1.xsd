@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:complexType name="testModule2AllSoapNoRestItemRequest">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="testModule2AllSoapNoRestV1" xmlns="testModule2AllSoapNoRestV1">
+    <xsd:complexType name="ItemRequest">
         <xsd:annotation>
             <xsd:documentation/>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
@@ -20,7 +20,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestItem</inf:callName>
+                            <inf:callName>Item</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -28,9 +28,9 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="testModule2AllSoapNoRestItemResponse">
+    <xsd:complexType name="ItemResponse">
         <xsd:annotation>
-            <xsd:documentation>Response container for the testModule2AllSoapNoRestItem call.</xsd:documentation>
+            <xsd:documentation>Response container for the Item call.</xsd:documentation>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
@@ -40,7 +40,7 @@
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestItem</inf:callName>
+                            <inf:callName>Item</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -49,20 +49,20 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="testModule2AllSoapNoRestItemsResponse">
+    <xsd:complexType name="ItemsResponse">
         <xsd:annotation>
-            <xsd:documentation>Response container for the testModule2AllSoapNoRestItems call.</xsd:documentation>
+            <xsd:documentation>Response container for the Items call.</xsd:documentation>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray"
-                         type="testModule2AllSoapNoRestItemsArray">
+                         type="ItemsArray">
                 <xsd:annotation>
                     <xsd:documentation>Default label</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestItems</inf:callName>
+                            <inf:callName>Items</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -72,9 +72,9 @@
     </xsd:complexType>
 
 
-    <xsd:complexType name="testModule2AllSoapNoRestItemsArray">
+    <xsd:complexType name="ItemsArray">
         <xsd:annotation>
-            <xsd:documentation>Response container for the testModule2AllSoapNoRestItems call.</xsd:documentation>
+            <xsd:documentation>Response container for the Items call.</xsd:documentation>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
@@ -84,7 +84,7 @@
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestItems</inf:callName>
+                            <inf:callName>Items</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -96,7 +96,7 @@
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestItem</inf:callName>
+                            <inf:callName>Item</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -105,7 +105,7 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="testModule2AllSoapNoRestCreateRequest">
+    <xsd:complexType name="CreateRequest">
         <xsd:annotation>
             <xsd:documentation/>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
@@ -117,7 +117,7 @@
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestCreate</inf:callName>
+                            <inf:callName>Create</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -125,9 +125,9 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="testModule2AllSoapNoRestCreateResponse">
+    <xsd:complexType name="CreateResponse">
         <xsd:annotation>
-            <xsd:documentation>Response container for the testModule2AllSoapNoRestCreate call.</xsd:documentation>
+            <xsd:documentation>Response container for the Create call.</xsd:documentation>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
@@ -137,7 +137,7 @@
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestCreate</inf:callName>
+                            <inf:callName>Create</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -149,7 +149,7 @@
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestCreate</inf:callName>
+                            <inf:callName>Create</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -157,48 +157,7 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="testModule2AllSoapNoRestUpdateRequest">
-        <xsd:annotation>
-            <xsd:documentation/>
-            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="id" type="xsd:int">
-                <xsd:annotation>
-                    <xsd:documentation>Entity ID</xsd:documentation>
-                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:min/>
-                        <inf:max/>
-                        <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestUpdate</inf:callName>
-                            <inf:requiredInput>Yes</inf:requiredInput>
-                        </inf:callInfo>
-                    </xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="testModule2AllSoapNoRestUpdateResponse">
-        <xsd:annotation>
-            <xsd:documentation>Response container for the testModule2AllSoapNoRestUpdate call.</xsd:documentation>
-            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="id" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>Default label</xsd:documentation>
-                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:maxLength/>
-                        <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestUpdate</inf:callName>
-                            <inf:returned>Always</inf:returned>
-                        </inf:callInfo>
-                    </xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="testModule2AllSoapNoRestRemoveRequest">
+    <xsd:complexType name="UpdateRequest">
         <xsd:annotation>
             <xsd:documentation/>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
@@ -211,7 +170,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestRemove</inf:callName>
+                            <inf:callName>Update</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -219,9 +178,9 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="testModule2AllSoapNoRestRemoveResponse">
+    <xsd:complexType name="UpdateResponse">
         <xsd:annotation>
-            <xsd:documentation>Response container for the testModule2AllSoapNoRestRemove call.</xsd:documentation>
+            <xsd:documentation>Response container for the Update call.</xsd:documentation>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
@@ -231,7 +190,48 @@
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>
-                            <inf:callName>testModule2AllSoapNoRestRemove</inf:callName>
+                            <inf:callName>Update</inf:callName>
+                            <inf:returned>Always</inf:returned>
+                        </inf:callInfo>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="RemoveRequest">
+        <xsd:annotation>
+            <xsd:documentation/>
+            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>Entity ID</xsd:documentation>
+                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                        <inf:min/>
+                        <inf:max/>
+                        <inf:callInfo>
+                            <inf:callName>Remove</inf:callName>
+                            <inf:requiredInput>Yes</inf:requiredInput>
+                        </inf:callInfo>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="RemoveResponse">
+        <xsd:annotation>
+            <xsd:documentation>Response container for the Remove call.</xsd:documentation>
+            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>Default label</xsd:documentation>
+                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                        <inf:maxLength/>
+                        <inf:callInfo>
+                            <inf:callName>Remove</inf:callName>
                             <inf:returned>Always</inf:returned>
                         </inf:callInfo>
                     </xsd:appinfo>

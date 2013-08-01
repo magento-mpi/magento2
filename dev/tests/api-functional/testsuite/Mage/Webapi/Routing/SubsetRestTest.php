@@ -19,7 +19,7 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
     {
         $this->_version = 'V1';
         $this->_restResourcePath = "/$this->_version/testModule2SubsetRest/";
-        $this->_soapService = 'testModule2SubsetRest';
+        $this->_soapService = 'testModule2SubsetRestV1';
     }
 
 
@@ -37,7 +37,6 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Item'
             )
         );
@@ -71,7 +70,6 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Items'
             )
         );

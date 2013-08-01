@@ -19,8 +19,8 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
     {
         $itemId = 1;
         $serviceInfo = array(
-                'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
-                'method' => 'item'
+            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
+            'method' => 'item'
         );
         $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
@@ -33,15 +33,17 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
         $wsdlUrl = $soapAdapter->generateWsdlUrl(
             array(
-                'testModule1AllSoapAndRest' => 'V2',
-                'testModule2AllSoapNoRest' => 'V1',
+                'testModule1AllSoapAndRestV1',
+                'testModule1AllSoapAndRestV2',
+                'testModule2AllSoapNoRestV1',
             )
         );
         $soapClient = $soapAdapter->instantiateSoapClient($wsdlUrl);
 
-        /** Perform action on first service */
-        $entityId = 33;
-        $soapOperation = "testModule1AllSoapAndRestDelete";
+
+        /** Perform action on testModule1AllSoapAndRestV1 service */
+        $entityId = 11;
+        $soapOperation = "testModule1AllSoapAndRestV1Item";
         $actualResponse = $soapClient->$soapOperation(array('id' => $entityId));
         $expectedResponse = (object)array(
             'id' => $entityId,
@@ -53,9 +55,25 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
             "Response from '{$soapOperation}' operation is invalid."
         );
 
-        /** Perform action on second service */
+
+        /** Perform action on testModule1AllSoapAndRestV2 service */
+        $entityId = 33;
+        $soapOperation = "testModule1AllSoapAndRestV2Item";
+        $actualResponse = $soapClient->$soapOperation(array('id' => $entityId));
+        $expectedResponse = (object)array(
+            'id' => $entityId,
+            'name' => 'testProduct1',
+            'price' => '1'
+        );
+        $this->assertEquals(
+            $expectedResponse,
+            $actualResponse,
+            "Response from '{$soapOperation}' operation is invalid."
+        );
+
+        /** Perform action on testModule2AllSoapNoRestV1 service */
         $entityId = 22;
-        $soapOperation = "testModule2AllSoapNoRestItem";
+        $soapOperation = "testModule2AllSoapNoRestV1Item";
         $actualResponse = $soapClient->$soapOperation(array('id' => $entityId));
         $expectedResponse = (object)array(
             'id' => $entityId,
@@ -70,8 +88,8 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
     public function testWsdlGenerationWithNestedTypes()
     {
         $serviceInfo = array(
-                'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
-                'method' => 'items'
+            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
+            'method' => 'items'
         );
         $actualResult = $this->_webApiCall($serviceInfo);
         $expectedResult = array(

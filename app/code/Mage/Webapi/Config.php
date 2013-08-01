@@ -378,7 +378,8 @@ class Mage_Webapi_Config
     {
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         $route = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Router_Route_Rest', strtolower($routeData['routePath'])
+            'Mage_Webapi_Controller_Router_Route_Rest',
+            strtolower($routeData['routePath'])
         );
 
         $route->setServiceId($routeData['serviceId'])
@@ -408,7 +409,7 @@ class Mage_Webapi_Config
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedService) as $serviceData) {
                 foreach ($serviceData[self::KEY_OPERATIONS] as $method => $methodData) {
-                    $operationName =  $this->_helper->getSoapOperation($serviceData['class'], $method);
+                    $operationName = $this->_helper->getSoapOperation($serviceData['class'], $method);
                     $this->_soapOperations[$operationName] = array(
                         'class' => $serviceData['class'],
                         'method' => $method,
@@ -433,15 +434,12 @@ class Mage_Webapi_Config
     public function getRequestedSoapServices($requestedServices)
     {
         $services = array();
-        foreach ($requestedServices as $serviceName => $serviceVersion) {
+        foreach ($requestedServices as $serviceName) {
             foreach ($this->getSoapServices() as $serviceData) {
                 $serviceWithVersion = $this->_helper->getServiceName($serviceData['class']);
-                if ($serviceWithVersion != $serviceName . $serviceVersion) {
-                    continue;
+                if ($serviceWithVersion === $serviceName) {
+                    $services[] = $serviceData;
                 }
-                $services[] = $serviceData;
-                /** Current service was found so no need to continue search */
-                break;
             }
         }
         return $services;

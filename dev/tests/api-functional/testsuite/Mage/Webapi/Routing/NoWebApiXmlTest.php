@@ -28,7 +28,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
     {
         $this->_version = 'V1';
         $this->_restResourcePath = "/$this->_version/testModule2NoWebApiXml/";
-        $this->_soapService = 'testModule2NoWebApiXml';
+        $this->_soapService = 'testModule2NoWebApiXmlV1';
     }
 
 
@@ -45,7 +45,6 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Item'
             )
         );
@@ -65,7 +64,6 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Items'
             )
         );
@@ -85,7 +83,6 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Create'
             )
         );
@@ -106,7 +103,6 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Update'
             )
         );
@@ -127,7 +123,6 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Remove'
             )
         );
