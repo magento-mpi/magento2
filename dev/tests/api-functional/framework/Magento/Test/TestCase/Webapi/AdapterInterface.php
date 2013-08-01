@@ -19,9 +19,8 @@ interface Magento_Test_TestCase_Webapi_AdapterInterface
      *         'httpMethod' => $httpMethod      // e.g. GET
      *     ),
      *     'soap' => array(
-     *         'service' => $soapService,           // soap service name e.g. catalogProduct, customer
-     *         'serviceVersion' => $serviceVersion, // with 'V' prefix or without it
-     *         'operation' => $operation            // soap operation name e.g. catalogProductCreate
+     *         'service' => $soapService,    // soap service name with Version prefix e.g. catalogProductV1, customerV2
+     *         'operation' => $operation     // soap operation name e.g. catalogProductCreate
      *     ),
      *     OR
      *     'serviceInterface' => $phpServiceInterfaceName, // e.g. Mage_Catalog_Service_ProductInterfaceV1
