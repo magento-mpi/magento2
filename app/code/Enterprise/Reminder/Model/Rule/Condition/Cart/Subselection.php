@@ -67,7 +67,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %s in the shopping cart with %s of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %1 in the shopping cart with %2 of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

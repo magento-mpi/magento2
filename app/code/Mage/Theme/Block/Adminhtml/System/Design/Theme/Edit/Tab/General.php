@@ -311,7 +311,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
                 continue;
             }
             $data[$theme->getId()] = array(
-                'theme_title'          => $this->__('Copy of %s', $theme->getThemeTitle()),
+                'theme_title'          => $this->__('Copy of %1', $theme->getThemeTitle()),
                 'magento_version_from' => $theme->getMagentoVersionFrom(),
                 'magento_version_to'   => $theme->getMagentoVersionTo()
             );
@@ -329,7 +329,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     {
         $maxImageSize = $this->_fileSize->getMaxFileSizeInMb();
         if ($maxImageSize) {
-            return $this->__('Max image size %sM', $maxImageSize);
+            return $this->__('Max image size %1M', $maxImageSize);
         } else {
             return $this->__('Something is wrong with the file upload settings.');
         }

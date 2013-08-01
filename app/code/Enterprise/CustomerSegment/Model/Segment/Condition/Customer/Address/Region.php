@@ -66,7 +66,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     {
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Address %s State/Province specified', $element)
+            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Address %1 State/Province specified', $element)
             .$this->getRemoveLinkHtml();
     }
 

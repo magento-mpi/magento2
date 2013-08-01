@@ -234,7 +234,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         );
         $maxFileSize = $this->_objectManager->get('Magento_File_Size')->getMaxFileSizeInMb();
         if ($maxFileSize) {
-            $messages[] = $this->__('Max file size to upload %sM', $maxFileSize);
+            $messages[] = $this->__('Max file size to upload %1M', $maxFileSize);
         } else {
             $messages[] = $this->__('Something is wrong with the file upload settings.');
         }

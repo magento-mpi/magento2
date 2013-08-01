@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Api_User_Edit extends Mage_Adminhtml_Block_Widget_For
     public function getHeaderText()
     {
         if (Mage::registry('api_user')->getId()) {
-            return Mage::helper('Mage_Adminhtml_Helper_Data')->__("Edit User '%s'", $this->escapeHtml(Mage::registry('api_user')->getUsername()));
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__("Edit User '%1'", $this->escapeHtml(Mage::registry('api_user')->getUsername()));
         }
         else {
             return Mage::helper('Mage_Adminhtml_Helper_Data')->__('New User');

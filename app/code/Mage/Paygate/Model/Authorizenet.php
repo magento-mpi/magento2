@@ -842,7 +842,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                         false,
                         false,
                         Mage::helper('Mage_Paygate_Helper_Data')->__(
-                            'Parent Authorize.Net transaction (ID %s) expired',
+                            'Parent Authorize.Net transaction (ID %1) expired',
                             $realAuthTransactionId
                         )
                     )
@@ -1322,7 +1322,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      */
     protected function _wrapGatewayError($text)
     {
-        return Mage::helper('Mage_Paygate_Helper_Data')->__('Gateway error: %s', $text);
+        return Mage::helper('Mage_Paygate_Helper_Data')->__('Gateway error: %1', $text);
     }
 
     /**

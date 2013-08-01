@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Rating_Edit extends Mage_Adminhtml_Block_Widget_Form_
     public function getHeaderText()
     {
         if( Mage::registry('rating_data') && Mage::registry('rating_data')->getId() ) {
-            return Mage::helper('Mage_Rating_Helper_Data')->__("Edit Rating", $this->escapeHtml(Mage::registry('rating_data')->getRatingCode()));
+            return Mage::helper('Mage_Rating_Helper_Data')->__("Edit Rating #%1", $this->escapeHtml(Mage::registry('rating_data')->getRatingCode()));
         } else {
             return Mage::helper('Mage_Rating_Helper_Data')->__('New Rating');
         }

@@ -122,7 +122,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
                 $isError = true;
             }
             catch (Exception $e) {
-                $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
+                $this->_getSession()->addException($e, $this->__('Order saving error: %1', $e->getMessage()));
                 $isError = true;
             }
 

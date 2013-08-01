@@ -224,7 +224,7 @@ class Mage_User_Model_User
         $minPassLength = self::MIN_PASSWORD_LENGTH;
         $passwordLength = new Zend_Validate_StringLength(array('min' => $minPassLength, 'encoding' => 'UTF-8'));
         $passwordLength->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Your password must be at least %d characters.', $minPassLength),
+            Mage::helper('Mage_User_Helper_Data')->__('Your password must be at least %1 characters.', $minPassLength),
             Zend_Validate_StringLength::TOO_SHORT
         );
         $passwordChars = new Zend_Validate_Regex('/[a-z].*\d|\d.*[a-z]/iu');

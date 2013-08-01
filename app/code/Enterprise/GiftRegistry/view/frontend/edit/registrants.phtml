@@ -38,7 +38,7 @@
     <?php $isStatic = $this->isAttributeStatic($field); ?>
         <div class="field">
             <label for="registrant:<?php if (!$isStatic):?>custom:<?php endif;?><?php echo $field ?>${_index_}" <?php echo ($isRequired ? 'class="required"' : '') ?>>
-                <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__("%s", $data['label']) ?>
+                <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__("%1", $data['label']) ?>
             </label>
             <div class="input-box">
                 <?php echo $this->renderField($data, $field, '{{' . $field . '_value}}') ?>
@@ -55,7 +55,7 @@
         <p class="back-link">
             <span id="max-registrant-message" style="display:none;">
                 <?php if ($this->getMaxRegistrant()): ?>
-                    <?php echo $this->__('Maximum %d recipients.', $this->getMaxRegistrant()) ?>
+                    <?php echo $this->__('Maximum %1 recipients.', $this->getMaxRegistrant()) ?>
                 <?php endif; ?>
             </span>&nbsp;
         </p>

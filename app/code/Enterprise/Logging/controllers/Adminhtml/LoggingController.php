@@ -46,7 +46,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
             $this->_redirect('*/*/');
             return;
         }
-        $this->_title($this->__("Log Entry #%d", $eventId));
+        $this->_title($this->__("Log Entry #%1", $eventId));
 
         Mage::register('current_event', $model);
 

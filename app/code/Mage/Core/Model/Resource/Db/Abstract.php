@@ -605,9 +605,9 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
 
         if (!empty($existent)) {
             if (count($existent) == 1 ) {
-                $error = Mage::helper('Mage_Core_Helper_Data')->__('%s already exists.', $existent[0]);
+                $error = Mage::helper('Mage_Core_Helper_Data')->__('%1 already exists.', $existent[0]);
             } else {
-                $error = Mage::helper('Mage_Core_Helper_Data')->__('%s already exist.', implode(', ', $existent));
+                $error = Mage::helper('Mage_Core_Helper_Data')->__('%1 already exist.', implode(', ', $existent));
             }
             Mage::throwException($error);
         }

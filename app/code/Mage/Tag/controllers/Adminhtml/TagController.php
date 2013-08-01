@@ -130,7 +130,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $model->addData($data);
         }
 
-        $this->_title($model->getId() ? $this->__('Edit Tag \'%s\'', $model->getName()) : $this->__('New Tag'));
+        $this->_title($model->getId() ? $this->__('Edit Tag \'%1\'', $model->getName()) : $this->__('New Tag'));
 
         Mage::register('tag_tag', $model);
 
@@ -303,7 +303,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                     $tag->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('A total of %d record(s) have been deleted.', count($tagIds))
+                    $this->__('A total of %1 record(s) have been deleted.', count($tagIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
@@ -333,7 +333,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                      $tag->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('A total of %d record(s) have been updated.', count($tagIds))
+                    $this->__('A total of %1 record(s) have been updated.', count($tagIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());

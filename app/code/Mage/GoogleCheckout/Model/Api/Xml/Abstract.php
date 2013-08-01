@@ -194,7 +194,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
             );
         }
         if ($result->getName() == 'error') {
-            $this->setError($this->__('Google Checkout: %s', (string)$result->{'error-message'}));
+            $this->setError($this->__('Google Checkout: %1', (string)$result->{'error-message'}));
             $this->setWarnings((array)$result->{'warning-messages'});
         } else {
             $this->unsError()->unsWarnings();

@@ -117,7 +117,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         }
 
         if ($error = $http->getError()) {
-            $this->_notifyAdmin(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('IPN postback HTTP error: %s', $error));
+            $this->_notifyAdmin(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('IPN postback HTTP error: %1', $error));
             return;
         }
 
@@ -125,7 +125,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
             $this->processIpnVerified();
         } else {
             // TODO: possible PCI compliance issue - the $sReq may contain data that is supposed to be encrypted
-            $this->_notifyAdmin(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('IPN postback Validation error: %s', $sReq));
+            $this->_notifyAdmin(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('IPN postback Validation error: %1', $sReq));
         }
     }
 
@@ -144,7 +144,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws Exception intentionally, because cannot be logged to order comments
-                throw new Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('A wrong Order ID (%s) is specified.', $id));
+                throw new Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('A wrong Order ID (%1) is specified.', $id));
             }
             $this->_order = $order;
         }
@@ -167,7 +167,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $receiverEmail = $this->getIpnFormData('receiver_email');
             }
             if ($merchantEmail != $receiverEmail) {
-                Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Requested %s and configured %s merchant emails do not match.', $receiverEmail, $merchantEmail));
+                Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail));
             }
         }
     }
@@ -243,7 +243,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 }
             }
             catch (Mage_Core_Exception $e) {
-                $history = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %s', $e->getMessage()))
+                $history = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %1', $e->getMessage()))
                     ->save();
                 $this->_notifyAdmin($history->getComment(), $e);
             }
@@ -280,7 +280,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         // notify customer
         if ($invoice = $payment->getCreatedInvoice()) {
             $comment = $order->sendNewOrderEmail()->addStatusHistoryComment(
-                    Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about invoice #%s.', $invoice->getIncrementId())
+                    Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about invoice #%1.', $invoice->getIncrementId())
                 )
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -320,7 +320,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         if ($creditmemo = $payment->getCreatedCreditmemo()) {
             $creditmemo->sendEmail();
             $comment = $order->addStatusHistoryComment(
-                    Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about creditmemo #%s.', $creditmemo->getIncrementId())
+                    Mage::helper('Mage_Paypal_Helper_Data')->__('Notified customer about creditmemo #%1.', $creditmemo->getIncrementId())
                 )
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -420,9 +420,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
     protected function _createIpnComment($comment = '', $addToHistory = true)
     {
         $paymentStatus = $this->getIpnFormData('payment_status');
-        $message = Mage::helper('Mage_Paypal_Helper_Data')->__('IPN verification "%s".', $paymentStatus);
+        $message = Mage::helper('Mage_Paypal_Helper_Data')->__('IPN verification "%1".', $paymentStatus);
         if ($this->getIpnFormData('txn_id')) {
-            $message .= ' ' . Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%s.', $this->getIpnFormData('txn_id'));
+            $message .= ' ' . Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%1.', $this->getIpnFormData('txn_id'));
         }
         if ($comment) {
             $message .= ' ' . $comment;
@@ -490,7 +490,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $message = Mage::helper('Mage_Paypal_Helper_Data')->__('merchant refunded payment');
                 break;
         }
-        return $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Explanation: %s.', $message), $addToHistory);
+        return $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Explanation: %1.', $message), $addToHistory);
     }
 
     /**

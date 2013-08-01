@@ -397,7 +397,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }

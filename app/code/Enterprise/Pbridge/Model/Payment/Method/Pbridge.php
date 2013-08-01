@@ -482,7 +482,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         if (!empty($apiResponse['gateway_transaction_id'])) {
             $payment->setPreparedMessage(
-                Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%s.', $apiResponse['gateway_transaction_id'])
+                Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%1.', $apiResponse['gateway_transaction_id'])
             );
         }
 

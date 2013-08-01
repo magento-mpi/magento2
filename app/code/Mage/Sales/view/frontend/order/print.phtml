@@ -9,8 +9,8 @@
  */
 ?>
 <?php $_order = $this->getOrder() ?>
-<h1><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h1>
-<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<h1><?php echo $this->__('Order #%1', $_order->getRealOrderId()) ?></h1>
+<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
 <div class="col2-set">
     <?php if (!$_order->getIsVirtual()): ?>
     <div class="col-1">

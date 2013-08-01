@@ -99,7 +99,7 @@ class Enterprise_Pci_Model_Observer
                     $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('It\'s time to change your password.');
                 } else {
                     $myAccountUrl = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_account/');
-                    $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('It\'s time to <a href="%s">change your password</a>.', $myAccountUrl);
+                    $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('It\'s time to <a href="%1">change your password</a>.', $myAccountUrl);
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice($message);
                 if ($message = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()) {

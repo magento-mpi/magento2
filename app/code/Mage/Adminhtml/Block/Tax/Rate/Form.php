@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
         $fieldset->addField('tax_postcode', 'text', array(
             'name'  => 'tax_postcode',
             'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post Code'),
-            'note'  => Mage::helper('Mage_Tax_Helper_Data')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and are not longer than %d.", Mage::helper('Mage_Tax_Helper_Data')->getPostCodeSubStringLength()),
+            'note'  => Mage::helper('Mage_Tax_Helper_Data')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and are not longer than %1.", Mage::helper('Mage_Tax_Helper_Data')->getPostCodeSubStringLength()),
         ));
 
         $fieldset->addField('zip_from', 'text', array(

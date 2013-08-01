@@ -76,7 +76,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
                 // restored label
                 $label = $label[0];
             }
-            return Mage::helper('Enterprise_Customer_Helper_Data')->__('Edit Customer Address Attribute "%s"', $label);
+            return Mage::helper('Enterprise_Customer_Helper_Data')->__('Edit Customer Address Attribute "%1"', $label);
         } else {
             return Mage::helper('Enterprise_Customer_Helper_Data')->__('New Customer Address Attribute');
         }

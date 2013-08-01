@@ -117,7 +117,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
             && $this->_filesystem->getFileSize($filePath, dirname($filePath)) > ($this->_maxFileSize * 1024)) {
             throw Mage::exception(
                 'Mage_Core', Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('The file you\'re uploading exceeds the server size limit of %.2f kilobytes.',
+                    ->__('The file you\'re uploading exceeds the server size limit of %1 kilobytes.',
                          $this->_maxFileSize)
             );
         }

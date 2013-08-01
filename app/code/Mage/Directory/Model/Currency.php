@@ -152,7 +152,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
             return $price*$rate;
         }
 
-        throw new Exception(Mage::helper('Mage_Directory_Helper_Data')->__('Undefined rate from "%s-%s".', $this->getCode(), $toCurrency->getCode()));
+        throw new Exception(Mage::helper('Mage_Directory_Helper_Data')->__('Undefined rate from "%1-%2".', $this->getCode(), $toCurrency->getCode()));
     }
 
     /**

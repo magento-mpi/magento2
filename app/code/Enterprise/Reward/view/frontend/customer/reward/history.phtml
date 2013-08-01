@@ -48,7 +48,7 @@
                 <td>
                     <span class="nobr"><?php echo $this->getDate($item)?></span>
                     <?php if ($expirationDate = $this->getExpirationDate($item)):?>
-                    <small class="nobr"><?php echo $this->__('Expires on %s', $expirationDate);?></small>
+                    <small class="nobr"><?php echo $this->__('Expires on %1', $expirationDate);?></small>
                     <?php endif;?>
                 </td>
             </tr>

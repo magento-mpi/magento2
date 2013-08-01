@@ -391,13 +391,13 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
         if ($countNonCloseRma) {
             if ($countCloseRma) {
-                $this->_getSession()->addError($this->__('%s RMA(s) cannot be closed', $countNonCloseRma));
+                $this->_getSession()->addError($this->__('%1 RMA(s) cannot be closed', $countNonCloseRma));
             } else {
                 $this->_getSession()->addError($this->__('We cannot close the RMA request(s).'));
             }
         }
         if ($countCloseRma) {
-            $this->_getSession()->addSuccess($this->__('%s RMA (s) have been closed.', $countCloseRma));
+            $this->_getSession()->addSuccess($this->__('%1 RMA (s) have been closed.', $countCloseRma));
         }
 
         if ($returnRma) {
@@ -1157,7 +1157,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__("We don't recognize or support the file extension in shipment %s.", $model->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Enterprise_Rma_Helper_Data')->__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();

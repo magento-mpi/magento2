@@ -14,6 +14,6 @@
 ?>
 <?php if($this->isMsgVisible()): ?>
     <p class="availability-only">
-        <span title="<?php echo $this->__('Only %s left', ($this->getStockQty())) ?>"><?php echo $this->__('Only %s left', "<strong>{$this->getStockQty()}</strong>") ?></span>
+        <span title="<?php echo $this->__('Only %1 left', ($this->getStockQty())) ?>"><?php echo $this->__('Only %1 left', "<strong>{$this->getStockQty()}</strong>") ?></span>
     </p>
 <?php endif ?>

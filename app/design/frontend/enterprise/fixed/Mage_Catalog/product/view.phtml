@@ -41,7 +41,7 @@
                         <div class="product-name">
                             <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                         </div>
-                        <p class="product-ids"><?php echo $this->__('SKU# %s', $this->escapeHtml($_product->getSku())); ?></p>
+                        <p class="product-ids"><?php echo $this->__('SKU# %1', $this->escapeHtml($_product->getSku())); ?></p>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
                         <?php echo $this->getChildHtml('alert_urls') ?>
                         <?php echo $this->getChildHtml('product_type_data') ?>

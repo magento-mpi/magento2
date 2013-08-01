@@ -726,7 +726,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('We could not add a product to cart by the ID "%s".', $productId)
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('We could not add a product to cart by the ID "%1".', $productId)
                 );
             }
         }

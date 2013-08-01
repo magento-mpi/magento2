@@ -36,7 +36,7 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Password extends Mage_Eav_M
         if ($length > 0) {
             if ($length < self::MIN_PASSWORD_LENGTH) {
                 Mage::throwException(Mage::helper('Mage_Customer_Helper_Data')->
-                    __('The password must have at least %s characters.', self::MIN_PASSWORD_LENGTH));
+                    __('The password must have at least %1 characters.', self::MIN_PASSWORD_LENGTH));
             }
 
             if ($stringHelper->substr($password, 0, 1) == ' ' ||

@@ -86,7 +86,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %s Default %s Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %1 Default %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

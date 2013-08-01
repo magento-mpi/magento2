@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             if (is_array($errors = $product->validate())) {
                 $strErrors = array();
                 foreach($errors as $code=>$error) {
-                    $strErrors[] = ($error === true)? Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%s".', $code) : Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%s": %s.', $code, $error);
+                    $strErrors[] = ($error === true)? Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%1".', $code) : Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%1": %2.', $code, $error);
                 }
                 $this->_fault('data_invalid', implode("\n", $strErrors));
             }

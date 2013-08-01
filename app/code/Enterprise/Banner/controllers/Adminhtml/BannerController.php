@@ -202,7 +202,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
                 }
 
                 $this->_getSession()->addSuccess(
-                    $this->__('You deleted %d record(s).', count($ids))
+                    $this->__('You deleted %1 record(s).', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

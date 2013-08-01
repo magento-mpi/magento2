@@ -91,7 +91,7 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
 
         $objectCount = $typeModel->getAssignedToObjects()->getSize();
         if ($objectCount > 0) {
-            Mage::throwException($this->_helper->__('You cannot delete this tax class because it is used for %d %s(s).', $objectCount, $typeModel->getObjectTypeName()));
+            Mage::throwException($this->_helper->__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
         }
 
         return true;

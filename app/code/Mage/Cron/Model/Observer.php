@@ -74,7 +74,7 @@ class Mage_Cron_Model_Observer
                         Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid model/method definition, expecting "Model_Class::method".'));
                     }
                     if (!($model = Mage::getModel($run[1])) || !method_exists($model, $run[2])) {
-                        Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
+                        Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Invalid callback: %1::%2 does not exist', $run[1], $run[2]));
                     }
                     $callback = array($model, $run[2]);
                     $arguments = array($schedule);

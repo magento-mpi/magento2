@@ -56,7 +56,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
     public function getHeaderText()
     {
         if (Mage::registry('current_giftcardaccount')->getId()) {
-            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Edit Gift Card Account: %s', $this->escapeHtml(Mage::registry('current_giftcardaccount')->getCode()));
+            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Edit Gift Card Account: %1', $this->escapeHtml(Mage::registry('current_giftcardaccount')->getCode()));
         }
         else {
             return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('New Gift Card Account');

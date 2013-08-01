@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
         else {
             $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the credit memo email is not sent');
         }
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo #%1$s | %3$s | %2$s (%4$s)', $this->getCreditmemo()->getIncrementId(), $this->formatDate($this->getCreditmemo()->getCreatedAtDate(), 'medium', true), $this->getCreditmemo()->getStateName(), $emailSent);
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo #%1 | %3 | %2 (%4)', $this->getCreditmemo()->getIncrementId(), $this->formatDate($this->getCreditmemo()->getCreatedAtDate(), 'medium', true), $this->getCreditmemo()->getStateName(), $emailSent);
     }
 
     /**

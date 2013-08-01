@@ -74,7 +74,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
                 ) {
                     Mage::throwException(
                         Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Entity adapter object must be an instance of %s or %s',
+                            ->__('Entity adapter object must be an instance of %1 or %2',
                                 'Mage_ImportExport_Model_Export_Entity_Abstract',
                                 'Mage_ImportExport_Model_Export_EntityAbstract'
                             )
@@ -119,7 +119,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
                 if (! $this->_writer instanceof Mage_ImportExport_Model_Export_Adapter_Abstract) {
                     Mage::throwException(
                         Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Adapter object must be an instance of %s',
+                            ->__('Adapter object must be an instance of %1',
                                 'Mage_ImportExport_Model_Export_Adapter_Abstract'
                             )
                     );
@@ -141,7 +141,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
     {
         if (isset($this->_data[self::FILTER_ELEMENT_GROUP])) {
             $this->addLogComment(Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Begin export of %s', $this->getEntity()));
+                ->__('Begin export of %1', $this->getEntity()));
             $result = $this->_getEntityAdapter()
                 ->setWriter($this->_getWriter())
                 ->export();
@@ -153,7 +153,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
             }
             if ($result) {
                 $this->addLogComment(array(
-                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Exported %s rows.', $countRows),
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Exported %1 rows.', $countRows),
                     Mage::helper('Mage_ImportExport_Helper_Data')->__('Export has been done.')
                 ));
             }

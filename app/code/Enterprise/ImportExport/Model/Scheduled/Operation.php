@@ -397,7 +397,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__("We couldn't read the import file."));
         }
         $fs->close();
-        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save history file content "%s"', $this->getHistoryFilePath()));
+        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($tmpFilePath);
         return $tmpFilePath;
     }
@@ -414,7 +414,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     {
         $result = false;
 
-        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save history file content "%s"', $this->getHistoryFilePath()));
+        $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($fileContent);
 
         $fileInfo = $this->getFileInfo();
@@ -423,7 +423,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $result   = $fs->write($fileName, $fileContent);
         if (!$result) {
             Mage::throwException(
-                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('We couldn\'t write file "%s" to "%s" with the "%s" driver.', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('We couldn\'t write file "%1" to "%2" with the "%3" driver.', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
             );
         }
         $operation->addLogComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Save file content'));
@@ -475,7 +475,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         if (!class_exists($class)) {
             Mage::throwException(
                 Mage::helper('Enterprise_ImportExport_Helper_Data')
-                    ->__('Please correct the server communication class "%s".', $class)
+                    ->__('Please correct the server communication class "%1".', $class)
             );
         }
         $driver = new $class;

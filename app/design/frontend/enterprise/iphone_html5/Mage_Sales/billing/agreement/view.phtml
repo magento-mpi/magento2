@@ -10,7 +10,7 @@
 ?>
 <?php /* @var $this Mage_Sales_Block_Billing_Agreement_View */ ?>
 <div class="page-title title-buttons">
-    <h1><?php echo $this->__('Billing Agreement # <span>%s</span>', $this->escapeHtml($this->getReferenceId())) ?></h1>
+    <h1><?php echo $this->__('Billing Agreement # <span>%1</span>', $this->escapeHtml($this->getReferenceId())) ?></h1>
     <?php if ($this->getCanCancel()): ?>
         <a href="<?php echo $this->getCancelUrl() ?>" onclick="if( confirm('<?php echo $this->__('Are you sure you want to do this?') ?>') ) { window.location.href = '<?php echo $this->getCancelUrl() ?>'; } return false;"><?php echo $this->__('Cancel') ?></a>
     <?php endif; ?>

@@ -52,7 +52,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             $dbModel = ($data['db_model']);
 
             if (!$resource = $this->_getDbResource($dbModel)) {
-                Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('There is no resource for %s DB model.', $dbModel));
+                Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('There is no resource for %1 DB model.', $dbModel));
             }
 
             $resource->setConfig($data);
@@ -67,7 +67,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             }
             if (!empty($absenteeExtensions)) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('PHP Extensions "%s" must be loaded.', implode(',', $absenteeExtensions))
+                    Mage::helper('Mage_Install_Helper_Data')->__('PHP Extensions "%1" must be loaded.', implode(',', $absenteeExtensions))
                 );
             }
 
@@ -78,7 +78,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             // check DB server version
             if (version_compare($version, $requiredVersion) == -1) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('The database server version doesn\'t match system requirements (required: %s, actual: %s).', $requiredVersion, $version)
+                    Mage::helper('Mage_Install_Helper_Data')->__('The database server version doesn\'t match system requirements (required: %1, actual: %2).', $requiredVersion, $version)
                 );
             }
 
@@ -160,7 +160,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             $resource =  Mage::getSingleton("Mage_Install_Model_Installer_Db_" . ucfirst($model));
             if (!$resource) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('Installer does not exist for %s database type', $model)
+                    Mage::helper('Mage_Install_Helper_Data')->__('Installer does not exist for %1 database type', $model)
                 );
             }
             $this->_dbResource = $resource;

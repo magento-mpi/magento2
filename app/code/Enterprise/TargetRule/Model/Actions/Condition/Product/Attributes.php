@@ -119,7 +119,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product %s%s%s%s%s%s%s', $this->getTypeElementHtml(), $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueTypeElementHtml(), $this->getValueElementHtml(), $this->getRemoveLinkHtml(), $this->getChooserContainerHtml());
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product %1%2%3%4%5%6%7', $this->getTypeElementHtml(), $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueTypeElementHtml(), $this->getValueElementHtml(), $this->getRemoveLinkHtml(), $this->getChooserContainerHtml());
     }
 
     /**
@@ -148,7 +148,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         } else {
             $options[] = array(
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Matched Product %s', $this->getAttributeName())
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Matched Product %1', $this->getAttributeName())
             );
         }
 

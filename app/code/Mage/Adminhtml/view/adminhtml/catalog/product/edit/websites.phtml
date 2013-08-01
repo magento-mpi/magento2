@@ -37,7 +37,7 @@
                             <?php echo $this->escapeHtml($_store->getName()) ?>
                             <?php if ($this->getWebsites() && !$this->hasWebsite($_website->getId())): ?>
                             <span class="website-<?php echo $_website->getId() ?>-select" style="display:none">
-                            <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml($_store)) ?>
+                            <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('(Copy data from: %1)', $this->getChooseFromStoreHtml($_store)) ?>
                             </span>
                             <?php endif; ?>
                         </li>

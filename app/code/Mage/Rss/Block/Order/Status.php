@@ -33,7 +33,7 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
         if (!$order) {
             return '';
         }
-        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order # %s Notification(s)', $order->getIncrementId());
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order # %1 Notification(s)', $order->getIncrementId());
         $newurl = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
         $data = array('title' => $title,
                 'description' => $title,
@@ -51,11 +51,11 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
                    $urlAppend = $type;
                 }
                 $type  = Mage::helper('Mage_Rss_Helper_Data')->__(ucwords($type));
-                $title = Mage::helper('Mage_Rss_Helper_Data')->__('Details for %s #%s', $type, $result['increment_id']);
+                $title = Mage::helper('Mage_Rss_Helper_Data')->__('Details for %1 #%2', $type, $result['increment_id']);
 
                 $description = '<p>'.
-                Mage::helper('Mage_Rss_Helper_Data')->__('Notified Date: %s<br/>',$this->formatDate($result['created_at'])).
-                Mage::helper('Mage_Rss_Helper_Data')->__('Comment: %s<br/>',$result['comment']).
+                Mage::helper('Mage_Rss_Helper_Data')->__('Notified Date: %1<br/>',$this->formatDate($result['created_at'])).
+                Mage::helper('Mage_Rss_Helper_Data')->__('Comment: %1<br/>',$result['comment']).
                 '</p>'
                 ;
                 $url = Mage::getUrl('sales/order/'.$urlAppend,array('order_id' => $order->getId()));
@@ -67,11 +67,11 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
                 $rssObj->_addEntry($data);
             }
         }
-        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
         $url = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
         $description = '<p>'.
-            Mage::helper('Mage_Rss_Helper_Data')->__('Current Status: %s<br/>',$order->getStatusLabel()).
-            Mage::helper('Mage_Rss_Helper_Data')->__('Total: %s<br/>',$order->formatPrice($order->getGrandTotal())).
+            Mage::helper('Mage_Rss_Helper_Data')->__('Current Status: %1<br/>',$order->getStatusLabel()).
+            Mage::helper('Mage_Rss_Helper_Data')->__('Total: %1<br/>',$order->formatPrice($order->getGrandTotal())).
             '</p>'
         ;
         $data = array(

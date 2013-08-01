@@ -101,7 +101,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
             $versionLabel = Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
         }
 
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' Version '%s'", $title, $versionLabel);
+        return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%1' Version '%2'", $title, $versionLabel);
     }
 
     /**

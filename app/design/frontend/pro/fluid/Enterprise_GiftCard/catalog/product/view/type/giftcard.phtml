@@ -39,7 +39,7 @@
                         <label for="giftcard-amount" id="amount-label-select" class="required"><em>*</em><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Amount'); ?></label>
                     <?php endif; ?>
                     <?php if ($this->isOpenAmountAvailable($_product)): ?>
-                        <label for="giftcard-amount-input" id="amount-label-input" class="required"><em>*</em><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Amount in %s', $this->getCurrentCurrency()); ?></label>
+                        <label for="giftcard-amount-input" id="amount-label-input" class="required"><em>*</em><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Amount in %1', $this->getCurrentCurrency()); ?></label>
                     <?php endif; ?>
                     <?php if ($this->isOpenAmountAvailable($_product)): ?>
                        <div id="giftcard-amount-box" class="input-box">
@@ -61,12 +61,12 @@
                             <?php $_max = Mage::helper('Mage_Core_Helper_Data')->currency($_product->getOpenAmountMax(), true, false); ?>
                             <p class="notice">
                                 <?php if ($_product->getOpenAmountMax() && $_product->getOpenAmountMin()): ?>
-                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Minimum: %s', $_min); ?></span>
-                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum: %s', $_max); ?></span>
+                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Minimum: %1', $_min); ?></span>
+                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum: %1', $_max); ?></span>
                                 <?php elseif ($_product->getOpenAmountMin()): ?>
-                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Minimum: %s', $_min); ?></span>
+                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Minimum: %1', $_min); ?></span>
                                 <?php elseif ($_product->getOpenAmountMax()): ?>
-                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum: %s', $_max); ?></span>
+                                    <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum: %1', $_max); ?></span>
                                 <?php endif; ?>
                             </p>
                         <?php endif; ?>
@@ -138,7 +138,7 @@
                 <div class="input-box">
                     <textarea name="giftcard_message" id="giftcard-message" class="input-text"
                         <?php if ($this->getMessageMaxLength()) {
-                        $errorMessage="'". Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum length of the message is %d characters.', $this->getMessageMaxLength())."'";
+                        $errorMessage="'". Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum length of the message is %1 characters.', $this->getMessageMaxLength())."'";
                         echo 'data-validate="{maxlength:' . $this->getMessageMaxLength() . ',messages:{maxlength:'.$errorMessage.'}}"';
                         } ?>
                          cols="5" rows="3"><?php echo $this->escapeHtml($this->getDefaultValue('giftcard_message')) ?></textarea>

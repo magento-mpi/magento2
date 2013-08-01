@@ -61,7 +61,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         if (!$this->_getConfig()->isValidDefaultCurrencyCode($this->_getStore()->getId())) {
             $_countryInfo = $this->_getConfig()->getTargetCountryInfo($this->_getStore()->getId());
             $this->_getSession()->addNotice(
-                Mage::helper('Mage_GoogleShopping_Helper_Data')->__("The store's currency should be set to %s for %s in system configuration. Otherwise item prices won't be correct in Google Content.", $_countryInfo['currency_name'], $_countryInfo['name'])
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__("The store's currency should be set to %1 for %2 in system configuration. Otherwise item prices won't be correct in Google Content.", $_countryInfo['currency_name'], $_countryInfo['name'])
             );
         }
 
@@ -232,7 +232,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
             $this->_getSession()->addSuccess($this->__('Captcha has been confirmed.'));
 
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
-            $this->_getSession()->addError($this->__('There was a Captcha confirmation error: %s', $e->getMessage()));
+            $this->_getSession()->addError($this->__('There was a Captcha confirmation error: %1', $e->getMessage()));
             $this->_redirectToCaptcha($e);
             return;
         } catch (Zend_Gdata_App_Exception $e) {

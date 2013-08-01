@@ -36,7 +36,7 @@
             <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
             <?php for ($_i = 2, $_n = $this->helper('Mage_Customer_Helper_Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
                 <div class="nested">
-                        <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="<?php echo $prefix ?>[street][]" id="<?php echo $prefix ?>:street<?php echo $_i?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
+                        <input type="text" title="<?php echo $this->__('Street Address %1', $_i) ?>" name="<?php echo $prefix ?>[street][]" id="<?php echo $prefix ?>:street<?php echo $_i?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
                     </div>
             <?php endfor; ?>
         </div>

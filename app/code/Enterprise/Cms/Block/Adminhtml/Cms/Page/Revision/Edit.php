@@ -165,9 +165,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         $title = $this->escapeHtml(Mage::registry('cms_page')->getTitle());
 
         if ($revisionNumber) {
-            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' Revision #%s", $title, $this->escapeHtml($revisionNumber));
+            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%1' Revision #%2", $title, $this->escapeHtml($revisionNumber));
         } else {
-            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%s' New Revision", $title);
+            return Mage::helper('Enterprise_Cms_Helper_Data')->__("Edit Page '%1' New Revision", $title);
         }
     }
 

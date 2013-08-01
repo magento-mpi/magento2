@@ -12,7 +12,7 @@
 <?php $_order = $this->getOrder() ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="page-title title-buttons">
-    <h1><?php echo $this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></h1>
+    <h1><?php echo $this->__('Order #%1 - %2', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></h1>
     <?php echo $this->getChildHtml('buttons') ?>
 </div>
 <?php echo $this->getStatusHistoryRssUrl($_order) ?>
@@ -32,7 +32,7 @@
         <script type="text/javascript">(function($) {$('#order-info-tabs').find('li').decorate('generic', ['first','last'])})(jQuery)</script>
     </dd>
 </dl>
-<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
 <?php if (!$_order->getIsVirtual()): ?>
 <div class="col2-set order-info-box">
     <div class="col-1">

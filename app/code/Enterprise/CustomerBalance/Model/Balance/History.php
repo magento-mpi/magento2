@@ -95,9 +95,9 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                     ) {
                         if ($user->getUsername()) {
                             if (!trim($balance->getComment())){
-                                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('By admin: %s.', $user->getUsername()));
+                                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('By admin: %1.', $user->getUsername()));
                             }else{
-                                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('By admin: %1$s. (%2$s)', $user->getUsername(), $balance->getComment()));
+                                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('By admin: %1. (%2)', $user->getUsername(), $balance->getComment()));
                             }
                         }
                     }
@@ -107,7 +107,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                 break;
             case self::ACTION_USED:
                 $this->_checkBalanceModelOrder($balance);
-                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s', $balance->getOrder()->getIncrementId()));
+                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%1', $balance->getOrder()->getIncrementId()));
                 break;
             case self::ACTION_REFUNDED:
                 $this->_checkBalanceModelOrder($balance);
@@ -115,12 +115,12 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                     Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('There is no credit memo set to balance model.'));
                 }
                 $this->setAdditionalInfo(
-                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s, creditmemo #%s', $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId())
+                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%1, creditmemo #%2', $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId())
                 );
                 break;
             case self::ACTION_REVERTED:
                 $this->_checkBalanceModelOrder($balance);
-                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%s', $balance->getOrder()->getIncrementId()));
+                $this->setAdditionalInfo(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Order #%1', $balance->getOrder()->getIncrementId()));
                 break;
             default:
                 Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Unknown balance history action code'));

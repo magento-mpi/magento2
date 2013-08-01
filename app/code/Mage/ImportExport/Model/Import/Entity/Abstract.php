@@ -653,7 +653,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 Mage::throwException(
-                    $helper->__('Cannot find required columns: %s', implode(', ', $absentColumns))
+                    $helper->__('Cannot find required columns: %1', implode(', ', $absentColumns))
                 );
             }
 
@@ -674,12 +674,12 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
 
             if ($emptyHeaderColumns) {
                 Mage::throwException(
-                    $helper->__('Columns number: "%s" have empty headers', implode('", "', $emptyHeaderColumns))
+                    $helper->__('Columns number: "%1" have empty headers', implode('", "', $emptyHeaderColumns))
                 );
             }
             if ($invalidColumns) {
                 Mage::throwException(
-                    $helper->__('Column names: "%s" are invalid', implode('", "', $invalidColumns))
+                    $helper->__('Column names: "%1" are invalid', implode('", "', $invalidColumns))
                 );
             }
 

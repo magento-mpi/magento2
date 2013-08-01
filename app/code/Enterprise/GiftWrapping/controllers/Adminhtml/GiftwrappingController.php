@@ -92,7 +92,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
         if ($formData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData()) {
             $model->addData($formData);
         }
-        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('%s', $model->getDesign()));
+        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('%1', $model->getDesign()));
         $this->renderLayout();
     }
 
@@ -194,7 +194,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
             }
             $wrappingCollection->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You updated a total of %d records.', count($wrappingIds))
+                Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You updated a total of %1 records.', count($wrappingIds))
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -224,7 +224,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                     $wrapping->delete();
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You deleted a total of %d records.', count($wrappingIds))
+                    Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You deleted a total of %1 records.', count($wrappingIds))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

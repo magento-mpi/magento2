@@ -39,7 +39,7 @@
             <?php endforeach; ?>
             </table>
         <?php endif; ?>
-        <p class="date"><?php echo $this->__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?></p>
+        <p class="date"><?php echo $this->__('Product Review (submitted on %1):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?></p>
         <p><?php echo nl2br($this->escapeHtml($this->getReviewData()->getDetail())) ?></p>
     </div>
     <div class="buttons-set">

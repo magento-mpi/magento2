@@ -585,7 +585,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $value = abs($salesEntity->getDataUsingMethod($balanceField));
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$value,
-                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit (%1)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }
         }

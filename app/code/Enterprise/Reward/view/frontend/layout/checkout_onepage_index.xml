@@ -21,7 +21,7 @@
                     <class>reward-checkout</class>
                 </action>
                 <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
-                    <message>Log in now and earn %s for this order.</message>
+                    <message>Log in now and earn %1 for this order.</message>
                 </action>
                 <action method="setIsGuestNote">
                     <value>1</value>
@@ -37,7 +37,7 @@
                     <class>reward-checkout</class>
                 </action>
                 <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
-                    <message>Log in now and earn %s for this order.</message>
+                    <message>Log in now and earn %1 for this order.</message>
                 </action>
                 <action method="setIsGuestNote">
                     <value>1</value>

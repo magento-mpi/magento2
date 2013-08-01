@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Wid
     public function getHeaderText()
     {
         if ($this->getVariable()->getId()) {
-            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variable "%s"', $this->escapeHtml($this->getVariable()->getName()));
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variable "%1"', $this->escapeHtml($this->getVariable()->getName()));
         }
         else {
             return Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Custom Variable');

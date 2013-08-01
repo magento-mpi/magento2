@@ -80,7 +80,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer is %s to newsletter.', $element)
+            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer is %1 to newsletter.', $element)
             .$this->getRemoveLinkHtml();
     }
 

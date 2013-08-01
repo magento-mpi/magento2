@@ -327,7 +327,7 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
         foreach ($this->_errors as $errorCode => $errorRows) {
             $message = isset($this->_messageTemplates[$errorCode])
                 ? $this->_translator->__($this->_messageTemplates[$errorCode])
-                : $this->_translator->__("Please correct the value for '%s' column", $errorCode);
+                : $this->_translator->__("Please correct the value for '%1' column", $errorCode);
             $messages[$message] = $errorRows;
         }
 

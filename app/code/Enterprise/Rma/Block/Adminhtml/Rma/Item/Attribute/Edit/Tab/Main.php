@@ -63,7 +63,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         // customer attribute code can have prefix "rma_item_" and its length must be max length minus prefix length
         $element      = $form->getElement('attribute_code');
         $element->setNote(
-            Mage::helper('Mage_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
+            Mage::helper('Mage_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
         );
 
         $fieldset->addField('multiline_count', 'text', array(

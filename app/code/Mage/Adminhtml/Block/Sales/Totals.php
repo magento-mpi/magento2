@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
          */
         if (((float)$this->getSource()->getDiscountAmount()) != 0) {
             if ($this->getSource()->getDiscountDescription()) {
-                $discountLabel = $this->helper('Mage_Sales_Helper_Data')->__('Discount (%s)', $this->getSource()->getDiscountDescription());
+                $discountLabel = $this->helper('Mage_Sales_Helper_Data')->__('Discount (%1)', $this->getSource()->getDiscountDescription());
             } else {
                 $discountLabel = $this->helper('Mage_Sales_Helper_Data')->__('Discount');
             }

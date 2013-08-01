@@ -80,7 +80,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $response = array(
                 'success'  => true,
                 'filename' => $customCss->getFileName(),
-                'message'  => $this->__('You updated the %s file.', $customCss->getFileName())
+                'message'  => $this->__('You updated the %1 file.', $customCss->getFileName())
             );
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -309,7 +309,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
+                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view #%1.',
                     $theme->getId()));
             }
             /** @var $storeLogo Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
@@ -354,7 +354,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
+                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view #%1.',
                     $theme->getId()));
             }
 

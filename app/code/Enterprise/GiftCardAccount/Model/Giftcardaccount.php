@@ -217,7 +217,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     public function removeFromCart($saveQuote = true, $quote = null)
     {
         if (!$this->getId()) {
-            $this->_throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please correct the gift card account code: "%s".', $this->_requestedCode));
+            $this->_throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please correct the gift card account code: "%1".', $this->_requestedCode));
         }
         if (is_null($quote)) {
             $quote = $this->_getCheckoutSession()->getQuote();
@@ -284,7 +284,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     {
         if (!$this->getId()) {
             $this->_throwException(
-                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please correct the gift card account ID. Requested code: "%s"', $this->_requestedCode)
+                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please correct the gift card account ID. Requested code: "%1"', $this->_requestedCode)
             );
         }
 
@@ -295,33 +295,33 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             $website = Mage::app()->getWebsite($websiteCheck)->getId();
             if ($this->getWebsiteId() != $website) {
                 $this->_throwException(
-                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please correct the gift card account website: %s.', $this->getWebsiteId())
+                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please correct the gift card account website: %1.', $this->getWebsiteId())
                 );
             }
         }
 
         if ($statusCheck && ($this->getStatus() != self::STATUS_ENABLED)) {
             $this->_throwException(
-                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %s is not enabled.', $this->getId())
+                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %1 is not enabled.', $this->getId())
             );
         }
 
         if ($expirationCheck && $this->isExpired()) {
             $this->_throwException(
-                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %s is expired.', $this->getId())
+                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %1 is expired.', $this->getId())
             );
         }
 
         if ($balanceCheck) {
             if ($this->getBalance() <= 0) {
                 $this->_throwException(
-                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %s has a zero balance.', $this->getId())
+                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %1 has a zero balance.', $this->getId())
                 );
             }
             if ($balanceCheck !== true && is_numeric($balanceCheck)) {
                 if ($this->getBalance() < $balanceCheck) {
                     $this->_throwException(
-                        Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %s balance is lower than the charged amount.', $this->getId())
+                        Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift card account %1 balance is lower than the charged amount.', $this->getId())
                     );
                 }
             }
@@ -449,7 +449,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('You supplied an invalid customer ID.'));
             }
 
-            $additionalInfo = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Redeemed: %s. For customer #%s.', $this->getCode(), $customerId);
+            $additionalInfo = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Redeemed: %1. For customer #%2.', $this->getCode(), $customerId);
 
             $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($customerId)

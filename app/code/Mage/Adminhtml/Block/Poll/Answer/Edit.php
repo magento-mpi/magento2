@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit extends Mage_Adminhtml_Block_Widget_
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Poll_Helper_Data')->__("Edit Answer '%s'", $this->escapeHtml(Mage::registry('answer_data')->getAnswerTitle()));
+        return Mage::helper('Mage_Poll_Helper_Data')->__("Edit Answer '%1'", $this->escapeHtml(Mage::registry('answer_data')->getAnswerTitle()));
     }
 
 }

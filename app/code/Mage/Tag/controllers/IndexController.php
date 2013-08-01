@@ -123,13 +123,13 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW])) {
             $tagsCount = count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW]);
-            $session->addSuccess($this->__('%s tag(s) have been accepted for moderation.', $tagsCount));
+            $session->addSuccess($this->__('%1 tag(s) have been accepted for moderation.', $tagsCount));
         }
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_EXIST])) {
             foreach ($counter[Mage_Tag_Model_Tag::ADD_STATUS_EXIST] as $tagName) {
                 $session->addNotice(
-                    $this->__('Tag "%s" has already been added to the product.', $helper->escapeHtml($tagName))
+                    $this->__('Tag "%1" has already been added to the product.', $helper->escapeHtml($tagName))
                 );
             }
         }
@@ -137,7 +137,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_SUCCESS])) {
             foreach ($counter[Mage_Tag_Model_Tag::ADD_STATUS_SUCCESS] as $tagName) {
                 $session->addSuccess(
-                    $this->__('Tag "%s" has been added to the product.', $helper->escapeHtml($tagName))
+                    $this->__('Tag "%1" has been added to the product.', $helper->escapeHtml($tagName))
                 );
             }
         }
@@ -145,7 +145,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_REJECTED])) {
             foreach ($counter[Mage_Tag_Model_Tag::ADD_STATUS_REJECTED] as $tagName) {
                 $session->addNotice(
-                    $this->__('Tag "%s" has been rejected by the administrator.', $helper->escapeHtml($tagName))
+                    $this->__('Tag "%1" has been rejected by the administrator.', $helper->escapeHtml($tagName))
                 );
             }
         }

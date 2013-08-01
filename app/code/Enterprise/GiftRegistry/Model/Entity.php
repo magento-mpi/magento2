@@ -390,7 +390,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             if ($count > 0) {
                 $result->setIsSuccess(true)
                     ->setSuccessMessage(
-                        $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('You shared the gift registry for %d emails.', $count)
+                        $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('You shared the gift registry for %1 emails.', $count)
                     );
             } else {
                 $result->setErrorMessage(

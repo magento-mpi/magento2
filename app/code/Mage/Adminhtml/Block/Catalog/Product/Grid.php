@@ -150,7 +150,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Name in %s', $store->getName()),
+                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Name in %1', $store->getName()),
                     'index' => 'custom_name',
                     'header_css_class'  => 'col-name',
                     'column_css_class'  => 'col-name'

@@ -139,7 +139,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
         $componentId = $this->getComponentId($type);
         if (!isset($components[$componentId])) {
             throw new Mage_Core_Exception($this->_helper->__(
-                'Component of the type "%s" is not found between elements of "%s"', $type, $this->getData('name')
+                'Component of the type "%1" is not found between elements of "%2"', $type, $this->getData('name')
             ));
         }
         $component = $components[$componentId];

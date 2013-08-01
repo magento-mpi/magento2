@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
                 'name'  => 'code',
                 'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Group Name'),
                 'title' => Mage::helper('Mage_Customer_Helper_Data')->__('Group Name'),
-                'note'  => Mage::helper('Mage_Customer_Helper_Data')->__('Maximum length must be less then %s symbols', Mage_Customer_Model_Group::GROUP_CODE_MAX_LENGTH),
+                'note'  => Mage::helper('Mage_Customer_Helper_Data')->__('Maximum length must be less then %1 symbols', Mage_Customer_Model_Group::GROUP_CODE_MAX_LENGTH),
                 'class' => $validateClass,
                 'required' => true,
             )

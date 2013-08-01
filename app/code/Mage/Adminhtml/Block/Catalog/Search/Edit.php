@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit extends Mage_Adminhtml_Block_Widg
     public function getHeaderText()
     {
         if (Mage::registry('current_catalog_search')->getId()) {
-            return Mage::helper('Mage_Catalog_Helper_Data')->__("Edit Search '%s'", $this->escapeHtml(Mage::registry('current_catalog_search')->getQueryText()));
+            return Mage::helper('Mage_Catalog_Helper_Data')->__("Edit Search '%1'", $this->escapeHtml(Mage::registry('current_catalog_search')->getQueryText()));
         }
         else {
             return Mage::helper('Mage_Catalog_Helper_Data')->__('New Search');

@@ -660,7 +660,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
            !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', $attributeCodeMaxLength)
+                Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
             );
         }
 
@@ -1318,7 +1318,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         if (!empty($customTypes)) {
             foreach ($customTypes as $type => $fieldType) {
                 if (count($fieldType) != 2) {
-                    throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Wrong type definition for %s', $type));
+                    throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Wrong type definition for %1', $type));
                 }
                 $types[$type] = $fieldType;
             }
@@ -1398,7 +1398,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $connection->commit();
         } catch (Exception $e) {
            $connection->rollBack();
-           throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Can\'t create table: %s', $tableName));
+           throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Can\'t create table: %1', $tableName));
         }
 
         return $this;

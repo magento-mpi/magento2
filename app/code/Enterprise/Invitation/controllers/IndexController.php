@@ -64,7 +64,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                         'message'  => (isset($data['message']) ? $data['message'] : ''),
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Enterprise_Invitation_Helper_Data')->__('You sent the invitation for %s.', $email));
+                        Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Enterprise_Invitation_Helper_Data')->__('You sent the invitation for %1.', $email));
                         $sent++;
                     }
                     else {
@@ -81,12 +81,12 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                     }
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Something went wrong sending an email to %s.', $email));
+                    Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Something went wrong sending an email to %1.', $email));
                 }
             }
             if ($customerExists) {
                 Mage::getSingleton('Mage_Customer_Model_Session')->addNotice(
-                    Mage::helper('Enterprise_Invitation_Helper_Data')->__('We did not send %d invitation(s) addressed to current customers.', $customerExists)
+                    Mage::helper('Enterprise_Invitation_Helper_Data')->__('We did not send %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
             $this->_redirect('*/*/');

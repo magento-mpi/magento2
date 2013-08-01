@@ -708,7 +708,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             } else {
                 Mage::throwException(
                      Mage::helper('Mage_Core_Helper_Data')
-                         ->__('Invalid messages storage "%s" for layout messages initialization', (string)$storageName)
+                         ->__('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
                 );
             }
         }

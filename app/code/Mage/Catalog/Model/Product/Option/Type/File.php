@@ -220,7 +220,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $this->setIsValid(false);
                 $value = $this->getFileSizeService()->getMaxFileSizeInMb();
                 Mage::throwException(
-                    $this->_helper->__("The file you uploaded is larger than %s Megabytes allowed by server", $value)
+                    $this->_helper->__("The file you uploaded is larger than %1 Megabytes allowed by server", $value)
                 );
             } else {
                 switch ($this->getProcessMode())
@@ -444,20 +444,20 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $result = array();
         foreach ($errors as $errorCode) {
             if ($errorCode == Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
-                $result[] = $this->_helper->__("The file '%s' for '%s' has an invalid extension.", $fileInfo['title'], $option->getTitle());
+                $result[] = $this->_helper->__("The file '%1' for '%2' has an invalid extension.", $fileInfo['title'], $option->getTitle());
             } elseif ($errorCode == Zend_Validate_File_Extension::FALSE_EXTENSION) {
-                $result[] = $this->_helper->__("The file '%s' for '%s' has an invalid extension.", $fileInfo['title'], $option->getTitle());
+                $result[] = $this->_helper->__("The file '%1' for '%2' has an invalid extension.", $fileInfo['title'], $option->getTitle());
             } elseif ($errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
                 || $errorCode == Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG) {
                 $result[] = $this->_helper->__(
-                    "Maximum allowed image size for '%s' is %sx%s px.",
+                    "Maximum allowed image size for '%1' is %2x%3 px.",
                     $option->getTitle(),
                     $option->getImageSizeX(),
                     $option->getImageSizeY()
                 );
             } elseif ($errorCode == Zend_Validate_File_FilesSize::TOO_BIG) {
                 $maxFileSize = $this->getFileSizeService()->getMaxFileSizeInMb();
-                $result[] = $this->_helper->__("The file '%s' you uploaded is larger than the %s megabytes allowed by our server.", $fileInfo['title'], $maxFileSize);
+                $result[] = $this->_helper->__("The file '%1' you uploaded is larger than the %2 megabytes allowed by our server.", $fileInfo['title'], $maxFileSize);
             }
         }
         return $result;
@@ -761,7 +761,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $this->_filesystem->createDirectory($path, 0777);
             }
         } catch (Magento_Filesystem_Exception $e) {
-            throw new Mage_Core_Exception($this->_helper->__("Cannot create writable directory '%s'.", $path));
+            throw new Mage_Core_Exception($this->_helper->__("Cannot create writable directory '%1'.", $path));
         }
     }
 

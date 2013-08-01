@@ -61,12 +61,12 @@ class Saas_ImportExport_Model_Import_Image_Validator_Factory
         // @codingStandardsIgnoreEnd
         $messageFilenameLimit = 'File name is too long:';
         $extensionsString = "'" . implode("', '", array_values($allowedExtensions)) . "'";
-        $messageWrongImage = $this->_helper->__('Unsupported image format (only %s image file types are allowed) in:',
+        $messageWrongImage = $this->_helper->__('Unsupported image format (only %1 image file types are allowed) in:',
             $extensionsString);
         $messageFileSizeNotFound = $this->_helper->__('File error for:');
-        $messageFileSizeTooBig = $this->_helper->__('File size is larger than %d bytes in:', $sizeLimit);
+        $messageFileSizeTooBig = $this->_helper->__('File size is larger than %1 bytes in:', $sizeLimit);
         $dimensions = sprintf('%sx%s', $widthLimit, $heightLimit);
-        $messageWrongImageSize = $this->_helper->__('Image dimensions are larger than %s in:', $dimensions);
+        $messageWrongImageSize = $this->_helper->__('Image dimensions are larger than %1 in:', $dimensions);
 
         // https://jira.corp.x.com/browse/MAGETWO-10439
         /** @var Magento_Validator_Builder $builder */

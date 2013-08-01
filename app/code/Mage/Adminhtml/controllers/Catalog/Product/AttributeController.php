@@ -156,7 +156,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             } else {
                 $response->setAttributes(
                     array(
-                        'attribute_label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code (%s) already exists.', $attributeCode)
+                        'attribute_label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code (%1) already exists.', $attributeCode)
                     )
                 );
             }
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             if ($attributeSet->getId()) {
                 $setName = $this->_objectManager->get('Mage_Core_Helper_Data')->escapeHtml($setName);
                 $this->_getSession()->addError(
-                    $this->_objectManager->get('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $setName)
+                    $this->_objectManager->get('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%1\' already exists.', $setName)
                 );
 
                 $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
@@ -219,7 +219,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
                 if ($attributeSet->getId()) {
                     $session->addError(
-                        Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $name)
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%1\' already exists.', $name)
                     );
                     $session->setAttributeData($data);
                     $this->_redirect('*/*/edit', array('_current' => true));
@@ -253,7 +253,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{0,30}$/'));
                 if (!$validatorAttrCode->isValid($attributeCode)) {
                     $session->addError(
-                        Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute code "%s" is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.', $attributeCode)
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute code "%1" is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.', $attributeCode)
                     );
                     $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
                     return;

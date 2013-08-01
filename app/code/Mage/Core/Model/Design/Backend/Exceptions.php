@@ -66,7 +66,7 @@ class Mage_Core_Model_Design_Backend_Exceptions extends Mage_Backend_Model_Confi
 
         // Find out - whether user wanted to enter regexp or normal string.
         if ($this->_isRegexp($search)) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid regular expression: "%s".', $search));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid regular expression: "%1".', $search));
         }
 
         return '/' . preg_quote($search, '/') . '/i';

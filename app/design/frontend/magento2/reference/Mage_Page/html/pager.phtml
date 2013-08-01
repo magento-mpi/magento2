@@ -24,11 +24,11 @@
     <?php if($this->getShowAmounts()): ?>
     <p class="amount">
         <?php if($this->getLastPageNum()>1): ?>
-            <?php echo $this->__('Items %s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
+            <?php echo $this->__('Items %1 to %2 of %3 total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
         <?php elseif ($this->getLastPageNum() == 1): ?>
-            <?php echo $this->__('%s Item', $this->getTotalNum()) ?>
+            <?php echo $this->__('%1 Item', $this->getTotalNum()) ?>
         <?php else: ?>
-            <?php echo $this->__('%s Item(s)', $this->getTotalNum()) ?>
+            <?php echo $this->__('%1 Item(s)', $this->getTotalNum()) ?>
         <?php endif; ?>
     </p>
     <?php endif ?>

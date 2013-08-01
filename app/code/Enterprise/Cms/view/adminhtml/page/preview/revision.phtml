@@ -18,7 +18,7 @@
     <?php foreach ($data as $row): ?>
         <optgroup label="<?php echo $row['label'] ?>">
         <?php foreach ($row['revisions'] as $item): ?>
-            <option value="<?php echo $item->getId() ?>"<?php if($this->getRevisionId() == $item->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Revision #%s', $item->getRevisionNumber()) ?></option>
+            <option value="<?php echo $item->getId() ?>"<?php if($this->getRevisionId() == $item->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Revision #%1', $item->getRevisionNumber()) ?></option>
         <?php endforeach; ?>
     <?php endforeach; ?>
 </select>

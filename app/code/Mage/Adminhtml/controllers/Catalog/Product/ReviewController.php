@@ -185,7 +185,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     $model->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) have been deleted.', count($reviewsIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %1 record(s) have been deleted.', count($reviewsIds))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
@@ -215,7 +215,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                         ->aggregate();
                 }
                 $session->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) have been updated.', count($reviewsIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %1 record(s) have been updated.', count($reviewsIds))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
@@ -245,7 +245,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     $model->save();
                 }
                 $session->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %d record(s) have been updated.', count($reviewsIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %1 record(s) have been updated.', count($reviewsIds))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());

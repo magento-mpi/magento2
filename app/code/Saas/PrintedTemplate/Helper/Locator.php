@@ -34,7 +34,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
     {
         $type = $this->_getModelType($model);
         if (!$type) {
-            Mage::throwException($this->__('Cannot load converter for %s model.', get_class($model)));
+            Mage::throwException($this->__('Cannot load converter for %1 model.', get_class($model)));
         }
 
         if (is_null($template)) {
@@ -48,7 +48,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
             array('data' => array('template' => $template, 'model' => $model))
         );
         if (!$converter) {
-            Mage::throwException($this->__('Cannot load converter for %s model.', $type));
+            Mage::throwException($this->__('Cannot load converter for %1 model.', $type));
         }
 
         return $converter;

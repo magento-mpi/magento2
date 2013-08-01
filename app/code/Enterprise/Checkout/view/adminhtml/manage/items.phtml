@@ -96,7 +96,7 @@
             </thead>
             <tfoot>
                 <tr>
-                    <td class="a-left" colspan="2"><?php echo $this->helper('Enterprise_Checkout_Helper_Data')->__('Total %d product(s)', count($_items)) ?></td>
+                    <td class="a-left" colspan="2"><?php echo $this->helper('Enterprise_Checkout_Helper_Data')->__('Total %1 product(s)', count($_items)) ?></td>
                     <?php if ($canReadPrice) : ?>
                     <td colspan="2" class="a-right"><?php echo $this->helper('Enterprise_Checkout_Helper_Data')->__('Subtotal:') ?></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong></td>

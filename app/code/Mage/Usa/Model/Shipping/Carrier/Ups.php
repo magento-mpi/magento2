@@ -1021,7 +1021,7 @@ XMLRequest;
                                 $cost = (float)$cost * $this->_getBaseCurrencyRate($responseCurrencyCode);
                             } else {
                                 $errorTitle = Mage::helper('Mage_Directory_Helper_Data')->__(
-                                    'We can\'t convert a rate from "%s-%s".',
+                                    'We can\'t convert a rate from "%1-%2".',
                                     $responseCurrencyCode,
                                     $this->_request->getPackageCurrency()->getCode()
                                 );

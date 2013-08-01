@@ -61,7 +61,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Store Credit Amount %s %s:', $operator, $element)
+            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Store Credit Amount %1 %2:', $operator, $element)
             .$this->getRemoveLinkHtml();
     }
 

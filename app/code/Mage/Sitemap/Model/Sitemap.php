@@ -237,12 +237,12 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
          * Check exists and writeable path
          */
         if (!$file->fileExists($realPath, false)) {
-            Mage::throwException($helper->__('Please create the specified folder "%s" before saving the sitemap.',
+            Mage::throwException($helper->__('Please create the specified folder "%1" before saving the sitemap.',
                 Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {
-            Mage::throwException($helper->__('Please make sure that "%s" is writable by the web-server.',
+            Mage::throwException($helper->__('Please make sure that "%1" is writable by the web-server.',
                 $this->getSitemapPath()));
         }
         /**
@@ -453,7 +453,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
         if ($this->_fileHandler->fileExists($fileName) && !$this->_fileHandler->isWriteable($fileName)) {
             Mage::throwException(Mage::helper('Mage_Sitemap_Helper_Data')
-                ->__('File "%s" cannot be saved. Please, make sure the directory "%s" is writable by web server.',
+                ->__('File "%1" cannot be saved. Please, make sure the directory "%2" is writable by web server.',
                     $fileName, $path
                 )
             );

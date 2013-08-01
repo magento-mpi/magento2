@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             if ($nonEditableTypes) {
                 $this->_updateButton('order_edit', 'onclick',
                     'if (!confirm(\'' .
-                    Mage::helper('Mage_Sales_Helper_Data')->__('This order contains (%s) items and therefore cannot be edited through the admin interface. If you wish to continue editing, the (%s) items will be removed, the order will be canceled and a new order will be placed.', implode(', ', $nonEditableTypes), implode(', ', $nonEditableTypes)) . '\')) return false;' . $onclickJs
+                    Mage::helper('Mage_Sales_Helper_Data')->__('This order contains (%1) items and therefore cannot be edited through the admin interface. If you wish to continue editing, the (%2) items will be removed, the order will be canceled and a new order will be placed.', implode(', ', $nonEditableTypes), implode(', ', $nonEditableTypes)) . '\')) return false;' . $onclickJs
                 );
             }
         }
@@ -193,7 +193,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         } else {
             $_extOrderId = '';
         }
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order # %s %s | %s', $this->getOrder()->getRealOrderId(), $_extOrderId, $this->formatDate($this->getOrder()->getCreatedAtDate(), 'medium', true));
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Order # %1 %2 | %3', $this->getOrder()->getRealOrderId(), $_extOrderId, $this->formatDate($this->getOrder()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getUrl($params='', $params2=array())

@@ -20,7 +20,7 @@
     <?php $_cartQty = $this->getSummaryCount() ?>
     <div class="block-title">
         <?php if ($_cartQty > 0): ?>
-        <strong><span><?php echo $this->__('My Cart <small>(%s)</small>', $_cartQty) ?></span></strong>
+        <strong><span><?php echo $this->__('My Cart <small>(%1)</small>', $_cartQty) ?></span></strong>
         <?php else: ?>
         <strong><span><?php echo $this->__('My Cart') ?></span></strong>
         <?php endif; ?>

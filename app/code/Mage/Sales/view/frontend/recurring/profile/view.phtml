@@ -14,7 +14,7 @@
 
 <!-- title 'n' actions -->
 <div class="page-title title-buttons">
-    <h1><?php echo $this->__('Recurring Profile # %s', $this->escapeHtml($this->getReferenceId())) ?></h1>
+    <h1><?php echo $this->__('Recurring Profile # %1', $this->escapeHtml($this->getReferenceId())) ?></h1>
     <?php if ($this->getCanCancel()): ?>
         <button type="button" title="<?php echo $this->__('Cancel') ?>" class="button" onclick="if( confirm('<?php echo $this->getConfirmationMessage() ?>') ) { window.location.href = '<?php echo $this->getCancelUrl() ?>'; } return false;"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
     <?php endif; ?>

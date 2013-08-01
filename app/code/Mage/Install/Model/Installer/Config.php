@@ -186,13 +186,13 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         }
         catch (Exception $e){
             $this->_getInstaller()->getDataModel()->addError(
-                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $baseUrl)
+                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%1" is not accessible.', $baseUrl)
             );
             throw $e;
         }
         if ($response->getStatus() != 200) {
             $this->_getInstaller()->getDataModel()->addError(
-                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is invalid.', $baseUrl)
+                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%1" is invalid.', $baseUrl)
             );
             Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Response from the server is invalid.'));
         }

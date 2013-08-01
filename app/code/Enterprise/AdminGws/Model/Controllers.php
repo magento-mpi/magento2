@@ -890,7 +890,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
-            $message = Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to delete this item(s): %s.', $productNotExclusiveIds);
+            $message = Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to delete this item(s): %1.', $productNotExclusiveIds);
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
         }
 

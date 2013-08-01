@@ -32,7 +32,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
         $this->setId('source_rviewed');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Viewed Products (%s)', $this->getItemsCount())
+                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Viewed Products (%1)', $this->getItemsCount())
             );
         }
     }

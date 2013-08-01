@@ -94,7 +94,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
 
         if (!$this->_filesystem->isWritable($file)) {
             throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')
-                ->__('File %s is not writeable.', $file));
+                ->__('File %1 is not writeable.', $file));
         }
 
         $contents = $this->_filesystem->read($file);

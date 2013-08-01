@@ -327,7 +327,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected function _getComment()
     {
         if (!$this->_comment) {
-            $this->_comment = $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Data was imported by %s',
+            $this->_comment = $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Data was imported by %1',
                 $this->_adminUser->getUsername()
             );
         }

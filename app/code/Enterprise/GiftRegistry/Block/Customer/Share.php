@@ -24,7 +24,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
     public function getFormHeader()
     {
         $formHeader  = $this->escapeHtml($this->getEntity()->getTitle());
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Share '%s' Gift Registry", $formHeader);
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Share '%1' Gift Registry", $formHeader);
     }
 
     /**

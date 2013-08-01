@@ -29,8 +29,8 @@
                             <?php $options = $_rating->getOptions();?>
                             <?php $iterator = 1; foreach ($options as $_option): ?>
                                 <input type="radio" name="ratings[<?php echo $_rating->getId() ?>]" id="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>" class="radio" data-validate="{required:true, messages:{required:'Please select one of each of the ratings above.'}}" />
-                                <label class="rating-<?php echo $iterator; ?>" for="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>" title="<?php echo $this->__('%s %s', $iterator, $iterator > 1 ? 'stars' : 'star') ?>">
-                                    <span><?php echo $this->__('%s %s', $iterator, $iterator > 1 ? 'stars' : 'star') ?></span>
+                                <label class="rating-<?php echo $iterator; ?>" for="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>" title="<?php echo $this->__('%1 %2', $iterator, $iterator > 1 ? 'stars' : 'star') ?>">
+                                    <span><?php echo $this->__('%1 %2', $iterator, $iterator > 1 ? 'stars' : 'star') ?></span>
                                 </label>
                             <?php $iterator++; ?>
                             <?php endforeach; ?>
@@ -88,7 +88,7 @@
 </script>
 <?php else: ?>
     <p class="review notlogged" id="review-form">
-        <?php echo $this->__('Only registered users can write reviews. Please, <a href="%s">log in</a> or <a href="%s">register</a>', $this->getLoginLink(), Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()) ?>
+        <?php echo $this->__('Only registered users can write reviews. Please, <a href="%1">log in</a> or <a href="%2">register</a>', $this->getLoginLink(), Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()) ?>
     </p>
 <?php endif ?>
 </div>

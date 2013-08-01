@@ -11,7 +11,7 @@
 <?php  $_order = $this->getOrder() ?>
 <div class="order-page">
     <div class="page-title title-buttons">
-        <h1><?php echo $this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></h1>
+        <h1><?php echo $this->__('Order #%1 - %2', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></h1>
         <?php echo $this->getChildHtml('buttons') ?>
     </div>
 </div>
@@ -32,4 +32,4 @@
         </ul>
     </dd>
 </dl>
-<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>

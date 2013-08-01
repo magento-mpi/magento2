@@ -71,7 +71,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
     {
         $segment = Mage::registry('current_customer_segment');
         if ($segment->getSegmentId()) {
-            return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__("Edit Segment '%s'", $this->escapeHtml($segment->getName()));
+            return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__("Edit Segment '%1'", $this->escapeHtml($segment->getName()));
         }
         else {
             return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('New Segment');

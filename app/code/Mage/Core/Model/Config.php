@@ -245,7 +245,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
                 } else {
                     Mage::throwException(
                         $this->_objectManager->get('Mage_Core_Helper_Data')
-                            ->__('Unknown scope "%s".', $scope)
+                            ->__('Unknown scope "%1".', $scope)
                     );
                 }
             }

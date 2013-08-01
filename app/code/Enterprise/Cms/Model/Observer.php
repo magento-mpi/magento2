@@ -87,7 +87,7 @@ class Enterprise_Cms_Model_Observer
                     $versionLabel = $revision->getLabel();
 
                     $page->setPublishedRevisionLink(
-                        Mage::helper('Enterprise_Cms_Helper_Data')->__('%s; rev #%s', $versionLabel, $revisionNumber));
+                        Mage::helper('Enterprise_Cms_Helper_Data')->__('%1; rev #%2', $versionLabel, $revisionNumber));
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
                             'label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Currently Published Revision'),

@@ -67,7 +67,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
         $class        = str_replace($oldClassName, $newClassName, $element->getClass());
         $element->setClass($class);
         $element->setNote(
-            Mage::helper('Mage_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9)
+            Mage::helper('Mage_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9)
         );
 
         $fieldset->addField('multiline_count', 'text', array(

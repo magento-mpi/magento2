@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             if (is_array($frontendLabel)) {
                 $frontendLabel = $frontendLabel[0];
             }
-            return Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute "%s"', $this->escapeHtml($frontendLabel));
+            return Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute "%1"', $this->escapeHtml($frontendLabel));
         }
         return Mage::helper('Mage_Catalog_Helper_Data')->__('New Product Attribute');
     }

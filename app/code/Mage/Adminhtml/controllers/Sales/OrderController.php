@@ -351,13 +351,13 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
         if ($countNonCancelOrder) {
             if ($countCancelOrder) {
-                $this->_getSession()->addError($this->__('%s order(s) cannot be canceled.', $countNonCancelOrder));
+                $this->_getSession()->addError($this->__('%1 order(s) cannot be canceled.', $countNonCancelOrder));
             } else {
                 $this->_getSession()->addError($this->__('You cannot cancel the order(s).'));
             }
         }
         if ($countCancelOrder) {
-            $this->_getSession()->addSuccess($this->__('We canceled %s order(s).', $countCancelOrder));
+            $this->_getSession()->addSuccess($this->__('We canceled %1 order(s).', $countCancelOrder));
         }
         $this->_redirect('*/*/');
     }
@@ -383,13 +383,13 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
         if ($countNonHoldOrder) {
             if ($countHoldOrder) {
-                $this->_getSession()->addError($this->__('%s order(s) were not put on hold.', $countNonHoldOrder));
+                $this->_getSession()->addError($this->__('%1 order(s) were not put on hold.', $countNonHoldOrder));
             } else {
                 $this->_getSession()->addError($this->__('No order(s) were put on hold.'));
             }
         }
         if ($countHoldOrder) {
-            $this->_getSession()->addSuccess($this->__('You have put %s order(s) on hold.', $countHoldOrder));
+            $this->_getSession()->addSuccess($this->__('You have put %1 order(s) on hold.', $countHoldOrder));
         }
 
         $this->_redirect('*/*/');
@@ -417,7 +417,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         if ($countNonUnHoldOrder) {
             if ($countUnHoldOrder) {
                 $this->_getSession()->addError(
-                    $this->__('%s order(s) were not released from on hold status.', $countNonUnHoldOrder)
+                    $this->__('%1 order(s) were not released from on hold status.', $countNonUnHoldOrder)
                 );
             } else {
                 $this->_getSession()->addError($this->__('No order(s) were released from on hold status.'));
@@ -425,7 +425,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
         if ($countUnHoldOrder) {
             $this->_getSession()->addSuccess(
-                $this->__('%s order(s) have been released from on hold status.', $countUnHoldOrder)
+                $this->__('%1 order(s) have been released from on hold status.', $countUnHoldOrder)
             );
         }
         $this->_redirect('*/*/');

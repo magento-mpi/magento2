@@ -197,7 +197,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('A total of %d record(s) have been deleted.', count($ids))
+                    $this->__('A total of %1 record(s) have been deleted.', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

@@ -36,7 +36,7 @@
             </li>
             <?php endforeach; ?>
             <li class="last">
-                <a href="<?php echo $this->getUrl('adminhtml/notification/index'); ?>" class="action-more"><?php echo $this->__('See All (%d unread)', $notificationCount); ?></a>
+                <a href="<?php echo $this->getUrl('adminhtml/notification/index'); ?>" class="action-more"><?php echo $this->__('See All (%1 unread)', $notificationCount); ?></a>
             </li>
         </ul>
     <?php else : ?>

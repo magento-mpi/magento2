@@ -801,7 +801,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                         $code = (string)$xml->Faults->Fault->Code;
                         $description = $xml->Faults->Fault->Description;
                         $context = $xml->Faults->Fault->Context;
-                        $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s : %s (%s)', $code, $description, $context);
+                        $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1 : %2 (%3)', $code, $description, $context);
                     } else {
                         if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
                             if ($xml->Shipment) {
@@ -887,7 +887,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         ) {
             $code = (string)$shipXml->Faults->Fault->Code;
             $description = $shipXml->Faults->Fault->Desc;
-            $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s: %s', $code, $description);
+            $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1: %2', $code, $description);
         } elseif (
             is_object($shipXml->Faults)
             && is_object($shipXml->Result->Code)
@@ -897,7 +897,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         ) {
             $code = (string)$shipXml->Result->Code;
             $description = $shipXml->Result->Desc;
-            $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s: %s', $code, $description);
+            $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1: %2', $code, $description);
         } else {
             $this->_addRate($shipXml);
         }
@@ -1116,7 +1116,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                         $code = (string)$xml->Faults->Fault->Code;
                         $description = $xml->Faults->Fault->Description;
                         $context = $xml->Faults->Fault->Context;
-                        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s : %s (%s)', $code, $description, $context);
+                        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1 : %2 (%3)', $code, $description, $context);
                     } elseif (is_object($trackxml) && is_object($trackxml->Shipment)) {
                         foreach ($trackxml->Shipment as $txml) {
                             $rArr = array();
@@ -1126,7 +1126,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                                 if ($txml->Fault) {
                                     $code = (string)$txml->Fault->Code;
                                     $description = $txml->Fault->Description;
-                                    $errorArr[$tracknum] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s: %s', $code, $description);
+                                    $errorArr[$tracknum] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1: %2', $code, $description);
                                 } elseif ($txml->Result) {
                                     $code = (int)$txml->Result->Code;
                                     if ($code === 0) {
@@ -1200,7 +1200,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                                     } else {
                                         $description = (string)$txml->Result->Desc;
                                         if ($description)
-                                            $errorArr[$tracknum] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s: %s', $code, $description);
+                                            $errorArr[$tracknum] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1: %2', $code, $description);
                                         else
                                             $errorArr[$tracknum] = Mage::helper('Mage_Usa_Helper_Data')->__('Unable to retrieve tracking');
                                     }
