@@ -20,14 +20,14 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     /**
      * Read adapter instance
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Magento_DB_Adapter_Interface
      */
     protected $_readAdapter;
 
     /**
      * Write adapter instance
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Magento_DB_Adapter_Interface
      */
     protected $_writeAdapter;
 
@@ -51,7 +51,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     /**
      * Retrieve connection for read data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getReadAdapter()
     {
@@ -65,7 +65,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     /**
      * Retrieve connection for write data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getWriteAdapter()
     {
@@ -80,7 +80,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      * Retrieves connection to the resource
      *
      * @param string $name
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getConnection($name)
     {
@@ -177,7 +177,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      * Converts old pre-MMDB column definition for MySQL to new cross-db column DDL definition.
      * Used to convert data from 3rd party extensions that hasn't been updated to MMDB style yet.
      *
-     * E.g. Converts type 'varchar(255)' to array('type' => Varien_Db_Ddl_Table::TYPE_TEXT, 'length' => 255)
+     * E.g. Converts type 'varchar(255)' to array('type' => Magento_DB_Ddl_Table::TYPE_TEXT, 'length' => 255)
      *
      * @param array $column
      * @return array
@@ -199,7 +199,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
         switch (strtolower($matches[1])) {
             case 'bool':
                 $length = null;
-                $type = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
+                $type = Magento_DB_Ddl_Table::TYPE_BOOLEAN;
                 break;
             case 'char':
             case 'varchar':
@@ -208,78 +208,78 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
                 if (!$length) {
                     $length = 255;
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'text':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '64k';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'mediumtext':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '16M';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'longtext':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '4G';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'blob':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '64k';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                $type = Magento_DB_Ddl_Table::TYPE_BLOB;
                 break;
             case 'mediumblob':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '16M';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                $type = Magento_DB_Ddl_Table::TYPE_BLOB;
                 break;
             case 'longblob':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '4G';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                $type = Magento_DB_Ddl_Table::TYPE_BLOB;
                 break;
             case 'tinyint':
             case 'smallint':
-                $type = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+                $type = Magento_DB_Ddl_Table::TYPE_SMALLINT;
                 break;
             case 'mediumint':
             case 'int':
-                $type = Varien_Db_Ddl_Table::TYPE_INTEGER;
+                $type = Magento_DB_Ddl_Table::TYPE_INTEGER;
                 break;
             case 'bigint':
-                $type = Varien_Db_Ddl_Table::TYPE_BIGINT;
+                $type = Magento_DB_Ddl_Table::TYPE_BIGINT;
                 break;
             case 'float':
-                $type = Varien_Db_Ddl_Table::TYPE_FLOAT;
+                $type = Magento_DB_Ddl_Table::TYPE_FLOAT;
                 break;
             case 'decimal':
             case 'numeric':
                 $length = $proposedLength;
-                $type = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                $type = Magento_DB_Ddl_Table::TYPE_DECIMAL;
                 break;
             case 'datetime':
-                $type = Varien_Db_Ddl_Table::TYPE_DATETIME;
+                $type = Magento_DB_Ddl_Table::TYPE_DATETIME;
                 break;
             case 'timestamp':
             case 'time':
-                $type = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                $type = Magento_DB_Ddl_Table::TYPE_TIMESTAMP;
                 break;
             case 'date':
-                $type = Varien_Db_Ddl_Table::TYPE_DATE;
+                $type = Magento_DB_Ddl_Table::TYPE_DATE;
                 break;
             default:
                 throw Mage::exception(

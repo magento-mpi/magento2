@@ -534,7 +534,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'datetime':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_DATETIME,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_DATETIME,
                     'unsigned'  => false,
                     'nullable'  => true,
                     'default'   => null,
@@ -543,7 +543,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'decimal':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
                     'length'    => '12,4',
                     'unsigned'  => false,
                     'nullable'  => true,
@@ -553,7 +553,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'int':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
                     'unsigned'  => false,
                     'nullable'  => true,
                     'default'   => null,
@@ -562,17 +562,17 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'text':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
                     'unsigned'  => false,
                     'nullable'  => true,
                     'default'   => null,
                     'extra'     => null,
-                    'length'    => Varien_Db_Ddl_Table::MAX_TEXT_SIZE
+                    'length'    => Magento_DB_Ddl_Table::MAX_TEXT_SIZE
                 );
                 break;
             case 'varchar':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
                     'length'    => '255',
                     'unsigned'  => false,
                     'nullable'  => true,
@@ -736,7 +736,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getFlatUpdateSelect($store = null) {
         if ($store === null) {

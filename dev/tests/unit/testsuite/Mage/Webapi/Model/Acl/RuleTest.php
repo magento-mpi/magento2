@@ -46,7 +46,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
         $this->_ruleResource->expects($this->any())
             ->method('getReadConnection')
             ->withAnyParameters()
-            ->will($this->returnValue($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)));
     }
 
     /**
@@ -97,7 +97,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
-        $fetchStrategy = $this->getMockForAbstractClass('Varien_Data_Collection_Db_FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
@@ -109,7 +109,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
         $collection->expects($this->any())
             ->method('getSelect')
             ->withAnyParameters()
-            ->will($this->returnValue($this->getMock('Varien_Db_Select', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento_DB_Select', array(), array(), '', false)));
 
         $model = $this->_createModel($this->_ruleResource, $collection);
 

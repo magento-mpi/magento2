@@ -34,7 +34,7 @@ class Enterprise_Tag_Model_Observer
     /**
      * Update points balance after tag submit
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Tag_Model_Observer
      */
     public function updateRewardPointsWhenTagSubmit($observer)

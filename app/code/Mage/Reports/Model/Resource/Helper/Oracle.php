@@ -122,9 +122,9 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
 
         // SubLevel 1
         $orderByColumns      = array(
-            'tr.store_id ' . Varien_Db_Select::SQL_ASC,
-            'tr.period ' . Varien_Db_Select::SQL_ASC,
-            'tr.total_qty ' . Varien_Db_Select::SQL_DESC
+            'tr.store_id ' . Magento_DB_Select::SQL_ASC,
+            'tr.period ' . Magento_DB_Select::SQL_ASC,
+            'tr.total_qty ' . Magento_DB_Select::SQL_DESC
         );
         $ratingSubSelect->from(array('tr' => new Zend_Db_Expr(sprintf('(%s)', $periodSubSelect))), array(
             'period'        => 'tr.period',

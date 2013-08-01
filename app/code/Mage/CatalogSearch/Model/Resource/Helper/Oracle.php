@@ -22,8 +22,8 @@ class Mage_CatalogSearch_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Res
     /**
      * Join information for usin full text search
      *
-     * @param  Varien_Db_Select $select
-     * @return Varien_Db_Select $select
+     * @param  Magento_DB_Select $select
+     * @return Magento_DB_Select $select
      */
     public function chooseFulltext($table, $alias, $select)
     {

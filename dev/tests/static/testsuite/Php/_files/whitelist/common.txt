@@ -113,6 +113,7 @@ dev/tests/static
 dev/tests/unit
 dev/tools
 lib/Magento
-lib/Varien/Date.php
-lib/Varien/Object.php
+lib/Magento/Convert
+lib/Magento/Date.php
+lib/Magento/Object.php
 lib/Magento/Cache/Core.php

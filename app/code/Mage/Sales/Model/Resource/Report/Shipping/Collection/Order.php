@@ -38,7 +38,7 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
      *
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Sales_Model_Resource_Report $resource
     ) {
         $resource->init('sales_shipping_aggregated_order');
@@ -56,7 +56,7 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
         if ('month' == $this->_period) {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
-             $this->_periodFormat = $adapter->getDateExtractSql('period', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
+             $this->_periodFormat = $adapter->getDateExtractSql('period', Magento_DB_Adapter_Interface::INTERVAL_YEAR);
         } else {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');
         }

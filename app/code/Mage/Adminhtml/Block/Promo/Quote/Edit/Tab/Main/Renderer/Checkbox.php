@@ -17,17 +17,17 @@
  */
 class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
     extends Mage_Backend_Block_Abstract
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Checkbox render function
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
-        $checkbox = new Varien_Data_Form_Element_Checkbox($element->getData());
+        $checkbox = new Magento_Data_Form_Element_Checkbox($element->getData());
         $checkbox->setForm($element->getForm());
 
         $elementHtml = sprintf(

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Connect_Package_VO implements Iterator
+class Magento_Connect_Package_VO implements Iterator
 {
     protected $properties = array(
         'name' => '',

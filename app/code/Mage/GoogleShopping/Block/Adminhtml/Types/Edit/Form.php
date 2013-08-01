@@ -25,7 +25,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $itemType = $this->getItemType();
 
@@ -104,14 +104,14 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
      * Get Select field with list of available attribute sets for some target country
      *
      * @param  string $targetCountry
-     * @return Varien_Data_Form_Element_Select
+     * @return Magento_Data_Form_Element_Select
      */
     public function getAttributeSetsSelectElement($targetCountry)
     {
-        $field = new Varien_Data_Form_Element_Select();
+        $field = new Magento_Data_Form_Element_Select();
         $field->setName('attribute_set_id')
             ->setId('select_attribute_set')
-            ->setForm(new Varien_Data_Form())
+            ->setForm(new Magento_Data_Form())
             ->addClass('required-entry')
             ->setValues($this->_getAttributeSetsArray($targetCountry));
         return $field;
@@ -146,7 +146,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
 
         $ids = array();
         $itemType = $this->getItemType();
-        if ( !($itemType instanceof Varien_Object && $itemType->getId()) ) {
+        if ( !($itemType instanceof Magento_Object && $itemType->getId()) ) {
             $typesCollection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Type_Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();

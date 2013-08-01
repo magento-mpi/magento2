@@ -36,7 +36,7 @@ class Mage_Core_Model_Config_Locales implements Mage_Core_Model_ConfigInterface
      * Get configuration node
      *
      * @param string $path
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getNode($path = null)
     {

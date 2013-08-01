@@ -19,7 +19,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config implements Mage_Core_Model_ConfigInterface
+class Mage_Core_Model_Config_Base extends Magento_Simplexml_Config implements Mage_Core_Model_ConfigInterface
 {
     /**
      * List of instances
@@ -29,7 +29,7 @@ class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config implements Mag
     public static $instances = array();
 
     /**
-     * @param string|Varien_Simplexml_Element $sourceData $sourceData
+     * @param string|Magento_Simplexml_Element $sourceData $sourceData
      */
     public function __construct($sourceData = null)
     {

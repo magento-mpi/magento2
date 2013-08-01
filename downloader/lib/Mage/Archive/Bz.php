@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Archive
+ * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Class to work with bzip2 archives
  *
  * @category    Mage
- * @package     Mage_Archive
+ * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Archive_Bz extends Mage_Archive_Abstract implements Mage_Archive_Interface
+class Magento_Archive_Bz extends Magento_Archive_Abstract implements Magento_Archive_Interface
 {
 
     /**
@@ -27,10 +27,10 @@ class Mage_Archive_Bz extends Mage_Archive_Abstract implements Mage_Archive_Inte
     */
     public function pack($source, $destination)
     {
-        $fileReader = new Mage_Archive_Helper_File($source);
+        $fileReader = new Magento_Archive_Helper_File($source);
         $fileReader->open('r');
 
-        $archiveWriter = new Mage_Archive_Helper_File_Bz($destination);
+        $archiveWriter = new Magento_Archive_Helper_File_Bz($destination);
         $archiveWriter->open('w');
 
         while (!$fileReader->eof()) {
@@ -57,10 +57,10 @@ class Mage_Archive_Bz extends Mage_Archive_Abstract implements Mage_Archive_Inte
             $destination = $destination . $file;
         }
 
-        $archiveReader = new Mage_Archive_Helper_File_Bz($source);
+        $archiveReader = new Magento_Archive_Helper_File_Bz($source);
         $archiveReader->open('r');
 
-        $fileWriter = new Mage_Archive_Helper_File($destination);
+        $fileWriter = new Magento_Archive_Helper_File($destination);
         $fileWriter->open('w');
 
         while (!$archiveReader->eof()) {

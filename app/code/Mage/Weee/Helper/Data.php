@@ -169,8 +169,8 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
      * Proxy for Mage_Weee_Model_Tax::getProductWeeeAttributes()
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param null|false|Varien_Object   $shipping
-     * @param null|false|Varien_Object   $billing
+     * @param null|false|Magento_Object   $shipping
+     * @param null|false|Magento_Object   $billing
      * @param Mage_Core_Model_Website    $website
      * @param bool                       $calculateTaxes
      * @return array
@@ -245,8 +245,8 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
      * Get Product Weee attributes for price renderer
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param null|false|Varien_Object $shipping Shipping Address
-     * @param null|false|Varien_Object $billing Billing Address
+     * @param null|false|Magento_Object $shipping Shipping Address
+     * @param null|false|Magento_Object $billing Billing Address
      * @param null|Mage_Core_Model_Website $website
      * @param mixed $calculateTaxes
      * @return array
@@ -333,7 +333,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
      * Returns all summed WEEE taxes with all local taxes applied
      *
      * @throws Mage_Exception
-     * @param array $attributes Array of Varien_Object, result from getProductWeeeAttributes()
+     * @param array $attributes Array of Magento_Object, result from getProductWeeeAttributes()
      * @return float
      */
     public function getAmountInclTaxes($attributes)
@@ -341,7 +341,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         if (is_array($attributes)) {
             $amount = 0;
             foreach ($attributes as $attribute) {
-                /* @var $attribute Varien_Object */
+                /* @var $attribute Magento_Object */
                 $amount += $attribute->getAmount() + $attribute->getTaxAmount();
             }
         } else {

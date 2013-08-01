@@ -285,7 +285,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter sales collection by allowed stores
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function addSalesSaleCollectionStoreFilter($observer)
     {
@@ -297,7 +297,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Apply store filter on collection used in new order's rss
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Collections
      */
     public function rssOrderNewCollectionSelect($observer)
@@ -327,7 +327,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Apply websites filter on collection used in notify stock rss
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Collections
      */
     public function rssCatalogNotifyStockCollectionSelect($observer)
@@ -340,7 +340,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Apply websites filter on collection used in review rss
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Collections
      */
     public function rssCatalogReviewCollectionSelect($observer)

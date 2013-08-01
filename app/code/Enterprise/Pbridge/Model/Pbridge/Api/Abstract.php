@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
+class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
 {
     /**
      * Api response
@@ -37,7 +37,7 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Varien_Object
         $response = null;
         $debugData = array('request' => $request);
         try {
-            $http = new Varien_Http_Adapter_Curl();
+            $http = new Magento_HTTP_Adapter_Curl();
             $config = array('timeout' => 60);
             $http->setConfig($config);
             $http->write(

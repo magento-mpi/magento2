@@ -11,7 +11,7 @@
 /**
  * 3D Secure Validation Model
  */
-class Mage_Centinel_Model_Service extends Varien_Object
+class Mage_Centinel_Model_Service extends Magento_Object
 {
     /**
      * Cmpi public keys
@@ -198,7 +198,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
     /**
      * Process lookup validation and init new validation state model
      *
-     * @param Varien_Object $data
+     * @param Magento_Object $data
      */
     public function lookup($data)
     {
@@ -222,7 +222,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
     /**
      * Process authenticate validation
      *
-     * @param Varien_Object $data
+     * @param Magento_Object $data
      */
     public function authenticate($data)
     {
@@ -245,7 +245,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      * This check is performed on payment information submission, as well as on placing order.
      * Workflow state is stored validation state model
      *
-     * @param Varien_Object $data
+     * @param Magento_Object $data
      * @throws Mage_Core_Exception
      */
     public function validate($data)
@@ -374,7 +374,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             $map = $this->_cmpiMap;
         }
         if ($validationState = $this->_getValidationState()) {
-            $to = Varien_Object_Mapper::accumulateByMap($validationState, $to, $map);
+            $to = Magento_Object_Mapper::accumulateByMap($validationState, $to, $map);
         }
         return $to;
     }

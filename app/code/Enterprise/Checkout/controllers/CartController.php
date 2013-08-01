@@ -173,11 +173,11 @@ class Enterprise_Checkout_CartController
         $qty = $this->getRequest()->getParam('qty', 1);
 
         try {
-            $params = new Varien_Object();
+            $params = new Magento_Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
 
-            $buyRequest = new Varien_Object(array(
+            $buyRequest = new Magento_Object(array(
                 'product'   => $id,
                 'qty'       => $qty
             ));
@@ -206,7 +206,7 @@ class Enterprise_Checkout_CartController
     {
         $hasError = false;
         $id = (int)$this->getRequest()->getParam('id');
-        $buyRequest = new Varien_Object($this->getRequest()->getParams());
+        $buyRequest = new Magento_Object($this->getRequest()->getParams());
         try {
             $cart = $this->_getCart();
 

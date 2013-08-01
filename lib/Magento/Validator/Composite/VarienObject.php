@@ -9,10 +9,10 @@
  */
 
 /**
- * Validator encapsulates multiple validation rules for Varien_Object.
+ * Validator encapsulates multiple validation rules for Magento_Object.
  * Able to validate both individual fields and a whole object.
  */
-class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interface
+class Magento_Validator_Composite_MagentoObject implements Zend_Validate_Interface
 {
     /**
      * Validation rules per scope (particular fields or entire entity)
@@ -33,7 +33,7 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
      *
      * @param Zend_Validate_Interface $validator
      * @param string $fieldName Field name to apply validation to, or empty value to validate entity as a whole
-     * @return Magento_Validator_Composite_VarienObject
+     * @return Magento_Validator_Composite_MagentoObject
      */
     public function addRule(Zend_Validate_Interface $validator, $fieldName = '')
     {
@@ -54,7 +54,7 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
     /**
      * Check whether the entity is valid according to defined validation rules
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return bool
      *
      * @throws Mage_Core_Exception

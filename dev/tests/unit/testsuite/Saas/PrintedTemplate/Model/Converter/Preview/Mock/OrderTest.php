@@ -97,10 +97,10 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_OrderTest extends PHPUni
         $shippingTaxes = $method->invokeArgs($model, array());
 
         foreach ($itemsTaxes as &$item) {
-            $item = new Varien_Object($item);
+            $item = new Magento_Object($item);
         }
         foreach ($shippingTaxes as &$item) {
-            $item = new Varien_Object($item);
+            $item = new Magento_Object($item);
         }
         $expectedData = array('items_taxes' => $itemsTaxes, 'shipping_taxes' => $shippingTaxes);
 

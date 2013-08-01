@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Connect_Package_Target
+class Magento_Connect_Package_Target
 {
 
     /**

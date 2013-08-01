@@ -15,18 +15,18 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Loader
+class Magento_Connect_Loader
 {
     /**
      * Factory for HTTP client
      *
      * @param string|false $protocol  'curl'/'socket' or false for auto-detect
-     * @return Mage_HTTP_IClient|Mage_Connect_Loader_Ftp
+     * @return Magento_HTTP_IClient|Magento_Connect_Loader_Ftp
      */
     public static function getInstance($protocol='')
     {
         if ($protocol  == 'ftp') {
-            return new Mage_Connect_Loader_Ftp();
+            return new Magento_Connect_Loader_Ftp();
         } else {
             return Mage_HTTP_Client::getInstance();
         }

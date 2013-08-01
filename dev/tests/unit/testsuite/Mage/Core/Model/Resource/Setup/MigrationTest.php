@@ -16,7 +16,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
 {
     /**
      * Result of update class aliases to compare with expected.
-     * Used in callback for Varien_Db_Select::update.
+     * Used in callback for Magento_DB_Select::update.
      *
      * @var array
      */
@@ -24,14 +24,14 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
 
     /**
      * Where conditions to compare with expected.
-     * Used in callback for Varien_Db_Select::where.
+     * Used in callback for Magento_DB_Select::where.
      *
      * @var array
      */
     protected $_actualWhere;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Varien_Db_Select
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_DB_Select
      */
     protected $_selectMock;
 
@@ -53,7 +53,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
      */
     protected function _getModelDependencies($tableRowsCount = 0, $tableData = array(), $aliasesMap = array())
     {
-        $this->_selectMock = $this->getMock('Varien_Db_Select', array(), array(), '', false);
+        $this->_selectMock = $this->getMock('Magento_DB_Select', array(), array(), '', false);
         $this->_selectMock->expects($this->any())
                     ->method('from')
                     ->will($this->returnSelf());
@@ -61,7 +61,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
                     ->method('where')
                     ->will($this->returnCallback(array($this, 'whereCallback')));
 
-        $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql',
+        $adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql',
             array('select', 'update', 'fetchAll', 'fetchOne'), array(), '', false
         );
         $adapterMock->expects($this->any())
@@ -90,7 +90,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Callback for Varien_Db_Select::update
+     * Callback for Magento_DB_Select::update
      *
      * @param string $table
      * @param array $bind
@@ -110,10 +110,10 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Callback for Varien_Db_Select::where
+     * Callback for Magento_DB_Select::where
      *
      * @param string $condition
-     * @return PHPUnit_Framework_MockObject_MockObject|Varien_Db_Select
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_DB_Select
      */
     public function whereCallback($condition)
     {

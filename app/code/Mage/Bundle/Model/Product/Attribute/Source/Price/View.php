@@ -75,7 +75,7 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Varien_Db_Ddl_Table::TYPE_INTEGER;
+            $column['type']     = Magento_DB_Ddl_Table::TYPE_INTEGER;
             $column['nullable'] = true;
             $column['comment']  = 'Bundle Price View ' . $attributeCode . ' column';
         }
@@ -87,7 +87,7 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
      * Retrieve Select for update Attribute value in flat table
      *
      * @param   int $store
-     * @return  Varien_Db_Select|null
+     * @return  Magento_DB_Select|null
      */
     public function getFlatUpdateSelect($store)
     {

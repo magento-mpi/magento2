@@ -10,7 +10,7 @@
 
 
 /**
- * Resource helper class for Oracle Varien DB Adapter
+ * Resource helper class for Oracle Magento DB Adapter
  *
  * @category    Enterprise
  * @package     Enterprise_Reminder
@@ -22,11 +22,11 @@ class Enterprise_Reminder_Model_Resource_Helper_Oracle extends Mage_Core_Model_R
     /**
      * Sets limit for rules specific select
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param int $limit
      * @return void
      */
-    public function setRuleLimit(Varien_Db_Select $select, $limit)
+    public function setRuleLimit(Magento_DB_Select $select, $limit)
     {
         $select->where('ROWNUM <= ?', $limit);
     }

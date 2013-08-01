@@ -16,7 +16,7 @@ class Magento_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
     {
         // Delete a directory, where tests do some temporary work
         $tmpDir = $this->_getBaseFixtureDir() . '/config_dist/tmp';
-        Varien_Io_File::rmdirRecursive($tmpDir);
+        Magento_Io_File::rmdirRecursive($tmpDir);
     }
 
     /**

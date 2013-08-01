@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-final class Mage_Connect_Command_Package
-extends Mage_Connect_Command
+final class Magento_Connect_Command_Package
+extends Magento_Connect_Command
 {
     /**
      * Dependencies list
@@ -46,7 +46,7 @@ extends Mage_Connect_Command
         }
 
         try {
-            $packager = new Mage_Connect_Package($file);
+            $packager = new Magento_Connect_Package($file);
             $res = $packager->validate();
             if(!$res) {
                 $this->doError($command, implode("\n", $packager->getErrors()));
@@ -95,7 +95,7 @@ extends Mage_Connect_Command
                 $config = $this->config();
             }
 
-            $rest = new Mage_Connect_Rest($config->protocol);
+            $rest = new Magento_Connect_Rest($config->protocol);
             if(!empty($channelAuth)){
                 $rest->getLoader()->setCredentials($channelAuth['username'], $channelAuth['password']);
             }
@@ -175,7 +175,7 @@ extends Mage_Connect_Command
                 throw new Exception("Arguments should be: source.tgz [target.tgz]");
             }
             $sourceFile = $params[0];
-            $converter = new Mage_Connect_Converter();
+            $converter = new Magento_Connect_Converter();
             $targetFile = isset($params[1]) ? $params[1] : false;
             $result = $converter->convertPearToMage($sourceFile, $targetFile);
             $this->ui()->output("Saved to: ".$result);

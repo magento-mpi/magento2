@@ -24,13 +24,13 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
         $session = Mage::getSingleton('Mage_Core_Model_Session');
         $formData = $session->getRmaFormData(true);
         if (!empty($formData)) {
-            $data = new Varien_Object();
+            $data = new Magento_Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
         $errorKeys = $session->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
-            $data = new Varien_Object();
+            $data = new Magento_Object();
             $data->addData($errorKeys);
             $this->setErrorKeys($data);
         }

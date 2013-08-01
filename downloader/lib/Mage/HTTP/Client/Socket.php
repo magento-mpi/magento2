@@ -15,8 +15,8 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_HTTP_Client_Socket
-    implements Mage_HTTP_IClient
+class Magento_HTTP_Client_Socket
+    implements Magento_HTTP_IClient
 {
     /**
      * Hostname

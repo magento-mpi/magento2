@@ -36,10 +36,10 @@ class Saas_Search_Model_Observer
     /**
      * Add index version to processor metadata for subsequent saving in cache
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return void
      */
-    public function processorAddMetadataBeforeSave(Varien_Event_Observer $observer)
+    public function processorAddMetadataBeforeSave(Magento_Event_Observer $observer)
     {
         if ($this->_helper->isThirdPartSearchEngine()) {
             $indexVersion = $this->_registryManager->registry('search_engine_index_version');

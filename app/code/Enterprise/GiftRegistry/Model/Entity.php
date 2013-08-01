@@ -125,7 +125,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Model_Translate $translate
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -135,7 +135,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         Mage_Core_Model_Config $applicationConfig,
         Mage_Core_Model_Translate $translate,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data= array()
     ) {
         $this->_app = $application;
@@ -198,7 +198,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Add new product to registry
      *
      * @param int|Mage_Sales_Model_Quote_Item $itemToAdd
-     * @param null|Varien_Object $request
+     * @param null|Magento_Object $request
      * @return false|Enterprise_GiftRegistry_Model_Item
      * @throws Mage_Core_Exception
      */
@@ -224,7 +224,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             $cartCandidates = array($cartCandidate);
         } else {
             if (!$request) {
-                $request = new Varien_Object();
+                $request = new Magento_Object();
                 $request->setBundleOption(array());//Bundle options mocking for compatibility
             }
             $cartCandidates = $product->getTypeInstance()->prepareForCart($request, $product);
@@ -338,14 +338,14 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     /**
      * Send share emails
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
         $senderName = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderName());
         $senderEmail = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderEmail());
-        $result = new Varien_Object(array('is_success' => false));
+        $result = new Magento_Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(
@@ -875,7 +875,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     /**
      * Custom handler for giftregistry share email action
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */

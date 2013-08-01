@@ -154,26 +154,26 @@ class Mage_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getAssignedTheme()
     {
-        return new Varien_Object(array('id' => 1));
+        return new Magento_Object(array('id' => 1));
     }
 
     /**
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getUnassignedTheme()
     {
-        return new Varien_Object(array('id' => 2));
+        return new Magento_Object(array('id' => 2));
     }
 
     /**
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getStore()
     {
-        return new Varien_Object(array('id' => 55));
+        return new Magento_Object(array('id' => 55));
     }
 }

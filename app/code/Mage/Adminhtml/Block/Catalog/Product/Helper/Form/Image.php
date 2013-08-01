@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image extends Varien_Data_Form_Element_Image
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image extends Magento_Data_Form_Element_Image
 {
     protected function _getUrl()
     {

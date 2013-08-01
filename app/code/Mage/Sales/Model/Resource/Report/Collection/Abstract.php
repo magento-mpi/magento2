@@ -27,7 +27,7 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract
     protected $_orderStatus        = null;
 
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Sales_Model_Resource_Report $resource
     ) {
         parent::__construct($fetchStrategy, $resource);

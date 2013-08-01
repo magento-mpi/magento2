@@ -31,7 +31,7 @@ class Mage_HTTP_Client
      * @static
      * @throws Exception
      * @param string|bool $frontend  'curl'/'socket' or false for auto-detect
-     * @return Mage_HTTP_IClient
+     * @return Magento_HTTP_IClient
      */
     public static function getInstance($frontend = false)
     {

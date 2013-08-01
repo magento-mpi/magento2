@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('general', array(
             'legend' => Mage::helper('Mage_Core_Helper_Data')->__('General Settings'))

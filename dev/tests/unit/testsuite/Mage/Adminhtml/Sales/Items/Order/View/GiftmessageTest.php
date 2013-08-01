@@ -13,12 +13,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_GiftmessageTest extends PHPUnit_Fram
 {
     public function testGetSaveButtonHtml()
     {
-        $item = new Varien_Object;
+        $item = new Magento_Object;
         $expectedHtml = 'some_value';
 
         $block = $this->getMock('Mage_Adminhtml_Block_Sales_Order_View_Giftmessage',
             array('getChildBlock', 'getChildHtml'), array(), '', false);
-        $block->setEntity(new Varien_Object);
+        $block->setEntity(new Magento_Object);
         $block->expects($this->once())
             ->method('getChildBlock')
             ->with('save_button')

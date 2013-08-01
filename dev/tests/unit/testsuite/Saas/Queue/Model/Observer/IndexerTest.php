@@ -72,7 +72,7 @@ class Saas_Queue_Model_Observer_IndexerTest extends PHPUnit_Framework_TestCase
         $this->_flagMock->expects($this->at(2))->method('setState')->with(Saas_Index_Model_Flag::STATE_FINISHED);
         $this->_flagMock->expects($this->at(3))->method('save');
 
-        $observer = new Varien_Event_Observer();
+        $observer = new Magento_Event_Observer();
         $this->_indexerMock->expects($this->once())->method('reindexAll');
         $this->_model->processReindexAll($observer);
     }
@@ -90,7 +90,7 @@ class Saas_Queue_Model_Observer_IndexerTest extends PHPUnit_Framework_TestCase
         $this->_flagMock->expects($this->at(2))->method('setState')->with(Saas_Index_Model_Flag::STATE_FINISHED);
         $this->_flagMock->expects($this->at(3))->method('save');
 
-        $observer = new Varien_Event_Observer();
+        $observer = new Magento_Event_Observer();
         $this->_indexerMock->expects($this->once())->method('reindexRequired');
         $this->_model->processReindexRequired($observer);
     }

@@ -254,7 +254,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     protected function _dispatchRenderGroupedAfterEvent(&$html)
     {
-        $transport = new Varien_Object(array('output' => $html));
+        $transport = new Magento_Object(array('output' => $html));
         $params = array(
             'element_name' => $this->getNameInLayout(),
             'layout'       => $this->getLayout(),

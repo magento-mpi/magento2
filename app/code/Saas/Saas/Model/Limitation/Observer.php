@@ -42,10 +42,10 @@ class Saas_Saas_Model_Limitation_Observer
     /**
      * Limit module functionality
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function limitFunctionality(Varien_Event_Observer $observer)
+    public function limitFunctionality(Magento_Event_Observer $observer)
     {
         if (!$this->_specification->isSatisfiedBy($this->_request)) {
             $this->_saasHelper->customizeNoRoutForward($this->_request);

@@ -61,7 +61,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
                 ->toOptionArray()
             );
 
-        /** @var $element Varien_Data_Form_Element_Abstract */
+        /** @var $element Magento_Data_Form_Element_Abstract */
         $element = $form->getElement('entity');
         $element->setData('onchange', 'varienImportExportScheduled.getFilter();');
 

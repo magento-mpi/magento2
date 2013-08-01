@@ -86,7 +86,7 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
                 'plain_value' => $object->getPlainValue(),
                 'html_value'  => $object->getHtmlValue()
             );
-            $data = $this->_prepareDataForTable(new Varien_Object($data), $this->getTable('core_variable_value'));
+            $data = $this->_prepareDataForTable(new Magento_Object($data), $this->getTable('core_variable_value'));
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getTable('core_variable_value'),
                 $data,

@@ -155,12 +155,12 @@
             <Mage_Webapi_Controller_Router_Route>
                 <shared>0</shared>
             </Mage_Webapi_Controller_Router_Route>
-            <Mage_Xml_Generator>
+            <Magento_Xml_Generator>
                 <shared>0</shared>
-            </Mage_Xml_Generator>
-            <Mage_Xml_Parser>
+            </Magento_Xml_Generator>
+            <Magento_Xml_Parser>
                 <shared>0</shared>
-            </Mage_Xml_Parser>
+            </Magento_Xml_Parser>
             <Magento_Code_Scanner_DirectoryScanner>
                 <shared>0</shared>
             </Magento_Code_Scanner_DirectoryScanner>

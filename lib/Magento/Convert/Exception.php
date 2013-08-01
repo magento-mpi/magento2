@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Convert
+ * @category   Magento
+ * @package    Magento_Convert
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,11 +12,11 @@
 /**
  * Convert exception
  *
- * @category   Varien
- * @package    Varien_Convert
+ * @category   Magento
+ * @package    Magento_Convert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Convert_Exception extends Varien_Exception
+class Magento_Convert_Exception extends Magento_Exception
 {
     const NOTICE = 'NOTICE';
     const WARNING = 'WARNING';

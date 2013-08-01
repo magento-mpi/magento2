@@ -23,7 +23,7 @@ class Saas_PrintedTemplate_Model_Variable_Address_AbstractTest extends PHPUnit_F
      */
     public function testGetCountry($countryId, $countryData, $expectedCountry)
     {
-        $country  = new Varien_Object();
+        $country  = new Magento_Object();
         foreach ($countryData as $field => $value) {
             $country->setData($field, $value);
         }

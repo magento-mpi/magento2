@@ -155,7 +155,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         $connectDefault = $this->_resourceConfig
                 ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
-        $data = new Varien_Object();
+        $data = new Magento_Object();
         $data->setDbHost($connectDefault->host)
             ->setDbName($connectDefault->dbname)
             ->setDbUser($connectDefault->username)

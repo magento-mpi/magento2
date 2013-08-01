@@ -51,11 +51,11 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
     /**
      * Reindex all processes
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Indexer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function processReindexAll(Varien_Event_Observer $observer)
+    public function processReindexAll(Magento_Event_Observer $observer)
     {
         $this->_flag->setState(Saas_Index_Model_Flag::STATE_PROCESSING);
         $this->_flag->save();
@@ -70,11 +70,11 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
     /**
      * Reindex only processes that are invalidated
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Indexer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function processReindexRequired(Varien_Event_Observer $observer)
+    public function processReindexRequired(Magento_Event_Observer $observer)
     {
         $this->_flag->setState(Saas_Index_Model_Flag::STATE_PROCESSING);
         $this->_flag->save();

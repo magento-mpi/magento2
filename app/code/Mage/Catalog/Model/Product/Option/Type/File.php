@@ -91,20 +91,20 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     /**
      * Returns additional params for processing options
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getProcessingParams()
     {
         $buyRequest = $this->getRequest();
         $params = $buyRequest->getData('_processing_params');
         /*
-         * Notice check for params to be Varien_Object - by using object we protect from
+         * Notice check for params to be Magento_Object - by using object we protect from
          * params being forged and contain data from user frontend input
          */
-        if ($params instanceof Varien_Object) {
+        if ($params instanceof Magento_Object) {
             return $params;
         }
-        return new Varien_Object();
+        return new Magento_Object();
     }
 
     /**

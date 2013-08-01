@@ -14,18 +14,18 @@ $installer = $this;
 $installer->startSetup();
 $connection = $installer->getConnection();
 
-$templateTable = new Varien_Db_Ddl_Table;
+$templateTable = new Magento_DB_Ddl_Table;
 $templateTable->setName($this->getTable('saas_printed_template'))
     ->addColumn(
-        'template_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 10,
+        'template_id', Magento_DB_Ddl_Table::TYPE_INTEGER, 10,
         array(
             'nullable' => false,
             'unsigned' => true,
             'primary'  => true
         )
     )
-    ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
-    ->addColumn('page_size', Varien_Db_Ddl_Table::TYPE_TEXT, 40)
+    ->addColumn('name', Magento_DB_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('page_size', Magento_DB_Ddl_Table::TYPE_TEXT, 40)
     ->setOption('ENGINE', 'InnoDB')
     ->setOption('DEFAULT CHARSET', 'utf8')
     ->setOption('COMMENT', 'Printed templates');
@@ -118,14 +118,14 @@ $connection->addIndex(
 );
 
 // setup tax order item table
-$itemTaxTable = new Varien_Db_Ddl_Table;
+$itemTaxTable = new Magento_DB_Ddl_Table;
 $itemTaxTable->setName($this->getTable('saas_printed_template_order_item_tax'))
-    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
-    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
-    ->addColumn('is_tax_after_discount', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
-    ->addColumn('is_discount_on_incl_tax', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
+    ->addColumn('code', Magento_DB_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('title', Magento_DB_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('is_tax_after_discount', Magento_DB_Ddl_Table::TYPE_BOOLEAN)
+    ->addColumn('is_discount_on_incl_tax', Magento_DB_Ddl_Table::TYPE_BOOLEAN)
     ->addColumn(
-        'item_tax_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 10,
+        'item_tax_id', Magento_DB_Ddl_Table::TYPE_INTEGER, 10,
         array(
             'nullable' => false,
             'unsigned' => true,
@@ -133,26 +133,26 @@ $itemTaxTable->setName($this->getTable('saas_printed_template_order_item_tax'))
         )
     )
     ->addColumn(
-        'item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 10,
+        'item_id', Magento_DB_Ddl_Table::TYPE_INTEGER, 10,
         array(
             'nullable' => false,
             'unsigned' => true
         )
     )
     ->addColumn(
-        'percent', Varien_Db_Ddl_Table::TYPE_DECIMAL,
+        'percent', Magento_DB_Ddl_Table::TYPE_DECIMAL,
         array(12, 4), array('nullable' => false)
     )
     ->addColumn(
-        'real_percent', Varien_Db_Ddl_Table::TYPE_DECIMAL,
+        'real_percent', Magento_DB_Ddl_Table::TYPE_DECIMAL,
         array(12, 4), array('nullable' => false)
     )
     ->addColumn(
-        'priority', Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'priority', Magento_DB_Ddl_Table::TYPE_INTEGER,
         11, array('nullable' => false)
     )
     ->addColumn(
-        'position', Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'position', Magento_DB_Ddl_Table::TYPE_INTEGER,
         11, array('nullable' => false)
     )
     ->setOption('ENGINE', 'InnoDB')
@@ -164,21 +164,21 @@ $itemTaxTable->setName($this->getTable('saas_printed_template_order_item_tax'))
         'item_id',
         $this->getTable('sales_flat_order_item'),
         'item_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE,
-        Varien_Db_Ddl_Table::ACTION_CASCADE
+        Magento_DB_Ddl_Table::ACTION_CASCADE,
+        Magento_DB_Ddl_Table::ACTION_CASCADE
     );
 
 // setup tax order shipping table
-$shippingTaxTable = new Varien_Db_Ddl_Table;
+$shippingTaxTable = new Magento_DB_Ddl_Table;
 $shippingTaxTable->setName(
     $this->getTable('saas_printed_template_order_shipping_tax')
 )
-    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
-    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
-    ->addColumn('is_tax_after_discount', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
-    ->addColumn('is_discount_on_incl_tax', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
+    ->addColumn('code', Magento_DB_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('title', Magento_DB_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('is_tax_after_discount', Magento_DB_Ddl_Table::TYPE_BOOLEAN)
+    ->addColumn('is_discount_on_incl_tax', Magento_DB_Ddl_Table::TYPE_BOOLEAN)
     ->addColumn(
-        'shipping_tax_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 10,
+        'shipping_tax_id', Magento_DB_Ddl_Table::TYPE_INTEGER, 10,
         array(
             'nullable' => false,
             'unsigned' => true,
@@ -186,26 +186,26 @@ $shippingTaxTable->setName(
         )
     )
     ->addColumn(
-        'order_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 10,
+        'order_id', Magento_DB_Ddl_Table::TYPE_INTEGER, 10,
         array(
             'nullable' => false,
             'unsigned' => true
         )
     )
     ->addColumn(
-        'percent', Varien_Db_Ddl_Table::TYPE_DECIMAL,
+        'percent', Magento_DB_Ddl_Table::TYPE_DECIMAL,
         array(12, 4), array('nullable' => false)
     )
     ->addColumn(
-        'real_percent', Varien_Db_Ddl_Table::TYPE_DECIMAL,
+        'real_percent', Magento_DB_Ddl_Table::TYPE_DECIMAL,
         array(12, 4), array('nullable' => false)
     )
     ->addColumn(
-        'priority', Varien_Db_Ddl_Table::TYPE_INTEGER, 11,
+        'priority', Magento_DB_Ddl_Table::TYPE_INTEGER, 11,
         array('nullable' => false)
     )
     ->addColumn(
-        'position', Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'position', Magento_DB_Ddl_Table::TYPE_INTEGER,
         11, array('nullable' => false)
     )
     ->setOption('ENGINE', 'InnoDB')
@@ -217,8 +217,8 @@ $shippingTaxTable->setName(
         'order_id',
         $this->getTable('sales_flat_order'),
         'entity_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE,
-        Varien_Db_Ddl_Table::ACTION_CASCADE
+        Magento_DB_Ddl_Table::ACTION_CASCADE,
+        Magento_DB_Ddl_Table::ACTION_CASCADE
     );
 
 $connection->createTable($itemTaxTable);

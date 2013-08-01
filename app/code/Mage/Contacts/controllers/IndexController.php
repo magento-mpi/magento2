@@ -65,7 +65,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
             try {
-                $postObject = new Varien_Object();
+                $postObject = new Magento_Object();
                 $postObject->setData($post);
 
                 $error = false;

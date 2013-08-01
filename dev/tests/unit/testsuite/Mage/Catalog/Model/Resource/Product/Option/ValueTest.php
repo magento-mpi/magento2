@@ -64,8 +64,10 @@ class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value
     public function __construct()
     {
         $this->_connections = array(
-            'read' => new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Varien_Db_Adapter_Pdo_Mysql(),
-            'write' => new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Varien_Db_Adapter_Pdo_Mysql(),
+            'read' =>
+                new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
+            'write' =>
+                new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
         );
     }
 
@@ -92,10 +94,10 @@ class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value
 }
 
 /*
- * Extend Varien_Db_Adapter_Pdo_Mysql and stub needed methods
+ * Extend Magento_DB_Adapter_Pdo_Mysql and stub needed methods
  */
-class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Varien_Db_Adapter_Pdo_Mysql
-    extends Varien_Db_Adapter_Pdo_Mysql
+class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql
+    extends Magento_DB_Adapter_Pdo_Mysql
 {
     /**
      * Disable parent constructor

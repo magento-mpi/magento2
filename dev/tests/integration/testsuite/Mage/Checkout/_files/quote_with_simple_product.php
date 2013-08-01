@@ -15,7 +15,7 @@ require __DIR__ . '/../../Catalog/_files/products.php';
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->load(1);
 
-$requestInfo = new Varien_Object(array(
+$requestInfo = new Magento_Object(array(
     'qty' => 1
 ));
 

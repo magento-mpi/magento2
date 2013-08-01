@@ -16,7 +16,7 @@ class Enterprise_Tag_Model_AdminGws_Blocks extends Enterprise_AdminGws_Model_Obs
     /**
      * Remove control buttons if user does not have exclusive access to current tag
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Tag_Model_AdminGws_Blocks
      */
     public function removeTagButtons($observer)
@@ -39,7 +39,7 @@ class Enterprise_Tag_Model_AdminGws_Blocks extends Enterprise_AdminGws_Model_Obs
     /**
      * Remove massactions for limited user
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Tag_Model_AdminGws_Blocks
      */
     public function removeTagGridActions($observer)
@@ -56,7 +56,7 @@ class Enterprise_Tag_Model_AdminGws_Blocks extends Enterprise_AdminGws_Model_Obs
     /**
      * Disable fields in edit form if user does not have exclusive access to current tag
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Tag_Model_AdminGws_Blocks
      */
     public function disableTagEditFormFields($observer)

@@ -76,7 +76,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

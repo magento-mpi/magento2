@@ -17,7 +17,7 @@ class Mage_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework_Te
         $resource->expects($this->any())
             ->method('addCommitCallback')
             ->will($this->returnValue($resource));
-        $resourceCollection = $this->getMock('Varien_Data_Collection_Db', array(), array(), '', false);
+        $resourceCollection = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
         $mergeService = $this->getMock('Mage_Core_Model_Page_Asset_MergeService', array(), array(), '', false);
 
         $model = $this->getMock(

@@ -148,7 +148,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 }
             }
             elseif ($this->_linkType == self::LINK_TYPE_FILE) {
-                $this->_handle = new Varien_Io_File();
+                $this->_handle = new Magento_Io_File();
                 if (!is_file($this->_resourceFile)) {
                     Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($this->_resourceFile);
                 }

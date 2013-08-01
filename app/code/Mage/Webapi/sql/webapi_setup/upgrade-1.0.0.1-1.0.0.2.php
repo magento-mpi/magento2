@@ -16,14 +16,14 @@ $table = $installer->getTable('webapi_user');
 
 $connection->dropIndex(
     $table,
-    $installer->getIdxName('webapi_user', array('user_name'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    $installer->getIdxName('webapi_user', array('user_name'), Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE)
 );
 
 $connection->addColumn(
     $table,
     'company_name',
     array(
-        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => true,
         'comment' => 'Company Name',
@@ -33,7 +33,7 @@ $connection->addColumn(
     $table,
     'contact_email',
     array(
-        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'Contact Email',
@@ -44,7 +44,7 @@ $connection->changeColumn(
     'user_name',
     'api_key',
     array(
-        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'Web API key'
@@ -53,9 +53,9 @@ $connection->changeColumn(
 
 $connection->addIndex(
     $table,
-    $installer->getIdxName('webapi_user', array('api_key'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName('webapi_user', array('api_key'), Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
     'api_key',
-    Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+    Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE
 );
 
 $installer->endSetup();

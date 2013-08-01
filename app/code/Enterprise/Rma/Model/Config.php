@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Config extends Varien_Object
+class Enterprise_Rma_Model_Config extends Magento_Object
 {
     /**
      * XML configuration paths

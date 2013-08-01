@@ -37,9 +37,9 @@ class Mage_Core_Model_Event_Invoker_InvokerDefault implements Mage_Core_Model_Ev
      * Dispatch event
      *
      * @param array $configuration
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function dispatch(array $configuration, Varien_Event_Observer $observer)
+    public function dispatch(array $configuration, Magento_Event_Observer $observer)
     {
         switch ($configuration['type']) {
             case 'disabled':
@@ -61,7 +61,7 @@ class Mage_Core_Model_Event_Invoker_InvokerDefault implements Mage_Core_Model_Ev
      *
      * @param object $object
      * @param string $method
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Core_Model_Event_InvokerInterface
      * @throws Mage_Core_Exception
      */

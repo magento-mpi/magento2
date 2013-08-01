@@ -35,7 +35,7 @@ class Mage_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
     {
         $request = $this->_objectManager->get('Mage_Core_Controller_Request_Http');
         $response = $this->_objectManager->get('Mage_Core_Controller_Response_Http');
-        $handler = $this->_objectManager->get('Magento_Http_Handler_Composite');
+        $handler = $this->_objectManager->get('Magento_HTTP_Handler_Composite');
         $handler->handle($request, $response);
     }
 }

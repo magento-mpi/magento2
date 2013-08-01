@@ -82,7 +82,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
     /**
      * Clean all bunches from table.
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     public function cleanBunches()
     {

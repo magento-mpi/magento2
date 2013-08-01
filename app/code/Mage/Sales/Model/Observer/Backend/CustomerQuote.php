@@ -40,9 +40,9 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuote
     /**
      * Set new customer group to all his quotes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function dispatch(Varien_Event_Observer $observer)
+    public function dispatch(Magento_Event_Observer $observer)
     {
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();

@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
+abstract class Mage_Checkout_Model_Type_Abstract extends Magento_Object
 {
     /**
      * Retrieve checkout session model

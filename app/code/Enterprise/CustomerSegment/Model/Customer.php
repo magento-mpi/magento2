@@ -66,7 +66,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Customer_Model_Session $customerSession
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Customer_Model_Session $customerSession,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);

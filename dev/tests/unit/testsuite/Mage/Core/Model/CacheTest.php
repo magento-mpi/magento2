@@ -278,8 +278,8 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $actualCacheTypes);
         $this->assertEquals(array_keys($expectedCacheTypes), array_keys($actualCacheTypes));
         foreach ($actualCacheTypes as $cacheId => $cacheTypeData) {
-            /** @var $cacheTypeData Varien_Object */
-            $this->assertInstanceOf('Varien_Object', $cacheTypeData);
+            /** @var $cacheTypeData Magento_Object */
+            $this->assertInstanceOf('Magento_Object', $cacheTypeData);
             $this->assertEquals($expectedCacheTypes[$cacheId], $cacheTypeData->getData());
         }
     }
@@ -301,7 +301,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $actualResult);
         $this->assertCount(1, $actualResult);
         $this->assertArrayHasKey('fixture_type_tag_scope', $actualResult);
-        $this->assertInstanceOf('Varien_Object', $actualResult['fixture_type_tag_scope']);
+        $this->assertInstanceOf('Magento_Object', $actualResult['fixture_type_tag_scope']);
     }
 
     public function testInvalidateType()

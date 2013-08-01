@@ -256,7 +256,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
      */
     protected function _saveFatalErrorReport($reportData)
     {
-        // TODO refactor method using Varien_Io_File class functions.
+        // TODO refactor method using Magento_Io_File class functions.
         /** Directory for API related reports. */
         /** @see Error_Processor::__construct() */
         $reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';

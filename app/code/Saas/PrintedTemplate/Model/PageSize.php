@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Saas_PrintedTemplate_Model_PageSize extends Varien_Object
+class Saas_PrintedTemplate_Model_PageSize extends Magento_Object
 {
     /**
      * Constructs page size by width height and name

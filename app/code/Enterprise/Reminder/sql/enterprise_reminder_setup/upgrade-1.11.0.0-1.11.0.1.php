@@ -23,7 +23,7 @@ $connection->changeColumn(
     'active_from',
     'from_date',
     array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
+        'type'      => Magento_DB_Ddl_Table::TYPE_DATE,
         'nullable'  => true,
         'default'   => null
     )
@@ -34,7 +34,7 @@ $connection->changeColumn(
     'active_to',
     'to_date',
     array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
+        'type'      => Magento_DB_Ddl_Table::TYPE_DATE,
         'nullable'  => true,
         'default'   => null
     )
@@ -60,7 +60,7 @@ $connection->addForeignKey(
     'website_id',
     $coreWebsiteTable,
     'website_id',
-    Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
+    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
 );
 
 $installer->endSetup();

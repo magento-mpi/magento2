@@ -50,10 +50,10 @@ class Saas_Limitation_Model_Observer_Controller
     /**
      * Display message in the notification area upon reaching the limitation
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function displayNotification(Varien_Event_Observer $observer)
+    public function displayNotification(Magento_Event_Observer $observer)
     {
         if ($this->_limitationValidator->exceedsThreshold($this->_limitation)) {
             $this->_session->addNotice($this->_message);

@@ -15,8 +15,8 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_HTTP_Client_Curl
-implements Mage_HTTP_IClient
+class Magento_HTTP_Client_Curl
+implements Magento_HTTP_IClient
 {
     /**
      * Session Cookie storage, magento_root/var directory used

@@ -126,7 +126,7 @@ final class Mage
     /**
      * Object cache instance
      *
-     * @var Varien_Object_Cache
+     * @var Magento_Object_Cache
      */
     static private $_objects;
 
@@ -337,15 +337,15 @@ final class Mage
     }
 
     /**
-     * Varien Objects Cache
+     * Magento Objects Cache
      *
      * @param string $key optional, if specified will load this key
-     * @return Varien_Object_Cache
+     * @return Magento_Object_Cache
      */
     public static function objects($key = null)
     {
         if (!self::$_objects) {
-            self::$_objects = new Varien_Object_Cache;
+            self::$_objects = new Magento_Object_Cache;
         }
         if (is_null($key)) {
             return self::$_objects;

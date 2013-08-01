@@ -54,7 +54,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
 
     /**
      * Subscribers collection
-     * @var Varien_Data_Collection_Db
+     * @var Magento_Data_Collection_Db
      */
     protected $_subscribersCollection = null;
 
@@ -108,7 +108,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
     /**
      * Returns subscribers collection for this queue
      *
-     * @return Varien_Data_Collection_Db
+     * @return Magento_Data_Collection_Db
      */
     public function getSubscribersCollection()
     {

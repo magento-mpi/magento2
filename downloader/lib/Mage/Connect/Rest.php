@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Rest
+class Magento_Connect_Rest
 {
     /**
      * Paths for xml config files
@@ -29,14 +29,14 @@ class Mage_Connect_Rest
 
     /**
      * HTTP Loader
-     * @var Mage_HTTP_IClient
+     * @var Magento_HTTP_IClient
      */
     protected $_loader = null;
 
     /**
      * XML parser
      *
-     * @var Mage_Xml_Parser
+     * @var Magento_Xml_Parser
      */
     protected $_parser = null;
 
@@ -95,12 +95,12 @@ class Mage_Connect_Rest
     /**
      * Get HTTP loader
      *
-     * @return Mage_HTTP_IClient|Mage_Connect_Loader_Ftp
+     * @return Magento_HTTP_IClient|Magento_Connect_Loader_Ftp
      */
     public function getLoader()
     {
         if (is_null($this->_loader)) {
-            $this->_loader = Mage_Connect_Loader::getInstance($this->_protocol);
+            $this->_loader = Magento_Connect_Loader::getInstance($this->_protocol);
         }
         return $this->_loader;
     }
@@ -108,12 +108,12 @@ class Mage_Connect_Rest
     /**
      * Get parser
      *
-     * @return Mage_Xml_Parser
+     * @return Magento_Xml_Parser
      */
     protected function getParser()
     {
         if (is_null($this->_parser)) {
-            $this->_parser = new Mage_Xml_Parser();
+            $this->_parser = new Magento_Xml_Parser();
         }
         return $this->_parser;
     }
@@ -150,7 +150,7 @@ class Mage_Connect_Rest
         $parser = $this->getParser();
         $out = $parser->loadXML($out)->xmlToArray();
 
-        $vo = new Mage_Connect_Channel_VO();
+        $vo = new Magento_Connect_Channel_VO();
         $vo->fromArray($out['channel']);
         if (!$vo->validate()) {
             throw new Exception("Invalid channel.xml file");
@@ -303,7 +303,7 @@ class Mage_Connect_Rest
         if (false === $out) {
             return false;
         }
-        return new Mage_Connect_Package($out);
+        return new Magento_Connect_Package($out);
     }
 
     /**
@@ -311,7 +311,7 @@ class Mage_Connect_Rest
      *
      * @param $package
      * @param $version
-     * @return Mage_Connect_Package|bool
+     * @return Magento_Connect_Package|bool
      */
     public function getPackageReleaseInfo($package, $version)
     {
@@ -319,7 +319,7 @@ class Mage_Connect_Rest
         if (false === $out) {
             return false;
         }
-        return new Mage_Connect_Package($out);
+        return new Magento_Connect_Package($out);
     }
 
     /**

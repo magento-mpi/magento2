@@ -66,11 +66,11 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
     /**
      * Prepare form
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'import_item_form',
             'method'    => 'post'
         ));

@@ -43,8 +43,8 @@ class Mage_Directory_Model_Resource_Region_Collection extends Mage_Core_Model_Re
         $this->_countryTable    = $this->getTable('directory_country');
         $this->_regionNameTable = $this->getTable('directory_country_region_name');
 
-        $this->addOrder('name', Varien_Data_Collection::SORT_ORDER_ASC);
-        $this->addOrder('default_name', Varien_Data_Collection::SORT_ORDER_ASC);
+        $this->addOrder('name', Magento_Data_Collection::SORT_ORDER_ASC);
+        $this->addOrder('default_name', Magento_Data_Collection::SORT_ORDER_ASC);
     }
 
     /**

@@ -60,8 +60,8 @@ class Mage_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_TestCas
     public function createDataProvider()
     {
         return array(
-            array(Mage_Core_Model_Image_AdapterFactory::ADAPTER_GD2, 'Varien_Image_Adapter_Gd2'),
-            array(Mage_Core_Model_Image_AdapterFactory::ADAPTER_IM, 'Varien_Image_Adapter_ImageMagick'),
+            array(Mage_Core_Model_Image_AdapterFactory::ADAPTER_GD2, 'Magento_Image_Adapter_Gd2'),
+            array(Mage_Core_Model_Image_AdapterFactory::ADAPTER_IM, 'Magento_Image_Adapter_ImageMagick'),
         );
     }
 
@@ -95,7 +95,7 @@ class Mage_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_TestCas
     public function testMageCoreException()
     {
         $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $imageAdapter = $this->getMockForAbstractClass('Varien_Image_Adapter_Abstract');
+        $imageAdapter = $this->getMockForAbstractClass('Magento_Image_Adapter_Abstract');
         $imageAdapter->expects($this->any())
             ->method('checkDependencies')
             ->will($this->throwException(new Exception));

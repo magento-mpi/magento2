@@ -22,7 +22,7 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Reso
     protected $_tagRelTable;
 
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Core_Model_Resource $resource
     ) {
         parent::__construct($fetchStrategy);

@@ -71,7 +71,7 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
         $directory = dirname($filePath);
         @mkdir($directory, 0777, true);
 
-        $io = new Varien_Io_File();
+        $io = new Magento_Io_File();
         $io->cd($directory);
 
         $io->streamOpen($filePath);

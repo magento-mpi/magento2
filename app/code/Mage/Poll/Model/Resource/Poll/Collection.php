@@ -32,7 +32,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
      *
      * @param string $field
      * @param mixed $condition
-     * @return Varien_Data_Collection_Db
+     * @return Magento_Data_Collection_Db
      */
     public function addFieldToFilter($field, $condition = null)
     {

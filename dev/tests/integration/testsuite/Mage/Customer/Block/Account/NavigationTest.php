@@ -17,7 +17,7 @@ class Mage_Customer_Block_Account_NavigationTest extends PHPUnit_Framework_TestC
         $this->assertSame($block, $block->addLink('Name', 'some/path/index', 'Label', array('parameter' => 'value')));
         $links = $block->getLinks();
         $this->assertArrayHasKey('Name', $links);
-        $this->assertInstanceOf('Varien_Object', $links['Name']);
+        $this->assertInstanceOf('Magento_Object', $links['Name']);
         $this->assertSame(array(
                 'name' => 'Name', 'path' => 'some/path/index', 'label' => 'Label',
                 'url' => 'http://localhost/index.php/some/path/index/parameter/value/'

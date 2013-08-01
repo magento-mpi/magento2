@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Convert
+ * @category   Magento
+ * @package    Magento_Convert
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +12,8 @@
 /**
  * Convert container abstract
  *
- * @category   Varien
- * @package    Varien_Convert
+ * @category   Magento
+ * @package    Magento_Convert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Convert_Container_Abstract

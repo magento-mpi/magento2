@@ -36,7 +36,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
     {
         /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'     => 'edit_form',
             'name'   => 'scheduled_operation'
         ));
@@ -65,7 +65,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
     /**
      * Add general information fieldset to form
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param Enterprise_ImportExport_Model_Scheduled_Operation $operation
      * @return Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
      */
@@ -144,7 +144,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
     /**
      * Add file information fieldset to form
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param Enterprise_ImportExport_Model_Scheduled_Operation $operation
      * @return Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
      */
@@ -219,7 +219,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
     /**
      * Add file information fieldset to form
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param Enterprise_ImportExport_Model_Scheduled_Operation $operation
      * @return Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
      */

@@ -31,7 +31,7 @@ class Saas_PrintedTemplate_Model_Source_FontTest extends PHPUnit_Framework_TestC
      */
     public function testToOptionArray($fonts, $expected)
     {
-        $configModel = new Varien_Object();
+        $configModel = new Magento_Object();
         $configModel->setFontsArray($fonts);
 
         $model = $this->getMockBuilder('Saas_PrintedTemplate_Model_Source_Font')

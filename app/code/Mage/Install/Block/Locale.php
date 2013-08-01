@@ -142,7 +142,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = new Varien_Object();
+            $data = new Magento_Object();
             $this->setData('form_data', $data);
         }
         return $data;

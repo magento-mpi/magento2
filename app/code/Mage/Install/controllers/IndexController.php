@@ -29,7 +29,7 @@ class Mage_Install_IndexController extends Mage_Install_Controller_Action
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         if (!Mage::isInstalled()) {
             foreach (glob(Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
-                Varien_Io_File::rmdirRecursive($dir);
+                Magento_Io_File::rmdirRecursive($dir);
             }
         }
         parent::preDispatch();

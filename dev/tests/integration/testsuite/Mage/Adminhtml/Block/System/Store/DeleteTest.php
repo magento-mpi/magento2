@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_System_Store_DeleteTest extends PHPUnit_Framework_Tes
         /** @var $block Mage_Adminhtml_Block_System_Store_Delete */
         $block = $layout->createBlock('Mage_Adminhtml_Block_System_Store_Delete', 'block');
 
-        $dataObject = new Varien_Object;
+        $dataObject = new Magento_Object;
         $form = $block->getChildBlock('form');
         $form->setDataObject($dataObject);
 

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-final class Mage_Connect_Command_Install extends Mage_Connect_Command
+final class Magento_Connect_Command_Install extends Magento_Connect_Command
 {
     /**
      * Install action callback
@@ -25,13 +25,13 @@ final class Mage_Connect_Command_Install extends Mage_Connect_Command
 
         $installFileMode = $command === 'install-file';
 
-        /** @var $ftpObj Mage_Connect_Ftp */
+        /** @var $ftpObj Magento_Connect_Ftp */
         $ftpObj=null;
         $ftp = empty($options['ftp']) ? false : $options['ftp'];
-        /** @var $packager Mage_Connect_Packager */
+        /** @var $packager Magento_Connect_Packager */
         $packager = $this->getPackager();
-        /** @var $cache Mage_Connect_Singleconfig */
-        /** @var $config Mage_Connect_Config */
+        /** @var $cache Magento_Connect_Singleconfig */
+        /** @var $config Magento_Connect_Config */
         if ($ftp) {
             list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
         } else {
@@ -56,8 +56,8 @@ final class Mage_Connect_Command_Install extends Mage_Connect_Command
             }
             chdir($config->magento_root);
             $dirCache = DIRECTORY_SEPARATOR . $config->downloader_path . DIRECTORY_SEPARATOR
-                . Mage_Connect_Config::DEFAULT_CACHE_PATH;
-            $dirTmp = DIRECTORY_SEPARATOR . Mage_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
+                . Magento_Connect_Config::DEFAULT_CACHE_PATH;
+            $dirTmp = DIRECTORY_SEPARATOR . Magento_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
             $dirMedia = DIRECTORY_SEPARATOR . 'media';
             $isWritable = true;
             if ($ftp) {
@@ -105,7 +105,7 @@ final class Mage_Connect_Command_Install extends Mage_Connect_Command
                     throw new Exception("File '{$filename}' is not readable");
                 }
 
-                $package = new Mage_Connect_Package($filename);
+                $package = new Magento_Connect_Package($filename);
                 $package->setConfig($config);
                 $package->validate();
                 $errors = $package->getErrors();
@@ -300,7 +300,7 @@ final class Mage_Connect_Command_Install extends Mage_Connect_Command
                     if ($ftp) {
                         $cwd=$ftpObj->getcwd();
                         $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR
-                             . Mage_Connect_Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
+                             . Magento_Connect_Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
                         $ftpObj->mkdirRecursive($dir,0777);
                         $ftpObj->chdir($cwd);
                     } else {
@@ -328,7 +328,7 @@ final class Mage_Connect_Command_Install extends Mage_Connect_Command
                         $cache->deletePackage($pChan, $pName);
                     }
 
-                    $package = new Mage_Connect_Package($file);
+                    $package = new Magento_Connect_Package($file);
                     if ($clearInstallMode && $pInstallState != 'upgrade' && !$installAll) {
                         $this->validator()->validateContents($package->getContents(), $config);
                         $errors = $this->validator()->getErrors();
@@ -443,15 +443,15 @@ final class Mage_Connect_Command_Install extends Mage_Connect_Command
 
             $channel = $params[0];
             $package = $params[1];
-            /** @var $packager Mage_Connect_Packager */
+            /** @var $packager Magento_Connect_Packager */
             $packager = $this->getPackager();
             $withDepsMode = !isset($options['nodeps'])? false : (boolean)$options['nodeps'];
             $forceMode = isset($options['force']);
 
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            /** @var $cache Mage_Connect_Singleconfig */
-            /** @var $config Mage_Connect_Config */
-            /** @var $ftpObj Mage_Connect_Ftp */
+            /** @var $cache Magento_Connect_Singleconfig */
+            /** @var $config Magento_Connect_Config */
+            /** @var $ftpObj Magento_Connect_Ftp */
             if ($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
             } else {

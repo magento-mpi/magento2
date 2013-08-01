@@ -35,7 +35,7 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Varien_Io_File::rmdirRecursive(self::$_tmpDir);
+        Magento_Io_File::rmdirRecursive(self::$_tmpDir);
     }
 
     protected function setUp()

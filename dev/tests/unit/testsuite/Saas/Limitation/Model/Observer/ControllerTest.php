@@ -66,7 +66,7 @@ class Saas_Limitation_Model_Observer_ControllerTest extends PHPUnit_Framework_Te
             ->will($this->returnValue(true))
         ;
         $this->_session->expects($this->once())->method('addNotice')->with('Fixture Message Text');
-        $this->_model->displayNotification(new Varien_Event_Observer);
+        $this->_model->displayNotification(new Magento_Event_Observer);
     }
 
     public function testDisplayNotificationInactive()
@@ -78,6 +78,6 @@ class Saas_Limitation_Model_Observer_ControllerTest extends PHPUnit_Framework_Te
             ->will($this->returnValue(false))
         ;
         $this->_session->expects($this->never())->method('addNotice');
-        $this->_model->displayNotification(new Varien_Event_Observer);
+        $this->_model->displayNotification(new Magento_Event_Observer);
     }
 }

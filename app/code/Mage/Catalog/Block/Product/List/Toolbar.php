@@ -203,7 +203,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
     /**
      * Set collection to pager
      *
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return Mage_Catalog_Block_Product_List_Toolbar
      */
     public function setCollection($collection)
@@ -795,7 +795,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
     {
         $pagerBlock = $this->getChildBlock('product_list_toolbar_pager');
 
-        if ($pagerBlock instanceof Varien_Object) {
+        if ($pagerBlock instanceof Magento_Object) {
 
             /* @var $pagerBlock Mage_Page_Block_Html_Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());

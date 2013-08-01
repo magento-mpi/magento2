@@ -137,13 +137,13 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_assetsMock->expects($this->once())->method('add')->with($this->anything(), $asset);
 
-        $observer = new Varien_Event_Observer;
+        $observer = new Magento_Event_Observer;
         $this->_model->applyThemeCustomization($observer);
     }
 
     public function testProcessReinitConfig()
     {
-        $observer = new Varien_Event_Observer;
+        $observer = new Magento_Event_Observer;
         $this->_configMock->expects($this->once())->method('reinit');
         $this->_model->processReinitConfig($observer);
     }

@@ -28,9 +28,9 @@ class Mage_Core_Model_Layout_Filter_Acl
      * Delete nodes that have "acl" attribute but value is "not allowed"
      * In any case, the "acl" attribute will be unset
      *
-     * @param Varien_Simplexml_Element $xml
+     * @param Magento_Simplexml_Element $xml
      */
-    public function filterAclNodes(Varien_Simplexml_Element $xml)
+    public function filterAclNodes(Magento_Simplexml_Element $xml)
     {
         $limitations = $xml->xpath('//*[@acl]') ?: array();
         foreach ($limitations as $node) {

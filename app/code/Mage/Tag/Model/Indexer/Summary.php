@@ -155,7 +155,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
     {
-        /* @var $actionObject Varien_Object */
+        /* @var $actionObject Magento_Object */
         $actionObject = $event->getDataObject();
         $attributes   = $this->_getProductAttributesDependOn();
         $reindexTags  = false;

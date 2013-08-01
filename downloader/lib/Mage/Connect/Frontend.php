@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Connect_Frontend
+class Magento_Connect_Frontend
 {
     /**
      * Silent flag. If set no output is produced to view.
@@ -107,7 +107,7 @@ class Mage_Connect_Frontend
     /**
      * Save capture state
      *
-     * @return Mage_Connect_Frontend
+     * @return Magento_Connect_Frontend
      */
     public function pushCapture()
     {
@@ -118,7 +118,7 @@ class Mage_Connect_Frontend
     /**
      * Restore capture state
      *
-     * @return Mage_Connect_Frontend
+     * @return Magento_Connect_Frontend
      */
     public function popCapture()
     {
@@ -130,7 +130,7 @@ class Mage_Connect_Frontend
      * Set capture mode
      *
      * @param boolean $arg true by default
-     * @return Mage_Connect_Frontend
+     * @return Magento_Connect_Frontend
      */
     public function setCapture($arg = true)
     {
@@ -173,7 +173,7 @@ class Mage_Connect_Frontend
     /**
      * Get instance of derived class
      *
-     * @param $class CLI for example will produce Mage_Connect_Frontend_CLI
+     * @param $class CLI for example will produce Magento_Connect_Frontend_CLI
      * @return object
      */
     public static function getInstance($class)
@@ -197,7 +197,7 @@ class Mage_Connect_Frontend
     /**
      * Save silent mode
      *
-     * @return Mage_Connect_Frontend
+     * @return Magento_Connect_Frontend
      */
     public function pushSilent()
     {
@@ -208,7 +208,7 @@ class Mage_Connect_Frontend
     /**
      * Restore silent mode
      *
-     * @return Mage_Connect_Frontend
+     * @return Magento_Connect_Frontend
      */
     public function popSilent()
     {
@@ -220,7 +220,7 @@ class Mage_Connect_Frontend
      * Set silent mode
      *
      * @param boolean $value
-     * @return Mage_Connect_Frontend
+     * @return Magento_Connect_Frontend
      */
     public function setSilent($value = true)
     {

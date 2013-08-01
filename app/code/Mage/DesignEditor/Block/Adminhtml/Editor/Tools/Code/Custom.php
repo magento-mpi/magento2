@@ -45,7 +45,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'action'   => '#',
             'method'   => 'post'
         ));

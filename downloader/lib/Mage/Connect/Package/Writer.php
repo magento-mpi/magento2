@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Package_Writer
+class Magento_Connect_Package_Writer
 {
 
     /**
@@ -38,7 +38,7 @@ class Mage_Connect_Package_Writer
     /**
     * Archivator is used for extract DEFAULT_NAME_PACKAGE.
     *
-    * @var Mage_Archive
+    * @var Magento_Archive
     */
     protected $_archivator = null;
 
@@ -69,7 +69,7 @@ class Mage_Connect_Package_Writer
     *
     * @param array $files
     * @param string $namePackage
-    * @return Mage_Connect_Package_Reader
+    * @return Magento_Connect_Package_Reader
     */
     public function __construct($files, $namePackage='')
     {
@@ -81,12 +81,12 @@ class Mage_Connect_Package_Writer
     /**
     * Retrieve archivator.
     *
-    * @return Mage_Archive
+    * @return Magento_Archive
     */
     protected function _getArchivator()
     {
         if (is_null($this->_archivator)) {
-            $this->_archivator = new Mage_Archive();
+            $this->_archivator = new Magento_Archive();
         }
         return $this->_archivator;
     }
@@ -95,7 +95,7 @@ class Mage_Connect_Package_Writer
     * Create dir in PATH_TO_TEMPORARY_DIRECTORY and move all files
     * to this dir.
     *
-    * @return Mage_Connect_Package_Writer
+    * @return Magento_Connect_Package_Writer
     */
     public function composePackage()
     {
@@ -123,7 +123,7 @@ class Mage_Connect_Package_Writer
     * Add package.xml to temporary package directory.
     *
     * @param $content
-    * @return Mage_Connect_Package_Writer
+    * @return Magento_Connect_Package_Writer
     */
     public function addPackageXml($content)
     {
@@ -134,7 +134,7 @@ class Mage_Connect_Package_Writer
     /**
     * Archives package.
     *
-    * @return Mage_Connect_Package_Writer
+    * @return Magento_Connect_Package_Writer
     */
     public function archivePackage()
     {
@@ -144,7 +144,7 @@ class Mage_Connect_Package_Writer
             true);
 
         //delete temporary dir
-        Mage_System_Dirs::rm(array("-r", $this->_temporaryPackageDir));
+        Magento_System_Dirs::rm(array("-r", $this->_temporaryPackageDir));
         return $this;
     }
     

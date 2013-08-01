@@ -21,9 +21,9 @@ class Mage_Persistent_Model_Observer_Session
     /**
      * Create/Update and Load session when customer log in
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function synchronizePersistentOnLogin(Varien_Event_Observer $observer)
+    public function synchronizePersistentOnLogin(Magento_Event_Observer $observer)
     {
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
@@ -74,9 +74,9 @@ class Mage_Persistent_Model_Observer_Session
     /**
      * Unload persistent session (if set in config)
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function synchronizePersistentOnLogout(Varien_Event_Observer $observer)
+    public function synchronizePersistentOnLogout(Magento_Event_Observer $observer)
     {
         $helper = Mage::helper('Mage_Persistent_Helper_Data');
         if (!$helper->isEnabled() || !$helper->getClearOnLogout()) {
@@ -99,9 +99,9 @@ class Mage_Persistent_Model_Observer_Session
     /**
      * Synchronize persistent session info
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function synchronizePersistentInfo(Varien_Event_Observer $observer)
+    public function synchronizePersistentInfo(Magento_Event_Observer $observer)
     {
         $helper = Mage::helper('Mage_Persistent_Helper_Session');
         if (!Mage::helper('Mage_Persistent_Helper_Data')->isEnabled()
@@ -127,9 +127,9 @@ class Mage_Persistent_Model_Observer_Session
     /**
      * Set Checked status of "Remember Me"
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function setRememberMeCheckedStatus(Varien_Event_Observer $observer)
+    public function setRememberMeCheckedStatus(Magento_Event_Observer $observer)
     {
         $helper = Mage::helper('Mage_Persistent_Helper_Data');
         if (!$helper->canProcess($observer)
@@ -156,9 +156,9 @@ class Mage_Persistent_Model_Observer_Session
     /**
      * Renew persistent cookie
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function renewCookie(Varien_Event_Observer $observer)
+    public function renewCookie(Magento_Event_Observer $observer)
     {
         $helper = Mage::helper('Mage_Persistent_Helper_Data');
         if (!$helper->canProcess($observer)

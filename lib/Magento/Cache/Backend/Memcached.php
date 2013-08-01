@@ -25,7 +25,7 @@ class Magento_Cache_Backend_Memcached
     /**
      * Constructor
      *
-     * @throws Varien_Exception
+     * @throws Magento_Exception
      * @param array $options @see Zend_Cache_Backend_Memcached::__construct()
      */
     public function __construct(array $options = array())
@@ -34,7 +34,7 @@ class Magento_Cache_Backend_Memcached
 
         if (!isset($options['slab_size']) || !is_numeric($options['slab_size'])) {
             if (isset($options['slab_size'])) {
-                throw new Varien_Exception("Invalid value for the node <slab_size>. Expected to be positive integer.");
+                throw new Magento_Exception("Invalid value for the node <slab_size>. Expected to be positive integer.");
             }
 
             $this->_options['slab_size'] = self::DEFAULT_SLAB_SIZE;

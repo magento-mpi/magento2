@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Archive
+ * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
 * Helper class that simplifies bz2 files stream reading and writing
 *
 * @category    Mage
-* @package     Mage_Archive
+* @package     Magento_Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-class Mage_Archive_Helper_File_Bz extends Mage_Archive_Helper_File
+class Magento_Archive_Helper_File_Bz extends Magento_Archive_Helper_File
 {
     /**
      * Open bz archive file

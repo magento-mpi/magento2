@@ -16,14 +16,14 @@ class Mage_Backend_Model_Config_Backend_Secure extends Mage_Core_Model_Config_Da
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Page_Asset_MergeService $mergeService
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Page_Asset_MergeService $mergeService,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_mergeService = $mergeService;

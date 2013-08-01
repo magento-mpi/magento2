@@ -16,7 +16,7 @@ class Enterprise_Search_Model_Adapter_Solr_AbstractTest extends PHPUnit_Framewor
      */
     public function testGetSearchEngineFieldName()
     {
-        $sku = new Varien_Object(array('attribute_code' => 'sku'));
+        $sku = new Magento_Object(array('attribute_code' => 'sku'));
         /** @var $model Enterprise_Search_Model_Adapter_Solr_Abstract */
         $model = $this->getMockForAbstractClass('Enterprise_Search_Model_Adapter_Solr_Abstract', array(), '', false);
         $this->assertEquals('sku', $model->getSearchEngineFieldName($sku, 'sku'));

@@ -14,7 +14,7 @@ $installer->getConnection()->modifyColumn(
     $installer->getTable('catalog_category_product_index'),
     'position',
     array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
         'unsigned'  => false,
         'nullable'  => true,
         'default'   => null,

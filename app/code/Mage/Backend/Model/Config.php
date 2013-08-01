@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Backend_Model_Config extends Varien_Object
+class Mage_Backend_Model_Config extends Magento_Object
 {
     /**
      * Config data for sections
@@ -444,7 +444,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      * @param string $path
      * @param null|bool $inherit
      * @param null|array $configData
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getConfigDataValue($path, &$inherit = null, $configData = null)
     {

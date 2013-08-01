@@ -15,7 +15,7 @@
             <connection>
                 <types>
                     <pdo_mssql>
-                        <adapter>Varien_Db_Adapter_Pdo_Mssql</adapter>
+                        <adapter>Magento_DB_Adapter_Pdo_Mssql</adapter>
                         <compatibleMode>0</compatibleMode>
                     </pdo_mssql>
                 </types>

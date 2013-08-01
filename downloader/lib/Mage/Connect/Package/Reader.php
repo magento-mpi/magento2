@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Package_Reader
+class Magento_Connect_Package_Reader
 {
 
     /**
@@ -38,7 +38,7 @@ class Mage_Connect_Package_Reader
     /**
     * Archivator is used for extract DEFAULT_NAME_PACKAGE.
     *
-    * @var Mage_Archive
+    * @var Magento_Archive
     */
     protected $_archivator = null;
 
@@ -46,7 +46,7 @@ class Mage_Connect_Package_Reader
     * Constructor initializes $_file.
     *
     * @param string $file
-    * @return Mage_Connect_Package_Reader
+    * @return Magento_Connect_Package_Reader
     */
     public function __construct($file='')
     {
@@ -61,12 +61,12 @@ class Mage_Connect_Package_Reader
     /**
     * Retrieve archivator.
     *
-    * @return Mage_Archive
+    * @return Magento_Archive
     */
     protected function _getArchivator()
     {
         if (is_null($this->_archivator)) {
-            $this->_archivator = new Mage_Archive();
+            $this->_archivator = new Magento_Archive();
         }
         return $this->_archivator;
     }
@@ -115,7 +115,7 @@ class Mage_Connect_Package_Reader
     * Loads a package from specified resource
     *
     * @param resource $resource only file resources are supported at the moment
-    * @return Mage_Connect_Package
+    * @return Magento_Connect_Package
     */
     protected function _loadResource(&$resource)
     {

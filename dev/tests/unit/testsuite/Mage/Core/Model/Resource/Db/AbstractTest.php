@@ -57,7 +57,7 @@ class Mage_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCas
      */
     public function testGetConnectionInMemoryCaching()
     {
-        $connection = new Varien_Db_Adapter_Pdo_Mysql(array(
+        $connection = new Magento_DB_Adapter_Pdo_Mysql(array(
             'dbname'   => 'test_dbname',
             'username' => 'test_username',
             'password' => 'test_password',
