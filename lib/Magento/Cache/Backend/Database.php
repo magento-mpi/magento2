@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Cache
+ * @category   Magento
+ * @package    Magento_Cache
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `core_cache_tag` (
 /**
  * Database cache backend
  */
-class Varien_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
+class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Available options

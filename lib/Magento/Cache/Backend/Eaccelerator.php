@@ -2,19 +2,19 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Cache
+ * @category   Magento
+ * @package    Magento_Cache
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-class Varien_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
+class Magento_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Log message
      */
-    const TAGS_UNSUPPORTED_BY_CLEAN_OF_EACCELERATOR_BACKEND = 'Varien_Cache_Backend_Eaccelerator::clean() : tags are unsupported by the Eaccelerator backend';
-    const TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND =  'Varien_Cache_Backend_Eaccelerator::save() : tags are unsupported by the Eaccelerator backend';
+    const TAGS_UNSUPPORTED_BY_CLEAN_OF_EACCELERATOR_BACKEND = 'Magento_Cache_Backend_Eaccelerator::clean() : tags are unsupported by the Eaccelerator backend';
+    const TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND =  'Magento_Cache_Backend_Eaccelerator::save() : tags are unsupported by the Eaccelerator backend';
 
     /**
      * Constructor
@@ -119,7 +119,7 @@ class Varien_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Ze
                 return eaccelerator_clean();
                 break;
             case Zend_Cache::CLEANING_MODE_OLD:
-                $this->_log("Varien_Cache_Backend_Eaccelerator::clean() : CLEANING_MODE_OLD is unsupported by the Eaccelerator backend");
+                $this->_log("Magento_Cache_Backend_Eaccelerator::clean() : CLEANING_MODE_OLD is unsupported by the Eaccelerator backend");
                 break;
             case Zend_Cache::CLEANING_MODE_MATCHING_TAG:
             case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:

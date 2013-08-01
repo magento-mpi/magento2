@@ -7,9 +7,9 @@
  */
 
 /**
- * Varien_Cache_Core test case
+ * Magento_Cache_Core test case
  */
-class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
+class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
 {
     public function testSetBackendSuccess()
     {
@@ -25,7 +25,7 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $core = new Varien_Cache_Core($config);
+        $core = new Magento_Cache_Core($config);
         $core->setBackend($mockBackend);
 
         $this->assertInstanceOf('Magento_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
@@ -45,7 +45,7 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $core = new Varien_Cache_Core($config);
+        $core = new Magento_Cache_Core($config);
         $core->setBackend($mockBackend);
     }
 }

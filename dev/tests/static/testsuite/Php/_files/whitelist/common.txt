@@ -116,4 +116,4 @@ lib/Magento
 lib/Varien/Convert
 lib/Varien/Date.php
 lib/Varien/Object.php
-lib/Varien/Cache/Core.php
+lib/Magento/Cache/Core.php

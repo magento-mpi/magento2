@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Varien
- * @package     Varien_Cache
+ * @category    Magento
+ * @package     Magento_Cache
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Varien_Cache_Backend_Memcached 
+class Magento_Cache_Backend_Memcached 
     extends Zend_Cache_Backend_Memcached
     implements Zend_Cache_Backend_ExtendedInterface
 {

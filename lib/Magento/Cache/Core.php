@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Cache
+ * @category   Magento
+ * @package    Magento_Cache
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-class Varien_Cache_Core extends Zend_Cache_Core
+class Magento_Cache_Core extends Zend_Cache_Core
 {
     /**
      * Available options
