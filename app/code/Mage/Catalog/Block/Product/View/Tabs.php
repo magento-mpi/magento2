@@ -28,7 +28,6 @@ class Mage_Catalog_Block_Product_View_Tabs extends Mage_Core_Block_Template
      * @param string $block
      * @param string $template
      * @param string $header
-     * @return bool
      */
     public function addTab($alias, $title, $block, $template, $header = null)
     {
