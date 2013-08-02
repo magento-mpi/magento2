@@ -9,11 +9,7 @@
 -->
 <layout version="0.1.0">
     <catalog_product_view>
-        <reference name="root">
-            <action method="setTemplate">
-                <template>1column.phtml</template>
-            </action>
-        </reference>
+        <update handle="page_one_column"/>
         <reference name="head">
             <action method="addJs">
                 <file>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</file>

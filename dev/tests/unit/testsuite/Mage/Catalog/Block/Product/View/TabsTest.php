@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,9 +28,8 @@ class Mage_Catalog_Block_Product_View_TabsTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue($layout));
 
         $block = new Mage_Catalog_Block_Product_View_Tabs($context);
-        $result = $block->addTab('alias', 'title', 'block', 'template', 'header');
+        $block->addTab('alias', 'title', 'block', 'template', 'header');
 
-        $this->assertTrue($result);
         $expectedTabs = array(
             array('alias' => 'alias', 'title' => 'title', 'header' => 'header')
         );
