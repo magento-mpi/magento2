@@ -129,9 +129,9 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionController extends Mage_Backend
                     isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
                     && $subscriptionData[self::DATA_SUBSCRIPTION_ID]
                 ) {
-                    $this->_subscriptionService->create($subscriptionData);
-                } else {
                     $this->_subscriptionService->update($subscriptionData);
+                } else {
+                    $this->_subscriptionService->create($subscriptionData);
                 }
                 $this->_getSession()->addSuccess(
                     $this->__('The subscription \'%s\' has been saved.',
@@ -162,16 +162,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionController extends Mage_Backend
         try {
             $subscriptionData = $this->_initSubscriptionData();
             if ($this->_isCreatedByUser($subscriptionData)) {
-                try {
-                    $this->_subscriptionService->delete($subscriptionData[self::DATA_SUBSCRIPTION_ID]);
-                    $this->_getSession()->addSuccess(
-                        $this->__('The subscription \'%s\' has been removed.',
-                        $subscriptionData[self::DATA_NAME])
-                    );
-                }
-                catch (Mage_Core_Exception $e) {
-                    $this->_getSession()->addError($e->getMessage());
-                }
+                $this->_subscriptionService->delete($subscriptionData[self::DATA_SUBSCRIPTION_ID]);
+                $this->_getSession()->addSuccess(
+                    $this->__('The subscription \'%s\' has been removed.',
+                    $subscriptionData[self::DATA_NAME])
+                );
             } else {
                 $this->_getSession()->addError(
                     $this->__('The subscription \'%s\' can not be removed.',
