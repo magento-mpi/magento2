@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 /**
  * Filesystem helper for Magento_Backup library
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */

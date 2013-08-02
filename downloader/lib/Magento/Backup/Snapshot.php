@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 /**
  * Class to work with full filesystem and database backups
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -91,8 +91,8 @@ class Magento_Backup_Snapshot extends Magento_Backup_Filesystem
      */
     protected function _createDbBackupInstance()
     {
-        return Magento_Backup::getBackupInstance(Magento_Backup_Helper_Data::TYPE_DB)
-            ->setBackupExtension(Mage::helper('Magento_Backup_Helper_Data')->getExtensionByType(Magento_Backup_Helper_Data::TYPE_DB))
+        return Magento_Backup::getBackupInstance(Mage_Backup_Helper_Data::TYPE_DB)
+            ->setBackupExtension(Mage::helper('Mage_Backup_Helper_Data')->getExtensionByType(Mage_Backup_Helper_Data::TYPE_DB))
             ->setTime($this->getTime())
             ->setBackupsDir(Mage::getBaseDir("var"))
             ->setResourceModel($this->getResourceModel());

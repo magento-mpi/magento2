@@ -15,6 +15,6 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Exception extends Magento_Exception
+class Magento_Backup_Exception_FtpConnectionFailed extends Magento_Backup_Exception
 {
 }
