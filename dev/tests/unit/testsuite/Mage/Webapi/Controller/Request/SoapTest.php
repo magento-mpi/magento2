@@ -74,7 +74,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Not allowed parameters: param_1, param_2. Please use only "'
-                . $wsdlParam . '" and "' . $servicesParam . '".',
+            . $wsdlParam . '" and "' . $servicesParam . '".',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         /** Execute SUT. */
@@ -98,47 +98,47 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         $this->_soapRequest->getRequestedServices();
     }
 
-    public function testGetRequestedServicesSameRequestedServicesException()
+    /**
+     * @dataProvider providerTestGetRequestedServicesSuccess
+     * @param $requestParamServices
+     * @param $expectedResult
+     */
+    public function testGetRequestedServicesSuccess($requestParamServices, $expectedResult)
     {
-        $service = "testModule1AllSoapAndRest";
-        $expectedMsg = 'Service"' . $service . '" cannot be requested more than once';
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => "$service:V1,$service:V2"
+            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => $requestParamServices
         );
         $this->_soapRequest->setParams($requestParams);
-
-        $this->_helperMock->expects($this->at(0))
-            ->method('__')
-            ->with('Service "%s" cannot be requested more than once', "testModule1AllSoapAndRest")
-            ->will($this->returnValue($expectedMsg));
-
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            $expectedMsg,
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
-
-        $this->_soapRequest->getRequestedServices();
+        $this->assertEquals($expectedResult, $this->_soapRequest->getRequestedServices());
     }
 
-    public function testGetRequestedResourcesSuccess()
+    public function providerTestGetRequestedServicesSuccess()
     {
-        $serviceA = "testModule1AllSoapAndRest";
-        $serviceB = "testModule2AllSoapNoRest";
-        $requestParams = array(
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
-            Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES => "$serviceA:V1,$serviceB:V2"
-        );
-        $this->_soapRequest->setParams($requestParams);
-
-        $expected = array(
-            $serviceA => 'V1',
-            $serviceB => 'V2',
-        );
-        $this->assertEquals(
-            $expected,
-            $this->_soapRequest->getRequestedServices()
+        $testModuleA = 'testModule1AllSoapAndRestV1';
+        $testModuleB = 'testModule1AllSoapAndRestV2';
+        $testModuleC = 'testModule2AllSoapNoRestV1';
+        return array(
+            array(
+                "{$testModuleA},{$testModuleB}",
+                array(
+                    $testModuleA,
+                    $testModuleB
+                )
+            ),
+            array(
+                "{$testModuleA},{$testModuleC}",
+                array(
+                    $testModuleA,
+                    $testModuleC
+                )
+            ),
+            array(
+                "{$testModuleA}",
+                array(
+                    $testModuleA
+                )
+            )
         );
     }
 }

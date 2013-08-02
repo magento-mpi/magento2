@@ -33,9 +33,8 @@ class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAb
                 'httpMethod' => 'GET'
             ),
             'soap' => array(
-                'service' => 'testModule1AllSoapAndRest',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule1AllSoapAndRestItem'
+                'service' => 'testModule1AllSoapAndRestV1',
+                'operation' => 'testModule1AllSoapAndRestV1Item'
             )
         );
         $requestData = array('id' => $itemId);

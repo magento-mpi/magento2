@@ -62,9 +62,8 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
     protected function _convertRequestParamToServiceArray($param)
     {
         $serviceSeparator = ',';
-        $serviceVerSeparator = ':';
         //TODO: This should be a globally used pattern in Webapi module
-        $serviceVerPattern = "[a-zA-Z\d]*[$serviceVerSeparator]V[\d]+";
+        $serviceVerPattern = "[a-zA-Z\d]*V[\d]+";
         $regexp = "/^($serviceVerPattern)([$serviceSeparator]$serviceVerPattern)*$/";
         //Check if the $param is of valid format
         if (empty($param) || !preg_match($regexp, $param)) {
@@ -75,14 +74,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         $serviceVersionArray = explode($serviceSeparator, $param);
         $serviceArray = array();
         foreach ($serviceVersionArray as $service) {
-            $arr = explode($serviceVerSeparator, $service);
-            //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
-            if (array_key_exists($arr[0], $serviceArray)) {
-                $message = $this->_helper->__('Service "%s" cannot be requested more than once', $arr[0]);
-                throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-            } else {
-                $serviceArray[$arr[0]] = $arr[1];
-            }
+            $serviceArray[] = $service;
         }
         return $serviceArray;
     }

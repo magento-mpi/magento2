@@ -92,8 +92,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 //        }
         $services = array();
         try {
-            foreach ($requestedServices as $serviceName => $serviceVersion) {
-                $services[$serviceName] = $this->_prepareServiceData($serviceName, $serviceVersion);
+            foreach ($requestedServices as $serviceName) {
+                $services[$serviceName] = $this->_prepareServiceData($serviceName);
             }
         } catch (Mage_Webapi_Exception $e) {
             throw $e;
@@ -124,40 +124,101 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Extract complex type element from dom document by type name (include referenced types as well).
      *
-     * @param $complexTypeName string
+     * @param $typeName string Type name can be passed with schema target namespace prefix or without it.
      * @param $domDocument DOMDocument
      * @return DOMNode[]
      */
-    public function getComplexTypeNodes($complexTypeName, $domDocument)
+    public function getComplexTypeNodes($typeName, $domDocument)
     {
         $response = array();
         /** TODO: Use object manager to instantiate objects */
         $xpath = new DOMXPath($domDocument);
         /** @var $elemList DOMNode */
-        $complexTypeNodes = $xpath->query("//xsd:complexType[@name='$complexTypeName']");
+        $typeXPath = "//xsd:complexType[@name='{$this->_getUnprefixedTypeName($typeName, $domDocument)}']";
+        $complexTypeNodes = $xpath->query($typeXPath);
         if ($complexTypeNodes) {
             $complexTypeNode = $complexTypeNodes->item(0);
         }
-        if (isset($complexTypeNode)) {
-            $this->_registeredTypes[] = $complexTypeName;
+        if (!empty($complexTypeNode)) {
+            $this->_registeredTypes[] = $this->_getPrefixedTypeName($typeName, $domDocument);
 
-            $referencedTypes = $xpath->query("//xsd:complexType[@name='$complexTypeName']//@type");
-            foreach ($referencedTypes as $type) {
-                /**
-                 * TODO: Take into account target and current namespaces after implementation
-                 * of NS support for entities on module level.
-                 * Currently it is supposed that custom complex types does not have NS prefix
-                 */
-                $typeName = $type->value;
-                if (!strpos($typeName, ':') && !in_array($typeName, $this->_registeredTypes)) {
-                    $response += $this->getComplexTypeNodes($typeName, $domDocument);
+            $referencedTypes = $xpath->query("{$typeXPath}//@type");
+            foreach ($referencedTypes as $referencedType) {
+                $referencedTypeName = $referencedType->value;
+                $prefixedRefTypeName = $this->_getPrefixedTypeName($referencedTypeName, $domDocument);
+                if ($this->isComplexType($referencedTypeName, $domDocument)
+                    && !in_array($prefixedRefTypeName, $this->_registeredTypes)
+                ) {
+                    $response += $this->getComplexTypeNodes($referencedTypeName, $domDocument);
                     /** Add target namespace to the referenced type name */
-                    $type->value = Wsdl::TYPES_NS . ':' . $typeName;
+                    $referencedType->value = Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
                 }
             }
-            $response[$complexTypeName] = $complexTypeNode->cloneNode(true);
+            $complexTypeNode->setAttribute(
+                'name',
+                $this->_getPrefixedTypeName($typeName, $domDocument)
+            );
+            $response[$this->_getPrefixedTypeName($typeName, $domDocument)]
+                = $complexTypeNode->cloneNode(true);
         }
         return $response;
+    }
+
+    /**
+     * Check if provided type is complex or simple type.
+     *
+     * Current implementation is based on the assumption that complex types are not prefixed with any namespace,
+     * and simple types are prefixed.
+     *
+     * @param string $typeName
+     * @return bool
+     */
+    public function isComplexType($typeName)
+    {
+        return !strpos($typeName, ':');
+    }
+
+    /**
+     * Identify type name prefixed by target namespace defined in schema.
+     *
+     * @param string $typeName
+     * @param DOMDocument $schemaDocument
+     * @return string
+     */
+    protected function _getPrefixedTypeName($typeName, $schemaDocument)
+    {
+        $targetNamespace = $this->_getTargetNamespace($schemaDocument);
+        return $targetNamespace . $this->_getUnprefixedTypeName($typeName, $schemaDocument);
+    }
+
+    /**
+     * Identify type name without target namespace prefix.
+     *
+     * @param $typeName
+     * @param $schemaDocument
+     * @return mixed
+     */
+    protected function _getUnprefixedTypeName($typeName, $schemaDocument)
+    {
+        $targetNamespace = $this->_getTargetNamespace($schemaDocument);
+        return str_replace($targetNamespace, '', $typeName);
+    }
+
+    /**
+     * Identify schema target namespace.
+     *
+     * @param DOMDocument $payloadSchemaDom
+     * @return string
+     * @throws LogicException
+     */
+    protected function _getTargetNamespace($payloadSchemaDom)
+    {
+        $namespace = $payloadSchemaDom->getElementsByTagName('schema')->item(0)->getAttribute('targetNamespace');
+        if (empty($namespace)) {
+            // TODO: throw proper exception according to new error handling strategy
+            throw new LogicException("Each service payload schema must have targetNamespace specified.");
+        }
+        return $namespace;
     }
 
     /**
@@ -379,16 +440,15 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * Prepare data about requested service for WSDL generator.
      *
      * @param string $serviceName
-     * @param string $serviceVersion
      * @return array
      * @throws Mage_Webapi_Exception
      */
-    protected function _prepareServiceData($serviceName, $serviceVersion)
+    protected function _prepareServiceData($serviceName)
     {
-        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName => $serviceVersion));
+        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Version "%s" of service "%s" is not available.', $serviceVersion, $serviceName),
+                $this->_helper->__('Service "%s" is not available.', $serviceName),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }

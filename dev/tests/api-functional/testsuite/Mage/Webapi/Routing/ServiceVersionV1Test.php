@@ -28,6 +28,7 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
     protected function setUp()
     {
         $this->_version = 'V1';
+        $this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/$this->_version/testmodule1/";
     }
 
@@ -45,7 +46,6 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Item'
             )
         );
@@ -76,7 +76,6 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Items'
             )
         );
@@ -97,7 +96,6 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Create'
             )
         );
@@ -119,7 +117,6 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Update'
             )
         );
@@ -141,7 +138,6 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Delete'
             )
         );

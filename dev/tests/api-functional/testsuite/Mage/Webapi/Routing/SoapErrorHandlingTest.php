@@ -19,9 +19,8 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
     {
         $serviceInfo = array(
             'soap' => array(
-                'service' => 'testModule3Error',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule3ErrorParameterizedServiceException'
+                'service' => 'testModule3ErrorV1',
+                'operation' => 'testModule3ErrorV1ParameterizedServiceException'
             )
         );
         $arguments = array(
@@ -54,9 +53,8 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
     {
         $serviceInfo = array(
             'soap' => array(
-                'service' => 'testModule3Error',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule3ErrorWebapiException'
+                'service' => 'testModule3ErrorV1',
+                'operation' => 'testModule3ErrorV1WebapiException'
             )
         );
         try {
@@ -83,9 +81,8 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
     {
         $serviceInfo = array(
             'soap' => array(
-                'service' => 'testModule3Error',
-                'serviceVersion' => 'V1',
-                'operation' => 'testModule3ErrorOtherException'
+                'service' => 'testModule3ErrorV1',
+                'operation' => 'testModule3ErrorV1OtherException'
             )
         );
         try {

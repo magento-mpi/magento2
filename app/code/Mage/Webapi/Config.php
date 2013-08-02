@@ -263,10 +263,19 @@ class Mage_Webapi_Config
             foreach ($this->getRestServices() as $serviceData) {
                 $reflection = new ReflectionClass($serviceData['class']);
                 foreach ($reflection->getMethods() as $method) {
+                    // find if method is secure, look into rest operation definition of each operation
+                    // if operation is not defined, assume operation is not secure
+                    $isOperationSecure = false;
+                    if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()]['secure'])) {
+                        $secureFlagValue = $serviceData[self::KEY_OPERATIONS][$method->getName()]['secure'];
+                        $isOperationSecure = (strtolower($secureFlagValue) === 'true');
+                    }
+
                     /** TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST */
                     $this->_soapServices[$serviceData['class']]['operations'][$method->getName()] = array(
                         'method' => $method->getName(),
-                        'inputRequired' => (bool)$method->getNumberOfParameters()
+                        'inputRequired' => (bool)$method->getNumberOfParameters(),
+                        'secure' => $isOperationSecure
                     );
                     $this->_soapServices[$serviceData['class']]['class'] = $serviceData['class'];
                 };
@@ -336,7 +345,8 @@ class Mage_Webapi_Config
     {
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         $route = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Router_Route_Rest', strtolower($routeData['routePath'])
+            'Mage_Webapi_Controller_Router_Route_Rest',
+            strtolower($routeData['routePath'])
         );
 
         $route->setServiceId($routeData['serviceId'])
@@ -366,10 +376,11 @@ class Mage_Webapi_Config
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedService) as $serviceData) {
                 foreach ($serviceData[self::KEY_OPERATIONS] as $method => $methodData) {
-                    $operationName =  $this->_helper->getSoapOperation($serviceData['class'], $method);
+                    $operationName = $this->_helper->getSoapOperation($serviceData['class'], $method);
                     $this->_soapOperations[$operationName] = array(
                         'class' => $serviceData['class'],
-                        'method' => $method
+                        'method' => $method,
+                        'secure' => $methodData['secure']
                     );
                 }
             }
@@ -390,15 +401,12 @@ class Mage_Webapi_Config
     public function getRequestedSoapServices($requestedServices)
     {
         $services = array();
-        foreach ($requestedServices as $serviceName => $serviceVersion) {
+        foreach ($requestedServices as $serviceName) {
             foreach ($this->getSoapServices() as $serviceData) {
                 $serviceWithVersion = $this->_helper->getServiceName($serviceData['class']);
-                if ($serviceWithVersion != $serviceName . $serviceVersion) {
-                    continue;
+                if ($serviceWithVersion === $serviceName) {
+                    $services[] = $serviceData;
                 }
-                $services[] = $serviceData;
-                /** Current service was found so no need to continue search */
-                break;
             }
         }
         return $services;
@@ -408,13 +416,13 @@ class Mage_Webapi_Config
      * Retrieve service class name corresponding to provided SOAP operation name.
      *
      * @param string $soapOperation
-     * @param array $requestedService The list of requested services with their versions
+     * @param array $requestedServices The list of requested services with their versions
      * @return string
      * @throws Mage_Webapi_Exception
      */
-    public function getClassBySoapOperation($soapOperation, $requestedService)
+    public function getClassBySoapOperation($soapOperation, $requestedServices)
     {
-        $soapOperations = $this->_getSoapOperations($requestedService);
+        $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__(
@@ -431,13 +439,13 @@ class Mage_Webapi_Config
      * Retrieve service method name corresponding to provided SOAP operation name.
      *
      * @param string $soapOperation
-     * @param array $requestedService The list of requested services with their versions
+     * @param array $requestedServices The list of requested services with their versions
      * @return string
      * @throws Mage_Webapi_Exception
      */
-    public function getMethodBySoapOperation($soapOperation, $requestedService)
+    public function getMethodBySoapOperation($soapOperation, $requestedServices)
     {
-        $soapOperations = $this->_getSoapOperations($requestedService);
+        $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__(
@@ -448,6 +456,29 @@ class Mage_Webapi_Config
             );
         }
         return $soapOperations[$soapOperation]['method'];
+    }
+
+    /**
+     * Returns true if SOAP operation is defined as secure
+     *
+     * @param string $soapOperation
+     * @param array $requestedServices The list of requested services with their versions
+     * @return bool
+     * @throws Mage_Webapi_Exception
+     */
+    public function isSoapOperationSecure($soapOperation, $requestedServices)
+    {
+        $soapOperations = $this->_getSoapOperations($requestedServices);
+        if (!isset($soapOperations[$soapOperation])) {
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__(
+                    'Operation "%s" not found.',
+                    $soapOperation
+                ),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
+        }
+        return $soapOperations[$soapOperation]['secure'];
     }
 
     /**

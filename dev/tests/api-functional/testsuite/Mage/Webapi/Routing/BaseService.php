@@ -69,9 +69,8 @@ abstract class Mage_Webapi_Routing_BaseService extends Magento_Test_TestCase_Web
                 'SoapFault',
                 sprintf(
                     'Expected SoapFault exception not generated for
-                    Service - "%s" and serviceVersion - "%s" and Operation - "%s"',
+                    Service - "%s" and Operation - "%s"',
                     $serviceInfo['soap']['service'],
-                    $serviceInfo['soap']['serviceVersion'],
                     $serviceInfo['soap']['operation']
                 )
             );

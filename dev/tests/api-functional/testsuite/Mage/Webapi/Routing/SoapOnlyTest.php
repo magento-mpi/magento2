@@ -28,7 +28,7 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
     {
         $this->_version = 'V1';
         $this->_restResourcePath = "/$this->_version/testModule2AllSoapNoRest/";
-        $this->_soapService = 'testModule2AllSoapNoRest';
+        $this->_soapService = 'testModule2AllSoapNoRestV1';
     }
 
 
@@ -45,7 +45,6 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Item'
             )
         );
@@ -82,7 +81,6 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Items'
             )
         );
@@ -108,7 +106,6 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Create'
             )
         );
@@ -134,7 +131,6 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Update'
             )
         );
@@ -160,7 +156,6 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
             ),
             'soap' => array(
                 'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
                 'operation' => $this->_soapService . 'Remove'
             )
         );

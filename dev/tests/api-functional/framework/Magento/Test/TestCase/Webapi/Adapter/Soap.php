@@ -55,7 +55,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     protected function _getSoapClient($serviceInfo)
     {
         $wsdlUrl = $this->generateWsdlUrl(
-            array($this->_getSoapServiceName($serviceInfo) => $this->_getSoapServiceVersion($serviceInfo))
+            array($this->_getSoapServiceName($serviceInfo) . $this->_getSoapServiceVersion($serviceInfo))
         );
         /** Check if there is SOAP client initialized with requested WSDL available */
         if (!isset($this->_soapClients[$wsdlUrl])) {
@@ -82,8 +82,8 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      *
      * @param array $services e.g.<pre>
      * array(
-     *     'catalogProduct' => 'V1',
-     *     'customer' => 'V2'
+     *     'catalogProductV1',
+     *     'customerV2'
      * );</pre>
      * @return string
      */
@@ -95,8 +95,8 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
         $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . '&services=';
         $wsdlResourceArray = array();
-        foreach ($services as $serviceName => $version) {
-            $wsdlResourceArray[] = "{$serviceName}:{$version}";
+        foreach ($services as $serviceName) {
+            $wsdlResourceArray[] = $serviceName;
         }
         return $wsdlUrl . implode(",", $wsdlResourceArray);
     }
@@ -132,8 +132,12 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      */
     protected function _getSoapServiceVersion($serviceInfo)
     {
-        if (isset($serviceInfo['soap']['serviceVersion'])) {
-            $version = $serviceInfo['soap']['serviceVersion'];
+        if (isset($serviceInfo['soap']['operation'])) {
+            /*
+                TODO: Need to rework this to remove version call for serviceInfo array with 'operation' key
+                since version will be part of the service name
+            */
+            return '';
         } else if (isset($serviceInfo['serviceInterface'])) {
             preg_match('/.+[V](\d+)$/', $serviceInfo['serviceInterface'], $matches);
             if (isset($matches[1])) {
