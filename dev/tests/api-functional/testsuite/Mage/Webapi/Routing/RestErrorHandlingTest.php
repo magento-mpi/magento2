@@ -119,7 +119,13 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
 
         // Something other than Mage_Service_Exception
         $this->_errorTest(
-            $serviceInfo, array(), Mage_Webapi_Exception::HTTP_INTERNAL_ERROR, 5678, 'Non service exception', null);
+            $serviceInfo,
+            array(),
+            Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            5678,
+            'Non service exception',
+            null
+        );
     }
 
     /**
@@ -150,7 +156,9 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
             $this->assertEquals($errorCode, $body['errors'][0]['code'], 'Checking body code');
             $this->assertEquals($errorMessage, $body['errors'][0]['message'], 'Checking body message');
 
-            $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
+            if (isset($parameters)) {
+                $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
+            }
         }
     }
 }
