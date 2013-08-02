@@ -133,19 +133,11 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $contents = preg_replace('~^\s*//.*$~sm', '', $contents);
                 break;
             case 'layout':
-                if (!$this->_isThemeFile($file)) {
-                    $contents = '';
-                    break;
-                }
             case 'config':
                 //Removing xml comments
                 $contents = preg_replace('~\<!\-\-/.*?\-\-\>~s', '', $contents);
                 break;
             case 'template':
-                if (!$this->_isThemeFile($file)) {
-                    $contents = '';
-                    break;
-                }
                 //Removing html
                 $contentsWithoutHtml = '';
                 preg_replace_callback(
