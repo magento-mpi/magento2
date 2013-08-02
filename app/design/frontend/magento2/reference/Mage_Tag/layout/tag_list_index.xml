@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <tag_list_index>
+        <update handle="page_one_column"/>
+        <reference name="page.main.title">
+            <action method="setPageTitle" translate="title" module="Mage_Tag">
+                <title>All Tags</title>
+            </action>
+        </reference>
+    </tag_list_index>
+</layout>

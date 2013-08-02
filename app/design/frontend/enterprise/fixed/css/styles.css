@@ -455,7 +455,7 @@ ul.links li .separator { margin:0 2px 0 5px; font-size:10px; color:#8f8f8f; }
 ul.links li.last .separator { display:none; }
 
 /* Reward Points */
-.rewards { margin:-10px 0 20px; }
+.rewards, .customer-form-before { margin:-10px 0 20px; }
 .reward-message { display:block; margin:5px -15px 5px -15px; background:#d55721 url(../images/bkg_rewards.gif) 5px 3px no-repeat; padding:3px 5px 3px 32px; font:normal 12px/20px Arial, Helvetica, sans-serif; color:#fff; }
 .reward-message p { display:inline; margin:0 !important; }
 .reward-message .limit { display:block; font-size:11px; line-height:1.15; }

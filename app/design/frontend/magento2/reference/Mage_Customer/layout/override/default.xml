@@ -23,12 +23,10 @@
                     <target>top.links</target>
                     <position>100</position>
                 </action>
+                <action method="removeRegisterLink" ifconfig="enterprise_invitation/general/registration_required_invitation">
+                    <target>top.links</target>
+                </action>
             </block>
-        </reference>
-        <reference name="account.links">
-            <action method="removeLinkByUrl" ifconfig="enterprise_invitation/general/registration_required_invitation">
-                <url helper="Mage_Customer_Helper_Data::getRegisterUrl"/>
-            </action>
         </reference>
     </default>
 </layout>

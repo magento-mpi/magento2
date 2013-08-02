@@ -17,7 +17,7 @@
         </reference>
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
-                <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div"/>
+                <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div" htmlClass="customer-form-before"/>
                 <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode">
                         <code>customer_account_create</code>

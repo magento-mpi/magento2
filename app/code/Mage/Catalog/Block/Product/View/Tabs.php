@@ -8,26 +8,29 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product information tabs
- *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Block_Product_View_Tabs extends Mage_Core_Block_Template
 {
+    /**
+     * Configured tabs
+     *
+     * @var array
+     */
     protected $_tabs = array();
 
     /**
      * Add tab to the container
      *
+     * @param string $alias
      * @param string $title
      * @param string $block
      * @param string $template
+     * @param string $header
+     * @return bool
      */
-    function addTab($alias, $title, $block, $template)
+    public function addTab($alias, $title, $block, $template, $header = null)
     {
 
         if (!$title || !$block || !$template) {
@@ -36,16 +39,23 @@ class Mage_Catalog_Block_Product_View_Tabs extends Mage_Core_Block_Template
 
         $this->_tabs[] = array(
             'alias' => $alias,
-            'title' => $title
+            'title' => $title,
+            'header' => $header,
         );
 
         $this->setChild($alias,
             $this->getLayout()->createBlock($block, $alias)
                 ->setTemplate($template)
             );
+        return true;
     }
 
-    function getTabs()
+    /**
+     * Return configured tabs
+     *
+     * @return array
+     */
+    public function getTabs()
     {
         return $this->_tabs;
     }

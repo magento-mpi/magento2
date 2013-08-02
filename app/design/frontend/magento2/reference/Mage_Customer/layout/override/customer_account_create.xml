@@ -15,7 +15,7 @@
                 <template>1column.phtml</template>
             </action>
         </reference>
-        <container name="customer.form.register.fields.before" label="Form Fields Before" htmlTag="div" htmlClass="rewards"/>
+        <container name="customer.form.register.fields.before" label="Form Fields Before" htmlTag="div" htmlClass="customer-form-before"/>
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
                 <container name="form.additional.info" label="invisible" as="form_additional_info"/>
