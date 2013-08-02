@@ -139,7 +139,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         if ($complexTypeNodes) {
             $complexTypeNode = $complexTypeNodes->item(0);
         }
-        if (!empty($complexTypeNode)) {
+        if (isset($complexTypeNode)) {
             $this->_registeredTypes[] = $this->_getPrefixedTypeName($typeName, $domDocument);
 
             $referencedTypes = $xpath->query("{$typeXPath}//@type");

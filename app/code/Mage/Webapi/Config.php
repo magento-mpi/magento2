@@ -172,74 +172,109 @@ class Mage_Webapi_Config
     }
 
     /**
+     * Get child nodes of document tree
+     *
+     * @param DOMNodeList $children
+     * @return array
+     */
+    protected function _getChildNodes($children)
+    {
+        if ($children->length == 1) {
+            $child = $children->item(0);
+            if ($child->nodeType == XML_TEXT_NODE) {
+                $result['value'] = $child->nodeValue;
+                if (count($result) == 1) {
+                    return $result['value'];
+                } else {
+                    return $result;
+                }
+            }
+        }
+    }
+
+    /**
+     * Get DOMDocument attributes
+     *
+     * @param DOMDocument|DOMElement $root
+     * @return array
+     */
+    protected function _getAttributes($root)
+    {
+        $attributes = array();
+        if ($root->hasAttributes()) {
+            foreach ($root->attributes as $value) {
+                $attributes[$value->name] = $value->value;
+            }
+        }
+        return $attributes;
+    }
+
+    /**
+     * Get node ID of DOMNode class
+     *
+     * @param array $children
+     * @param DOMNode $child
+     * @return string
+     */
+    protected function _getNodeId($children, $child)
+    {
+        $nodeId = isset($children['class']) ? $children['class'] :
+            (isset($children['method']) ? $children['method'] : $child->nodeName);
+
+        return $nodeId;
+    }
+
+    /**
+     * Convert elements to array
+     *
      * @param DOMDocument|DOMElement $root
      * @return array
      */
     protected function _toArray($root)
     {
-        $result = array();
-
-        if ($root->hasAttributes()) {
-            foreach ($root->attributes as $attr) {
-                $result[$attr->name] = $attr->value;
-            }
-        }
+        $result = $this->_getAttributes($root);
 
         $children = $root->childNodes;
-        if ($children) {
-            if ($children->length == 1) {
-                $child = $children->item(0);
-                if ($child->nodeType == XML_TEXT_NODE) {
-                    $result['value'] = $child->nodeValue;
-                    if (count($result) == 1) {
-                        return $result['value'];
-                    } else {
-                        return $result;
-                    }
+
+        $result = array_merge($result, $this->_getChildNodes($children));
+
+        $group = array();
+
+        for ($i = 0; $i < $children->length; $i++) {
+            $child = $children->item($i);
+            $_children = $this->_toArray($child);
+
+            $nodeId = $this->_getNodeId($_children, $child);
+
+            if ('rest-route' === $child->nodeName) {
+                if (!isset($result[self::KEY_OPERATIONS])) {
+                    $result[self::KEY_OPERATIONS] = array();
                 }
-            }
-
-            $group = array();
-
-            for ($i = 0; $i < $children->length; $i++) {
-                $child = $children->item($i);
-                $_children = $this->_toArray($child);
-
-                $nodeId = isset($_children['class'])
-                    ? $_children['class']
-                    :
-                    (isset($_children['method']) ? $_children['method'] : $child->nodeName);
-
-                if ('rest-route' === $child->nodeName) {
-                    if (!isset($result[self::KEY_OPERATIONS])) {
-                        $result[self::KEY_OPERATIONS] = array();
-                    }
-                    $nodeId = isset($_children['method']) ? $_children['method'] : $child->nodeName;
-                    if (!isset($result[self::KEY_OPERATIONS][$nodeId])) {
-                        $result[self::KEY_OPERATIONS][$nodeId] = $_children;
-                    } else {
-                        $result[self::KEY_OPERATIONS][$nodeId] = array_merge(
-                            $result['operations'][$nodeId],
-                            $_children
-                        );
-                    }
-
-                    if (isset($result[self::KEY_OPERATIONS][$nodeId]['value'])) {
-                        $result[self::KEY_OPERATIONS][$nodeId]['route']
-                            = $result[self::KEY_OPERATIONS][$nodeId]['value'];
-                        unset($result[self::KEY_OPERATIONS][$nodeId]['value']);
-                    }
+                $nodeId = isset($_children['method']) ? $_children['method'] : $child->nodeName;
+                if (!isset($result[self::KEY_OPERATIONS][$nodeId])) {
+                    $result[self::KEY_OPERATIONS][$nodeId] = $_children;
                 } else {
-                    if (!isset($result[$nodeId])) {
-                        $result[$nodeId] = $_children;
-                    } else {
-                        if (!isset($group[$nodeId])) {
-                            $tmp = $result[$nodeId];
-                            $result[$nodeId] = array($tmp);
-                            $group[$nodeId] = 1;
-                        }
-                        $result[$nodeId][] = $_children;
+                    $result[self::KEY_OPERATIONS][$nodeId] = array_merge(
+                        $result['operations'][$nodeId],
+                        $_children
+                    );
+                }
+
+                if (isset($result[self::KEY_OPERATIONS][$nodeId]['value'])) {
+                    $result[self::KEY_OPERATIONS][$nodeId]['route']
+                        = $result[self::KEY_OPERATIONS][$nodeId]['value'];
+                    unset($result[self::KEY_OPERATIONS][$nodeId]['value']);
+                }
+            } else {
+                if (!isset($result[$nodeId])) {
+                    $result[$nodeId] = $_children;
+                } else {
+                    if (!isset($group[$nodeId])) {
+                        $tmp = $result[$nodeId];
+                        $result[$nodeId] = array($tmp);
+                        $group[$nodeId] = 1;
                     }
+                    $result[$nodeId][] = $_children;
                 }
             }
         }
@@ -285,6 +320,20 @@ class Mage_Webapi_Config
     }
 
     /**
+     * Get service base URL
+     *
+     * @param Mage_Webapi_Controller_Request_Rest $request
+     * @return string|null
+     */
+    protected function _getServiceBaseUrl($request)
+    {
+        $baseUrlRegExp = '#^/\w+/\w+#';
+        $serviceBaseUrl = preg_match($baseUrlRegExp, $request->getPathInfo(), $matches) ? $matches[0] : null;
+
+        return $serviceBaseUrl;
+    }
+
+    /**
      * Generate the list of available REST routes.
      *
      * @param Mage_Webapi_Controller_Request_Rest $request
@@ -293,8 +342,7 @@ class Mage_Webapi_Config
      */
     public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
     {
-        $baseUrlRegExp = '#^/\w+/\w+#';
-        $serviceBaseUrl = preg_match($baseUrlRegExp, $request->getPathInfo(), $matches) ? $matches[0] : null;
+        $serviceBaseUrl = $this->_getServiceBaseUrl($request);
         $httpMethod = $request->getHttpMethod();
         $routes = array();
         foreach ($this->getRestServices() as $serviceName => $serviceData) {
