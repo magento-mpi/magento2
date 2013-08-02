@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
+ * @category    Magento
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Validator encapsulates multiple validation rules for Magento_Object.
  * Able to validate both individual fields and a whole object.
  */
-class Magento_Validator_Composite_MagentoObject implements Zend_Validate_Interface
+class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interface
 {
     /**
      * Validation rules per scope (particular fields or entire entity)
@@ -33,7 +33,7 @@ class Magento_Validator_Composite_MagentoObject implements Zend_Validate_Interfa
      *
      * @param Zend_Validate_Interface $validator
      * @param string $fieldName Field name to apply validation to, or empty value to validate entity as a whole
-     * @return Magento_Validator_Composite_MagentoObject
+     * @return Magento_Validator_Composite_VarienObject
      */
     public function addRule(Zend_Validate_Interface $validator, $fieldName = '')
     {

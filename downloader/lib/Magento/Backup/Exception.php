@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Class for Exception
+ * Exception
  *
  * @category    Mage
- * @package     Mage
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Exception extends Exception
+class Magento_Backup_Exception extends Magento_Exception
 {
 }

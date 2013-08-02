@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class to work with HTTP protocol using curl library
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_HTTP_Client_Curl
@@ -225,7 +225,7 @@ implements Magento_HTTP_IClient
 
     /**
      * Make POST request
-     * @see lib/Mage/HTTP/Mage_HTTP_Client#post($uri, $params)
+     * @see lib/Magento/HTTP/Magento_HTTP_Client#post($uri, $params)
      */
     public function post($uri, $params)
     {
@@ -318,7 +318,7 @@ implements Magento_HTTP_IClient
 
     /**
      * Get response status code
-     * @see lib/Mage/HTTP/Mage_HTTP_Client#getStatus()
+     * @see lib/Magento/HTTP/Magento_HTTP_Client#getStatus()
      */
     public function getStatus()
     {

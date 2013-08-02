@@ -2,8 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Magento_Archive
+ * @category    Magento * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +10,7 @@
 /**
 * Helper class that simplifies gz files stream reading and writing
 *
-* @category    Mage
-* @package     Magento_Archive
+* @category    Magento* @package     Magento_Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
 class Magento_Archive_Helper_File_Gz extends Magento_Archive_Helper_File
@@ -25,7 +23,7 @@ class Magento_Archive_Helper_File_Gz extends Magento_Archive_Helper_File
         $this->_fileHandler = @gzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new Mage_Exception('Failed to open file ' . $this->_filePath);
+            throw new Magento_Exception('Failed to open file ' . $this->_filePath);
         }
     }
 
@@ -37,7 +35,7 @@ class Magento_Archive_Helper_File_Gz extends Magento_Archive_Helper_File
         $result = @gzwrite($this->_fileHandler, $data);
 
         if (empty($result) && !empty($data)) {
-            throw new Mage_Exception('Failed to write data to ' . $this->_filePath);
+            throw new Magento_Exception('Failed to write data to ' . $this->_filePath);
         }
     }
 

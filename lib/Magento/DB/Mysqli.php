@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Db
+ * @category    Magento
+ * @package     Magento_Db
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Mysqli database connector
  *
- * @category    Mage
- * @package     Mage_Db
+ * @category    Magento
+ * @package     Magento_Db
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_DB_Mysqli
@@ -69,7 +69,7 @@ class Magento_DB_Mysqli
         $port = (int) $port;
         $res = @$this->conn->connect($host, $user, $paswd, $db, $port);
         if(0 !== mysqli_connect_errno($this->conn)) {
-            throw new Mage_DB_Exception(mysqli_connect_error($this->conn));
+            throw new Magento_DB_Exception(mysqli_connect_error($this->conn));
         }
         return $res;
     }
@@ -294,25 +294,25 @@ class Magento_DB_Mysqli
 
     /**
      * Throw connect exception
-     * @throws Mage_DB_Exception
+     * @throws Magento_DB_Exception
      * @return void
      */
     protected function throwConnectException()
     {
-        throw new Mage_DB_Exception($this->conn->connect_error);
+        throw new Magento_DB_Exception($this->conn->connect_error);
     }
 
     /**
      * Query - perform with throwing exception on error
      * @param sting $sql query
-     * @throws Mage_DB_Exception
+     * @throws Magento_DB_Exception
      * @return mixed
      */
     public function query($sql)
     {
         $res = $this->unsafeQuery($sql);
         if(!$res) {
-            throw new Mage_DB_Exception($this->conn->error);
+            throw new Magento_DB_Exception($this->conn->error);
         }
         return $res;
     }

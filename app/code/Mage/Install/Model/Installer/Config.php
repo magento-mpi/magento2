@@ -181,7 +181,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $pubLibDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
             $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
             $staticUrl = $baseUrl . $this->_dirs->getUri(Mage_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
-            $client = new Varien_Http_Client($staticUrl);
+            $client = new Magento_HTTP_ZendClient($staticUrl);
             $response = $client->request('GET');
         }
         catch (Exception $e){

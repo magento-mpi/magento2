@@ -79,7 +79,7 @@ class Magento_Connect_Packager
     public function getDownloader()
     {
         if(is_null($this->_http)) {
-            $this->_http = Mage_HTTP_Client::getInstance();
+            $this->_http = Magento_HTTP_Client::getInstance();
         }
         return $this->_http;
     }

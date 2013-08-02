@@ -12,7 +12,7 @@
 class Magento_Object_Factory
 {
     /**
-     * Create varien object with provided params
+     * Create Magento object with provided params
      *
      * @param array $data
      * @return Magento_Object

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class to work with Magento Connect packages
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Connect_Package
@@ -123,7 +123,7 @@ class Magento_Connect_Package
      *
      * @param null|string|resource $source
      * @param Magento_Util|null $util
-     * @throws Mage_Exception
+     * @throws Magento_Exception
      */
     public function __construct($source = null, Magento_Util $util = null)
     {
@@ -139,14 +139,14 @@ class Magento_Connect_Package
                 // package archive filename
                 $this->_loadFile($source);
             } else {
-                throw new Mage_Exception('Invalid package source');
+                throw new Magento_Exception('Invalid package source');
             }
         } elseif (is_resource($source)) {
             $this->_loadResource($source);
         } elseif (is_null($source)) {
             $this->_init();
         } else {
-            throw new Mage_Exception('Invalid package source');
+            throw new Magento_Exception('Invalid package source');
         }
     }
 
@@ -1345,7 +1345,7 @@ END;
              * Check mandatory rules fields
              */
              if(!isset($data['method'], $data['v_method'])) {
-             throw new Mage_Exception("Invalid rules specified!");
+             throw new Magento_Exception("Invalid rules specified!");
          }
 
             $method = $data['method'];
@@ -1360,14 +1360,14 @@ END;
              * Check for method availability, package
              */
             if(!method_exists($this, $method)) {
-                throw new Mage_Exception("Invalid method specified for Package : $method");
+                throw new Magento_Exception("Invalid method specified for Package : $method");
             }
 
             /**
              * Check for method availability, validator
              */
             if(!method_exists($v, $validatorMethod)) {
-                throw new Mage_Exception("Invalid method specified for Validator : $validatorMethod");
+                throw new Magento_Exception("Invalid method specified for Validator : $validatorMethod");
             }
 
             /**

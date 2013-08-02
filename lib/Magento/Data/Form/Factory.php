@@ -12,7 +12,7 @@
 class Magento_Data_Form_Factory
 {
     /**
-     * Create varien data form with provided params
+     * Create Magento data form with provided params
      *
      * @param array $data
      * @return Magento_Data_Form

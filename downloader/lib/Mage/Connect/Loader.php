@@ -28,7 +28,7 @@ class Magento_Connect_Loader
         if ($protocol  == 'ftp') {
             return new Magento_Connect_Loader_Ftp();
         } else {
-            return Mage_HTTP_Client::getInstance();
+            return Magento_HTTP_Client::getInstance();
         }
     }
 }

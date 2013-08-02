@@ -429,7 +429,7 @@ class Magento_HTTP_Client_Socket
 
     /**
      * Get response status code
-     * @see lib/Mage/HTTP/Mage_HTTP_Client#getStatus()
+     * @see lib/Magento/HTTP/Magento_HTTP_Client#getStatus()
      */
     public function getStatus()
     {

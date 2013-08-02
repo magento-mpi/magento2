@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_HTTP_Client
+class Magento_HTTP_Client
 {
     /**
      * Disallow to instantiate - pvt constructor

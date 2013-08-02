@@ -256,7 +256,7 @@ class Magento_Archive_Tar extends Magento_Archive_Abstract implements Magento_Ar
         if (is_dir($file)) {
             $treeDir = scandir($file);
             if (empty($treeDir)) {
-                throw new Mage_Exception('Can\'t scan dir: ' . $file);
+                throw new Magento_Exception('Can\'t scan dir: ' . $file);
             }
             array_shift($treeDir); /* remove  './'*/
             array_shift($treeDir); /* remove  '../'*/
@@ -274,7 +274,7 @@ class Magento_Archive_Tar extends Magento_Archive_Abstract implements Magento_Ar
      *
      * @param boolean $skipRoot
      * @param boolean $finalize
-     * @throws Mage_Exception
+     * @throws Magento_Exception
      */
     protected function _createTar($skipRoot = false, $finalize = false)
     {
@@ -288,7 +288,7 @@ class Magento_Archive_Tar extends Magento_Archive_Abstract implements Magento_Ar
             $dirFiles = scandir($file);
 
             if (false === $dirFiles) {
-                throw new Mage_Exception('Can\'t scan dir: ' . $file);
+                throw new Magento_Exception('Can\'t scan dir: ' . $file);
             }
 
             array_shift($dirFiles); /* remove  './'*/
@@ -400,7 +400,7 @@ class Magento_Archive_Tar extends Magento_Archive_Abstract implements Magento_Ar
      *
      * @param string $destination path to file is unpacked
      * @return array list of files
-     * @throws Mage_Exception
+     * @throws Magento_Exception
      */
     protected function _unpackCurrentTar($destination)
     {
@@ -423,7 +423,7 @@ class Magento_Archive_Tar extends Magento_Archive_Abstract implements Magento_Ar
                     $mkdirResult = @mkdir($dirname, 0777, true);
 
                     if (false === $mkdirResult) {
-                        throw new Mage_Exception('Failed to create directory ' . $dirname);
+                        throw new Magento_Exception('Failed to create directory ' . $dirname);
                     }
                 }
 
@@ -436,7 +436,7 @@ class Magento_Archive_Tar extends Magento_Archive_Abstract implements Magento_Ar
                     $mkdirResult = @mkdir($currentFile, $header['mode'], true);
 
                     if (false === $mkdirResult) {
-                        throw new Mage_Exception('Failed to create directory ' . $currentFile);
+                        throw new Magento_Exception('Failed to create directory ' . $currentFile);
                     }
                 }
                 $list[] = $currentFile . DS;

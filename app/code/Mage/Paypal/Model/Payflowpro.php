@@ -319,7 +319,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     {
         $debugData = array('request' => $request->getData());
 
-        $client = new Varien_Http_Client();
+        $client = new Magento_HTTP_ZendClient();
         $result = new Magento_Object();
 
         $_config = array(

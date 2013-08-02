@@ -346,7 +346,7 @@ string',
     /**
      * Tests Magento_Object->__call()
      *
-     * @expectedException Varien_Exception
+     * @expectedException Magento_Exception
      */
     public function test__call()
     {

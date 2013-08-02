@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Db
+ * @category    Magento
+ * @package     Magento_Db
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +11,11 @@
 /**
  * TODO
  *
- * @category    Mage
- * @package     Mage_Db
+ * @category    Magento
+ * @package     Magento_Db
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DB_Exception extends Exception {
+require_once 'Magento/Exception.php';
+class Magento_DB_Exception extends Magento_Exception {
 
 }

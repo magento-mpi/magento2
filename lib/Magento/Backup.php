@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category     Mage
- * @package      Mage_Backup
+ * @category     Magento
+ * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,11 +11,11 @@
 /**
  * Class to work with backups
  *
- * @category    Mage
- * @package     Mage_Backup
+ * @category    Magento
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backup
+class Magento_Backup
 {
     /**
      * List of supported a backup types
@@ -28,14 +28,14 @@ class Mage_Backup
      * get Backup Instance By File Name
      *
      * @param  string $type
-     * @return Mage_Backup_Interface
+     * @return Magento_Backup_Interface
      */
     static public function getBackupInstance($type)
     {
-        $class = 'Mage_Backup_' . ucfirst($type);
+        $class = 'Magento_Backup_' . ucfirst($type);
 
         if (!in_array($type, self::$_allowedBackupTypes) || !class_exists($class, true)){
-            throw new Mage_Exception('Current implementation not supported this type (' . $type . ') of backup.');
+            throw new Magento_Exception('Current implementation not supported this type (' . $type . ') of backup.');
         }
 
         return new $class();

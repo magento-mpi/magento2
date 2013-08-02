@@ -888,7 +888,7 @@ final class Maged_Controller
             if (!$isSuccess) {
                 $this->endInstall();
                 $this->cleanCache();
-                throw new Mage_Exception(
+                throw new Magento_Exception(
                     'The installation process has been canceled because of the backup creation error'
                 );
             }

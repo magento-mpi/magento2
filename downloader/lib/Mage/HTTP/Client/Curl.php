@@ -243,7 +243,7 @@ implements Magento_HTTP_IClient
 
     /**
      * Make POST request
-     * @see lib/Mage/HTTP/Mage_HTTP_Client#post($uri, $params)
+     * @see lib/Magento/HTTP/Magento_HTTP_Client#post($uri, $params)
      */
     public function post($uri, $params)
     {
@@ -336,7 +336,7 @@ implements Magento_HTTP_IClient
 
     /**
      * Get response status code
-     * @see lib/Mage/HTTP/Mage_HTTP_Client#getStatus()
+     * @see lib/Magento/HTTP/Magento_HTTP_Client#getStatus()
      */
     public function getStatus()
     {

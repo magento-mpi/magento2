@@ -35,7 +35,7 @@ class Mage_Backup
         $class = 'Mage_Backup_' . ucfirst($type);
 
         if (!in_array($type, self::$_allowedBackupTypes) || !class_exists($class, true)){
-            throw new Mage_Exception('Current implementation not supported this type (' . $type . ') of backup.');
+            throw new Magento_Exception('Current implementation not supported this type (' . $type . ') of backup.');
         }
 
         return new $class();

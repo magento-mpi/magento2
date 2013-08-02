@@ -2,20 +2,20 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Http
+ * @category   Magento
+ * @package    Magento_HTTP
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 /**
- * Varien HTTP Client
+ * Magento HTTP Client
  *
- * @category   Varien
- * @package    Varien_Http
+ * @category   Magento
+ * @package    Magento_HTTP
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Varien_Http_Client extends Zend_Http_Client
+class Magento_HTTP_ZendClient extends Zend_Http_Client
 {
     /**
      * Internal flag to allow decoding of request body
@@ -26,7 +26,7 @@ class Varien_Http_Client extends Zend_Http_Client
 
     public function __construct($uri = null, $config = null)
     {
-        $this->config['useragent'] = 'Varien_Http_Client';
+        $this->config['useragent'] = 'Magento_HTTP_ZendClient';
 
         parent::__construct($uri, $config);
     }
@@ -49,7 +49,7 @@ class Varien_Http_Client extends Zend_Http_Client
      * Change value of internal flag to disable/enable custom prepare functionality
      *
      * @param bool $flag
-     * @return Varien_Http_Client
+     * @return Magento_HTTP_ZendClient
      */
     public function setUrlEncodeBody($flag)
     {

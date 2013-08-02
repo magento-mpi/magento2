@@ -101,7 +101,7 @@ class Social_Facebook_Model_Api extends Magento_Object
     public function makeFacebookRequest($params, $uri, $method)
     {
         try {
-            $client = new Varien_Http_Client();
+            $client = new Magento_HTTP_ZendClient();
 
             $client->setUri($uri);
             $client->setConfig(array(

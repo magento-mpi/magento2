@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 /**
  * Interface for work with archives
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */

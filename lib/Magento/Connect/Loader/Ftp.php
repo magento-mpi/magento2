@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class for ftp loader which using in the Rest
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Connect_Loader_Ftp

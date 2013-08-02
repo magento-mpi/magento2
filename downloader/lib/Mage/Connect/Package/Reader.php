@@ -103,7 +103,7 @@ class Magento_Connect_Package_Reader
         $handle = fopen($this->_file, 'r');
         try {
             $data = $this->_loadResource($handle);
-        } catch (Mage_Exception $e) {
+        } catch (Magento_Exception $e) {
             fclose($handle);
             throw $e;
         }
@@ -126,7 +126,7 @@ class Magento_Connect_Package_Reader
                 $data .= fread($resource, 10240);
             }
         } else {
-            throw new Mage_Exception('Unsupported resource type');
+            throw new Magento_Exception('Unsupported resource type');
         }
         return $data;
     }

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_System
+ * @category    Magento
+ * @package     Magento_System
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class to work with remote FTP server
  *
- * @category    Mage
- * @package     Mage_System
+ * @category    Magento
+ * @package     Magento_System
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_System_Ftp

@@ -1245,7 +1245,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         $result = Mage::getModel('Mage_Paygate_Model_Authorizenet_Result');
 
-        $client = new Varien_Http_Client();
+        $client = new Magento_HTTP_ZendClient();
 
         $uri = $this->getConfigData('cgi_url');
         $client->setUri($uri ? $uri : self::CGI_URL);
@@ -1516,7 +1516,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $transactionId
         );
 
-        $client = new Varien_Http_Client();
+        $client = new Magento_HTTP_ZendClient();
         $uri = $this->getConfigData('cgi_url_td');
         $client->setUri($uri ? $uri : self::CGI_URL_TD);
         $client->setConfig(array('timeout'=>45));

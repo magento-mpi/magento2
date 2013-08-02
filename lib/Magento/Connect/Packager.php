@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class to manipulate with packages
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -49,7 +49,7 @@ class Magento_Connect_Packager
     public function getDownloader()
     {
         if(is_null($this->_http)) {
-            $this->_http = Mage_HTTP_Client::getInstance();
+            $this->_http = Magento_HTTP_Client::getInstance();
         }
         return $this->_http;
     }
