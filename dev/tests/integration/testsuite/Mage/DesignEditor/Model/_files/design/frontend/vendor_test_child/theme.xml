@@ -9,14 +9,8 @@
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="package">
-        <title>Default</title>
-        <theme version="2.0.0.0" code="vendor_test_child" parent="vendor_test">
-            <title>Default Child</title>
-            <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
-            </requirements>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>Default Child</title>
+    <version>2.0.0.0</version>
+    <parent>vendor_test</parent>
+</theme>

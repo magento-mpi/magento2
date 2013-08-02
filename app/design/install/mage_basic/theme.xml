@@ -8,14 +8,7 @@
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="default">
-        <title>Default</title>
-        <theme version="2.0.0.0" code="mage_basic">
-            <title>Magento Basic</title>
-            <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
-            </requirements>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>Magento Basic</title>
+    <version>2.0.0.0</version>
+</theme>

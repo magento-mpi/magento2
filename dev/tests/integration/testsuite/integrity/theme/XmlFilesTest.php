@@ -63,6 +63,20 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Configuration should declare a single package/theme that corresponds to the file system directories
+     *
+     * @param string $file
+     * @dataProvider themeConfigFileDataProvider
+     */
+    public function testThemeConfigFileHasSingleTheme($file)
+    {
+        /** @var $configXml SimpleXMLElement */
+        $configXml = simplexml_load_file($file);
+        $actualThemes = $configXml->xpath('/theme');
+        $this->assertCount(1, $actualThemes, 'Single theme declaration is expected.');
+    }
+
+    /**
      * @return array
      */
     public function themeConfigFileDataProvider()

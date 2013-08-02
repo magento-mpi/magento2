@@ -9,14 +9,8 @@
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="test">
-        <title>Test</title>
-        <theme version="2.0.0.0" code="test_external_package_descendant" parent="vendor_custom_theme">
-            <title>External Package Theme Descendant</title>
-            <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
-            </requirements>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>External Package Theme Descendant</title>
+    <version>2.0.0.0</version>
+    <parent>vendor_custom_theme</parent>
+</theme>

@@ -8,18 +8,12 @@
  * @license     {license_link}
  */
 -->
-<design>
-    <package code="magento2">
-        <title>Themes</title>
-        <theme version="1.0.0.0" code="mage_umecha" parent="mage_upstream" featured="1">
-            <title>Umecha</title>
-            <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
-            </requirements>
-            <media>
-                <preview_image>media/preview.jpg</preview_image>
-            </media>
-        </theme>
-    </package>
-</design>
+<theme>
+    <title>Umecha</title>
+    <version>1.0.0.0</version>
+    <parent>mage_upstream</parent>
+    <media>
+        <preview_image>media/preview.jpg</preview_image>
+    </media>
+</theme>
 
