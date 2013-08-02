@@ -21,6 +21,7 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
         'ruleCheckAttributeModule',
         'ruleCheckElementBlock',
         'ruleCheckElementAction',
+        'ruleCheckLayoutHandles',
     );
 
     /**
@@ -31,7 +32,37 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
     protected $_dataset = array();
 
     /**
+     * List layout handles associated with modules
+     *
+     * Format: array('router_controller' => 'Namespace_Module')
+     *
+     * @var array
+     */
+    protected static $_mapLayoutHandles = array();
+
+    /**
+     * Enable/Disable process of unknown layout handles
+     *
+     * @var bool
+     */
+    protected $_flShowUnknownHandles = true;
+
+    /**
+     * Undefined handle
+     */
+    const UNKNOWN_HANDLE = 'UNKNOWN_HANDLE';
+
+    public static function setUpBeforeClass()
+    {
+        self::getMapLayoutHandles();
+    }
+
+    /**
      * Execute all rules
+     *
+     * @param $file
+     * @param $namespace
+     * @param $module
      *
      * @dataProvider getDataset
      */
@@ -41,7 +72,7 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
 
         $dependencies = array();
         foreach ($this->_rules as $rule) {
-            $result = $this->$rule($contents, $namespace, $module);
+            $result = $this->$rule($file, $contents, $namespace, $module);
             if (count($result)) {
                 $dependencies = array_merge($dependencies, $result);
             }
@@ -55,12 +86,13 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
     /**
      * The rule to check dependencies for module="..." attribute
      *
+     * @param $file
      * @param $contents
      * @param $namespace
      * @param $module
      * @return array
      */
-    protected function ruleCheckAttributeModule($contents, $namespace, $module)
+    protected function ruleCheckAttributeModule($file, $contents, $namespace, $module)
     {
         $patterns = array(
             '/<.+module\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)[_](?<module>[A-Z][a-zA-Z]+)[\'"].*>/'
@@ -74,12 +106,13 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
      * Search dependencies for type="..." attribute.
      * Search dependencies for template="..." attribute.
      *
+     * @param $file
      * @param $contents
      * @param $namespace
      * @param $module
      * @return array
      */
-    protected function ruleCheckElementBlock($contents, $namespace, $module)
+    protected function ruleCheckElementBlock($file, $contents, $namespace, $module)
     {
         $patterns = array(
             '/<block.*type\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>/',
@@ -96,12 +129,13 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
      * Search dependencies for <file> element.
      * Search dependencies for helper="..." attribute.
      *
+     * @param $file
      * @param $contents
      * @param $namespace
      * @param $module
      * @return array
      */
-    protected function ruleCheckElementAction($contents, $namespace, $module)
+    protected function ruleCheckElementAction($file, $contents, $namespace, $module)
     {
         $patterns = array(
             '/<block\s*>(?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>/',
@@ -110,6 +144,40 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
             '<.*helper\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>'
         );
         return $this->searchDependenciesByRegexp($contents, $namespace, $module, $patterns);
+    }
+
+    /**
+     * @param $file
+     * @param $contents
+     * @param $namespace
+     * @param $module
+     * @return array
+     */
+    protected function ruleCheckLayoutHandles($file, $contents, $namespace, $module)
+    {
+        $xml = simplexml_load_file($file);
+
+        $dependencies = array();
+        foreach ($xml->xpath('/layout/child::*') as $element) {
+
+            $chunks = explode('_', $element->getName());
+            array_pop($chunks);
+            $handlePrefix = implode('_', $chunks);
+
+            if (isset(self::$_mapLayoutHandles[$handlePrefix])) {
+                $name = self::$_mapLayoutHandles[$handlePrefix];
+                if ($name != $namespace . '_' . $module) {
+                    $dependencies[$name] = $name;
+                }
+            }
+            else {
+                if ($this->_flShowUnknownHandles) {
+                    $name = self::UNKNOWN_HANDLE . ' (' . $element->getName() . ')';
+                    $dependencies[$name] = $name;
+                }
+            }
+        }
+        return $dependencies;
     }
 
     /**
@@ -135,6 +203,61 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
             }
         }
         return $dependencies;
+    }
+
+    /**
+     * Retrieve map of layout handles
+     *
+     * @return array
+     */
+    protected function getMapLayoutHandles()
+    {
+        $configFiles = array();
+
+        // Prepare list of config.xml files
+        $files = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
+        foreach ($files as $file) {
+            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+                $name = $matches['namespace'] . '_' . $matches['module'];
+                $configFiles[$name] = $file;
+            }
+        }
+
+        // Process controllers files
+        $files = Utility_Files::init()->getPhpFiles(true, false, false, false);
+        foreach ($files as $file) {
+            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)\/controllers\/(?<path>[\/\w]*)Controller.php/', $file, $matches)) {
+
+                $chunks = explode('/', strtolower($matches['path']));
+                $name = $matches['namespace'] . '_' . $matches['module'];
+
+                // Read module's config.xml file
+                $config = simplexml_load_file($configFiles[$name]);
+
+                if ('adminhtml' == $chunks[0]) {
+                    array_shift($chunks);
+                    $nodes = $config->xpath("/config/admin/routers/*") ?: array();
+                }
+                else {
+                    $nodes = $config->xpath("/config/frontend/routers/*") ?: array();
+                    foreach ($nodes as $nodeKey => $node) {
+                        // Exclude overrided routers
+                        if ('' == (string)$node->args->frontName) {
+                            unset($nodes[$nodeKey]);
+                        }
+                    }
+                }
+
+                $controllerName = implode('_', $chunks);
+
+                foreach ($nodes as $node) {
+                    $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
+                    self::$_mapLayoutHandles[$path] = $name;
+                }
+            }
+        }
+
+        return self::$_mapLayoutHandles;
     }
 
     /**
