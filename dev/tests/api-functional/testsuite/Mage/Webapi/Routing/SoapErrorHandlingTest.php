@@ -63,7 +63,7 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
         } catch (SoapFault $e) {
             $this->assertEquals('Service not found', $e->getMessage(), "Fault message is invalid.");
             /** Check SOAP fault details */
-            $this->assertTrue($e->detail, "Details must be present.");
+            $this->assertTrue(isset($e->detail), "Details must be present.");
             $this->assertFalse(isset($e->detail->Parameters), "Parameters are not expected in fault details.");
             $this->assertEquals(
                 Mage_Webapi_Exception::HTTP_NOT_FOUND,
