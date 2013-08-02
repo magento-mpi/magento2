@@ -89,16 +89,27 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
         } catch (SoapFault $e) {
-            $this->assertContains(
-                'Internal Error. Details are available in Magento log file. Report ID:',
-                $e->getMessage(),
-                "Fault message is invalid."
-            );
-            /** Check SOAP fault details */
-            $this->assertNotNull($e->detail, "Details must be present.");
-            $this->assertFalse(isset($e->detail->Parameters), "Parameters are not expected in fault details.");
-            $this->assertEquals(500, $e->detail->ErrorCode, "Error code in fault details is invalid.");
-
+            if (Mage::app()->isDeveloperMode()) {
+                $this->assertContains(
+                    'Non service exception',
+                    $e->getMessage(),
+                    "Fault message is invalid."
+                );
+                /** Check SOAP fault details */
+                $this->assertNotNull($e->detail, "Details must be present.");
+                $this->assertNotNull($e->detail->ExceptionTrace, "Exception trace must be present in developer mode");
+                $this->assertEquals(5678, $e->detail->ErrorCode, "Error code in fault details is invalid.");
+            } else {
+                $this->assertContains(
+                    'Internal Error. Details are available in Magento log file. Report ID:',
+                    $e->getMessage(),
+                    "Fault message is invalid."
+                );
+                /** Check SOAP fault details */
+                $this->assertNotNull($e->detail, "Details must be present.");
+                $this->assertFalse(isset($e->detail->Parameters), "Parameters are not expected in fault details.");
+                $this->assertEquals(500, $e->detail->ErrorCode, "Error code in fault details is invalid.");
+            }
             /** Check SOAP fault code */
             $this->assertNotNull($e->faultcode, "Fault code must not be empty.");
             $this->assertEquals('env:Receiver', $e->faultcode, "Fault code is invalid.");

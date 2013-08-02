@@ -218,6 +218,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             // TODO: throw proper exception according to new error handling strategy
             throw new LogicException("Each service payload schema must have targetNamespace specified.");
         }
+        /** Remove base url prefix and leave only the last part of the URL */
+        $namespace = preg_replace('/^.+\/(.+)$/', '$1', $namespace);
         return $namespace;
     }
 
