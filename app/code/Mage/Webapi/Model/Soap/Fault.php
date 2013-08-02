@@ -11,8 +11,19 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
 {
     const FAULT_REASON_INTERNAL = 'Internal Error.';
 
+    /**#@+
+     * Fault codes that are used in SOAP faults.
+     */
     const FAULT_CODE_SENDER = 'Sender';
     const FAULT_CODE_RECEIVER = 'Receiver';
+
+    /**#@+
+     * Nodes that can appear in Detail node of SOAP fault.
+     */
+    const DETAIL_ERROR_CODE = 'ErrorCode';
+    const DETAIL_PARAMETERS = 'Parameters';
+    const DETAIL_EXCEPTION_TRACE = 'ExceptionTrace';
+    /**#@-*/
 
     /** @var string */
     protected $_soapFaultCode;
@@ -61,13 +72,13 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     public function toXml($isDeveloperMode = false)
     {
         if ($isDeveloperMode) {
-            $this->addDetails(array('ExceptionTrace' => "<![CDATA[{$this->getTraceAsString()}]]>"));
+            $this->addDetails(array(self::DETAIL_EXCEPTION_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
         }
         if ($this->getParameters()) {
-            $this->addDetails(array('Parameters' => $this->getParameters()));
+            $this->addDetails(array(self::DETAIL_PARAMETERS => $this->getParameters()));
         }
         if ($this->getErrorCode()) {
-            $this->addDetails(array('ErrorCode' => $this->getErrorCode()));
+            $this->addDetails(array(self::DETAIL_ERROR_CODE => $this->getErrorCode()));
         }
 
         // TODO: Implement Current language definition

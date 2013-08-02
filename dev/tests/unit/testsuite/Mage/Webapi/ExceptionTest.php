@@ -47,7 +47,7 @@ class Mage_Webapi_ExceptionTest extends PHPUnit_Framework_TestCase
         $apiException = new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
         /** Check that Webapi Exception object with code 401 matches Sender originator.*/
         $this->assertEquals(
-            Mage_Webapi_Exception::ORIGINATOR_SENDER,
+            Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
             $apiException->getOriginator(),
             'Wrong Sender originator detecting.'
         );
@@ -58,7 +58,7 @@ class Mage_Webapi_ExceptionTest extends PHPUnit_Framework_TestCase
         $apiException = new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
         /** Check that Webapi Exception object with code 500 matches Receiver originator.*/
         $this->assertEquals(
-            Mage_Webapi_Exception::ORIGINATOR_RECEIVER,
+            Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER,
             $apiException->getOriginator(),
             'Wrong Receiver originator detecting.'
         );

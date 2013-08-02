@@ -9,9 +9,14 @@
  */
 class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
 {
-    public function testPerameterizedServiceException()
+    public function setUp()
     {
         $this->_markTestAsSoapOnly();
+        parent::setUp();
+    }
+
+    public function testPerameterizedServiceException()
+    {
         $serviceInfo = array(
             'soap' => array(
                 'service' => 'testModule3Error',
@@ -47,7 +52,6 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
 
     public function testWebapiException()
     {
-        $this->_markTestAsSoapOnly();
         $serviceInfo = array(
             'soap' => array(
                 'service' => 'testModule3Error',
@@ -63,7 +67,11 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
             /** Check SOAP fault details */
             $this->assertNotNull($e->detail, "Details must be present.");
             $this->assertNull($e->detail->Parameters, "Parameters are not expected in fault details.");
-            $this->assertEquals(404, $e->detail->ErrorCode, "Error code in fault details is invalid.");
+            $this->assertEquals(
+                Mage_Webapi_Exception::HTTP_NOT_FOUND,
+                $e->detail->ErrorCode,
+                "Error code in fault details is invalid."
+            );
 
             /** Check SOAP fault code */
             $this->assertNotNull($e->faultcode, "Fault code must not be empty.");
@@ -73,7 +81,6 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
 
     public function testUnknownException()
     {
-        $this->_markTestAsSoapOnly();
         $serviceInfo = array(
             'soap' => array(
                 'service' => 'testModule3Error',

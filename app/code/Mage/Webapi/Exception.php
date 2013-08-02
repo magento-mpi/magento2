@@ -21,9 +21,6 @@ class Mage_Webapi_Exception extends RuntimeException
     const HTTP_INTERNAL_ERROR = 500;
     /**#@-*/
 
-    const ORIGINATOR_SENDER = 'Sender';
-    const ORIGINATOR_RECEIVER = 'Receiver';
-
     /**
      * Initialize exception with HTTP code.
      *
@@ -47,6 +44,8 @@ class Mage_Webapi_Exception extends RuntimeException
      */
     public function getOriginator()
     {
-        return ($this->getCode() < 500) ? self::ORIGINATOR_SENDER : self::ORIGINATOR_RECEIVER;
+        return ($this->getCode() < 500)
+            ? Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
+            : Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
     }
 }

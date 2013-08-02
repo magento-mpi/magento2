@@ -23,13 +23,13 @@
     </xsd:complexType>
     <xsd:complexType name="testModule3ErrorParameterizedServiceExceptionRequest">
         <xsd:sequence>
-            <xsd:element minOccurs="1" maxOccurs="unbounded" name="details" type="associativeArrayItem" />
+            <xsd:element maxOccurs="unbounded" name="details" type="associativeArrayItem" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="associativeArrayItem">
           <xsd:sequence>
-            <xsd:element minOccurs="1" maxOccurs="1" name="key" type="xsd:string"/>
-            <xsd:element minOccurs="1" maxOccurs="1" name="value" type="xsd:string"/>
+            <xsd:element name="key" type="xsd:string"/>
+            <xsd:element name="value" type="xsd:string"/>
           </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="testModule3ErrorParameterizedServiceExceptionResponse">
