@@ -23,6 +23,7 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
         'ruleCheckElementAction',
         'ruleCheckLayoutHandles',
         'ruleCheckLayoutHandlesParents',
+        'ruleCheckLayoutHandlesUpdate',
     );
 
     /**
@@ -212,6 +213,42 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
             }
             else {
                 $name = self::UNKNOWN_HANDLE_PARENT . ' (' . $parent . ')';
+                $dependencies[$name] = $name;
+            }
+        }
+        return $dependencies;
+    }
+
+    /**
+     * The rule to check layout handles updates
+     *
+     * @param $file
+     * @param $contents
+     * @param $namespace
+     * @param $module
+     * @return array
+     */
+    protected function ruleCheckLayoutHandlesUpdate($file, $contents, $namespace, $module)
+    {
+        $xml = simplexml_load_file($file);
+
+        $dependencies = array();
+        foreach ($xml->xpath('//update/@handle') as $element) {
+
+            $handle = (string)$element;
+
+            $chunks = explode('_', $handle);
+            array_pop($chunks);
+            $handlePrefix = implode('_', $chunks);
+
+            if (isset(self::$_mapLayoutHandles[$handlePrefix])) {
+                $name = self::$_mapLayoutHandles[$handlePrefix];
+                if ($name != $namespace . '_' . $module) {
+                    $dependencies[$name] = $name;
+                }
+            }
+            else {
+                $name = self::UNKNOWN_HANDLE . ' (' . $handle . ')';
                 $dependencies[$name] = $name;
             }
         }
