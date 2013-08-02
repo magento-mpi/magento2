@@ -147,6 +147,7 @@
                 <Mage_Core_Model_ConfigInterface>Mage_Core_Model_Config</Mage_Core_Model_ConfigInterface>
                 <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
                 <Magento_Translate_TranslateInterface>Mage_Core_Model_Translate</Magento_Translate_TranslateInterface>
+                <Magento_Phrase_RendererInterface>Magento_Phrase_Renderer_InlineTool</Magento_Phrase_RendererInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
@@ -324,6 +325,33 @@
                     </overridingThemeFiles>
                 </parameters>
             </Mage_Core_Model_Layout_File_Source_Aggregated>
+            <!--
+                Compose Magento_Phrase renders
+            -->
+            <Magento_Phrase_Renderer_InlineTool>
+                <parameters>
+                    <renderer>
+                        <instance>Magento_Phrase_Renderer_Placeholder</instance>
+                    </renderer>
+                </parameters>
+            </Magento_Phrase_Renderer_InlineTool>
+            <Magento_Phrase_Renderer_Placeholder>
+                <parameters>
+                    <renderer>
+                        <instance>Magento_Phrase_Renderer_Translate</instance>
+                    </renderer>
+                </parameters>
+            </Magento_Phrase_Renderer_Placeholder>
+            <Magento_Phrase_Renderer_Translate>
+                <parameters>
+                    <translator>
+                        <instance>Magento_Translate_TranslateInterface</instance>
+                    </translator>
+                    <renderer>
+                        <instance>Magento_Phrase_Renderer_Customize</instance>
+                    </renderer>
+                </parameters>
+            </Magento_Phrase_Renderer_Translate>
         </di>
     </global>
     <frontend>

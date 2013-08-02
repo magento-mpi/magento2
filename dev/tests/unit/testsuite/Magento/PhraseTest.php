@@ -29,8 +29,8 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultRendererIsAlreadySetException()
     {
-        Magento_Phrase::setDefaultRenderer($this->_defaultRenderer);
-        Magento_Phrase::setDefaultRenderer($this->_defaultRenderer);
+        Magento_Phrase::setRenderer($this->_defaultRenderer);
+        Magento_Phrase::setRenderer($this->_defaultRenderer);
     }
 
     public function testRenderingWithDefaultRendering()
@@ -38,7 +38,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
         $text = 'some text';
         $arguments = array('arg1', 'arg2');
         $result = 'rendered text';
-        Magento_Phrase::setDefaultRenderer($this->_defaultRenderer);
+        Magento_Phrase::setRenderer($this->_defaultRenderer);
         $phrase = new Magento_Phrase($text, $arguments);
 
         $this->_defaultRenderer->expects($this->once())->method('render')->with($text, $arguments)
@@ -52,7 +52,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
         $text = 'some text';
         $arguments = array('arg1', 'arg2');
         $result = 'rendered text';
-        Magento_Phrase::setDefaultRenderer($this->_defaultRenderer);
+        Magento_Phrase::setRenderer($this->_defaultRenderer);
         $phrase = new Magento_Phrase($text, $arguments);
 
         $phrase->setCustomRenderer($this->_customRenderer);
@@ -73,7 +73,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
 
     public function testDefersRendering()
     {
-        Magento_Phrase::setDefaultRenderer($this->_defaultRenderer);
+        Magento_Phrase::setRenderer($this->_defaultRenderer);
         $this->_defaultRenderer->expects($this->never())->method('render');
 
         new Magento_Phrase('some text');
@@ -81,7 +81,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
 
     public function testSingleRendering()
     {
-        Magento_Phrase::setDefaultRenderer($this->_defaultRenderer);
+        Magento_Phrase::setRenderer($this->_defaultRenderer);
         $phrase = new Magento_Phrase('some text');
 
         $this->_defaultRenderer->expects($this->once())->method('render')
@@ -119,7 +119,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
         $text = 'some text';
         $arguments = array('arg1', 'arg2');
         $result = 'rendered text';
-        Magento_Phrase::setDefaultRenderer($this->_defaultRenderer);
+        Magento_Phrase::setRenderer($this->_defaultRenderer);
         $phrase = new Magento_Phrase($text, $arguments);
 
         $this->_defaultRenderer->expects($this->once())->method('render')->with($text, $arguments)

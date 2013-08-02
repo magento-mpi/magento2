@@ -1,13 +1,13 @@
 <?php
 /**
- * Phrase renderer translate
+ * Translate Phrase renderer
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterface
+class Magento_Phrase_Renderer_Translate extends Magento_Phrase_AbstractRenderer
 {
     /**
      * Basic object for translation
@@ -17,22 +17,26 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
     protected $_translator;
 
     /**
-     * Renderer translate construct
+     * Renderer construct
      *
      * @param Magento_Translate_TranslateInterface $translator
+     * @param Magento_Phrase_RendererInterface $renderer
      */
-    public function __construct(Magento_Translate_TranslateInterface $translator)
-    {
+    public function __construct(
+        Magento_Translate_TranslateInterface $translator,
+        Magento_Phrase_RendererInterface $renderer
+    ) {
         $this->_translator = $translator;
+        $this->_renderer = $renderer;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function render($text, array $arguments = array())
+    protected function _render($text, $arguments = array())
     {
         array_unshift($arguments, $text);
 
-        return call_user_func_array(array($this->_translator, 'translate'), $arguments);
+        return call_user_func(array($this->_translator, 'translate'), $arguments);
     }
 }
