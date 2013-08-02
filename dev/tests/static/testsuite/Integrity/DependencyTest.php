@@ -20,6 +20,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_modulesDependencies = array();
 
     /**
+     * Regex pattern for validation file path of theme
+     *
+     * @var string
+     */
+    protected static $_defaultThemes = '';
+
+    /**
      * Corrected modules dependencies map
      *
      * @var array
@@ -59,6 +66,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     public static function buildModulesDependencies()
     {
         self::$_modulesDependencies = array();
+        $defaultThemes = array();
 
         $configFiles = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
         foreach ($configFiles as $configFile) {
@@ -70,7 +78,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 /** @var SimpleXMLElement $node */
                 self::$_modulesDependencies[$moduleName][] = $node->getName();
             }
+
+            $nodes = $config->xpath("/config/*/design/theme/full_name") ?: array();
+            foreach ($nodes as $node) {
+                $defaultThemes[] = (string)$node;
+            }
         }
+        self::$_defaultThemes = sprintf('#.*/(%s)/.*\.phtml#', implode('|', array_unique($defaultThemes)));
     }
 
     /**
@@ -91,6 +105,18 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Validates file when it is belonged to default themes
+     *
+     * @param $file string
+     * @return bool
+     */
+    protected function _isThemeFile($file)
+    {
+        $filename = $this->_getRelativeFilename($file);
+        return (bool)(strpos($filename, 'app/code') === false && preg_match(self::$_defaultThemes, $filename));
+    }
+
+    /**
      * Return cleaned file contents
      *
      * @param string $fileType
@@ -106,11 +132,20 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $contents = preg_replace('~/\*.*?\*/~s', '', $contents);
                 $contents = preg_replace('~^\s*//.*$~sm', '', $contents);
                 break;
-            case 'config': case 'layout':
+            case 'layout':
+                if (!$this->_isThemeFile($file)) {
+                    $contents = '';
+                    break;
+                }
+            case 'config':
                 //Removing xml comments
                 $contents = preg_replace('~\<!\-\-/.*?\-\-\>~s', '', $contents);
                 break;
             case 'template':
+                if (!$this->_isThemeFile($file)) {
+                    $contents = '';
+                    break;
+                }
                 //Removing html
                 $contentsWithoutHtml = '';
                 preg_replace_callback(
@@ -141,9 +176,11 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     public function testDependencies($fileType, $file)
     {
         $contents = $this->_getCleanedFileContents($fileType, $file);
+        if (strlen($contents) == 0) {
+            return;
+        }
 
-        $pieces = explode('/', $this->_getRelativeFilename($file));
-        $module = $pieces[2] . '_' . $pieces[3];
+        $module = $this->_getModuleName($file);
 
         $dependenciesInfo = array();
         foreach (self::$_rulesInstances as $rule) {
@@ -187,6 +224,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         $this->fail('Corrected modules dependencies:'
             . var_export(self::$_correctedModulesDependencies, true));
     }
+    
     /**
      * Extract Magento relative filename from absolute filename
      *
@@ -197,6 +235,25 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         $relativeFileName = str_replace(Utility_Files::init()->getPathToSource(), '', $absoluteFilename);
         return trim(str_replace('\\', '/', $relativeFileName), '/');
+    }
+
+    /**
+     * Extract module name from file path
+     *
+     * @param $absoluteFilename
+     * @return string
+     */
+    protected function _getModuleName($absoluteFilename)
+    {
+        $filename = $this->_getRelativeFilename($absoluteFilename);
+        $pieces = explode('/', $filename);
+        $moduleName = 'UnknownModule';
+        if (strpos($filename, 'app/design') === 0) {
+            $moduleName = $pieces[5];
+        } elseif (strpos($filename, 'app/code') === 0) {
+            $moduleName = $pieces[2] . '_' . $pieces[3];
+        }
+        return $moduleName;
     }
 
     /**
