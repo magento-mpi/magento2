@@ -14,6 +14,10 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
     /**
      * @var string
      */
+    protected $_version;
+    /**
+     * @var string
+     */
     protected $_restResourcePath;
     /**
      * @var string
@@ -22,6 +26,7 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
 
     protected function setUp()
     {
+        $this->_version = 'V1';
         $this->_restResourcePath = "/$this->_version/testModule2AllSoapNoRest/";
         $this->_soapService = 'testModule2AllSoapNoRestV1';
     }
