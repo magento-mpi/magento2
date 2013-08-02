@@ -56,14 +56,14 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::buildModulesDependencies();
+        self::instantiateConfiguration();
         self::instantiateRules();
     }
 
     /**
      * Build modules dependencies
      */
-    public static function buildModulesDependencies()
+    public static function instantiateConfiguration()
     {
         self::$_modulesDependencies = array();
         $defaultThemes = array();
@@ -84,7 +84,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $defaultThemes[] = (string)$node;
             }
         }
-        self::$_defaultThemes = sprintf('#.*/(%s)/.*\.phtml#', implode('|', array_unique($defaultThemes)));
+        self::$_defaultThemes = sprintf('#app/design.*/(%s)/.*#', implode('|', array_unique($defaultThemes)));
     }
 
     /**
@@ -113,7 +113,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected function _isThemeFile($file)
     {
         $filename = $this->_getRelativeFilename($file);
-        return (bool)(strpos($filename, 'app/code') === false && preg_match(self::$_defaultThemes, $filename));
+        return (bool)preg_match(self::$_defaultThemes, $filename);
     }
 
     /**
@@ -176,7 +176,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     public function testDependencies($fileType, $file)
     {
         $contents = $this->_getCleanedFileContents($fileType, $file);
-        if (strlen($contents) == 0) {
+        if (strpos($file, 'app/code') === false && !$this->_isThemeFile($file)) {
             return;
         }
 
@@ -247,11 +247,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         $filename = $this->_getRelativeFilename($absoluteFilename);
         $pieces = explode('/', $filename);
-        $moduleName = 'UnknownModule';
-        if (strpos($filename, 'app/design') === 0) {
+        $moduleName = $pieces[2] . '_' . $pieces[3];
+        if ($this->_isThemeFile($absoluteFilename)) {
             $moduleName = $pieces[5];
-        } elseif (strpos($filename, 'app/code') === 0) {
-            $moduleName = $pieces[2] . '_' . $pieces[3];
         }
         return $moduleName;
     }
