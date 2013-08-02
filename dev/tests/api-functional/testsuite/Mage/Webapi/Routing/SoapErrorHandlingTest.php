@@ -33,19 +33,13 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
             $this->_webApiCall($serviceInfo, $arguments);
             $this->fail("SoapFault was not raised as expected.");
         } catch (SoapFault $e) {
-            $this->assertEquals('Parameterized service exception', $e->getMessage(), "Fault message is invalid.");
-            /** Check SOAP fault details */
-            $this->assertNotNull($e->detail, "Details must be present.");
-            $expectedParams = array('key1' => 'value1', 'key2' => 'value2');
-            $this->assertEquals(
-                $expectedParams,
-                (array)$e->detail->Parameters,
-                "Parameters in fault details are invalid."
+            $this->_checkSoapFault(
+                $e,
+                'Parameterized service exception',
+                'env:Sender',
+                1234,
+                array('key1' => 'value1', 'key2' => 'value2')
             );
-            $this->assertEquals(1234, $e->detail->ErrorCode, "Error code in fault details is invalid.");
-            /** Check SOAP fault code */
-            $this->assertNotNull($e->faultcode, "Fault code must not be empty.");
-            $this->assertEquals('env:Sender', $e->faultcode, "Fault code is invalid.");
         }
     }
 
@@ -61,19 +55,12 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
         } catch (SoapFault $e) {
-            $this->assertEquals('Service not found', $e->getMessage(), "Fault message is invalid.");
-            /** Check SOAP fault details */
-            $this->assertTrue(isset($e->detail), "Details must be present.");
-            $this->assertFalse(isset($e->detail->Parameters), "Parameters are not expected in fault details.");
-            $this->assertEquals(
-                Mage_Webapi_Exception::HTTP_NOT_FOUND,
-                $e->detail->ErrorCode,
-                "Error code in fault details is invalid."
+            $this->_checkSoapFault(
+                $e,
+                'Service not found',
+                'env:Sender',
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
-
-            /** Check SOAP fault code */
-            $this->assertNotNull($e->faultcode, "Fault code must not be empty.");
-            $this->assertEquals('env:Sender', $e->faultcode, "Fault code is invalid.");
         }
     }
 
@@ -89,30 +76,82 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
         } catch (SoapFault $e) {
-            if (Mage::app()->isDeveloperMode()) {
-                $this->assertContains(
+            /** In developer mode message is masked, so checks should be different in two modes */
+            if (strpos($e->getMessage(), 'Internal Error') === false) {
+                $this->_checkSoapFault(
+                    $e,
                     'Non service exception',
-                    $e->getMessage(),
-                    "Fault message is invalid."
+                    'env:Receiver',
+                    5678
                 );
-                /** Check SOAP fault details */
-                $this->assertNotNull($e->detail, "Details must be present.");
-                $this->assertNotNull($e->detail->ExceptionTrace, "Exception trace must be present in developer mode");
-                $this->assertEquals(5678, $e->detail->ErrorCode, "Error code in fault details is invalid.");
             } else {
-                $this->assertContains(
+                $this->_checkSoapFault(
+                    $e,
                     'Internal Error. Details are available in Magento log file. Report ID:',
-                    $e->getMessage(),
-                    "Fault message is invalid."
+                    'env:Receiver',
+                    500
                 );
-                /** Check SOAP fault details */
-                $this->assertNotNull($e->detail, "Details must be present.");
-                $this->assertFalse(isset($e->detail->Parameters), "Parameters are not expected in fault details.");
-                $this->assertEquals(500, $e->detail->ErrorCode, "Error code in fault details is invalid.");
             }
-            /** Check SOAP fault code */
-            $this->assertNotNull($e->faultcode, "Fault code must not be empty.");
-            $this->assertEquals('env:Receiver', $e->faultcode, "Fault code is invalid.");
         }
+    }
+
+    /**
+     * Verify that SOAP fault contains necessary information.
+     *
+     * @param SoapFault $soapFault
+     * @param string $expectedMessage
+     * @param string $expectedFaultCode
+     * @param string $expectedErrorCode
+     * @param array $expectedErrorParams
+     * @param bool $isTraceExpected
+     */
+    protected function _checkSoapFault(
+        $soapFault,
+        $expectedMessage,
+        $expectedFaultCode,
+        $expectedErrorCode,
+        $expectedErrorParams = array(),
+        $isTraceExpected = false
+    ) {
+        $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
+
+        /** Check SOAP fault details */
+        $errorDetailsNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAILS;
+        $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
+        $this->assertNotNull($errorDetails, "Details must be present.");
+
+        /** Check additional error parameters */
+        $paramsNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_PARAMETERS;
+        if ($expectedErrorParams) {
+            $this->assertEquals(
+                $expectedErrorParams,
+                (array)$errorDetails->$paramsNode,
+                "Parameters in fault details are invalid."
+            );
+        } else {
+            $this->assertFalse(isset($errorDetails->$paramsNode), "Parameters are not expected in fault details.");
+        }
+
+        /** Check error trace */
+        $traceNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_TRACE;
+        if (!Mage::app()->isDeveloperMode()) {
+            /** Developer mode changes tested behavior and it cannot properly be tested for now */
+            if ($isTraceExpected) {
+                $this->assertNotNull($errorDetails->$traceNode, "Exception trace was expected.");
+            } else {
+                $this->assertNull($errorDetails->$traceNode, "Exception trace was not expected.");
+            }
+        }
+
+        /** Check error code */
+        $this->assertEquals(
+            $expectedErrorCode,
+            $errorDetails->{Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
+            "Error code in fault details is invalid."
+        );
+
+        /** Check SOAP fault code */
+        $this->assertNotNull($soapFault->faultcode, "Fault code must not be empty.");
+        $this->assertEquals($expectedFaultCode, $soapFault->faultcode, "Fault code is invalid.");
     }
 }
