@@ -22,6 +22,7 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
         'ruleCheckElementBlock',
         'ruleCheckElementAction',
         'ruleCheckLayoutHandles',
+        'ruleCheckLayoutHandlesParents',
     );
 
     /**
@@ -41,17 +42,18 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
     protected static $_mapLayoutHandles = array();
 
     /**
-     * Enable/Disable process of unknown layout handles
-     *
-     * @var bool
-     */
-    protected $_flShowUnknownHandles = true;
-
-    /**
-     * Undefined handle
+     * Unknown layout handle mark
      */
     const UNKNOWN_HANDLE = 'UNKNOWN_HANDLE';
 
+    /**
+     * Unknown parent of layout handle mark
+     */
+    const UNKNOWN_HANDLE_PARENT = 'UNKNOWN_HANDLE_PARENT';
+
+    /**
+     * Initialize map
+     */
     public static function setUpBeforeClass()
     {
         self::getMapLayoutHandles();
@@ -147,6 +149,8 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * The rule to check layout handles
+     *
      * @param $file
      * @param $contents
      * @param $namespace
@@ -171,10 +175,44 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
                 }
             }
             else {
-                if ($this->_flShowUnknownHandles) {
-                    $name = self::UNKNOWN_HANDLE . ' (' . $element->getName() . ')';
+                $name = self::UNKNOWN_HANDLE . ' (' . $element->getName() . ')';
+                $dependencies[$name] = $name;
+            }
+        }
+        return $dependencies;
+    }
+
+    /**
+     * The rule to check layout handles parents
+     *
+     * @param $file
+     * @param $contents
+     * @param $namespace
+     * @param $module
+     * @return array
+     */
+    protected function ruleCheckLayoutHandlesParents($file, $contents, $namespace, $module)
+    {
+        $xml = simplexml_load_file($file);
+
+        $dependencies = array();
+        foreach ($xml->xpath('/layout/child::*/@parent') as $element) {
+
+            $parent = (string)$element;
+
+            $chunks = explode('_', $parent);
+            array_pop($chunks);
+            $parentPrefix = implode('_', $chunks);
+
+            if (isset(self::$_mapLayoutHandles[$parentPrefix])) {
+                $name = self::$_mapLayoutHandles[$parentPrefix];
+                if ($name != $namespace . '_' . $module) {
                     $dependencies[$name] = $name;
                 }
+            }
+            else {
+                $name = self::UNKNOWN_HANDLE_PARENT . ' (' . $parent . ')';
+                $dependencies[$name] = $name;
             }
         }
         return $dependencies;
@@ -256,8 +294,6 @@ class Integrity_LayoutDependenciesTest extends PHPUnit_Framework_TestCase
                 }
             }
         }
-
-        return self::$_mapLayoutHandles;
     }
 
     /**
