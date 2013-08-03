@@ -162,6 +162,11 @@
                     <cacheLifetime>86400</cacheLifetime>
                 </parameters>
             </Varien_Data_Collection_Db_FetchStrategy_Cache>
+            <Mage_Core_Model_Acl_Cache>
+                <parameters>
+                    <cacheKey>global_acl_resources</cacheKey>
+                </parameters>
+            </Mage_Core_Model_Acl_Cache>
             <Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
                 <parameters>
                     <cache>
