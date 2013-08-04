@@ -38,7 +38,7 @@ class Mage_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework
 
     public function testConstructor()
     {
-        $mockFetchStrategy = $this->getMockBuilder('Varien_Data_Collection_Db_FetchStrategyInterface')
+        $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $collection = new Mage_Webhook_Model_Resource_Event_Collection($mockFetchStrategy);

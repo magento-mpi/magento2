@@ -73,7 +73,7 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_mockObjectManager->expects($this->once())
             ->method('get')
             ->with('Test_Formatter_Json')
-            ->will($this->returnValue($this->getMock('Varien_Object')));
+            ->will($this->returnValue($this->getMock('Magento_Object')));
 
         $this->_formatterFactory->getFormatter(Magento_Outbound_EndpointInterface::FORMAT_JSON);
     }

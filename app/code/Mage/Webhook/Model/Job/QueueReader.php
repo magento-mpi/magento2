@@ -31,13 +31,13 @@ class Mage_Webhook_Model_Job_QueueReader implements Magento_PubSub_Job_QueueRead
     {
         $this->_collection = $collection;
         $this->_collection->setPageSize(self::PAGE_SIZE)
-            ->setOrder('created_at', Varien_Data_Collection::SORT_ORDER_DESC);
+            ->setOrder('created_at', Magento_Data_Collection::SORT_ORDER_DESC);
         $this->_collection->addFieldToFilter('status',
                 array('in' => array(
                     Magento_PubSub_JobInterface::READY_TO_SEND,
                     Magento_PubSub_JobInterface::RETRY
                 )))
-            ->addFieldToFilter('retry_at', array('to' => Varien_Date::formatDate(true), 'datetime' => true));
+            ->addFieldToFilter('retry_at', array('to' => Magento_Date::formatDate(true), 'datetime' => true));
         $this->_iterator = $this->_collection->getIterator();
     }
 

@@ -550,7 +550,7 @@ class Magento_DB_Ddl_Table
      *
      * @param string $key
      * @param string $value
-     * @return Varien_Db_Ddl_Table
+     * @return Magento_Db_Ddl_Table
      */
     public function setOption($key, $value)
     {
