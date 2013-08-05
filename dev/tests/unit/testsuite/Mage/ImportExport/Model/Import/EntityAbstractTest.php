@@ -53,15 +53,10 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     protected function _getModelDependencies()
     {
-        $mageHelper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'), array(), '', false, false);
-        $mageHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $data = array(
             'data_source_model'            => 'not_used',
             'connection'                   => 'not_used',
-            'helpers'                      => array('Mage_ImportExport_Helper_Data' => $mageHelper),
+            'helpers'                      => array(),
             'json_helper'                  => 'not_used',
             'string_helper'                => new Mage_Core_Helper_String(
                 $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false)

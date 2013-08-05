@@ -26,7 +26,6 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
-        $helperMock = $this->getMock('Mage_Adminhtml_Helper_Data', array(), array(), '', false, false);
         $menuConfigMock = $this->getMock('Mage_Backend_Model_Menu_Config', array(), array(), '', false, false);
         $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false, false);
         $menuItemMock = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false, false);
@@ -47,7 +46,6 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($menuMock));
         $menuMock->expects($this->any())->method('get')->will($this->returnValue($menuItemMock));
-        $menuItemMock->expects($this->any())->method('getModuleHelper')->will($this->returnValue($helperMock));
         $menuItemMock->expects($this->any())->method('getTitle')->will($this->returnValue('Title'));
 
         $paths = array(
@@ -76,7 +74,6 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
             ->with('current_email_template')->will($this->returnValue($templateMock));
 
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_block = $objectManager->getObject('Mage_Adminhtml_Block_System_Email_Template_Edit', $arguments);
     }

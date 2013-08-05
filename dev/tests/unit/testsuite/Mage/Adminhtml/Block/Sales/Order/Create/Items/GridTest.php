@@ -9,11 +9,6 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Sales_Helper_Data
-     */
-    protected $_helperMock;
-
-    /**
      * @var PHPUnit_Framework_MockObject_MockObject|Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid
      */
     protected $_block;
@@ -23,16 +18,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Fra
      */
     public function setUp()
     {
-        $this->_helperMock = $this->getMockBuilder('Mage_Sales_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-
         $helperFactory = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
-        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
 
         $contextMock = $this->getMockBuilder('Mage_Backend_Block_Template_Context')
             ->disableOriginalConstructor()

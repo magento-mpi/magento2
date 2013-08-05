@@ -154,11 +154,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             ->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
 
-        $translator = $this->getMock('stdClass', array('__'));
-        $translator->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $attributeCollection = $this->_createAttrCollectionMock();
 
         $customerStorage = $this->_createCustomerStorageMock();
@@ -175,11 +170,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             $regionCollection->addItem(new Varien_Object($region));
         }
 
-        $mageHelper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'), array(), '', false, false);
-        $mageHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $data = array(
             'data_source_model'            => $dataSourceModel,
             'connection'                   => $connection,
@@ -192,7 +182,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             'bunch_size'                   => 1,
             'website_manager'              => $websiteManager,
             'store_manager'                => 'not_used',
-            'translator'                   => $translator,
             'attribute_collection'         => $attributeCollection,
             'entity_type_id'               => 1,
             'customer_storage'             => $customerStorage,
@@ -200,9 +189,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             'address_collection'           => $addressCollection,
             'entity_table'                 => 'not_used',
             'region_collection'            => $regionCollection,
-            'helpers'                      => array(
-                'Mage_ImportExport_Helper_Data' => $mageHelper
-            )
         );
 
         return $data;

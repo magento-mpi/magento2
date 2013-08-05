@@ -40,7 +40,7 @@ class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
         );
         if ($templateLabelNode) {
             $module = (string)$templateLabelNode->getParent()->getAttribute('module');
-            $templateName = Mage::helper(__((string)$templateLabelNode);
+            $templateName = __((string)$templateLabelNode);
             $templateName = __('%s (Default)', $templateName);
         }
         array_unshift(

@@ -242,7 +242,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         foreach ($faultsNode->children() as $faultName => $fault) {
             $faults[$faultName] = array(
                 'code'    => (string) $fault->code,
-                'message' => Mage::helper(__((string)$fault->message)
+                'message' => __((string)$fault->message)
             );
         }
 

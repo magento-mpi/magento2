@@ -17,9 +17,6 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_request;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helperMock;
-
     /** @var Mage_Webapi_Model_Config_Rest */
     protected $_apiConfigMock;
 
@@ -35,25 +32,19 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->_routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')
             ->disableOriginalConstructor()
             ->setMethods(array('match'))
             ->getMock();
         $this->_request = new Mage_Webapi_Controller_Request_Rest($interpreterFactory, $this->_helperMock);
         /** Initialize SUT. */
-        $this->_router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
+        $this->_router = new Mage_Webapi_Controller_Router_Rest($this->_apiConfigMock);
     }
 
     protected function tearDown()
     {
         unset($this->_routeMock);
         unset($this->_request);
-        unset($this->_helperMock);
         unset($this->_apiConfigMock);
         unset($this->_router);
         parent::tearDown();

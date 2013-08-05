@@ -56,7 +56,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
         ));
         $this->_model = $this->getMock(
             'Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js',
-            array('__', 'helper'),
+            array('helper'),
             $constructArguments
         );
     }

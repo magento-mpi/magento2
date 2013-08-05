@@ -80,7 +80,6 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framework_
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
             ->getMock();
-        $taxHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
         return $taxHelper;
     }
 

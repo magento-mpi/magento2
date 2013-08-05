@@ -45,10 +45,7 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
     protected function _createDataHelperMock()
     {
         /** @var $helper Mage_ImportExport_Helper_Data */
-        $helper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'), array(), '', false);
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $helper = $this->getMock('Mage_ImportExport_Helper_Data', array(), array(), '', false);
         $registryKey = '_helper/Mage_ImportExport_Helper_Data';
         if (Mage::registry($registryKey)) {
             Mage::unregister($registryKey);

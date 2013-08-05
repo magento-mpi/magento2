@@ -9,9 +9,6 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap_Authentication
 {
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /**
      * Username token factory.
      *
@@ -25,16 +22,13 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Authentication
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory
      * @param Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {
-        $this->_helper = $helper;
         $this->_tokenFactory = $usernameTokenFactory;
         $this->_roleLocator = $roleLocator;
     }

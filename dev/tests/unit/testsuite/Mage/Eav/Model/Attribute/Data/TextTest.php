@@ -19,10 +19,7 @@ class Mage_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = $this->getMock('Mage_Core_Helper_String', array('__'), array(), '', false, false);
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0))
-        ;
+
         $attributeData = array(
             'store_label' => 'Test',
             'attribute_code' => 'test',

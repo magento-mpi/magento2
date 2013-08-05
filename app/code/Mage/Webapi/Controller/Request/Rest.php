@@ -47,9 +47,6 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /** @var array */
     protected $_bodyParams;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Factory */
     protected $_interpreterFactory;
 
@@ -57,16 +54,13 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory
-     * @param Mage_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory,
-        Mage_Webapi_Helper_Data $helper,
         $uri = null
     ) {
         parent::__construct(Mage_Webapi_Controller_Front::API_TYPE_REST, $uri);
-        $this->_helper = $helper;
         $this->_interpreterFactory = $interpreterFactory;
     }
 

@@ -29,11 +29,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_factoryMock;
 
     /**
@@ -60,11 +55,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
             ->expects($this->any())
             ->method('getChildBlocks')
             ->will($this->returnValue(array('column' => $this->_columnMock)));
-        $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $this->_helperMock
-            ->expects($this->any())
-            ->method('__')
-            ->will($this->returnValue('TRANSLATED STRING'));
+
         $this->_factoryMock = $this->getMock('Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(), array(),
             '', false
         );
@@ -79,7 +70,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
         $arguments = array(
             'layout'           => $this->_layoutMock,
-            'helper'           => $this->_helperMock,
             'generatorFactory' => $this->_factoryMock,
             'totals' => $this->_totalsMock,
             'subtotals' => $this->_subtotalsMock
@@ -96,7 +86,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
         unset($this->_block);
         unset($this->_layoutMock);
         unset($this->_columnMock);
-        unset($this->_helperMock);
         unset($this->_factoryMock);
         unset($this->_totalsMock);
         unset($this->_subtotalsMock);

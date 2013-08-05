@@ -15,26 +15,12 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_applicationConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperMock;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperFactoryMock;
-
     /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Factory */
     protected $_interpreterFactory;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $this->_helperFactoryMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($this->_helperMock));
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
@@ -46,8 +32,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
         /** Initialize SUT. */
         $this->_interpreterFactory = new Mage_Webapi_Controller_Request_Rest_Interpreter_Factory(
             $this->_objectManagerMock,
-            $this->_applicationConfig,
-            $this->_helperFactoryMock
+            $this->_applicationConfig
         );
         parent::setUp();
     }
@@ -56,8 +41,6 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     {
         unset($this->_objectManagerMock);
         unset($this->_applicationConfig);
-        unset($this->_helperMock);
-        unset($this->_helperFactoryMock);
         unset($this->_interpreterFactory);
         parent::tearDown();
     }

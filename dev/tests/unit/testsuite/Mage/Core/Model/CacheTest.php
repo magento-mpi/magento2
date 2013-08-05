@@ -32,20 +32,6 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helperMock = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false);
-        $helperMock
-            ->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0))
-        ;
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $helperFactoryMock
-            ->expects($this->any())
-            ->method('get')
-            ->with('Mage_Core_Helper_Data')
-            ->will($this->returnValue($helperMock))
-        ;
-
         $this->_initCacheTypeMocks();
         $objectManagerMock = $this->getMockForAbstractClass('Magento_ObjectManager');
         $objectManagerMock
@@ -83,7 +69,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Mage_Core_Model_Cache(
             $objectManagerMock, $frontendPoolMock, $this->_cacheTypesMock, $configFixture,
-            $dirsMock, $helperFactoryMock
+            $dirsMock
         );
     }
 

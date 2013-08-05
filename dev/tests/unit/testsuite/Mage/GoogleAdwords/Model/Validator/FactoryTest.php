@@ -40,16 +40,6 @@ class Mage_GoogleAdwords_Model_Validator_ColorFactoryTest extends PHPUnit_Framew
 
     public function setUp()
     {
-        $this->_helperMock = $this->getMock('Mage_GoogleAdwords_Helper_Data', array(), array(), '', false);
-        $this->_helperMock->expects($this->any())->method('__')->with($this->isType('string'))
-            ->will($this->returnCallback(
-                function () {
-                    $args = func_get_args();
-                    $translated = array_shift($args);
-                    return vsprintf($translated, $args);
-                }
-            ));
-
         $this->_validatorBuilderFactoryMock = $this->getMock('Magento_Validator_BuilderFactory', array('create'),
             array(), '', false);
         $this->_validatorBuilderMock = $this->getMock('Magento_Validator_Builder', array(), array(), '', false);
@@ -58,7 +48,6 @@ class Mage_GoogleAdwords_Model_Validator_ColorFactoryTest extends PHPUnit_Framew
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_factory = $objectManager->getObject('Mage_GoogleAdwords_Model_Validator_Factory', array(
             'validatorBuilderFactory' => $this->_validatorBuilderFactoryMock,
-            'helper' => $this->_helperMock,
         ));
     }
 
