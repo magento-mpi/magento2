@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="newsletter" translate="label" module="Mage_Newsletter" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="newsletter" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Newsletter</label>
             <tab>customer</tab>
             <resource>Mage_Newsletter::newsletter</resource>
