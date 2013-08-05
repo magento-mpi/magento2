@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_Customize extends Magento_Phrase_AbstractRenderer
+class Magento_Phrase_Renderer_Customize implements Magento_Phrase_RendererInterface
 {
     /**
      * {@inheritdoc}
      */
-    protected function _render($text, $arguments = array())
+    public function render($text, array $arguments = array())
     {
         return $text;
     }

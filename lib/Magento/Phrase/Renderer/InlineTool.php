@@ -7,22 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_InlineTool extends Magento_Phrase_AbstractRenderer
+class Magento_Phrase_Renderer_InlineTool implements Magento_Phrase_RendererInterface
 {
-    /**
-     * Renderer construct
-     *
-     * @param Magento_Phrase_RendererInterface|null $renderer
-     */
-    public function __construct(Magento_Phrase_RendererInterface $renderer)
-    {
-        $this->_renderer = $renderer;
-    }
-
     /**
      * {@inheritdoc}
      */
-    protected function _render($text, $arguments = array())
+    public function render($text, array $arguments = array())
     {
         return $text;
     }
