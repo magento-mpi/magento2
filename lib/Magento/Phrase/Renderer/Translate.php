@@ -1,6 +1,6 @@
 <?php
 /**
- * Phrase renderer translate
+ * Translate Phrase renderer
  *
  * {license_notice}
  *
@@ -17,7 +17,7 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
     protected $_translator;
 
     /**
-     * Renderer translate construct
+     * Renderer construct
      *
      * @param Magento_Translate_TranslateInterface $translator
      */
@@ -33,6 +33,6 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
     {
         array_unshift($arguments, $text);
 
-        return call_user_func_array(array($this->_translator, 'translate'), $arguments);
+        return call_user_func(array($this->_translator, 'translate'), $arguments);
     }
 }

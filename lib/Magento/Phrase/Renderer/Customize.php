@@ -1,13 +1,13 @@
 <?php
 /**
- * Placeholder Phrase renderer
+ * Customize Phrase renderer
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_Placeholder implements Magento_Phrase_RendererInterface
+class Magento_Phrase_Renderer_Customize implements Magento_Phrase_RendererInterface
 {
     /**
      * {@inheritdoc}
