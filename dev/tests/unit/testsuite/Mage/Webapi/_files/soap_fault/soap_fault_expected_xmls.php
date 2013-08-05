@@ -20,8 +20,10 @@ return array(
                     <env:Text xml:lang="cn">Fault reason</env:Text>
                 </env:Reason>
                 <env:Detail>
-                    <m:key1>value1</m:key1>
-                    <m:key2>value2</m:key2>
+                    <m:ErrorDetails>
+                        <m:key1>value1</m:key1>
+                        <m:key2>value2</m:key2>
+                    </m:ErrorDetails>
                 </env:Detail>
             </env:Fault>
         </env:Body>
@@ -80,9 +82,11 @@ return array(
                     <env:Text xml:lang="en">Fault reason</env:Text>
                 </env:Reason>
                 <env:Detail>
-                    <m:key>
-                        <m:sub_key>value</m:sub_key>
-                    </m:key>
+                    <m:ErrorDetails>
+                        <m:key>
+                            <m:sub_key>value</m:sub_key>
+                        </m:key>
+                    </m:ErrorDetails>
                 </env:Detail>
             </env:Fault>
         </env:Body>

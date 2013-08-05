@@ -146,6 +146,9 @@
                 <Mage_Core_Model_DataService_ConfigInterface>Mage_Core_Model_DataService_Config</Mage_Core_Model_DataService_ConfigInterface>
                 <Mage_Core_Model_ConfigInterface>Mage_Core_Model_Config</Mage_Core_Model_ConfigInterface>
                 <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
+                <Magento_PubSub_Event_QueueWriterInterface>Magento_PubSub_Event_QueueWriter</Magento_PubSub_Event_QueueWriterInterface>
+                <Magento_PubSub_Event_FactoryInterface>Magento_PubSub_Event_Factory</Magento_PubSub_Event_FactoryInterface>
+                <Magento_PubSub_Message_DispatcherAsyncInterface>Magento_PubSub_Message_DispatcherAsync</Magento_PubSub_Message_DispatcherAsyncInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
@@ -159,6 +162,11 @@
                     <cacheLifetime>86400</cacheLifetime>
                 </parameters>
             </Varien_Data_Collection_Db_FetchStrategy_Cache>
+            <Mage_Core_Model_Acl_Cache>
+                <parameters>
+                    <cacheKey>global_acl_resources</cacheKey>
+                </parameters>
+            </Mage_Core_Model_Acl_Cache>
             <Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
                 <parameters>
                     <cache>

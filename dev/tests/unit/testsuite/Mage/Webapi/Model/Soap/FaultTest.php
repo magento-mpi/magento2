@@ -53,7 +53,7 @@ XML;
     public function testToXmlDeveloperModeOn()
     {
         $actualXml = $this->_soapFault->toXml(true);
-        $this->assertContains('<m:ExceptionTrace>', $actualXml, 'Exception trace is not found in XML.');
+        $this->assertContains('<m:Trace>', $actualXml, 'Exception trace is not found in XML.');
     }
 
     /**
@@ -146,19 +146,25 @@ XML;
         $expectedXml = <<<FAULT_XML
 <?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
-   <env:Body>
-      <env:Fault>
-         <env:Code>
-            <env:Value>env:Receiver</env:Value>
-         </env:Code>
-         <env:Reason>
-            <env:Text xml:lang="en">Soap fault reason.</env:Text>
-         </env:Reason>
-         <env:Detail>
-            <m:Parameters><m:param1>value1</m:param1><m:param2>2</m:param2></m:Parameters><m:ErrorCode>111</m:ErrorCode>
-         </env:Detail>
-      </env:Fault>
-   </env:Body>
+    <env:Body>
+        <env:Fault>
+            <env:Code>
+                <env:Value>env:Receiver</env:Value>
+            </env:Code>
+            <env:Reason>
+                <env:Text xml:lang="en">Soap fault reason.</env:Text>
+            </env:Reason>
+            <env:Detail>
+                <m:ErrorDetails>
+                    <m:Parameters>
+                        <m:param1>value1</m:param1>
+                        <m:param2>2</m:param2>
+                    </m:Parameters>
+                    <m:Code>111</m:Code>
+                </m:ErrorDetails>
+            </env:Detail>
+        </env:Fault>
+    </env:Body>
 </env:Envelope>
 FAULT_XML;
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml, "Soap fault is invalid.");
