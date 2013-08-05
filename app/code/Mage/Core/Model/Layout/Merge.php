@@ -86,6 +86,11 @@ class Mage_Core_Model_Layout_Merge
     private $_appState;
 
     /**
+     * @var Mage_Core_Helper_Data
+     */
+    private $_helper;
+
+    /**
      * @var Magento_Cache_FrontendInterface
      */
     protected $_cache;
@@ -99,6 +104,7 @@ class Mage_Core_Model_Layout_Merge
      * @param Mage_Core_Model_Resource_Layout_Update $resource
      * @param Mage_Core_Model_App_State $appState
      * @param Magento_Cache_FrontendInterface $cache
+     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme $theme Non-injectable theme instance
      */
     public function __construct(
@@ -108,6 +114,7 @@ class Mage_Core_Model_Layout_Merge
         Mage_Core_Model_Resource_Layout_Update $resource,
         Mage_Core_Model_App_State $appState,
         Magento_Cache_FrontendInterface $cache,
+        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -115,6 +122,7 @@ class Mage_Core_Model_Layout_Merge
         $this->_fileSource = $fileSource;
         $this->_resource = $resource;
         $this->_appState = $appState;
+        $this->_helper = $helper;
         $this->_cache = $cache;
     }
 
@@ -656,8 +664,10 @@ class Mage_Core_Model_Layout_Merge
         $containerNodes = $this->asSimplexml()->xpath('//container');
         /** @var $oneContainerNode Mage_Core_Model_Layout_Element */
         foreach ($containerNodes as $oneContainerNode) {
-            $helper = Mage::helper(Mage_Core_Model_Layout::findTranslationModuleName($oneContainerNode));
-            $result[$oneContainerNode->getAttribute('name')] = $helper->__($oneContainerNode->getAttribute('label'));
+            $label = $oneContainerNode->getAttribute('label');
+            if ($label) {
+                $result[$oneContainerNode->getAttribute('name')] = $this->_helper->__($label);
+            }
         }
         return $result;
     }

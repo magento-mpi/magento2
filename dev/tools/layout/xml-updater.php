@@ -39,11 +39,11 @@ try{
     $result = $formater->format($transformedDoc);
     if ($opt->overwrite) {
         file_put_contents($opt->file, $result);
-    } else{
+    } else {
         echo $result;
     }
     exit(0);
-}catch  (Zend_Console_Getopt_Exception $e) {
+} catch (Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();
     exit(255);
 } catch (Exception $e) {

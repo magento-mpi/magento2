@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Link page block
  *
@@ -19,9 +18,6 @@
 class Mage_Page_Block_Html_Head_Link extends Mage_Core_Block_Template implements Mage_Page_Block_Html_Head_AssetBlock
 {
     const VIRTUAL_CONTENT_TYPE = 'link';
-
-    /** @var  Mage_Core_Model_Page_Asset_RemoteFactory */
-    protected $remoteFactory;
 
     /**
      * Contructor

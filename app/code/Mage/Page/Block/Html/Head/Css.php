@@ -15,12 +15,8 @@
  * @package    Mage_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Page_Block_Html_Head_Css extends Mage_Core_Block_Abstract implements Mage_Page_Block_Html_Head_AssetBlock
 {
-    /** @var  Mage_Core_Model_Page_Asset_ViewFileFactory */
-    protected $viewFileFactory;
-
     /**
      * Contructor
      *

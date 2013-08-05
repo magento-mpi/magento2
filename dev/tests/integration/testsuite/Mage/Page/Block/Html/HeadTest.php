@@ -261,7 +261,8 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertSame(
-            '<link rel="next" attr="value" some_other_attr="value2" href="http://localhost/index.php/category.html" />' . "\n",
+            '<link rel="next" attr="value" some_other_attr="value2" '
+                . 'href="http://localhost/index.php/category.html" />' . "\n",
             $this->_block->getCssJsHtml()
         );
     }
