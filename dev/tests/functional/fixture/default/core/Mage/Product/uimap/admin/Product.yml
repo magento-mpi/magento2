@@ -392,8 +392,10 @@ new_product:
                                         prices_special_price_to: //input[@id='special_to_date']
                                         prices_manu_suggested_retail_price: //input[@id='msrp']
                                     pageelements:
+                                        prices_group_price_grid: //table[@id='group_prices_table']
                                         prices_group_price_grid_head: //table[@id='group_prices_table']/thead
                                         prices_group_price_grid_table: //table[@id='group_prices_table']/tbody
+                                        prices_tier_price_grid: //table[@id='tiers_table']
                                         prices_tier_price_grid_head: //table[@id='tiers_table']/thead
                                         prices_tier_price_grid_table: //table[@id='tiers_table']/tbody
                             -

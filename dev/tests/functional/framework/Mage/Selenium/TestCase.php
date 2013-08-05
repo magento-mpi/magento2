@@ -1642,7 +1642,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             'The page you requested was not found',
             "The page isn't redirecting properly",
             'If you typed the URL directly',
-            'Internal server error',
+            'Internal server error', 'Notice: ', 'Warning: '
         );
         $pageText = $this->getElement('/*')->text();
         foreach ($errorMessages as $message) {
@@ -3851,8 +3851,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->getArea() == 'admin' &&
             $this->controlIsEditable(self::UIMAP_TYPE_FIELDSET, 'system_messages_list')
         ) {
-            $this->clickControl('button', 'close_messages_list', false);
-            $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
+            try {
+                $this->clickControl('button', 'close_messages_list', false);
+                $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
+            } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
+            }
         }
     }
 

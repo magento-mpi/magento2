@@ -126,7 +126,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
                 'downloadable_opt' => $downloadWithOption['general_name']
             ),
             'configurableOption' => array(
-                'title' => $attrData['attribute_properties']['attribute_label'],
+                'title' => $attrData['store_view_titles']['Default Store View'],
                 'custom_option_dropdown' => $configurOptName
             ),
             'groupedOption' => array(
@@ -303,6 +303,9 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductsWithOptionsToShoppingCartFromWishlistNegative($product, $message, $testData)
     {
+        if ($product == 'downloadable_opt') {
+            $this->markTestIncomplete('MAGETWO-11470');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         //Steps and Verifying
@@ -340,6 +343,9 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
     {
+        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11557');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -394,6 +400,9 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductWithOptionsToWishlistFromShoppingCart($product, $option, $testData)
     {
+        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-11557');
+        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -541,6 +550,7 @@ class Core_Mage_Wishlist_WishlistTest extends Mage_Selenium_TestCase
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlistNegative($testData)
     {
+        $this->markTestIncomplete('MAGETWO-11621');
         $simpleSku = $testData['withCustomOption'];
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleSku);

@@ -54,7 +54,8 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
                     ->getTreeJson()
             );
         } catch (Exception $e) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array()));
+            $result = array('error' => true, 'message' => $e->getMessage());
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -105,7 +106,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
             if (!$this->getRequest()->isPost()) {
                 throw new Exception ('Wrong request.');
             }
-            $files = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getParam('files'));
+            $files = $this->getRequest()->getParam('files');
 
             /** @var $helper Mage_Cms_Helper_Wysiwyg_Images */
             $helper = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images');

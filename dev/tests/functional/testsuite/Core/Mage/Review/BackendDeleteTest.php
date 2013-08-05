@@ -74,7 +74,6 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithRating($data)
     {
-        $this->markTestIncomplete('BUG: Fatal error on page after save review');
         //Data
         $reviewData = $this->loadDataSet('ReviewAndRating', 'review_required_with_rating', $data['withRating']);
         $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',

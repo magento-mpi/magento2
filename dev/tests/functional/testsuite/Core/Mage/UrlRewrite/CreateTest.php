@@ -18,6 +18,11 @@
  */
 class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->markTestIncomplete('MAGETWO-11231');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();

@@ -94,6 +94,15 @@ system_configuration:
                                         rotation_mode_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_rotation_mode"]
                                         show_upsell: //select[@id="catalog_enterprise_targetrule_upsell_position_behavior"]
                                         rotation_mode_upsell: //select[@id="catalog_enterprise_targetrule_upsell_rotation_mode"]
+                            -
+                                price:
+                                    xpath: //fieldset[@id='catalog_price']
+                                    links:
+                                        price_link: //parent::div//a[@id='catalog_price-head']
+                                    dropdowns:
+                                        catalog_price_scope: //select[@name='groups[price][fields][scope][value]']
+                                    fields:
+                                        default_product_price: //input[@id='catalog_price_default_product_price']
                 -
                     customer_invitations:
                         xpath: //a[contains(@href, 'edit/section/enterprise_invitation/')]

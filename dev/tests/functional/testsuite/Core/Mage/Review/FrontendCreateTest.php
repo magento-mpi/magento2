@@ -47,7 +47,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $storeView = $this->loadDataSet('StoreView', 'generic_store_view');
         $rating = $this->loadDataSet('ReviewAndRating', 'default_rating',
-            array('visible_in' => $storeView['store_view_name'], 'is_active' => 'Yes'));
+            array('visible_in' => $storeView['store_view_name']));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');

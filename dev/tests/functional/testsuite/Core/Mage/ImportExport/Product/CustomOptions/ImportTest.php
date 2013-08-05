@@ -375,8 +375,10 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
     {
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'] =
-            array('custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown'));
+        $productData['custom_options_data'] = array(
+            'custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown',
+                array('custom_options_general_sort_order' => '%noValue%'))
+        );
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -423,11 +425,12 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $this->productHelper()->openProduct($productSearch);
         $productData['custom_options_data']['custom_options_field'] =
             $this->loadDataSet('Product', 'custom_options_field', array(
-                'custom_options_general_is_required' => 'No', 'custom_options_price' => '0.00',
-                'custom_options_general_sort_order' => '0', 'custom_options_sku' => '',
+                'custom_options_general_is_required' => 'No',
+                'custom_options_price' => '0.00',
+                'custom_options_general_sort_order' => '%noValue%',
+                'custom_options_sku' => '',
                 'custom_options_max_characters' => '0'
             ));
-        $productData['custom_options_data'] = array_reverse($productData['custom_options_data']);
         $this->productHelper()->verifyCustomOptions($productData['custom_options_data']);
     }
 }
